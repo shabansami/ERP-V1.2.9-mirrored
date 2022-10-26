@@ -1,0 +1,212 @@
+﻿
+
+@model ERP.DAL.CustomerPayment
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    string showDiv = "none";
+
+    if (Model.Id == Guid.Empty)
+    {
+        title = "تسجيل عملية استلام نقدى من عميل";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل دفعة مالية من عميل ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+        if (Model.BySaleMen)
+        {
+            showDiv = "block";
+        }
+    } }
+
+
+@section PageTitle1{استلام نقدى من عميل}
+@section PageTitle2{@title }
+@section Button1{ادارة دفعة مالية من عميل}
+@section Button1Link{/CustomersPayments/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "CustomersPayments", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>تاريخ العملية </label>
+                @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>رقم فاتورة البيع <span class="badge badge-soft-warning fa-1x">ضرورة تسجيله لتأثر تقرير المتأخرات  به</span></label>
+                @Html.TextBoxFor(m => m.SellInvoiceId, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>تم التحصيل من خلال مندوب</label>
+                <div>
+                    @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @onchange = "showSaleMenDiv();" , @style = "width: 25px; height: 25px;" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 saleMenDiv" style="display:@showDiv">
+            <!--begin::Input-->
+            <div class="form-group">
+                <label>الادارة</label>
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med ", @onchange = "CustomerPayment_Module.getSaleMenDepartmentChange()" })
+            </div>
+            <!--end::Input-->
+        </div>
+        <div class="col-lg-6 saleMenDiv" style="display:@showDiv">
+            <!--begin::Input-->
+            <div class="form-group">
+                <label>المندوب</label>
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid din-med select2" })
+            </div>
+            <!--end::Input-->
+        </div>
+
+
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>فئة العملاء</label>
+                @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "CustomerPayment_Module.getCustomerOnCategoryChange();" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>اسم العميل</label>
+                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "getPesonBalance();" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>مديونية العميل</label>
+                @Html.TextBox("PesonBalance", "0", htmlAttributes: new { @readonly = "readonly", @class = "form-control din-med" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>المبلغ</label>
+                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>الفرع</label>
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "CustomerPayment_Module.getSafesOnBranchChanged();" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>خزينة</label>
+                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group ">
+                <label>البيان</label>
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="CustomerPayment_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="CustomerPayment_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/CustomersPayments/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as CustomerPayment;
+
+<div class="col-lg-12">
+    <div class="card card-custom gutter-b">
+
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">اخر بيان تم اضافته</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin::Example-->
+            <div class="example mb-10">
+                <table class="table table-hover mb-6">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">المورد</th>
+                            <th scope="col">المبلغ</th>
+                            <th scope="col">الملاحظة</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@modl.PersonCustomer.Name</td>
+                            <td>@modl.Amount</td>
+                            <td>@modl.Notes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end::Example-->
+        </div>
+    </div>
+</div>}
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/CustomerPayment.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#BankAccountId").attr('disabled', 'disabled');
+        })
+        //اظهار واخفاء نافذة المندوب
+        function showSaleMenDiv() {
+            if ($("#BySaleMen").is(':checked')) {
+                $(".saleMenDiv").show();
+            } else
+                $(".saleMenDiv").hide();
+
+            $("#PersonCategoryId").val(null);
+            $("#CustomerId").empty();
+        };
+        function getPesonBalance() {
+            $.get("/SharedDataSources/GetPersonBalance", { id: $("#CustomerId").val(), isCustomer: true }, function (data) {
+                $("#PesonBalance").val(data);
+            });
+        }
+    </script>
+}

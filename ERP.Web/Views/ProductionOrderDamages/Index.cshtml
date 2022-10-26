@@ -1,0 +1,124 @@
+﻿
+@model ERP.DAL.ProductionOrder
+@using ERP.DAL
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{أوامر الإنتاج}
+@section PageTitle2{تسجيل توالف امر انتاج}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">
+
+                            توالف أمر إنتاج
+                        </h4>
+                    </div>
+                </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم أمر الإنتاج</label>
+                                @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>المنتج النهائى</label>
+                                @Html.TextBoxFor(m => m.FinalItem.Name, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>الكمية</label>
+                                @Html.TextBoxFor(m => m.OrderQuantity, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ امر الانتاج</label>
+                                @Html.TextBoxFor(m => m.ProductionOrderDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemMatertials">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th style="display:none;">ItemId</th>
+                                        <th>المنتج الخام</th>
+                                        <th>تكلفة المنتج</th>
+                                        <th>المخزن</th>
+                                        <th>الكمية</th>
+                                        <th>كمية التوالف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ProductionOrderDetails.Where(x => !x.IsDeleted))
+                                    {
+                                        string storName = "";
+                                        string containerName = "";
+                                        if (item.Store != null)
+                                        {
+                                            storName = item.Store.Name;
+                                        }
+                                        <tr>
+                                            <td class="selectedRow" style="display:none;">@item.Id</td>
+                                            <td style="display:none;">@item.ItemId</td>
+                                            <td>@item.Item.Name</td>
+                                            <td>@item.ItemCost</td>
+                                            <td> @storName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@item.Quantitydamage" />
+                                            </td>
+                                            <td style="display:none;">@item.StoreId</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="Bank_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="ProductionOrderDamage_Module.RegisterDamages();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold"><i class="bx bx-check"></i>تسجيل التوالف</a>
+                            <a href="/ProductionOrders/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="bx bx-arrow-back m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+   
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ProductionOrderDamage.js"></script>
+    <script>
+        $(document).ready(function () {
+            ProductionOrderDamage_Module.init();
+        });
+
+
+    </script>
+}
+
+

@@ -1,0 +1,296 @@
+﻿
+
+@model ERP.DAL.PurchaseBackInvoice
+@using ERP.Web.Utilites
+@{
+    ViewBag.Title = "ShowPurchaseBackInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section PageTitle1{استعراض فاتورة مرتجع توريد}
+@section PageTitle2{ملخص فاتورة مرتجع}
+@section Button1{استعراض كل فواتير مرتجع التوريد}
+@section Button1Link{/PurchaseBackInvoices/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">فاتورة مرتجع توريد</h4>
+                        <div class="d-flex flex-column align-items-md-end px-0">
+                            <!--begin::Logo-->
+                            <a href="#" class="mb-5">
+                                <img src="~/Assets/media/logos/logo-light.png" alt="" />
+                            </a>
+                            <!--end::Logo-->
+                            <span class="text-white d-flex flex-column align-items-md-end opacity-70">
+                                <span class="din-bold">@Model.Notes</span>
+                                <span></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="border-bottom w-100 opacity-20"></div>
+                    <div class="d-flex justify-content-between text-white pt-6">
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolde mb-2r din-bold ylow">تاريخ الفاتورة</span>
+                            <span class="din-bold">@Model.InvoiceDate</span>
+                        </div>
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolder mb-2 din-bold ylow">رقم الفاتورة</span>
+                            <span class="din-bold">@Model.InvoiceNumber</span>
+                        </div>
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolder mb-2 din-bold ylow">المورد</span>
+                            <span class="din-bold">
+                                @Model.PersonSupplier.Name
+                                <br />@Model.PersonSupplier.Address
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between text-white pt-6">
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolde mb-2r din-bold ylow">الفرع</span>
+                            <span class="din-bold">@Model.Branch.Name</span>
+                        </div>
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolder mb-2 din-bold ylow">المبلغ المدفوع</span>
+                            <span class="din-bold">@Model.PayedValue</span>
+                        </div>
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolder mb-2 din-bold ylow">المبلغ المتبقى</span>
+                            <span class="din-bold">
+                                @Model.RemindValue
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice header-->
+            <!-- begin: Invoice body-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية المستلمة</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">السعر</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">المخزن</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الحاوية</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تاريخ دخولها</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">القيمة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.PurchaseBackInvoicesDetails)
+                                {
+                                    string itemEntryDate = null;
+                                    string containerName = null;
+                                    if (item.ItemEntryDate != null)
+                                    {
+                                        itemEntryDate = item.ItemEntryDate.Value.ToShortDateString();
+                                    }
+                                    if (item.Container != null)
+                                    {
+                                        containerName = item.Container.Name;
+                                    }
+                                    <tr class="font-weight-boldest font-size-lg">
+                                        <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
+                                        <td class="text-right pt-7 din-bold">@item.Quantity</td>
+                                        <td class="text-right pt-7 din-bold">@item.QuantityReal</td>
+                                        <td class="text-right pt-7 din-bold">@item.Price</td>
+                                        <td class="text-right pt-7 din-bold">@item.Store.Name</td>
+                                        <td class="text-right pt-7 din-bold">@containerName</td>
+                                        <td class="text-right pt-7 din-bold">@itemEntryDate</td>
+                                        <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Amount</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice body-->
+            <!-- begin: Invoice body المصروفات-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">المصروف</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">القيمة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.PurchaseBackInvoicesExpenses)
+                                {
+                                    <tr class="font-weight-boldest font-size-lg">
+                                        <td class="pl-0 pt-7 din-bold">@item.ExpenseTypeAccountsTree.AccountName</td>
+                                        <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Amount</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice body-->
+            <!-- begin: Invoice footer-->
+            <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                        <div class="d-flex flex-column mb-10 mb-md-0">
+                            @{
+                                var paymentType = string.Empty;
+                                switch (Model.PaymentTypeId)
+                                {
+                                    case 1:// نقدى
+                                        paymentType = "نقدى";
+                                        break;
+                                    case 2:// آجل
+                                        paymentType = "آجل";
+                                        break;
+                                    case 3:// جزئى
+                                        paymentType = "جزئى";
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
+                            <div class="font-weight-bolder font-size-lg mb-3 din-bold">طريقة السداد (@paymentType)</div>
+                            @if (Model.PaymentTypeId == (int)Lookups.PaymentTypeCl.Cash || Model.PaymentTypeId == (int)Lookups.PaymentTypeCl.Partial)
+                            {
+                                if (Model.SafeId != null)
+                                {
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span class="mr-15 font-weight-bold din-bold">اسم الخزينة:</span>
+                                        <span class="text-right din-bold">@Model.Safe.Name</span>
+                                    </div>
+                                }
+                                else if (Model.BankAccountId != null)
+                                {
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span class="mr-15 font-weight-bold din-bold">اسم البنك:</span>
+                                        <span class="text-right din-bold">@Model.BankAccount.Bank.Name</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-3">
+                                        <span class="mr-15 font-weight-bold din-bold">اسم الحساب:</span>
+                                        <span class="text-right din-bold">@Model.BankAccount.AccountName</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span class="mr-15 font-weight-bold din-bold">رقم الحساب:</span>
+                                        <span class="text-right din-bold">@Model.BankAccount.AccountNo</span>
+                                    </div>
+                                }
+                            }
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <div class="border-bottom w-100 opacity-20"></div>
+            <div class="border-bottom w-100 opacity-20"></div>
+
+            @if (Model.PurchaseInvoiceId != null)
+            {
+                <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
+                    <div class="col-md-9">
+                        <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                            <div class="d-flex flex-column mb-10 mb-md-0">
+                                <div class="font-weight-bolder font-size-lg mb-3 din-bold">
+                                    <span class="mr-15 font-weight-bold din-bold">رقم فاتورة التوريد:</span>
+                                    <span class="text-right din-bold">@Model.PurchaseInvoiceId</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="border-bottom w-100 opacity-20"></div>
+                <div class="border-bottom w-100 opacity-20"></div>
+
+            }
+            <!-- end: Invoice footer-->
+            <!-- begin: Invoice footer ملخص الفاتورة-->
+            <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                        <div class="d-flex flex-column mb-10 mb-md-0">
+                            <div class="font-weight-bolder font-size-lg mb-3 din-bold">ملخص الفاتورة</div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="mr-15 font-weight-bold din-bold">اجمالى الفاتورة:</span>
+                                <span class="text-right din-bold">@Model.TotalValue</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="mr-15 font-weight-bold din-bold">اجمالى الخصومات:</span>
+                                <span class="text-right din-bold">@Model.TotalDiscount</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="mr-15 font-weight-bold din-bold">اجمالى المصروفات:</span>
+                                <span class="text-right din-bold">@Model.TotalExpenses</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="mr-15 font-weight-bold din-bold">ضريبة القيمة المضافة:</span>
+                                <span class="text-right din-bold">@Model.SalesTax</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span class="mr-15 font-weight-bold din-bold">قيمة ضريبة ارباح تجارية:</span>
+                                <span class="text-right din-bold">@Model.ProfitTax</span>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column text-md-center">
+                            <span class="font-size-lg font-weight-bolder mb-1 din-bold">صافى الفاتورة</span>
+                            <span class="font-size-h2 font-weight-boldest text-danger mb-1 din-bold">@Model.Safy</span>
+                            @*<span>Taxes Included</span>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice footer-->
+            <!-- begin: Invoice action-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between">
+                        @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
+                        <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
+                        <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice action-->
+            <!-- end: Invoice-->
+        </div>
+    </div>
+    <!-- end::Card-->
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/PurchaseBackInvoice.js"></script>
+    <script>
+        $(document).ready(function () {
+            PurchaseBackInvoice_Module.init();
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,170 @@
+﻿
+
+@model ERP.DAL.Container
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة حاوية جديدة";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل حاوية ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+    } }
+
+@section PageTitle1{الحاويات}
+@section PageTitle2{@title }
+@section Button1{ادارة حاوية}
+@section Button1Link{/Containers/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold"> @title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "Containers", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+
+    <div class="row" >
+
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>مسمى الحاوية</label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" , @style = "text-align:right;" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>مسمى شركة الشحن</label>
+                @Html.TextBoxFor(m => m.ShippingCompany, new { @class = "form-control" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>رقم الحاوية</label>
+                @Html.TextBoxFor(m => m.ContainerNumber, new { @class = "form-control" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>تاريخ الخروج</label>
+                @Html.TextBoxFor(model => model.ExitDate, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", id = "txtContactDOB" })
+                @*@Html.TextBoxFor(m => m.ExitDate, new { @class = "form-control", type = "date" })*@
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>تاريخ الوصول</label>
+                @Html.TextBoxFor(model => model.ArrivalDate, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", id = "txtContactDOB" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>ميناء الوصول</label>
+                @Html.TextBoxFor(m => m.ShippingPort, new { @class = "form-control" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>اسم شركة التخليص</label>
+                @Html.TextBoxFor(m => m.CompanyName, new { @class = "form-control" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>اسم مسئول التخليص</label>
+                @Html.TextBoxFor(m => m.RespoName, new { @class = "form-control", @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>رقم مسئول التخليص</label>
+                @Html.TextBoxFor(m => m.RespoTel, new { @class = "form-control" , @style = "text-align:right;" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="Container_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="Container_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/Containers/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as Container;
+
+<div class="col-lg-12">
+    <div class="card card-custom gutter-b">
+
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">اخر بيان تم اضافته</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin::Example-->
+            <div class="example mb-10">
+                <table class="table table-hover mb-6">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">الحاوية</th>
+                            <th scope="col">شركة الشحن</th>
+                            <th scope="col">الخروج</th>
+                            <th scope="col">الوصول</th>
+                            <th scope="col">ميناء الشحن</th>
+                            <th scope="col">الشركة</th>
+                            <th scope="col">مسئول الشركة</th>
+                            <th scope="col">رقم الشركة</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@modl.Name</td>
+                            <td>@modl.ShippingCompany</td>
+                            <td>@modl.ExitDate.Value.ToShortDateString()</td>
+                            <td>@modl.ArrivalDate.Value.ToShortDateString()</td>
+                            <td>@modl.ShippingPort</td>
+                            <td>@modl.CompanyName</td>
+                            <td>@modl.RespoName</td>
+                            <td>@modl.RespoTel</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end::Example-->
+        </div>
+    </div>
+</div>}
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Container.js"></script>
+}

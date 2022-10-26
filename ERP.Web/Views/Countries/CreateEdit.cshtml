@@ -1,0 +1,102 @@
+﻿
+@model ERP.DAL.Country
+@using ERP.DAL
+@{
+    ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة دولة جديدة";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل دولة ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+    }
+}
+
+@section PageTitle1{الدول}
+@section PageTitle2{@title}
+@section Button1{ إدارة دولة}
+@section Button1Link{/Countries/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="card din-bold">
+    <div class="card-header">
+        <h4 class="din-bold">@title</h4>
+    </div>
+    @using (Html.BeginForm("CreateEdit", "Countries", FormMethod.Post, new { id = "form1" }))
+    {
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="form-group required">
+                        <label>مسمى الدولة</label>
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" , @style = "text-align:right;" })
+                        @Html.HiddenFor(model => model.Id)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-12" style="text-align:left;">
+                    @*<input type="button" onclick="Country_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+
+                    <a href="javascript:void(0);" onclick="Country_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                    @if (Model.Id != Guid.Empty)
+                    {
+                        <a href="/Countries/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+@if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+{
+    var modl = ViewBag.LastRow as Country;
+
+    <div class="col-lg-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">اخر بيان تم اضافته</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example mb-10">
+                    <table class="table table-hover mb-6">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">الدولة</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>@modl.Name</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Country.js"></script>
+}

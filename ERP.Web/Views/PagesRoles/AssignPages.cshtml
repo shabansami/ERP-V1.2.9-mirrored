@@ -1,0 +1,125 @@
+﻿@model ERP.DAL.PagesRole
+@{
+    ViewBag.Title = "AssignPages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اسناد صفحات لصلاحية/مجموعة";
+        btn = "اسنــاد";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل صفحات لصلاحية/مجموعة ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+    }
+}
+
+
+@section PageTitle1{الصفحات}
+@section PageTitle2{@title }
+@section Button1{استعراض الصفحات}
+@section Button1Link{/PagesRoles/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+                @using (Html.BeginForm("AssignPages", "PagesRoles", FormMethod.Post, new { id = "form1" }))
+                {
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group required">
+                                    <label>مسمى الصلاحية/المجموعة</label>
+                                    @Html.HiddenFor(m => m.Id)
+                                    @if (Model.Id == Guid.Empty)
+                                    {
+                                        @Html.DropDownList("RoleId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    }
+                                    else
+                                    {
+                                        <input type="text" value="@ViewBag.RoleName" disabled class="form-control din-med" />
+                                        @Html.HiddenFor(m => m.RoleId)
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group required">
+                                    <label>الصفحات</label>
+                                    <div id="kt_tree_3" class="tree-demo"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12" style="text-align:left">
+                                @*<input type="button" onclick="PagesRole_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                <a href="javascript:void(0);" onclick="PagesRole_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                                @if (Model.Id != Guid.Empty)
+                                {
+                                    <a href="/PagesRoles/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+
+@section Styles
+    {
+    <link href="~/Assets/plugins/custom/jstree/jstree.bundle.rtl.css" rel="stylesheet" />
+}
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/PagesRole.js"></script>
+    <script src="~/Assets/plugins/custom/jstree/jstree.bundle.js"></script>
+
+    @*<script src="~/Assets/js/pages/features/miscellaneous/treeview.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $("#kt_tree_3").jstree({
+                'plugins': ["wholerow", "checkbox", "types"],
+                "core": {
+                    "themes": {
+                        "responsive": false
+                    },
+                    // so that create works
+                    "check_callback": true,
+                    'data': {
+                        'url':
+                            '/SharedDataSources/GetAllPages/?roleId=' + $("#RoleId").val()
+                        ,
+
+                    }
+                },
+                "selected": ["1,3"],
+                "types": {
+                    "default": {
+                        "icon": "fa fa-folder text-warning"
+                    },
+                    "file": {
+                        "icon": "fa fa-file  text-warning"
+                    }
+                },
+            });
+
+        })
+    </script>
+
+}

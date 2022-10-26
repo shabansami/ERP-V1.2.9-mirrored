@@ -1,0 +1,457 @@
+﻿
+@model ERP.DAL.Maintenance
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string displayDiscount = "none";
+    string isInvoiceDisVal = "true";
+    string chkValRdo = "checked";
+    string chkPerRdo = "";
+    if (Model.DiscountPercentage > 0)
+    {
+        displayDiscount = "block";
+        isInvoiceDisVal = "false";
+        chkValRdo = "";
+        chkPerRdo = "checked";
+    }
+}
+
+
+@section PageTitle1{اصناف}
+@section PageTitle2{اصناف فاتورة صيانة}
+@section Button1{ ادارة فواتير الصيانة}
+@section Button1Link{/MaintenanceItems/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">البيانات الاساسية للفاتورة</h4>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card-body">
+                    <div class="row alert alert-primary">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ الاستلام</label>
+                                @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd hh:mm:ss tt}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ التسليم</label>
+                                @Html.TextBoxFor(m => m.DeliveryDate, "{0:yyyy-MM-dd hh:mm:ss tt}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group alert alert-primary">
+                                <label>اخر حالة للفاتورة</label>
+                                @Html.TextBoxFor(m => m.MaintenanceCas.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>رقم الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>اجمالى العدد</label>
+                                @Html.TextBox("TotalQuantity", Model.MaintenanceDetails.Where(x => !x.IsDeleted).Count(), new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>المخزن</label>
+                                @Html.TextBoxFor(m => m.Store.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>الفنى المسئول</label>
+                                @Html.TextBoxFor(m => m.EmployeeResponse.Person.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>العميل</label>
+                                @Html.TextBoxFor(m => m.Person.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>حالة التكلفة</label>
+                                @Html.TextBox("HasCost", Model.HasCost ? "بتكلفة" : "بدون تكلفة", new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label> الضمان</label>
+                                @Html.TextBox("HasGuarantee", Model.HasGuarantee ? "بضمان" : "بدون ضمان", new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 alert alert-warning">
+                            <div class="form-group">
+                                <label>تحديث حالة الفاتورة </label>
+                                @Html.DropDownList("MaintenanceCaseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 alert alert-warning">
+                            <div class="form-group">
+                                <label></label>
+                                <button type="button" onclick="changeMaintenanceCase('@Model.Id');" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">تحديث الحالة</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="col-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اصناف فاتورة الصيانة</h3>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th style="display:none;">RecordGuid</th>
+                                        <th style="display:none;">ItemId</th>
+                                        <th>الاسم</th>
+                                        <th>نوع العطل</th>
+                                        <th>المبلغ النهائى للصنف</th>
+                                        <th>حالة الصنف</th>
+                                        <th>ملاحظة</th>
+                                        <th>عمليات</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MaintenanceDetails.Where(x => !x.IsDeleted))
+                                    {
+                                        var maintenProblemType = "";
+                                        if (item.MaintenProblemType != null)
+                                        {
+                                            maintenProblemType = item.MaintenProblemType.Name;
+                                        }
+
+                                        <tr>
+                                            <td style="display:none;">@item.Id</td>
+                                            <td style="display:none;">@item.RecordGuid</td>
+                                            <td style="display:none;">@item.ItemId</td>
+                                            <td>@item.Item.Name</td>
+                                            <td>@maintenProblemType</td>
+                                            <td>@item.ItemSafy</td>
+                                            <td>@item.MaintenanceCas.Name</td>
+                                            <td>@item.Note</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="/MaintenanceItems/SaveItemData/?rcdGuid=@item.RecordGuid" class="btn btn-sm btn-clean btn-icon" title="عرض الصنف"> <i class="la la-search"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">نظام الدفع والسداد</h3>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row alert alert-primary">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>طريقة السداد</label>
+                                @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>صافى المبلغ المطلوب تحصيله</label>
+                                <input type="number" class="form-control" readonly name="Safy" id="Safy" placeholder="ادخل المبلغ المدفوع" value="@Model.Safy" />
+                            </div>
+                        </div>
+                        @Html.Hidden("safyCurrent", Model.Safy)
+
+                        <div class="col-lg-6">
+                            <!--begin::Select-->
+                            <div class="form-group">
+                                <label>احتساب الخصم</label>
+                                <div class="radio-inline">
+                                    <div class="col-xl-6">
+                                        <label class="radio">
+                                            <input type="radio" name="radiosInvoice" id="rdo_valAllInvoice" @chkValRdo onchange="onRdoInvoiceValChanged();" />
+                                            <input type="hidden" id="isInvoiceDisVal" name="isInvoiceDisVal" value="@isInvoiceDisVal" />
+                                            <span></span>قيمة
+                                        </label>
+                                    </div>
+                                    <div class="col-xl-3">
+                                        <label class="radio">
+                                            <input type="radio" name="radiosInvoice" id="rdo_percentageAllInvoice" @chkPerRdo onchange="onRdoInvoicePercentageChanged();" />
+                                            <span></span>نسبة
+                                        </label>
+                                    </div>
+                                    <div class="col-xl-3" id="divDiscountPercentage" style="display:@displayDiscount">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>النسبة</label>
+                                            <input type="number" class="form-control form-control-solid form-control-lg" onkeyup="onInvoiceDiscountChange();" name="DiscountPercentage" id="DiscountPercentage" placeholder="ادخل نسبة الخصم على الفاتورة" value="@Model.DiscountPercentage" />
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Select-->
+                        </div>
+                        <div class="col-lg-6">
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <label>الخصم على الفاتورة</label>
+                                <input type="number" class="form-control form-control-solid form-control-lg" onkeyup="onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>المبلغ المدفوع</label>
+                                <input type="number" class="form-control" onkeyup="onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group alert alert-primary">
+                                <label>المبلغ المتبقى</label>
+                                <input type="number" class="form-control" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label></label>
+                                <button type="button" onclick="updatePayment('@Model.Id');" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">تحديث نظام الدفع</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $('#kt_dtItemDetails');
+
+            // begin first table
+            table.DataTable({
+                paging: false,
+                info: false,
+                search: false,
+                searching: false,
+                "order": [[0, "asc"]]
+                //"order": [[0, "desc"]]
+
+            });
+        });
+
+        // تحديث حالة الفاتورة (جارى الانتظار- تم التنفيذ-تم الرفض )
+        function changeMaintenanceCase(invoiceGuid) {
+            if ($("#MaintenanceCaseId").val() === '' || $("#MaintenanceCaseId").val() === null) {
+                toastr.error('تأكد من اختيار حالة الفاتورة', '');
+                return false;
+            }
+            var data = {
+                "invoGuid": invoiceGuid,
+                "maintCaseId": $("#MaintenanceCaseId").val()
+            };
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: "/MaintenanceItems/UpdateMaintenanceCase",
+                    data: JSON.stringify(data),
+
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    //processData: false,
+                    success: function (res) {
+                        if (res.isValid) {
+                            toastr.success(res.message, '',)
+                        } else {
+                            toastr.error(res.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                        console.log(err)
+                    }
+                })
+                //to prevent default form submit event
+                return false;
+            } catch (ex) {
+                console.log(ex)
+            }
+
+        };
+
+        //# region تحديث نظام الدفع
+        function updatePayment(invoiceGuid) {
+            if ($("#PaymentTypeId").val() === '' || $("#PaymentTypeId").val() === null) {
+                toastr.error('تأكد من اختيار طريقة السداد', '');
+                return false;
+            }
+            if ($("#PayedValue").val() === '' || $("#PayedValue").val() === null) {
+                toastr.error('تأكد من ادخال المبلغ المدفوع', '');
+                return false;
+            }
+            var data = {
+                "invoGuid": invoiceGuid,
+                "paymentTypeId": $("#PaymentTypeId").val(),
+                "isInvoiceDisVal": $("#isInvoiceDisVal").val(),
+                "invoiceDiscount": $("#InvoiceDiscount").val(),
+                "discountPercentage": $("#DiscountPercentage").val(),
+                "safy": $("#Safy").val(),
+                "payedValue": $("#PayedValue").val(),
+                "remindValue": $("#RemindValue").val(),
+
+            };
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: "/MaintenanceItems/UpdateMaintenancePayment",
+                    data: JSON.stringify(data),
+
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    //processData: false,
+                    success: function (res) {
+                        if (res.isValid) {
+                            toastr.success(res.message, '',)
+                        } else {
+                            toastr.error(res.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                        console.log(err)
+                    }
+                })
+                //to prevent default form submit event
+                return false;
+            } catch (ex) {
+                console.log(ex)
+            }
+
+        };
+        function onPayedValueChange() {
+            var safy = Number.parseFloat($("#Safy").val());
+            if (isNaN(Number.parseFloat($("#PayedValue").val()))) {
+                $("#RemindValue").val(safy);
+            } else {
+                if (Number.parseFloat($("#PayedValue").val()) > safy) {
+                    toastr.error('المبلغ المدفوع اكبر من صافى الفاتورة', '');
+                    return false;
+                }
+
+                $("#RemindValue").val(safy - Number.parseFloat($("#PayedValue").val()));
+
+            };
+        };
+
+        //# endregion
+
+
+        //#region جزء الخصم على الفاتورة كلها
+        $("#rdo_val").prop('checked', true);
+
+        function onRdoInvoiceValChanged() {
+            if ($("#rdo_valAllInvoice:checked").val()) {
+                $("#isInvoiceDisVal").val(true);
+                getSafyOnRdoChanged();
+                $("#InvoiceDiscount").val(0);
+                $("#DiscountPercentage").val(0);//edit
+                $("#divDiscountPercentage").hide();//edit
+            }
+        };
+        function onRdoInvoicePercentageChanged() {
+            if ($("#rdo_percentageAllInvoice:checked").val()) {
+                $("#isInvoiceDisVal").val(false);
+                $("#divDiscountPercentage").show();
+                $("#InvoiceDiscount").val(0);
+                getSafyOnRdoChanged();
+
+
+            }
+        };
+        function onInvoiceDiscountChange() {
+            if (isNaN(Number.parseFloat($("#InvoiceDiscount").val())) === false) {
+                if ($("#rdo_valAllInvoice:checked").val()) {
+                    getSafy();
+                } else if ($("#rdo_percentageAllInvoice:checked").val()) {
+                    var invoiceDis = (Number.parseFloat($("#safyCurrent").val()) * Number.parseFloat($("#DiscountPercentage").val())) / 100;
+                    var safy = Number.parseFloat($("#safyCurrent").val()) - invoiceDis;
+                    $("#Safy").val(safy);
+                    $("#PayedValue").val(safy);
+                    $("#RemindValue").val(0);
+                    $("#InvoiceDiscount").val(invoiceDis);
+                } else {
+                    getSafy();
+                }
+            };
+        };
+
+        function getSafy() {
+            var safy = Number.parseFloat($("#safyCurrent").val()) - $("#InvoiceDiscount").val();
+            $("#Safy").val(safy);
+            $("#PayedValue").val(safy);
+            $("#RemindValue").val(0);
+        }
+        function getSafyOnRdoChanged() {
+            var safyCurrent = $("#safyCurrent").val();
+            $("#Safy").val(safyCurrent);
+            $("#PayedValue").val(safyCurrent);
+            $("#RemindValue").val(0);
+        }
+                                                                                                                                                                            //#endregion
+                                                                                                                                                                            //الخصم على قيمة القاتورة كلها
+    </script>
+}

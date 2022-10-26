@@ -1,0 +1,103 @@
+﻿@model ERP.DAL.Maintenance
+@using ERP.DAL
+
+
+@{
+    ViewBag.Title = "ShowHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section PageTitle1{فواتير الصيانة}
+@section PageTitle2{حالات فاتورة الصيانة}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">حالات فاتورة الصيانة</h4>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoiceDate, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtCases">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th>الحالة</th>
+                                        <th>التاريخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var status in Model.MaintenanceCaseHistories)
+                                    {
+                                        <tr>
+                                            <td class="selectedDay" style="display:none;">@status.Id</td>
+                                            <td>@status.MaintenanceCas.Name</td>
+                                            <td>@status.CreatedOn</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style = "text-align:left;">
+                            @*<input type="button" onclick="Bank_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            var table = $('#kt_dtCases');
+
+            // begin first table
+            table.DataTable({
+                paging: false,
+                info: false,
+                search: false,
+                searching: false,
+                "order": [[0, "asc"]]
+                //"order": [[0, "desc"]]
+
+            });
+        });
+
+
+    </script>
+}
+
+
+
+
+

@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{951BBC37-2779-4545-A951-EB7C96511346}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VTSLicense</RootNamespace>
+    <AssemblyName>VTSLicense</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\BASE36.cs" />
+    <Compile Include="Core\HardwareInfo.cs" />
+    <Compile Include="Core\LicenseEntity.cs" />
+    <Compile Include="Core\LicenseHandler.cs" />
+    <Compile Include="Core\Enums\LicenseStatus.cs" />
+    <Compile Include="Core\Enums\LicenseTypes.cs" />
+    <Compile Include="LicenseChecker\UI\Forms\Activation.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\Forms\Activation.Designer.cs">
+      <DependentUpon>Activation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\Forms\LicenseInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\Forms\LicenseInfo.Designer.cs">
+      <DependentUpon>LicenseInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\EventArgs\LicenseGeneratedEventArgs.cs" />
+    <Compile Include="LicenseChecker\UI\EventArgs\LicenseSettingsValidatingEventArgs.cs" />
+    <Compile Include="LicenseChecker\Logic\LicenseChecker.cs" />
+    <Compile Include="LicenseChecker\Logic\LicenseFeatures.cs" />
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseActivateControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseActivateControl.Designer.cs">
+      <DependentUpon>LicenseActivateControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseInfoControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseInfoControl.Designer.cs">
+      <DependentUpon>LicenseInfoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseSettingsControl.Designer.cs">
+      <DependentUpon>LicenseSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseStringContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LicenseChecker\UI\UserControls\LicenseStringContainer.Designer.cs">
+      <DependentUpon>LicenseStringContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LicenseChecker\Certificate\LicenseVerify.cer" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="LicenseChecker\UI\Forms\Activation.resx">
+      <DependentUpon>Activation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseChecker\UI\Forms\LicenseInfo.resx">
+      <DependentUpon>LicenseInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseChecker\UI\UserControls\LicenseActivateControl.resx">
+      <DependentUpon>LicenseActivateControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseChecker\UI\UserControls\LicenseInfoControl.resx">
+      <DependentUpon>LicenseInfoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseChecker\UI\UserControls\LicenseSettingsControl.resx">
+      <DependentUpon>LicenseSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LicenseChecker\UI\UserControls\LicenseStringContainer.resx">
+      <DependentUpon>LicenseStringContainer.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

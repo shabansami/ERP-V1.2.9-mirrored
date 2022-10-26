@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{المدن}
+@section PageTitle2{كل المدن}
+@section Button1{اضافة مدينة جديدة}
+@section Button1Link{/Cities/CreateEdit}
+@section icon{<i class="fa fa-plus-circle m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">ادارة المدن</h4>
+                    </div>
+                    <div class="card-toolbar">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0 w-100">
+
+                                <div class="input-icon input-icon-right">
+                                    <label>بحث</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
+                                        <div class="input-group-text">
+                                            <i class="bx bx-search-alt align-middle"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group  mb-0 w-100">
+                                <label> المجموعة الاساسية</label>
+                                <input name="groupBasic" type="text" class="form-control form-control-solid" id="groupBasic" autocomplete="off" style="text-align:right" />
+                                <span class="form-text text-muted">اختر مجموعة</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group  mb-0 w-100">
+                                <label>الصنف</label>
+                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100" })
+                                <span class="form-text text-muted">اختر الصنف</span>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatable">
+                        <thead>
+
+                        </thead>
+                        <tbody>
+                        </tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/PricesChange.js"></script>
+    <script>
+        $("#ItemId").change(function () {
+            $('#kt_datatable').DataTable().ajax.reload();
+
+        })
+        var treeBasic;
+        $(document).ready(function () {
+            PricesChange_Module.init();
+            //المجموعة الاساسية
+            var dsBasic = [];
+            $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
+                treeBasic.setSource(data);
+            });
+
+            treeBasic = $('#groupBasic').comboTree({
+                source: dsBasic,
+                isMultiple: false,
+                collapse: true,
+                selected: []
+                //selectableLastNode: true
+
+            });
+            treeBasic.onChange(function () {
+                if (treeBasic.getSelectedIds() != null) {
+                    var currentSelected = treeBasic.getSelectedIds()[0];
+
+                    $.get("/SharedDataSources/ItemsOnGroupChanged", { id: currentSelected }, function (data) {
+                        $("#ItemId").empty();
+                        $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                        });
+                    });
+
+                }
+            });
+            // ============== نهاية المجموعة الاساسية
+
+        });
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+

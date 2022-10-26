@@ -1,0 +1,206 @@
+﻿@model ERP.DAL.ItemSerial
+
+@{
+    ViewBag.Title = "SearchItemBySerial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string itemName = string.Empty;
+    string customerName = string.Empty;
+    string productionOrderId = string.Empty;
+    string expirationDateSell = string.Empty;
+    if (Model.SellInvoice != null)
+    {
+        customerName = Model.SellInvoice.PersonCustomer.Name;
+    }
+    if (Model.ProductionOrder != null)
+    {
+        productionOrderId = Model.ProductionOrderId.ToString();
+    }
+    if (Model.Item != null)
+    {
+        itemName = Model.Item.Name;
+    }
+    if (Model.ExpirationDate != null)// تاريخ الضمان يحب بعد فاتورة البيع
+    {
+        expirationDateSell = Model.ExpirationDate.Value.ToString("yyyy-MM-dd");
+        //var year = (Model.ProductionOrder.ProductionOrderDate - Model.ProductionOrder.ExpirationDate).Value.TotalDays;
+        //var diffMonths = (Model.ProductionOrder.ExpirationDate.Value.Month + Model.ProductionOrder.ExpirationDate.Value.Year * 12) - (Model.ProductionOrder.ProductionOrderDate.Month + Model.ProductionOrder.ProductionOrderDate.Year * 12);
+        //if (Model.SellInvoice != null)
+        //{
+        //    expirationDateSell = Model.SellInvoice.InvoiceDate.AddMonths(diffMonths).ToString("yyyy-MM-dd");
+        //}
+
+    }
+    //if (Model.ProductionOrder!=null) تاريخ الضمان يحب بعد امر الانتاج
+    //{
+    //    if (Model.ProductionOrder.ExpirationDate!=null)
+    //    {
+    //        expirationDate = Model.ProductionOrder.ExpirationDate.Value.ToString("yyyy-MM-dd");
+    //        var year = (Model.ProductionOrder.ProductionOrderDate - Model.ProductionOrder.ExpirationDate).Value.TotalDays;
+    //        var diffMonths = (Model.ProductionOrder.ExpirationDate.Value.Month + Model.ProductionOrder.ExpirationDate.Value.Year * 12) - (Model.ProductionOrder.ProductionOrderDate.Month + Model.ProductionOrder.ProductionOrderDate.Year * 12);
+    //        if (Model.SellInvoice!=null)
+    //        {
+    //            expirationDateSell = Model.SellInvoice.InvoiceDate.AddMonths(diffMonths).ToString("yyyy-MM-dd");
+    //        }
+
+    //    }
+
+    //}
+}
+
+
+@section PageTitle1{الاصناف}
+@section PageTitle2{بحث}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">بحث عن تفاصيل صنف</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("SearchItemBySerial", "RptItemBalances", FormMethod.Get, new { id = "form1" }))
+            {
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label>سيريال الصنف</label>
+                                @Html.TextBox("SerialNumber", null, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label>.</label>
+                                <button type="submit" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بحــث</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <a href="#" onclick="window.history.back()" class="btn btn-outline-primary waves-effect waves-light btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">تفاصيل الصنف</h4>
+                    </div>
+                </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label>اسم الصنف</label>
+                                @Html.TextBox("itemName", itemName, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label>العميل</label>
+                                @Html.TextBox("personName", customerName, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label>رقم فاتورة البيع</label>
+                                @Html.TextBoxFor(m => m.SellInvoice.InvoiceNumber, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6 ">
+                            <div class="form-group">
+                                <label>امر الانتاج</label>
+                                @Html.TextBox("ProductionOrderId", productionOrderId, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        @*
+                            <div class="col-lg-6 alert alert-warning">
+                                                            <div class="form-group">
+                                                                <label>تاريخ انتهاء الضمان(حسب امر الانتاج)</label>
+                                                                @Html.TextBox("ExpirationDate", expirationDate, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                                                            </div>
+                             
+                            </div>*@
+                   
+                        <div class="col-lg-6 ">
+                            <div class="form-group alert alert-warning">
+                                <label>تاريخ انتهاء الضمان(حسب تاريخ البيع)</label>
+                                @Html.TextBox("ExpirationDateSell", expirationDateSell, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        </div>
+                    <div class="row">
+                        <div class="col-lg-12 ">
+                            <div class="form-group">
+                                <label>حالات السيريال نمبر</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemSerialStatus">
+                                    <thead>
+                                        <tr>
+                                            <th>الحالة</th>
+                                            <th>التاريخ</th>
+                                            <th>الرقم المرجعى للفاتورة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.CasesItemSerialHistories.Where(x => !x.IsDeleted))
+                                        {
+
+                                            <tr>
+                                                <td>@item.SerialCas.Name</td>
+                                                <td>@item.CreatedOn</td>
+                                                <td>@item.ReferrenceId</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    @section Scripts
+{
+        <script>
+            $(document).ready(function () {
+                var table = $('#kt_dtItemSerialStatus');
+                // begin first table
+                table.DataTable({
+                    paging: false,
+                    info: false,
+                    search: false,
+                    searching: false,
+                    language: {
+                        processing: "جارى التحميل",
+                        zeroRecords: "لا يوجد سجلات لعرضها",
+                        infoFiltered: "",
+                        infoEmpty: 'لا يوجد سجلات متاحه',
+                    },
+                    "order": [[1, "asc"]]
+                    //"order": [[0, "desc"]]
+
+                });
+                $('#kt_dtItemSerialStatus_length').css("text-align", "left");
+            })
+        </script>
+    }

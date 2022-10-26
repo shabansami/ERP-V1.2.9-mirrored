@@ -1,0 +1,612 @@
+﻿
+@model ERP.Web.ViewModels.SalaryApprovalVM
+@using ERP.DAL
+@{
+    ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn, icon = string.Empty;
+
+    title = "استعراض مرتب موظف";
+    btn = "حفظ";
+    icon = "fa fa-plus-circle m-1";
+}
+@section PageTitle1{رواتب واجور الموظفين}
+@section PageTitle2{@title }
+@section Button1{ادارة رواتب الموظفين}
+@section Button1Link{/SalariesApproval/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                <div class="card-header din-bold">
+                    <ul class="twitter-bs-wizard-nav">
+                        <li class="nav-item">
+                            <a href="#seller-details" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">
+                                    <!--end::Subheader-->
+                                    1. البيانات الاساسية للموظف
+                                </h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details2" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">
+                                    <!--end::Subheader-->
+                                    2. البدلات والاضافات
+                                </h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details3" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">
+                                    <!--end::Subheader-->
+                                    3. الاستقطاعات والخصومات
+                                </h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details4" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">
+                                    <!--end::Subheader-->
+                                    4. الغياب
+                                </h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details5" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">
+                                    <!--end::Subheader-->
+                                    5.ملخص وحفظ
+                                </h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body din-bold">
+                    @using (Html.BeginForm("CreateEdit", "SalariesApproval", FormMethod.Post, htmlAttributes: new { id = "kt_form" }))
+                    {
+                    <div class="tab-content twitter-bs-wizard-tab-content">
+                        <div class="tab-pane" id="seller-details">
+                            <div class="text-center mb-4">
+                                <h5>البيانات الاساسية</h5>
+                            </div>
+                            <div class="row">
+                                <div class="col-xl-6">
+                                    <!--begin::Select-->
+                                    <div class="form-group">
+                                        <label>الشهر/الاسبوع/اليوم</label>
+                                        @Html.TextBoxFor(model => model.SchedulingName, new { @class = "form-control din-med", @readonly = "readonly" })
+                                    </div>
+                                    <!--end::Select-->
+                                </div>
+                                <!--<div class="col-xl-6">-->
+                                <!--begin::Select-->
+                                <!--<div class="form-group">
+        <label>السنة</label>
+        @Html.TextBoxFor(m => m.Year, htmlAttributes: new { @class = "form-control din-med", @type = "number", @onkeyup = "SalariesApproval_Module.onSalaryChange()" })-->
+                                <!--end::Select-->
+                                <!--</div>
+        </div>-->
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>الراتب</label>
+
+                                        @Html.TextBoxFor(model => model.Salary, new { @class = "form-control din-med", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>الموظف</label>
+                                        @Html.TextBoxFor(model => model.EmployeeName, new { @class = "form-control din-med", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>الادارة</label>
+                                        @Html.TextBoxFor(model => model.DepartmentName, new { @class = "form-control din-med", @readonly = "readonly" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            @{
+                                var display = "none";
+                                if (Model.TotalLoans > 0)
+                                {
+                                    display = "block";
+                                }
+                            }
+                            <div class="row" style="display:@display">
+                                <div class="col-xl-12">
+                                    <h4 class="mb-10 font-weight-bold text-dark"> سلف/قروض الموظف</h4>
+                                    <div class="form-group">
+                                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtLoan">
+                                            <thead>
+                                                <tr>
+                                                    <th style="display:none;">Id</th>
+                                                    <th>اجمالى قيمة السلفة</th>
+                                                    <th> قيمة السداد الشهرى</th>
+                                                    <th>تاريخ استلام السلفة</th>
+                                                    <th>ملاحظات</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.ContractLoans)
+                                                {
+                                                    <tr>
+                                                        <td style="display:none;">@item.Id</td>
+                                                        <td>@item.TotalAmount</td>
+                                                        <td>@item.Amount</td>
+                                                        <td>@item.LoanDate</td>
+                                                        <td>@item.LoanNotes</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between flex-column font-size-lg">
+                                            <div class="d-flex flex-column text-md-center">
+                                                <span class="font-size-lg font-weight-bolder mb-1">اجمالى قيمة السلفة/القرض</span>
+                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalLoans">@Model.TotalLoans</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                <li class="next" style="margin-bottom:10px;">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        التالي <i class="bx bx-chevron-left ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--end::Wizard Step 1-->
+                        <!--begin::Wizard Step 2 بدلات واضافات الموظف-->
+                        <div class="tab-pane" id="seller-details2">
+                            <div class="text-center mb-4">
+                                <h5>
+                                    بدلات واضافات
+                                </h5>
+                            </div>
+                            <div class="form-group">
+                                <label>البدلات المسجلة</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSalaryAllowance">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Id</th>
+                                            <th>نوع البدل</th>
+                                            <th>البدل</th>
+                                            <th>القيمة</th>
+                                            <th>القيمة المدفوعة</th>
+                                            <th>يتأثر بأيام الغياب</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ContractAllowances)
+                                        {
+                                            var clss = "label label-lg font-weight-bold label-light-success label-inline";
+                                            var titlle = "لا تتأثر";
+                                            if (item.IsAffactAbsence)
+                                            {
+                                                clss = "label label-lg font-weight-bold label-light-danger label-inline";
+                                                titlle = "تتأثر";
+                                            }
+
+                                            <tr>
+                                                <td class="contractAllowances" style="display:none;">@item.Id</td>
+                                                <td>@item.SalaryAdditionTypeName</td>
+                                                <td>@item.SalaryAdditionName</td>
+                                                <td>@item.SalaryAdditionAmount</td>
+                                                <td>
+                                                    <input type="text" class="form-control" onkeyup="SalariesApproval_Module.Calculation(this,'TotalAllowances')" value="@item.SalaryAdditionAmountPayed" />
+                                                </td>
+                                                <td>
+                                                    <span class='@clss'>@titlle</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالى البدلات</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalAllowances">@Model.TotalAllowances</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>الاضافات المسجلة</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSalaryAddition">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Id</th>
+                                            <th>نوع الاضافة</th>
+                                            <th>الاضافة</th>
+                                            <th>القيمة</th>
+                                            <th>القيمة المدفوعة</th>
+                                            <th>يتأثر بأيام الغياب</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ContractSalaryAdditions)
+                                        {
+                                            var clss = "label label-lg font-weight-bold label-light-success label-inline";
+                                            var titlle = "لا تتأثر";
+                                            if (item.IsAffactAbsence)
+                                            {
+                                                clss = "label label-lg font-weight-bold label-light-danger label-inline";
+                                                titlle = "تتأثر";
+                                            }
+                                            <tr>
+                                                <td class="contractSalaryAdditions" style="display:none;">@item.Id</td>
+                                                <td>@item.SalaryAdditionTypeName</td>
+                                                <td>@item.SalaryAdditionName</td>
+                                                <td>@item.SalaryAdditionAmount</td>
+                                                <td>
+                                                    <input type="text" class="form-control" onkeyup="SalariesApproval_Module.Calculation(this,'TotalSalaryAdditions')" value="@item.SalaryAdditionAmountPayed" />
+                                                </td>
+                                                <td>
+                                                    <span class='@clss'>@titlle</span>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالى الاضافات</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalSalaryAdditions">@Model.TotalSalaryAdditions</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                <li class="previous">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        <i class="bx bx-chevron-right me-1"></i> السابق
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        التالي <i class="bx bx-chevron-left ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!--end::Wizard Step 2-->
+                        <!--begin::Wizard Step 3 ادخال خصومات الموظف-->
+                        <div class="tab-pane" id="seller-details3">
+                            <div class="text-center mb-4">
+                                <h5>
+                                    استقطاعات وخصومات الموظف
+                                </h5>
+                            </div>
+                            <div class="form-group">
+                                <label>الاستقطاعات الشهرية</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSalaryEveryMonthPenalty">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Id</th>
+                                            <th>نوع الخصم</th>
+                                            <th>الخصم</th>
+                                            <th>القيمة</th>
+                                            <th>القيمة المدفوعة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.SalaryEveryMonthPenalties)
+                                        {
+                                            <tr>
+                                                <td class="salaryEveryMonthPenalties" style="display:none;">@item.Id</td>
+                                                <td>@item.SalaryPenaltyTypeName</td>
+                                                <td>@item.SalaryPenaltyName</td>
+                                                <td>@item.SalaryPenaltyAmount</td>
+                                                <td>
+                                                    <input type="text" class="form-control" onkeyup="SalariesApproval_Module.Calculation(this,'TotalSalaryEveryMonthPenalties')" value="@item.SalaryPenaltyAmountPayed" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالى الخصومات الشهرية</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalSalaryEveryMonthPenalties">@Model.TotalSalaryEveryMonthPenalties</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>الخصومات</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSalaryPenalty">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Id</th>
+                                            <th>نوع الخصم</th>
+                                            <th>الخصم</th>
+                                            <th>القيمة</th>
+                                            <th>القيمة المدفوعة</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ContractSalaryPenalties)
+                                        {
+                                            <tr>
+                                                <td class="contractSalaryPenalties" style="display:none;">@item.Id</td>
+                                                <td>@item.SalaryPenaltyTypeName</td>
+                                                <td>@item.SalaryPenaltyName</td>
+                                                <td>@item.SalaryPenaltyAmount</td>
+                                                <td>
+                                                    <input type="text" class="form-control" onkeyup="SalariesApproval_Module.Calculation(this,'TotalSalaryPenalties')" value="@item.SalaryPenaltyAmountPayed" />
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالى الخصومات</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalSalaryPenalties">@Model.TotalSalaryPenalties</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                <li class="previous">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        <i class="bx bx-chevron-right me-1"></i> السابق
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        التالي <i class="bx bx-chevron-left ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--end::Wizard Step 3-->
+                        <!--begin::Wizard Step 4 غياب الموظف-->
+                        <div class="tab-pane" id="seller-details4">
+                            <div class="text-center mb-4">
+                                <h5>
+                                    غياب الموظف
+                                </h5>
+                            </div>
+
+                            <div class="form-group">
+                                <label>الغياب المسموح به</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtAllowAbsenc">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Id</th>
+                                            <th>من تاريخ</th>
+                                            <th>الى تاريخ</th>
+                                            <th>عدد الايام</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ContractSchedulingAllowAbsencs)
+                                        {
+                                            <tr>
+                                                <td style="display:none;">@item.Id</td>
+                                                <td>@item.FromDate</td>
+                                                <td>@item.ToDate</td>
+                                                <td>@item.AbsenceDayNumber</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالى ايام الغياب المسموح بها</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1">@Model.TotalAbsenceAllowed</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>الغياب بخصــم</label>
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtPenaltyAbsenc">
+                                    <thead>
+                                        <tr>
+                                            <th style="display:none;">Id</th>
+                                            <th>من تاريخ</th>
+                                            <th>الى تاريخ</th>
+                                            <th>عدد الايام</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.ContractSchedulingPenaltyAbsencs)
+                                        {
+                                            <tr>
+                                                <td style="display:none;">@item.Id</td>
+                                                <td>@item.FromDate</td>
+                                                <td>@item.ToDate</td>
+                                                <td>@item.AbsenceDayNumber</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالى ايام الغياب بخصم</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalAbsencePenalty">@Model.TotalAbsencePenalty</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                <li class="previous">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        <i class="bx bx-chevron-right me-1"></i> السابق
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        التالي <i class="bx bx-chevron-left ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--end::Wizard Step 4-->
+                        <!--begin::Wizard Step 5  ملخص-->
+                        <div class="tab-pane" id="seller-details5">
+                            <div class="text-center mb-4">
+                                <h5>
+                                    ملخص للراتب
+                                </h5>
+                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                                    <div class="d-flex flex-column mb-10 mb-md-0">
+                                        @*<div class="font-weight-bolder font-size-h6-lg mb-3">ملخص الراتب</div>*@
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">الراتب الاساسى:</span>
+                                            <span class="text-right">@Model.Salary</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجر اليوم للموظف:</span>
+                                            <span class="text-right">@Model.DayCost</span>
+                                        </div>
+                                        <span style="border: 1px dashed #000; width: 50%; margin: auto; margin-top: 5%; margin-bottom: 5%;"></span>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجمالى البدلات:</span>
+                                            <span class="text-right" id="TotalAllowances2">@Model.TotalAllowances</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجمالى الاضافات:</span>
+                                            <span class="text-right" id="TotalSalaryAdditions2">@Model.TotalSalaryAdditions</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3 alert alert-warning">
+                                            <span class="mr-15 font-weight-bold">اجمالى البدلات والاضافات:</span>
+                                            <span class="text-right" id="totalSalaryAdditionAllowances">@Model.TotalSalaryAdditionAllowances</span>
+                                        </div>
+                                        <span style="border: 1px dashed #000; width: 50%; margin: auto; margin-top: 5%; margin-bottom: 5%;"></span>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجمالى الاستقطاعات الشهرية:</span>
+                                            <span class="text-right" id="TotalSalaryEveryMonthPenalties2">@Model.TotalSalaryEveryMonthPenalties</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجمالى الخصومات :</span>
+                                            <span class="text-right" id="TotalSalaryPenalties2">@Model.TotalSalaryPenalties</span>
+                                        </div>
+                                        <span style="border: 1px dashed #000; width: 50%; margin: auto; margin-top: 5%; margin-bottom: 5%;"></span>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجمالى ايام الغياب بخصم:</span>
+                                            <span class="text-right" id="TotalAbsencePenalty2">@Model.TotalAbsencePenalty</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3">
+                                            <span class="mr-15 font-weight-bold">اجمالى قيمة ايام الغياب بخصم:</span>
+                                            <span class="text-right" id="TotalAllAmountAbsences">@Model.TotalAllAmountAbsences</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-3 alert alert-warning">
+                                            <span class="mr-15 font-weight-bold">اجمالى الاستقطاعات :</span>
+                                            <span class="text-right" id="totalAllSalaryPenalties">@Model.TotalAllSalaryPenalties</span>
+                                        </div>
+                                        <span style="border: 1px dashed #000; width: 50%; margin: auto; margin-top: 5%; margin-bottom: 5%;"></span>
+                                        <div class="d-flex justify-content-between mb-3" style="display:@display">
+                                            <span class="mr-15 font-weight-bold">اجمالى قيمة السلف/القروض:</span>
+                                            <span class="text-right" id="TotalLoans2">@Model.TotalLoans</span>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-column text-md-right">
+                                        <span class="font-size-lg font-weight-bolder mb-1">صافى المرتب</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="Safy">@Model.Safy</span>
+                                        @*<span>Taxes Included</span>*@
+                                    </div>
+                                </div>
+                            </div>
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                @*<label>ملاحظة هامة</label>*@
+                                <div class="alert alert alert-primary" role="alert">
+                                    صافى قيمة الراتب= ( الراتب الاساسى + إجمالي قيمة البدلات والاضافات  - إجمالي الخصومات + السلف  )
+                                </div>
+                            </div>
+
+                            <!--end::Input-->
+                            <ul class="pager wizard twitter-bs-wizard-pager-link" style="margin-bottom:10px;">
+                                <li class="previous">
+                                    <a href="javascript: void(0);" class="btn btn-primary">
+                                        <i class="bx bx-chevron-right me-1"></i> السابق
+                                    </a>
+                                </li>
+                                <li class="next">
+                                    <button type="button" class="btn btn-success px-9 py-4" onclick="SalariesApproval_Module.SubmitForm(this,false)" data-wizard-type="action-submit">
+                                        <span><i class="fa fa-plus m-1"></i></span>حفظ 
+                                    </button>
+                                   
+
+                                </li>
+                            </ul>
+                        </div>
+
+                            <!--end::Wizard Step 5-->
+                            <!--begin::Wizard Actions-->
+                           
+                          
+                        </div>
+<!--end::Wizard Actions-->
+                        }
+                    <!--end::Wizard Form-->
+                    </div>
+                    </div>
+                        <!--end::Wizard Body-->
+                    </div>
+    </div>
+    <!--end::Wizard-->
+</div>          
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/SalariesApproval.js"></script>
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="~/Assets/JSCustom/JSMetronic/wizard-PurchaseInvo.js"></script>
+    <!--end::Page Scripts-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SalariesApproval_Module.initSalaryAllowance();
+            SalariesApproval_Module.initSalaryAddition();
+            SalariesApproval_Module.initSalaryEveryMonPenalty();
+            SalariesApproval_Module.initSalaryPenalty();
+            SalariesApproval_Module.initAllowAbsenc();
+            SalariesApproval_Module.initPenaltyAbsenc();
+            SalariesApproval_Module.initLoan();
+        });
+    </script>
+}

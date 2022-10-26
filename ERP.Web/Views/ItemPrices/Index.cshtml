@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{سياسات اسعار العملاء}
+@section PageTitle2{كل سياسات العملاء}
+@section Button1{تسجيل سياسة لعميل جديدة}
+@section Button1Link{/ItemPrices/CreateEdit}
+@section icon{<i class="fa fa-plus-circle m-1"></i>}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">
+                            ادارة سياسات اسعار العملاء
+                        </h4>
+                    </div>
+                    <div class="card-toolbar">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0 w-100">
+                                <div class="input-icon input-icon-right">
+                                    <label>بحث</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
+                                        <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0 w-100">
+                                <div>
+                                    <label> فئات العملاء</label>
+                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control  din-med", @onchange = "ItemPrices_Module.getCustomerOnCategoryChange();" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group mb-0 w-100">
+                                <div>
+                                    <label> العميل</label>
+                                    @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatable">
+                        <thead>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot></tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+                              
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ItemPrice.js"></script>
+    <script>
+        $(document).ready(function () {
+            ItemPrice_Module.init();
+            $('#kt_datatable_search_query').on('keyup', function () {
+                $('#kt_datatable').DataTable().search(this.value).draw();
+            });
+            $('#CustomerId').on('change', function () {
+                var textSelected = $("#CustomerId option:selected").text();
+                if ($("#CustomerId option:selected").val() === "") {
+                    textSelected = "";
+                }
+                $('#kt_datatable').DataTable().search(textSelected).draw();
+            });
+        });
+    </script>
+}
+
+
+
+
+

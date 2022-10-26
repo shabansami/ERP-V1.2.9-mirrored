@@ -1,0 +1,381 @@
+﻿
+
+@model ERP.DAL.Person
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty, isHasParent = string.Empty;
+    string ShowClass = "hidden";
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة عميل جديد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        if (Model.ParentId != null)
+        {
+            isHasParent = "checked";
+            ShowClass = "visible";
+        }
+        title = "تعديل عميل ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+
+    } }
+
+@section PageTitle1{العملاء}
+@section PageTitle2{@title }
+@section Button1{ادارة عميل}
+@section Button1Link{/Customers/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold"> @title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "Customers", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100 required">
+                                <div>
+                                    <label> فئات العملاء</label>
+                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>اسم العميل</label>
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>هل يتبع عميل اخر ؟  
+                                <input @isHasParent type="checkbox" id="YES" name="YES" value="YES" style="margin-right: 20px; width: 20px; height: 20px; margin-top:3px;" />
+                                </label>
+                                <div id="Person" style="visibility:@ShowClass">
+                                    @Html.DropDownList("ParentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med DropList" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100">
+                                <div>
+                                    <label> الاسم التجاري</label>
+                                    @Html.TextBoxFor(m => m.EntityName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100">
+                                <div>
+                                    <label> الحالة</label>
+                                    @if (Model.Id == Guid.Empty)
+                                    {
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med" })
+                                    }
+                                    else
+                                    {
+                                        @Html.HiddenFor(m => m.PersonTypeId)
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med", @disabled = "disabled" })
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-lg-6">
+                                <div class="form-group mb-0 w-100">
+
+                                    <div>
+                                        <label> النوع</label>
+                                        @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100">
+
+                                <div>
+                                    <label> الدولة</label>
+                                    @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onCountryChange()" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100">
+
+                                <div>
+                                    <label> المحافظة</label>
+                                    @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onCityChange()" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>المدينة</label>
+                                @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onAreaChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>المنطقة</label>
+                                @Html.DropDownList("RegionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onRegionChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>الحي</label>
+                                @Html.DropDownList("DistrictId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>العنوان</label>
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>عنوان التسليم</label>
+                                @Html.TextBoxFor(m => m.Address2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>رقم التليفون ١</label>
+                                @Html.TextBoxFor(m => m.Mob1, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم التليفون ٢</label>
+                                @Html.TextBoxFor(m => m.Mob2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم الهاتف</label>
+                                @Html.TextBoxFor(m => m.Tel, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>الموقع الالكتروني</label>
+                                @Html.TextBoxFor(m => m.WebSite, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>الرقم الضريبي</label>
+                                @Html.TextBoxFor(m => m.TaxNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم السجل التجاري</label>
+                                @Html.TextBoxFor(m => m.CommercialRegistrationNo, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>مبلغ الحد الائتمانى الخطر <span class="alert-warning">لايسمح البيع فى حالة رصيده تخطى المبلغ</span></label>
+                                @Html.TextBoxFor(m => m.LimitDangerSell, new { @class = "form-control", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group ">
+                                <label>ملاحظــات</label>
+                                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group ">
+                                @*<a class="din-bold alert-danger" href="https://www.google.com/maps/place/Nasser+Mosque/%4029.3074919,30.8500841,19.25z/data=!4m5!3m4!1s0x145978d7e46b7459:0x9d8570a7205bdadf!8m2!3d29.3077491!4d30.8505124" target="_blank"><i class="flaticon2-location"></i> الانتقال لتحديد الموقع </a>*@
+                                <label>موقع العميل على الخريطة </label>
+                                @Html.TextAreaFor(m => m.LocationPath, new { @class = "form-control" })
+                                <a href="https://www.google.com/maps/place/Nasser+Mosque/%4029.3074919,30.8500841,19.25z/data=!4m5!3m4!1s0x145978d7e46b7459:0x9d8570a7205bdadf!8m2!3d29.3077491!4d30.8505124" target="_blank" class="btn btn-soft-danger f btn-square btn-shadow mt-2 w-200px"><i class="fa fa-map-marker-alt m-1"></i>الانتقال لتحديد موقع العميل</a>
+
+                                @if (Model.LocationPath != null)
+                                {
+                                    <a href="@Model.LocationPath" target="_blank" class="btn btn-soft-success f btn-square btn-shadow  w-300px mt-2"><i class="fas fa-map-marker-alt m-1"></i>عرض الموقع الحالى على الخريطة</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-header">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+
+                                    <i class="fa fa-chart-bar m-1"></i>المسئولين
+                                </button>
+                            </h2>
+
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>اسم المسئول</label>
+                                                <input id="ResponsName" name="ResponsName" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>الوظيفة</label>
+                                                <input id="ResponsJob" name="ResponsJob" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>رقم التليفون</label>
+                                                <input id="ResponsMob" name="ResponsMob" class="form-control" />
+                                                @*@Html.TextBoxFor(m => m.SellPrice, new { @class = "form-control" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>رقم الهاتف</label>
+                                                <input id="ResponsTel" name="ResponsTel" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>البريد الالكتروني</label>
+                                                <input id="ResponsEmail" name="ResponsEmail" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>التحويلة</label>
+                                                <input id="ResponsTransfer" name="ResponsTransfer" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group ">
+                                                <label>.</label>
+                                                <input type="button" onclick="Customer_Module.SubmitFormCustomerResponsible()" value="اضافة مسئول" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold text-center mb-2 form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group ">
+                                                <label>البيانات المسجلة مسبقا</label>
+                                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableCustomerResponsible">
+                                                    <thead>
+
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                    <tfoot></tfoot>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-12" style="text-align:left;">
+                                    <a href="javascript:void(0);" onclick="Customer_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                                    @if (Model.Id != Guid.Empty)
+                                    {
+                                        <a href="/Customers/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                                </div>
+                            </div>
+                        </div>
+            }
+                    </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as Person;
+
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اخر بيان تم اضافته</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin::Example-->
+                    <div class="example mb-10">
+                        <table class="table table-hover mb-6">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">العميل</th>
+                                    <th scope="col">المنطقة</th>
+                                    <th scope="col">العنوان</th>
+                                    <th scope="col">التليفون ١</th>
+                                    <th scope="col">التليفون ٢</th>
+                                    <th scope="col">الهاتف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>@modl.Name</td>
+                                    <td>@modl.Area.Name</td>
+                                    <td>@modl.Address</td>
+                                    <td>@modl.Mob1</td>
+                                    <td>@modl.Mob2</td>
+                                    <td>@modl.Tel</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end::Example-->
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Customer.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            Customer_Module.initCustomerResponsible();
+
+            $('#YES').change(function () {
+                if (this.checked) {
+                    $("#Person").css("visibility", "visible");
+                }
+                else {
+                    $("#Person").css("visibility", "hidden");
+                }
+            });
+        });
+    </script>
+}

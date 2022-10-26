@@ -1,0 +1,114 @@
+﻿
+
+
+
+@model ERP.DAL.PurchaseBackInvoice
+@using ERP.DAL
+
+@{
+    ViewBag.Title = "ApprovalStore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section PageTitle1{فواتير مرتجع التوريد}
+@section PageTitle2{اعتماد مخزنى لفواتير مرتجع التوريد}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">اعتماد مخزنى لفواتير مرتجع التوريد</h4>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>اجمالى العدد</label>
+                                @Html.TextBoxFor(m => m.TotalQuantity, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th style="display:none;">ItemId</th>
+                                        <th>الاسم</th>
+                                        <th>الحاوية</th>
+                                        <th>الكمية</th>
+                                        <th>الكمية المستلمة</th>
+                                        <th>تاريخ دخول الصنف</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.PurchaseBackInvoicesDetails.Where(x => !x.IsDeleted))
+                                    {
+                                        string itemEntryDate = "";
+                                        string containerName = "";
+                                        if (item.ItemEntryDate != null)
+                                        {
+                                            itemEntryDate = item.ItemEntryDate.Value.ToString("yyyy/MM/dd");
+                                        }
+                                        if (item.Container != null)
+                                        {
+                                            containerName = item.Container.Name;
+                                        }
+                                        <tr>
+                                            <td class="selectedDay" style="display:none;">@item.Id</td>
+                                            <td style="display:none;">@item.ItemId</td>
+                                            <td>@item.Item.Name</td>
+                                            <td>@containerName</td>
+                                            <td>@item.Quantity</td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@item.QuantityReal" />
+                                            </td>
+                                            <td> @itemEntryDate</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12"  style="text-align:left;">
+                            @*<input type="button" onclick="Bank_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="PurchaseBackInvoiceStore_Module.ApprovalInvoice();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fas fa-check m-1 "></i>اعتمــاد</a>
+                            <a href="/PurchaseBackInvoiceStores/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts
+{
+
+    <script src="~/Assets/JSCustom/PurchaseBackInvoiceStore.js"></script>
+    <script>
+        $(document).ready(function () {
+            PurchaseBackInvoiceStore_Module.initItemDetails();
+        });
+
+
+    </script>
+}

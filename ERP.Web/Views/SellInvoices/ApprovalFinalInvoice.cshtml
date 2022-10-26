@@ -1,0 +1,232 @@
+﻿
+@{ ViewBag.Title = "ApprovalFinalInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@section PageTitle1{الاعتماد النهائى لفواتير البيع}
+@section PageTitle2{كل الفواتير}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold"> فواتير البيع</h4>
+                    </div>
+                </div>
+                <div class="card-toolbar">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row ">
+                    <div class="col-lg-6">
+                        <div class="form-group mb-0 w-100">
+
+                            <div class="input-icon input-icon-right">
+                                <label>بحث</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
+                                    <div class="input-group-text">
+                                        <i class="bx bx-search-alt align-middle"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group mb-0 w-100">
+
+                            <div>
+                                <label> حالة الاعتماد </label>
+                                <select class="form-control din-med" id="cmbo_approvalFinal" name="cmbo_approvalFinal">
+                                    <option value="">اختر عنصر من القائمة</option>
+                                    <option value="1">معتمده نهائيا</option>
+                                    <option value="2">غير معتمده</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label>انواع الفواتير</label>
+                                <select class="form-control din-med" id="cmbo_InvoType" name="cmbo_approvalStore">
+                                    <option value="">الكل</option>
+                                    <option value="1">مندوب</option>
+                                    <option value="2">بدون مناديب</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatable">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+@section Scripts
+{
+    <script>
+        var table = $('#kt_datatable');
+
+        // begin first table
+        table.DataTable({
+            responsive: true,
+            searchDelay: 500,
+            processing: true,
+            serverSide: false,
+            select: true,
+
+            // DOM Layout settings
+            dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
+            language: {
+                search: "البحث",
+                lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+                info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+                processing: "جارى التحميل",
+                zeroRecords: "لا يوجد سجلات لعرضها",
+                infoFiltered: "",
+                infoEmpty: 'لا يوجد سجلات متاحه',
+            },
+
+            ajax: {
+                url: '/SellInvoices/GetFinalApproval',
+                type: 'GET',
+
+            },
+            columns: [
+                //{ data: 'Id', title: 'م', visible: false },
+                //{ data: 'InvoiceGuid', visible: false },
+                //{ data: 'CaseId', visible: false },
+                { data: 'Num',responsivePriority:0 },
+                { data: 'InvoiceNum', title: 'رقم الفاتورة' },
+                { data: 'InvoiceDate', title: 'تاريخ الفاتورة' },
+                { data: 'CustomerName', title: 'اسم العميل' },
+                { data: 'Safy', title: 'صافى الفاتورة' },
+                { data: 'CaseName', title: 'اخر حالة للفاتورة' },
+                { data: 'FinalApproval', title: 'حالة الاعتماد' },
+                { data: 'InvoType', title: 'حالة الفاتورة', visible: false },
+                { data: 'EmployeeName', title: 'المندوب' },
+                { data: 'Actions', responsivePriority: -1 },
+
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    title: 'م',
+                    render: function (data, type, row, meta) {
+                        return  meta.row + meta.settings._iDisplayStart + 1;
+                    },
+                },
+                {
+                    targets: -1,
+                    title: 'عمليات',
+                    orderable: false,
+                    render: function (data, type, row, meta) {
+                        if (!row.IsFinalApproval) {
+                            return '\
+							<div class="dropdown dropdown-inline">\
+							<a href="javascript:;" onclick=ApprovalFinalInvoice(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة بشكل نهائى">\
+                       	<i class="la la-check-square-o"></i>\
+                        	</a></div>\
+						';
+                        } else {
+                            return '\
+							<div class="dropdown dropdown-inline">\
+							<a href="/SellInvoices/PrintBarCode/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="طباعة سيريال الاصناف">\
+                       	<i class="la la-print"></i>\
+                        	</a></div>\
+						';
+                        }
+                     },
+                }
+
+            ],
+
+            "order": [[0, "desc"]]
+            //"order": [[0, "desc"]]
+
+        });
+
+            function ApprovalFinalInvoice(invoGuid) { // اعتماد فاتورة بشكل نهائى
+        Swal.fire({
+            title: 'تأكيد الاعتماد',
+            text: 'هل متأكد من اعتماد الفاتورة ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/SellInvoices/ApprovalFinal';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "invoGuid": invoGuid
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+        $(document).ready(function () {
+            $('#kt_datatable_search_query').on('keyup', function () {
+                $('#kt_datatable').DataTable().search(this.value).draw();
+            });
+            $('#cmbo_approvalFinal').on('change', function () {
+                var textSelected = $("#cmbo_approvalFinal option:selected").text();
+                var valSelected = $("#cmbo_approvalFinal option:selected").val();
+                if ( valSelected=== "") {
+                    textSelected = "";
+                }
+                $('#kt_datatable').DataTable().search(textSelected).draw();
+            });
+            $('#cmbo_InvoType').on('change', function () {
+                var textSelected = $("#cmbo_InvoType option:selected").text();
+                if ($("#cmbo_InvoType option:selected").val() === "") {
+                    textSelected = "";
+                }
+                $('#kt_datatable').DataTable().column(7).search(textSelected).draw();
+            });
+        });
+    </script>
+
+}
+
+
+
+
+
+
+
+
+
+

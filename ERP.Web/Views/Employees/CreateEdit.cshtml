@@ -1,0 +1,352 @@
+﻿
+@model ERP.Web.ViewModels.EmployeeViewModel
+@using ERP.DAL
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة موظف جديد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل موظف ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+    } }
+
+@section PageTitle1{الوظائف}
+@section PageTitle2{@title }
+@section Button1{ادارة الموظفين}
+@section Button1Link{/Employees/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold"> @title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "Employees", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>مسمى الموظف</label>
+                                @Html.TextBoxFor(m => m.Person.Name, new { @class = "form-control" })
+                                @Html.HiddenFor(m => m.Id)
+                                @Html.HiddenFor(m => m.PersonHidId)
+                                @Html.HiddenFor(m => m.Person.PersonTypeId)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>مسمى الموظف بالانجليزية</label>
+                                @Html.TextBoxFor(m => m.Person.NameEn, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>العنوان</label>
+                                @Html.TextBoxFor(m => m.Person.Address, new { @class = "form-control", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>رقم التليفون ١</label>
+                                @Html.TextBoxFor(m => m.Person.Mob1, new { @class = "form-control", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم التليفون ٢</label>
+                                @Html.TextBoxFor(m => m.Person.Mob2, new { @class = "form-control", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم الهاتف</label>
+                                @Html.TextBoxFor(m => m.Person.Tel, new { @class = "form-control", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>الدولة</label>
+                                @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Employee_Module.onCountryChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>المحافظة</label>
+                                @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Employee_Module.onCityChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>المدينة</label>
+                                @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Employee_Module.onAreaChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>مسمى الفرع</label>
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "Employee_Module.getStoresInBranchChanged();" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>المخزن(سيارة المندوب)ان وجدت</label>
+                                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>النوع</label>
+                                @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الادارة</label>
+                                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الوظيفة</label>
+                                @Html.DropDownList("JobId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الرقم القومى</label>
+                                @Html.TextBoxFor(m => m.NationalID, new { @class = "form-control", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>تاريخ الميلاد</label>
+                                @Html.TextBoxFor(m => m.BirthDay, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>الحالة الاجتماعية</label>
+                                @Html.DropDownList("SocialStatusId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>الجنسية</label>
+                                @Html.DropDownList("NationalityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>تاريخ التعيين</label>
+                                @Html.TextBoxFor(m => m.DateOfHiring, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group ">
+                                <label style="margin-left:10px">هل رجل مبيعات ؟</label>
+                                <div> @Html.CheckBox("IsSaleMen", new { @style = "width: 25px; height: 25px;" })</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group ">
+                                <label style="margin-left:10px">هل مستخدم النظام ؟</label>
+                                <div> @Html.CheckBox("HasRole", new { @style = "width: 25px; height: 25px;" })</div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label style="margin-left:10px">نسبة العمولة فى المائة ؟ <span class="text-warning">فى حالة عدم الاختيار يكون التحصيل فى الالف</span></label>
+                                @Html.CheckBox("Is100Percentage", new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>نسبة عمولة التحصيل للمندوب</label>
+                                @Html.TextBoxFor(m => m.CommissionPercentage, new { @class = "form-control", @type = "number" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row alert alert-primary mt-3">
+                        <div class="col-lg-12">
+                            <h4>بيانات جواز السفر</h4>
+                            <br />
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم جواز السفر</label>
+                                @Html.TextBoxFor(m => m.PassportNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>تاريخ الانتهاء</label>
+                                @Html.TextBoxFor(m => m.PassportExpirationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>جهة الاصدار</label>
+                                @Html.TextBoxFor(m => m.PassportIssuer, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>المهنة فى الجواز</label>
+                                @Html.TextBoxFor(m => m.PassportJob, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row alert alert-primary">
+                        <div class="col-lg-12">
+                            <h4>بيانات الاقامة</h4>
+                            <br />
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم الاقامة</label>
+                                @Html.TextBoxFor(m => m.ResidenceNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>تاريخ الانتهاء</label>
+                                @Html.TextBoxFor(m => m.ResidenceExpirationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>جهة الاصدار</label>
+                                @Html.TextBoxFor(m => m.ResidenceExpirationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>المهنة فى الاقامة</label>
+                                @Html.TextBoxFor(m => m.ResidenceJob, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row alert alert-primary">
+                        <div class="col-lg-12">
+                            <h4>بيانات التأمين الصحى</h4>
+                            <br />
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم البوليصة</label>
+                                @Html.TextBoxFor(m => m.MedicalInsurancePolicyNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>تاريخ الانتهاء</label>
+                                @Html.TextBoxFor(m => m.MedicalInsuranceExpirationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>تاريخ الاصدار</label>
+                                @Html.TextBoxFor(m => m.MedicalInsuranceReleaseDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label>شركة التأمين</label>
+                                @Html.TextBoxFor(m => m.MedicalInsuranceCompany, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label>فئة</label>
+                                @Html.TextBoxFor(m => m.MedicalInsuranceCategory, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row alert alert-primary">
+                        <div class="col-lg-12">
+                            <h4>بيانات التأمينات الاجتماعية</h4>
+                            <br />
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>الرقم التأمينى</label>
+                                @Html.TextBoxFor(m => m.SocialSecurityNumber, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>الرصيد الحالى</label>
+                                @Html.TextBoxFor(m => m.SocialSecurityCurrentBalance, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="Country_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="Employee_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+                                <a href="/Employees/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as Employee;
+
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اخر بيان تم اضافته</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin::Example-->
+                    <div class="example mb-10">
+                        <table class="table table-hover mb-6">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">اسم الموظف</th>
+                                    <th scope="col">رقم التليفون ١</th>
+                                    <th scope="col">الوظيفة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td scope="row">@modl.Person.Name</td>
+                                    <td>@modl.Person.Mob1</td>
+                                    <td>@modl.Job.Name</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end::Example-->
+                </div>
+            </div>
+        </div>}
+</div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Employee.js"></script>
+}

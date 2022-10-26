@@ -1,0 +1,476 @@
+﻿@model ERP.Web.ViewModels.NotificationVM
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{الاشعارات}
+@section PageTitle2{كل الاشعارات}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+
+
+<div class="row mb-5">
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>اشعارات المصروفات
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.ExpenesePeriodic)
+                        {
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Amount $</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i >تم</i>*@
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>اشعارات الايرادات
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.IncomePeriodic)
+                        {
+
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Amount $</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>            اشعارات فواتير بيع مستحقة التحصيل
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.SellInvoiceDueDateClient)
+                        {
+
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Amount $</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <span class="svg-icon svg-icon-3x ml-n2 svg-icon-muted">
+                        <i class="fa fa-layer-group fa-1x m-1"></i>
+                    </span>
+                    <h3 class="card-label m-1 din-bold">اشعارات فواتير توريد مستحقة التحصيل</h3>
+                </div>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.PurchaseInvoiceDueDateSupplier)
+                        {
+
+                            <div class="alert alert alert-custom alert alert-success fade show mb-5" role="alert">
+                                <div class="alert alert-icon">
+                                    <i class="fas fa-question-circle m-1"></i>
+                                </div>
+                                <div class="alert alert-text">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <span class=" din-bold">@item.Name</span>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <span class=" din-bold">@item.Amount $</span>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-close">
+                                    <button type="button" class="close alert alert-text" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                        تم
+                                        <span aria-hidden="true">
+                                            @*<i class="ki ki-close"></i>*@
+                                        </span>
+                                    </button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>             اشعارات شيكات مستحقة التحصيل من العملاء
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.ChequesClients)
+                        {
+
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Amount $</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>
+                    اشعارات شيكات مستحقة التحصيل للموردين
+
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.ChequesSuppliers)
+                        {
+
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Amount $</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    @*<div class="col-xl-6">
+                   <div class="card card-custom gutter-b">
+                       <div class="card-header">
+                           <div class="card-title">
+                               <span class="svg-icon svg-icon-3x ml-n2 svg-icon-muted">
+        <i class="fa fa-layer-group fa-1x m-1"></i>
+        </span>
+                               <h3 class="card-label m-1 din-bold">اشعارات استحقاق دفعة من فاتورة آجل</h3>
+                           </div>
+                       </div>
+                       <div class="card-body">
+                           <div class="example">
+                               <div class="example-preview">
+                                   @foreach (var item in Model.SellInvoicePayments)
+                                   {
+
+                                           <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                           <div class="alert alert-icon">
+                                               <i class="fa fa-question-circle"></i>
+
+                                           </div>
+                                           <div class="alert alert-text">
+                                               <div class="row">
+                                                   <div class="col-lg-4">
+                                                       <span class=" din-bold">@item.Name</span>
+                                                   </div>
+                                                   <div class="col-lg-4">
+                                                       <span class=" din-bold">@item.Amount $</span>
+                                                   </div>
+                                                   <div class="col-lg-4">
+                                                       <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="alert alert-close">
+                                               <button type="button" class="close" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                                   <span aria-hidden="true">
+                                                       <i class="ki ki-close"></i>
+                                                   </span>
+                                               </button>
+                                           </div>
+                                       </div>
+                                   }
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+
+               </div>*@
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>
+                    اشعارات استحقاق قسط من فاتورة تقسيط
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.SellInvoiceInstallments)
+                        {
+
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Amount $</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+
+                <h3 class="din-bold">
+                    <i class="fa fa-layer-group fa-1x m-1"></i>
+                    اشعارات المهام الادارية
+                </h3>
+            </div>
+            <div class="card-body">
+                <!--begin::Example-->
+                <div class="example">
+                    @*<p>Using the alert JavaScript plugin, it’s possible to dismiss any alert.</p>*@
+                    <div class="example-preview">
+                        @foreach (var item in Model.TaskEmployees)
+                        {
+
+                            <div class="alert alert alert-success alert alert-dismissible fade show" role="alert">
+                                <i class="fa fa-question-circle"></i>
+
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <span class=" din-bold">@item.Name</span>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @foreach (var emp in item.Employees)
+                                        {
+                                            <span class=" din-bold">@emp </span>
+                                            <span>/</span>
+                                        }
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <span>@item.DueDate.Value.ToString("yyyy-MM-dd")</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" onclick="onCloseAlert('@item.Id',this);" aria-label="Close">
+                                    تم
+                                    <span aria-hidden="true">
+                                        @*<i class="ki ki-close"></i>*@
+                                    </span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!--end::Example-->
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        function onCloseAlert(id, btn) {
+            $(btn).attr('data-dismiss', 'alert');
+            var url = '/Notifications/CloseAlert';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            //toastr.success(data.message, '');
+                            //لغلق الاشعار
+                            $(btn).attr('data-dismiss', 'alert');
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+
+    };
+    </script>
+}
+@*<div class="col-xl-6">
+           <div class="card card-custom gutter-b" style="height: 150px">
+               <div class="card-body">
+                   <span class="svg-icon svg-icon-3x ml-n2 svg-icon-muted">
+    <i class="fa fa-layer-group fa-1x m-1"></i>     
+    </span>
+                   <div class=" font-weight-bolder font-size-h2 mt-3 drdkblu-txt">0</div>
+                   <a href="@Url.Action("RequestExpert","Requests")" class=" font-weight-bold font-size-lg mt-1 din-bold drdkblu-txt">طلبات </a>
+               </div>
+           </div>
+       </div>*@

@@ -1,0 +1,954 @@
+﻿@{@model ERP.Web.ViewModels.AdminHomeVM
+
+ViewBag.Title = "Index";
+Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section PageTitle1{ الرئيسية}
+@section PageTitle2{ الرئيسية}
+
+@section Button1Link{@null}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="text-success"> الصفحة الرئيسية</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-5">
+
+                    <div class="col-xl-4">
+
+                        <div class="card shadow border-secondary">
+                            <div class="card-header border-secondary">
+                                <div class="card-title">
+
+                                    <h3 class="text-secondary">
+                                        <i class="fas fa-box m-2"></i>إحصائيات
+                                    </h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-6">
+
+                                        <div class="card shadow border-info mb-8 mb-lg-0">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center p-5">
+                                                    <!--begin::Icon-->
+                                                    <div class="mr-6">
+                                                        <span class="svg-icon  svg-icon-4x">
+                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Home/Mirror.svg-->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="text-danger">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <path d="M13,17.0484323 L13,18 L14,18 C15.1045695,18 16,18.8954305 16,20 L8,20 C8,18.8954305 8.8954305,18 10,18 L11,18 L11,17.0482312 C6.89844817,16.5925472 3.58685702,13.3691811 3.07555009,9.22038742 C3.00799634,8.67224972 3.3975866,8.17313318 3.94572429,8.10557943 C4.49386199,8.03802567 4.99297853,8.42761593 5.06053229,8.97575363 C5.4896663,12.4577884 8.46049164,15.1035129 12.0008191,15.1035129 C15.577644,15.1035129 18.5681939,12.4043008 18.9524872,8.87772126 C19.0123158,8.32868667 19.505897,7.93210686 20.0549316,7.99193546 C20.6039661,8.05176407 21.000546,8.54534521 20.9407173,9.09437981 C20.4824216,13.3000638 17.1471597,16.5885839 13,17.0484323 Z" fill="#000000" fill-rule="nonzero" />
+                                                                    <path d="M12,14 C8.6862915,14 6,11.3137085 6,8 C6,4.6862915 8.6862915,2 12,2 C15.3137085,2 18,4.6862915 18,8 C18,11.3137085 15.3137085,14 12,14 Z M8.81595773,7.80077353 C8.79067542,7.43921955 8.47708263,7.16661749 8.11552864,7.19189981 C7.75397465,7.21718213 7.4813726,7.53077492 7.50665492,7.89232891 C7.62279197,9.55316612 8.39667037,10.8635466 9.79502238,11.7671393 C10.099435,11.9638458 10.5056723,11.8765328 10.7023788,11.5721203 C10.8990854,11.2677077 10.8117724,10.8614704 10.5073598,10.6647638 C9.4559885,9.98538454 8.90327706,9.04949813 8.81595773,7.80077353 Z" fill="#000000" opacity="0.3" />
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Content-->
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">عدد العملاء</a>
+                                                        <div class="text-dark-75">@Model.Customers</div>
+                                                    </div>
+                                                    <!--end::Content-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xl-6">
+                                        <div class="card shadow border-danger mb-8 mb-lg-0">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center p-5">
+                                                    <!--begin::Icon-->
+                                                    <div class="mr-6">
+                                                        <span class="svg-icon svg-icon-danger svg-icon-4x">
+                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/General/Thunder-move.svg-->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <path d="M16.3740377,19.9389434 L22.2226499,11.1660251 C22.4524142,10.8213786 22.3592838,10.3557266 22.0146373,10.1259623 C21.8914367,10.0438285 21.7466809,10 21.5986122,10 L17,10 L17,4.47708173 C17,4.06286817 16.6642136,3.72708173 16.25,3.72708173 C15.9992351,3.72708173 15.7650616,3.85240758 15.6259623,4.06105658 L9.7773501,12.8339749 C9.54758575,13.1786214 9.64071616,13.6442734 9.98536267,13.8740377 C10.1085633,13.9561715 10.2533191,14 10.4013878,14 L15,14 L15,19.5229183 C15,19.9371318 15.3357864,20.2729183 15.75,20.2729183 C16.0007649,20.2729183 16.2349384,20.1475924 16.3740377,19.9389434 Z" fill="#000000" />
+                                                                    <path d="M4.5,5 L9.5,5 C10.3284271,5 11,5.67157288 11,6.5 C11,7.32842712 10.3284271,8 9.5,8 L4.5,8 C3.67157288,8 3,7.32842712 3,6.5 C3,5.67157288 3.67157288,5 4.5,5 Z M4.5,17 L9.5,17 C10.3284271,17 11,17.6715729 11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L4.5,20 C3.67157288,20 3,19.3284271 3,18.5 C3,17.6715729 3.67157288,17 4.5,17 Z M2.5,11 L6.5,11 C7.32842712,11 8,11.6715729 8,12.5 C8,13.3284271 7.32842712,14 6.5,14 L2.5,14 C1.67157288,14 1,13.3284271 1,12.5 C1,11.6715729 1.67157288,11 2.5,11 Z" fill="#000000" opacity="0.3" />
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Content-->
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">عدد الموردين</a>
+                                                        <div class="text-dark-75">@Model.Suppliers</div>
+                                                    </div>
+                                                    <!--end::Content-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <!--begin::Callout-->
+                                <div class="row">
+                                    <!--begin::Callout-->
+                                    <div class="col-xl-6">
+
+                                        <div class="card shadow border-danger mb-8 mb-lg-0">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center p-5">
+                                                    <!--begin::Icon-->
+                                                    <div class="mr-6">
+                                                        <span class="svg-icon svg-icon-success svg-icon-4x">
+                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Sketch.svg-->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <polygon fill="#000000" opacity="0.3" points="5 3 19 3 23 8 1 8" />
+                                                                    <polygon fill="#000000" points="23 8 12 20 1 8" />
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Content-->
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3"> فواتير البيع </a>
+                                                        <div class="text-dark-75">@Model.SellInvoicesTotal  </div>
+                                                    </div>
+                                                    <!--end::Content-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--end::Callout-->
+                                    <br />
+                                    <!--begin::Callout-->
+                                    <div class="col-xl-6">
+
+                                        <div class="card shadow border-info mb-8 mb-lg-0">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center p-5">
+                                                    <!--begin::Icon-->
+                                                    <div class="mr-6">
+                                                        <span class="svg-icon svg-icon-primary svg-icon-4x">
+                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Home/Mirror.svg-->
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <rect x="0" y="0" width="24" height="24" />
+                                                                    <path d="M13,17.0484323 L13,18 L14,18 C15.1045695,18 16,18.8954305 16,20 L8,20 C8,18.8954305 8.8954305,18 10,18 L11,18 L11,17.0482312 C6.89844817,16.5925472 3.58685702,13.3691811 3.07555009,9.22038742 C3.00799634,8.67224972 3.3975866,8.17313318 3.94572429,8.10557943 C4.49386199,8.03802567 4.99297853,8.42761593 5.06053229,8.97575363 C5.4896663,12.4577884 8.46049164,15.1035129 12.0008191,15.1035129 C15.577644,15.1035129 18.5681939,12.4043008 18.9524872,8.87772126 C19.0123158,8.32868667 19.505897,7.93210686 20.0549316,7.99193546 C20.6039661,8.05176407 21.000546,8.54534521 20.9407173,9.09437981 C20.4824216,13.3000638 17.1471597,16.5885839 13,17.0484323 Z" fill="#000000" fill-rule="nonzero" />
+                                                                    <path d="M12,14 C8.6862915,14 6,11.3137085 6,8 C6,4.6862915 8.6862915,2 12,2 C15.3137085,2 18,4.6862915 18,8 C18,11.3137085 15.3137085,14 12,14 Z M8.81595773,7.80077353 C8.79067542,7.43921955 8.47708263,7.16661749 8.11552864,7.19189981 C7.75397465,7.21718213 7.4813726,7.53077492 7.50665492,7.89232891 C7.62279197,9.55316612 8.39667037,10.8635466 9.79502238,11.7671393 C10.099435,11.9638458 10.5056723,11.8765328 10.7023788,11.5721203 C10.8990854,11.2677077 10.8117724,10.8614704 10.5073598,10.6647638 C9.4559885,9.98538454 8.90327706,9.04949813 8.81595773,7.80077353 Z" fill="#000000" opacity="0.3" />
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span>
+                                                    </div>
+                                                    <!--end::Icon-->
+                                                    <!--begin::Content-->
+                                                    <div class="d-flex flex-column">
+                                                        <a href="#" class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">عدد الموظفين</a>
+                                                        <div class="text-dark-75">@Model.Employees</div>
+                                                    </div>
+                                                    <!--end::Content-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <!--end::Callout-->
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card shadow">
+                            <div class="accordion" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingfivefive">
+                                        <button class="accordion-button" style="height:80px; background-color:white;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapsefivefive" aria-expanded="true" aria-controls="panelsStayOpen-collapsefivefive">
+
+                                            <h3>
+                                                <i class="fas fa-angle-down mr-1 text-success fa-1x"></i>
+                                                الاجراءات المالية
+                                            </h3>
+
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapsefivefive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingfivefive">
+                                        <div class="accordion-body text-muted">
+                                            <hr />
+
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/CustomerCheques/CreateEdit')">
+
+                                                    <i class="fas fa-chart-line text-danger m-3"></i>
+                                                    استلام شيك
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/AccountsTrees/ShowAccounts')">
+
+                                                    <i class="fas fa-chart-pie text-warning m-3"></i>
+                                                    شجرة الحسابات
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/GeneralRecords/CreateEdit')">
+
+                                                    <i class="fas fa-box text-success m-3"></i>
+                                                    قيود حرة
+
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/RptAccountStatements/Search')">
+
+                                                    <i class="fas fa-file text-primary m-3"></i>
+                                                    كشف حساب استاذ
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/RptAccountStatements/SearchMultiple')">
+
+                                                    <i class="fas fa-folder text-success m-3"></i>
+                                                    كشف حساب استاذ مجمع
+
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <br />
+
+
+
+
+                        <div class="card shadow">
+                            <div class="accordion" id="accordionPanelsStayOpenExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThreethree">
+                                        <button class="accordion-button" style="height:75px; background-color:white;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThreethree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThreethree">
+
+                                            <h3><i class="fas fa-user text-warning m-2"></i>الموارد البشرية</h3>
+
+                                        </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapseThreethree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThreethree">
+                                        <div class="accordion-body text-muted">
+                                            <hr />
+
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/Employees/CreateEdit')">
+
+                                                    <i class="fas fa-user text-warning m-3"></i>
+                                                    تسجيل موظف
+
+                                                    <span class="badge bg-soft-danger text-danger m-3 label-inline">@Model.Employees</span>
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/SalaryAdditions/CreateEdit')">
+
+                                                    <i class="fas fa-plus text-success m-3"></i>
+                                                    تسجيل اضافة
+
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/SalaryPenalties/CreateEdit')">
+
+                                                    <i class="fas fa-plus text-danger m-3"></i>
+                                                    تسجيل خصم
+
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/ContractLoans/CreateEdit')">
+
+                                                    <i class="fas fa-plus text-primary m-3"></i>
+                                                    تسجيل سلفة
+
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/ContractLoans/CreateEdit')">
+
+                                                    <i class="fas fa-tag text-warning m-3"></i>
+                                                    حضور وانصراف
+
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/ContractLoans/CreateEdit')">
+
+                                                    <i class="fas fa-user text-success m-3"></i>
+                                                    صرف رواتب
+
+
+                                                </a>
+                                            </div>
+                                            <div class="row">
+                                                <a class="navi-link" href="javascript:;" onclick="userAuth('/ContractLoans/CreateEdit')">
+
+                                                    <i class="fas fa-tag text-primary m-3"></i>
+                                                    عهدة موظف
+
+
+                                                </a>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--begin::Accordion-->
+
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOneOne">
+                                    <button class="accordion-button bg-soft-light" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOneOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOneOne">
+                                        <i class="fas fa-user text-success m-2"></i>
+
+                                        فواتير تحتاج الى اعتماد
+                                        <span class="badge bg-soft-danger text-danger label-inline m-2">@Model.ApprovalInvoices.Sum(x => x.Count)</span>
+
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOneOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOneOne">
+                                    <div class="accordion-body text-muted">
+                                        @foreach (var item in Model.ApprovalInvoices)
+                                        {
+                                            <div class="row">
+                                                <h5 class="col-10">
+                                                    <span>
+                                                        <i class="fas fa-hand-holding pr-4 p-1"></i><a href="@item.Url" style="color:black">@item.Name</a>
+                                                    </span>
+                                                    <span class="bagde bg-soft-success text-success m-2 font-weight-bold label-inline">@item.Count</span>
+
+                                                </h5>
+
+                                            </div>
+                                            <hr />
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingTwoTwo">
+                                    <button class="accordion-button bg-soft-light" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwoTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwoTwo">
+                                        <i class="fas fa-user text-danger m-2"></i>
+                                        اصناف بلغت حد الامان او الخطر
+                                        <span class="badge bg-soft-danger text-danger label-inline m-3">@Model.LimitedItem.Sum(x => x.Count)</span>
+
+                                    </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseTwoTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwoTwo">
+                                    <div class="accordion-body text-muted">
+
+
+                                        @foreach (var item in Model.LimitedItem)
+                                        {
+                                            <div class="row">
+                                                <h5 class="col-7">
+                                                    <span>
+                                                        <i class="fas fa-hand-holding pr-4 p-1"></i><a href="@item.Url" style="color:black">@item.Name</a>
+                                                    </span>
+                                                    <span class="bagde bg-soft-success text-success m-2 font-weight-bold label-inline"> @item.Count</span>
+
+                                                </h5>
+
+
+                                            </div>
+                                            <hr />
+
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                            <br />
+
+
+
+
+
+                        </div>
+
+                        <div class="card shadow card-custom gutter-b col-12">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label">الاعتمادات</h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-4">
+
+                                        <div class="btn-group col-9" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-dark font-weight-bold dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الاعتماد المحاسبي</button>
+
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseInvoiceAccounting/Index')">  لفاتورة التوريد</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseBackInvoiceAccounting/Index')">  لفاتورة مرتجع التوريد</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellInvoiceAccounting/Index')">  لفاتورة البيع</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellBackInvoiceAccounting/Index')">  لفاتورة مرتجع البيع</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-4">
+
+                                        <div class="btn-group col-9" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-dark font-weight-bold dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الاعتماد المخزني</button>
+
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseInvoiceStores/Index')">  لفاتورة التوريد</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseBackInvoiceStores/Index')">  لفاتورة مرتجع التوريد</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellInvoiceStores/Index')">  لفاتورة البيع</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellBackInvoiceStores/Index')">  لفاتورة مرتجع البيع</a>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-4">
+
+                                        <div class="btn-group col-9" role="group">
+                                            <button id="btnGroupDrop1" type="button" class="btn btn-dark font-weight-bold dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">الاعتماد النهائي</button>
+
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseInvoices/ApprovalFinalInvoice')">  لفاتورة التوريد</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseBackInvoices/ApprovalFinalInvoice')">  لفاتورة مرتجع التوريد</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellInvoices/ApprovalFinalInvoice')">  لفاتورة البيع</a>
+                                                <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellBackInvoices/ApprovalFinalInvoice')">  لفاتورة مرتجع البيع</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+
+
+
+
+
+                                <div class="col-xl-8">
+
+
+                                    <div class="card shadow border-success">
+                                        <div class="card-header border-success">
+                                            <div class="card-title">
+
+                                                <h3 class="text-success">
+                                                    <i class="fas fa-box m-2"></i>إبحار
+                                                </h3>
+                                            </div>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-xl-6">
+                                                    @*Search*@
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <div class="card shadow card-custom border-warning">
+                                                                <div class="card-header border-warning">
+                                                                    <div class="card-title">
+
+                                                                        <h4 class="card-label">
+                                                                            <i class="bx bx-search-alt text-danger m-2"></i>البحث
+                                                                        </h4>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="row">
+                                                                        <div class="col-lg-12">
+                                                                            <div class="form-group">
+
+                                                                                <div class="input-group">
+
+                                                                                    <input type="text" style="text-align:right;" id="txt_search" class="form-control" placeholder="ادخل نص البحث" aria-describedby="basic-addon2" />
+                                                                                    <div class="dropdown">
+                                                                                        <button id="btnGroupDrop1" type="button" class="btn btn-dark font-weight-bold dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">اختر دلالة البحث</button>
+
+                                                                                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" style="">
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/Items/Index','1')">صنف</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/RptItemBalances/SearchItemBalance','1')">رصيد صنف</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/Suppliers/Index','1')">مورد</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SuppliersPayments/Index','1')">صرف نقدى لمورد</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseInvoices/Index','1')">فواتير التوريد</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/PurchaseBackInvoices/Index','1')">فواتير مرتجع التوريد</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/Customers/Index','1')">عميل</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/CustomersPayments/Index','1')">استلام نقدية من عميل</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/CustomerCheques/Index','1')">استلام شيك من عميل</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellInvoices/Index','1')">فواتير البيع</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/SellBackInvoices/Index','1')">فواتير مرتجع البيع</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/ProductionOrders/Index','1')">اوامر الانتاج</a>
+                                                                                            <a class="dropdown-item" href="javascript:;" onclick="userAuth('/Employees/Index','1')">موظف</a>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*End Search*@
+                                                    <!--begin::Accordion-->
+                                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                                <button class="accordion-button bg-soft-light text-dark" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                                                    <i class="fas fa-user-alt m-1 text-success"></i>الموردين
+                                                                    <span class="badge bg-soft-danger text-danger font-weight-bold label-inline m-1">@Model.Suppliers</span>
+
+                                                                </button>
+                                                            </h2>
+                                                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                                                                <div class="accordion-body text-muted">
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-hand-holding pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/PurchaseInvoices/CreateEdit')" style="color:black">فاتورة توريد</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline">@Model.PurchaseInvoices</span>
+
+                                                                        </h5>
+
+                                                                    </div>
+                                                                    <hr />
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-hand-holding-usd pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/PurchaseBackInvoices/CreateEdit')" style="color:black">فاتورة مرتجع توريد</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline">@Model.PurchaseBackInvoices</span>
+
+                                                                        </h5>
+
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-coins pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/SuppliersPayments/CreateEdit')" style="color:black">صرف نقدية لمورد</a>
+                                                                            </span>
+                                                                        </h5>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <br />
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                                                <button class="accordion-button bg-soft-light text-dark" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+                                                                    <i class="fas fa-user-alt m-1 text-danger"></i>العملاء
+                                                                    <span class="badge bg-soft-danger text-danger font-weight-bold label-inline m-1">@Model.Customers</span>
+
+                                                                </button>
+                                                            </h2>
+                                                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                                                                <div class="accordion-body text-muted">
+                                                                    <div class="row">
+                                                                        <h5 class="col-7">
+                                                                            <span>
+                                                                                <i class="fas fa-hand-holding pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/SellInvoices/CreateEdit')" style="color:black">فواتير بيع</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline"> @Model.SellInvoiceDay</span>&nbsp;
+                                                                            <span class="badge bg-soft-success text-success label-inline"> @Model.SellInvoicesTotal</span>
+
+                                                                        </h5>
+
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-7">
+                                                                            <span>
+                                                                                <i class="fas fa-hand-holding-usd pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/SellBackInvoices/CreateEdit')" style="color:black">فواتير مرتجع بيع</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline">@Model.SellBackInvoices</span>
+                                                                        </h5>
+
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-7">
+                                                                            <span>
+                                                                                <i class="fas fa-coins pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/CustomersPayments/CreateEdit')" style="color:black">استلام نقدية</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <br />
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                                                <button class="accordion-button bg-soft-light text-dark" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="true" aria-controls="panelsStayOpen-collapseThree">
+                                                                    <i class="fas fa-coins m-1 text-warning"></i>المصروفات والايرادات
+
+                                                                </button>
+                                                            </h2>
+                                                            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                                                <div class="accordion-body text-muted">
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-edit pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/Expenses/CreateEdit')" style="color:black">تسجيل مصروف</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline">@Model.ExpenseAmount</span>
+
+                                                                        </h5>
+
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-user-edit pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/Incomes/CreateEdit')" style="color:black">تسجيل ايراد</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline">@Model.IncomeAmount</span>
+                                                                        </h5>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="panelsStayOpen-headingFour">
+                                                                <button class="accordion-button bg-soft-light text-dark" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFour" aria-expanded="true" aria-controls="panelsStayOpen-collapseFour">
+                                                                    <i class="fas fa-coins m-1 text-primary"></i>الارصدة
+
+                                                                </button>
+                                                            </h2>
+                                                            <div id="panelsStayOpen-collapseFour" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFour">
+                                                                <div class="accordion-body text-muted">
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-12">
+                                                                            <span>
+                                                                                <i class="fas fa-hands-helping pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/SupplierIntials/CreateEdit')" style="color:black">رصيد اول مدة للموردين</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-12">
+                                                                            <span>
+                                                                                <i class="fas fa-user-alt pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/CustomerIntials/CreateEdit')" style="color:black">رصيد اول مدة للعملاء</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-12">
+                                                                            <span>
+                                                                                <i class="fa fa-columns pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/ItemIntialBalances/CreateEdit')" style="color:black">رصيد اول مدة اصناف</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-12">
+                                                                            <span>
+                                                                                <i class="fas fa-money-check pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/BankAccountIntialBalances/CreateEdit')" style="color:black">رصيد اول مدة بنوك</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+
+                                                        <div class="accordion-item">
+                                                            <h2 class="accordion-header" id="panelsStayOpen-headingFive">
+                                                                <button class="accordion-button bg-soft-light text-dark" style="height:75px;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseFive" aria-expanded="true" aria-controls="panelsStayOpen-collapseFive">
+                                                                    <i class="fas fa-list m-1 text-success"></i>الاصناف
+                                                                    <span class="badge bg-soft-danger font-weight-bold text-danger label-inline m-1">@Model.Items</span>
+
+                                                                </button>
+                                                            </h2>
+                                                            <div id="panelsStayOpen-collapseFive" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingFive">
+                                                                <div class="accordion-body text-muted">
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fa fa-columns pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/ItemGroups/CreateEdit')" style="color:black">مجموعات الاصناف</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-edit pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/Items/CreateEdit')" style="color:black">تعريف صنف</a>
+                                                                            </span>
+                                                                        </h5>
+                                                                    </div>
+                                                                    <hr />
+
+                                                                    <div class="row">
+                                                                        <h5 class="col-10">
+                                                                            <span>
+                                                                                <i class="fas fa-tractor pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/StoresTransfers/Index')" style="color:black">نقل بين المخازن</a>
+                                                                            </span>
+                                                                            <span class="badge bg-soft-success text-success label-inline">@Model.Stores</span>
+
+                                                                        </h5>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <br />
+
+
+
+
+                                                    </div>
+
+                                                    <!--end::Accordion-->
+
+                                                </div>
+
+                                                <div class="col-xl-6">
+
+                                                    <div class="card shadow card-custom border-success">
+                                                        <div class="card-header border-success">
+                                                            <div class="card-title">
+
+                                                                <h4>
+                                                                    <i class="fa fa-users-cog m-1 text-success"></i>إنتاج
+                                                                </h4>
+
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <h5 class="col-10">
+
+                                                                    <i class="fas fa-users-cog pr-4 p-1"></i>
+                                                                    <a href="javascript:;" onclick="userAuth('/ProductionOrders/RegisterOrder')" style="color:black; margin-left:30px;">امر انتاج</a>
+                                                                    <span class="badge bg-soft-success text-success mr-5">@Model.ProductionOrders</span>
+                                                                </h5>
+
+
+                                                            </div>
+                                                            <hr />
+
+                                                            <div class="row">
+                                                                <h5 class="col-10">
+                                                                    <span>
+                                                                        <i class="fas fa-cogs pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/ProductionOrderReceipts/Index')" style="color:black">استلام امر انتاج</a>
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <!--end::Card-->
+                                                    <!--begin::Card-->
+                                                    <div class="card shadow card-custom border-soft-info">
+                                                        <div class="card-header">
+                                                            <div class="card-title">
+
+                                                                <h4 class="card-label">
+                                                                    <i class="fa fa-users m-1 text-warning"></i>المستخدمين
+                                                                </h4>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <h5 class="col-12">
+                                                                    <span>
+                                                                        <i class="fas fa-user pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/UserRoles/CreateEdit')" style="color:black">تسجيل مستخدم</a>
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                            <hr />
+
+                                                            <div class="row">
+                                                                <h5 class="col-12">
+                                                                    <span>
+                                                                        <i class="fas fa-cog pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/PagesRoles/AssignPages')" style="color:black">اسناد صلاحية لمستخدم</a>
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+                                                    <!--end::Card-->
+                                                    <!--begin::Card-->
+                                                    <div class="card shadow card-custom border-soft-warning">
+                                                        <div class="card-header">
+                                                            <div class="card-title">
+
+                                                                <h4 class="card-label">
+                                                                    <i class="fas fa-sync m-1 text-success"></i>مركز التحميل
+                                                                </h4>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <h5 class="col-10">
+                                                                    <span>
+                                                                        <i class="fas fa-folder pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/UploadCenterFolders/CreateEdit')" style="color:black">تعريف مجلد</a>
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+                                                            <hr />
+
+                                                            <div class="row">
+                                                                <h5 class="col-10">
+                                                                    <span>
+                                                                        <i class="fas fa-upload pr-4 p-1"></i><a href="javascript:;" onclick="userAuth('/UploadCenterFiles/CreateEdit')" style="color:black">رفع ملف</a>
+                                                                    </span>
+                                                                    <span class="badge bg-soft-success text-success font-weight-bold label-inline">@Model.UploadFiles</span>
+
+                                                                </h5>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br />
+
+                                                    <div class="card shadow border-soft-danger">
+                                                        <div class="card-body">
+                                                            <div class="row">
+
+                                                                <span class="symbol symbol-50 symbol-circle">
+                                                                    <span class="symbol-label">
+                                                                        <i class="fas fa-bell m-1  text-success"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <h5 class="card-label col-8 mt-4">
+                                                                    <span><a href="javascript:;" onclick="userAuth('/Notifications/Index')" style="color:black">الاشعارات</a></span>
+                                                                    <span class="badge bg-soft-danger text-danger font-weight-bold font-size-h1 label-inline">@Model.Notifications</span>
+                                                                </h5>
+
+                                                            </div>
+                                                            <hr />
+
+                                                            <div class="row">
+                                                                <span class="symbol symbol-50 symbol-circle">
+                                                                    <span class="symbol-label">
+                                                                        <i class="fas fa-cog m-1 s text-danger"></i>
+                                                                    </span>
+                                                                </span>
+                                                                <h5 class="card-label col-8 mt-4">
+                                                                    <span>
+                                                                        <a href="javascript:;" onclick="userAuth('/GeneralSettings/Index')" style="color:black">الاعدادات العامة</a>
+                                                                    </span>
+                                                                </h5>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <!--end::Card-->
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <!--begin::Card-->
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    @section Scripts
+{
+        <script>
+            function userAuth(url, typ) {
+                $.get("/SharedDataSources/CheckUserAuth", { url: url }, function (data) {
+                    if (data.isValid) {
+                        if (typ === '1') { //فى حالة البحث
+                            if ($("#txt_search").val() === '') {
+                                toastr.error('تأكد من ادخال نص البحث', '');
+                                return false;
+                            }
+                            window.location = url + '?src=' + $("#txt_search").val();
+                        } else
+                            window.location = url;
+                    } else {
+                        if (data.Redirect) {
+                            window.location = "/Default/Login/?MsgBadLogin=4"
+                        } else {
+                            toastr.error(data.Msg, '');
+                        }
+                    }
+                })
+            }</script>
+    }

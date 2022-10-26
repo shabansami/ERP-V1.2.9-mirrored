@@ -1,0 +1,134 @@
+﻿@model Pekar.Models.BasicTap
+@using Pekar.Models
+@{
+    ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+
+    title = "تعديل تاب ";
+    btn = "تعديل";
+    icon = "flaticon-edit";
+}
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5 din-bold">التابس</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <span class="text-muted font-weight-bold mr-4 din-med din-bold">@title </span>
+
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <div class="d-flex align-items-center">
+                <!--begin::Actions-->
+                <a href="/BasicTaps/Index"
+                   class="btn btn-primary font-weight-bold btn-square font-weight-bold font-size-base mr-1 din-bold"><i class="flaticon2-settings"></i>ادارة دولة</a>
+                <!--end::Actions-->
+            </div>
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+            <!--begin::Row-->
+            <div class="row din-bold">
+                <div class="col-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h3 class="card-label">@title</h3>
+                            </div>
+                        </div>
+                        @using (Html.BeginForm("Edit", "BasicTaps", FormMethod.Post, new { id = "form1" }))
+                        {
+                            <div class="card-body">
+
+                                <div class="row">
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group required">
+                                            <label>مسمى التاب</label>
+                                            @Html.TextBoxFor(m => m.Tapname, new { @class = "form-control" })
+                                            @Html.HiddenFor(model => model.Id)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-12">
+                                        @*<input type="button" onclick="Country_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+
+                                        <a href="javascript:void(0);" onclick="BasicTaps_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                                        @if (Model.Id > 0)
+                                        {
+                                            <a href="/BasicTaps/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="flaticon2-back-1"></i>عودة</a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+
+
+                </div>
+                @if (Model.Id == 0 && ViewBag.LastRow != null)
+                {
+                    var modl = ViewBag.LastRow as Country;
+
+                    <div class="col-lg-12">
+                        <div class="card card-custom gutter-b">
+
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label">اخر بيان تم اضافته</h3>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <!--begin::Example-->
+                                <div class="example mb-10">
+                                    <table class="table table-hover mb-6">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">#</th>
+                                                <th scope="col">التاب</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td scope="row">1</td>
+                                                <td>@Model.Tapname </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!--end::Example-->
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+            <!--end::Container-->
+        </div>
+        <!--end::Entry-->
+    </div>
+</div>
+
+=@section Scripts
+{
+    <script src="~/Assets/JSCustom/BasicTaps.js"></script>
+}
+

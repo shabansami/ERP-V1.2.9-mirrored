@@ -1,0 +1,81 @@
+﻿
+
+@model ERP.Web.ViewModels.SaleMenStoreVM
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+
+    title = "تعريف مخزن لمندوب ";
+    btn = "تعديل";
+    icon = "fa fa-edit m-1"; }
+
+@section PageTitle1{تعريف مخازن المناديب}
+@section PageTitle2{@title }
+@section Button1{ادارة مخزن مندوب}
+@section Button1Link{/SaleMenStores/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold"> @title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "SaleMenStores", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>الادارة</label>
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "SaleMenStore_Module.getSaleMenDepartmentChange()" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>الموظف</label>
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group ">
+                <label>الفرع</label>
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "SaleMenStore_Module.getStoresInBranchChanged();" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group ">
+                <label>المخزن(سيارة المندوب)</label>
+                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left">
+                            @*<input type="button" onclick="SaleMenStore_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="SaleMenStore_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/SaleMenStores/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/SaleMenStore.js"></script>
+}
+
+

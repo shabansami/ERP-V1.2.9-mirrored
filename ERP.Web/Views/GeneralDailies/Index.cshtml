@@ -1,0 +1,146 @@
+﻿@model List<ERP.DAL.GeneralDaily>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+}
+
+@section PageTitle1{قيود المعاملة}
+@section PageTitle2{عرض قيود المعاملة}
+@section Button1{رجوع للصفحة السابقة}
+@section Button1Link{#}
+@section Button1Action{onclick="window.history.back()"}
+@section icon{<i class="fa fa-plus-circle m-1"></i>}
+
+@if (ViewBag.ErrorMsg == null)
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card din-bold">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class=" din-bold">
+                                عرض قيود المعاملة
+                            </h4>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group mb-0 w-100">
+                                    <div>
+                                        <label> .</label>
+                                        <a href="/GeneralDailies/Index/?tranId=@Model.FirstOrDefault().TransactionId&&tranTypeId=@Model.FirstOrDefault().TransactionTypeId&shw=1" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>اظهار كل قيود المعاملة</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>رقم المعاملة</label>
+                                    @Html.TextBoxFor(m => m.FirstOrDefault().TransactionId, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>المعاملة</label>
+                                    @Html.TextBoxFor(m => m.FirstOrDefault().TransactionsType.Name, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+        </div>
+        </div>
+        <!--end::Container-->
+        <div class="row din-bold">
+            <div class="col-12">
+                <div class="card card-custom gutter-b">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h3 class="card-label">تعريف الدفعات</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatable">
+                                    <thead>
+                                        <tr>
+                                            <th>نوع المعاملة</th>
+                                            <th>رقم المعاملة</th>
+                                            <th>تاريخ القيد</th>
+                                            <th>رقم الحساب</th>
+                                            <th>اسم الحساب</th>
+                                            <th>مدين</th>
+                                            <th>دائن</th>
+                                            <th>البيان</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@item.TransactionsType.Name</td>
+                                                    <td>@item.TransactionId</td>
+                                                    <td>@item.TransactionDate.Value.ToString("yyyy-MM-dd")</td>
+                                                    <td>@item.AccountsTree.AccountNumber</td>
+                                                    <td>@item.AccountsTree.AccountName</td>
+                                                    <td>@item.Debit</td>
+                                                    <td>@item.Credit</td>
+                                                    <td>@item.Notes</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    
+
+}
+                       
+@section Scripts
+{
+    @if (ViewBag.ErrorMsg != null)
+    {
+        <script>
+            $(document).ready(function () {
+                toastr.error('@ViewBag.ErrorMsg','')
+            });
+        </script>
+    }
+    <script>
+        $(document).ready(function () {
+            $('#kt_datatable').DataTable({
+                paging: false,
+                info: false,
+                search: false,
+                searching: false,
+                "order": [[0, "asc"]]
+                //"order": [[0, "desc"]]
+
+            });
+        });
+
+
+    </script>
+}
+
+

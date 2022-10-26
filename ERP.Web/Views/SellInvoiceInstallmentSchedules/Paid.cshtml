@@ -1,0 +1,104 @@
+﻿
+@model ERP.Web.ViewModels.SellInvoiceInstallmentScheduleVM
+@{
+    ViewBag.Title = "Paid";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{ أقساط}
+@section PageTitle2{تحصيل قسط}
+@section Button1{ادارة الاقساط }
+@section Button1Link{/SellInvoiceInstallmentSchedules/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">
+                            تحصيل قسط
+                        </h4>
+                    </div>
+                </div>
+                </div>
+                @using (Html.BeginForm("Paid", "SellInvoiceInstallmentSchedules", FormMethod.Post, new { id = "form1" }))
+                {
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>تاريخ القسط</label>
+                                    @Html.TextBoxFor(m => m.InstallmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <label>العميل</label>
+                                    @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <label>قيمة القسط</label>
+                                    @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>الخزنة</label>
+                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.HiddenFor(m => m.ScheduleGuid)
+                                    @Html.HiddenFor(model => model.Id)
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>تاريخ تحصيل القسط</label>
+                                    @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>قيمة القسط المدفوعة</label>
+                                    @Html.TextBoxFor(m => m.PayedAmount, new { @class = "form-control", @onkeyup = "SellInvoiceInstallmentSchedule_Module.onKeyupAmount()" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label>القيمة التى سيتم خصمها/زيادتها من القسط التالى</label>
+                                    @Html.TextBoxFor(m => m.DifValue, new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="display:none" id="divOtherSch">
+                                <div class="form-group required">
+                                    <label>القسط المراد تحميل الزيادة/النقص عليه</label>
+                                    @Html.DropDownList("OtherScheduleNotPaidId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12">
+                                @*<input type="button" onclick="Bank_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                <a href="javascript:void(0);" onclick="SellInvoiceInstallmentSchedule_Module.Paid(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="fa fa-plus-circle m-1"></i>تحصيل القسط</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+            </div>
+
+
+        </div>
+    </div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/SellInvoiceInstallmentSchedule.js"></script>
+}
+
+

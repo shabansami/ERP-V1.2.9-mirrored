@@ -1,0 +1,518 @@
+﻿
+@model ERP.DAL.ProductionOrder
+@using ERP.DAL
+@using ERP.Web.Utilites;
+@{
+    ViewBag.Title = "RegisterOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var generalAccount = Lookups.GeneralExpenses;
+
+}
+@Html.Hidden("ItemAcceptNoBalance")
+@section PageTitle1{أوامر الانتاج}
+@section PageTitle2{انشاء أمر انتاج منتج }
+@section Button1{ادارة أوامر الانتاج}
+@section Button1Link{/ProductionOrders/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+
+
+@using (Html.BeginForm("RegisterOrder", "ProductionOrders", FormMethod.Post, htmlAttributes: new { id = "form1" }))
+{
+    <div class="row din-bold">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+
+                    <h4>البيانات الاساسية</h4>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                @*<label>ملاحظة هامة</label>*@
+                                <div class="alert alert-primary" role="alert">
+                                    لابد من التأكد قبل أمر الانتاج من تحويل الاصناف الخام الى (مخزن تحت التصنيع) المحدد مسبقا فى الاعدادات العامة
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>الفرع</label>
+                                <input type="text" value="@ViewBag.BranchName" disabled class="form-control din-med" style="text-align:right;" />
+                                @Html.HiddenFor(m => m.BranchId)
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>مخزن التصنيع (المنتج النهائى)</label>
+                                <input type="text" value="@ViewBag.ProductionStoreName" disabled class="form-control din-med" style="text-align:right;" />
+                                @Html.HiddenFor(m => m.ProductionStoreId)
+                            </div>
+                        </div>
+                        <div class="col-xl-4">
+                            <!--begin::Select-->
+                            <div class="form-group">
+                                <label>مخزن تحت التصنيع)</label>
+                                <input type="text" value="@ViewBag.ProductionUnderStoreName" disabled class="form-control din-med" style="text-align:right;" />
+                                @Html.Hidden("ProductionUnderStoreId", (Guid)ViewBag.ProductionUnderStoreId)
+                                @Html.Hidden("ItemCostCalculateId", (int)ViewBag.ItemCostCalculateId)
+                            </div>
+                            <!--end::Select-->
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>تاريخ امر الانتاج</label>
+                                @Html.TextBoxFor(m => m.ProductionOrderDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @placeholder = "ادخل تاريخ امر الانتاج", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>التوليفة @*<span class="alert-warning">فى حالة التوليفة من نوع تقطيع سيتم احتساب الكمية واحد</span>*@</label>
+                                @Html.DropDownList("ItemProductionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="form-group required">
+                                <label>الكمية</label>
+                                <input type="number" id="OrderQuantity" value="1" class="form-control din-med" />
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>لون المنتج</label>
+                                <div class="input-group">
+                                    <select id="OrderColorId" name="OrderColorId" class="form-control" onchange="onColorChange();"></select>
+                                    <div class="input-group-prepend">
+                                        <span id="SelectedColor"></span>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control", @placeholder = "ادخل ملاحظات امر الانتاج" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>.</label>
+                                <button type="button" onclick="ProductionOrder_Module.addItemProductionDetails();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">انشاء اصناف التوليفة</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row din-bold div_itemPro" style="display:none;">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+
+                    <h4>بيانات التوليفة</h4>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-xl-7">
+                            <!--begin::List Widget 2-->
+                            <div class="card bg-soft-success">
+                                <!--begin::Header-->
+                                <div class="card-header ">
+                                    <h3 class="card-title font-weight-bolder text-success">الصنف/الاصناف الداخلة</h3>
+                                    @Html.Hidden("isFirstInit", "0")
+
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="card-body pt-2">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableItemIn">
+                                                <thead>
+
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot></tfoot>
+                                            </table>
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::List Widget 2-->
+                        </div>
+                        <div class="col-xl-2">
+                            <!--begin::List Widget 2-->
+                            <div class="card bg-soft-danger">
+                                <!--begin::Header-->
+                                <div class="card-header border-0">
+                                    <h1></h1>
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="card-body pt-1">
+                                    <!--begin::Item-->
+                                    <div class="d-flex align-items-center mb-10">
+
+                                        <!--begin::Text-->
+                                        <div class="d-flex flex-column font-weight-bold">
+                                            @*<a href="#" class="text-dark text-hover-primary mb-1 font-size-lg"><<<<</a>
+                                                <span class="text-muted"></span>*@
+                                            <img src="~/Assets/media/logos/transfer-3787.png" class="h-75 align-self-end" />
+                                        </div>
+                                        <!--end::Text-->
+                                    </div>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <!--end::Item-->
+
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::List Widget 2-->
+                        </div>
+
+                        <div class="col-xl-3">
+                            <!--begin::List Widget 2-->
+                            <div class="card bg-soft-success">
+                                <!--begin::Header-->
+                                <div class="card-header">
+                                    <h3 class="font-weight-bolder text-success">الصنف/الاصناف الخارجة</h3>
+
+                                </div>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="card-body pt-2">
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableItemOut">
+                                                <thead>
+
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot></tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::List Widget 2-->
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row din-bold div_itemPro" style="display:none;">
+        <div class="col-12">
+            <div class="card ">
+                <div class="card-header">
+
+                    <h4 class="card-label">اضافة اصناف داخلة اخرى</h4>
+
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label> المجموعة الاساسية</label>
+                                <input style="text-align:right;" name="groupBasicMaterial" type="text" class="form-control form-control-solid form-control-lg" id="groupBasicMaterial" autocomplete="off" placeholder="اختر عنصر من القائمة" />
+                                <span class="form-text text-muted">اختر مجموعة</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الصنف</label>
+                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100", @onchange = "ProductionOrder_Module.getBalanceOnStoreChange();" })
+                                <span class="form-text text-muted">اختر الصنف</span>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <label>الكمية</label>
+                                <input type="number" class="form-control form-control-solid form-control-lg" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onchange="ProductionOrder_Module.onQuantityChangeDiffBalance();" />
+                                <span class="form-text text-muted">ادخل كمية الصنف</span>
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="col-xl-6">
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <label>تكلفة المنتج</label>
+                                <input type="number" class="form-control form-control-solid form-control-lg" name="ItemCost" id="ItemCost" placeholder="" value="0" readonly />
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="col-xl-4">
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between flex-column font-size-lg">
+                                    <div class="d-flex flex-column text-md-center">
+                                        <span class="font-size-lg font-weight-bolder mb-1">رصيد المخزن</span>
+                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="balanceCurrentStore">0</span>
+                                        @*<span>Taxes Included</span>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-8">
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <label>.</label>
+                                <button type="button" onclick="ProductionOrder_Module.addOtherItemIn();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة منتج خام</button>
+                            </div>
+                            <!--end::Input-->
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="row din-bold div_itemPro" style="display:none;">
+        <div class="col-12">
+            <div class="card ">
+                <div class="card-header">
+                    <h4>تكاليف الانتاج</h4>
+                </div>
+                <div class="card-body">
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label> مسمى التكلفة</label>
+                                    <input style="text-align:right;" name="accountTree" placeholder="اختر مسمى التكلفة" type="text" class="form-control alert-success" id="accountTree" autocomplete="off" />
+                                    <input type="hidden" id="ExpenseTypeId" />
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>قيمة التكلفة</label>
+                                    <input type="number" class="form-control form-control-solid form-control-lg" name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة التكلفة" value="0" />
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>ملاحظات</label>
+                                    <textarea class="form-control din-med" name="Note" id="Note" placeholder="ملاحظات التكلفة"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>.</label>
+                                    <button type="button" onclick="ProductionOrder_Module.addProductionOrderExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة تكلفة</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>التكاليف المسجلة</label>
+                                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtProductionOrderExpenses">
+                                        <thead>
+
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between flex-column font-size-lg">
+                                        <div class="d-flex flex-column text-md-center">
+                                            <span class="font-size-lg font-weight-bolder mb-1">اجمالى التكاليف</span>
+                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalExpenses">0</span>
+                                            @*<span>Taxes Included</span>*@
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12">
+                                @*<input type="button" onclick="ItemIntialBalance_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                <a href="javascript:void(0);" onclick="ProductionOrder_Module.SubmitForm(this,false)" class="btn btn-warning font-weight-bold  px-15  w-100"><i class="fa fa-plus-circle m-1"></i>حفظ العملية</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+}
+
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ProductionOrder.js"></script>
+    <!--begin::Page Scripts(used by this page)-->
+    @*<script src="~/Assets/JSCustom/JSMetronic/wizard-ProductionOrder.js"></script>*@
+    <!--end::Page Scripts-->
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            ProductionOrder_Module.initItemIn();
+            ProductionOrder_Module.initItemOut();
+            ProductionOrder_Module.initProductionOrderExpense();
+
+
+            $.get("/SharedDataSources/BindProductionOrderColors", null, function (data) {
+                $("#OrderColorId").empty();
+                $("#OrderColorId").append("<option value=>اختر عنصر من القائمة</option>");
+                $.each(data, function (index, row) {
+                    $("#OrderColorId").append("<option value='" + row.Id + "' style='background-color:" + row.ColorHEX + "'>" + row.Name + "</option>");
+                });
+
+            });
+
+
+
+        });
+        function onColorChange() {
+            var bgColor = $("#OrderColorId option:selected").css("background-color");
+            var hexColor;
+            if (bgColor.search("rgb") == -1) {
+                hexColor = bgColor;
+            }
+            else {
+                bgColor = bgColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                function hex(x) {
+                    return ("0" + parseInt(x).toString(16)).slice(-2);
+                }
+                hexColor = "#" + hex(bgColor[1]) + hex(bgColor[2]) + hex(bgColor[3]);
+            }
+            $("#SelectedColor").html("<div style='background-color:" +
+                hexColor + ";width:30px;height:40px'></div>.");
+        }
+    </script>
+    <script>
+        var treeBasic;
+        var accounTree;
+
+        $(document).ready(function () {
+            //الانتقال بين الحقول بالانتر وعند اضافة صنف
+            $("#Quantity").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    ProductionOrder_Module.addItemMaterials();
+                }
+            });
+            $("#ItemId").on('select2:select', function () {
+                $("#Quantity").focus().select();
+
+            })
+
+        //المجموعة الاساسية للمنتج الخام
+        var dsBasicMaterial = [];
+        $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
+            treeBasicMaterial.setSource(data);
+        });
+
+        treeBasicMaterial = $('#groupBasicMaterial').comboTree({
+            source: dsBasicMaterial,
+            isMultiple: false,
+            collapse: true,
+            selected: []
+            //selectableLastNode: true
+
+        });
+        treeBasicMaterial.onChange(function () {
+            if (treeBasicMaterial.getSelectedIds() != null) {
+                var currentSelected = treeBasicMaterial.getSelectedIds()[0];
+
+                $.get("/SharedDataSources/ItemsOnGroupChanged", { id: currentSelected }, function (data) {
+                    $("#ItemId").empty();
+                    $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                    $.each(data, function (index, row) {
+                        $("#ItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                    });
+                });
+
+            }
+        });
+                            // ============== نهاية المجموعة الاساسية
+
+
+            //دليل الحسابات
+            var dsTree = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount }, function (data) {
+                accounTree.setSource(data);
+            });
+
+            accounTree = $('#accountTree').comboTree({
+                source: dsTree,
+                isMultiple: false,
+                collapse: true,
+                //selectableLastNode: true
+
+            });
+            accounTree.onChange(function () {
+                if (accounTree.getSelectedIds() != null) {
+                    $('#ExpenseTypeId').val(accounTree.getSelectedIds()[0]);
+                }
+            });
+            // ============== نهاية شجرة الحسابات
+
+
+                        });
+    </script>
+
+    @if (ViewBag.Msg != null)
+    {
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+          // رسالة خطأ عند عدم تحديد المخزن التصنيع الداخلى من شاشة الاعدادات العامة
+        toastr.error('@ViewBag.Msg', '');
+            });
+        </script>
+    }
+
+}
+

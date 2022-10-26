@@ -1,0 +1,112 @@
+﻿@model ERP.DAL.StoresTransfer
+@using ERP.DAL
+
+@{
+    ViewBag.Title = "ApprovalStore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section PageTitle1{التحويل المخزنى }
+@section PageTitle2{اعتماد مخزنى لعملية تحويل }
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+               
+                        <h4 class=" din-bold">
+                            اعتماد مخزنى لعملية تحويل
+                        </h4>
+                    </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم العملية</label>
+                                @Html.TextBoxFor(m => m.StoreTransferNumber, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ العملية</label>
+                                @Html.TextBoxFor(m => m.TransferDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        @*<div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>اجمالى العدد</label>
+                                    @Html.TextBoxFor(m => m.StoresTransferDetails.Where(x=>!x.IsDeleted).Sum(x=>(double?)x.Quantity??0), new { @class = "form-control", @readonly = "readonly" })
+                                </div>
+                            </div>*@
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th style="display:none;">ItemId</th>
+                                        <th>اسم الصنف</th>
+                                        <th>الكمية المحولة</th>
+                                        <th>الكمية المستلمة</th>
+                                        <th>المخزن</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.StoresTransferDetails.Where(x => !x.IsDeleted))
+                                    {
+                                        <tr>
+                                            <td class="selectedDay" style="display:none;">@item.Id</td>
+                                            <td style="display:none;">@item.ItemId</td>
+                                            <td>@item.Item.Name</td>
+                                            <td>@item.Quantity</td>
+                                            <td>
+                                                <input type="text" class="form-control" value="@item.QuantityReal" />
+                                            </td>
+                                            <td>@(item.StoresTransfer?.StoreFrom?.Name)</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            @*<input type="button" onclick="Bank_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="StoresTransferApproval_Module.ApprovalInvoice();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fas fa-check m-1 "></i>اعتمــاد</a>
+                            <a href="/StoresTransferApprovals/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fas fa-caret-left m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+   
+@section Scripts
+{
+
+    <script src="~/Assets/JSCustom/StoresTransferApproval.js"></script>
+    <script>
+        $(document).ready(function () {
+            StoresTransferApproval_Module.initItemDetails();
+        });
+
+
+    </script>
+}
+
+
+

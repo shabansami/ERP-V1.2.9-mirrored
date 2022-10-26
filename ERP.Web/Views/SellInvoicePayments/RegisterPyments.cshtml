@@ -1,0 +1,277 @@
+﻿@model ERP.Web.ViewModels.SellInvoicePaymentVM
+@using ERP.DAL
+
+@{ ViewBag.Title = "RegisterPyments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    bool anyIsPayed = false;
+    if (Model.sellInvoicePayments.Where(x => x.IsPayed).Any() || ViewBag.Pay != null)
+    {
+        anyIsPayed = true;
+
+    } }
+
+
+@section PageTitle1{دفعات فاتورة بيع}
+@section PageTitle2{تسجيل دفعات لفاتورة}
+@section Button1{ادارة دفعات فواتير الاجل}
+@section Button1Link{/SellInvoicePayments/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">تسجيل دفعات لفاتورة</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>رقم الفاتورة</label>
+                            @Html.TextBoxFor(m => m.SellInvoiceId, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>العميل</label>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>تاريخ الفاتورة</label>
+                            @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>صافى الفاتورة</label>
+                            @Html.TextBoxFor(m => m.Safy, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>المبلغ المتبقى</label>
+                            @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    @if (anyIsPayed)
+                    {
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>الخزنة</label>
+                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+            </div>
+        </div>}
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+<!--end::Container-->
+@{ if (!anyIsPayed)
+    {
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">تعريف الدفعات</h3>
+                </div>
+            </div>
+            @using (Html.BeginForm("SellInvoicePayments", "GeneratePyments", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    @Html.HiddenFor(model => model.InvoiceGuid)
+    @Html.HiddenFor(model => model.SellInvoiceId)
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>المبلغ المتبقى</label>
+                @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @onkeyup = "SellInvoicePayment_Module.calcPayValue()" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>المدة بالاشهر</label>
+                @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", @type = "number", @onkeyup = "SellInvoicePayment_Module.calcPayValue()" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>قيمة الدفعة</label>
+                @Html.TextBoxFor(m => m.PayValue, new { @class = "form-control", @type = "number" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>تاريخ اول دفعة</label>
+                @Html.TextBoxFor(m => m.FirstDueDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+            </div>
+        </div>
+    </div>
+
+</div>
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-lg-12" style="text-align:left;">
+                                @*<input type="button" onclick="City_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                <a href="javascript:void(0);" onclick="SellInvoicePayment_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 "><i class="fa fa-plus-circle m-1"></i>انشاء الدفعات</a>
+                            </div>
+                        </div>
+                    </div>}
+        </div>
+    </div>
+</div>
+                <div class="row din-bold">
+                    <div class="col-12">
+                        <div class="card card-custom gutter-b">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label">تعريف الدفعات</h3>
+                                </div>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                                            <thead>
+                                                <tr>
+                                                    <th style="display:none;">Id</th>
+                                                    <th style="display:none;">SellInvoiceId</th>
+                                                    <th>تاريخ سداد الدفعة</th>
+                                                    <th>المبلغ</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.sellInvoicePayments)
+                                                {
+                                <tr>
+                                    <td class="selectedRow" style="display:none;">@item.Id</td>
+                                    <td style="display:none;">@Model.SellInvoiceId</td>
+                                    <td>
+                                        <input type="date" class="form-control" value="@item.DueDate.Value.ToString("yyyy-MM-dd")" />
+                                    </td>
+                                    <td>
+                                        <input type="number" class="form-control" value="@item.Amount" />
+                                    </td>
+                                </tr>}
+                                            </tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="card-footer">
+                                <div class="row">
+                                    <div class="col-12" style = "text-align:left;">
+                                        @*<input type="button" onclick="City_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                        <a href="javascript:void(0);" onclick="SellInvoicePayment_Module.RegisterPyments(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="fa fa-plus-circle m-1"></i>تسجيل الدفعات </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> }
+            else
+            {
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">تعريف الدفعات</h3>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">Id</th>
+                                    <th style="display:none;">SellInvoiceId</th>
+                                    <th style="display:none;">PayGuid</th>
+                                    <th>تاريخ سداد الدفعة</th>
+                                    <th>المبلغ</th>
+                                    <th>حالة السداد</th>
+                                    <th>عمليات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ foreach (var item in Model.sellInvoicePayments)
+                                    {
+                                        var payed = "";
+                                        if (item.IsPayed)
+                                        { payed = "تم السداد"; }
+
+                                        else
+                                        { payed = "لم يتم السداد بعد"; }
+                    <tr>
+                        <td class="selectedRow" style="display:none;">@item.Id</td>
+                        <td style="display:none;">@Model.SellInvoiceId</td>
+                        <td style="display:none;">@item.PayGuid</td>
+                        <td>@item.DueDate.Value.ToString("yyyy-MM-dd")</td>
+                        <td>@item.Amount</td>
+                        <td>@payed</td>
+                        <td>
+                            @if (item.IsPayed)
+                            {
+        <div class="btn-group">
+            <span class="label label-lg font-weight-bold label-light-success label-inline">تم السداد</span>
+        </div> }
+    else
+    {
+<div class="btn-group">
+    <a href="javascript:;" onclick=SellInvoicePayment_Module.Paid('@item.PayGuid') class="btn btn-sm btn-clean btn-icUrln" title="سداد">
+        <i class="la la-credit-card"></i>
+    </a>
+</div>}
+                        </td>
+                    </tr> } }
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+            </div>
+        </div>
+    </div>
+</div> } }
+
+@section Scripts
+{
+
+    <script src="~/Assets/JSCustom/SellInvoicePayment.js"></script>
+    <script>
+        $(document).ready(function () {
+            SellInvoicePayment_Module.initItemDetails();
+        });
+
+
+    </script>
+}
+
+
+
+

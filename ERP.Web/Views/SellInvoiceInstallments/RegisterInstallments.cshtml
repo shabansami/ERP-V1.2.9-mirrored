@@ -1,0 +1,248 @@
+﻿@model ERP.Web.ViewModels.SellInvoiceInstallmentVM
+@using ERP.DAL
+@using ERP.Web.Utilites
+
+@{ ViewBag.Title = "RegisterInstallments";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+@section PageTitle1{انشاء أقساط/مبيعات آجله}
+@section PageTitle2{انشاء أقساط/مبيعات آجله}
+@section Button1{ادارة اقساط فواتير القسط}
+@section Button1Link{/SellInvoiceInstallments/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">البيانات الاساسية</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>رقم الفاتورة</label>
+                            @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.HiddenFor(m => m.SellInvoiceId)
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>العميل</label>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>تاريخ الفاتورة</label>
+                            @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>صافى الفاتورة</label>
+                            @Html.TextBoxFor(m => m.Safy, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>المبلغ المتبقى</label>
+                            @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Container-->
+
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">تفاصيل القسط</h3>
+                </div>
+            </div>
+            @using (Html.BeginForm("SellInvoiceInstallments", "GeneratePyments", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    @Html.HiddenFor(model => model.SellInvoiceId)
+    @Html.HiddenFor(m => m.IsSell)
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>المبلغ المتبقى</label>
+                @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>المبلغ المقدم</label>
+                @Html.TextBoxFor(m => m.PayedValue, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>نسبة العمولة</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form-control", @type = "number", @onkeyup = "SellInvoiceInstallment_Module.calcPayValue('commission')" })
+                    @Html.HiddenFor(m => m.CommissionVal)
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <label class="radio radio-single radio-primary">
+                                <input type="radio" name="radios2" id="rdo_commissionPerc" checked onchange="SellInvoiceInstallment_Module.onRdoCommissionPercChanged();" />
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>المبلغ الاجمالى</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    @Html.TextBoxFor(m => m.TotalValue, new { @class = "form-control", @onkeyup = "SellInvoiceInstallment_Module.calcPayValue('total')" })
+                    <div class="input-group-append">
+                        <span class="input-group-text">
+                            <label class="radio radio-single radio-primary">
+                                <input type="radio" name="radios2" id="rdo_total" onchange="SellInvoiceInstallment_Module.onRdoTotalChanged();" />
+                                <span></span>
+                            </label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>المدة بالاشهر</label>
+                @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", @type = "number", @onkeyup = "SellInvoiceInstallment_Module.calcPayValue()" })
+            </div>
+        </div>
+
+
+        <div class="col-lg-3">
+            <div class="form-group required">
+                <label>قيمة الدفعة</label>
+                @Html.TextBoxFor(m => m.PayValue, new { @class = "form-control", @type = "number" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group required">
+                <label>تاريخ اول دفعة</label>
+                @Html.TextBoxFor(m => m.FirstDueDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>قيمة الربح</label>
+                @Html.TextBoxFor(m => m.ProfitValue, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>صافى المبلغ المراد تقسيطة</label>
+                @Html.TextBoxFor(m => m.FinalSafy, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+            </div>
+        </div>
+    </div>
+
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a href="javascript:void(0);" onclick="SellInvoiceInstallment_Module.SubmitForm(this,@Model.IsSell);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 "><i class="fa fa-plus-circle m-1"></i>انشاء الدفعات</a>
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">الاقساط</h3>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">Id</th>
+                                    <th style="display:none;">SellInvoiceId</th>
+                                    <th>تاريخ سداد الدفعة</th>
+                                    <th>المبلغ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.sellInvoiceInstallmentSchedules)
+                                {
+                    <tr>
+                        <td class="selectedRow" style="display:none;">@item.ScheduleId</td>
+                        <td style="display:none;">@Model.SellInvoiceId</td>
+                        <td>
+                            <input type="date" class="form-control" value="@item.InstallmentDate.Value.ToString("yyyy-MM-dd")" />
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" value="@item.Amount" />
+                        </td>
+                    </tr>}
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-12" style = "text-align:left;">
+                        @*<input type="button" onclick="City_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                        <a href="javascript:void(0);" onclick="SellInvoiceInstallment_Module.RegisterInstallments();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold "><i class="fa fa-plus-circle m-1"></i>تسجيل الاقساط </a>
+                        <a href="javascript:void(0);" onclick="SellInvoiceInstallment_Module.RegisterInstallments('upload');" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold "><i class="fa fa-plus-circle m-1"></i>تسجيل الاقساط ورفع ملفات </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script src="~/Assets/JSCustom/SellInvoiceInstallment.js"></script>
+    <script>
+        $(document).ready(function () {
+            SellInvoiceInstallment_Module.initItemDetails();
+            $("#TotalValue").attr('disabled', 'disabled');
+
+        });
+
+
+    </script>
+}

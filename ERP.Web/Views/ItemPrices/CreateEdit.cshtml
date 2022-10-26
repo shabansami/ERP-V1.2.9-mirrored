@@ -1,0 +1,131 @@
+﻿
+@model ERP.Web.ViewModels.ItemPriceVM
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+
+    title = "تسجيل سياسات اسعار لعميل";
+    btn = "تسجيل";
+    icon = "fa fa-plus-circle m-1"; }
+
+@section PageTitle1{تسجيل سياسات اسعار العملاء}
+@section PageTitle2{@title }
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "ItemPrices", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-6 alert alert-primary">
+            <div class="form-group">
+                <div>
+                    <label> فئات العملاء</label>
+                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control  din-med", @onchange = "ItemPrice_Module.getCustomerOnCategoryChange();" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 alert alert-primary">
+            <div class="form-group required">
+                <div>
+                    <label> العميل</label>
+                    @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 alert alert-primary">
+            <div class="form-group required">
+                <label>سياسة الاسعار</label>
+                @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control " })
+            </div>
+        </div>
+        <div class="col-lg-4 alert alert-primary">
+            <div class="form-group">
+                <label>نوع الصنف</label>
+                @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-4 alert alert-primary">
+            <div class="form-group ">
+                <label>.</label>
+                <input type="submit" @*onclick="Item_Module.SubmitFormTreePrice()"*@ value="بحث" style="text-align:center;" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" />
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group ">
+                <label>الاصناف <span class="badge badge-soft-warning fa-1x">يتم ترك السعر المخصص بصفر فى حالة عدم الرغبة فى تسجيله</span></label>
+                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableTreePrice">
+                    <thead>
+                        <tr>
+                            <th style="display:none;">ItemPriceId</th>
+                            <th style="display:none;">ItemId</th>
+                            <th>اسم الصنف</th>
+                            <th>سعر البيع الاساسى</th>
+                            <th>سعر البيع المخصص</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.ItemsDetails)
+                        {
+        <tr>
+            <td class="selectedDay" style="display:none;">@item.ItemPriceId</td>
+            <td style="display:none;">@item.ItemId</td>
+            <td>@item.ItemName</td>
+            <td>@item.SellPrice</td>
+            <td>
+                <input type="text" class="form-control" value="@item.SellPriceCustome" />
+            </td>
+        </tr>}
+                    </tbody>
+                    <tfoot></tfoot>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            <a href="javascript:void(0);" onclick="ItemPrice_Module.SubmitForm(this);"  class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ItemPrice.js"></script>
+    <script>
+        $(document).ready(function () {
+            ItemPrice_Module.initItemDetails();
+        });
+
+
+    </script>
+    @if (ViewBag.ErrorMsg != null)
+    {
+<script>
+            $(document).ready(function () {
+                toastr.error('@ViewBag.ErrorMsg', '');
+            })
+</script>}
+}
+
+

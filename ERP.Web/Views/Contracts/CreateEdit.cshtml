@@ -1,0 +1,526 @@
+﻿
+@model ERP.DAL.Contract
+@using ERP.DAL
+@{
+    ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn, icon = string.Empty;
+
+    double salary = 0;   // الراتب)
+    double totalSalaryAddition = 0; // اجمالى البدلات
+    double totalSalaryPenalty = 0; // اجمالى الخصومات
+    double totalDefinitionVacations = 0; // اجمالى الاجازات المسموح بها
+    double safy = 0; // صافى الراتب
+    if (Model.Id == Guid.Empty)
+    {
+        title = "تسجبل عقد لموظف";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+
+        title = "تعديل عقد موظف ";
+        btn = "تعديل";
+        icon = "fa fa-edit  m-1";
+        salary = Model.Salary;
+        totalSalaryAddition = Model.TotalSalaryAddition;
+        totalSalaryPenalty = Model.TotalSalaryPenalties;
+        totalDefinitionVacations = Model.TotalDefinitionVacations;
+        safy = (Model.Salary + Model.TotalSalaryAddition) - Model.TotalSalaryPenalties;
+    }
+}
+
+@section PageTitle1{عقود الموظفين}
+@section PageTitle2{@title }
+@section Button1{ادارة عقود الموظفين}
+@section Button1Link{/Contracts/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                <div class="card-header din-bold">
+                    <ul class="twitter-bs-wizard-nav">
+                        <li class="nav-item">
+                            <a href="#seller-details" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">1. البيانات الاساسية للموظف</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details2" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">2. تسجيل البدلات</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details3" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">3. تسجيل الخصومات</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details4" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">4. تسجيل اجازات العقد</h4>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#seller-details5" class="nav-link" data-toggle="tab">
+                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                    <i class="bx bx-list-ul"></i>
+                                </div>
+                                <h4 style="margin-top:30px;">5.ملخص وحفظ</h4>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body din-bold">
+
+                    @using (Html.BeginForm("CreateEdit", "Contracts", FormMethod.Post, htmlAttributes: new { id = "kt_form" }))
+                    {
+                        <!--begin::Wizard Step 1 البيانات الاساسية-->
+                        <div class="tab-content twitter-bs-wizard-tab-content">
+                            <div class="tab-pane" id="seller-details">
+                                <div class="text-center mb-4">
+                                    <h5>البيانات الاساسية</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <div class="form-group required">
+                                            <label>الادارة</label>
+                                            
+                                            @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med removeClassInValid", @onchange = "Contract_Module.getEmployeesDepartmentChange()" })
+                                            @Html.HiddenFor(model => model.Id)
+                                            @Html.HiddenFor(model => model.ConGuid)
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <div class="form-group required">
+                                            <label>الموظف</label>
+                                            @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "removeClassInValidEmp()" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <!--begin::Select-->
+                                        <div class="form-group required">
+                                            <label>نوع العقد</label>
+                                            @Html.DropDownList("ContractTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                            <span class="form-text text-muted">اختر نوع العقد </span>
+                                        </div>
+                                        <!--end::Select-->
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <!--begin::Select-->
+                                        <div class="form-group required">
+                                            <label>نوع صرف الراتب</label>
+                                            @Html.DropDownList("ContractSalaryTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                            <span class="form-text text-muted">اختر نوع صرف الراتب للعقد </span>
+                                        </div>
+                                        <!--end::Select-->
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <!--begin::Select-->
+                                        <div class="form-group required">
+                                            <label>الراتب الاساسى</label>
+                                            @Html.TextBoxFor(m => m.Salary, htmlAttributes: new { @class = "form-control din-med", @type = "number", @onkeyup = "Contract_Module.onSalaryChange()" })
+                                            <span class="form-text text-muted">ادخل راتب الموظف </span>
+                                        </div>
+                                        <!--end::Select-->
+                                    </div>
+
+                                </div>
+                                <script>
+                                    function removeClassInValidDepart() {
+                                        $(".fv-help-block").each(function () {
+                                            if ($(this).attr('data-field') === 'DepartmentId') {
+                                                $(this).hide();
+                                            }
+                                        });
+                                    }
+                                    function removeClassInValidEmp() {
+                                        $(".fv-help-block").each(function () {
+                                            if ($(this).attr('data-field') === 'EmployeeId') {
+                                                $(this).hide();
+                                            }
+                                        });
+                                    }
+                                </script>
+
+                                <div class="row">
+                                    <div class="col-xl-4">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>بداية العقد</label>
+                                            @Html.TextBoxFor(model => model.FromDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "date" })
+                                            <span class="form-text text-muted">ادخل بداية العقد </span>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>عدد أشهر العقد</label>
+                                            @*@Html.TextBoxFor(model => model.ToDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "date" })*@
+                                            @Html.TextBoxFor(model => model.NumberMonths, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "number" })
+                                            <span class="form-text text-muted">ادخل عدد اشهر العقد </span>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="col-xl-4">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>ساعه الافرتايم</label>
+                                            @Html.TextBoxFor(model => model.OverTime, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "number" })
+                                            <span class="form-text text-muted">ادخل ساعه الافرتايم بالنسبة لساعه العمل العادية (مثلا) الساعه تحسب بساعه ونص </span>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="next" style="margin-bottom:10px;">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            التالي <i class="bx bx-chevron-left ms-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+                            <div class="tab-pane" id="seller-details2">
+                                <div class="text-center mb-4">
+                                    <h5>اضافة بدلات الموظف</h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>نوع الاضافة</label>
+                                            @Html.DropDownList("SalaryAdditionTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "Contract_Module.onSalaryAdditionTypeChange()" })
+                                            <span class="form-text text-muted">اختر نوع الاضافة</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group required">
+                                            <label>مسمى البدل</label>
+                                            @Html.DropDownList("SalaryAdditionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", required= "required" })
+                                            <span class="form-text text-muted">اختر مسمى البدل</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <!--begin::Input-->
+                                        <div class="form-group required">
+                                            <label>قيمة البدل</label>
+                                            <input type="number" class="form-control form-control-solid form-control-lg" name="SalaryAdditionAmount" id="SalaryAdditionAmount" placeholder="قيمة البدل" value="0" />
+                                            <span class="form-text text-muted">ادخل قيمة البدل</span>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group ">
+                                            <label>ملاحظات</label>
+                                            <textarea id="SalaryAdditionNotes" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>.</label>
+                                            <button type="button" onclick="Contract_Module.addSalaryAddition();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة بدل</button>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>البدلات المسجلة</label>
+                                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSalaryAddition">
+                                        <thead>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between flex-column font-size-lg">
+                                        <div class="d-flex flex-column text-md-center">
+                                            <span class="font-size-lg font-weight-bolder mb-1">اجمالى البدلات</span>
+                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalSalaryAddition">@totalSalaryAddition</span>
+                                            @*<span>Taxes Included</span>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-right me-1"></i> السابق
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            التالي <i class="bx bx-chevron-left ms-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--end::Wizard Step 2-->
+                            <!--begin::Wizard Step 3 ادخال خصومات الموظف-->
+                            <div class="tab-pane" id="seller-details3">
+                                <div class="text-center mb-4">
+                                    <h5>
+                                        اضافة خصومات الموظف
+                                    </h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>نوع الخصم</label>
+                                            @Html.DropDownList("SalaryPenaltyTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "Contract_Module.onSalaryPenaltyTypeChange()" })
+                                            <span class="form-text text-muted">اختر نوع الخصم</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group required">
+                                            <label>مسمى الخصم</label>
+                                            @Html.DropDownList("SalaryPenaltyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                            <span class="form-text text-muted">اختر مسمى الخصم</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <!--begin::Input-->
+                                        <div class="form-group required">
+                                            <label>قيمة الخصم</label>
+                                            <input type="number" class="form-control form-control-solid form-control-lg" name="SalaryPenaltyAmount" id="SalaryPenaltyAmount" placeholder="قيمة الخصم" value="0" />
+                                            <span class="form-text text-muted">ادخل قيمة الخصم</span>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group ">
+                                            <label>ملاحظات</label>
+                                            <textarea id="SalaryPenaltyNotes" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>.</label>
+                                            <button type="button" onclick="Contract_Module.addSalaryPenalty();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة خصــم</button>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>الخصومات المسجلة</label>
+                                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSalaryPenalty">
+                                        <thead>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between flex-column font-size-lg">
+                                        <div class="d-flex flex-column text-md-center">
+                                            <span class="font-size-lg font-weight-bolder mb-1">اجمالى الخصومات</span>
+                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalSalaryPenalty">@totalSalaryPenalty</span>
+                                            @*<span>Taxes Included</span>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-right me-1"></i> السابق
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            التالي <i class="bx bx-chevron-left ms-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--end::Wizard Step 3-->
+                            <!--begin::Wizard Step 4 ادخال اجازات الموظف-->
+
+                            <div class="tab-pane" id="seller-details4">
+                                <div class="text-center mb-4">
+                                    <h5>
+                                        اضافة أجازات العقد المسموح بها للموظف
+                                    </h5>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>نوع الاجازة</label>
+                                            @Html.DropDownList("VacationTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                            <span class="form-text text-muted">اختر نوع الاجازة</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-xl-6">
+                                        <!--begin::Input-->
+                                        <div class="form-group required">
+                                            <label>عدد الايام</label>
+                                            <input type="number" class="form-control form-control-solid form-control-lg" name="DayNumber" id="DayNumber" placeholder="عدد الايام" value="0" />
+                                            <span class="form-text text-muted">ادخل عدد الايام</span>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-xl-12">
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            <label>.</label>
+                                            <button type="button" onclick="Contract_Module.addDefinitionVacation();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة اجازة</button>
+                                        </div>
+                                        <!--end::Input-->
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>الاجازات المسموح بها المسجلة</label>
+                                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtDefinitionVacation">
+                                        <thead>
+                                        </thead>
+                                        <tbody></tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between flex-column font-size-lg">
+                                        <div class="d-flex flex-column text-md-center">
+                                            <span class="font-size-lg font-weight-bolder mb-1">اجمالى الاجازات المسموح بها</span>
+                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalDefinitionVacations">@totalDefinitionVacations</span>
+                                            @*<span>Taxes Included</span>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-right me-1"></i> السابق
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            التالي <i class="bx bx-chevron-left ms-1"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--end::Wizard Step 2-->
+                            <!--begin::Wizard Step 4  ملخص-->
+                            <div class="tab-pane" id="seller-details5">
+                                <div class="text-center mb-4">
+                                    <h5>
+                                        ملخص للراتب
+                                    </h5>
+                                </div>
+                                <div class="form-group">
+                                    <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                                        <div class="d-flex flex-column mb-10 mb-md-0">
+                                            @*<div class="font-weight-bolder font-size-h6-lg mb-3">ملخص الراتب</div>*@
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">الراتب الاساسى:</span>
+                                                <span class="text-right" id="salary2">@salary</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">اجمالى البدلات:</span>
+                                                <span class="text-right" id="TotalSalaryAddition2">@totalSalaryAddition</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">اجمالى الخصومات:</span>
+                                                <span class="text-right" id="TotalSalaryPenalty2">@totalSalaryPenalty</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">اجمالى الاجازات المسموح بها:</span>
+                                                <span class="text-right" id="TotalDefinitionVacations2">@totalDefinitionVacations</span>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-column text-md-right">
+                                            <span class="font-size-lg font-weight-bolder mb-1">صافى المرتب</span>
+                                            <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="SafySalary">@safy</span>
+                                            @*<span>Taxes Included</span>*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--begin::Input-->
+                                <div class="form-group">
+                                    @*<label>ملاحظة هامة</label>*@
+                                    <div class="alert alert alert-primary" role="alert">
+                                        صافى قيمة الراتب= ( الراتب الاساسى + إجمالي قيمة البدلات  - إجمالي الخصومات  )
+                                    </div>
+                                </div>
+                                <!--end::Input-->
+                                <ul class="pager wizard twitter-bs-wizard-pager-link" style="margin-bottom:10px;">
+                                    <li class="previous">
+                                        <a href="javascript: void(0);" class="btn btn-primary">
+                                            <i class="bx bx-chevron-right me-1"></i> السابق
+                                        </a>
+                                    </li>
+                                    <li class="next">
+                                        <button type="button" class="btn btn-success px-9 py-4" onclick="Contract_Module.SubmitForm(this,false)" data-wizard-type="action-submit">
+                                            <span><i class="fa fa-plus m-1"></i></span>حفظ العقد
+                                        </button>
+                                        <button type="button" class="btn btn-success px-9 py-4" onclick="Contract_Module.SubmitForm(this,true)" data-wizard-type="action-submit">
+                                            <span><i class="fa fa-plus m-1"></i></span>حفظ العقد ورفع ملفات
+                                        </button>
+
+                                    </li>
+                                </ul>
+                            </div>
+                            <!--end::Wizard Step 4-->
+                            <!--begin::Wizard Actions-->
+
+
+                        </div> <!--end::Wizard Actions-->
+                    }
+                    <!--end::Wizard Form-->
+
+                </div>
+                <!--end::Wizard Body-->
+            </div>
+        </div>
+        <!--end::Wizard-->
+    </div> <!--end::Container-->
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Contract.js"></script>
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="~/Assets/JSCustom/JSMetronic/wizard-Contact.js"></script>
+    <!--end::Page Scripts-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Contract_Module.initSalaryAddition();
+            Contract_Module.initSalaryPenalty();
+            Contract_Module.initDTDefinitionVacation();
+        });
+    </script>
+}

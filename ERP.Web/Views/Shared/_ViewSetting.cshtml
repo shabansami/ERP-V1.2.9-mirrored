@@ -1,0 +1,66 @@
+﻿@model ERP.Web.ViewModels.SettingModel
+
+<div class="col-lg-6">
+    <div class="form-group">
+        <label>@Model.Title</label>
+        <div class="input-group">
+            @Html.TextBoxFor(m => m.AccountTreeName, new { @class = "form-control", @id = Model.Name + Model.SettingId })
+            @Html.HiddenFor(m => m.SettingId,new { @id = Model.Name + Model.SettingId })
+            @*<input type="text" class="form-control" id="txtPurchaseAccount">*@
+            <div class="input-group-append">
+                <span class="input-group-text" id="basic-addon2"><a href="#" onclick="openModal(@Model.Name@Model.SettingId,'@Model.SettingId')"><i class="la la-search"></i></a></span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function openModal(txtId, settingId) {
+        $("#currentTxtId").val(txtId);
+        $("#currentSettingId").val(settingId);
+        $('#exampleModal').modal('show');
+    }
+
+        //function onSaveAccountTree2(btn) {
+        //    alert(1);
+        //    try {
+        //        $.ajax({
+        //            type: 'POST',
+        //            url: "/Settings/CreateEdit",
+        //            data: { id=$('#currentAccountTreeId').val() },
+        //            contentType: false,
+        //            processData: false,
+        //            success: function (res) {
+        //                if (res.isValid) {
+        //                    $(btn).attr('disabled', 'disabled'); // disabled button after one clicke
+        //                    toastr.success(res.message, '',)
+        //                    setTimeout(function () { $('#exampleModal').modal('hide'); }, 3000);
+        //                    var currentTxtId = $("#currentTxtId").val();
+        //                    $("#" + currentTxtId).val($("#currentAccountTreeText").val());
+        //                    //$('#kt_datatableLast').DataTable().ajax.reload();
+        //                } else {
+        //                    toastr.error(res.message, '');
+        //                }
+        //                //document.getElementById('submit').disabled = false;
+        //                //document.getElementById('reset').disabled = false;
+        //            },
+        //            error: function (err) {
+        //                toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+        //                console.log(err)
+        //            }
+        //        })
+        //        //to prevent default form submit event
+        //        return false;
+        //    } catch (ex) {
+        //        console.log(ex)
+        //    }
+
+        //}
+
+
+
+
+</script>
+
+
+
+

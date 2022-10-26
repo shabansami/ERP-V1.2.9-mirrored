@@ -1,0 +1,118 @@
+﻿
+
+
+
+@model ERP.Web.ViewModels.ProductionOrderReceiptVM
+
+@{
+    ViewBag.Title = "RegisterReceipts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section PageTitle1{تسليم منتج}
+@section PageTitle2{تسليم}
+@section Button1{ادارة أوامر الانتاج}
+@section Button1Link{/ProductionOrderReceipts/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">تسليم منتج</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("RegisterReceipts", "ProductionOrderReceipts", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-3 alert alert-primary">
+                            <div class="form-group">
+                                <label>رقم أمر الإنتاج</label>
+                                @Html.HiddenFor(model => model.ProductionOrderId)
+                                @Html.TextBoxFor(m => m.OrderNumber, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3 alert alert-primary">
+                            <div class="form-group">
+                                <label>المنتج النهائى</label>
+                                @Html.TextBoxFor(m => m.FinalItemName, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 alert alert-primary">
+                            <div class="form-group">
+                                <label>كمية المنتج النهائى المنتجة</label>
+                                @Html.TextBoxFor(m => m.OrderQuantity, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 alert alert-primary">
+                            <div class="form-group">
+                                <label>كمية المنتج المستلمة مسبقا</label>
+                                @Html.TextBoxFor(m => m.ReceiptQuantityOld, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-2 alert alert-primary">
+                            <div class="form-group">
+                                <label>تاريخ أمر الإنتاج</label>
+                                @Html.TextBoxFor(m => m.OrderDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>كمية المنتج النهائى المستلمة</label>
+                                @Html.TextBoxFor(m => m.ReceiptQuantity, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>تاريخ الاستلام</label>
+                                @Html.TextBoxFor(m => m.ReceiptDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الفرع</label>
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "ProductionOrderReceipt_Module.getStoresOnBranchChanged();" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>مخزن المنتج النهائى</label>
+                                @Html.DropDownList("FinalItemStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="City_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="ProductionOrderReceipt_Module.RegisterReceipts();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-plus-circle m-1"></i>استلام</a>
+                             <a href="/ProductionOrderReceipts/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px">
+                                    <i class="fa-solid fa-caret-left  m-1"></i>عودة
+                                </a>
+                           
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        </div>
+    </div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ProductionOrderReceipt.js"></script>
+}
+
+
+

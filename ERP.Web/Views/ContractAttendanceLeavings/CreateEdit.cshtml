@@ -1,0 +1,151 @@
+﻿
+
+@model ERP.Web.ViewModels.ContractAttendanceLeavingVM
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "تسجيل حضور/انصراف موظف";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل حضور/انصراف موظف ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fas fa-arrow-circle-right m-1";
+    } }
+
+@section PageTitle1{حضور/انصراف الموظفين}
+@section PageTitle2{@title }
+@section Button1{ادارة حضور/انصراف موظف}
+@section Button1Link{/ContractAttendanceLeavings/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "ContractAttendanceLeavings", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>الادارة</label>
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractAttendanceLeaving_Module.getEmployeesDepartmentChange()" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>الموظف</label>
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractAttendanceLeaving_Module.getContractSchedulingEmpChange()" })
+                <span class="form-text din-bold" style="color: #F64E60;" id="salaryTypeName">@ViewBag.salaryTypeName</span>
+                @Html.Hidden("salaryTypeId", (int?)ViewBag.salaryTypeId)
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>الشهر/الاسبوع/اليوم <span class="badge badge-soft-warning fa-1x"> فى حالة العقد اليومى الحقل غير إلزامى</span></label>
+                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>التاريخ</label>
+                @Html.TextBoxFor(model => model.AttendanceLeavingDate, "{0:yyyy-MM-dd}", new { @class = "form-control input-sm datepicker", @type = "date", id = "txtContactDOB" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>حضور من</label>
+                @Html.TextBox("AttendanceTime", null, new { @class = "form-control kt_timepicker_1" , @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>انصراف فى</label>
+                @Html.TextBox("LeavingTime", null, new { @class = "form-control kt_timepicker_1" , @style = "text-align:right;" })
+            </div>
+        </div>
+
+        <div class="col-lg-12">
+            <div class="form-group ">
+                <label>ملاحظات</label>
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+            </div>
+        </div>
+
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="City_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="ContractAttendanceLeaving_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/ContractAttendanceLeavings/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as ContractAttendanceLeaving;
+
+<div class="col-lg-12">
+    <div class="card card-custom gutter-b">
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">اخر بيان تم اضافته</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin::Example-->
+            <div class="example mb-10">
+                <table class="table table-hover mb-6">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">الموظف</th>
+                            <th scope="col">التاريخ </th>
+                            <th scope="col">حضور من </th>
+                            <th scope="col">انصراف فى </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@modl.ContractScheduling.Contract.Employee.Person.Name</td>
+                            <td>@modl.AttendanceLeavingDate.ToString("yyyy-MM-dd")</td>
+                            <td>@modl.AttendanceTime.ToString()</td>
+                            <td>@modl.LeavingTime.ToString()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end::Example-->
+        </div>
+    </div>
+</div>}
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ContractAttendanceLeaving.js"></script>
+    <script src="~/Assets/JSCustom/JSMetronic/bootstrap-timepicker.js"></script>
+}

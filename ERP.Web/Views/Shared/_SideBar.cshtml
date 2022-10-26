@@ -1,0 +1,133 @@
+﻿@using ERP.DAL
+@using ERP.Web.Utilites
+@using ERP.Web.Services
+@using System.Diagnostics
+@using ERP.DAL.Utilites
+@{
+    VTSAuth auth = new VTSAuth();
+    List<DrawSideBar> pages = new List<DrawSideBar>();
+    if (auth.LoadDataFromCookies())
+    {
+        //pages = Session["pagesSession"] as List<DrawSideBar>;
+        //pages=UsersRoleService.PagesLoad as List<DrawSideBar>;
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        pages = UsersRoleService.GetPagesSideBar(auth.CookieValues.RoleId);
+        stopwatch.Stop();
+        //using (var db = new VTSaleEntities())
+        //{
+        //    //222222
+        //    if (Session["pagesSession"]!=null)
+        //    {
+        //        pages = Session["pagesSession"] as List<DrawSideBar>;
+        //        UsersRoleService.PagesLoad as List<DrawSideBar>;
+        //    }
+        //    //var roleId = auth.CookieValues.RoleId;
+        //    //Stopwatch stopwatch = new Stopwatch();
+        //    //stopwatch.Start();
+        //    //pages=UsersRoleService.GetPages(roleId,true);
+        //    //stopwatch.Stop(); //362,360
+
+        //}
+
+
+    }
+}
+
+<div class="vertical-menu" style="width:300px">
+
+    <div data-simplebar class="h-100">
+
+        <!--- Sidemenu -->
+        <div id="sidebar-menu">
+            <!-- Left Menu Start -->
+            <ul class="metismenu list-unstyled" id="side-menu">
+
+                <li>
+                    <a href="@Url.Action("Index","Home")">
+                        <i class="icon-md fas fa-home ylow"></i>
+                        <span class="din-bold">الرئيسية</span>
+                    </a>
+                </li>
+                <li>
+                    @Html.DropDownList("SearchMenu", new SelectList(pages.Where(x => x.IsPage && x.HasAccess), "Url", "text"), "البحث فى القائمة الجانبية", htmlAttributes: new { @class = "form-control menu-link din-med select2", @onchange = "onSearchMenuChange()" })
+                </li>
+
+
+                @if (pages.Where(x => x.children.Count() > 0).Any())
+                {
+                    foreach (var item in pages)
+                    {
+                        if (item.ShowInSideBar)
+                        {
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow">
+                                    <i class="@item.Icon"></i>
+                                    <span class="din-bold">@item.text</span>
+                                </a>
+
+
+                                <ul class="sub-menu" aria-expanded="false">
+                                    @foreach (var item2 in item.children)
+                                    {
+                                        if (item2.children.Count() > 0)
+                                        {
+                                            if (item2.ShowInSideBar)
+                                            {
+                                                <li>
+                                                    <a style="padding-right:0;" href="javascript: void(0);" class="has-arrow">
+                                                        <i class="fa-circle-small"></i>
+                                                        <span class="din-bold">@item2.text</span>
+                                                    </a>
+                                                    <ul class="sub-menu" aria-expanded="false">
+                                                        @foreach (var item3 in item2.children)
+                                                        {
+                                                            if (item3.IsPage && item3.HasAccess)
+                                                            {
+                                                                <li>
+                                                                    <a style="padding-right:0;" href="@item3.Url">
+                                                                        <i class="menu-bullet  menu-bullet-line">
+                                                                            <span></span>
+                                                                        </i>
+                                                                        <span class="din-bold">@item3.text</span>
+                                                                    </a>
+                                                                </li>
+                                                            }
+
+
+                                                        }
+                                                    </ul>
+                                                </li>
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (item2.IsPage && item2.HasAccess)
+                                            {
+                                                <li>
+                                                    <a href="@item2.Url" style="padding-right:0;">
+                                                        <i class="menu-bullet  menu-bullet-line">
+                                                            <span></span>
+                                                        </i>
+                                                        <span class="din-bold">@item2.text</span>
+                                                    </a>
+                                                </li>
+                                            }
+
+                                        }
+
+                                    }
+                                </ul>
+                            </li>
+                        }
+                    }
+                }
+
+            </ul>
+        </div>
+        <!-- Sidebar -->
+    </div>
+</div>
+
+

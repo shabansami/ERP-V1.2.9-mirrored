@@ -1,0 +1,244 @@
+﻿@model ERP.Web.ViewModels.SellInvoiceInstallmentScheduleCollectionVM
+@using ERP.DAL
+@using ERP.Web.Utilites
+@{ ViewBag.Title = "Installments";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@section PageTitle1{اقساط فاتورة بيع}
+@section PageTitle2{اقساط لفاتورة}
+@section Button1{ادارة فواتير القسط}
+@section Button1Link{/SellInvoiceHasInstallments/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">تسجيل اقساط لفاتورة</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>رقم الفاتورة</label>
+                            @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>العميل</label>
+                            @Html.TextBoxFor(m => m.CustomerName, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <label>تاريخ الفاتورة</label>
+                            @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>صافى الفاتورة</label>
+                            @Html.TextBoxFor(m => m.Safy, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>المبلغ المتبقى</label>
+                            @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>صافى المبلغ المراد تقسيطة</label>
+                            @Html.TextBoxFor(m => m.TotalValue, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                        <div class="form-group required">
+                            <label>المدة بالاشهر</label>
+                            @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", @type = "number", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--end::Container-->
+
+
+
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">اقساط تم تحصيلها فى موعدها</h3>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatablePaidInTime">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">ScheduleGuid</th>
+                                    <th>تاريخ القسط</th>
+                                    <th>تاريخ سداد القسط</th>
+                                    <th>المبلغ</th>
+                                    <th>حالة السداد</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ foreach (var item in Model.PaidInstallments)
+                                    {
+
+                        <tr>
+                            <td style="display:none;">@item.ScheduleId</td>
+                            <td>@item.InstallmentDate</td>
+                            <td>@item.PaymentDate</td>
+                            <td>@item.Amount</td>
+                            <td>
+                                <div class="btn-group">
+                                    <span class="label label-lg font-weight-bold label-light-success label-inline">تم السداد</span>
+                                </div>
+                            </td>
+                        </tr> } }
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">اقساط تم تحصيلها متأخرة عن موعدها</h3>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatablePaidNotInTime">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">ScheduleGuid</th>
+                                    <th>تاريخ القسط</th>
+                                    <th>تاريخ سداد القسط</th>
+                                    <th>المبلغ</th>
+                                    <th>حالة السداد</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ foreach (var item in Model.PaidNotInTimeInstallments)
+                                    {
+
+                        <tr>
+                            <td style="display:none;">@item.ScheduleId</td>
+                            <td>@item.InstallmentDate</td>
+                            <td>@item.PaymentDate</td>
+                            <td>@item.Amount</td>
+                            <td>
+                                <div class="btn-group">
+                                    <span class="label label-lg font-weight-bold label-light-warning label-inline">تم السداد</span>
+                                </div>
+                            </td>
+                        </tr> } }
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card card-custom gutter-b">
+            <div class="card-header">
+                <div class="card-title">
+                    <h3 class="card-label">اقساط لم يتم تحصيلها بعد</h3>
+                </div>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableNotPaid">
+                            <thead>
+                                <tr>
+                                    <th style="display:none;">ScheduleGuid</th>
+                                    <th>تاريخ القسط</th>
+                                    <th>المبلغ</th>
+                                    <th>حالة السداد</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ foreach (var item in Model.NotPaidInstallments)
+                                    {
+
+                        <tr>
+                            <td style="display:none;">@item.ScheduleId</td>
+                            <td>@item.InstallmentDate</td>
+                            <td>@item.Amount</td>
+                            <td>
+                                <div class="btn-group">
+                                    <span class="label label-lg font-weight-bold label-light-danger label-inline">لم يتم السداد</span>
+                                </div>
+                            </td>
+                        </tr> } }
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <div class="card-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts
+{
+
+    <script src="~/Assets/JSCustom/SellInvoiceHasInstallment.js"></script>
+    <script>
+        $(document).ready(function () {
+            SellInvoiceHasInstallment_Module.tablePaidInTime();
+            SellInvoiceHasInstallment_Module.tablePaidNotInTime();
+            SellInvoiceHasInstallment_Module.tableNotPaid();
+        });
+
+
+    </script>
+}

@@ -1,0 +1,572 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{ADBC9625-8180-4304-9D41-DD5F62A876E8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ERP.DAL</RootNamespace>
+    <AssemblyName>ERP.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DbContext\VTSaleEntities.SeedingData.cs" />
+    <Compile Include="Dtos\SessionKey.cs" />
+    <Compile Include="Dtos\UserInfo.cs" />
+    <Compile Include="Migrations\202207241642527_first.cs" />
+    <Compile Include="Migrations\202207241642527_first.Designer.cs">
+      <DependentUpon>202207241642527_first.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207251638015_editModels2.cs" />
+    <Compile Include="Migrations\202207251638015_editModels2.Designer.cs">
+      <DependentUpon>202207251638015_editModels2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207271159101_addingStoreToPointOfSale.cs" />
+    <Compile Include="Migrations\202207271159101_addingStoreToPointOfSale.Designer.cs">
+      <DependentUpon>202207271159101_addingStoreToPointOfSale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202207301456341_editPagesId.cs" />
+    <Compile Include="Migrations\202207301456341_editPagesId.Designer.cs">
+      <DependentUpon>202207301456341_editPagesId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208031256268_addingInvoiceNumber.cs" />
+    <Compile Include="Migrations\202208031256268_addingInvoiceNumber.Designer.cs">
+      <DependentUpon>202208031256268_addingInvoiceNumber.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208031441275_addingInvoiceNumber1.cs" />
+    <Compile Include="Migrations\202208031441275_addingInvoiceNumber1.Designer.cs">
+      <DependentUpon>202208031441275_addingInvoiceNumber1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208041325334_AddStingNumberToShift.cs" />
+    <Compile Include="Migrations\202208041325334_AddStingNumberToShift.Designer.cs">
+      <DependentUpon>202208041325334_AddStingNumberToShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208252252328_RemoveRowGuid_ExpenseIncome.cs" />
+    <Compile Include="Migrations\202208252252328_RemoveRowGuid_ExpenseIncome.designer.cs">
+      <DependentUpon>202208252252328_RemoveRowGuid_ExpenseIncome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202208272147266_removeRowGuidFromPerson.cs" />
+    <Compile Include="Migrations\202208272147266_removeRowGuidFromPerson.designer.cs">
+      <DependentUpon>202208272147266_removeRowGuidFromPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209051156312_addUptatesTB_fromOldSolutions.cs" />
+    <Compile Include="Migrations\202209051156312_addUptatesTB_fromOldSolutions.designer.cs">
+      <DependentUpon>202209051156312_addUptatesTB_fromOldSolutions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209071513272_remove_TB_BalanceFirstDuration.cs" />
+    <Compile Include="Migrations\202209071513272_remove_TB_BalanceFirstDuration.designer.cs">
+      <DependentUpon>202209071513272_remove_TB_BalanceFirstDuration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209111204174_fix_PurchaseInvoicesExpensRelationship.cs" />
+    <Compile Include="Migrations\202209111204174_fix_PurchaseInvoicesExpensRelationship.designer.cs">
+      <DependentUpon>202209111204174_fix_PurchaseInvoicesExpensRelationship.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209121229488_add_field_OrderNumber_in_ProductionOrder.cs" />
+    <Compile Include="Migrations\202209121229488_add_field_OrderNumber_in_ProductionOrder.designer.cs">
+      <DependentUpon>202209121229488_add_field_OrderNumber_in_ProductionOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209121341158_remove_field_TransferGuid_in_StoresTransfer.cs" />
+    <Compile Include="Migrations\202209121341158_remove_field_TransferGuid_in_StoresTransfer.designer.cs">
+      <DependentUpon>202209121341158_remove_field_TransferGuid_in_StoresTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209121434020_remove_field_OrderGuid_from_ProductionOrder.cs" />
+    <Compile Include="Migrations\202209121434020_remove_field_OrderGuid_from_ProductionOrder.designer.cs">
+      <DependentUpon>202209121434020_remove_field_OrderGuid_from_ProductionOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209121609577_editMaintenance.cs" />
+    <Compile Include="Migrations\202209121609577_editMaintenance.designer.cs">
+      <DependentUpon>202209121609577_editMaintenance.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209131622317_remove_fields_InstallmentGuid_and_InvoiceGuid.cs" />
+    <Compile Include="Migrations\202209131622317_remove_fields_InstallmentGuid_and_InvoiceGuid.designer.cs">
+      <DependentUpon>202209131622317_remove_fields_InstallmentGuid_and_InvoiceGuid.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209181119030_add_newTB_NotificationEmployee.cs" />
+    <Compile Include="Migrations\202209181119030_add_newTB_NotificationEmployee.designer.cs">
+      <DependentUpon>202209181119030_add_newTB_NotificationEmployee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209181239459_update_column_name.cs" />
+    <Compile Include="Migrations\202209181239459_update_column_name.designer.cs">
+      <DependentUpon>202209181239459_update_column_name.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209191150380_add_field_Is100Percentage_in_employeee.cs" />
+    <Compile Include="Migrations\202209191150380_add_field_Is100Percentage_in_employeee.designer.cs">
+      <DependentUpon>202209191150380_add_field_Is100Percentage_in_employeee.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209191450203_add_field_PaidTo_in_ExpenseIncome.cs" />
+    <Compile Include="Migrations\202209191450203_add_field_PaidTo_in_ExpenseIncome.designer.cs">
+      <DependentUpon>202209191450203_add_field_PaidTo_in_ExpenseIncome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209201650516_add_field_ImageName_in_Item.cs" />
+    <Compile Include="Migrations\202209201650516_add_field_ImageName_in_Item.designer.cs">
+      <DependentUpon>202209201650516_add_field_ImageName_in_Item.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209211412319_add_fields_Addres2_taxNumber_commRegNo_webSite_in_person.cs" />
+    <Compile Include="Migrations\202209211412319_add_fields_Addres2_taxNumber_commRegNo_webSite_in_person.designer.cs">
+      <DependentUpon>202209211412319_add_fields_Addres2_taxNumber_commRegNo_webSite_in_person.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209211431212_add_field_AccountNameEn_in_AccountsTree.cs" />
+    <Compile Include="Migrations\202209211431212_add_field_AccountNameEn_in_AccountsTree.designer.cs">
+      <DependentUpon>202209211431212_add_field_AccountNameEn_in_AccountsTree.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209211452194_add_fields_Job_Email_Transfer_in_person.cs" />
+    <Compile Include="Migrations\202209211452194_add_fields_Job_Email_Transfer_in_person.designer.cs">
+      <DependentUpon>202209211452194_add_fields_Job_Email_Transfer_in_person.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209211820561_add_fields_emploees_details.cs" />
+    <Compile Include="Migrations\202209211820561_add_fields_emploees_details.designer.cs">
+      <DependentUpon>202209211820561_add_fields_emploees_details.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209222320297_add_fields_tasksAndRequirements_in_Job.cs" />
+    <Compile Include="Migrations\202209222320297_add_fields_tasksAndRequirements_in_Job.designer.cs">
+      <DependentUpon>202209222320297_add_fields_tasksAndRequirements_in_Job.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209240936405_add_field_LimitDangerSell_in_Person.cs" />
+    <Compile Include="Migrations\202209240936405_add_field_LimitDangerSell_in_Person.designer.cs">
+      <DependentUpon>202209240936405_add_field_LimitDangerSell_in_Person.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209241559422_Add-Table_Region_District.cs" />
+    <Compile Include="Migrations\202209241559422_Add-Table_Region_District.designer.cs">
+      <DependentUpon>202209241559422_Add-Table_Region_District.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209251320072_Add_Field_DistrictId.cs" />
+    <Compile Include="Migrations\202209251320072_Add_Field_DistrictId.designer.cs">
+      <DependentUpon>202209251320072_Add_Field_DistrictId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209261201573_add_table_StorePermission_and_StorePermissionItems.cs" />
+    <Compile Include="Migrations\202209261201573_add_table_StorePermission_and_StorePermissionItems.designer.cs">
+      <DependentUpon>202209261201573_add_table_StorePermission_and_StorePermissionItems.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209261429358_add_StorePermissionItemsList_in_StorePermission.cs" />
+    <Compile Include="Migrations\202209261429358_add_StorePermissionItemsList_in_StorePermission.designer.cs">
+      <DependentUpon>202209261429358_add_StorePermissionItemsList_in_StorePermission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209261435235_edit_StorePermissionItemsList_in_StorePermission.cs" />
+    <Compile Include="Migrations\202209261435235_edit_StorePermissionItemsList_in_StorePermission.designer.cs">
+      <DependentUpon>202209261435235_edit_StorePermissionItemsList_in_StorePermission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209261442433_add_IsReceive_in_StorePermission.cs" />
+    <Compile Include="Migrations\202209261442433_add_IsReceive_in_StorePermission.designer.cs">
+      <DependentUpon>202209261442433_add_IsReceive_in_StorePermission.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209271653535_add_tbl_ProductionType_Update_ProductionDetails.cs" />
+    <Compile Include="Migrations\202209271653535_add_tbl_ProductionType_Update_ProductionDetails.designer.cs">
+      <DependentUpon>202209271653535_add_tbl_ProductionType_Update_ProductionDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202209271731287_delete_field_FinalItem_ItemProduction.cs" />
+    <Compile Include="Migrations\202209271731287_delete_field_FinalItem_ItemProduction.designer.cs">
+      <DependentUpon>202209271731287_delete_field_FinalItem_ItemProduction.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210011056246_remove_field_StoreId_from_ProductionOrderDetail.cs" />
+    <Compile Include="Migrations\202210011056246_remove_field_StoreId_from_ProductionOrderDetail.designer.cs">
+      <DependentUpon>202210011056246_remove_field_StoreId_from_ProductionOrderDetail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210031219101_add_isactive_in_personTable.cs" />
+    <Compile Include="Migrations\202210031219101_add_isactive_in_personTable.designer.cs">
+      <DependentUpon>202210031219101_add_isactive_in_personTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210101200424_add_field_DestructionAmountCurrent_in_Assets.cs" />
+    <Compile Include="Migrations\202210101200424_add_field_DestructionAmountCurrent_in_Assets.designer.cs">
+      <DependentUpon>202210101200424_add_field_DestructionAmountCurrent_in_Assets.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210121426202_add_field_ShiftOfflineID_in_ContractLoan.cs" />
+    <Compile Include="Migrations\202210121426202_add_field_ShiftOfflineID_in_ContractLoan.designer.cs">
+      <DependentUpon>202210121426202_add_field_ShiftOfflineID_in_ContractLoan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210171347075_add_tb_StoresTransferCases.cs" />
+    <Compile Include="Migrations\202210171347075_add_tb_StoresTransferCases.designer.cs">
+      <DependentUpon>202210171347075_add_tb_StoresTransferCases.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210171433470_add_tb_StoresTransferHistories.cs" />
+    <Compile Include="Migrations\202210171433470_add_tb_StoresTransferHistories.designer.cs">
+      <DependentUpon>202210171433470_add_tb_StoresTransferHistories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210171541573_add_field_StoreTransferNumber_in_StoresTransfer.cs" />
+    <Compile Include="Migrations\202210171541573_add_field_StoreTransferNumber_in_StoresTransfer.designer.cs">
+      <DependentUpon>202210171541573_add_field_StoreTransferNumber_in_StoresTransfer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210191257516_remove_tb_Offer_Old.cs" />
+    <Compile Include="Migrations\202210191257516_remove_tb_Offer_Old.designer.cs">
+      <DependentUpon>202210191257516_remove_tb_Offer_Old.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210191538583_add_tbs_Offers_OfferDetails_OfferSellInvoice_offerType.cs" />
+    <Compile Include="Migrations\202210191538583_add_tbs_Offers_OfferDetails_OfferSellInvoice_offerType.designer.cs">
+      <DependentUpon>202210191538583_add_tbs_Offers_OfferDetails_OfferSellInvoice_offerType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210221311022_add_BranchId_InvoiceAmountFrom_DiscountAmount_in_Offer.cs" />
+    <Compile Include="Migrations\202210221311022_add_BranchId_InvoiceAmountFrom_DiscountAmount_in_Offer.designer.cs">
+      <DependentUpon>202210221311022_add_BranchId_InvoiceAmountFrom_DiscountAmount_in_Offer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210232345518_add-OffersDiscount-in-SellInvoice.cs" />
+    <Compile Include="Migrations\202210232345518_add-OffersDiscount-in-SellInvoice.designer.cs">
+      <DependentUpon>202210232345518_add-OffersDiscount-in-SellInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202210240349159_add-OfferDiscount-in-OfferSellInvoice.cs" />
+    <Compile Include="Migrations\202210240349159_add-OfferDiscount-in-OfferSellInvoice.designer.cs">
+      <DependentUpon>202210240349159_add-OfferDiscount-in-OfferSellInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DamageInvoice.cs" />
+    <Compile Include="Models\DamageInvoiceDetail.cs" />
+    <Compile Include="Models\District.cs" />
+    <Compile Include="Models\ItemCustomSellPrice.cs" />
+    <Compile Include="Models\Nationality.cs" />
+    <Compile Include="Models\NotificationEmployee.cs" />
+    <Compile Include="Models\Offer.cs" />
+    <Compile Include="Models\OfferDetail.cs" />
+    <Compile Include="Models\OfferSellInvoice.cs" />
+    <Compile Include="Models\OfferType.cs" />
+    <Compile Include="Models\ProductionType.cs" />
+    <Compile Include="Models\StorePermissionItem.cs" />
+    <Compile Include="Models\PersonIntialBalance.cs" />
+    <Compile Include="Models\Region.cs" />
+    <Compile Include="Models\StorePermission.cs" />
+    <Compile Include="Models\StoresTransferCase.cs" />
+    <Compile Include="Models\StoresTransferHistory.cs" />
+    <Compile Include="Utilites\DALUtility.cs" />
+    <Compile Include="Utilites\DataEmagration.cs" />
+    <Compile Include="Utilites\Lookups.cs" />
+    <Compile Include="Models\AccountsTree.cs" />
+    <Compile Include="Models\Area.cs" />
+    <Compile Include="Models\Asset.cs" />
+    <Compile Include="Models\Bank.cs" />
+    <Compile Include="Models\BankAccount.cs" />
+    <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\Case.cs" />
+    <Compile Include="Models\CasesItemSerialHistory.cs" />
+    <Compile Include="Models\CasesPurchaseInvoiceHistory.cs" />
+    <Compile Include="Models\CasesSellInvoiceHistory.cs" />
+    <Compile Include="Models\Cheque.cs" />
+    <Compile Include="Models\City.cs" />
+    <Compile Include="Models\Container.cs" />
+    <Compile Include="Models\Contract.cs" />
+    <Compile Include="Models\ContractAttendanceLeaving.cs" />
+    <Compile Include="Models\ContractDefinitionVacation.cs" />
+    <Compile Include="Models\ContractLoan.cs" />
+    <Compile Include="Models\ContractLoanScheduling.cs" />
+    <Compile Include="Models\ContractSalaryAddition.cs" />
+    <Compile Include="Models\ContractSalaryPenalty.cs" />
+    <Compile Include="Models\ContractSalaryType.cs" />
+    <Compile Include="Models\ContractScheduling.cs" />
+    <Compile Include="Models\ContractSchedulingAbsence.cs" />
+    <Compile Include="Models\ContractSchedulingsMain.cs" />
+    <Compile Include="Models\ContractType.cs" />
+    <Compile Include="Models\ContractVacation.cs" />
+    <Compile Include="Models\Country.cs" />
+    <Compile Include="Models\CustomerPayment.cs" />
+    <Compile Include="Models\DelayAbsenceSystem.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeGivingCustody.cs" />
+    <Compile Include="Models\EmployeeReturnCashCustody.cs" />
+    <Compile Include="Models\EmployeeReturnCustody.cs" />
+    <Compile Include="Models\ExpenseIncome.cs" />
+    <Compile Include="Models\ExpenseType.cs" />
+    <Compile Include="Models\Gender.cs" />
+    <Compile Include="Models\GeneralDaily.cs" />
+    <Compile Include="Models\GeneralRecord.cs" />
+    <Compile Include="Models\GeneralSetting.cs" />
+    <Compile Include="Models\GeneralSettingType.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupType.cs" />
+    <Compile Include="Models\IncomeType.cs" />
+    <Compile Include="Models\Installment.cs" />
+    <Compile Include="Models\InstallmentSchedule.cs" />
+    <Compile Include="Models\InventoryInvoice.cs" />
+    <Compile Include="Models\InventoryInvoiceDetail.cs" />
+    <Compile Include="Models\Item.cs" />
+    <Compile Include="Models\ItemCostCalculation.cs" />
+    <Compile Include="Models\ItemIntialBalance.cs" />
+    <Compile Include="Models\ItemPrice.cs" />
+    <Compile Include="Models\ItemProduction.cs" />
+    <Compile Include="Models\ItemProductionDetail.cs" />
+    <Compile Include="Models\ItemSerial.cs" />
+    <Compile Include="Models\ItemType.cs" />
+    <Compile Include="Models\ItemUnit.cs" />
+    <Compile Include="Models\Job.cs" />
+    <Compile Include="Models\Maintenance.cs" />
+    <Compile Include="Models\MaintenanceCas.cs" />
+    <Compile Include="Models\MaintenanceCaseHistory.cs" />
+    <Compile Include="Models\MaintenanceDamage.cs" />
+    <Compile Include="Models\MaintenanceDamageDetail.cs" />
+    <Compile Include="Models\MaintenanceDetail.cs" />
+    <Compile Include="Models\MaintenanceIncome.cs" />
+    <Compile Include="Models\MaintenanceSparePart.cs" />
+    <Compile Include="Models\MaintenProblemType.cs" />
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\NotificationType.cs" />
+    <Compile Include="Models\Page.cs" />
+    <Compile Include="Models\PagesRole.cs" />
+    <Compile Include="Models\PaymentType.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\PersonCategory.cs" />
+    <Compile Include="Models\PersonType.cs" />
+    <Compile Include="Models\PointOfSale.cs" />
+    <Compile Include="Models\PriceInvoice.cs" />
+    <Compile Include="Models\PriceInvoicesDetail.cs" />
+    <Compile Include="Models\PricesChanx.cs" />
+    <Compile Include="Models\PricingPolicy.cs" />
+    <Compile Include="Models\ProductionOrder.cs" />
+    <Compile Include="Models\ProductionOrderColor.cs" />
+    <Compile Include="Models\ProductionOrderDetail.cs" />
+    <Compile Include="Models\ProductionOrderExpens.cs" />
+    <Compile Include="Models\ProductionOrderReceipt.cs" />
+    <Compile Include="Models\PurchaseBackInvoice.cs" />
+    <Compile Include="Models\PurchaseBackInvoicesDetail.cs" />
+    <Compile Include="Models\PurchaseBackInvoicesExpens.cs" />
+    <Compile Include="Models\PurchaseInvoice.cs" />
+    <Compile Include="Models\PurchaseInvoicesDetail.cs" />
+    <Compile Include="Models\PurchaseInvoicesExpens.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Safe.cs" />
+    <Compile Include="Models\SalaryAddition.cs" />
+    <Compile Include="Models\SalaryAdditionType.cs" />
+    <Compile Include="Models\SalaryPenalty.cs" />
+    <Compile Include="Models\SalaryPenaltyType.cs" />
+    <Compile Include="Models\SaleMenArea.cs" />
+    <Compile Include="Models\SaleMenCustomer.cs" />
+    <Compile Include="Models\SaleMenStoreHistory.cs" />
+    <Compile Include="Models\SelectorType.cs" />
+    <Compile Include="Models\SellBackInvoice.cs" />
+    <Compile Include="Models\SellBackInvoiceIncome.cs" />
+    <Compile Include="Models\SellBackInvoicesDetail.cs" />
+    <Compile Include="Models\SellInvoice.cs" />
+    <Compile Include="Models\SellInvoiceIncome.cs" />
+    <Compile Include="Models\SellInvoicePayment.cs" />
+    <Compile Include="Models\SellInvoicesDetail.cs" />
+    <Compile Include="Models\SerialCas.cs" />
+    <Compile Include="Models\Shift.cs" />
+    <Compile Include="Models\ShiftsOffline.cs" />
+    <Compile Include="Models\SocialStatus.cs" />
+    <Compile Include="Models\Store.cs" />
+    <Compile Include="Models\StoreAdjustment.cs" />
+    <Compile Include="Models\StoresTransfer.cs" />
+    <Compile Include="Models\StoresTransferDetail.cs" />
+    <Compile Include="Models\SupplierPayment.cs" />
+    <Compile Include="Models\TransactionsType.cs" />
+    <Compile Include="Models\Unit.cs" />
+    <Compile Include="Models\UploadCenter.cs" />
+    <Compile Include="Models\UploadCenterType.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\VacationDay.cs" />
+    <Compile Include="Models\VacationType.cs" />
+    <Compile Include="Models\Voucher.cs" />
+    <Compile Include="Models\WeekDay.cs" />
+    <Compile Include="Models\WorkingPeriod.cs" />
+    <Compile Include="Models\_BaseModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DbContext\VTSaleEntities.Connections.cs" />
+    <Compile Include="DbContext\VTSaleEntities.cs" />
+    <Compile Include="DbContext\VTSaleEntities.DbContext.cs" />
+    <Compile Include="Utilites\VTSAuth.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202207241642527_first.resx">
+      <DependentUpon>202207241642527_first.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207251638015_editModels2.resx">
+      <DependentUpon>202207251638015_editModels2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207271159101_addingStoreToPointOfSale.resx">
+      <DependentUpon>202207271159101_addingStoreToPointOfSale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202207301456341_editPagesId.resx">
+      <DependentUpon>202207301456341_editPagesId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208031256268_addingInvoiceNumber.resx">
+      <DependentUpon>202208031256268_addingInvoiceNumber.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208031441275_addingInvoiceNumber1.resx">
+      <DependentUpon>202208031441275_addingInvoiceNumber1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208041325334_AddStingNumberToShift.resx">
+      <DependentUpon>202208041325334_AddStingNumberToShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208252252328_RemoveRowGuid_ExpenseIncome.resx">
+      <DependentUpon>202208252252328_RemoveRowGuid_ExpenseIncome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202208272147266_removeRowGuidFromPerson.resx">
+      <DependentUpon>202208272147266_removeRowGuidFromPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209051156312_addUptatesTB_fromOldSolutions.resx">
+      <DependentUpon>202209051156312_addUptatesTB_fromOldSolutions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209071513272_remove_TB_BalanceFirstDuration.resx">
+      <DependentUpon>202209071513272_remove_TB_BalanceFirstDuration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209111204174_fix_PurchaseInvoicesExpensRelationship.resx">
+      <DependentUpon>202209111204174_fix_PurchaseInvoicesExpensRelationship.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209121229488_add_field_OrderNumber_in_ProductionOrder.resx">
+      <DependentUpon>202209121229488_add_field_OrderNumber_in_ProductionOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209121341158_remove_field_TransferGuid_in_StoresTransfer.resx">
+      <DependentUpon>202209121341158_remove_field_TransferGuid_in_StoresTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209121434020_remove_field_OrderGuid_from_ProductionOrder.resx">
+      <DependentUpon>202209121434020_remove_field_OrderGuid_from_ProductionOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209121609577_editMaintenance.resx">
+      <DependentUpon>202209121609577_editMaintenance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209131622317_remove_fields_InstallmentGuid_and_InvoiceGuid.resx">
+      <DependentUpon>202209131622317_remove_fields_InstallmentGuid_and_InvoiceGuid.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209181119030_add_newTB_NotificationEmployee.resx">
+      <DependentUpon>202209181119030_add_newTB_NotificationEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209181239459_update_column_name.resx">
+      <DependentUpon>202209181239459_update_column_name.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209191150380_add_field_Is100Percentage_in_employeee.resx">
+      <DependentUpon>202209191150380_add_field_Is100Percentage_in_employeee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209191450203_add_field_PaidTo_in_ExpenseIncome.resx">
+      <DependentUpon>202209191450203_add_field_PaidTo_in_ExpenseIncome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209201650516_add_field_ImageName_in_Item.resx">
+      <DependentUpon>202209201650516_add_field_ImageName_in_Item.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209211412319_add_fields_Addres2_taxNumber_commRegNo_webSite_in_person.resx">
+      <DependentUpon>202209211412319_add_fields_Addres2_taxNumber_commRegNo_webSite_in_person.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209211431212_add_field_AccountNameEn_in_AccountsTree.resx">
+      <DependentUpon>202209211431212_add_field_AccountNameEn_in_AccountsTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209211452194_add_fields_Job_Email_Transfer_in_person.resx">
+      <DependentUpon>202209211452194_add_fields_Job_Email_Transfer_in_person.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209211820561_add_fields_emploees_details.resx">
+      <DependentUpon>202209211820561_add_fields_emploees_details.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209222320297_add_fields_tasksAndRequirements_in_Job.resx">
+      <DependentUpon>202209222320297_add_fields_tasksAndRequirements_in_Job.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209240936405_add_field_LimitDangerSell_in_Person.resx">
+      <DependentUpon>202209240936405_add_field_LimitDangerSell_in_Person.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209241559422_Add-Table_Region_District.resx">
+      <DependentUpon>202209241559422_Add-Table_Region_District.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209251320072_Add_Field_DistrictId.resx">
+      <DependentUpon>202209251320072_Add_Field_DistrictId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209261201573_add_table_StorePermission_and_StorePermissionItems.resx">
+      <DependentUpon>202209261201573_add_table_StorePermission_and_StorePermissionItems.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209261429358_add_StorePermissionItemsList_in_StorePermission.resx">
+      <DependentUpon>202209261429358_add_StorePermissionItemsList_in_StorePermission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209261435235_edit_StorePermissionItemsList_in_StorePermission.resx">
+      <DependentUpon>202209261435235_edit_StorePermissionItemsList_in_StorePermission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209261442433_add_IsReceive_in_StorePermission.resx">
+      <DependentUpon>202209261442433_add_IsReceive_in_StorePermission.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209271653535_add_tbl_ProductionType_Update_ProductionDetails.resx">
+      <DependentUpon>202209271653535_add_tbl_ProductionType_Update_ProductionDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202209271731287_delete_field_FinalItem_ItemProduction.resx">
+      <DependentUpon>202209271731287_delete_field_FinalItem_ItemProduction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210011056246_remove_field_StoreId_from_ProductionOrderDetail.resx">
+      <DependentUpon>202210011056246_remove_field_StoreId_from_ProductionOrderDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210031219101_add_isactive_in_personTable.resx">
+      <DependentUpon>202210031219101_add_isactive_in_personTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210101200424_add_field_DestructionAmountCurrent_in_Assets.resx">
+      <DependentUpon>202210101200424_add_field_DestructionAmountCurrent_in_Assets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210121426202_add_field_ShiftOfflineID_in_ContractLoan.resx">
+      <DependentUpon>202210121426202_add_field_ShiftOfflineID_in_ContractLoan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210171347075_add_tb_StoresTransferCases.resx">
+      <DependentUpon>202210171347075_add_tb_StoresTransferCases.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210171433470_add_tb_StoresTransferHistories.resx">
+      <DependentUpon>202210171433470_add_tb_StoresTransferHistories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210171541573_add_field_StoreTransferNumber_in_StoresTransfer.resx">
+      <DependentUpon>202210171541573_add_field_StoreTransferNumber_in_StoresTransfer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210191257516_remove_tb_Offer_Old.resx">
+      <DependentUpon>202210191257516_remove_tb_Offer_Old.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210191538583_add_tbs_Offers_OfferDetails_OfferSellInvoice_offerType.resx">
+      <DependentUpon>202210191538583_add_tbs_Offers_OfferDetails_OfferSellInvoice_offerType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210221311022_add_BranchId_InvoiceAmountFrom_DiscountAmount_in_Offer.resx">
+      <DependentUpon>202210221311022_add_BranchId_InvoiceAmountFrom_DiscountAmount_in_Offer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210232345518_add-OffersDiscount-in-SellInvoice.resx">
+      <DependentUpon>202210232345518_add-OffersDiscount-in-SellInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202210240349159_add-OfferDiscount-in-OfferSellInvoice.resx">
+      <DependentUpon>202210240349159_add-OfferDiscount-in-OfferSellInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

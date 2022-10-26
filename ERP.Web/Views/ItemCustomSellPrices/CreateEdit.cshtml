@@ -1,0 +1,131 @@
+﻿
+@model ERP.DAL.ItemCustomSellPrice
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "تحديد سعر بيع للاصناف جديد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل سعر بيع ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+    } }
+
+@section PageTitle1{اسعار البيع}
+@section PageTitle2{@title }
+@section Button1{ادارة سعر بيع}
+@section Button1Link{/ItemCustomSellPrices/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "ItemCustomSellPrices", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <div>
+                    <label> الفرع</label>
+                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "onBranchChange();" })
+                    @Html.HiddenFor(m => m.Id)
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <div>
+                    <label> المجموعة الاساسية</label>
+                    <input style="text-align:right;" name="groupBasic" type="text" class="form-control" id="groupBasic" autocomplete="off" />
+                    <input style="text-align:right;" type="hidden" id="groupId" />
+                    @Html.HiddenFor(m => m.GroupBasicId)
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <div>
+                    <label> الصنف</label>
+                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group required">
+                <label>نسبة هامش الربح واى مصاريف اخرى</label>
+                @Html.TextBoxFor(m => m.ProfitPercentage, new { @class = "form-control", @type = "number" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            <a href="javascript:void(0);" onclick="ItemCustomSellPrice_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/ItemCustomSellPrices/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+
+
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ItemCustomSellPrice.js"></script>
+    <script>
+        var treeBasic;
+        $(document).ready(function () {
+            //المجموعة الاساسية
+            var dsBasic = [];
+            $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
+                treeBasic.setSource(data);
+            });
+
+            treeBasic = $('#groupBasic').comboTree({
+                source: dsBasic,
+                isMultiple: false,
+                collapse: true,
+                selected: ['@Model.GroupBasicId']
+                //selectableLastNode: true
+
+            });
+            treeBasic.onChange(function () {
+                if (treeBasic.getSelectedIds() != null) {
+                    $('#GroupBasicId').val(treeBasic.getSelectedIds()[0]);
+                    $.get("/SharedDataSources/ItemsOnGroupChanged", { id: treeBasic.getSelectedIds()[0] }, function (data) {
+                        $("#ItemId").empty();
+                        $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                        });
+                    });
+                }
+            });
+            // ============== نهاية المجموعة الاساسية
+
+        })
+    </script>
+}

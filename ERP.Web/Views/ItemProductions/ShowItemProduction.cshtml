@@ -1,0 +1,124 @@
+﻿@model ERP.DAL.ItemProduction
+@using ERP.Web.Utilites
+@{
+    /**/
+
+    ViewBag.Title = "ShowItemProduction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section PageTitle1{استعراض تفاصيل توليفة}
+@section PageTitle2{ملخص التوليفة}
+@section Button1{استعراض كل التوليفات}
+@section Button1Link{/ItemProductions/Index}
+@section icon{<i class="fa fa-plus-circle m-1"></i>}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">
+
+                            @Model.Name</h4>
+                    </div>
+                    <div class="border-bottom w-100 opacity-20"></div>
+                    <div class="d-flex justify-content-between text-white pt-6">
+                        <div class="d-flex flex-column flex-root">
+                            <span class="font-weight-bolde mb-2r din-bold ylow">تاريخ العملية</span>
+                            <span class="din-bold">@Model.CreatedOn</span>
+                        </div>
+                        @*<div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">نوع التوليفة</span>
+                                <span class="din-bold"></span>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice header-->
+            <!-- begin: Invoice body-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="table-responsive">
+                        <h2>الاصناف المدخلة</h2>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ItemProductionDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.In))
+                                {
+                                    <tr class="font-weight-boldest font-size-lg">
+                                        <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
+                                        <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Quantity</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice body-->
+            <!-- begin: Invoice body-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <h2>الاصناف المخرجة</h2>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.ItemProductionDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.Out))
+                                {
+                                    <tr class="font-weight-boldest font-size-lg">
+                                        <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
+                                        <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Quantity</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice body-->
+            <div class="border-bottom w-100 opacity-20"></div>
+            <div class="border-bottom w-100 opacity-20"></div>
+            <!-- end: Invoice footer-->
+            <!-- begin: Invoice action-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <div class="d-flex justify-content-between">
+                        @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
+                        <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
+                        <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fas fa-caret-left m-1"></i>عودة</a>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice action-->
+            <!-- end: Invoice-->
+        </div>
+    </div>
+    <!-- end::Card-->
+</div>
+<!--end::Container-->
+                                </div>
+<!--end::Entry-->
+                            </div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/SellInvoice.js"></script>
+    <script>
+        $(document).ready(function () {
+            SellInvoice_Module.init();
+        });</script>
+}

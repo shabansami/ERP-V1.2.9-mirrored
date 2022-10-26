@@ -1,0 +1,99 @@
+﻿@model ERP.DAL.StoresTransfer
+@using ERP.DAL
+
+@{
+    ViewBag.Title = "ShowHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{ التحويلات المخزنية}
+@section PageTitle2{ حالات التحويلات المخزنية }
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">
+                            حالات التحويلات المخزنية
+                        </h4>
+                    </div>
+                </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم العملية</label>
+                                @Html.TextBoxFor(m => m.StoreTransferNumber, new { @class = "form-control", @readonly = "readonly" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ العملية</label>
+                                @Html.TextBoxFor(m => m.TransferDate, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtCases">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th>الحالة</th>
+                                        <th>التاريخ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var status in Model.StoresTransferHistories)
+                                    {
+                                        <tr>
+                                            <td class="selectedDay" style="display:none;">@status.Id</td>
+                                            <td>@status.StoresTransferCase.Name</td>
+                                            <td>@status.CreatedOn</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            @*<input type="button" onclick="Bank_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fas fa-caret-left m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+                                </div>
+                            </div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/SellInvoiceStore.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#kt_dtCases');
+            // begin first table
+            table.DataTable({
+                paging: false,
+                info: false,
+                search: false,
+                searching: false,
+                "order": [[0, "asc"]]
+                //"order": [[0, "desc"]]
+            });
+        });</script>
+}

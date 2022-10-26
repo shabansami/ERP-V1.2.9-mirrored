@@ -1,0 +1,124 @@
+﻿
+
+@model ERP.Web.ViewModels.IntialBalanceListVM
+
+@{
+    ViewBag.Title = "CreateEditIntial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+    //if (Model.Id == Guid.Empty)
+    //{
+    title = "اضافة رصيد أول المدة للعملاء مجمع";
+    btn = "اضافة";
+    icon = "fa fa-plus-circle m-1";
+    @*}
+        else
+        {
+            title = "تعديل رصيد أو المدة ";
+            btn = "تعديل";
+            icon = "fas fa-edit m-1";
+        }*@
+}
+
+@section PageTitle1{رصيد أول المدة}
+@section PageTitle2{@title }
+@section Button1{ادارة الأرصدة}
+@section Button1Link{/CustomerIntials/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+
+            @using (Html.BeginForm("CreateEditIntial", "CustomerIntials", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الفرع</label>
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>تاريخ رصيد اول </label>
+                                @Html.TextBoxFor(m => m.DateIntial, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label class="alert-warning">اى عميل سيتم ترك رصيده بصفر لن يتم تسجيل رصيد اول له</label>
+                                <table class="table table-bordered table-striped  table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>العميل</th>
+                                            <th>الرصيد</th>
+                                            <th>حالة الرصيد</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                        @for (int i = 0; i < Model.Persons.Count; i++)
+                                        {
+                                            //var selectedVal = 1;
+                                            ////var tt = ViewBag.CableStatusId as SelectList;
+                                            //var list = new SelectList(Model.MyList, "Id", "Text", selectedVal);
+
+                                            <tr>
+                                                <td>
+                                                    <label>@Model.Persons[i].PersonName</label>
+                                                    @Html.HiddenFor(x => x.Persons[i].CustomerId)
+                                                </td>
+
+                                                <td>
+                                                    @Html.TextBoxFor(Model => Model.Persons[i].Amount, new { @class = "form-control", @style = "text-align:right;" })
+                                                </td>
+                                                <td>
+                                                    @Html.DropDownList("DebitCredit", null, htmlAttributes: new { @class = "form-control din-med", @Name = "Persons[" + i + "].DebitCredit" })
+                                                </td>
+
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            @*<input type="button" onclick="CustomerIntial_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="CustomerIntial_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @*@if (Model.Id != Guid.Empty)
+                        {
+                            <a href="/CustomerIntials/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="flaticon2-back-1"></i>عودة</a>
+                        }*@
+                        </div>
+                    </div>
+                </div>
+            }
+            
+
+
+        </div>
+
+
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/CustomerIntial.js"></script>
+}

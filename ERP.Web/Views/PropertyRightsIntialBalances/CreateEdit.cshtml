@@ -1,0 +1,114 @@
+﻿@model ERP.Web.ViewModels.IntialBalanceVM
+@using ERP.Web.Utilites;
+@using Newtonsoft.Json;
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string title, btn = string.Empty, icon = string.Empty;
+    title = "اضافة رصيد اول المدة حقوق الملكية ";
+    btn = "اضافة";
+    icon = "fa fa-plus-circle m-1";
+    var generalAccount = Lookups.GeneralPropertyRights; }
+
+
+@section PageTitle1{رصيد اول المدة حقوق الملكية}
+@section PageTitle2{@title }
+@section Button1{ادارة رصيد اول مدة}
+@section Button1Link{/PropertyRightsIntialBalances/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "PropertyRightsIntialBalances", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-6">
+            <!--begin::Input-->
+            <div class="form-group required">
+                <label> الحساب</label>
+                <input style = "text-align:right;" name="accountTree" placeholder="اختر الحساب" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
+                @*<input type="hidden" id="ExpenseIncomeTypeId" />*@
+                @Html.HiddenFor(m => m.AccountId)
+            </div>
+            <!--end::Input-->
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>تاريخ رصيد اول </label>
+                @Html.TextBoxFor(m => m.DateIntial, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>المبلغ</label>
+                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @style = "text-align:right;" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>حالة الرصيد</label>
+                @Html.DropDownList("DebitCredit", null, htmlAttributes: new { @class = "form-control din-med" })
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group ">
+                <label>البيان</label>
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="Expense_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="PropertyRightsIntialBalance_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/PropertyRightsIntialBalance.js"></script>
+    <script>
+        var accounTree;
+        $(document).ready(function () {
+            //دليل الحسابات
+            var dsTree = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount  }, function (data) {
+                accounTree.setSource(data);
+            });
+
+            accounTree = $('#accountTree').comboTree({
+                source: dsTree,
+                isMultiple: false,
+                collapse: true,
+                selected: ['@Model.AccountId']
+                //selectableLastNode: true
+
+            });
+            accounTree.onChange(function () {
+                if (accounTree.getSelectedIds() != null) {
+                    $('#AccountId').val(accounTree.getSelectedIds()[0]);
+                }
+            });
+            // ============== نهاية شجرة الحسابات
+
+        });
+    </script>
+
+}
+
+

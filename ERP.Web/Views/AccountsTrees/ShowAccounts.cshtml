@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "ShowAccounts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{استعراض شجرة الحسابات}
+@section PageTitle2{كل الحسابات}
+@section Button1{ادارة حساب  }
+@section Button1Link{/AccountsTrees/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                
+                        <h4 class=" din-bold">استعراض كل الحسابات</h4>
+                   </div>
+                <div class="card-body">
+                    <div id="kt_tree_6" class="tree-demo"></div>
+                    @*<div class="alert alert alert-custom alert alert-light-primary my-10">
+                            <div class="alert alert-text">Note! The tree nodes are loaded from server side demo script via ajax.</div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+   </div>
+@section Styles{
+    <link href="~/Assets/plugins/custom/jstree/jstree.bundle.rtl.css" rel="stylesheet" />
+}
+@section Scripts
+{
+    <script src="~/Assets/plugins/custom/jstree/jstree.bundle.js"></script>
+    @*<script src="~/Assets/js/pages/features/miscellaneous/treeview.js"></script>*@
+    <script>
+        $(document).ready(function () {
+            $("#kt_tree_6").jstree({
+                "core": {
+                    "themes": {
+                        "responsive": false
+                    },
+                    // so that create works
+                    "check_callback": true,
+                    'data': {
+                        'url':
+                            '/SharedDataSources/GetAccountsTreeView/'
+                        ,
+
+                    }
+                },
+                "types": {
+                    "default": {
+                        "icon": "fa fa-folder text-primary"
+                    },
+                    "file": {
+                        "icon": "fa fa-file  text-primary"
+                    }
+                },
+                "state": {
+                    "key": "demo3"
+                },
+                "plugins": ["dnd", "state", "types"]
+            });
+
+        })
+    </script>
+}
+
+
+
+
+
+

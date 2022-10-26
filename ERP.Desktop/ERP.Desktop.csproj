@@ -1,0 +1,1226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.props" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{714178F0-4FFE-4B92-B542-2566B9CCEC0D}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ERP.Desktop</RootNamespace>
+    <AssemblyName>VTS</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>D:\My Works\Pekar مصنع\publish desktop\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F9AB482F22F13EFDA65F19AC4D40B2C01D21D20A</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Pekar.Desktop_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ERP.Desktop.Program</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FontAwesome.Sharp, Version=5.15.4.0, Culture=neutral, PublicKeyToken=d16d1e4e568ec10f, processorArchitecture=MSIL">
+      <HintPath>..\packages\FontAwesome.Sharp.5.15.4\lib\net472\FontAwesome.Sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.7.14\lib\net45\NLog.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Services\Employees\EmployeeService.cs" />
+    <Compile Include="Services\Transactions\InventoryInvoicesServices.cs" />
+    <Compile Include="Services\Transactions\PriceInvoiceServices.cs" />
+    <Compile Include="ViewModels\InventoryInvoiceVM.cs" />
+    <Compile Include="ViewModels\InventoryItemVM.cs" />
+    <Compile Include="ViewModels\ItemProductionVM.cs" />
+    <Compile Include="ViewModels\PriceInvoiceVM.cs" />
+    <Compile Include="ViewModels\ItemsVM.cs" />
+    <Compile Include="DTOs\ItemBalanceDto.cs" />
+    <Compile Include="Services\Actors\AccountServices.cs" />
+    <Compile Include="Services\Actors\SupplierServices.cs" />
+    <Compile Include="Services\Actors\CustomerServices.cs" />
+    <Compile Include="Services\Items\ItemsServices.cs" />
+    <Compile Include="Services\Reports\ItemReports\BalanceService.cs" />
+    <Compile Include="Services\Transactions\CustomerPaymentServices.cs" />
+    <Compile Include="Services\Transactions\ExpensIncomeServices.cs" />
+    <Compile Include="Services\Transactions\PurchaseBackServices .cs" />
+    <Compile Include="Services\Transactions\SaleBackServices.cs" />
+    <Compile Include="Services\Transactions\PurchaseServices.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Utilities\Converters.cs" />
+    <Compile Include="Utilities\ReusableControls\PrintButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\TypeAssistant.cs" />
+    <Compile Include="ViewModels\AccountingVM.cs" />
+    <Compile Include="ViewModels\CustomerPaymentVm.cs" />
+    <Compile Include="ViewModels\ExpenseIncomeVM.cs" />
+    <Compile Include="ViewModels\ExpensIncomeVM.cs" />
+    <Compile Include="ViewModels\IDNameVM.cs" />
+    <Compile Include="ViewModels\InvoiceDetailVM.cs" />
+    <Compile Include="ViewModels\ItemVM.cs" />
+    <Compile Include="ViewModels\POSVM.cs" />
+    <Compile Include="DTOs\DtoResult.cs" />
+    <Compile Include="ViewModels\ShiftInvoiceVM.cs" />
+    <Compile Include="ViewModels\ShiftVM.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\DataBase\DatabaseConnection.cs" />
+    <Compile Include="Services\DataBase\DBContext.cs" />
+    <Compile Include="Services\Definations\POSServices.cs" />
+    <Compile Include="Services\Settings\ShiftServices.cs" />
+    <Compile Include="Services\Transactions\SaleServices.cs" />
+    <Compile Include="Services\UserServices\UserServices.cs" />
+    <Compile Include="Utilities\AlrtMsgs.cs" />
+    <Compile Include="Utilities\Extensions.cs" />
+    <Compile Include="Utilities\FormManager\FormManager.cs" />
+    <Compile Include="Utilities\CommonMethods.cs" />
+    <Compile Include="Utilities\ReusableControls\SuccessButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\ReusableControls\DangerButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\ReusableControls\DefaultButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\ReusableControls\TextBoxNum.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Utilities\Validations.cs" />
+    <Compile Include="Views\Actors\Customers\CustomerSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Actors\Customers\CustomerSelect.designer.cs">
+      <DependentUpon>CustomerSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Actors\Suppliers\SupplierSelect.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Actors\Suppliers\SupplierSelect.designer.cs">
+      <DependentUpon>SupplierSelect.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Definations\PointOfSales.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Definations\PointOfSales.Designer.cs">
+      <DependentUpon>PointOfSales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Definations\Incomes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Definations\Incomes.Designer.cs">
+      <DependentUpon>Incomes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Definations\Expenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Definations\Expenses.Designer.cs">
+      <DependentUpon>Expenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Items\ItemAddEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Items\ItemAddEdit.Designer.cs">
+      <DependentUpon>ItemAddEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Items\ItemSearchWithPrices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Items\ItemSearchWithPrices.designer.cs">
+      <DependentUpon>ItemSearchWithPrices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Items\ItemsList.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Items\ItemsList.Designer.cs">
+      <DependentUpon>ItemsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Items\ItemSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Items\ItemSearch.designer.cs">
+      <DependentUpon>ItemSearch.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Items\PrintItemsBarcode.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Items\PrintItemsBarcode.designer.cs">
+      <DependentUpon>PrintItemsBarcode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\AccountingReports\PrintShift.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\AccountingReports\PrintShift.Designer.cs">
+      <DependentUpon>PrintShift.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\AccountingReports\SafeAccountings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\AccountingReports\SafeAccountings.Designer.cs">
+      <DependentUpon>SafeAccountings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\ProductReports\ItemBalances.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\ProductReports\ItemBalances.Designer.cs">
+      <DependentUpon>ItemBalances.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Reports\ProductReports\ItemSellQuantity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Reports\ProductReports\ItemSellQuantity.Designer.cs">
+      <DependentUpon>ItemSellQuantity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\MainSettings\GeneralSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Settings\MainSettings\GeneralSettings.Designer.cs">
+      <DependentUpon>GeneralSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Incoming\CustomerPayments.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Incoming\CustomerPayments.Designer.cs">
+      <DependentUpon>CustomerPayments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Incoming\Incomes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Incoming\Incomes.Designer.cs">
+      <DependentUpon>Incomes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\InventoryInvoices\AllInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\InventoryInvoices\AllInvoices.Designer.cs">
+      <DependentUpon>AllInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\InventoryInvoices\NewInventoryInvoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\InventoryInvoices\NewInventoryInvoice.Designer.cs">
+      <DependentUpon>NewInventoryInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\InventoryInvoices\ShowInventoryInvoice.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\InventoryInvoices\ShowInventoryInvoice.Designer.cs">
+      <DependentUpon>ShowInventoryInvoice.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Outcoming\EmployeeLoans.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Outcoming\EmployeeLoans.Designer.cs">
+      <DependentUpon>EmployeeLoans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Outcoming\Expenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Outcoming\Expenses.Designer.cs">
+      <DependentUpon>Expenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Pricing\AllPriceInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Pricing\AllPriceInvoices.Designer.cs">
+      <DependentUpon>AllPriceInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Pricing\PriceInvoicesCashier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Pricing\PriceInvoicesCashier.Designer.cs">
+      <DependentUpon>PriceInvoicesCashier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\PurchasesBack\AllPurchaseBackInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\PurchasesBack\AllPurchaseBackInvoices.Designer.cs">
+      <DependentUpon>AllPurchaseBackInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Purchases\AllPurchaseInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Purchases\AllPurchaseInvoices.Designer.cs">
+      <DependentUpon>AllPurchaseInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\AllSellBackInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\AllSellBackInvoices.Designer.cs">
+      <DependentUpon>AllSellBackInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\ShowSellInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\ShowSellInvoices.Designer.cs">
+      <DependentUpon>ShowSellInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\AllSellInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\AllSellInvoices.Designer.cs">
+      <DependentUpon>AllSellInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\ShiftClose.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\ShiftClose.Designer.cs">
+      <DependentUpon>ShiftClose.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\ShiftReturnInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\ShiftReturnInvoices.Designer.cs">
+      <DependentUpon>ShiftReturnInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\ShiftInvoices.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\ShiftInvoices.Designer.cs">
+      <DependentUpon>ShiftInvoices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\Shifts.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Settings\Shift\Shifts.Designer.cs">
+      <DependentUpon>Shifts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\PurchasesBack\PurchaseBackInvoiceExpenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\PurchasesBack\PurchaseBackInvoiceExpenses.designer.cs">
+      <DependentUpon>PurchaseBackInvoiceExpenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\PurchasesBack\PurchaseBackInvoicesCashier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\PurchasesBack\PurchaseBackInvoicesCashier.Designer.cs">
+      <DependentUpon>PurchaseBackInvoicesCashier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Purchases\PurchaseInvoiceExpenses.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Purchases\PurchaseInvoiceExpenses.designer.cs">
+      <DependentUpon>PurchaseInvoiceExpenses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Purchases\PurchaseInvoicesCashier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Purchases\PurchaseInvoicesCashier.Designer.cs">
+      <DependentUpon>PurchaseInvoicesCashier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\SellBackInvoiceIncomes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\SellBackInvoiceIncomes.designer.cs">
+      <DependentUpon>SellBackInvoiceIncomes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\SellBackInvoicesCashier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\SalesBack\SellBackInvoicesCashier.Designer.cs">
+      <DependentUpon>SellBackInvoicesCashier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\OrderDetailsQuantity.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\OrderDetailsQuantity.designer.cs">
+      <DependentUpon>OrderDetailsQuantity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\ItemProdDetails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\ItemProdDetails.Designer.cs">
+      <DependentUpon>ItemProdDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\ItemProductionFrm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\ItemProductionFrm.Designer.cs">
+      <DependentUpon>ItemProductionFrm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\SellInvoiceIncomes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\SellInvoiceIncomes.designer.cs">
+      <DependentUpon>SellInvoiceIncomes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\SellInvoicesCashier.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\Transactions\Sales\SellInvoicesCashier.Designer.cs">
+      <DependentUpon>SellInvoicesCashier.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\_Main\Authentication\LoginScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\_Main\Authentication\LoginScreen.designer.cs">
+      <DependentUpon>LoginScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\_Main\BaseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\_Main\BaseForm.Designer.cs">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\_Main\SplashScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\_Main\SplashScreen.Designer.cs">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\_Main\UserMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\_Main\UserMainForm.designer.cs">
+      <DependentUpon>UserMainForm.cs</DependentUpon>
+    </Compile>
+    <None Include="App_Assets\DIN Next LT Arabic Regular.ttf" />
+    <None Include="App_Assets\IDAutomationHC39M.ttf" />
+    <None Include="Resources\eye.png" />
+    <None Include="Resources\vts.png" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="Views\Actors\Customers\CustomerSelect.resx">
+      <DependentUpon>CustomerSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Actors\Suppliers\SupplierSelect.resx">
+      <DependentUpon>SupplierSelect.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Definations\PointOfSales.resx">
+      <DependentUpon>PointOfSales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Definations\Incomes.resx">
+      <DependentUpon>Incomes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Definations\Expenses.resx">
+      <DependentUpon>Expenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Items\ItemAddEdit.resx">
+      <DependentUpon>ItemAddEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Items\ItemSearchWithPrices.resx">
+      <DependentUpon>ItemSearchWithPrices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Items\ItemsList.resx">
+      <DependentUpon>ItemsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Items\ItemSearch.resx">
+      <DependentUpon>ItemSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Items\PrintItemsBarcode.resx">
+      <DependentUpon>PrintItemsBarcode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Reports\AccountingReports\PrintShift.resx">
+      <DependentUpon>PrintShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Reports\AccountingReports\SafeAccountings.resx">
+      <DependentUpon>SafeAccountings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Reports\ProductReports\ItemBalances.resx">
+      <DependentUpon>ItemBalances.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Reports\ProductReports\ItemSellQuantity.resx">
+      <DependentUpon>ItemSellQuantity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings\MainSettings\GeneralSettings.resx">
+      <DependentUpon>GeneralSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings\Shift\ShiftClose.resx">
+      <DependentUpon>ShiftClose.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings\Shift\ShiftInvoices.resx">
+      <DependentUpon>ShiftInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Incoming\CustomerPayments.resx">
+      <DependentUpon>CustomerPayments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Incoming\Incomes.resx">
+      <DependentUpon>Incomes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\InventoryInvoices\AllInvoices.resx">
+      <DependentUpon>AllInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\InventoryInvoices\NewInventoryInvoice.resx">
+      <DependentUpon>NewInventoryInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\InventoryInvoices\ShowInventoryInvoice.resx">
+      <DependentUpon>ShowInventoryInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Outcoming\EmployeeLoans.resx">
+      <DependentUpon>EmployeeLoans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Outcoming\Expenses.resx">
+      <DependentUpon>Expenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Pricing\AllPriceInvoices.resx">
+      <DependentUpon>AllPriceInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Pricing\PriceInvoicesCashier.resx">
+      <DependentUpon>PriceInvoicesCashier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\PurchasesBack\AllPurchaseBackInvoices.resx">
+      <DependentUpon>AllPurchaseBackInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Purchases\AllPurchaseInvoices.resx">
+      <DependentUpon>AllPurchaseInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\SalesBack\AllSellBackInvoices.resx">
+      <DependentUpon>AllSellBackInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\SalesBack\ShowSellInvoices.resx">
+      <DependentUpon>ShowSellInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Sales\AllSellInvoices.resx">
+      <DependentUpon>AllSellInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings\Shift\ShiftReturnInvoices.resx">
+      <DependentUpon>ShiftReturnInvoices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Settings\Shift\Shifts.resx">
+      <DependentUpon>Shifts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\PurchasesBack\PurchaseBackInvoiceExpenses.resx">
+      <DependentUpon>PurchaseBackInvoiceExpenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\PurchasesBack\PurchaseBackInvoicesCashier.resx">
+      <DependentUpon>PurchaseBackInvoicesCashier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Purchases\PurchaseInvoiceExpenses.resx">
+      <DependentUpon>PurchaseInvoiceExpenses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Purchases\PurchaseInvoicesCashier.resx">
+      <DependentUpon>PurchaseInvoicesCashier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\SalesBack\SellBackInvoiceIncomes.resx">
+      <DependentUpon>SellBackInvoiceIncomes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\SalesBack\SellBackInvoicesCashier.resx">
+      <DependentUpon>SellBackInvoicesCashier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\OrderDetailsQuantity.resx">
+      <DependentUpon>OrderDetailsQuantity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Sales\ItemProdDetails.resx">
+      <DependentUpon>ItemProdDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Sales\ItemProductionFrm.resx">
+      <DependentUpon>ItemProductionFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Sales\SellInvoiceIncomes.resx">
+      <DependentUpon>SellInvoiceIncomes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\Transactions\Sales\SellInvoicesCashier.resx">
+      <DependentUpon>SellInvoicesCashier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\_Main\Authentication\LoginScreen.resx">
+      <DependentUpon>LoginScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\_Main\BaseForm.resx">
+      <DependentUpon>BaseForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\_Main\SplashScreen.resx">
+      <DependentUpon>SplashScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\_Main\UserMainForm.resx">
+      <DependentUpon>UserMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <Content Include="favicon.ico" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Pekar.Desktop_TemporaryKey.pfx" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ERP.DAL\ERP.DAL.csproj">
+      <Project>{adbc9625-8180-4304-9d41-dd5f62a876e8}</Project>
+      <Name>ERP.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ERP.Web\ERP.Web.csproj">
+      <Project>{edeaa114-6a42-40d3-a9bf-32890acc0c27}</Project>
+      <Name>ERP.Web</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PrintEngine\PrintEngine.csproj">
+      <Project>{C2ED5145-7928-4D0A-87CE-2C52BF96D03B}</Project>
+      <Name>PrintEngine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VTSLicense\VTSLicense.csproj">
+      <Project>{951bbc37-2779-4545-a951-eb7c96511346}</Project>
+      <Name>VTSLicense</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Actors\Users\" />
+    <Folder Include="Views\_Main\Authorization\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\classroom_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\company_24px1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\decision_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\delete_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\edit_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\employee_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\erase_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\estimate_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\event_accepted_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\exit_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eye_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\eyeWhite_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file_delete_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\file_settings_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\franchise_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8_high_priority.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-checked-checkbox-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-checked-radio-button-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-event-accepted-tentatively-32 %281%29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-view-32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\key_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\list_view_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\login.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\menu_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\move_right_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\organization_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\people_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\print_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\printColor_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\queue_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\reset_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\resize_horizontal_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_right_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_20px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\save_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\schoolboy_at_a_desk_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\scorecard_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_16px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\search_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\settings_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_property_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\show_property_24px1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\shutdown_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\sign_out_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\splash.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\student_male_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\student_registration_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\team_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\time_24px1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\training_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\trash_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\user_locked_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\users_settings_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\access_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_book_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_list_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_list_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_user_group_man_man_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_user_group_woman_man_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\add_user_male_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bg-2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\business_conference_female_speaker_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\calendar_plus_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_32px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_32px1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cancel_delete_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\check_file_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checked_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\checked_checkbox_24px.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishFile Include="BarcodeStandard">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="EntityFramework">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="EntityFramework.SqlServer">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="favicon.ico">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>File</FileType>
+    </PublishFile>
+    <PublishFile Include="FontAwesome.Sharp">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Bcl.AsyncInterfaces">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Microsoft.Web.Infrastructure">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Newtonsoft.Json">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="NLog">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="Pekar">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="PrintEngine">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="QRCoder">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Buffers">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Drawing.Common">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Memory">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Numerics.Vectors">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Runtime.CompilerServices.Unsafe">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Text.Encodings.Web">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Text.Json">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Threading.Tasks.Extensions">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.ValueTuple">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.Mvc">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.Razor">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.WebPages">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.WebPages.Deployment">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="System.Web.WebPages.Razor">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+    <PublishFile Include="VTSLicense">
+      <Visible>False</Visible>
+      <Group>
+      </Group>
+      <TargetPath>
+      </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
+      <FileType>Assembly</FileType>
+    </PublishFile>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\EntityFramework.6.4.4\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\packages\EntityFramework.6.4.4\build\EntityFramework.targets" Condition="Exists('..\packages\EntityFramework.6.4.4\build\EntityFramework.targets')" />
+</Project>

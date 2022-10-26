@@ -1,0 +1,215 @@
+﻿@model ERP.Web.ViewModels.SellInvoiceInstallmentVM
+@using ERP.DAL
+
+@{
+    ViewBag.Title = "Calculate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--begin::Content-->
+<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+    <!--begin::Subheader-->
+    <div class="subheader py-2 py-lg-4 subheader-solid" id="kt_subheader">
+        <div class="container-fluid d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+            <!--begin::Info-->
+            <div class="d-flex align-items-center flex-wrap mr-2">
+                <!--begin::Page Title-->
+                <h5 class="text-dark font-weight-bold mt-2 mb-2 mr-5 din-bold">حاسبة قسط</h5>
+                <!--end::Page Title-->
+                <!--begin::Actions-->
+                <div class="subheader-separator subheader-separator-ver mt-2 mb-2 mr-4 bg-gray-200"></div>
+                <span class="text-muted font-weight-bold mr-4 din-med din-bold"> اقساط  </span>
+
+                <!--end::Actions-->
+            </div>
+            <!--end::Info-->
+            <div class="d-flex align-items-center">
+                <!--begin::Actions-->
+                <a href="/SellInvoiceInstallments/Index"
+                   class="btn btn-primary font-weight-bold btn-square font-weight-bold font-size-base mr-1 din-bold"><i class="fa fa-cog m-1"></i>ادارة اقساط فواتير القسط </a>
+                <!--end::Actions-->
+            </div>
+        </div>
+    </div>
+    <!--end::Subheader-->
+    <!--begin::Entry-->
+    <div class="d-flex flex-column-fluid">
+        <!--begin::Container-->
+        <div class="container-fluid">
+            <!--begin::Dashboard-->
+           
+            <!--end::Container-->
+
+                    <div class="row din-bold">
+                        <div class="col-12">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-header">
+                                    <div class="card-title">
+                                        <h3 class="card-label">تفاصيل القسط</h3>
+                                    </div>
+                                </div>
+
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="form-group required">
+                                                    <label>المبلغ </label>
+                                                    @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @type = "number" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label>المبلغ الاجمالى</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        @Html.TextBoxFor(m => m.TotalValue, new { @class = "form-control", @onkeyup = "calcPayValue('total')" })
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <label class="radio radio-single radio-primary">
+                                                                    <input type="radio" name="radios2" id="rdo_total" checked onchange="onRdoTotalChanged();" />
+                                                                    <span></span>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    <label>نسبة العمولة</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-prepend">
+                                                            <span class="input-group-text">$</span>
+                                                        </div>
+                                                        @Html.TextBoxFor(m => m.CommissionPerc, new { @class = "form-control", @type = "number", @onkeyup = "calcPayValue('commission')" })
+                                                        @Html.HiddenFor(m => m.CommissionVal)
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text">
+                                                                <label class="radio radio-single radio-primary">
+                                                                    <input type="radio" name="radios2" id="rdo_commissionPerc" onchange="onRdoCommissionPercChanged();" />
+                                                                    <span></span>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group required">
+                                                    <label>المدة بالاشهر</label>
+                                                    @Html.TextBoxFor(m => m.Duration, new { @class = "form-control", @type = "number", @onkeyup = "calcPayValue()" })
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-lg-3">
+                                                <div class="form-group required">
+                                                    <label>قيمة الدفعة</label>
+                                                    @Html.TextBoxFor(m => m.PayValue, new { @class = "form-control", @type = "number" })
+                                                </div>
+                                            </div>
+                                         
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>قيمة الربح</label>
+                                                    @Html.TextBoxFor(m => m.ProfitValue, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group">
+                                                    <label>صافى المبلغ المراد تقسيطة</label>
+                                                    @Html.TextBoxFor(m => m.FinalSafy, new { @class = "form-control", @readonly = "readonly", @type = "number" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                  
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+            
+
+        </div>
+        <!--end::Entry-->
+    </div>
+</div>
+@section Scripts
+{
+
+   
+    <script>
+        function calcPayValue(param) {
+            var RemindValue = Number.parseFloat($("#RemindValue").val());
+            if (isNaN(RemindValue))
+                RemindValue = 0;
+
+            var FinalSafy = Number.parseFloat($("#FinalSafy").val());
+            if (isNaN(FinalSafy))
+                FinalSafy = 0;
+
+            if (param === 'total' || $("#rdo_total:checked").val()) {
+                var TotalValue = Number.parseFloat($("#TotalValue").val());
+                if (isNaN(TotalValue))
+                    TotalValue = 0;
+                FinalSafy = TotalValue;
+            } else if (param === 'commission' || $("#rdo_commissionPerc:checked").val()) {
+                FinalSafy = RemindValue;
+                var CommissionPerc = Number.parseFloat($("#CommissionPerc").val());
+                if (isNaN(CommissionPerc))
+                    CommissionPerc = 0;
+                var CommissionVal = (FinalSafy * CommissionPerc) / 100;
+                $("#CommissionVal").val(CommissionVal);
+                FinalSafy = Math.round(FinalSafy + CommissionVal, 2);
+            }
+            $("#ProfitValue").val(FinalSafy - RemindValue);
+
+
+            var Duration = Number.parseFloat($("#Duration").val());
+            if (isNaN(Duration))
+                Duration = 0;
+
+            $("#FinalSafy").val(FinalSafy);
+            var payVal = FinalSafy / Duration;
+            $("#PayValue").val(payVal);
+        }
+        function onRdoTotalChanged() {
+            if ($("#rdo_total:checked").val()) {
+                $('#TotalValue').removeAttr('disabled');
+                $('#CommissionPerc').attr('disabled', 'disabled');
+                $('#CommissionPerc').val(0);
+                clearTxt();
+
+            }
+        }
+        function clearTxt() {
+            $('#PayValue').val(0);
+            $('#ProfitValue').val(0);
+            $('#FinalSafy').val(0);
+        }
+        function onRdoCommissionPercChanged() {
+            if ($("#rdo_commissionPerc:checked").val()) {
+                $('#CommissionPerc').removeAttr('disabled');
+                $('#TotalValue').attr('disabled', 'disabled');
+                $('#TotalValue').val(0);
+                clearTxt();
+            }
+        };
+        $(document).ready(function () {
+            $("#CommissionPerc").attr('disabled', 'disabled');
+
+        });
+
+
+    </script>
+}
+
+
+
+

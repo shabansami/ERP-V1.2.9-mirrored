@@ -1,0 +1,399 @@
+﻿
+@model ERP.DAL.Item
+@using ERP.DAL
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn, icon = string.Empty;
+    string defultImage = "../../Files/ItemImages/defaultItrem.png";
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة صنف جديد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        //if (Model.ImageName != null)
+        //{
+        //    defultImage = $"../../Files/ItemImages/{Model.ImageName}";
+        //}
+        title = "تعديل صنف ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+    } }
+@section PageTitle1{الأصــناف}
+@section PageTitle2{@title }
+@section Button1{ادارة صنف}
+@section Button1Link{/Items/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "Items", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+                    <div class="accordion" id="accordionExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    <i class="fa fa-chart-pie m-1"></i>البيانات الاساسية للصنف
+                                </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label> المجموعة الاساسية</label>
+                                                <input name="groupBasic" type="text" class="form-control" id="groupBasic" autocomplete="off" />
+                                            </div>
+                                        </div>
+                                        @Html.HiddenFor(model => model.GroupBasicId)
+                                        @Html.HiddenFor(model => model.GroupSellId)
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>نوع الصنف</label>
+                                                @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>اسم الصنف</label>
+                                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                                @Html.HiddenFor(model => model.Id)
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>سعر البيع</label>
+                                                @Html.TextBoxFor(m => m.SellPrice, new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>كود الصنف <span class="badge badge-soft-warning fa-1x">فى حالة ترك الكود فارغا سيتم تكويده تلقائيا حسب مجموعته</span></label>
+                                                @Html.TextBoxFor(m => m.ItemCode, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>باركود الصنف</label>
+                                                @Html.TextBoxFor(m => m.BarCode, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>وحد قياس الصنف الاساسية</label>
+                                                @Html.DropDownList("UnitId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>المواصفات الفنية للصنف</label>
+                                                @Html.TextAreaFor(m => m.TechnicalSpecifications, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label>هل يتم انشاء سيريال للصنف</label>
+                                                <div>
+                                                    @Html.CheckBoxFor(model => model.CreateSerial, htmlAttributes: new { @style = "width: 25px; height: 25px;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label>هل يتم عرض الصنف فى شاشة البيع</label>
+                                                <div>
+                                                    @Html.CheckBoxFor(model => model.AvaliableToSell, htmlAttributes: new { @style = "width: 25px; height: 25px;" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group row">
+                                                <label class="col-xl-3 col-lg-3 col-form-label text-right">صورة الصنف</label>
+                                                <div class="col-lg-9 col-xl-6">
+                                                    <div class="image-input image-input-outline" id="kt_image_1">
+                                                        <div class="image-input-wrapper" style="background-image: url(@defultImage);background-size:100% 100%; " id="imgFile"></div>
+                                                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="اختر ملف">
+                                                            <i class="fa fa-pen icon-sm text-muted"></i>
+                                                            <input type="file" id="ImageName" name="ImageName" accept=".png, .jpg, .jpeg" />
+                                                            <input type="hidden" name="profile_avatar_remove" />
+                                                        </label>
+                                                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                                                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                                                        </span>
+                                                    </div>
+                                                    <span class="form-text text-muted">الملفات المسموح بها: png, jpg, jpeg.</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTwo">
+                                <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <i class="fa fa-bell m-1"></i>محددات الصنف
+                                </button>
+                            </h2>
+                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>حد الطلب (الامان)</label>
+                                                @Html.TextBoxFor(m => m.RequestLimit1, new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>حد الطلب (الخطر)</label>
+                                                @Html.TextBoxFor(m => m.RequestLimit2, new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>الحد الادنى لسعر البيع</label>
+                                                @Html.TextBoxFor(m => m.MinPrice, new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>الحد الاعلى لسعر البيع</label>
+                                                @Html.TextBoxFor(m => m.MaxPrice, new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>وحدة القياس المحول منها</label>
+                                                @Html.DropDownList("UnitConvertFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>الكمية من الوحدة المحول منها</label>
+                                                @Html.TextBoxFor(m => m.UnitConvertFromCount, htmlAttributes: new { @class = "form-control", type = "number" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingThree">
+                                <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    <i class="fa fa-chart-bar m-1"></i>سياسات الأسعار
+                                </button>
+                            </h2>
+                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>سياسة الاسعار</label>
+                                                @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control " })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 d-none">
+                                            <div class="form-group">
+                                                <label>العميل</label>
+                                                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>سعر البيع</label>
+                                                <input type="number" id="SellPricePolicy" value="0" name="SellPrice" class="form-control" />
+                                                @*@Html.TextBoxFor(m => m.SellPrice, new { @class = "form-control" })*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>.</label>
+                                                <input type="button" onclick="Item_Module.SubmitFormTreePrice()" value="اضافة سعر" class="d-block btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-5">
+                                        <div class="col-lg-12">
+
+                                            <label>الاسعار المدخلة</label>
+                                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableTreePrice">
+                                                <thead>
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot></tfoot>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingFour">
+                                <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    <i class="fa fa-chart-bar m-1"></i>وحدات الصنف
+                                </button>
+                            </h2>
+                            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>الوحدة</label>
+                                                @Html.DropDownList("UnitNewId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control " })
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>الكمية  <span class="badge badge-soft-danger fa-1x">من الوحدة الاساسية</span></label>
+                                                <input type="number" id="Quantity" value="0" name="Quantity" class="form-control" />
+                                                @*@Html.TextBoxFor(m => m.SellPrice, new { @class = "form-control" })*@
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>سعر الوحدة </label>
+                                                <input type="number" id="UnitSellPrice" value="0" name="UnitSellPrice" class="form-control" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group ">
+                                                <label>.</label>
+                                                <input type="button" onclick="Item_Module.SubmitFormTreeUnits()" value="اضافة وحدة" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold  form-control" style="text-align:center;" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="form-group ">
+                                                <label>الوحدات المدخلة</label>
+                                                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableTreeUnits">
+                                                    <thead>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                    <tfoot></tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            @*<input type="button" onclick="Item_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@@*<i class="fas fa-chart-pie m-1"></i>*@
+                            <a href="javascript:void(0);" onclick="Item_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+                                <a href="/Items/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fas fa-caret-right fa-2x m-1"></i>عودة</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+
+
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as Item;
+
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اخر بيان تم اضافته</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin::Example-->
+                    <div class="example mb-10">
+                        <table class="table table-hover mb-6">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">المجموعة الاساسية</th>
+                                    <th scope="col">النوع</th>
+                                    <th scope="col">الصنف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>@modl.GroupBasic.Name</td>
+                                    <td>@modl.ItemType.Name</td>
+                                    <td>@modl.Name</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end::Example-->
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Item.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Item_Module.initPricies();
+            Item_Module.initUnits();
+        });
+    </script>
+
+    <script>
+        var treeBasic;
+        $(document).ready(function () {
+            //المجموعة الاساسية
+            var dsBasic = [];
+                $.get("/SharedDataSources/onGroupTypeChange", { id:1}, function (data) {
+                    treeBasic.setSource(data);
+                });
+
+          treeBasic = $('#groupBasic').comboTree({
+                source: dsBasic,
+                isMultiple: false,
+                collapse: true,
+                selected:['@Model.GroupBasicId']
+                //selectableLastNode: true
+
+            });
+            treeBasic.onChange(function () {
+                if (treeBasic.getSelectedIds()!=null) {
+                    $('#GroupBasicId').val(treeBasic.getSelectedIds()[0]);
+
+                }
+            });
+            // ============== نهاية المجموعة الاساسية
+        })
+    </script>
+
+}
+
+
+

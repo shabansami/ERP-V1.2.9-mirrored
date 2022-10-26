@@ -1,0 +1,170 @@
+﻿
+
+@model ERP.DAL.EmployeeGivingCustody
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title = string.Empty, btn = string.Empty, icon = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "تسجيل صرف عهدة لموظف";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    } }
+
+@section PageTitle1{صرف عٌهد الموظفين}
+@section PageTitle2{@title }
+@section Button1{ادارة صرف عهدة لموظف}
+@section Button1Link{/EmployeeGivingCustody/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "EmployeeGivingCustody", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>الادارة</label>
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "EmployeeGivingCustody_Module.getEmployeesDepartmentChange()" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>الموظف</label>
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>الفرع</label>
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "EmployeeGivingCustody_Module.getSafesOnBranchChanged();" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>خزينة</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @aria_label = "Text input with radio" })
+                    <span class="input-group-text">
+                        <input type="radio" name="radios2" id="rdo_safe" checked onchange="EmployeeGivingCustody_Module.onRdoSafeChanged();" />
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>بنك</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                    <span class="input-group-text">
+                        <input type="radio" name="radios2" id="rdo_bank" onchange="EmployeeGivingCustody_Module.onRdoBankChanged();" />
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>تاريخ صرف العهدة </label>
+                @Html.TextBoxFor(m => m.CustodyDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group required">
+                <label>المبلغ</label>
+                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @onkeyup = "EmployeeGivingCustody_Module.onAmountKeyUp()", @style = "text-align:right;" })
+            </div>
+        </div>
+
+
+        <div class="col-lg-12">
+            <div class="form-group ">
+                <label>البيان</label>
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="EmployeeGivingCustody_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="EmployeeGivingCustody_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/EmployeeGivingCustody/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as EmployeeGivingCustody;
+
+<div class="col-lg-12">
+    <div class="card card-custom gutter-b">
+
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">اخر بيان تم اضافته</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin::Example-->
+            <div class="example mb-10">
+                <table class="table table-hover mb-6">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">الموظف</th>
+                            <th scope="col">المبلغ</th>
+                            <th scope="col">الملاحظة</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@modl.Employee.Person.Name</td>
+                            <td>@modl.Amount</td>
+                            <td>@modl.Notes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end::Example-->
+        </div>
+    </div>
+</div>}
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/EmployeeGivingCustody.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#BankAccountId").attr('disabled', 'disabled');
+        })
+    </script>
+}
+
+

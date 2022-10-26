@@ -1,0 +1,224 @@
+﻿
+@model ERP.DAL.Asset
+@using ERP.DAL
+@{
+    ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+    title = "اضافة رصيد اول المدة لاصــل ثابت جديد";
+    btn = "اضافة";
+    icon = "fa fa-plus-circle m-1";
+    var isIntialBalanceJs = "1";
+    var showMode = false;
+    if (ViewBag.ShowMode != null)
+    {
+        showMode = true;
+    }
+}
+
+@section PageTitle1{الأصــول الثابتة}
+@section PageTitle2{@title }
+@section Button1{ادارة الأصــول الثابتة}
+@section Button1Link{/FixedAssetIntialBalances/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "FixedAssetIntialBalances", FormMethod.Post, new { id = "form1" }))
+            {<div class="card-body">
+
+                    <div class="row">
+
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الفرع</label>
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>الحساب الرئيسى</label>
+                                @Html.DropDownList("AccountTreeParentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>مسمى الأصــل</label>
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>التكلفة</label>
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @type = "number" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ الشراء</label>
+                                @Html.TextBoxFor(m => m.PurchaseDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label>الأصل (سيارة) مخزن</label>
+                                @Html.CheckBoxFor(m => m.IsCarStore, new { @class = "form-control", @onchange = "Asset_Module.onIsCarStoreChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label>الأصل (سيارة) بدون مخزن</label>
+                                @Html.CheckBoxFor(m => m.IsNotCarStore, new { @class = "form-control", @onchange = "Asset_Module.onIsNotCarStoreChange()" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <!--begin::Select-->
+                            <div class="form-group">
+                                <label>قابل للاهلاك <span class="badge badge-soft-warning fa-1x">يتم احتساب الاهلاك بالقيمة الثابتة</span></label>
+                                @Html.CheckBoxFor(m => m.IsDestruction, new { @class = "form-control", @onchange = "Asset_Module.onIsDestructionChange()" })
+                            </div>
+                            <!--end::Select-->
+                        </div>
+
+                        <div class="col-lg-8" style="display:none;" id="divDestruction">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <!--begin::Select-->
+                                    <div class="form-group">
+                                        <label>تاريخ التشغيل</label>
+                                        @Html.TextBoxFor(m => m.OperationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                    </div>
+                                    <!--end::Select-->
+                                </div>
+                                <div class="col-lg-3">
+                                    <!--begin::Select-->
+                                    <div class="form-group">
+                                        <label>القيمة التخريدية</label>
+                                        @Html.TextBoxFor(m => m.ScrapValue, new { @class = "form-control", @type = "number", @onkeyup = "Asset_Module.destructionClc()" })
+                                    </div>
+                                    <!--end::Select-->
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <!--begin::Select-->
+                                    <div class="form-group">
+                                        <label>العمرالانتاجى <span class="badge badge-soft-warning fa-1x">عدد السنوات</span></label>
+                                        @Html.TextBoxFor(m => m.UsefulLife, new { @class = "form-control", @type = "number", @onkeyup = "Asset_Module.destructionClc()" })
+                                    </div>
+                                    <!--end::Select-->
+                                </div>
+                                <div class="col-lg-3">
+                                    <!--begin::Select-->
+                                    <div class="form-group">
+                                        <label>قيمة الاهلاك</label>
+                                        @Html.TextBoxFor(m => m.DestructionAmount, new { @class = "form-control", @type = "number", @readonly = "readonly" })
+                                    </div>
+                                    <!--end::Select-->
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    @if (!showMode)
+                    {
+                        <div class="row">
+                            <div class="col-12">
+                                @*<input type="button" onclick="Asset_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                <a href="javascript:void(0);" onclick="Asset_Module.SubmitForm(this,'@isIntialBalanceJs');" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                                @if (Model.Id != Guid.Empty)
+                                {
+                                    <a href="/FixedAssetIntialBalances/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            }
+
+
+        </div>
+
+
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null && !showMode)
+    {
+        var modl = ViewBag.LastRow as Asset;
+
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اخر بيان تم اضافته</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin::Example-->
+                    <div class="example mb-10">
+                        <table class="table table-hover mb-6">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">الحساب الرئيسى</th>
+                                    <th scope="col"> اسم الأصل</th>
+                                    <th scope="col">التكلفة</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @*model.AccountsTree  حساب الاصل
+                                    model.AccountsTree1 //حساب المصروف ان وجد
+                                    model.AccountsTree2 // حساب مخصص الاهلاك
+                                    model.AccountsTree3  حساب الرئيسى*@
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>@modl.AccountsTree.AccountName</td>
+                                    <td>@modl.Name</td>
+                                    <td>@modl.Amount</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end::Example-->
+                </div>
+            </div>
+        </div>
+
+    }
+</div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Asset.js"></script>
+
+    @if (showMode)
+    {
+        <script>
+            $(document).ready(function () {
+                $("#form1 :input").attr("disabled", true);
+                $("#divDestruction").show();
+            });
+        </script>
+    }
+
+}

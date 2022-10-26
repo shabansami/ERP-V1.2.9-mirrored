@@ -1,0 +1,1007 @@
+﻿@model ERP.Web.ViewModels.GeneralSettingVM
+@using ERP.DAL
+@using ERP.Web.ViewModels
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section PageTitle1{الاعدادات}
+@section PageTitle2{كل الاعدادات}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header align-items-center d-flex">
+                <h4 class="card-title mb-0 flex-grow-1 din-bold">
+                    اعدادات النظام
+                </h4>
+                <div class="flex-shrink-0">
+                    <ul class="nav justify-content-end nav-pills card-header-pills" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#kt_tab_pane_4_1" role="tab">
+                                <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
+                                <span class="d-none d-sm-block">
+                                    الاعدادت الرئيسية
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_4_2" role="tab">
+                                <span class="d-block d-sm-none"><i class="far fa-user"></i></span>
+                                <span class="d-none d-sm-block">اعدادات شجرة الحسابات</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_4_3" role="tab">
+                                <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                <span class="d-none d-sm-block">اعدادات مركز تحميل الملفات</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#kt_tab_pane_4_4" role="tab">
+                                <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
+                                <span class="d-none d-sm-block">اعدادات المخازن</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div><!-- end card header -->
+
+
+            <div class="tab-content">
+                <div class="tab-pane active" id="kt_tab_pane_4_1" role="tabpanel">
+                    @using (Html.BeginForm("CreateEdit", "GeneralSettings", FormMethod.Post, new { id = "form1" }))
+                    {
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>اسم الجهة</label>
+                                        @Html.TextBoxFor(m => m.EntityData.Name, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>الاسم المختصر</label>
+                                        @Html.TextBoxFor(m => m.EntityData.AbbreviationName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0 w-100 ">
+                                        <div>
+                                            <label> الدولة</label>
+                                            @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "GeneralSetting_Module.onCountryChange()" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group mb-0 w-100 ">
+                                        <div>
+                                            <label> المحافظة</label>
+                                            @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "GeneralSetting_Module.onCityChange()" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>المدينة</label>
+                                        @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>العنوان</label>
+                                        @Html.TextBoxFor(m => m.EntityData.Address, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>رقم التليفون ١</label>
+                                        @Html.TextBoxFor(m => m.EntityData.Tel1, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>رقم التليفون ٢	</label>
+                                        @Html.TextBoxFor(m => m.EntityData.Tel2, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>رقم السجل التجارى</label>
+                                        @Html.TextBoxFor(m => m.EntityData.CommercialRegisterNo, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>رقم السجل الضريبى</label>
+                                        @Html.TextBoxFor(m => m.EntityData.TaxCardNo, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>احتساب تكلفة المنتج</label>
+                                        @Html.DropDownList("ItemCostCalculateId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>اظهار تكلفة الصنف فى شاشة البيع</label>
+                                        @Html.DropDownList("ItemCostCalculateShowInSellRegId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>اضافة اصناف بدون رصيد</label>
+                                        @Html.DropDownList("ItemAcceptNoBalanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>قبول صرف نقدية بدون رصيد فى المصروفات وسندات الصرف</label>
+                                        @Html.DropDownList("PaidWithBalance", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  mb-0 w-100 ">
+                                        <label>الاعتماد المباشر بعد حفظ فواتير البيع والتوريد</label>
+                                        @Html.DropDownList("InvoicesApprovalAfterSaveId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>المدة المسموح بها فى سداد قسط(بالايام)</label>
+                                        @Html.TextBoxFor(m => m.PeriodAllowedPayInstallment, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>بداية السنة المالية</label>
+                                        @Html.TextBoxFor(m => m.FinancialYearStartDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>نهاية السنة المالية</label>
+                                        @Html.TextBoxFor(m => m.FinancialYearEndDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6" style="display:none;">
+                                    <div class="form-group ">
+                                        <label style="margin-left:10px">طول Serial يحتوى على</label>
+                                        @Html.CheckBoxFor(m => m.Letters, new { @class = "form-control" })
+                                        <label style="margin-left:10px">حروف</label>
+                                        @Html.CheckBoxFor(m => m.Numbers, new { @class = "form-control" })
+
+                                        <label>ارقام</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="javascript:void(0);" onclick="GeneralSetting_Module.SubmitForm(this,'form1',1);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-edit m-1"></i>تحديث</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                </div>
+                <div class="tab-pane" id="kt_tab_pane_4_2" role="tabpanel">
+                    @using (Html.BeginForm("AccountTree", "GeneralSettings", FormMethod.Post, new { id = "formAccount" }))
+                    {
+                        @Html.Hidden("currentTxtId");
+                        @Html.Hidden("currentSettingId");
+                        @Html.Hidden("currentAccountTreeId");
+                        @Html.Hidden("currentAccountTreeText");
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب المشتريات</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.PurchaseAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.PurchaseAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.PurchaseAccountSettingValue)
+                                            <div class="input-group-text">
+                                                <a href="javascript:void(0);" onclick="openModal('AccountTree_PurchaseAccountName',@Model.AccountTree.PurchaseAccountSettingId,@Model.AccountTree.PurchaseAccountSettingValue)">
+                                                    <i title="بحث عن حساب" class="bx bx-search-alt m-1"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب المبيعات</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.SalesAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.SalesAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.SalesAccountSettingValue)
+
+                                            <div class="input-group-text">
+                                                <a href="javascript:void(0);" onclick="openModal('AccountTree_SalesAccountName',@Model.AccountTree.SalesAccountSettingId,@Model.AccountTree.SalesAccountSettingValue)">
+                                                    <i title="بحث عن حساب" class="bx bx-search-alt m-1"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الموردين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.SupplierAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.SupplierAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.SupplierAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_SupplierAccountName',@Model.AccountTree.SupplierAccountSettingId,@Model.AccountTree.SupplierAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب العملاء</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.CustomerAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.CustomerAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.CustomerAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_CustomerAccountName',@Model.AccountTree.CustomerAccountSettingId,@Model.AccountTree.CustomerAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب مرددوات المبيعات</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.SalesReturnAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.SalesReturnAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.SalesReturnAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_SalesReturnAccountName',@Model.AccountTree.SalesReturnAccountSettingId,@Model.AccountTree.SalesReturnAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب مرددوات المشتريات</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.PurchaseReturnAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.PurchaseReturnAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.PurchaseReturnAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_PurchaseReturnAccountName',@Model.AccountTree.PurchaseReturnAccountSettingId,@Model.AccountTree.PurchaseReturnAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>حساب خدمة الدليفرى</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.AccountTree.DeliveryAccountName, new { @class = "form-control" })
+                                                @Html.HiddenFor(m => m.AccountTree.DeliveryAccountSettingId)
+                                                @Html.HiddenFor(m => m.AccountTree.DeliveryAccountSettingValue)
+
+                                                    <div class="input-group-text" ><a href="javascript:void(0);" onclick="openModal('AccountTree_DeliveryAccountName',@Model.AccountTree.DeliveryAccountSettingId,@Model.AccountTree.DeliveryAccountSettingValue)"><i title="بحث عن حساب"  class="bx bx-search-alt m-1"></i></a></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب ضريبة المبيعات</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.SalesTaxAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.SalesTaxAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.SalesTaxAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_SalesTaxAccountName',@Model.AccountTree.SalesTaxAccountSettingId,@Model.AccountTree.SalesReturnAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الضريبة المضافة</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.AddedTaxAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.AddedTaxAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.AddedTaxAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_AddedTaxAccountName',@Model.AccountTree.AddedTaxAccountSettingId,@Model.AccountTree.AddedTaxAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الخصم المسموح به</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.PremittedDiscountAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.PremittedDiscountAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.PremittedDiscountAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_PremittedDiscountAccountName',@Model.AccountTree.PremittedDiscountAccountSettingId,@Model.AccountTree.PremittedDiscountAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الخصم المكتسب</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.EarnedDiscountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.EarnedDiscountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.EarnedDiscountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_EarnedDiscountName',@Model.AccountTree.EarnedDiscountSettingId,@Model.AccountTree.EarnedDiscountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الخزينة</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.SafeAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.SafeAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.SafeAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_SafeAccountName',@Model.AccountTree.SafeAccountSettingId,@Model.AccountTree.SafeAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب انواع الايرادات المخصصة</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.GeneralRevenusName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.GeneralRevenusSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.GeneralRevenusSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_GeneralRevenusName',@Model.AccountTree.GeneralRevenusSettingId,@Model.AccountTree.GeneralRevenusSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب البنك</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.BankAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.BankAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.BankAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_BankAccountName',@Model.AccountTree.BankAccountSettingId,@Model.AccountTree.BankAccountSettingValue)"><i title="بحث عن حساب" title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب انواع المصروفات المخصصة</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.ExpensesAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.ExpensesAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.ExpensesAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_ExpensesAccountName',@Model.AccountTree.ExpensesAccountSettingId,@Model.AccountTree.ExpensesAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب ضريبة ارباح تجارية</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.CommercialTaxName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.CommercialTaxSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.CommercialTaxSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_CommercialTaxName',@Model.AccountTree.CommercialTaxSettingId,@Model.AccountTree.CommercialTaxSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب رأس المال</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.ShareCapitalAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.ShareCapitalAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.ShareCapitalAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_ShareCapitalAccountName',@Model.AccountTree.ShareCapitalAccountSettingId,@Model.AccountTree.ShareCapitalAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب المخزون (رصيد اول المدة للاصناف)</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.StockAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.StockAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.StockAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_StockAccountName',@Model.AccountTree.StockAccountSettingId,@Model.AccountTree.StockAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب شيكات تحت التحصيل (اوراق قبض)</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.CheckUnderCollAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.CheckUnderCollAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.CheckUnderCollAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_CheckUnderCollAccountName',@Model.AccountTree.CheckUnderCollAccountSettingId,@Model.AccountTree.CheckUnderCollAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب شيكات تحت التحصيل برسم السداد (اوراق دفع)</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.CheckUnderCollAccountPaymentName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.CheckUnderCollAccountPaymentSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.CheckUnderCollAccountPaymentSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_CheckUnderCollAccountPaymentName',@Model.AccountTree.CheckUnderCollAccountPaymentSettingId,@Model.AccountTree.CheckUnderCollAccountPaymentSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الرواتب والاجور</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.SalariesAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.SalariesAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.SalariesAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_SalariesAccountName',@Model.AccountTree.SalariesAccountSettingId,@Model.AccountTree.SalariesAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @*<label>حساب ذمم الموظفين</label>*@
+                                        <label>حساب اجور مستحقة للعاملين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.EmployeeAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.EmployeeAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.EmployeeAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_EmployeeAccountName',@Model.AccountTree.EmployeeAccountSettingId,@Model.AccountTree.EmployeeAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @*<label>حساب السلف والقروض للموظفين</label>*@
+                                        <label>حساب السلف العاملين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.LoanEmpAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.LoanEmpAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.LoanEmpAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_LoanEmpAccountName',@Model.AccountTree.LoanEmpAccountSettingId,@Model.AccountTree.LoanEmpAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>استقطاعات وخصومات وغياب الموظفين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.MiscellaneousRevenusAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.MiscellaneousRevenusAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.MiscellaneousRevenusAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_MiscellaneousRevenusAccountName',@Model.AccountTree.MiscellaneousRevenusAccountSettingId,@Model.AccountTree.MiscellaneousRevenusAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        @*<label>حساب عهــد الموظفين</label>*@
+                                        <label>حساب السلف المؤقتة للعاملين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.CustodyAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.CustodyAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.CustodyAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_CustodyAccountName',@Model.AccountTree.CustodyAccountSettingId,@Model.AccountTree.CustodyAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب فوائد الاقساط</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.InstallmentsBenefitsAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.InstallmentsBenefitsAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.InstallmentsBenefitsAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_InstallmentsBenefitsAccountName',@Model.AccountTree.InstallmentsBenefitsAccountSettingId,@Model.AccountTree.InstallmentsBenefitsAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب إيرادات الصيانة</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.MaintenanceAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.MaintenanceAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.MaintenanceAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_MaintenanceAccountName',@Model.AccountTree.MaintenanceAccountSettingId,@Model.AccountTree.MaintenanceAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب مخصص اهلاك الاصل الثابت</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.DestructionAllowanceAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.DestructionAllowanceAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.DestructionAllowanceAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_DestructionAllowanceAccountName',@Model.AccountTree.DestructionAllowanceAccountSettingId,@Model.AccountTree.DestructionAllowanceAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب مجمع اهلاك الاصول الثابتة</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.AssetsDepreciationComplexAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.AssetsDepreciationComplexAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.AssetsDepreciationComplexAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_AssetsDepreciationComplexAccountName',@Model.AccountTree.AssetsDepreciationComplexAccountSettingId,@Model.AccountTree.AssetsDepreciationComplexAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            @*<div class="row">
+                                    <div class="col-12">
+                                        <a href="#" onclick="GeneralSetting_Module.SubmitForm(this,'form2',2);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-edit m-1"></i>تحديث</a>
+                                    </div>
+                                </div>*@
+                        </div>
+                    }
+                </div>
+                <div class="tab-pane" id="kt_tab_pane_4_3" role="tabpanel">
+                    @using (Html.BeginForm("AccountTree", "GeneralSettings", FormMethod.Post, new { id = "formUpload" }))
+                    {
+                        @Html.Hidden("currentUploadTxtId");
+                        @Html.Hidden("currentUploadSettingId");
+                        @Html.Hidden("currentUploadId");
+                        @Html.Hidden("currentUploadText");
+
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد فواتير التوريد</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterPurchaseInvoiceName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterPurchaseInvoiceSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterPurchaseInvoiceSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterPurchaseInvoiceName',@Model.UploadFileTree.UploadCenterPurchaseInvoiceSettingId,'@Model.UploadFileTree.UploadCenterPurchaseInvoiceSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد فواتير مرتجع التوريد</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterPurchaseBackInvoiceName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterPurchaseBackInvoiceSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterPurchaseBackInvoiceSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterPurchaseBackInvoiceName',@Model.UploadFileTree.UploadCenterPurchaseBackInvoiceSettingId,'@Model.UploadFileTree.UploadCenterPurchaseBackInvoiceSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد فواتير البيع</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterSellInvoiceName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterSellInvoiceSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterSellInvoiceSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterSellInvoiceName',@Model.UploadFileTree.UploadCenterSellInvoiceSettingId,'@Model.UploadFileTree.UploadCenterSellInvoiceSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>ملفات فاتورة مرتجع البيع</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterSellBackInvoiceName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterSellBackInvoiceSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterSellBackInvoiceSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterSellBackInvoiceName',@Model.UploadFileTree.UploadCenterSellBackInvoiceSettingId,'@Model.UploadFileTree.UploadCenterSellBackInvoiceSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد الموظفين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterEmployeeName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterEmployeeSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterEmployeeSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterEmployeeName',@Model.UploadFileTree.UploadCenterEmployeeSettingId,'@Model.UploadFileTree.UploadCenterEmployeeSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد الشيكات البنكية</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterChequeName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterChequeSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterChequeSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterChequeName',@Model.UploadFileTree.UploadCenterChequeSettingId,'@Model.UploadFileTree.UploadCenterChequeSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد الموردين</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterSupplierName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterSupplierSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterSupplierSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterSupplierName',@Model.UploadFileTree.UploadCenterSupplierSettingId,'@Model.UploadFileTree.UploadCenterSupplierSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد العملاء</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterCustomerName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterCustomerSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterCustomerSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterCustomerName',@Model.UploadFileTree.UploadCenterCustomerSettingId,'@Model.UploadFileTree.UploadCenterCustomerSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد الاقساط</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterInstallmentName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterInstallmentSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterInstallmentSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterInstallmentName',@Model.UploadFileTree.UploadCenterInstallmentSettingId,'@Model.UploadFileTree.UploadCenterInstallmentSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            @*<div class="row">
+                                    <div class="col-12">
+                                        <a href="#" onclick="GeneralSetting_Module.SubmitForm(this,'form2',2);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-edit m-1"></i>تحديث</a>
+                                    </div>
+                                </div>*@
+                        </div>
+                    }
+                </div>
+                <div class="tab-pane" id="kt_tab_pane_4_4" role="tabpanel" aria-labelledby="kt_tab_pane_4_4">
+                    @using (Html.BeginForm("CreateEdit", "GeneralSettings", FormMethod.Post, new { id = "form3" }))
+                    {
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>الفرع</label>
+                                        @Html.DropDownList("BranchInId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'ProductionInStoreId');" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>مخزن التصنيع الداخلى</label>
+                                        @Html.DropDownList("ProductionInStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>الفرع</label>
+                                        @Html.DropDownList("BranchExId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'DefaultStoreId');" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>المخزن الافتراضى فى فواتير البيع والشراء</label>
+                                        @Html.DropDownList("DefaultStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>الفرع</label>
+                                        @Html.DropDownList("BranchUnderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'ProductionUnderStoreId');" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>مخزن تحت التصنيع الافتراضى</label>
+                                        @Html.DropDownList("ProductionUnderStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>الفرع</label>
+                                        @Html.DropDownList("BranchMaintenanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'MaintenanceStoreId');" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>مخزن الصيانة</label>
+                                        @Html.DropDownList("MaintenanceStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>الفرع</label>
+                                        @Html.DropDownList("BranchMaintenanceDamageId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoreDamagesBranchChanged();" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group  ">
+                                        <label>مخزن توالف الصيانة</label>
+                                        @Html.DropDownList("MaintenanceDamageStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-12">
+                                    <a href="javascript:void(0);" onclick="GeneralSetting_Module.SubmitForm(this,'form3',3);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-edit m-1"></i>تحديث</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Card-->
+</div>
+<div id="exampleModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-scroll="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">شجرة الحسابات</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <div class="form-group ">
+                        <label>اختر حساب</label>
+                        <input name="accountTree" type="text" class="form-control din-bold" id="accountTree" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal" onclick="onSaveAccountTree(this)">حفظ</button>
+                <button type="button" class="btn btn-primary waves-effect waves-light">اغلاق</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<div id="exampleModalUpload" class="modal fade" tabindex="-1" aria-labelledby="exampleModalUploadLabel" aria-hidden="true" data-bs-scroll="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">مركز التحميل</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="col-lg-12">
+                    <div class="form-group ">
+                        <label>اختر مجلد رئيسيى</label>
+                        <input name="uploadTree" type="text" class="form-control din-bold" id="uploadTree" autocomplete="off" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal" onclick="onSaveUploadCenterTree(this)">حفظ</button>
+
+                <button type="button" class="btn btn-primary waves-effect waves-light">اغلاق</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+  
+@section Scripts
+{
+    <script>
+
+        //#region Account Tree
+        // Modal
+        function openModal(txtId, settingId, settingValSelected) {
+            $("#currentTxtId").val(txtId);
+            $("#currentSettingId").val(settingId);
+            //accountTree._selectedItems[0] = [1];
+            accountTree.clearSelection();
+            accountTree.setSelection([settingValSelected]);
+            $('#exampleModal').modal('show');
+        };
+
+        //========= draw account tree====================
+        var accountTree;
+        $(document).ready(function () {
+            //دليل الحسابات
+            var dsTree = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: true }, function (data) {
+                accountTree.setSource(data);
+            });
+
+            accountTree = $('#accountTree').comboTree({
+                source: dsTree,
+                isMultiple: false,
+                collapse: true,
+                selected: []
+                //selectableLastNode: true
+
+            });
+            accountTree.onChange(function () {
+                if (accountTree.getSelectedIds() != null) {
+                    $('#currentAccountTreeId').val(accountTree.getSelectedIds()[0]);
+                    $('#currentAccountTreeText').val($("#accountTree").val());
+                }
+            });
+            // ============== نهاية شجرة الحسابات
+        });
+
+        // save account tree
+        function onSaveAccountTree(btn) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: "/GeneralSettings/SaveAccountSetting?accountId=" + $('#currentAccountTreeId').val() + '&settingId=' + $('#currentSettingId').val(),
+                    //data:{ 'accountId':$('#currentAccountTreeId').val(), 'settingId':$('#currentSettingId').val() },
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+
+                    success: function (res) {
+                        if (res.isValid) {
+                            $(btn).attr('disabled', 'disabled'); // disabled button after one clicke
+                            toastr.success(res.message, '')
+                            setTimeout(function () { $(btn).removeAttr('disabled'); $('#exampleModal').modal('hide'); }, 2000);
+                            var currentTxtId = $("#currentTxtId").val();
+                            document.getElementById(currentTxtId).value = $("#currentAccountTreeText").val() + '...' + res.accountNum;
+                            $("#currentAccountTreeId").val('');
+                            //$.get("/SharedDataSources/GetAccountsTrees", null, function (data) {
+                            //    accountTree.setSource(data);
+                            //    accountTree._selectedItems = [1];
+
+                            //});
+
+                        } else {
+                            toastr.error(res.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                        console.log(err)
+                    }
+                })
+                //to prevent default form submit event
+                return false;
+            } catch (ex) {
+                console.log(ex)
+            }
+
+        };
+
+
+        //#endregion
+
+
+        //#region Upload Center Files
+        // Modal
+        function openModalUpload(txtId, settingId, settingValSelected) {
+            $("#currentUploadTxtId").val(txtId);
+            $("#currentUploadSettingId").val(settingId);
+            //accountTree._selectedItems[0] = [1];
+            uploadTree.clearSelection();
+            uploadTree.setSelection([settingValSelected]);
+            $('#exampleModalUpload').modal('show');
+        };
+
+        //========= draw account tree====================
+        var uploadTree;
+        $(document).ready(function () {
+            //مركز التحميل
+            var dsUploadTree = [];
+            $.get("/SharedDataSources/GetUploadCenters", { selectedTree: true }, function (data) {
+                uploadTree.setSource(data);
+            });
+
+            uploadTree = $('#uploadTree').comboTree({
+                source: dsUploadTree,
+                isMultiple: false,
+                collapse: true,
+                selected: []
+                //selectableLastNode: true
+
+            });
+            uploadTree.onChange(function () {
+                if (uploadTree.getSelectedIds() != null) {
+                    $('#currentUploadId').val(uploadTree.getSelectedIds()[0]);
+                    $('#currentUploadText').val($("#uploadTree").val());
+                }
+            });
+            // ============== نهاية مركز التحميل
+
+
+        })
+
+        // save Upload Center Folder
+        function onSaveUploadCenterTree(btn) {
+            try {
+                $.ajax({
+                    type: 'POST',
+                    url: "/GeneralSettings/SaveUploadCenterSetting?folderId=" + $('#currentUploadId').val() + '&settingId=' + $('#currentUploadSettingId').val(),
+                    contentType: false,
+                    processData: false,
+                    dataType: "json",
+
+                    success: function (res) {
+                        if (res.isValid) {
+                            $(btn).attr('disabled', 'disabled'); // disabled button after one clicke
+                            toastr.success(res.message, '')
+                            setTimeout(function () { $(btn).removeAttr('disabled'); $('#exampleModalUpload').modal('hide'); }, 2000);
+                            var currentTxtId = $("#currentUploadTxtId").val();
+                            document.getElementById(currentTxtId).value = $("#currentUploadText").val();
+                            $("#currentUploadId").val('');
+                        } else {
+                            toastr.error(res.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                        console.log(err)
+                    }
+                })
+                //to prevent default form submit event
+                return false;
+            } catch (ex) {
+                console.log(ex)
+            }
+
+        };
+                                                                                                                    //#endrion
+
+    </script>
+    <script src="~/Assets/JSCustom/GeneralSetting.js"></script>
+
+}

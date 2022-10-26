@@ -1,0 +1,683 @@
+﻿
+@model ERP.DAL.MaintenanceDetail
+@using ERP.DAL
+@{
+    ViewBag.Title = "SaveItemData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn, icon = string.Empty;
+
+    double totalItemSpareParts = 0;   // اجمالى الفاتورة (البيع)
+    double totalItemDiscount = 0; // اجمالى الخصومات على الاصناف
+    double totalItemIncomes = 0; // اجمالى الايرادات
+    double iteamSafy = 0; // صافى الفاتورة
+                          //string showDiv = "none";
+                          //string displayDiscount = "none";
+                          //string isInvoiceDisVal = "true";
+                          //string chkValRdo = "checked";
+                          //string chkPerRdo = "";
+
+
+    title = "صيانة صنف محدد ";
+    btn = "حفظ";
+    icon = "fa fa-edit m-1";
+    totalItemSpareParts = Model.TotalItemSpareParts;
+    totalItemDiscount = Model.MaintenanceSpareParts.Where(x => !x.IsDeleted).Select(x => x.SparePartDiscount).Sum();
+    totalItemIncomes = Model.TotalItemIncomes;
+    iteamSafy = Model.ItemSafy;
+
+}
+
+@section PageTitle1{صنف محدد}
+@section PageTitle2{@title }
+@section Button1{كل اصناف الفاتورة}
+@section Button1Link{/MaintenanceItems/Index?invoGuid=@(Model.Maintenance?.Id)}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+    
+    @if (ViewBag.Msg == null)
+    {
+              <div class="row">
+                  <div class="col-lg-12">
+                      <div class="card">
+                          <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                              <div class="card-header din-bold">
+                                  <ul class="twitter-bs-wizard-nav">
+                                      <li class="nav-item">
+                                          <a href="#seller-details" class="nav-link" data-toggle="tab">
+                                              <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                                  <i class="bx bx-list-ul"></i>
+                                              </div>
+                                              <h4 style="margin-top:30px;">1. البيانات الاساسية للصنف</h4>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item">
+                                          <a href="#seller-details2" class="nav-link" data-toggle="tab">
+                                              <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                                  <i class="bx bx-list-ul"></i>
+                                              </div>
+                                              <h4 style="margin-top:30px;">2. قطع الغيار</h4>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item">
+                                          <a href="#seller-details3" class="nav-link" data-toggle="tab">
+                                              <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                                  <i class="bx bx-list-ul"></i>
+                                              </div>
+                                              <h4 style="margin-top:30px;">3.  التوالف</h4>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item">
+                                          <a href="#seller-details4" class="nav-link" data-toggle="tab">
+                                              <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                                  <i class="bx bx-list-ul"></i>
+                                              </div>
+                                              <h4 style="margin-top:30px;">4. تكاليف الصيانة</h4>
+                                          </a>
+                                      </li>
+                                      <li class="nav-item">
+                                          <a href="#seller-details5" class="nav-link" data-toggle="tab">
+                                              <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                                  <i class="bx bx-list-ul"></i>
+                                              </div>
+                                              <h4 style="margin-top:30px;">5.  ملخص وحفظ</h4>
+                                          </a>
+                                      </li>
+                                  </ul>
+
+                              </div>
+
+                              <div class="card-body din-bold">
+
+                                  @using (Html.BeginForm("CreateEdit", "MaintenanceItems", FormMethod.Post, htmlAttributes: new { id = "kt_form" }))
+                                  {
+                                      <!--begin::Wizard Step 1 البيانات الاساسية-->
+                                  <div class="tab-content twitter-bs-wizard-tab-content">
+                                      <div class="tab-pane" id="seller-details">
+                                          <div class="text-center mb-4">
+                                              <h4>البيانات الاساسية</h4>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-xl-6">
+                                                      <!--begin::Select-->
+                                                      <div class="form-group required">
+                                                          <label>اسم الصنف</label>
+                                                          @Html.TextBoxFor(m => m.Item.Name, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @readonly = "readonly" })
+                                                          @Html.HiddenFor(x => x.Id)
+                                                          @Html.HiddenFor(x => x.RecordGuid)
+                                                          @Html.HiddenFor(x => x.MaintenanceId)
+                                                      </div>
+                                                  </div>
+                                                  <div class="col-xl-6">
+                                                      <!--begin::Input-->
+                                                      <div class="form-group">
+                                                          <label>رقم الفاتورة</label>
+                                                          @Html.TextBoxFor(model => model.Maintenance.InvoiceNumber, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @readonly = "readonly" })
+                                                          <span class="form-text text-muted">ادخل تاريخ الفاتورة </span>
+                                                      </div>
+                                                      <!--end::Input-->
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-xl-6">
+                                                      <!--begin::Input-->
+                                                      <div class="form-group required">
+                                                          <label>نوع العطل</label>
+                                                          @Html.DropDownList("MaintenProblemTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med" })
+                                                      </div>
+                                                      <!--end::Input-->
+                                                  </div>
+                                                  <div class="col-xl-6">
+                                                      <!--begin::Input-->
+                                                      <div class="form-group required">
+                                                          <label>تحديث حالة الصنف </label>
+                                                          @Html.DropDownList("MaintenanceCaseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100" })
+                                                          <span class="form-text text-muted">اختر حالة الصنف </span>
+                                                      </div>
+                                                      <!--end::Input-->
+                                                  </div>
+                                              </div>
+                                              <div class="row">
+                                                  <div class="col-xl-12">
+                                                      <!--begin::Select-->
+                                                      <div class="form-group">
+                                                          <label>تفاصيل اضافية</label>
+                                                          @Html.TextAreaFor(m => m.Note, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med" })
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                         
+                                          <div class="tab-pane" id="seller-details2">
+                                              <div class="text-center mb-4">
+                                                  <h4>اضافة قطع الغيار </h4></div>
+                                                  <div class="row">
+                                                      <div class="col-xl-12">
+                                                          <!--begin::Select-->
+                                                          <div class="form-group alert alert-primary">
+                                                              <label>حالة البيع</label>
+                                                              <div class="radio-inline">
+                                                                  <div class="col-xl-6">
+                                                                      <label class="radio">
+                                                                          <input type="radio" checked name="radios2" id="rdo_barcode" onchange="MaintenanceItem_Module.onRdoBarcodeChanged();" />
+                                                                          <span></span>بيع بكميات
+                                                                      </label>
+                                                                  </div>
+                                                                  <div class="col-xl-6">
+                                                                      <label class="radio">
+                                                                          <input type="radio" name="radios2" id="rdo_serial" onchange="MaintenanceItem_Module.onRdoSerialChanged();" />
+                                                                          <span></span>بيع حسب السيريال نمبر
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <!--end::Select-->
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-lg-12" id="barcodeDiv">
+                                                          <div class="form-group">
+                                                              <label>باركود الصنف</label>
+                                                              @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                                                              <span class="form-text text-muted">باركود الصنف</span>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-lg-12 " style="display:none;" id="serialDiv">
+                                                          <div class="form-group">
+                                                              <label>سيريال الصنف</label>
+                                                              @Html.TextBox("ItemSerial", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                                                              <span class="form-text text-muted">سيريال الصنف</span>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  @*<div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>باركود الصنف</label>
+                            @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                            <span class="form-text text-muted">باركود الصنف</span>
+                        </div>
+                    </div>
+                </div>*@
+                                                  <div class="row">
+                                                      <div class="col-lg-6">
+                                                          <div class="form-group required">
+                                                              <label> المجموعة الاساسية</label>
+                                                              <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
+                                                              <span class="form-text text-muted">اختر مجموعة</span>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-lg-6">
+                                                          <div class="form-group required">
+                                                              <label>الصنف</label>
+                                                              @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100", onchange = "MaintenanceItem_Module.onItemChange()" })
+                                                              <span class="form-text text-muted">اختر الصنف</span>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Select-->
+                                                          <div class="form-group required">
+                                                              <label>المخزن</label>
+                                                              @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "MaintenanceItem_Module.getProductionOrdersOnStoreChange();" })
+                                                              <span class="form-text text-muted">اختر المخزن </span>
+                                                          </div>
+                                                          <!--end::Select-->
+                                                      </div>
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Select-->
+                                                          <div class="form-group required">
+                                                              <label>اوامر الانتاج/الرصيد المتاح</label>
+                                                              <select class="form-control din-med" id="balanceProductionOrder" onchange="MaintenanceItem_Module.onProductionOrderChange()"></select>
+                                                              <input type="hidden" id="balanceVal" />
+                                                              <input type="hidden" id="serialItemId" />
+                                                              <input type="hidden" id="productionOrderId" />
+                                                              <input type="hidden" id="isIntial" />
+                                                              <span class="form-text text-muted">اختر الرصيد </span>
+                                                          </div>
+                                                          <!--end::Select-->
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-lg-6">
+                                                          <div class="form-group">
+                                                              <label>سياسة الاسعار </label>
+                                                              @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100", onchange = "MaintenanceItem_Module.onPricingPolicyChange()" })
+                                                              <span class="form-text text-muted">اختر الصنف</span>
+                                                          </div>
+                                                      </div>
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Input-->
+                                                          <div class="form-group">
+                                                              <label>سعر البيع</label>
+                                                              <input type="number" class="form-control form-control-solid form-control-lg" name="Price" id="Price" placeholder="سعر البيع" value="0" onkeyup="MaintenanceItem_Module.onPriceOrQuanKeyUp();" />
+                                                          </div>
+                                                          <!--end::Input-->
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Input-->
+                                                          <div class="form-group">
+                                                              <label>الكمية</label>
+                                                              <input type="number" class="form-control form-control-solid form-control-lg" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="MaintenanceItem_Module.onPriceOrQuanKeyUp();" />
+                                                              <span class="form-text text-muted">ادخل كمية الصنف</span>
+                                                          </div>
+                                                          <!--end::Input-->
+                                                      </div>
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Input-->
+                                                          <div class="form-group">
+                                                              <label>القيمة</label>
+                                                              <input type="number" class="form-control form-control-solid form-control-lg" name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
+                                                          </div>
+                                                          <!--end::Input-->
+                                                      </div>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Select-->
+                                                          <div class="form-group">
+                                                              <label>احتساب الخصم</label>
+                                                              <div class="radio-inline">
+                                                                  <div class="col-xl-6">
+                                                                      <label class="radio">
+                                                                          <input type="radio" name="radiosItem" id="rdo_val" onchange="MaintenanceItem_Module.onRdoValChanged();" />
+                                                                          <input type="hidden" id="IsDiscountItemVal" value="true" />
+                                                                          <span></span>قيمة
+                                                                      </label>
+                                                                  </div>
+                                                                  <div class="col-xl-6">
+                                                                      <label class="radio">
+                                                                          <input type="radio" name="radiosItem" id="rdo_percentage" onchange="MaintenanceItem_Module.onRdoPercentageChanged();" />
+                                                                          <span></span>نسبة
+                                                                      </label>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <!--end::Select-->
+                                                      </div>
+                                                      <div class="col-xl-6">
+                                                          <!--begin::Input-->
+                                                          <div class="form-group">
+                                                              <label> الخصم على الصنف</label>
+                                                              <input type="number" class="form-control form-control-solid form-control-lg" name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />
+                                                          </div>
+                                                          <!--end::Input-->
+                                                      </div>
+
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-xl-12">
+                                                          <!--begin::Input-->
+                                                          <div class="form-group">
+                                                              <label>.</label>
+                                                              <button type="button" onclick="MaintenanceItem_Module.addItemSpareParts();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
+                                                          </div>
+                                                          <!--end::Input-->
+                                                      </div>
+                                                  </div>
+                                                  <div class="form-group">
+                                                      <label>الاصناف المسجلة</label>
+                                                      <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemSpareParts">
+                                                          <thead>
+                                                          </thead>
+                                                          <tbody></tbody>
+                                                          <tfoot></tfoot>
+                                                      </table>
+                                                  </div>
+                                                  <div class="row">
+                                                      <div class="col-xl-12">
+                                                          <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                              <div class="d-flex flex-column text-md-center">
+                                                                  <span class="font-size-lg font-weight-bolder mb-1">اجمالي قيمة قطع الغيار</span>
+                                                                  <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalItemSpareParts">@totalItemSpareParts</span>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+
+
+                                              </div>
+                                              <div class="tab-pane" id="seller-details3">
+                                                  <div class="text-center mb-4">
+                                                      <h4>     تسجيل التوالف</h4>
+                                                      </div>
+                                                          <div class="row">
+                                                              <div class="col-lg-12">
+                                                                  <div class="form-group">
+                                                                      <label>باركود الصنف</label>
+                                                                      @Html.TextBox("ItemDamageBarcode", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                                                                      <span class="form-text text-muted">باركود الصنف</span>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row">
+                                                              <div class="col-lg-6">
+                                                                  <div class="form-group required">
+                                                                      <label> المجموعة الاساسية</label>
+                                                                      <input name="groupBasicDamage" type="text" class="form-control form-control-solid form-control-lg" id="groupBasicDamage" autocomplete="off" />
+                                                                      <span class="form-text text-muted">اختر مجموعة</span>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="col-lg-6">
+                                                                  <div class="form-group required">
+                                                                      <label>الصنف</label>
+                                                                      @Html.DropDownList("ItemDamageId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100" })
+                                                                      <span class="form-text text-muted">اختر الصنف</span>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="row">
+                                                              <div class="col-xl-6">
+                                                                  <!--begin::Input-->
+                                                                  <div class="form-group">
+                                                                      <label>الكمية</label>
+                                                                      <input type="number" class="form-control form-control-solid form-control-lg" name="QuantityDamage" id="QuantityDamage" placeholder="الكمية" value="0" />
+                                                                      <span class="form-text text-muted">ادخل كمية الصنف</span>
+                                                                  </div>
+                                                                  <!--end::Input-->
+                                                              </div>
+                                                              <div class="col-xl-6">
+                                                                  <!--begin::Input-->
+                                                                  <div class="form-group">
+                                                                      <label>.</label>
+                                                                      <button type="button" onclick="MaintenanceItem_Module.addItemDamages();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة صنف تالف</button>
+                                                                  </div>
+                                                                  <!--end::Input-->
+                                                              </div>
+                                                          </div>
+
+                                                          <div class="form-group">
+                                                              <label>الاصناف المسجلة</label>
+                                                              <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDamages">
+                                                                  <thead>
+                                                                  </thead>
+                                                                  <tbody></tbody>
+                                                                  <tfoot></tfoot>
+                                                              </table>
+                                                          </div>
+
+
+                                                      </div>
+                                                      <!--end::Wizard Step 3-->
+                                                      <!--begin::Wizard Step 4 تسجيل ايرادات الصيانة للصنف-->
+                                                  <div class="tab-pane" id="seller-details4">
+                                                      <div class="text-center mb-4">
+                                                          <h4>
+                                                          تسجيل إيرادات صيانة الصنف (ان وجدت)</h4>
+                                                          </div>
+                                                          <div class="row">
+                                                              <div class="col-lg-6">
+                                                                  <div class="form-group required">
+                                                                      <label>بيان الايراد</label>
+                                                                      @Html.TextBox("ExpenseTypeName", null, htmlAttributes: new { @class = "form-control din-med" })
+                                                                      <span class="form-text text-muted">ادخل بيان الإيراد</span>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="col-xl-6">
+                                                                  <!--begin::Input-->
+                                                                  <div class="form-group">
+                                                                      <label>قيمة الإيراد</label>
+                                                                      <input type="number" class="form-control form-control-solid form-control-lg" name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة الإيراد" value="0" />
+                                                                      <span class="form-text text-muted">ادخل قيمة الإيراد</span>
+                                                                  </div>
+                                                                  <!--end::Input-->
+                                                              </div>
+                                                          </div>
+                                                          <div class="row">
+                                                              <div class="col-xl-12">
+                                                                  <!--begin::Input-->
+                                                                  <div class="form-group">
+                                                                      <label>.</label>
+                                                                      <button type="button" onclick="MaintenanceItem_Module.addMaintenanceIncomes();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة إيراد</button>
+                                                                  </div>
+                                                                  <!--end::Input-->
+                                                              </div>
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <label>الايرادات المسجلة</label>
+                                                              <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtMaintenanceIncomes">
+                                                                  <thead>
+                                                                  </thead>
+                                                                  <tbody></tbody>
+                                                                  <tfoot></tfoot>
+                                                              </table>
+                                                          </div>
+                                                          <div class="form-group">
+                                                              <div class="d-flex justify-content-between flex-column font-size-lg">
+                                                                  <div class="d-flex flex-column text-md-center">
+                                                                      <span class="font-size-lg font-weight-bolder mb-1">اجمالى الإيرادات</span>
+                                                                      <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalItemIncomes">@totalItemIncomes</span>
+                                                                      @*<span>Taxes Included</span>*@
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                      <!--end::Wizard Step 4-->
+                                                      <!--begin::Wizard Step 5 حفظ وملخص-->
+                                                      <div class="tab-pane" id="seller-details">
+                                                          <div class="text-center mb-4">
+                                                              <h4>ملخص وحفظ</h4>
+                                                              </div>
+                                                              <div class="form-group">
+                                                                  <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                                                                      <div class="d-flex flex-column mb-10 mb-md-0">
+                                                                          <div class="font-weight-bolder font-size-h6-lg mb-3">ملخص صيانة الصنف</div>
+                                                                          <div class="d-flex justify-content-between mb-3">
+                                                                              <span class="mr-15 font-weight-bold">اجمالى قيمة قطع الغيار :</span>
+                                                                              <span class="text-right" id="TotalItemSpareParts2">@totalItemSpareParts</span>
+                                                                          </div>
+                                                                          <div class="d-flex justify-content-between mb-3">
+                                                                              <span class="mr-15 font-weight-bold">اجمالى الخصم على قطع الغيار:</span>
+                                                                              <span class="text-right" id="TotalItemDiscount">@totalItemDiscount</span>
+                                                                          </div>
+                                                                          <div class="d-flex justify-content-between mb-3">
+                                                                              <span class="mr-15 font-weight-bold">اجمالى تكلفة الصيانة:</span>
+                                                                              <span class="text-right" id="TotalItemIncomes2">@totalItemIncomes</span>
+                                                                          </div>
+                                                                      </div>
+                                                                      <div class="d-flex flex-column text-md-right">
+                                                                          <span class="font-size-lg font-weight-bolder mb-1">المبلغ النهائى </span>
+                                                                          <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="ItemSafy">@iteamSafy</span>
+                                                                          @*<span>Taxes Included</span>*@
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <!--end::Wizard Step 5-->
+                                                          <!--begin::Wizard Actions-->
+                                                          <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                                              <div class="mr-2">
+                                                                  <button type="button" class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">السابق</button>
+                                                              </div>
+                                                              <div>
+                                                                  <button type="button" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" onclick="MaintenanceItem_Module.SubmitForm(this,false)" data-wizard-type="action-submit"><span><i class="fa fa-plus"></i></span>حفظ الفاتورة</button>
+                                                                  <button type="button" class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">التالي</button>
+                                                              </div>
+                                                          </div>
+                                      </div>
+                                                          <!--end::Wizard Actions-->
+                                                      }
+                                                  <!--end::Wizard Form-->
+                                                  </div>
+                                                  </div>
+                                              <!--end::Wizard Body-->
+                                          </div>
+                              </div>
+                              <!--end::Wizard-->
+                          </div>            <!--end::Container-->
+                    
+                  }
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/MaintenanceItem.js"></script>
+    <!--begin::Page Scripts(used by this page)-->
+    <script src="~/Assets/JSCustom/JSMetronic/wizard-PurchaseInvo.js"></script>
+    <!--end::Page Scripts-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            MaintenanceItem_Module.initItemSpareParts();
+            MaintenanceItem_Module.initItemDamages();
+            MaintenanceItem_Module.initMaintenanceIncomes();
+            $("#rdo_val").prop('checked', true);
+            //$("#rdo_valAllInvoice").prop('checked', true);
+
+            //عند ادخال الباركود الصنف فى قطع الغيار
+            $("#ItemBarcode").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $.get("/SharedDataSources/ItemsBarcodeEnter", { barcode: $("#ItemBarcode").val() }, function (data) {
+                        $("#ItemId").empty();
+                        $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemId").append("<option value='" + row.Id + "' selected>" + row.Name + "</option>");
+                        });
+                        $("#Price").val(0);
+                        if (data[0].Name != null) {
+                            MaintenanceItem_Module.onItemChange();
+                        }
+                    });
+                }
+            });
+            //عند ادخال السيريال الصنف
+            $("#ItemSerial").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $.get("/SharedDataSources/ItemsSerialEnter", { serial: $("#ItemSerial").val(), isReturnBack: false }, function (data) {
+                        if (data.length > 0) {
+                            $("#ItemId").empty();
+                            $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                            $.each(data, function (index, row) {
+                                $("#ItemId").append("<option value='" + row.Id + "' selected>" + row.Name + "</option>");
+                            });
+
+                            $("#Price").val(0);
+                            $("#Quantity").val(1);
+                            //if (data[0].Name != null) {
+                            //    MaintenanceItem_Module.onItemChange();
+                            //}
+                            var currentStore = data[0].CurrentStore;
+                            if ($("#StoreId option[value=" + currentStore + "]").length > 0) {
+                                MaintenanceItem_Module.onItemChange();
+                                $("#StoreId").val(currentStore);
+                                //$("#StoreId").select2("val", currentStore);
+
+                                $("#balanceVal").val(1);
+                                $("#serialItemId").val(data[0].SerialItemId);
+                                $("#productionOrderId").val(data[0].ProductionOrderId);
+                                $("#isIntial").val(data[0].IsIntial);
+                                $("#balanceProductionOrder").empty();
+                                $("#balanceProductionOrder").append("<option value=  selected >" + data[0].CmboBalanceTxt + "</option>");
+                                //$("#StoreId").select2().select2('val', currentStore);
+
+                            } else {
+                                $("#balanceVal").val(null);
+                                $("#serialItemId").val(null);
+                                $("#productionOrderId").val(null);
+                                $("#isIntial").val(null);
+                                $("#balanceProductionOrder").val(null);
+                                toastr.error('السيريال موجود ولكن المخزن الصحيح للسيريال غير موجود فى قائمة المخازن', '');
+
+                            }
+                        } else {
+                            toastr.error('السيريال غير موجود او تم استخدامه مسبقا فى عملية بيع', '');
+                            return false;
+
+                        }
+                    });
+                }
+            });
+
+            //عند ادخال الباركود الصنف فى التوالف
+            $("#ItemDamageBarcode").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $.get("/SharedDataSources/ItemsBarcodeEnter", { barcode: $("#ItemDamageBarcode").val() }, function (data) {
+                        $("#ItemDamageId").empty();
+                        $("#ItemDamageId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemDamageId").append("<option value='" + row.Id + "' selected>" + row.Name + "</option>");
+                        });
+                    });
+                }
+            });
+
+        });
+
+    </script>
+    <script>
+        var treeBasic;
+        var treeDamageBasic;
+        $(document).ready(function () {
+            //المجموعة الاساسية لقطع الغيار
+            var dsBasic = [];
+            $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
+                treeBasic.setSource(data);
+            });
+
+            treeBasic = $('#groupBasic').comboTree({
+                source: dsBasic,
+                isMultiple: false,
+                collapse: true,
+                selected: []
+                //selectableLastNode: true
+
+            });
+            treeBasic.onChange(function () {
+                if (treeBasic.getSelectedIds() != null) {
+                    var currentSelected = treeBasic.getSelectedIds()[0];
+                    $.get("/SharedDataSources/ItemsSellOnGroupChanged", { id: currentSelected }, function (data) {
+                        $("#ItemId").empty();
+                        $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                        });
+                    });
+
+                }
+            });
+            // ============== نهاية المجموعة الاساسية
+
+            // للتوالف المجموعة الاساسية
+            var dsDamageBasic = [];
+            $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
+                treeDamageBasic.setSource(data);
+            });
+
+            treeDamageBasic = $('#groupBasicDamage').comboTree({
+                source: dsDamageBasic,
+                isMultiple: false,
+                collapse: true,
+                selected: []
+                //selectableLastNode: true
+
+            });
+            treeDamageBasic.onChange(function () {
+                if (treeDamageBasic.getSelectedIds() != null) {
+                    var currentSelected = treeDamageBasic.getSelectedIds()[0];
+                    $.get("/SharedDataSources/ItemsOnGroupChanged", { id: currentSelected }, function (data) {
+                        $("#ItemDamageId").empty();
+                        $("#ItemDamageId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemDamageId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                        });
+                    });
+
+                }
+            });
+            // ============== نهاية المجموعة الاساسية
+
+        });
+    </script>
+    @if (ViewBag.Msg != null)
+    {
+
+        <script type="text/javascript">
+    $(document).ready(function () {
+          // رسالة خطأ عند عدم تحديد المخزن الصيانة من شاشة الاعدادات العامة
+        toastr.error('@ViewBag.Msg', '');
+            });
+        </script>
+    }
+}

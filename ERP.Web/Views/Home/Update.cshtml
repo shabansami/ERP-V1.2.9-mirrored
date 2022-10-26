@@ -1,0 +1,176 @@
+﻿
+
+@model ERP.Web.ViewModels.UserProfileVM
+@{
+    /**/
+
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+
+    title = "تعديل بيانات المستخدم ";
+    btn = "تحديث";
+    icon = "fas fa-edit m-1";
+
+}
+
+@section PageTitle1{المستخدم}
+@section PageTitle2{@title}
+@section Button1{تغيير كلمة المرور}
+@section Button1Link{javascript:void(0);}
+@section Button1Action{onclick="UserProfile_Module.openModalChangePassword()"}
+
+@section icon{<i class="fa fa-home m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("Update", "Home", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>اسم المستخدم</label>
+                                @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @style = "text-align:right;" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        @if (Model.PersonId != null)
+                        {
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>الاسم</label>
+                                    @Html.TextBoxFor(m => m.PersonName, new { @class = "form-control", @style = "text-align:right;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>العنوان</label>
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @style = "text-align:right;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>رقم التليفون 1</label>
+                                    @Html.TextBoxFor(model => model.Mob1, new { @class = "form-control", @style = "text-align:right;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>رقم التليفون 2</label>
+                                    @Html.TextBoxFor(model => model.Mob2, new { @class = "form-control", @style = "text-align:right;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group mb-0 w-100">
+                                    <div>
+                                        <label> الدولة</label>
+                                        @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "UserProfile_Module.onCountryChange()", @style = "text-align:right;" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group mb-0 w-100">
+                                    <div>
+                                        <label> المحافظة</label>
+                                        @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "UserProfile_Module.onCityChange()", @style = "text-align:right;" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>المدينة</label>
+                                    @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" , @style = "text-align:right;" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group ">
+                                    <label>ملاحظــات</label>
+                                    @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", @style = "text-align:right;" })
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:end;">
+                            @*<input type="button" onclick="Container_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="UserProfile_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Modal  -->
+
+<div id="exampleModalChangePassword" class="modal fade din-bold" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true" data-bs-scroll="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">تغيير كلمة المرور</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-group ">
+                            <label>كلمة المرور القديمة</label>
+                            <input style="text-align:right;" name="oldPassword" type="password" class="form-control din-bold" id="oldPassword" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group ">
+                            <label>كلمة المرور الجديدة</label>
+                            <input style="text-align:right;" name="newPassword1" type="password" class="form-control din-bold" id="newPassword1" />
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="form-group ">
+                            <label>تأكيد كلمة المرور الجديدة</label>
+                            <input style="text-align:right;" name="newPassword2" type="password" class="form-control din-bold" id="newPassword2" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary waves-effect waves-light" onclick="UserProfile_Module.onSaveChangePassword(this)">حفظ</button>
+                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal" data-dismiss="modal">اغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/UserProfile.js"></script>
+    <script src="assets/js/pages/modal.init.js"></script>
+
+    <script>
+        var myModal = document.getElementById('myModal')
+        var myInput = document.getElementById('myInput')
+
+        myModal.addEventListener('shown.bs.modal', function () {
+            myInput.focus()
+        })
+    </script>
+
+}
+

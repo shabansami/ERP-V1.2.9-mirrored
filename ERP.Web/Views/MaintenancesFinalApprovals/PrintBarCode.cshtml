@@ -1,0 +1,100 @@
+﻿@model ERP.Web.ViewModels.PrintBarcodeVM
+@using ERP.Web.Utilites
+@{
+    ViewBag.Title = "PrintBarCode";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section PageTitle1{طباعة سيريال اصناف قطع الغيار}
+@section PageTitle2{@null}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">بيانات الفاتورة الاساسية</h4>
+                    </div>
+                    <div class="card-toolbar">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">سيريال نمبر الاصناف</h3>
+                    </div>
+                    <div class="card-toolbar">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row" id="printableArea">
+                        @foreach (var item in Model.ItemSerial)
+                        {
+                            <div class="col-lg-4">
+                                <div class="form-group text-center">
+                                    <label class="h3">@item.ItemName</label>
+                                    <img src="data:image/png;base64,@GeneratBarcodes.GenerateBarcode(item.SerialNumber)" style="width:100% !important" class="img-fluid din-med" />
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            <a href="javascript:void(0);" onclick="printDiv('printableArea')" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fas fa-print"></i>طباعة</a>
+
+                            <a href="#" onclick="window.history.back();" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section Scripts
+{
+    <script>
+        function printDiv(divName) {
+            var printContents = document.getElementById(divName).innerHTML;
+            var originalContents = document.body.innerHTML;
+
+            document.body.innerHTML = printContents;
+
+            window.print();
+
+            document.body.innerHTML = originalContents;
+        }
+    </script>
+}

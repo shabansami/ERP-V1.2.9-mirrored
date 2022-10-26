@@ -1,0 +1,323 @@
+﻿@model ERP.DAL.Maintenance
+
+@{
+    ViewBag.Title = "ApprovalAccountant";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string safeVisiable = "none";
+    string accountVisiable = "none";
+    string checkedAttrSafe = "";
+    string checkedAttrAccount = "";
+    if (Model.SafeId != null)
+    {
+        safeVisiable = "block";
+        checkedAttrSafe = "checked";
+    }
+    else if (Model.BankAccountId != null)
+    {
+        accountVisiable = "block";
+        checkedAttrAccount = "checked";
+    }
+
+}
+
+
+@section PageTitle1{الاعتماد المحاسبى فاتورة صيانة}
+@section PageTitle2{الاعتماد المحاسبى}
+@section Button1{ادارة الاعتماد المحاسبى}
+@section Button1Link{/MaintenancesAccountants/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">البيانات الاساسية للفاتورة</h4>
+                    </div>
+                </div>
+            </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ الاستلام</label>
+                                @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd hh:mm:ss tt}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>تاريخ التسليم</label>
+                                @Html.TextBoxFor(m => m.DeliveryDate, "{0:yyyy-MM-dd hh:mm:ss tt}", new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>اخر حالة للفاتورة</label>
+                                @Html.TextBoxFor(m => m.MaintenanceCas.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>رقم الفاتورة</label>
+                                @Html.TextBoxFor(m => m.InvoiceNumber, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>اجمالى العدد</label>
+                                @Html.TextBox("TotalQuantity", Model.MaintenanceDetails.Where(x => !x.IsDeleted).Count(), new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>المخزن</label>
+                                @Html.TextBoxFor(m => m.Store.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>الفنى المسئول</label>
+                                @Html.TextBoxFor(m => m.EmployeeResponse.Person.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>العميل</label>
+                                @Html.TextBoxFor(m => m.Person.Name, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>حالة التكلفة</label>
+                                @Html.TextBox("HasCost", Model.HasCost ? "بتكلفة" : "بدون تكلفة", new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label> الضمان</label>
+                                @Html.TextBox("HasGuarantee", Model.HasGuarantee ? "بضمان" : "بدون ضمان", new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <div class="form-group alert alert-primary">
+                                <label>صافى المبلغ المطلوب تحصيله</label>
+                                @Html.TextBoxFor(m => m.Safy, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>المبلغ المدفوع</label>
+                                @Html.TextBoxFor(m => m.PayedValue, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>المبلغ المتبقى</label>
+                                @Html.TextBoxFor(m => m.RemindValue, new { @class = "form-control", @style = "text-align:right;", @readonly = "readonly" })
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="col-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">حساب الدفع</h3>
+                    </div>
+                </div>
+                @using (Html.BeginForm("ApprovalAccountant", "MaintenancesAccountants", FormMethod.Post, new { id = "form1" }))
+                {
+                    var paymentTypName = "";
+                    if (Model.PaymentType != null)
+                    {
+                        paymentTypName = Model.PaymentType.Name;
+                    }
+                    <div class="card-body">
+
+                        <div class="row alert alert-primary">
+
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <label>طريقة السداد</label>
+                                    @*@Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "MaintenancesAccountant_Module.onPaymentTypeChanged();" })*@
+                                    @Html.TextBox("paymentTypName", paymentTypName, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;", @readonly = "readonly" })
+                                    @Html.HiddenFor(model => model.Id)
+                                    @Html.HiddenFor(model => model.PaymentTypeId)
+                                </div>
+                            </div>
+                            <div class="col-xl-4">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>حساب الدفع</label>
+                                    <div class="radio-inline">
+                                        <div class="col-xl-6">
+                                            <label class="radio">
+                                                <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="MaintenancesAccountant_Module.onRdoSafeChanged();" />
+                                                <span></span>خزينة
+                                            </label>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <label class="radio">
+                                                <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="MaintenancesAccountant_Module.onRdoBankChanged();" />
+                                                <span></span>بنك
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end::Select-->
+                            </div>
+                            <div class="col-xl-4" style="display:@safeVisiable;" id="divSafe">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>خزينة</label>
+                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                </div>
+                                <!--end::Select-->
+                            </div>
+                            <div class="col-xl-4" style="display:@accountVisiable;" id="divBank">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>بنك</label>
+                                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                </div>
+                                <!--end::Select-->
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>حالة التسليم</label>
+                                    <select id="cmbo_ReceiptStatus" onchange="MaintenancesAccountant_Module.onReceiptStatusChange();" class="form-control">
+                                        <option value="1" selected>للعميل</option>
+                                        <option value="2">لمخزن</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="divStore" style="display:none">
+                                <div class="form-group">
+                                    <label>المخزن المحول إليه</label>
+                                    @Html.DropDownList("StoreReceiptId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group required">
+                                    <label>تاريخ التسليم</label>
+                                    @Html.TextBoxFor(m => m.ReceiptDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label></label>
+                                    <button type="button" onclick="MaintenancesAccountant_Module.AccountantInvo()" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اعتمـــــاد</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+
+        </div>
+        <div class="col-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اصناف فاتورة الصيانة</h3>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                                <thead>
+                                    <tr>
+                                        <th style="display:none;">Id</th>
+                                        <th style="display:none;">RecordGuid</th>
+                                        <th style="display:none;">ItemId</th>
+                                        <th>الاسم</th>
+                                        <th>نوع العطل</th>
+                                        <th>صافى صيانه الصنف</th>
+                                        <th>حالة الصنف</th>
+                                        <th>ملاحظة</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.MaintenanceDetails.Where(x => !x.IsDeleted))
+                                    {
+                                        var maintenProblemType = "";
+                                        if (item.MaintenProblemType != null)
+                                        {
+                                            maintenProblemType = item.MaintenProblemType.Name;
+                                        }
+
+                                        <tr>
+                                            <td style="display:none;">@item.Id</td>
+                                            <td style="display:none;">@item.RecordGuid</td>
+                                            <td style="display:none;">@item.ItemId</td>
+                                            <td>@item.Item.Name</td>
+                                            <td>@maintenProblemType</td>
+                                            <td>@item.ItemSafy</td>
+                                            <td>@item.MaintenanceCas.Name</td>
+                                            <td>@item.Note</td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style = "text-align:left;">
+                            <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/MaintenancesAccountant.js"></script>
+    <script>
+        $(document).ready(function () {
+            if ($("#PaymentTypeId").val() == "1" || $("#PaymentTypeId").val() == "3") {
+                $("#rdo_safe,#rdo_bank").attr("disabled", false);
+
+            } else {
+                $("#rdo_safe,#rdo_bank").prop('checked', false);
+                $("#rdo_safe,#rdo_bank").attr("disabled", true);
+                $("#divSafe").hide();
+                $("#divBank").hide();
+            }
+            @*if (@Model.Safe== null) {
+                $("#rdo_safe").attr("disabled", true);
+            } else {
+                $("#rdo_safe").attr("checked", true);
+            }
+            if (@Model.BankAccount== null) {
+                $("#rdo_bank").attr("disabled", true);
+            } else
+                $("#rdo_bank").attr("checked", true);*@
+        });
+
+
+
+    </script>
+}
+
+

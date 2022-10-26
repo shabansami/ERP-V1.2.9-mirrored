@@ -1,0 +1,175 @@
+﻿
+
+@model ERP.DAL.UploadCenter
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    string defultImage = "../../Files/UploadCenter/defaultImageUpload.jpg";
+    if (Model.Id == Guid.Empty)
+    {
+        title = "رفع ملف جديد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        defultImage = $"../../Files/UploadCenter/{Model.Id}/{Model.FileName}";
+        title = "تعديل ملف ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+    } }
+
+
+@section PageTitle1{مركز التحميل}
+@section PageTitle2{@title }
+@section Button1{ادارة الملفات}
+@section Button1Link{/UploadCenterFiles/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "UploadCenterFiles", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label> المجلد الرئيسي</label>
+                <input style = "text-align:right;" name="parent" type="text" class="form-control" id="parent" autocomplete="off" />
+                @*<input type="hidden" class="form-control" id="ParentId" />*@
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>اسم الملف</label>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @style = "text-align:right;" })
+                @Html.HiddenFor(model => model.Id)
+                @Html.HiddenFor(model => model.ParentId)
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label text-right">الملف المراد رفعه</label>
+                <div class="col-lg-9 col-xl-6" style="margin-top:20px;">
+                    <div class="image-input image-input-outline" id="kt_image_1">
+                        <div class="image-input-wrapper" style="background-image: url(@defultImage);background-size:100% 100%; " id="imgFile"></div>
+                        <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="اختر ملف">
+                            <i class="fa fa-pen icon-sm text-muted"></i>
+                            <input type="file" id="uploadFile" name="profile_avatar" accept=".png, .jpg, .jpeg, .pdf, .doc, .docx, .xls, .xlsx, .mdb, .accdb" />
+                            <input type="hidden" name="profile_avatar_remove" />
+                        </label>
+                        <span class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="cancel" data-toggle="tooltip" title="Cancel avatar">
+                            <i class="ki ki-bold-close icon-xs text-muted"></i>
+                        </span>
+                    </div>
+                    <span class="form-text text-muted">الملفات المسموح بها: png, jpg, jpeg,pdf,doc,docx,xls,xlsx,mdb,accdb.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="UploadCenterFile_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+
+                            <a href="javascript:void(0);" onclick="UploadCenterFile_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/UploadCenterFiles/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div> 
+</div>
+
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container-fluid">
+        <!--begin::Dashboard-->
+        <!--begin::Row-->
+        <div class="row din-bold">
+            <div class="col-lg-12">
+                <div class="card card-custom gutter-b">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h3 class="card-label">الملفات المرفوعة مسبقا</h3>
+                        </div>
+                        <div class="card-toolbar">
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableUpload">
+                            <thead>
+
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!--end::Container-->
+    </div>
+    <!--end::Entry-->
+</div>
+
+
+@section Scripts
+{
+
+    <script>
+        $(document).ready(function () {
+            UploadCenterFile_Module.initUpload();
+        });
+    </script>
+    <script src="~/Assets/JSCustom/UploadCenterFile.js"></script>
+    <script>
+        var tree;
+        $(document).ready(function () {
+            $.get("/SharedDataSources/GetUploadCenters", {selectedTree:true}, function (data) {
+                tree.setSource(data);
+            })
+            var ds = [];
+            tree=$('#parent').comboTree({
+                source: ds,
+                isMultiple: false,
+                collapse: true,
+                selected:['@Model.ParentId']
+                //selectableLastNode: true
+
+            });
+            //parent.destroy();
+
+            //parent.setSource(data);
+            tree.onChange(function () {
+                if (tree.getSelectedIds()!=null) {
+                    $('#ParentId').val(tree.getSelectedIds()[0]);
+                    $('#kt_datatableUpload').DataTable().ajax.reload();
+                }
+            });
+
+
+        })
+    </script>
+}
+                    }
+
+

@@ -1,0 +1,111 @@
+﻿@model ERP.DAL.Cheque
+
+@{ ViewBag.Title = "ChequeCollection";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+    title = "تحصيل شيك ";
+    btn = "تحصيل";
+    icon = "fa fa-plus-circle m-1"; }
+
+
+@section PageTitle1{الشيكات الغير محصلة}
+@section PageTitle2{@title }
+@section Button1{استعراض كل الشيكات}
+@section Button1Link{/SupplierCheques/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("ChequeCollection", "SupplierChequeCollections", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+
+    <div class="row">
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>اسم المورد</label>
+                @Html.TextBoxFor(m => m.PersonSupplier.Name, htmlAttributes: new { @class = "form-control din-med",@style="text-align:right;", @disabled = "disabled" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>المبلغ</label>
+                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @style = "text-align:right;", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>رقم فاتورة الشراء </label>
+                @Html.TextBoxFor(m => m.InvoiceId, htmlAttributes: new { @class = "form-control din-med", @type = "number", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>الفرع</label>
+                @Html.TextBoxFor(m => m.Branch.Name, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>بنك</label>
+                @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>رقم الشيك</label>
+                @Html.TextBoxFor(m => m.CheckNumber, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>تاريخ الاصدار</label>
+                @Html.TextBoxFor(m => m.CheckDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @disabled = "disabled" })
+            </div>
+        </div>
+        <div class="col-lg-6 alert alert-primary">
+            <div class="form-group required">
+                <label>تاريخ التحصيل</label>
+                @Html.TextBoxFor(m => m.CollectionDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>
+        <div class="col-lg-6 alert alert-primary">
+            <div class="form-group ">
+                <label>البيان</label>
+                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control", @style = "text-align:right;" })
+            </div>
+        </div>
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="SupplierChequeCollection_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="SupplierChequeCollection_Module.ChequeCollection(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/SupplierCheques/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/SupplierChequeCollection.js"></script>
+}
+
+
+

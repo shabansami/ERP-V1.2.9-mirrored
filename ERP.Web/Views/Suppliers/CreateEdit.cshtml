@@ -1,0 +1,287 @@
+﻿
+@model ERP.DAL.Person
+@using ERP.DAL
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة مورد جديد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+
+    }
+    else
+    {
+        title = "تعديل مورد ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+    } }
+@section PageTitle1{الموردون}
+@section PageTitle2{@title }
+@section Button1{ادارة مورد}
+@section Button1Link{/Suppliers/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "Suppliers", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>فئة الموردين</label>
+                                @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>اسم المورد</label>
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                                @Html.HiddenFor(model => model.Id)
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100 required">
+                                <div>
+                                    <label> الحالة</label>
+                                    @if (Model.Id == Guid.Empty)
+                                    {
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med" })
+                                    }
+                                    else
+                                    {
+                                        @Html.HiddenFor(m => m.PersonTypeId)
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med", @disabled = "disabled" })
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-lg-6">
+                                <div class="form-group mb-0 w-100">
+                                    <div>
+                                        <label> النوع</label>
+                                        @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                            </div>*@
+
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100">
+
+                                <div>
+                                    <label> الدولة</label>
+                                    @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Supplier_Module.onCountryChange()" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group mb-0 w-100">
+
+                                <div>
+                                    <label> المحافظة</label>
+                                    @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Supplier_Module.onCityChange()" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>المدينة</label>
+                                @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>العنوان</label>
+                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم الهاتف</label>
+                                @Html.TextBoxFor(m => m.Tel, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group required">
+                                <label>رقم التليفون ١</label>
+                                @Html.TextBoxFor(m => m.Mob1, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>رقم التليفون ٢</label>
+                                @Html.TextBoxFor(m => m.Mob2, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group ">
+                                <label>ملاحظـــات</label>
+                                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group ">
+                                @*<a class="din-bold alert alert-danger" href="https://www.google.com/maps/place/Nasser+Mosque/%4029.3074919,30.8500841,19.25z/data=!4m5!3m4!1s0x145978d7e46b7459:0x9d8570a7205bdadf!8m2!3d29.3077491!4d30.8505124" target="_blank"><i class="flaticon2-location"></i> الانتقال لتحديد الموقع </a>*@
+                                <label>موقع المورد على الخريطة </label>
+                                @Html.TextAreaFor(m => m.LocationPath, new { @class = "form-control" })
+                                <a href="https://www.google.com/maps/place/Nasser+Mosque/%4029.3074919,30.8500841,19.25z/data=!4m5!3m4!1s0x145978d7e46b7459:0x9d8570a7205bdadf!8m2!3d29.3077491!4d30.8505124" target="_blank" class="btn btn-soft-danger f btn-square btn-shadow  w-200px"><i class="fas fa-map-marker-alt m-1"></i>الانتقال لتحديد موقع المورد</a>
+
+                                @if (Model.LocationPath != null)
+                                {
+                                    <a href="@Model.LocationPath" target="_blank" class="btn btn-soft-success f btn-square btn-shadow  w-300px"><i class="fas fa-map-marker-alt m-1"></i>عرض الموقع الحالى على الخريطة</a>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree5">
+                        <div class="card-title collapsed">
+                            <i class="fa fa-chart-area"></i>المسئولين
+                        </div>
+                    </div>
+                    <div id="collapseFour5">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group required">
+                                        <label>اسم المسئول</label>
+                                        <input id="ResponsName" name="ResponsName" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>الوظيفة</label>
+                                        <input id="ResponsJob" name="ResponsJob" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group required">
+                                        <label>رقم التليفون</label>
+                                        <input id="ResponsMob" name="ResponsMob" class="form-control" />
+                                        @*@Html.TextBoxFor(m => m.SellPrice, new { @class = "form-control" })*@
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>رقم الهاتف</label>
+                                        <input id="ResponsTel" name="ResponsTel" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>البريد الالكتروني</label>
+                                        <input id="ResponsEmail" name="ResponsEmail" class="form-control" />
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>التحويلة</label>
+                                        <input id="ResponsTransfer" name="ResponsTransfer" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>.</label>
+                                        <input type="button" onclick="Supplier_Module.SubmitFormSupplierResponsible()" value="اضافة مسئول" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold  form-control" style="text-align:center;" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group ">
+                                        <label>المسئولين المدخلة</label>
+                                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableSupplierResponsible">
+                                            <thead>
+
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="Supplier_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="Supplier_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+                                <a href="/Suppliers/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as Person;
+
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اخر بيان تم اضافته</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin::Example-->
+                    <div class="example mb-10">
+                        <table class="table table-hover mb-6">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">المورد</th>
+                                    <th scope="col">المنطقة</th>
+                                    <th scope="col">العنوان</th>
+                                    <th scope="col">التليفون ١</th>
+                                    <th scope="col">التليفون ٢</th>
+                                    <th scope="col">الهاتف</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>@modl.Name</td>
+                                    <td>@modl.Area.Name</td>
+                                    <td>@modl.Address</td>
+                                    <td>@modl.Mob1</td>
+                                    <td>@modl.Mob2</td>
+                                    <td>@modl.Tel</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end::Example-->
+                </div>
+            </div>
+        </div>}
+</div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Supplier.js"></script>
+    <script>
+        $(document).ready(function () {
+            Supplier_Module.initSupplierResponsible();
+        });
+    </script>
+}

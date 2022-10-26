@@ -1,0 +1,211 @@
+﻿
+
+@model ERP.DAL.ContractSchedulingAbsence
+@using ERP.DAL
+
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "تسجيل غياب لموظف";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    }
+    else
+    {
+        title = "تعديل غياب لموظف ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+        icon2 = "fa-solid fa-caret-left m-1";
+    } }
+
+@section PageTitle1{غياب الموظفين}
+@section PageTitle2{@title }
+@section Button1{ادارة غياب موظف}
+@section Button1Link{/ContractSchedulingAbsences/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">@title</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CreateEdit", "ContractSchedulingAbsences", FormMethod.Post, new { id = "form1" }))
+            {
+<div class="card-body">
+
+    <div class="row">
+
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>الادارة</label>
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractSchedulingAbsence_Module.getEmployeesDepartmentChange()" })
+                @Html.HiddenFor(model => model.Id)
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>الموظف</label>
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractSchedulingAbsence_Module.getContractSchedulingEmpChange()" })
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>الشهر</label>
+                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="form-group required">
+                <label>من تاريخ <span class="badge badge-soft-warning fa-1x">فى حالة غياب الموظف يوم واحد يتم اختيار نفس التاريخ (من) و(إلي) </span></label>
+                @Html.TextBoxFor(m => m.FromDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @onchange = "ContractSchedulingAbsence_Module.onDatesChange()" })
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="form-group required" style="margin-top:26px;">
+                <label>الى تاريخ</label>
+                @Html.TextBoxFor(m => m.ToDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @onchange = "ContractSchedulingAbsence_Module.onDatesChange()" })
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="form-group" style="margin-top:26px;">
+                <label>عدد ايام الغياب</label>
+                <input type="number" class="form-control" name="AbsenceDayNumber" id="AbsenceDayNumber" readonly />
+                @Html.HiddenFor(m => m.IsPenalty, htmlAttributes: new { @value = true })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>غياب بخصم <span class="alert alert-primary">عدد ايام الغياب الفعلية</span></label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="text" class="form-control" id="txtPenaltyNumber" value="1" />
+                    @*@Html.TextBoxFor(m => m.PenaltyNumber, new { @class = "form-control", @type = "number" })*@
+
+                    @*<select name="IsPenaltyTypeDay" id="IsPenaltyTypeDay" class="form-control din-med" , aria_label="Text input with radio" onchange="ContractSchedulingAbsence_Module.onComboPenaltyChange()">
+                            <option value>اختر نوع قيمة الغياب</option>
+                            <option value="1">بعدد الايام</option>
+                            <option value="2">بقيمة</option>
+                        </select>*@
+
+                    <span class="input-group-text">
+                        <input type="radio" name="radios2" id="rdo_penalty" checked onchange="ContractSchedulingAbsence_Module.onRdoPenaltyChanged();" />
+                    </span>
+                </div>
+            </div>
+        </div>
+        @*<div class="col-lg-2" id="divPenaltyNumber" style="display:none;">
+                <div class="form-group required">
+                    <label>عدد الايام</label>
+                    @Html.TextBoxFor(m => m.PenaltyNumber, new { @class = "form-control", @type = "number"})
+                </div>
+            </div>
+            <div class="col-lg-2" id="divPenaltyAmount" style="display:none;">
+                <div class="form-group required">
+                    <label>مبلغ الخصم</label>
+                    @Html.TextBoxFor(m => m.PenaltyAmount, new { @class = "form-control" })
+                </div>
+            </div>*@
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>بدون خصم <span class="alert alert-primary">نوع الاجازة التى سيتم سحب الرصيد منها </span></label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    @Html.DropDownList("VacationTypeId", null, "اختر نوع الاجازة", htmlAttributes: new { @class = "form-control din-med", @onchange = "ContractSchedulingAbsence_Module.onVacationTypeIdChange()" })
+                    <span class="input-group-text">
+                        <input type="radio" name="radios2" id="rdo_noPenalty" onchange="ContractSchedulingAbsence_Module.onRdoNoPenaltyChanged();" />
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2" id="divBalance" style="display:none;">
+            <div class="form-group">
+                <label>الرصيد المتبقى من الاجازة</label>
+                <input type="text" class="form-control" id="balanceDays" readonly value="0" />
+                @*@Html.HiddenFor(m => m.AmountMonth);*@
+            </div>
+        </div>
+
+
+    </div>
+</div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="ContractSchedulingAbsence_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="ContractSchedulingAbsence_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+            <a href="/ContractSchedulingAbsences/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+
+
+        </div>
+
+
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as ContractSchedulingAbsence;
+        var absNum = modl.IsPenalty ? modl.PenaltyNumber : modl.AbsenceDayNumber;
+<div class="col-lg-12">
+    <div class="card card-custom gutter-b">
+
+        <div class="card-header">
+            <div class="card-title">
+                <h3 class="card-label">اخر بيان تم اضافته</h3>
+            </div>
+        </div>
+        <div class="card-body">
+            <!--begin::Example-->
+            <div class="example mb-10">
+                <table class="table table-hover mb-6">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">الموظف</th>
+                            <th scope="col">الشهر</th>
+                            <th scope="col">عدد ايام الغياب</th>
+                            <th scope="col">من تاريخ</th>
+                            <th scope="col">الى تاريخ</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>@modl.ContractScheduling.Contract.Employee.Person.Name</td>
+                            <td>@modl.ContractScheduling.MonthYear.ToString().Substring(0, 7)</td>
+                            <td>@absNum</td>
+                            <td>@modl.FromDate.Value.ToString("yyyy-MM-dd")</td>
+                            <td>@modl.ToDate.Value.ToString("yyyy-MM-dd")</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--end::Example-->
+        </div>
+    </div>
+</div>}
+</div>
+
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/ContractSchedulingAbsence.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#VacationTypeId").attr('disabled', 'disabled');
+            ContractSchedulingAbsence_Module.onDatesChange();
+        })
+    </script>
+}
+
+

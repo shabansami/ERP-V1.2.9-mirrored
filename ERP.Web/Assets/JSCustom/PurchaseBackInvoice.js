@@ -101,24 +101,24 @@ var PurchaseBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/PurchaseBackInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\<a href="/PurchaseBackInvoices/ShowPurchaseBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',null);" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة">\
-								<i class="la la-print"></i>\
+								<i class="fa fa-print"></i>\
 							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',\'quantityOnly\');" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة كميات">\
-								<i class="la la-print"></i>\
+								<i class="fa fa-print"></i>\
 							</a>\<a href="#" onclick="PrintInvoice_Module.DownloadInvoice(\''+ row.Id +'\',\'purchaseBack\');" class="btn btn-sm btn-clean btn-icon" title="تنزيل فاتورة">\
-								<i class="la la-download"></i>\
+								<i class="fa fa-download"></i>\
 							</a>\
 							<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id+'" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
-								<i class="la la-upload"></i>\
+								<i class="fa fa-upload"></i>\
 							</a><a href="/PurchaseBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=3" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="la la-money"></i>\
+								<i class="fa fa-money"></i>\
 							</a>\</div>\
 						';
                    
@@ -360,7 +360,7 @@ var PurchaseBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRowItemDetails('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -579,7 +579,7 @@ var PurchaseBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRowPurchaseBackInvoiceExpenses('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

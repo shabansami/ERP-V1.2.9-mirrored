@@ -103,18 +103,18 @@ var GeneralRecord_Module = function () {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=GeneralRecord_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="la la-check-square-o"></i>\</div>\
+								<i class="fa fa-check-square-o"></i>\</div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
                                 <a href="/GeneralRecords/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=GeneralRecord_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=GeneralRecord_Module.approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a></div>\
 						';
                         }

@@ -125,7 +125,7 @@ var RptQuantityItemProduction_Module = function () {
                     //                  return '\
                     //	<div class="btn-group">\
                     //	<a href="#" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-                    //		<i class="la la-close"></i>\
+                    //		<i class="fa fa-close"></i>\
                     //	</a>\
                     //	</div>\
                     //';
@@ -277,7 +277,7 @@ var RptQuantityItemProduction_Module = function () {
                     //                  return '\
                     //	<div class="btn-group">\
                     //	<a href="#" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-                    //		<i class="la la-close"></i>\
+                    //		<i class="fa fa-close"></i>\
                     //	</a>\
                     //	</div>\
                     //';

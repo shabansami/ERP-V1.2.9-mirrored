@@ -100,14 +100,14 @@ var Supplier_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/Suppliers/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
                             </a><a href="javascript:;" onclick=Supplier_Module.UnActivePerson("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="ايقاف نشاط">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات للمورد">\
-								<i class="la la-upload"></i>\
+								<i class="fa fa-upload"></i>\
 							</a>\
 							<a href="javascript:;" onclick=Supplier_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                         }
@@ -115,14 +115,14 @@ var Supplier_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/Suppliers/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
                             </a><a href="javascript:;" onclick=Supplier_Module.ActivePerson("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="تنشيط">\
-								<i class="la la-times-circle"></i>\
+								<i class="fa fa-times-circle"></i>\
 							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات للمورد">\
-								<i class="la la-upload"></i>\
+								<i class="fa fa-upload"></i>\
 							</a>\
 							<a href="javascript:;" onclick=Supplier_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                         }
@@ -379,7 +379,7 @@ var Supplier_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=Supplier_Module.deleteRowSupplierResponsible(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

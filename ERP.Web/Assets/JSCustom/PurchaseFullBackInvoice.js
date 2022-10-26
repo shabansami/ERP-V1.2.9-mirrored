@@ -101,10 +101,10 @@ var PurchaseFullBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							    <a href="/PurchaseFullBackInvoices/ReturnPatialInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="ارجاع بعض الاصناف">\
-								<i class="la la-plus"></i>\
+								<i class="fa fa-plus"></i>\
 							</a>\
 							<a href="javascript:;" onclick=PurchaseFullBackInvoice_Module.ReturnAllInvoice(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="ارجاع كامل الفاتورة">\
-								<i class="la la-undo"></i>\
+								<i class="fa fa-undo"></i>\
 							</a></div>\
 						';
                     },
@@ -310,9 +310,9 @@ var PurchaseFullBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=PurchaseFullBackInvoice_Module.editRowItemDetails(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a><a href="javascript:;" onclick=PurchaseFullBackInvoice_Module.deleteRowItemDetails(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -529,7 +529,7 @@ var PurchaseFullBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=PurchaseFullBackInvoice_Module.deleteRowPurchaseBackInvoiceExpenses('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

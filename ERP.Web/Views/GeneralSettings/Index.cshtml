@@ -792,53 +792,57 @@
     </div>
     <!--end::Card-->
 </div>
-<div id="exampleModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-scroll="true">
-    <div class="modal-dialog">
+
+<div id="exampleModal" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">شجرة الحسابات</h5>
+                <h5 class="modal-title">شجرة الحسابات</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-lg-12">
-                    <div class="form-group ">
-                        <label>اختر حساب</label>
-                        <input name="accountTree" type="text" class="form-control din-bold" id="accountTree" autocomplete="off" />
+                <div class="modal-body">
+                    <div class="col-lg-12">
+                        <div class="form-group ">
+                            <label>اختر حساب</label>
+                            <input name="accountTree" style="text-align:right" type="text" class="form-control din-bold" id="accountTree" autocomplete="off" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal" onclick="onSaveAccountTree(this)">حفظ</button>
-                <button type="button" class="btn btn-primary waves-effect waves-light">اغلاق</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary waves-effect waves-light" onclick="onSaveAccountTree(this)">حفظ</button>
+                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">اغلاق</button>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div>
-<div id="exampleModalUpload" class="modal fade" tabindex="-1" aria-labelledby="exampleModalUploadLabel" aria-hidden="true" data-bs-scroll="true">
-    <div class="modal-dialog">
+</div><!-- /.modal -->
+<div id="exampleModalUpload" class="modal fade bs-example-modal-center" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">مركز التحميل</h5>
+                <h5 class="modal-title">مركز التحميل</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="col-lg-12">
-                    <div class="form-group ">
-                        <label>اختر مجلد رئيسيى</label>
-                        <input name="uploadTree" type="text" class="form-control din-bold" id="uploadTree" autocomplete="off" />
+                <div class="modal-body">
+                    <div class="col-lg-12">
+                        <div class="form-group ">
+                            <label>اختر مجلد رئيسيى</label>
+                            <input name="uploadTree" style="text-align:right" type="text" class="form-control din-bold" id="uploadTree" autocomplete="off" />
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal" onclick="onSaveUploadCenterTree(this)">حفظ</button>
-
-                <button type="button" class="btn btn-primary waves-effect waves-light">اغلاق</button>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary waves-effect waves-light" onclick="onSaveUploadCenterTree(this)">حفظ</button>
+                    <button type="button" class="btn btn-secondary waves-effect" data-bs-dismiss="modal">اغلاق</button>
+                </div>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div>
+</div><!-- /.modal -->
 
-  
+
 @section Scripts
 {
     <script>
@@ -999,7 +1003,7 @@
             }
 
         };
-                                                                                                                    //#endrion
+                                                                                                                            //#endrion
 
     </script>
     <script src="~/Assets/JSCustom/GeneralSetting.js"></script>

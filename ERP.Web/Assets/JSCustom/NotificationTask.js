@@ -95,7 +95,7 @@ var NotificationTask_Module = function () {
                                 return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=NotificationTask_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
 },

@@ -102,7 +102,7 @@ var StoresTransferApproval_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/StoresTransferApprovals/ShowDetails/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             </div>\
 						';
@@ -110,9 +110,9 @@ var StoresTransferApproval_Module = function () {
                        return '\
 							<div class="btn-group">\
 							\<a href="/StoresTransferApprovals/ApprovalStore/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="اعتماد مخزنى">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a><a href="javascript:;" onclick=StoresTransferApproval_Module.Refused(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln" title="رفض عملية تحويل مخزنى">\
-								<i class="la la-close"></i>\
+								<i class="fa fa-close"></i>\
 							</a></div>\
 						';
                     }

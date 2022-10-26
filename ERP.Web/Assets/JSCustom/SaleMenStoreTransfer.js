@@ -95,11 +95,11 @@ var SaleMenStoreTransfer_Module = function () {
                             return '\
 							<div class="btn-group">\
                                 <a href="javascript:;" onclick=SaleMenStoreTransfer_Module.Approval("'+ row.Id + '","1") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد وقبول">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a><a href="javascript:;" onclick=SaleMenStoreTransfer_Module.Approval("'+ row.Id + '","2") class="btn btn-sm btn-clean btn-icUrln" title="رفض التحويل">\
-								<i class="la la-ban"></i>\
+								<i class="fa fa-ban"></i>\
 							</a>\<a href="/SaleMenStoreTransfers/Show/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\</div>\
 						';
                         } else if (row.SaleMenIsApproval){
@@ -107,7 +107,7 @@ var SaleMenStoreTransfer_Module = function () {
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتماد وقبول التحويل</span>\
                             <a href = "/SaleMenStoreTransfers/Show/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title = "عرض تفاصيل العملية" >\
-                            <i class="la la-search"></i>\
+                            <i class="fa fa-search"></i>\
 							</a>\</div >\
 						';
                         }else{
@@ -115,7 +115,7 @@ var SaleMenStoreTransfer_Module = function () {
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-danger label-inline">تم رفض التحويل</span>\
                             <a href = "/SaleMenStoreTransfers/Show/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title = "عرض تفاصيل العملية" >\
-                            <i class="la la-search"></i>\
+                            <i class="fa fa-search"></i>\
 							</a>\</div >\
 						';
                         }

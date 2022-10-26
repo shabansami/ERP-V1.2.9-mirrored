@@ -98,9 +98,9 @@ var EmployeeReturnCustody_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=EmployeeReturnCustody_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=EmployeeReturnCustody_Module.ApprovalCustody(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد السلفة">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a></div>\
 						';
                     } else {

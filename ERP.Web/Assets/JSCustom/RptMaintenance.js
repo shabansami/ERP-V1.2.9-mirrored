@@ -116,9 +116,9 @@ var RptMaintenance_Module = function () {
                         return '\
 							<div class="btn-group">\
 					        <a href="/Maintenances/ShowHistory/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
-								<i class="la la-print"></i>\
+								<i class="fa fa-print"></i>\
 							</a>\</div>\
 						';
 
@@ -312,7 +312,7 @@ var RptMaintenance_Module = function () {
                 '<td>' + data.ItemSafy + '</td>' +
                 '<td>' + data.MaintenProblemTypeName + '</td>' +
                 //'<td><a href="/UserProfileResults/ShowResult/?usQ=' + data.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض النتيجة">' +
-                //'<i class="la la-eye"></i></a>\</td>' +
+                //'<i class="fa fa-eye"></i></a>\</td>' +
                 '</tr>';
 
 

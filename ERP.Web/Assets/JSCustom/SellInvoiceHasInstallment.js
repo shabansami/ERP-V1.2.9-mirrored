@@ -108,7 +108,7 @@ var SellInvoiceHasInstallment_Module = function () {
                     return '\
 							<div class="btn-group">\
 							<a href="/SellInvoiceHasInstallments/Installments/?invoGuid='+ row.InvoiceId + '&typ='+typ+'" class="btn btn-sm btn-clean btn-icon" title="استعراض اقساط الفاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                            </div>\
 						';

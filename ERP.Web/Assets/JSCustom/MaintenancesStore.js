@@ -99,7 +99,7 @@ var MaintenancesStore_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/MaintenancesStores/ShowMaintenanceStore/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">معتمده</span></div>\
 						';
@@ -107,10 +107,10 @@ var MaintenancesStore_Module = function () {
                             return '\
 							<div class="btn-group">\
 							\<a href="/MaintenancesStores/ShowMaintenanceStore/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="javascript:;" onclick=MaintenancesStore_Module.ApprovalInvoice("'+ row.InvoiceGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة مخزنيا">\
-							<i class="la la-check-square-o"></i>\
+							<i class="fa fa-check-square-o"></i>\
 							</a></div>\
 						';
                         }

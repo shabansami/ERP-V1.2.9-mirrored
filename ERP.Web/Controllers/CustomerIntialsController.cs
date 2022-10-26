@@ -143,7 +143,7 @@ namespace ERP.Web.Controllers
             }
             else
             {
-                return Json(new { isValid = false, message = "لم يتم الاضافة  بنجاح" });
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
             }
 

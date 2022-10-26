@@ -103,9 +103,9 @@ var SalariesApproval_Module = function () {
                         return '\
 							<div class="btn-group" id="div'+row.Id+'">\
 							<a href="/SalariesApproval/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="استعراض وتعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\<a href="javascript:;"  onclick=SalariesApproval_Module.ApprovalSalary("' + row.Id + '") class="btn btn-sm btn-clean btn-icon" title="اعتماد الراتب">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a>\</div>\
 						';
                     } else {

@@ -98,7 +98,7 @@ var PurchaseInvoiceAccounting_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/PurchaseInvoices/ShowPurchaseInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             </div>\
 						';
@@ -106,10 +106,10 @@ var PurchaseInvoiceAccounting_Module = function () {
                        return '\
 							<div class="btn-group">\
 							\<a href="/PurchaseInvoices/ShowPurchaseInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 						<a href="javascript:;" onclick=PurchaseInvoiceAccounting_Module.ApprovalInvoice(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة محاسبيا">\
-							<i class="la la-check-square-o"></i>\
+							<i class="fa fa-check-square-o"></i>\
 							</a></div>\
 						';
                     }

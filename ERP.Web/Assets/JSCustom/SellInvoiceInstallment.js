@@ -104,9 +104,9 @@ var SellInvoiceInstallment_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:void(0)" onclick="SellInvoiceInstallment_Module.ChangePaymentTypeToInstallment(\''+ row.InvoiceId + '\')" class="btn btn-sm btn-clean btn-icon" title="تغيير الى تقسيط">\
-								<i class="la la-refresh"></i>\
+								<i class="fa fa-refresh"></i>\
 							</a>\<a href="/CustomersPayments/CreateEdit/?invoGuid='+ row.InvoiceId + '" class="btn btn-sm btn-clean btn-icon" title="استلام نقدية من العميل">\
-								<i class="la la-money"></i>\
+								<i class="fa fa-money"></i>\
 							</a>\
                             </div>\
 						';
@@ -114,7 +114,7 @@ var SellInvoiceInstallment_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/SellInvoiceInstallments/RegisterInstallments/?invoGuid='+ row.InvoiceId + '&typ=sell" class="btn btn-sm btn-clean btn-icon" title="انشاء/ادارة دفعات الفاتورة">\
-								<i class="la la-money"></i>\
+								<i class="fa fa-money"></i>\
 							</a>\
                            </div>\
 						';

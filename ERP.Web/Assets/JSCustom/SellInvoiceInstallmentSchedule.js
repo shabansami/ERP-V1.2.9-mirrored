@@ -105,7 +105,7 @@ var SellInvoiceInstallmentSchedule_Module = function () {
 							<div class="btn-group">
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم السداد فى موعدها</span>
                            <a href="javascript:;" onclick=SellInvoiceInstallmentSchedule_Module.UnApprovalSchedule('` + row.ScheduleId + `') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="la la-check-square-o"></i>
+								<i class="fa fa-check-square-o"></i>
                             </div >
 						`;
                         }else
@@ -113,8 +113,8 @@ var SellInvoiceInstallmentSchedule_Module = function () {
 							<div class="btn-group">
                             <span class="label label-lg font-weight-bold label-light-warning label-inline">تم السداد بعد موعدها</span>
                             <a href="javascript:;" onclick=SellInvoiceInstallmentSchedule_Module.UnApprovalSchedule('` + row.ScheduleId + `') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">
-								<i class="la la-check-square-o"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintInstallmentSchedule('`+ row.ScheduleId + `');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
-								<i class="la la-print"></i></a>
+								<i class="fa fa-check-square-o"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintInstallmentSchedule('`+ row.ScheduleId + `');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
+								<i class="fa fa-print"></i></a>
                             </div >
 						`;
 
@@ -249,7 +249,7 @@ var SellInvoiceInstallmentSchedule_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/SellInvoiceInstallmentSchedules/Paid?scId='+ row.ScheduleId + '" class="btn btn-sm btn-clean btn-icon" title=" سداد دفعة">\
-								<i class="la la-credit-card"></i>\
+								<i class="fa fa-credit-card"></i>\
 							</a>\
                             </div>\
 						';

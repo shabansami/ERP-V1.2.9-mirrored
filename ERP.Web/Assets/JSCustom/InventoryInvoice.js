@@ -99,9 +99,9 @@ var InventoryInvoice_Module = function () {
                        return '\
 							<div class="btn-group">\
                            <a href="/InventoryInvoices/ShowInventoryInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							<a href="javascript:;" onclick=InventoryInvoice_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                   

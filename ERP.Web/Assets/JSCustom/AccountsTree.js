@@ -62,6 +62,10 @@ var AccountsTree_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {
@@ -95,10 +99,10 @@ var AccountsTree_Module = function () {
                                 return '\
 							<div class="btn-group">\
 							<a href="/AccountsTrees/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=AccountsTree_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
 },
@@ -262,7 +266,7 @@ var AccountsTree_Module = function () {
 //                                return '\
 //							<div class="btn-group">\
 //							<a href="javascript:;" onclick=AccountsTree_Module.deleteRowTreePrice('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-//								<i class="la la-trash"></i>\
+//								<i class="fa fa-trash"></i>\
 //							</a></div>\
 //						';
 //},

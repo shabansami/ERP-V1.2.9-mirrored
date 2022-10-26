@@ -93,12 +93,12 @@ var SaleMenStore_Module = function () {
                                 return '\
 							<div class="btn-group">\
 							<a href="/SaleMenStores/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=SaleMenStore_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف ارتباط بخزن">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="/SaleMenStores/ShowHistory/?empGuid='+ row.EmpGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض حركات تغيير المخزن ">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a></div>\
 						';
 },

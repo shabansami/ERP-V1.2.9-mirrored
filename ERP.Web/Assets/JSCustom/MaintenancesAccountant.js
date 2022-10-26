@@ -91,7 +91,7 @@ var MaintenancesAccountant_Module = function () {
 
                 {
                     //         		< a href = "/MaintenancesAccountants/Edit/?invoGuid='+ row.InvoiceGuid + '" class= "btn btn-sm btn-clean btn-icon" title = "تعديل" >\
-                    //         <i class="la la-edit"></i>\
+                    //         <i class="fa fa-edit"></i>\
                     //</a >
                     targets: -1,
                     title: 'عمليات',
@@ -101,7 +101,7 @@ var MaintenancesAccountant_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/MaintenancesAccountants/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">معتمده</span></div>\
 						';
@@ -109,9 +109,9 @@ var MaintenancesAccountant_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/MaintenancesAccountants/ApprovalAccountant/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="اعتماد محاسبى">\
-								<i class="la la-check"></i>\
+								<i class="fa fa-check"></i>\
 							</a>\<a href="/MaintenancesAccountants/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             </div>\
 						';

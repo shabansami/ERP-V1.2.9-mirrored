@@ -100,7 +100,7 @@ var ProductionOrderReceipt_Module = function () {
 							<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
                                 row.Id +
                                 '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\</div>\
 						';
                         } else {
@@ -108,10 +108,10 @@ var ProductionOrderReceipt_Module = function () {
 							<div class="btn-group">\
 							\<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
                                 row.Id + '" class="btn btn-sm btn-clean btn-icon" title=" عرض ملخص أمر اللإنتاج">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="/ProductionOrderReceipts/RegisterReceipts/?ordrGud='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تسليم">\
-								<i class="la la-house-damage"></i>\
+								<i class="fa fa-house-damage"></i>\
 							</a></div>\
 						';
                         }

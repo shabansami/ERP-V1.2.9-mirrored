@@ -113,10 +113,10 @@ var RptSellInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 					        \<a href="/SellInvoices/ShowSellInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             <a href="/SellInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a>\</div>\
 						';
 
@@ -263,10 +263,10 @@ var RptSellInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 					        \<a href="/SellBackInvoices/ShowSellBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
                             <a href="/SellBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a>\</div>\
 						';
 

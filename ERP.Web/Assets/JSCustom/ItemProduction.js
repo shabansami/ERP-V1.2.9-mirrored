@@ -92,9 +92,9 @@ var ItemProduction_Module = function () {
                 render: function (data, type, row, meta) {
                                 return '\
 							<div class="btn-group">\<a href="/ItemProductions/ShowItemProduction/?itemProId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل التوليفة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\<a href="javascript:;" onclick=ItemProduction_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
 },
@@ -248,7 +248,7 @@ var ItemProduction_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=ItemProduction_Module.deleteRowProductionItems(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -372,7 +372,7 @@ var ItemProduction_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=ItemProduction_Module.deleteRowProductionDetails(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

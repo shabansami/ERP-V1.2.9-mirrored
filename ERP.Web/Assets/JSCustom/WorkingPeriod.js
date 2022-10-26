@@ -95,10 +95,10 @@ var WorkingPeriod_Module = function () {
                                 return '\
 							<div class="btn-group">\
 							<a href="/WorkingPeriods/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=WorkingPeriod_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
 },

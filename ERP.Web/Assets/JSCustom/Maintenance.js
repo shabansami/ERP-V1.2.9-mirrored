@@ -93,7 +93,7 @@ var Maintenance_Module = function () {
 
                 {
                     //         		< a href = "/Maintenances/Edit/?invoGuid='+ row.InvoiceGuid + '" class= "btn btn-sm btn-clean btn-icon" title = "تعديل" >\
-                    //         <i class="la la-edit"></i>\
+                    //         <i class="fa fa-edit"></i>\
                     //</a >
                     targets: -1,
                     title: 'عمليات',
@@ -103,23 +103,23 @@ var Maintenance_Module = function () {
                             return '\
 							<div class="btn-group">\
 					        <a href="/Maintenances/ShowHistory/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
-								<i class="la la-print"></i>\
+								<i class="fa fa-print"></i>\
 							</a>\</div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
 					        <a href="/MaintenanceItems/Index/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="البدأ فى صيانة اصناف الفاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="javascript:;" onclick=Maintenance_Module.deleteRow("'+ row.InvoiceGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="/Maintenances/ShowHistory/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="la la-sliders"></i>\
+								<i class="fa fa-sliders"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
-								<i class="la la-print"></i>\
+								<i class="fa fa-print"></i>\
 							</a>\</div>\
 						';
                         }
@@ -331,7 +331,7 @@ var Maintenance_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=Maintenance_Module.deleteRowItemDetails('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

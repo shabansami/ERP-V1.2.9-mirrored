@@ -106,7 +106,7 @@ var RptProductionOrder_Module = function () {
 						//	<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
       //                          row.Id +
       //                          '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
-						//		<i class="la la-search"></i>\
+						//		<i class="fa fa-search"></i>\
 						//	</a>\</div>\
 						//';
       //                  } 

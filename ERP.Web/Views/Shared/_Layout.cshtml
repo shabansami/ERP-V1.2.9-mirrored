@@ -63,6 +63,13 @@
     <!-- choices css -->
     <link href="~/assets/libs/choices.js/public/assets/styles/choices.min.css" rel="stylesheet" type="text/css" />
     <link href="~/assets/css/vts-rtl-style.css" rel="stylesheet" />
+    <link href="~/Assets/css/toastr.min.css" rel="stylesheet" />
+    <!-- DropDown tree-->
+    <link href="~/Assets/plugins/DropDownComboTree/style.css" rel="stylesheet" />
+    <!-- Sweet Alert-->
+    <link href="~/Assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <!-- select2-->
+    <link href="~/Assets/plugins/Select2/select2.min.css" rel="stylesheet" />
 
     <style>
 
@@ -204,7 +211,7 @@
                             </div>
 
                         </div>
-                    </div>    
+                    </div>
                     @RenderBody()
 
                 </div>
@@ -251,7 +258,7 @@
     <script src="~/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
     <!-- dashboard init -->
     <script src="~/assets/js/pages/dashboard.init.js"></script>
-    <script src="~/Assets/plugins/custom/datatables/datatables.bundle.js"></script>
+
     <!-- Required datatable js -->
     <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="~/assets/libs/datatables.net-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -292,12 +299,40 @@
     <!-- init js -->
     <script src="~/assets/js/pages/form-advanced.init.js"></script>
     <script src="~/assets/js/pages/bootstrap-toasts.init.js"></script>
-    <script src="~/assets/JSCustom/JSMetronic/searchableselect2.js"></script>
     <!-- choices js -->
     <script src="~/Assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
     <!-- init js -->
     <script src="~/Assets/js/pages/form-advanced.init.js"></script>
-   
+    <script src="~/Assets/js/toastr.min.js"></script>
+    <script src="~/Assets/JSCustom/JQuery_Sum.js"></script>
+    <script src="~/Assets/plugins/Select2/select2.full.min.js"></script>
+    <script>
+        toastr.options = {
+            "closeButton": false,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-top-center",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "3000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+    </script>
+    <!-- DropDown tree-->
+    <script src="~/Assets/plugins/DropDownComboTree/comboTreePlugin.js"></script>
+    <!-- Sweet Alerts js -->
+    <script src="~/Assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- Sweet alert init js-->
+    <script src="~/Assets/js/pages/sweetalert.init.js"></script>
+
     <script type="text/javascript">
         //========Prevent Double Click in jQuery
         document.addEventListener('click', function (e) {
@@ -397,6 +432,13 @@
         function onSearchMenuChange() {
             window.location = $("#SearchMenu").val();
         }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2({
+                //theme: "classic"
+            });
+        })
     </script>
     @RenderSection("Scripts", false)
 

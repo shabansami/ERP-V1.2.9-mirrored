@@ -100,26 +100,26 @@ var CustomerCheque_Module = function () {
                                 return '\
 							<div class="btn-group">\
 							<a  href="/CustomerChequeCollections/PaymentBank/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تحديد الحساب البنكى">\
-								<i class="la la-bank"></i>\
+								<i class="fa fa-bank"></i>\
 							</a></div>\
 						';
                             } else
                             return '\
 							<div class="btn-group">\
 							<a  href="/CustomerChequeCollections/Collection/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تحصيل">\
-								<i class="la la-money"></i>\
+								<i class="fa fa-money"></i>\
 							</a>\
                                 <a href="/CustomerChequeRefuses/Refuse/'+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفض/إرجاع الشيك">\
-								<i class="la la-ban"></i>\
+								<i class="fa fa-ban"></i>\
 							</a><a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=12" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="la la-money"></i>\
+								<i class="fa fa-money"></i>\
 							</a>\</div>\
 						';
                         }  else {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=12" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="la la-money"></i>\
+								<i class="fa fa-money"></i>\
 							</a>\</div>\
 						';
                         }

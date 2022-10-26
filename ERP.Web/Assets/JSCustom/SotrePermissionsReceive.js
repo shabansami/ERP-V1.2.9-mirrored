@@ -96,17 +96,17 @@ var StorePermissionsReceive_Module = function () {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=StorePermissionsReceive_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln d-none" title="فك الاعتماد">\
-								<i class="la la-check-square-o"></i>\<a href="javascript:;" onclick=StorePermissionsReceive_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-check-square-o"></i>\<a href="javascript:;" onclick=StorePermissionsReceive_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=StorePermissionsReceive_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=StorePermissionsReceive_Module.approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a></div>\
 						';
                         }
@@ -350,7 +350,7 @@ var StorePermissionsReceive_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=StorePermissionsReceive_Module.deleteRowItemDetails('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

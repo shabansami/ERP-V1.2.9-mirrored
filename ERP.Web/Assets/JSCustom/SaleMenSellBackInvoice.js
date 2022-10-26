@@ -90,7 +90,7 @@ var SaleMenSellBackInvoice_Module = function () {
                 },
                 {
                     //         		< a href = "/SaleMenSellBackInvoices/Edit/?invoGuid='+ row.InvoiceGuid + '" class= "btn btn-sm btn-clean btn-icon" title = "تعديل" >\
-                    //         <i class="la la-edit"></i>\
+                    //         <i class="fa fa-edit"></i>\
                     //</a >
                     targets: -1,
                     title: 'عمليات',
@@ -99,9 +99,9 @@ var SaleMenSellBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/SaleMenSellBackInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\<a href="/SaleMenSellBackInvoices/ShowSaleMenSellBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 							</div>\
 						';
@@ -322,7 +322,7 @@ var SaleMenSellBackInvoice_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=SaleMenSellBackInvoice_Module.deleteRowItemDetails('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

@@ -98,7 +98,7 @@ var Contract_Module = function () {
                             return '\
 							<div class="btn-group">\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
-								<i class="la la-upload"></i>\
+								<i class="fa fa-upload"></i>\
 							</a><a href = "javascript:;" onclick = Contract_Module.UnApprovalContract("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title = "الغاء الاعتماد" >\
                             <i class="las la-times-circle"></i>\
                             </div >\
@@ -107,14 +107,14 @@ var Contract_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/Contracts/Edit/?conGuid='+ row.ConGuid + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=Contract_Module.deleteRow("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=Contract_Module.ApprovalContract("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
-								<i class="la la-upload"></i>\
+								<i class="fa fa-upload"></i>\
 							</a></div>\
 						';
                         }
@@ -406,7 +406,7 @@ var Contract_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=Contract_Module.deleteRowSalaryAddition('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -559,7 +559,7 @@ var Contract_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=Contract_Module.deleteRowSalaryPenalty('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -698,7 +698,7 @@ var Contract_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=Contract_Module.deleteRowDefinitionVacation('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

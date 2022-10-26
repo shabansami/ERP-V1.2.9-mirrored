@@ -157,7 +157,7 @@ var MaintenanceItem_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=MaintenanceItem_Module.deleteRowItemSpareParts("'+ row.Id + '")  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -378,7 +378,7 @@ var MaintenanceItem_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=MaintenanceItem_Module.deleteRowItemDamages("'+ row.Id + '")  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -516,7 +516,7 @@ var MaintenanceItem_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=MaintenanceItem_Module.deleteRowMaintenanceIncome("'+ row.Id + '")  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

@@ -99,18 +99,18 @@ var MaintenancesFinalApproval_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/MaintenancesFinalApprovals/PrintBarCode/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="طباعة سيريال الاصناف">\
-                       	<i class="la la-print"></i>\
+                       	<i class="fa fa-print"></i>\
                         	</a><a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\</div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=MaintenancesFinalApproval_Module.ApprovalInvoice("'+ row.InvoiceGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة بشكل نهائى">\
-							<i class="la la-check-square-o"></i>\
+							<i class="fa fa-check-square-o"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 						</div>\
 						';

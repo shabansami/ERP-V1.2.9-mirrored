@@ -93,16 +93,16 @@ var CustomerIntial_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=CustomerIntial_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=CustomerIntial_Module.ChangePaymentTypeToInstallment(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="تحويل الرصيد الى تقسيط">\
-								<i class="la la-refresh"></i>\
+								<i class="fa fa-refresh"></i>\
 							</a></div>\
 						';
                     } else
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=CustomerIntial_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                                

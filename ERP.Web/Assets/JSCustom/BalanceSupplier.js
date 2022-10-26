@@ -196,7 +196,7 @@ var BalanceSupplier_Module = function () {
                 '<td>' + data.TransactionTypeName + '</td>' +
                 '<td>' + data.Notes + '</td>' +
                 //'<td><a href="/UserProfileResults/ShowResult/?usQ=' + data.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض النتيجة">' +
-                //'<i class="la la-eye"></i></a>\</td>' +
+                //'<i class="fa fa-eye"></i></a>\</td>' +
                 '</tr>';
 
 

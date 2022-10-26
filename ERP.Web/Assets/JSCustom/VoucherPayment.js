@@ -101,21 +101,21 @@ var VoucherPayment_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="/VoucherPayments/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
-								<i class="la la-edit"></i>\
+								<i class="fa fa-edit"></i>\
 							</a>\
                                 <a href="javascript:;" onclick=VoucherPayment_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="la la-check-square-o"></i>\
+								<i class="fa fa-check-square-o"></i>\
 							</a><a href="javascript:;" onclick=VoucherPayment_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=VoucherPayment_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="la la-check-square-o"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="la la-money"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintPayment(\''+ row.Id + '\',\'voucherPayment\');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
-								<i class="la la-print"></i>\
+								<i class="fa fa-check-square-o"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+								<i class="fa fa-money"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintPayment(\''+ row.Id + '\',\'voucherPayment\');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
+								<i class="fa fa-print"></i>\
 							</a>\</div>\
 						';
                         }

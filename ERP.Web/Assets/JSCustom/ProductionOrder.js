@@ -100,13 +100,13 @@ var ProductionOrder_Module = function () {
 						//	<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
       //                          row.Id +
       //                          '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
-						//		<i class="la la-search"></i>\
+						//		<i class="fa fa-search"></i>\
 						//	</a>\</div>\
 						//';
                         //<a href="/ProductionOrderDamages/Index/?ordrGud=' +
                         //        row.Id +
                         //        '" class="btn btn-sm btn-clean btn-icon" title="تسجيل توالف">\
-                        //    <i class="la la-house-damage"></i>\
+                        //    <i class="fa fa-house-damage"></i>\
                         //</a>\
       //                  } else {
                             return '\
@@ -114,12 +114,12 @@ var ProductionOrder_Module = function () {
 							<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
                                 row.Id +
                                 '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRow(\'' +
                                 row.Id +
                                 '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                         //}
@@ -315,7 +315,7 @@ var ProductionOrder_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRowItemIn()  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -611,7 +611,7 @@ var ProductionOrder_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRowProductionOrderExpenses()  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

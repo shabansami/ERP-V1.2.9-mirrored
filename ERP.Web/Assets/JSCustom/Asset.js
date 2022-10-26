@@ -94,9 +94,9 @@ var Asset_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/FixedAssetIntialBalances/Edit/'+ row.TransactionId + '" class="btn btn-sm btn-clean btn-icon" title="عرض التفاصيل">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\<a href="javascript:;" onclick=Asset_Module.deleteRow(\''+ row.TransactionId + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

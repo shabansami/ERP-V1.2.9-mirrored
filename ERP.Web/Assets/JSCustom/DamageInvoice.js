@@ -99,9 +99,9 @@ var DamageInvoice_Module = function () {
                        return '\
 							<div class="btn-group">\
                            <a href="/DamageInvoices/ShowDamageInvoice/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							<a href="javascript:;" onclick=DamageInvoice_Module.deleteRow(\''+ row.InvoiceGuid + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                   

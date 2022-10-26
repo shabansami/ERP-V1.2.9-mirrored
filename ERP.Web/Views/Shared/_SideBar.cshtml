@@ -50,7 +50,10 @@
                     </a>
                 </li>
                 <li>
-                    @Html.DropDownList("SearchMenu", new SelectList(pages.Where(x => x.IsPage && x.HasAccess), "Url", "text"), "البحث فى القائمة الجانبية", htmlAttributes: new { @class = "form-control menu-link din-med select2", @onchange = "onSearchMenuChange()" })
+                    @if (pages.Where(x => x.children.Count() > 0).Any())
+                    {
+                        @Html.DropDownList("SearchMenu", new SelectList(UsersRoleService.PagesUrl, "Url", "text"), "البحث فى القائمة الجانبية", htmlAttributes: new { @class = "form-control menu-link din-med select2", @onchange = "onSearchMenuChange()" })
+                    }
                 </li>
 
 

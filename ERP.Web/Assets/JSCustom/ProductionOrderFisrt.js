@@ -54,7 +54,7 @@ var ProductionOrder_Module = function () {
 							<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
                                 row.Id +
                                 '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\</div>\
 						';
                         } else {
@@ -63,16 +63,16 @@ var ProductionOrder_Module = function () {
 							<a href="/ProductionOrders/ShowProductionOrder/?ordrGud=' +
                                 row.Id +
                                 '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
-								<i class="la la-search"></i>\
+								<i class="fa fa-search"></i>\
 							</a>\<a href="/ProductionOrderDamages/?ordrGud=' +
                                 row.Id +
                                 '" class="btn btn-sm btn-clean btn-icon" title="تسجيل توالف">\
-								<i class="la la-house-damage"></i>\
+								<i class="fa fa-house-damage"></i>\
 							</a>\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRow("' +
                                 row.Id +
                                 '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                         }
@@ -267,7 +267,7 @@ var ProductionOrder_Module = function () {
                     //                  return '\
                     //	<div class="btn-group">\
                     //	<a href="#" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-                    //		<i class="la la-close"></i>\
+                    //		<i class="fa fa-close"></i>\
                     //	</a>\
                     //	</div>\
                     //';
@@ -340,7 +340,7 @@ var ProductionOrder_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRowItemMaterial()  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },
@@ -578,7 +578,7 @@ var ProductionOrder_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRowProductionOrderExpenses()  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
-								<i class="la la-trash"></i>\
+								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     },

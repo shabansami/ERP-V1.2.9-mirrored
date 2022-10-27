@@ -64,6 +64,10 @@ var PurchaseInvoice_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {
@@ -201,7 +205,7 @@ var PurchaseInvoice_Module = function () {
                     //document.getElementById('reset').disabled = false;
                 },
                 error: function (err) {
-                    toastr.error('حدث خطأ اثناء تنفيذ العمليةccc', '');
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
                     console.log(err)
                 }
             })
@@ -324,6 +328,10 @@ var PurchaseInvoice_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {
@@ -563,6 +571,10 @@ var PurchaseInvoice_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {

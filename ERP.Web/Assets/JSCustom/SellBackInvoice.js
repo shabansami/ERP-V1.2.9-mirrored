@@ -64,6 +64,10 @@ var SellBackInvoice_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {
@@ -334,6 +338,10 @@ var SellBackInvoice_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {
@@ -540,6 +548,10 @@ var SellBackInvoice_Module = function () {
                 zeroRecords: "لا يوجد سجلات لعرضها",
                 infoFiltered: "",
                 infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
             },
 
             ajax: {

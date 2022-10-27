@@ -69,13 +69,13 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "Expense_Module.getSafesOnBranchChanged();" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Expense_Module.getSafesOnBranchChanged();" })
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>خزينة</label>
-                                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "Expense_Module.getBalanceAccountChanged();" })
+                                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Expense_Module.getBalanceAccountChanged();" })
                             </div>
                         </div>
                         <div class="col-lg-4">

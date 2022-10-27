@@ -75,7 +75,7 @@
                                     <div class="form-group mb-0 w-100 ">
                                         <div>
                                             <label> الدولة</label>
-                                            @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "GeneralSetting_Module.onCountryChange()" })
+                                            @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "GeneralSetting_Module.onCountryChange()" })
                                         </div>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                                     <div class="form-group mb-0 w-100 ">
                                         <div>
                                             <label> المحافظة</label>
-                                            @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "GeneralSetting_Module.onCityChange()" })
+                                            @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "GeneralSetting_Module.onCityChange()" })
                                         </div>
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>المدينة</label>
-                                        @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                        @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -127,31 +127,31 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>احتساب تكلفة المنتج</label>
-                                        @Html.DropDownList("ItemCostCalculateId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                        @Html.DropDownList("ItemCostCalculateId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>اظهار تكلفة الصنف فى شاشة البيع</label>
-                                        @Html.DropDownList("ItemCostCalculateShowInSellRegId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                        @Html.DropDownList("ItemCostCalculateShowInSellRegId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>اضافة اصناف بدون رصيد</label>
-                                        @Html.DropDownList("ItemAcceptNoBalanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                        @Html.DropDownList("ItemAcceptNoBalanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>قبول صرف نقدية بدون رصيد فى المصروفات وسندات الصرف</label>
-                                        @Html.DropDownList("PaidWithBalance", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                        @Html.DropDownList("PaidWithBalance", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>الاعتماد المباشر بعد حفظ فواتير البيع والتوريد</label>
-                                        @Html.DropDownList("InvoicesApprovalAfterSaveId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                        @Html.DropDownList("InvoicesApprovalAfterSaveId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
@@ -711,13 +711,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchInId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'ProductionInStoreId');" })
+                                        @Html.DropDownList("BranchInId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'ProductionInStoreId');" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>مخزن التصنيع الداخلى</label>
-                                        @Html.DropDownList("ProductionInStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("ProductionInStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                     </div>
                                 </div>
                             </div>
@@ -725,13 +725,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchExId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'DefaultStoreId');" })
+                                        @Html.DropDownList("BranchExId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'DefaultStoreId');" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>المخزن الافتراضى فى فواتير البيع والشراء</label>
-                                        @Html.DropDownList("DefaultStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("DefaultStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                     </div>
                                 </div>
                             </div>
@@ -739,13 +739,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchUnderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'ProductionUnderStoreId');" })
+                                        @Html.DropDownList("BranchUnderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'ProductionUnderStoreId');" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>مخزن تحت التصنيع الافتراضى</label>
-                                        @Html.DropDownList("ProductionUnderStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("ProductionUnderStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                     </div>
                                 </div>
                             </div>
@@ -753,13 +753,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchMaintenanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'MaintenanceStoreId');" })
+                                        @Html.DropDownList("BranchMaintenanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "GeneralSetting_Module.getStoresBranchChanged(this,'MaintenanceStoreId');" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>مخزن الصيانة</label>
-                                        @Html.DropDownList("MaintenanceStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("MaintenanceStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                     </div>
                                 </div>
                             </div>
@@ -767,13 +767,13 @@
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchMaintenanceDamageId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "GeneralSetting_Module.getStoreDamagesBranchChanged();" })
+                                        @Html.DropDownList("BranchMaintenanceDamageId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "GeneralSetting_Module.getStoreDamagesBranchChanged();" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group  ">
                                         <label>مخزن توالف الصيانة</label>
-                                        @Html.DropDownList("MaintenanceDamageStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                                        @Html.DropDownList("MaintenanceDamageStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                     </div>
                                 </div>
                             </div>

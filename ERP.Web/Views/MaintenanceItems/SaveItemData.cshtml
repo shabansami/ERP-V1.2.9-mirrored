@@ -122,7 +122,7 @@
                                                       <!--begin::Input-->
                                                       <div class="form-group required">
                                                           <label>نوع العطل</label>
-                                                          @Html.DropDownList("MaintenProblemTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med" })
+                                                          @Html.DropDownList("MaintenProblemTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med" })
                                                       </div>
                                                       <!--end::Input-->
                                                   </div>
@@ -130,7 +130,7 @@
                                                       <!--begin::Input-->
                                                       <div class="form-group required">
                                                           <label>تحديث حالة الصنف </label>
-                                                          @Html.DropDownList("MaintenanceCaseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100" })
+                                                          @Html.DropDownList("MaintenanceCaseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med w-100" })
                                                           <span class="form-text text-muted">اختر حالة الصنف </span>
                                                       </div>
                                                       <!--end::Input-->
@@ -209,7 +209,7 @@
                                                       <div class="col-lg-6">
                                                           <div class="form-group required">
                                                               <label>الصنف</label>
-                                                              @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100", onchange = "MaintenanceItem_Module.onItemChange()" })
+                                                              @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "MaintenanceItem_Module.onItemChange()" })
                                                               <span class="form-text text-muted">اختر الصنف</span>
                                                           </div>
                                                       </div>
@@ -219,7 +219,7 @@
                                                           <!--begin::Select-->
                                                           <div class="form-group required">
                                                               <label>المخزن</label>
-                                                              @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "MaintenanceItem_Module.getProductionOrdersOnStoreChange();" })
+                                                              @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "MaintenanceItem_Module.getProductionOrdersOnStoreChange();" })
                                                               <span class="form-text text-muted">اختر المخزن </span>
                                                           </div>
                                                           <!--end::Select-->
@@ -242,7 +242,7 @@
                                                       <div class="col-lg-6">
                                                           <div class="form-group">
                                                               <label>سياسة الاسعار </label>
-                                                              @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100", onchange = "MaintenanceItem_Module.onPricingPolicyChange()" })
+                                                              @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med w-100", onchange = "MaintenanceItem_Module.onPricingPolicyChange()" })
                                                               <span class="form-text text-muted">اختر الصنف</span>
                                                           </div>
                                                       </div>
@@ -363,7 +363,7 @@
                                                               <div class="col-lg-6">
                                                                   <div class="form-group required">
                                                                       <label>الصنف</label>
-                                                                      @Html.DropDownList("ItemDamageId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100" })
+                                                                      @Html.DropDownList("ItemDamageId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100" })
                                                                       <span class="form-text text-muted">اختر الصنف</span>
                                                                   </div>
                                                               </div>

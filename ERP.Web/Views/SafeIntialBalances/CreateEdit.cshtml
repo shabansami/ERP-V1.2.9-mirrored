@@ -40,13 +40,13 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "SafeIntialBalance_Module.getSafesOnBranchChanged();" })
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "SafeIntialBalance_Module.getSafesOnBranchChanged();" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الخزنة</label>
-                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
         <div class="col-lg-6">

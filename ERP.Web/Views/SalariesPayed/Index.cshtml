@@ -75,7 +75,7 @@
                                     <div class="form-group mb-0 w-100">
                                         <div>
                                             <label> نوع العقد</label>
-                                            @Html.DropDownList("ContractSalaryTypId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                            @Html.DropDownList("ContractSalaryTypId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                         </div>
                                     </div>
                                 </div>
@@ -118,7 +118,7 @@
                 <div class="col-lg-3">
                     <div class="form-group required">
                         <label>الفرع</label>
-                        @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "SalariesPayed_Module.getSafesOnBranchChanged();" })
+                        @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "SalariesPayed_Module.getSafesOnBranchChanged();" })
                     </div>
                 </div>
                 <div class="col-lg-3">
@@ -128,7 +128,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @aria_label = "Text input with radio" })
+                            @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @aria_label = "Text input with radio" })
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <label class="radio radio-single radio-primary">
@@ -147,7 +147,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">$</span>
                             </div>
-                            @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             <div class="input-group-append">
                                 <span class="input-group-text">
                                     <label class="radio radio-single radio-primary">

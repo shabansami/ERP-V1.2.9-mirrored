@@ -34,26 +34,26 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الادارة</label>
-                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "SaleMenStore_Module.getSaleMenDepartmentChange()" })
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "SaleMenStore_Module.getSaleMenDepartmentChange()" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الموظف</label>
-                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group ">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "SaleMenStore_Module.getStoresInBranchChanged();" })
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "SaleMenStore_Module.getStoresInBranchChanged();" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group ">
                 <label>المخزن(سيارة المندوب)</label>
-                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
     </div>

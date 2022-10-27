@@ -46,14 +46,14 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label>نوع الإضافة</label>
-                @Html.DropDownList("SalaryAdditionTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "ContractSalaryAddition_Module.onSalaryAdditionTypeChange()" })
+                @Html.DropDownList("SalaryAdditionTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "ContractSalaryAddition_Module.onSalaryAdditionTypeChange()" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
         <div class="col-lg-4">
             <div class="form-group required">
                 <label>الإضافة</label>
-                @Html.DropDownList("SalaryAdditionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("SalaryAdditionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
         <div class="col-lg-4">
@@ -65,13 +65,13 @@
         <div class="col-lg-6">
             <div class="form-group">
                 <label>الادارة</label>
-                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractSalaryAddition_Module.getEmployeesDepartmentChange()" })
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "ContractSalaryAddition_Module.getEmployeesDepartmentChange()" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الموظف</label>
-                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractSalaryAddition_Module.getContractSchedulingEmpChange()" })
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "ContractSalaryAddition_Module.getContractSchedulingEmpChange()" })
                 <span class="form-text din-bold" style="color: #F64E60;" id="salaryTypeName">@ViewBag.salaryTypeName</span>
                 @Html.Hidden("salaryTypeId", (int?)ViewBag.salaryTypeId)
             </div>
@@ -79,7 +79,7 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الشهر/الاسبوع/اليوم <span class="badge badge-soft-warning fa-1x"> فى حالة العقد اليومى الحقل غير إلزامى</span></label>
-                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
         <div class="col-lg-6">

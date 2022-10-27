@@ -49,7 +49,7 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -70,7 +70,7 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الى حساب</label>
-                                @Html.DropDownList("AccountTreeToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "VoucherPayment_Module.getBalanceAccountChanged();" })
+                                @Html.DropDownList("AccountTreeToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "VoucherPayment_Module.getBalanceAccountChanged();" })
                             </div>
                         </div>
                         <div class="col-lg-4">

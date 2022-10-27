@@ -74,7 +74,7 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>الفرع</label>
-                                            @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSafesOnBranchChanged();" })
+                                            @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSafesOnBranchChanged();" })
                                             @Html.HiddenFor(x => x.Id)
                                             @Html.HiddenFor(x => x.InvoiceNumber)
                                             <span class="form-text text-muted">اختر الفرع </span>
@@ -84,7 +84,7 @@
                                         <!--begin::Select-->
                                         <div class="form-group required">
                                             <label>المخزن</label>
-                                            @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                            @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                                             <span class="form-text text-muted">اختر المخزن </span>
                                         </div>
                                         <!--end::Select-->
@@ -102,7 +102,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>الادارة</label>
-                                            @Html.DropDownList("DepartmentSaleMenId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSaleMenDepartmentChange()" })
+                                            @Html.DropDownList("DepartmentSaleMenId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSaleMenDepartmentChange()" })
                                             <span class="form-text text-muted">اختر الادارة </span>
                                         </div>
                                         <!--end::Input-->
@@ -111,7 +111,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>المندوب</label>
-                                            @Html.DropDownList("EmployeeSaleMenId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med select2" })
+                                            @Html.DropDownList("EmployeeSaleMenId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -121,14 +121,14 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>فئات العملاء</label>
-                                            @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getCustomerOnCategoryChange();" })
+                                            @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getCustomerOnCategoryChange();" })
                                         </div>
                                     </div>
                                     <div class="col-xl-6">
                                         <!--begin::Select-->
                                         <div class="form-group required">
                                             <label>العميل</label>
-                                            @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "removeClassInValid();" })
+                                            @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "removeClassInValid();" })
                                             <span class="form-text text-muted">ادخل العميل </span>
                                         </div>
                                         <!--end::Select-->
@@ -139,7 +139,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>الادارة</label>
-                                            @Html.DropDownList("DepartmentResponseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med ", @onchange = "Maintenance_Module.getEmployeeDepartmentChange()" })
+                                            @Html.DropDownList("DepartmentResponseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med ", @onchange = "Maintenance_Module.getEmployeeDepartmentChange()" })
                                             <span class="form-text text-muted">اختر الادارة </span>
                                         </div>
                                         <!--end::Input-->
@@ -148,7 +148,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group required">
                                             <label>الفنى المسئول</label>
-                                            @Html.DropDownList("EmployeeResponseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med select2" })
+                                            @Html.DropDownList("EmployeeResponseId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -290,7 +290,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group required">
                                             <label>الصنف</label>
-                                            @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100", onchange = "Maintenance_Module.onItemChange()" })
+                                            @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "Maintenance_Module.onItemChange()" })
                                             <span class="form-text text-muted">اختر الصنف</span>
                                         </div>
                                     </div>

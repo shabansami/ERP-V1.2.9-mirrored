@@ -74,7 +74,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> الموظف</label>
-                                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractAttendanceLeaving_Module.getContractSchedulingEmpChange()" })
+                                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "ContractAttendanceLeaving_Module.getContractSchedulingEmpChange()" })
                             </div>
                         </div>
                     </div>
@@ -82,7 +82,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> شهر/اسبوع/يوم</label>
-                                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                     </div>

@@ -52,7 +52,7 @@
                             <div class="form-group mb-0 w-100 required">
                                 <div>
                                     <label> فئات العملاء</label>
-                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med" })
+                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med" })
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                                 <input @isHasParent type="checkbox" id="YES" name="YES" value="YES" style="margin-right: 20px; width: 20px; height: 20px; margin-top:3px;" />
                                 </label>
                                 <div id="Person" style="visibility:@ShowClass">
-                                    @Html.DropDownList("ParentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med DropList" })
+                                    @Html.DropDownList("ParentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med DropList" })
                                 </div>
                             </div>
                         </div>
@@ -88,12 +88,12 @@
                                     <label> الحالة</label>
                                     @if (Model.Id == Guid.Empty)
                                     {
-                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med" })
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med" })
                                     }
                                     else
                                     {
                                         @Html.HiddenFor(m => m.PersonTypeId)
-                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control   din-med", @disabled = "disabled" })
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med", @disabled = "disabled" })
                                     }
 
                                 </div>
@@ -104,7 +104,7 @@
 
                                     <div>
                                         <label> النوع</label>
-                                        @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                        @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                             </div>*@
@@ -113,7 +113,7 @@
 
                                 <div>
                                     <label> الدولة</label>
-                                    @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onCountryChange()" })
+                                    @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "Customer_Module.onCountryChange()" })
                                 </div>
                             </div>
                         </div>
@@ -123,7 +123,7 @@
 
                                 <div>
                                     <label> المحافظة</label>
-                                    @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onCityChange()" })
+                                    @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "Customer_Module.onCityChange()" })
                                 </div>
                             </div>
                         </div>
@@ -131,19 +131,19 @@
                         <div class="col-lg-6">
                             <div class="form-group required">
                                 <label>المدينة</label>
-                                @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onAreaChange()" })
+                                @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "Customer_Module.onAreaChange()" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>المنطقة</label>
-                                @Html.DropDownList("RegionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "Customer_Module.onRegionChange()" })
+                                @Html.DropDownList("RegionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "Customer_Module.onRegionChange()" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>الحي</label>
-                                @Html.DropDownList("DistrictId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                @Html.DropDownList("DistrictId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                             </div>
                         </div>
                         <div class="col-lg-6">

@@ -56,14 +56,14 @@
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>نوع الصنف</label>
-                                                @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onclick = "ItemProduction_Module.onItemTypeChange(1)" })
+                                                @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onclick = "ItemProduction_Module.onItemTypeChange(1)" })
                                             </div>
                                         </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group required">
                                                 <label>الصنف</label>
-                                                @Html.DropDownList("ItemInOutId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2" })
+                                                @Html.DropDownList("ItemInOutId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2" })
 
                                             </div>
                                         </div>
@@ -107,13 +107,13 @@
                                         <div class="col-lg-6">
                                             <div class="form-group required">
                                                 <label>نوع الصنف</label>
-                                                @Html.DropDownList("ItemtypeIdDetails", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onclick = "ItemProduction_Module.onItemTypeChange(0)" })
+                                                @Html.DropDownList("ItemtypeIdDetails", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onclick = "ItemProduction_Module.onItemTypeChange(0)" })
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group required">
                                                 <label>الصنف</label>
-                                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2" })
+                                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2" })
                                             </div>
                                         </div>
                                         <div class="col-lg-6">

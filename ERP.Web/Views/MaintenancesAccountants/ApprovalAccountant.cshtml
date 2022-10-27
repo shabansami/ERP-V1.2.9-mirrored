@@ -149,7 +149,7 @@
                             <div class="col-lg-4">
                                 <div class="form-group required">
                                     <label>طريقة السداد</label>
-                                    @*@Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "MaintenancesAccountant_Module.onPaymentTypeChanged();" })*@
+                                    @*@Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "MaintenancesAccountant_Module.onPaymentTypeChanged();" })*@
                                     @Html.TextBox("paymentTypName", paymentTypName, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;", @readonly = "readonly" })
                                     @Html.HiddenFor(model => model.Id)
                                     @Html.HiddenFor(model => model.PaymentTypeId)
@@ -180,7 +180,7 @@
                                 <!--begin::Select-->
                                 <div class="form-group">
                                     <label>خزينة</label>
-                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                                 <!--end::Select-->
                             </div>
@@ -188,7 +188,7 @@
                                 <!--begin::Select-->
                                 <div class="form-group">
                                     <label>بنك</label>
-                                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                                 <!--end::Select-->
                             </div>
@@ -204,7 +204,7 @@
                             <div class="col-lg-6" id="divStore" style="display:none">
                                 <div class="form-group">
                                     <label>المخزن المحول إليه</label>
-                                    @Html.DropDownList("StoreReceiptId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("StoreReceiptId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                             </div>
                             <div class="col-lg-6">

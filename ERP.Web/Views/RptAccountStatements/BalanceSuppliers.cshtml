@@ -79,7 +79,7 @@
                         <div class="form-group">
                             <div>
                                 <label> المورد</label>
-                                @Html.DropDownList("DrpPersonId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                @Html.DropDownList("DrpPersonId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                                 <input type="hidden" id="isFirstInitPage" value="1" />
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> الدولة</label>
-                                @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "BalanceSupplier_Module.onCountryChange()" })
+                                @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "BalanceSupplier_Module.onCountryChange()" })
                             </div>
                         </div>
                     </div>
@@ -96,14 +96,14 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> المحافظة</label>
-                                @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "BalanceSupplier_Module.onCityChange()" })
+                                @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "BalanceSupplier_Module.onCityChange()" })
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3">
                         <div class="form-group required">
                             <label>المدينة</label>
-                            @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                            @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                         </div>
                     </div>
                     <div class="col-lg-3">

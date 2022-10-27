@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>نوع الصنف</label>
-                                    @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onclick = "RptQuantityItemProduction_Module.onItemTypeChange(1)" })
+                                    @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onclick = "RptQuantityItemProduction_Module.onItemTypeChange(1)" })
                                     @Html.Hidden("ItemCostCalculateId", (int)ViewBag.ItemCostCalculateId)
                                     @Html.Hidden("itemQuantity", "0")
                                     @Html.Hidden("allStoreChkStatus", false)
@@ -48,7 +48,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>الصنف المراد انتاجه <span class="alert alert-primary">لابد من وجود توليفة للمنتج</span></label>
-                                    @Html.DropDownList("ItemFinalId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2" })
+                                    @Html.DropDownList("ItemFinalId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2" })
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>الفرع</label>
-                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "RptQuantityItemProduction_Module.getStoresOnBranchFromChanged();" })
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptQuantityItemProduction_Module.getStoresOnBranchFromChanged();" })
                                 </div>
                             </div>
                         </div>
@@ -67,7 +67,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>المخزن</label>
-                                    @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                             </div>
                         </div>

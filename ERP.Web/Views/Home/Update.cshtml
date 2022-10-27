@@ -73,7 +73,7 @@
                                 <div class="form-group mb-0 w-100">
                                     <div>
                                         <label> الدولة</label>
-                                        @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "UserProfile_Module.onCountryChange()", @style = "text-align:right;" })
+                                        @Html.DropDownList("CountryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "UserProfile_Module.onCountryChange()", @style = "text-align:right;" })
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +82,7 @@
                                 <div class="form-group mb-0 w-100">
                                     <div>
                                         <label> المحافظة</label>
-                                        @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "UserProfile_Module.onCityChange()", @style = "text-align:right;" })
+                                        @Html.DropDownList("CityId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "UserProfile_Module.onCityChange()", @style = "text-align:right;" })
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group required">
                                     <label>المدينة</label>
-                                    @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" , @style = "text-align:right;" })
+                                    @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" , @style = "text-align:right;" })
                                 </div>
                             </div>
                             <div class="col-lg-6">

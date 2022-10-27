@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <div>
                                     <label> الفرع</label>
-                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                             </div>
                         </div>
@@ -83,7 +83,7 @@
                             <div class="form-group">
                                 <div>
                                     <label> فئات العملاء</label>
-                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "RptSellInvoice_Module.getCustomerOnCategoryChange();" })
+                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptSellInvoice_Module.getCustomerOnCategoryChange();" })
                                 </div>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
                             <div class="form-group">
                                 <div>
                                     <label> العميل</label>
-                                    @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                    @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                             <div class="form-group">
                                 <div>
                                     <label> الادارة</label>
-                                    @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med select2", @onchange = "RptSellInvoice_Module.getSaleMenDepartmentChange()" })
+                                    @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med select2", @onchange = "RptSellInvoice_Module.getSaleMenDepartmentChange()" })
                                 </div>
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                             <div class="form-group">
                                 <div>
                                     <label> المندوب</label>
-                                    @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med select2" })
+                                    @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med select2" })
                                 </div>
                             </div>
                         </div>
@@ -127,7 +127,7 @@
                             <div class="form-group">
                                 <div>
                                     <label> نوع الصنف</label>
-                                    @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "RptSellInvoice_Module.onItemTypeChange()" })
+                                    @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptSellInvoice_Module.onItemTypeChange()" })
                                 </div>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>الصنف</label>
-                                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>طريقة السداد</label>
-                                    @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                             </div>
                         </div>

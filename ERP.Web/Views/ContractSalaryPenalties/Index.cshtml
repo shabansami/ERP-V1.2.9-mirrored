@@ -76,7 +76,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> الموظف</label>
-                                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractSalaryPenalty_Module.getContractSchedulingEmpChange()" })
+                                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "ContractSalaryPenalty_Module.getContractSchedulingEmpChange()" })
                             </div>
                         </div>
                     </div>
@@ -84,7 +84,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> شهر/اسبوع/يوم</label>
-                                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> نوع الخصم</label>
-                                @Html.DropDownList("SalaryPenaltyTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "ContractSalaryPenalty_Module.onSalaryPenaltyTypeChange()" })
+                                @Html.DropDownList("SalaryPenaltyTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "ContractSalaryPenalty_Module.onSalaryPenaltyTypeChange()" })
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> الخصم</label>
-                                @Html.DropDownList("SalaryPenaltyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                @Html.DropDownList("SalaryPenaltyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                             </div>
                         </div>
                     </div>

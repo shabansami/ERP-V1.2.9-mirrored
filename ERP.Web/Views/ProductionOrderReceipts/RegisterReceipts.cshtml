@@ -75,13 +75,13 @@
                         <div class="col-lg-6">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "ProductionOrderReceipt_Module.getStoresOnBranchChanged();" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "ProductionOrderReceipt_Module.getStoresOnBranchChanged();" })
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group required">
                                 <label>مخزن المنتج النهائى</label>
-                                @Html.DropDownList("FinalItemStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("FinalItemStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                         <div class="col-lg-12">

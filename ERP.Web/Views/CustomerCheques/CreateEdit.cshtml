@@ -36,7 +36,7 @@
         <div class="col-lg-6">
             <div class="form-group required" style="margin-top:27px;">
                 <label>اسم العميل</label>
-                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
@@ -56,13 +56,13 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>بنك</label>
-                @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
         <div class="col-lg-6">

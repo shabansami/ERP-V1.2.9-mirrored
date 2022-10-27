@@ -62,7 +62,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+                                @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
                             </div>
                         </div>
                     </div>
@@ -70,7 +70,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label>من مخزن</label>
-                                @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+                                @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label>إلي مخزن</label>
-                                @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                     </div>

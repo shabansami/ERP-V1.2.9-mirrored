@@ -45,7 +45,7 @@
         <div class="col-lg-4">
             <div class="form-group required">
                 <label>اسم المورد</label>
-                @Html.DropDownList("SupplierId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "getPesonBalance();" })
+                @Html.DropDownList("SupplierId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "getPesonBalance();" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
@@ -78,7 +78,7 @@
         <div class="col-lg-4">
             <div class="form-group required">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "SupplierPayment_Module.getSafesOnBranchChanged();" })
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "SupplierPayment_Module.getSafesOnBranchChanged();" })
             </div>
         </div>
         <div class="col-lg-4">
@@ -88,7 +88,7 @@
                   
                         <span class="input-group-text">$</span>
                     
-                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @aria_label = "Text input with radio" })
+                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @aria_label = "Text input with radio" })
                    
                         <span class="input-group-text">
                             
@@ -103,7 +103,7 @@
                 <label>بنك</label>
                 <div class="input-group">
                         <span class="input-group-text">$</span>
-                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                   <span class="input-group-text">
                          <input type="radio" name="radios2" id="rdo_bank" onchange="SupplierPayment_Module.onRdoBankChanged();" />
                  </span>

@@ -31,7 +31,7 @@
         <div class="col-lg-6 alert alert-success">
             <div class="form-group">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                 @Html.HiddenFor(model => model.Id)
                 @Html.HiddenFor(model => model.ComplexAccountTreeId)
             </div>

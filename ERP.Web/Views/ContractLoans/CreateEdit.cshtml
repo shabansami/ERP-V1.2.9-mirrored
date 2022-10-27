@@ -56,26 +56,26 @@
         <div class="col-lg-4">
             <div class="form-group">
                 <label>الادارة</label>
-                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractLoan_Module.getEmployeesDepartmentChange()" })
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "ContractLoan_Module.getEmployeesDepartmentChange()" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
         <div class="col-lg-4">
             <div class="form-group required">
                 <label>الموظف</label>
-                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "ContractLoan_Module.getContractSchedulingEmpChange()" })
+                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "ContractLoan_Module.getContractSchedulingEmpChange()" })
             </div>
         </div>
         <div class="col-lg-4">
             <div class="form-group required">
                 <label>بداية اول قسط (الشهر/الاسبوع)</label>
-                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                @Html.DropDownList("ContractSchedulingId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
         <div class="col-lg-4">
             <div class="form-group required">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @onchange = "ContractLoan_Module.getSafesOnBranchChanged();" })
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "ContractLoan_Module.getSafesOnBranchChanged();" })
             </div>
         </div>
         <div class="col-lg-4">
@@ -83,7 +83,7 @@
                 <label>خزينة</label>
                 <div class="input-group">
                     <div class="input-group-text">$</div>
-                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med", @aria_label = "Text input with radio" })
+                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @aria_label = "Text input with radio" })
                     <div class="input-group-text">
                         <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="ContractLoan_Module.onRdoSafeChanged();" />
                     </div>
@@ -95,7 +95,7 @@
                 <label>بنك</label>
                 <div class="input-group">
                     <span class="input-group-text">$</span>
-                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                     <span class="input-group-text">
                         <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="ContractLoan_Module.onRdoBankChanged();" />
                     </span>

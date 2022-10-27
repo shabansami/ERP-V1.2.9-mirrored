@@ -49,7 +49,7 @@
                             <div class="col-lg-6">
                                 <div class="form-group required">
                                     <label>الخزنة</label>
-                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     @Html.HiddenFor(m => m.ScheduleGuid)
                                     @Html.HiddenFor(model => model.Id)
                                 </div>
@@ -75,7 +75,7 @@
                             <div class="col-lg-6" style="display:none" id="divOtherSch">
                                 <div class="form-group required">
                                     <label>القسط المراد تحميل الزيادة/النقص عليه</label>
-                                    @Html.DropDownList("OtherScheduleNotPaidId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.DropDownList("OtherScheduleNotPaidId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                 </div>
                             </div>
                         </div>

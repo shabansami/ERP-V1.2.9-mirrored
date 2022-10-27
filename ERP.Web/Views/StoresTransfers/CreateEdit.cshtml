@@ -68,7 +68,7 @@
                                     <!--begin::Select-->
                                     <div class="form-group">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+                                        @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
                                         @Html.HiddenFor(x => x.Id)
                                     </div>
                                 </div>
@@ -76,7 +76,7 @@
                                     <!--begin::Select-->
                                     <div class="form-group">
                                         <label>من مخزن <span class="alert alert-warning" id="saleMenFromName"></span></label>
-                                        @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenFromChanged();" })
+                                        @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenFromChanged();" })
                                     </div>
                                 </div>
                             </div>
@@ -85,14 +85,14 @@
                                     <!--begin::Select-->
                                     <div class="form-group">
                                         <label>الفرع</label>
-                                        @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+                                        @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <!--begin::Select-->
                                     <div class="form-group">
                                         <label>الى مخزن <span class="alert alert-warning" id="saleMenToName"></span></label>
-                                        @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenToChanged();" })
+                                        @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenToChanged();" })
                                     </div>
                                 </div>
                             </div>
@@ -117,14 +117,14 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label>من الادارة</label>
-                                        @Html.DropDownList("DepartmentFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('1')" })
+                                        @Html.DropDownList("DepartmentFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('1')" })
                                         <span class="form-text text-muted">اختر الادارة </span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label>من المندوب</label>
-                                        @Html.DropDownList("EmployeeFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med select2" })
+                                        @Html.DropDownList("EmployeeFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
                                     </div>
                                 </div>
                             </div>
@@ -132,14 +132,14 @@
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label>الى الادارة</label>
-                                        @Html.DropDownList("DepartmentToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('2')" })
+                                        @Html.DropDownList("DepartmentToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('2')" })
                                         <span class="form-text text-muted">اختر الادارة </span>
                                     </div>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="form-group">
                                         <label>الى المندوب</label>
-                                        @Html.DropDownList("EmployeeToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med select2" })
+                                        @Html.DropDownList("EmployeeToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
                                     </div>
                                 </div>
                             </div>*@
@@ -224,7 +224,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group required">
                                         <label>الصنف</label>
-                                        @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med w-100", onchange = "StoresTransfer_Module.onItemChange()" })
+                                        @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "StoresTransfer_Module.onItemChange()" })
                                         <span class="form-text text-muted">اختر الصنف</span>
                                     </div>
                                 </div>

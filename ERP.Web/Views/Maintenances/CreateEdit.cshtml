@@ -93,7 +93,7 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>تم استلام المنتج من خلال المندوب</label>
-                                            @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med", @onchange = "showSaleMenDiv();" })
+                                            @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @class = " form-control-solid form-control-lg din-med", @style = "width: 25px; height: 25px;", @onchange = "showSaleMenDiv();" })
                                         </div>
                                     </div>
                                 </div>
@@ -178,14 +178,14 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>بتكلفة</label>
-                                            @Html.CheckBoxFor(m => m.HasCost, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med" })
+                                            @Html.CheckBoxFor(m => m.HasCost, htmlAttributes: new { @class = "form-control-solid form-control-lg din-med", @style = "width: 25px; height: 25px;" })
                                         </div>
                                     </div>
                                     <div class="col-xl-4">
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>داخل الضمان</label>
-                                            @Html.CheckBoxFor(m => m.HasGuarantee, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg din-med" })
+                                            @Html.CheckBoxFor(m => m.HasGuarantee, htmlAttributes: new { @class = "form-control-solid form-control-lg din-med", @style = "width: 25px; height: 25px;" })
                                         </div>
                                     </div>
                                     <div class="col-xl-4">
@@ -309,7 +309,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>&nbsp;</label>
-                                            <button type="button" onclick="Maintenance_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
+                                            <button type="button" onclick="Maintenance_Module.addItemDetails();" class="btn btn-warning font-weight-bold px-15 w-100">اضافة صنف للفاتورة</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -341,7 +341,7 @@
                                         </a>
                                     </li>
                                     <li class="next">
-                                        <button type="button" class="btn btn-success px-9 py-4" onclick="Maintenance_Module.SubmitForm(this,false)" data-wizard-type="action-submit">
+                                        <button type="button" class="btn btn-success px-9" onclick="Maintenance_Module.SubmitForm(this,false)" data-wizard-type="action-submit">
                                             <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة
                                         </button>
 

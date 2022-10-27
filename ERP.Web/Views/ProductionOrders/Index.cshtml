@@ -71,7 +71,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    @*<div class="col-lg-3">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> حالة التسليم الى مخازن المنتج التام</label>
@@ -87,7 +87,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> المجموعة الاساسية</label>
-                                <input name="groupBasic" placeholder="اختر عنصر من القائمة" type="text" class="form-control form-control-solid " id="groupBasic" autocomplete="off" style="text-align:right"/>
+                                <input name="groupBasic" placeholder="اختر عنصر من القائمة" type="text" class="form-control form-control-solid " id="groupBasic" autocomplete="off" style="text-align:right" />
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                                 @Html.DropDownList("FinalItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100" })
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatable">
                     <thead>
@@ -108,9 +108,8 @@
                 </table>
             </div>
         </div>
-        </div>
     </div>
-  
+</div>
 @section Scripts
 {
     <script src="~/Assets/JSCustom/ProductionOrder.js"></script>
@@ -120,20 +119,20 @@
             $('#kt_datatable_search_query').on('keyup', function () {
                 $('#kt_datatable').DataTable().search(this.value).draw();
             });
-            $('#cmbo_approval').on('change', function () {
-                var textSelected = $("#cmbo_approval option:selected").val();
-                if ($("#cmbo_approval option:selected").val() === "") {
-                    textSelected = "";
-                }
-                $('#kt_datatable').DataTable().column(6).search(textSelected).draw();
-            });
-            $('#FinalItemId').on('change', function () {
-                var textSelected = $("#FinalItemId option:selected").text();
-                $('#kt_datatable').DataTable().column(4).search(textSelected).draw();
-            });
-
+            //$('#cmbo_approval').on('change', function () {
+            //    var textSelected = $("#cmbo_approval option:selected").val();
+            //    if ($("#cmbo_approval option:selected").val() === "") {
+            //        textSelected = "";
+            //    }
+            //    $('#kt_datatable').DataTable().column(6).search(textSelected).draw();
+            //});
+            //$('#FinalItemId').on('change', function () {
+            //    var textSelected = $("#FinalItemId option:selected").text();
+            //    $('#kt_datatable').DataTable().column(4).search(textSelected).draw();
+            //});
         });
     </script>
+
     <script>
         var treeBasic;
         $(document).ready(function () {
@@ -142,19 +141,16 @@
             $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
                 treeBasic.setSource(data);
             });
-
             treeBasic = $('#groupBasic').comboTree({
                 source: dsBasic,
                 isMultiple: false,
                 collapse: true,
                 selected: []
                 //selectableLastNode: true
-
             });
             treeBasic.onChange(function () {
                 if (treeBasic.getSelectedIds() != null) {
                     var currentSelected = treeBasic.getSelectedIds()[0];
-
                     $.get("/SharedDataSources/ItemsOnGroupChanged", { id: currentSelected }, function (data) {
                         $("#FinalItemId").empty();
                         $("#FinalItemId").append("<option value=>اختر عنصر من القائمة</option>");
@@ -162,16 +158,16 @@
                             $("#FinalItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
                         });
                     });
-
                 }
             });
             // ============== نهاية المجموعة الاساسية
-
-
-
         });
     </script>
+
 }
+
+
+
 
 
 

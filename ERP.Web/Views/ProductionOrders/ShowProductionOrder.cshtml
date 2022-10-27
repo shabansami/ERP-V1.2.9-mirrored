@@ -1,12 +1,11 @@
 ﻿
-
 @model ERP.DAL.ProductionOrder
 @using ERP.Web.Utilites
+@using ERP.DAL.Utilites
 @{
     ViewBag.Title = "ShowProductionOrder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 
 @section PageTitle1{تفاصيل أمر إنتاج}
 @section PageTitle2{ملخص أمر الانتاج}
@@ -15,161 +14,174 @@
 @section icon{<i class="fa fa-cog m-1"></i>}
 <div class="row">
     <div class="col-12">
-        <div class="card din-bold">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h4 class=" din-bold">أمر إنتاج</h4>
-                        <div class="d-flex flex-column align-items-md-end px-0">
-                            <!--begin::Logo-->
-                            <a href="#" class="mb-5">
-                                <img src="~/Assets/media/logos/logo-light.png" alt="" />
-                            </a>
-                            <!--end::Logo-->
-                            <span class="text-white d-flex flex-column align-items-md-end opacity-70">
-                                <span class="din-bold">@Model.Notes</span>
-                                <span></span>
-                            </span>
+        <div class="card card-custom overflow-hidden">
+            <div class="card-body p-0">
+                <!-- begin: Invoice-->
+                <!-- begin: Invoice header-->
+                <div class="row justify-content-center bgi-size-cover bgi-no-repeat py-8 px-8 py-md-27 px-md-0" style="        background-image: url(../../Assets/media/bg/bg-2.jpg);">
+                    <div class="col-md-9">
+                        <div class="d-flex justify-content-between pb-10 pb-md-20 flex-column flex-md-row">
+                            <h1 class="display-4 font-weight-boldest mb-10 din-bold ylow">أمر إنتاج</h1>
+                            <div class="d-flex flex-column align-items-md-end px-0">
+                                <!--begin::Logo-->
+                                <a href="#" class="mb-5">
+                                    <img src="~/Assets/media/logos/logo-light.png" alt="" />
+                                </a>
+                                <!--end::Logo-->
+                                <span class="text-white d-flex flex-column align-items-md-end opacity-70">
+                                    <span class="din-bold">@Model.Notes</span>
+                                    <span></span>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    @{
-                        //حالة الاستلام
-                        var receiptStatus = string.Empty;
-                        if (Model.IsDone)
-                        {
-                            receiptStatus = "مستلم";
-                        }
-                        else
-                        { receiptStatus = "لم يتم تسليم كامل الكمية"; }
-
-                        //الكمية المستلمة
-                        var receiptQuantity = string.Empty;
-                        if (Model.ProductionOrderReceipts.Count() > 0)
-                        {
-                            if (Model.ProductionOrderReceipts.Count() == 1)
+                        @*@{
+                            //حالة الاستلام
+                            var receiptStatus = string.Empty;
+                            if (Model.IsDone)
                             {
-                                receiptQuantity = Model.ProductionOrderReceipts.FirstOrDefault().ReceiptQuantity.ToString();
+                                receiptStatus = "مستلم";
                             }
                             else
+                            { receiptStatus = "لم يتم تسليم كامل الكمية"; }
+
+                            //الكمية المستلمة
+                            var receiptQuantity = string.Empty;
+                            if (Model.ProductionOrderReceipts.Count() > 0)
                             {
-                                foreach (var item in Model.ProductionOrderReceipts)
+                                if (Model.ProductionOrderReceipts.Count() == 1)
                                 {
-                                    receiptQuantity += item.ReceiptQuantity.ToString() + " || ";
+                                    receiptQuantity = Model.ProductionOrderReceipts.FirstOrDefault().ReceiptQuantity.ToString();
                                 }
-                            }
-
-                        }
-
-                        //المخازن المستلم بها
-                        var receiptStores = string.Empty;
-                        if (Model.ProductionOrderReceipts.Count() > 0)
-                        {
-                            if (Model.ProductionOrderReceipts.Count() == 1)
-                            {
-                                receiptStores = Model.ProductionOrderReceipts.FirstOrDefault().FinalItemStore.Name;
-                            }
-                            else
-                            {
-                                foreach (var item in Model.ProductionOrderReceipts)
+                                else
                                 {
-                                    receiptStores += item.FinalItemStore.Name + " || ";
+                                    foreach (var item in Model.ProductionOrderReceipts)
+                                    {
+                                        receiptQuantity += item.ReceiptQuantity.ToString() + " || ";
+                                    }
                                 }
+
                             }
 
-                        }
-
-                        //تاريخ الاستلام
-                        var receiptDates = string.Empty;
-                        if (Model.ProductionOrderReceipts.Count() > 0)
-                        {
-                            if (Model.ProductionOrderReceipts.Count() == 1)
+                            //المخازن المستلم بها
+                            var receiptStores = string.Empty;
+                            if (Model.ProductionOrderReceipts.Count() > 0)
                             {
-                                receiptDates = Model.ProductionOrderReceipts.FirstOrDefault().ReceiptDate.ToString();
-                            }
-                            else
-                            {
-                                foreach (var item in Model.ProductionOrderReceipts)
+                                if (Model.ProductionOrderReceipts.Count() == 1)
                                 {
-                                    receiptDates += item.ReceiptDate.Value.ToString("yyyy-MM-dd") + " || ";
+                                    receiptStores = Model.ProductionOrderReceipts.FirstOrDefault().FinalItemStore.Name;
                                 }
+                                else
+                                {
+                                    foreach (var item in Model.ProductionOrderReceipts)
+                                    {
+                                        receiptStores += item.FinalItemStore.Name + " || ";
+                                    }
+                                }
+
                             }
 
-                        }
-                    }
-                    <div class="border-bottom w-100 opacity-20"></div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolde mb-2r din-bold ylow">تاريخ أمر الإنتاج</span>
-                            <span class="din-bold">@Model.ProductionOrderDate.ToShortDateString()</span>
+                            //تاريخ الاستلام
+                            var receiptDates = string.Empty;
+                            if (Model.ProductionOrderReceipts.Count() > 0)
+                            {
+                                if (Model.ProductionOrderReceipts.Count() == 1)
+                                {
+                                    receiptDates = Model.ProductionOrderReceipts.FirstOrDefault().ReceiptDate.ToString();
+                                }
+                                else
+                                {
+                                    foreach (var item in Model.ProductionOrderReceipts)
+                                    {
+                                        receiptDates += item.ReceiptDate.Value.ToString("yyyy-MM-dd") + " || ";
+                                    }
+                                }
+
+                            }
+                        }*@
+                        <div class="border-bottom w-100 opacity-20"></div>
+                        <div class="d-flex justify-content-between text-white pt-6">
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolde mb-2r din-bold ylow">تاريخ أمر الإنتاج</span>
+                                <span class="din-bold">@Model.ProductionOrderDate.ToShortDateString()</span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">رقم أمر الإنتاج</span>
+                                <span class="din-bold">@Model.OrderNumber</span>
+                            </div>
+
+                            @*<div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">تكلفة الاصناف الداخلة</span>
+                                <span class="din-bold">@Model.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.In).Sum(p => (double?)p.ItemCost??0*((double?)p.Quantity??0+(double?)p.Quantitydamage??0))</span>
+                            </div>*@
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">تكلفة الوحدة الخارجة</span>
+                                <span class="din-bold">@Model.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.Out).Sum(p => (double?)p.ItemCost ?? 0)</span>
+                            </div>
+
+
+                            @*<div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">تكلفة الوحدة الواحدة</span>
+                                <span class="din-bold">@Model.ItemCost</span>
+                            </div>*@
+                            @*<div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">الحالة</span>
+                                <span class="din-bold">
+                                    @receiptStatus
+                                </span>
+                            </div>*@
                         </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">تكلفة الوحدة الواحدة</span>
-                            <span class="din-bold">@Model.ItemCost</span>
+                        <div class="d-flex justify-content-between text-white pt-6">
+
+
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">الكمية </span>
+                                <span class="din-bold">
+                                    @Model.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.Out).Sum(p => (double?)p.Quantity ?? 0)
+                                </span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">الفرع</span>
+                                <span class="din-bold">@Model.Branch.Name</span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">اجمالى التكاليف لأمر الانتاج</span>
+                                <span class="din-bold">@Model.TotalCost</span>
+                            </div>
                         </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">الحالة</span>
-                            <span class="din-bold">
-                                @receiptStatus
-                            </span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">رقم أمر الإنتاج</span>
-                            <span class="din-bold">@Model.Id</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">تكلفة المواد الخام</span>
-                            <span class="din-bold">@Model.MaterialItemCost</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">الكمية المستلمة</span>
-                            <span class="din-bold">
-                                @receiptQuantity
-                            </span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">الفرع</span>
-                            <span class="din-bold">@Model.Branch.Name</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
+                        @* <div class="d-flex justify-content-between text-white pt-6">
+                                               <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2 din-bold ylow">تكلفة التوالف</span>
                             <span class="din-bold">@Model.DamagesCost</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
+                        </div>*@
+                        @*<div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2 din-bold ylow">مخزن التسليم</span>
                             <span class="din-bold">
                                 @receiptStores
                             </span>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">المنتج التام</span>
-                            <span class="din-bold">@Model.FinalItem.Name</span>
+                                        </div>
+                                           <div class="d-flex justify-content-between text-white pt-6">
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">المنتج التام</span>
+                                <span class="din-bold">@Model.FinalItem.Name</span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">اجمالى المصروفات</span>
+                                <span class="din-bold">@Model.TotalExpenseCost</span>
+                            </div>
+                            <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">تاريخ التسليم</span>
+                                <span class="din-bold">
+                                    @receiptDates
+                                </span>
+                            </div>
                         </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">اجمالى المصروفات</span>
-                            <span class="din-bold">@Model.TotalExpenseCost</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">تاريخ التسليم</span>
-                            <span class="din-bold">
-                                @receiptDates
-                            </span>
-                        </div>
-                    </div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">الكمية</span>
-                            <span class="din-bold">@Model.OrderQuantity</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">اجمالى التكاليف لأمر الانتاج</span>
-                            <span class="din-bold">@Model.TotalCost</span>
-                        </div>
+                                            <div class="d-flex justify-content-between text-white pt-6">
+                                                <div class="d-flex flex-column flex-root">
+                                <span class="font-weight-bolder mb-2 din-bold ylow">الكمية</span>
+                                <span class="din-bold">@Model.OrderQuantity</span>
+                            </div>*@
+
                         <div class="d-flex flex-column flex-root">
                             <span class="font-weight-bolder mb-2 din-bold ylow"></span>
                             <span class="din-bold"></span>
@@ -181,28 +193,28 @@
             <!-- begin: Invoice body-->
             <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
                 <div class="col-md-9">
-                    <h3 class="text-dark font-weight-bold mt-2 mb-2 mr-5 din-bold">الاصناف الخام</h3>
+                    <h3 class="text-dark font-weight-bold mt-2 mb-2 mr-5 din-bold">الاصناف الداخلة</h3>
 
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">المادة الخام</th>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
                                     <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
                                     <th class="text-right font-weight-bold text-muted text-uppercase din-bold">المخزن</th>
                                     <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الوحدة</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">طريقة احتساب التكلفة </th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة الوحدة الخام</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة الخام</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">كمية التالف</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة التالف</th>
+                                    @*<th class="text-right font-weight-bold text-muted text-uppercase din-bold">طريقة احتساب التكلفة </th>*@
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة الوحدة </th>
+                                    @*<th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة الكل</th>*@
+                                    @*<th class="text-right font-weight-bold text-muted text-uppercase din-bold">كمية التالف</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة التالف</th>*@
                                     <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">الاجمالى</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @{
 
-                                    foreach (var item in Model.ProductionOrderDetails)
+                                    foreach (var item in Model.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.In))
                                     {
                                         double? total = 0;
                                         var materialCost = item.ItemCost * item.Quantity;
@@ -212,13 +224,66 @@
                                         <tr class="font-weight-boldest font-size-lg">
                                             <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
                                             <td class="text-right pt-7 din-bold">@item.Quantity</td>
-                                            <td class="text-right pt-7 din-bold">@item.Store.Name</td>
+                                            <td class="text-right pt-7 din-bold">@item.ProductionOrder.ProductionUnderStore.Name</td>
                                             <td class="text-right pt-7 din-bold">@item.Item.Unit.Name</td>
-                                            <td class="text-right pt-7 din-bold">@item.ItemCostCalculation.Name</td>
+                                            @*<td class="text-right pt-7 din-bold">@item.ItemCostCalculation?.Name</td>*@
                                             <td class="text-right pt-7 din-bold">@item.ItemCost</td>
-                                            <td class="text-right pt-7 din-bold">@materialCost</td>
+                                            @*<td class="text-right pt-7 din-bold">@materialCost</td>
                                             <td class="text-right pt-7 din-bold">@item.Quantitydamage</td>
-                                            <td class="text-right pt-7 din-bold">@damageCost</td>
+                                            <td class="text-right pt-7 din-bold">@damageCost</td>*@
+                                            <td class="text-danger pr-0 pt-7 text-right din-bold">
+                                                @total
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- end: Invoice body-->
+            <!-- begin: Invoice body-->
+            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
+                <div class="col-md-9">
+                    <h3 class="text-dark font-weight-bold mt-2 mb-2 mr-5 din-bold">الاصناف الخارجة</h3>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">المخزن</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الوحدة</th>
+                                    @*<th class="text-right font-weight-bold text-muted text-uppercase din-bold">طريقة احتساب التكلفة </th>*@
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة الوحدة </th>
+                                    @*<th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة الكل</th>*@
+                                    @*<th class="text-right font-weight-bold text-muted text-uppercase din-bold">كمية التالف</th>
+                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">تكلفة التالف</th>*@
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">الاجمالى</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+
+                                    foreach (var item in Model.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)Lookups.ProductionTypeCl.Out))
+                                    {
+                                        double? total = 0;
+                                        var materialCost = item.ItemCost * item.Quantity;
+                                        var damageCost = item.ItemCost * item.Quantitydamage;
+                                        total = materialCost + damageCost;
+
+                                        <tr class="font-weight-boldest font-size-lg">
+                                            <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
+                                            <td class="text-right pt-7 din-bold">@item.Quantity</td>
+                                            <td class="text-right pt-7 din-bold">@item.ProductionOrder.ProductionStore.Name</td>
+                                            <td class="text-right pt-7 din-bold">@item.Item.Unit.Name</td>
+                                            @*<td class="text-right pt-7 din-bold">@item.ItemCostCalculation?.Name</td>*@
+                                            <td class="text-right pt-7 din-bold">@item.ItemCost</td>
+                                            @*<td class="text-right pt-7 din-bold">@materialCost</td>
+                                            <td class="text-right pt-7 din-bold">@item.Quantitydamage</td>
+                                            <td class="text-right pt-7 din-bold">@damageCost</td>*@
                                             <td class="text-danger pr-0 pt-7 text-right din-bold">
                                                 @total
                                             </td>
@@ -274,9 +339,8 @@
             <!-- end: Invoice-->
         </div>
     </div>
-    <!-- end::Card-->
-</div>
 
+    </div>
 @section Scripts
 {
     <script src="~/Assets/JSCustom/ProductionOrder.js"></script>
@@ -286,8 +350,6 @@
         });
     </script>
 }
-
-
 
 
 

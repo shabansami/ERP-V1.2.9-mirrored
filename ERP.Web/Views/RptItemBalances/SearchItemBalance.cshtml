@@ -2,7 +2,7 @@
     ViewBag.Title = "SearchItemBalance";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@section PageTitle1{حركة صنف}
+@section PageTitle1{أرصدة صنف}
 @section PageTitle2{بحث}
 @section Button1{@null}
 @section Button1Link{@null}
@@ -14,7 +14,7 @@
             <div class="card-header">
                 <div class="row">
                     <div class="col-sm-6">
-                        <h4 class=" din-bold">حركة صنف</h4>
+                        <h4 class=" din-bold">أرصدة صنف</h4>
                     </div>
                     <div class="col-sm-6">
                         <div class="fa-pull-left">
@@ -54,7 +54,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row alert alert-primary">
+                <div class="row">
                     <div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
                             <div class="input-icon input-icon-right">
@@ -244,6 +244,10 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
                 },
 
                 ajax: {

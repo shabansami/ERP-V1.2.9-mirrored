@@ -19,8 +19,15 @@ namespace ERP.Web.Controllers
     public class PurchaseFullBackInvoicesController : Controller
     {
         // GET: PurchaseFullBackInvoices
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db;
+        VTSAuth auth;
+        ItemService itemService;
+        public PurchaseFullBackInvoicesController()
+        {
+            db = new VTSaleEntities();
+            auth = new VTSAuth();
+            itemService = new ItemService();
+        }
         public static string DS { get; set; }
         public static string DSExpenses { get; set; }
 
@@ -96,6 +103,13 @@ namespace ERP.Web.Controllers
                             QuantityReal= purchDetails.QuantityReal,
                             StoreId= purchDetails.StoreId
                         }).ToList();
+                    //هل الصنف يسمح بالسحب منه بالسالب
+                    foreach (var item in itemBackIetails)
+                    {
+                        var result = itemService.IsAllowNoBalance(item.Id, item.StoreId);
+                        if (!result.IsValid)
+                            return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
+                    }
                     var backExpenses = purchaseInvoice.PurchaseInvoicesExpenses.Where(x => !x.IsDeleted).Select(purchExpenses => new PurchaseBackInvoicesExpens
                     {
                         Amount=purchExpenses.Amount,

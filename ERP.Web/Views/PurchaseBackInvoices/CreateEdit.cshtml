@@ -124,7 +124,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>رقم الفاتورة التوريد</label>
-                                            @Html.TextBoxFor(model => model.PurchaseInvoiceId, null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @type = "number" })
+                                            @Html.TextBoxFor(model => model.InvoiceNumber, null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
                                             @Html.HiddenFor(x => x.Id)
                                             <span class="form-text text-muted">ادخل رقم فاتورة التوريد ان وجدت</span>
                                         </div>

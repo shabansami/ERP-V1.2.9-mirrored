@@ -23,11 +23,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth;
         StoreService storeService;
+        ItemService itemService;
         public StoresTransfersController()
         {
             db = new VTSaleEntities();
             auth = new VTSAuth();
             storeService = new StoreService();
+            itemService = new ItemService();
         }
         public static string DS { get; set; }
 
@@ -433,6 +435,14 @@ namespace ERP.Web.Controllers
                         auth = TempData["userInfo"] as VTSAuth;
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+
+                    //هل الصنف يسمح بالسحب منه بالسالب
+                    foreach (var item in model.StoresTransferDetails.Where(x=>!x.IsDeleted))
+                    {
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoresTransfer.StoreFromId);
+                        if (!result.IsValid)
+                            return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
+                    }
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;

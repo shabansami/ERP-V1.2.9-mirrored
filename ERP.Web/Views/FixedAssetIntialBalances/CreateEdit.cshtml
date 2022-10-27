@@ -71,20 +71,20 @@
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>الأصل (سيارة) مخزن</label>
-                                @Html.CheckBoxFor(m => m.IsCarStore, new { @style = "width: 25px; height: 25px;", @onchange = "Asset_Module.onIsCarStoreChange()" })
+                                @Html.CheckBoxFor(m => m.IsCarStore, new { @style = "width: 25px; height: 25px;", @class = "form-check-input", @onchange = "Asset_Module.onIsCarStoreChange()" })
                             </div>
                         </div>
                         <div class="col-lg-3">
                             <div class="form-group">
                                 <label>الأصل (سيارة) بدون مخزن</label>
-                                @Html.CheckBoxFor(m => m.IsNotCarStore, new { @style = "width: 25px; height: 25px;", @onchange = "Asset_Module.onIsNotCarStoreChange()" })
+                                @Html.CheckBoxFor(m => m.IsNotCarStore, new { @style = "width: 25px; height: 25px;",@class= "form-check-input", @onchange = "Asset_Module.onIsNotCarStoreChange()" })
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <!--begin::Select-->
                             <div class="form-group">
                                 <label>قابل للاهلاك <span class="badge badge-soft-warning fa-1x">يتم احتساب الاهلاك بالقيمة الثابتة</span></label>
-                                @Html.CheckBoxFor(m => m.IsDestruction, new { @style = "width: 25px; height: 25px;", @onchange = "Asset_Module.onIsDestructionChange()" })
+                                @Html.CheckBoxFor(m => m.IsDestruction, new { @style = "width: 25px; height: 25px;", @class = "form-check-input", @onchange = "Asset_Module.onIsDestructionChange()" })
                             </div>
                             <!--end::Select-->
                         </div>

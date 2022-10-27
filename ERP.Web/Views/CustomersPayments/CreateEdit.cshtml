@@ -64,7 +64,7 @@
             <div class="form-group required">
                 <label>تم التحصيل من خلال مندوب</label>
                 <div>
-                    @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @onchange = "showSaleMenDiv();" , @style = "width: 25px; height: 25px;" })
+                    @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @onchange = "showSaleMenDiv();" ,@class= "form-check-input", @style = "width: 25px; height: 25px;" })
                 </div>
             </div>
         </div>

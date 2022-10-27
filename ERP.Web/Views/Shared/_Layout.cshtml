@@ -142,7 +142,7 @@
 
 
                     <div class="dropdown d-none d-sm-inline-block">
-                        <button type="button" class="btn header-item" id="mode-setting-btn">
+                        <button type="button" class="btn header-item" id="mode-setting-btn" onclick="shiftMode();">
                             <i data-feather="moon" class="icon-lg layout-mode-dark fa fa-moon"></i>
                             <i data-feather="sun" class="icon-lg layout-mode-light fa fa-sun"></i>
                         </button>
@@ -438,7 +438,45 @@
             $('.select2').select2({
                 //theme: "classic"
             });
+            //shiftMode();
+
+
+            var siteModeval = localStorage.getItem('sitemode');
+
+            if (siteModeval == null) {
+                localStorage.setItem('sitemode', 'light');
+            }
+
+
+
+            if (siteModeval === 'dark') {
+                document.body.setAttribute('data-layout-mode', 'dark')
+                document.body.setAttribute('data-topbar', 'dark')
+                document.body.setAttribute('data-sidebar', 'dark')
+
+            } else {
+                document.body.setAttribute('data-layout-mode', 'light')
+                document.body.setAttribute('data-topbar', 'light')
+                document.body.setAttribute('data-sidebar', 'light')
+
+            }
+
+
+
         })
+        //shiftMode
+        function shiftMode() {
+
+            if (localStorage.getItem('sitemode') != null) {
+                var val = localStorage.getItem('sitemode');
+                if (val === 'dark') {
+                    localStorage.setItem('sitemode', 'light');
+                } else {
+                    localStorage.setItem('sitemode', 'dark');
+                }
+            }
+
+        }
     </script>
     @RenderSection("Scripts", false)
 

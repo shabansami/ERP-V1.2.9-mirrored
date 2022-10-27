@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using static ERP.Web.Services.ItemService;
 
 namespace ERP.Web.Controllers
 {
@@ -46,7 +47,7 @@ namespace ERP.Web.Controllers
             //Guid.TryParse(invoId, out Guid invoiceId);
 
             DateTime dateFrom, dateTo;
-            var data = db.PurchaseInvoices.Where(x => !x.IsDeleted && x.IsFinalApproval);
+            var data = db.PurchaseInvoices.Where(x => !x.IsDeleted && x.IsFinalApproval&&!x.IsFullReturned==true);
             if (!string.IsNullOrEmpty(invoId))
                 data = data.Where(x => x.InvoiceNumber.Contains(invoId));
             if (DateTime.TryParse(dtFrom, out dateFrom) && DateTime.TryParse(dtTo, out dateTo))
@@ -106,7 +107,7 @@ namespace ERP.Web.Controllers
                     //هل الصنف يسمح بالسحب منه بالسالب
                     foreach (var item in itemBackIetails)
                     {
-                        var result = itemService.IsAllowNoBalance(item.Id, item.StoreId);
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId);
                         if (!result.IsValid)
                             return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
                     }
@@ -647,6 +648,24 @@ namespace ERP.Web.Controllers
                     }
                     else
                         return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
+
+                    //هل الصنف يسمح بالسحب منه بالسالب
+                    foreach (var item in items)
+                    {
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId);
+                        if (!result.IsValid)
+                            return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
+                    }
+                    //التأكد من ارجاع اصناف فاتورة التوريد بنفس العدد او اقل 
+                    var purchaseInvo = db.PurchaseInvoices.Where(x => x.Id == vm.Id).FirstOrDefault();
+                    if (purchaseInvo!=null)
+                    {
+                        foreach (var item in purchaseInvo.PurchaseInvoicesDetails.Where(x=>!x.IsDeleted))
+                        {
+                            if(!items.Any(x=>x.ItemId==item.ItemId&&x.Quantity<=item.Quantity))
+                                return Json(new { isValid = false, message = $"تم ادخال عدد للصنف {item.Item?.Name} اكبر من عدد فاتورة التوريد" });
+                        }
+                    }
 
                     //المصروفات
                     List<InvoiceExpensesDT> invoiceExpensesDT = new List<InvoiceExpensesDT>();

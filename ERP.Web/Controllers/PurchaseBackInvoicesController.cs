@@ -356,7 +356,16 @@ namespace ERP.Web.Controllers
                                     model = vm;
                                     model.InvoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                                 }
-
+                                //التأكد من ارجاع اصناف فاتورة التوريد بنفس العدد او اقل 
+                                var purchaseInvo = context.PurchaseInvoices.Where(x => x.InvoiceNumber.Trim() == vm.InvoiceNumber.Trim()).FirstOrDefault();
+                                if (purchaseInvo != null)
+                                {
+                                    foreach (var item in purchaseInvo.PurchaseInvoicesDetails.Where(x => !x.IsDeleted))
+                                    {
+                                        if (!items.Any(x => x.ItemId == item.ItemId && x.Quantity <= item.Quantity))
+                                            return Json(new { isValid = false, message = $"تم ادخال عدد للصنف {item.Item?.Name} اكبر من عدد فاتورة التوريد" });
+                                    }
+                                }
                                 //صافى قيمة الفاتورة= ( إجمالي قيمة المشتريات + إجمالي قيمة المصروفات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
                                 model.TotalQuantity = itemDetailsDT.Sum(x => x.Quantity);
                                 model.TotalDiscount = itemDetailsDT.Sum(x => x.ItemDiscount) + vm.InvoiceDiscount;//إجمالي خصومات الفاتورة 

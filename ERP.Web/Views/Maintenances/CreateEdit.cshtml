@@ -93,7 +93,7 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>تم استلام المنتج من خلال المندوب</label>
-                                            @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @class = " form-control-solid form-control-lg din-med", @style = "width: 25px; height: 25px;", @onchange = "showSaleMenDiv();" })
+                                            @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @class = "form-check-input", @style = "width: 25px; height: 25px;", @onchange = "showSaleMenDiv();" })
                                         </div>
                                     </div>
                                 </div>
@@ -178,14 +178,14 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>بتكلفة</label>
-                                            @Html.CheckBoxFor(m => m.HasCost, htmlAttributes: new { @class = "form-control-solid form-control-lg din-med", @style = "width: 25px; height: 25px;" })
+                                            @Html.CheckBoxFor(m => m.HasCost, htmlAttributes: new { @class = "form-check-input din-med", @style = "width: 25px; height: 25px;" })
                                         </div>
                                     </div>
                                     <div class="col-xl-4">
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>داخل الضمان</label>
-                                            @Html.CheckBoxFor(m => m.HasGuarantee, htmlAttributes: new { @class = "form-control-solid form-control-lg din-med", @style = "width: 25px; height: 25px;" })
+                                            @Html.CheckBoxFor(m => m.HasGuarantee, htmlAttributes: new { @class = "form-check-input", @style = "width: 25px; height: 25px;" })
                                         </div>
                                     </div>
                                     <div class="col-xl-4">

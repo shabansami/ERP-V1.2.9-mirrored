@@ -71,7 +71,7 @@
             <div class="form-group required">
                 <label>تفعيل على كل الادارات</label>
                 @*<input type="checkbox" id="chk_allDepart" name="chk_allDepart" class="form-control" checked/>*@
-            <div> @Html.CheckBoxFor(m => m.chk_allDepart, htmlAttributes: new { @style = "width: 25px; height: 25px;" })</div>
+            <div> @Html.CheckBoxFor(m => m.chk_allDepart, htmlAttributes: new { @style = "width: 25px; height: 25px;", @class = "form-check-input" })</div>
             </div>
         </div>
         <div class="row col-lg-12 alert alert-primary" id="divWeekly">

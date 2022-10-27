@@ -85,7 +85,7 @@
         @section icon{<i class="fas fa-redo"></i>}
     }
 }
-@section Button2{<a href="/SellInvoices/CreateEdit" class="btn btn-primary din-bold d-inline" style="margin-right:20px;"><i class="fa fa-cog m-1"></i>ادارة فواتير البيع</a>}
+@section Button2{<a href="/SellInvoices/Index" class="btn btn-primary din-bold d-inline" style="margin-right:20px;"><i class="fa fa-cog m-1"></i>ادارة فواتير البيع</a>}
 
 
 @Html.Hidden("ItemAcceptNoBalance")
@@ -227,7 +227,7 @@
                                             <!--begin::Select-->
                                             <div class="form-group">
                                                 <label>تم البيع من خلال المندوب</label>
-                                                @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @class = "form-control form-control-lg din-med", @onchange = "showSaleMenDiv();" })
+                                                @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new { @class = "form-check-input din-med", @onchange = "showSaleMenDiv();" })
                                             </div>
                                         </div>
                                     </div>
@@ -506,287 +506,290 @@
                                             <!--end::Input-->
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>الاصناف المسجلة</label>
-                                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
-                                            <thead>
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <label>الاصناف المسجلة</label>
+                                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtItemDetails">
+                                                <thead>
 
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot></tfoot>
-                                        </table>
-                                    </div>
-
-                                    <div class="row">
-                                        <div class="col-xl-4">
-                                            <div class="d-flex justify-content-between flex-column  font-size-lg">
-                                                <div class="d-flex flex-column text-md-center">
-                                                    <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
-                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
-                                                    @*<span>Taxes Included</span>*@
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-4">
-                                            <div class="d-flex justify-content-between flex-column  font-size-lg">
-                                                <div class="d-flex flex-column text-md-center">
-                                                    <span class="font-size-lg font-weight-bolder mb-1">اجمالي الفاتورة</span>
-                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalAmount">@totalValue</span>
-                                                    @*<span>Taxes Included</span>*@
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-4">
-
-                                            <div class="d-flex justify-content-between flex-column  font-size-lg">
-                                                <div class="d-flex flex-column text-md-center">
-                                                    <span class="font-size-lg font-weight-bolder mb-1">اجمالي الخصومات على الاصناف</span>
-                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalItemDiscount">@totalItemDiscount</span>
-                                                    @*<span>Taxes Included</span>*@
-                                                </div>
-                                            </div>
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot></tfoot>
+                                            </table>
                                         </div>
                                     </div>
+                                       
 
-
-
-                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                        <li class="previous">
-                                            <a href="javascript: void(0);" class="btn btn-primary">
-                                                <i class="bx bx-chevron-right me-1"></i> السابق
-                                            </a>
-                                        </li>
-                                        <li class="next">
-                                            <a href="javascript: void(0);" class="btn btn-primary">
-                                                التالي <i class="bx bx-chevron-left ms-1"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!--end::Wizard Step 2-->
-                                <!--begin::Wizard Step 3 تسجيل ايرادات الفاتورة-->
-                                <div class="tab-pane" id="seller-details3">
-                                    <div class="text-center mb-4">
-                                        <h4>تسجيل إيرادات الفاتورة (ان وجدت)</h4>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <div class="form-group required">
-                                                <label> الايراد</label>
-                                                <input name="accountTree" placeholder="اختر مسمى الايراد" type="text" class="form-control alert-success" id="accountTree" autocomplete="off" />
-                                                @*<label>مسمى الايراد</label>
-                                                    @Html.DropDownList("ExpenseTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
-                                                    <span class="form-text text-muted">اختر مسمى الايراد</span>*@
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>قيمة الإيراد</label>
-                                                <input type="number" class="form-control form-control-lg" name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة الإيراد" value="0" />
-                                                <span class="form-text text-muted">ادخل قيمة الإيراد</span>
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-12">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>.</label>
-                                                <button type="button" onclick="SellInvoice_Module.addSellInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة إيراد</button>
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>الايرادات المسجلة</label>
-                                        <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSellInvoiceExpenses">
-                                            <thead>
-
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot></tfoot>
-                                        </table>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="d-flex justify-content-between flex-column font-size-lg">
-                                            <div class="d-flex flex-column text-md-center">
-                                                <span class="font-size-lg font-weight-bolder mb-1">اجمالى الإيرادات</span>
-                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalExpenses">@totalExpenses</span>
-                                                @*<span>Taxes Included</span>*@
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                        <li class="previous">
-                                            <a href="javascript: void(0);" class="btn btn-primary">
-                                                <i class="bx bx-chevron-right me-1"></i> السابق
-                                            </a>
-                                        </li>
-                                        <li class="next">
-                                            <a href="javascript: void(0);" class="btn btn-primary">
-                                                التالي <i class="bx bx-chevron-left ms-1"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <!--end::Wizard Step 3-->
-                                <!--begin::Wizard Step 4 تسجيل الضرائب وملخص-->
-                                <div class="tab-pane" id="seller-details4">
-                                    <div class="text-center mb-4">
-                                        <h4>تسجيل الضرائب (ان وجدت)</h4>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Select-->
-                                            <div class="form-group">
-                                                <label>احتساب الخصم</label>
-                                                <div class="radio-inline">
-                                                    <div class="col-xl-6">
-                                                        <label class="radio">
-                                                            <input type="radio" name="radiosInvoice" id="rdo_valAllInvoice" @chkValRdo onchange="SellInvoice_Module.onRdoInvoiceValChanged();" />
-                                                            <input type="hidden" id="isInvoiceDisVal" name="isInvoiceDisVal" value="@isInvoiceDisVal" />
-                                                            <span></span>قيمة
-                                                        </label>
+                                        <div class="row">
+                                            <div class="col-xl-4">
+                                                <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                    <div class="d-flex flex-column text-md-center">
+                                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
+                                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
+                                                        @*<span>Taxes Included</span>*@
                                                     </div>
-                                                    <div class="col-xl-3">
-                                                        <label class="radio">
-                                                            <input type="radio" name="radiosInvoice" id="rdo_percentageAllInvoice" @chkPerRdo onchange="SellInvoice_Module.onRdoInvoicePercentageChanged();" />
-                                                            <span></span>نسبة
-                                                        </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+                                                <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                    <div class="d-flex flex-column text-md-center">
+                                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالي الفاتورة</span>
+                                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalAmount">@totalValue</span>
+                                                        @*<span>Taxes Included</span>*@
                                                     </div>
-                                                    <div class="col-xl-3" id="divDiscountPercentage" style="display:@displayDiscount">
-                                                        <!--begin::Input-->
-                                                        <div class="form-group">
-                                                            <label>النسبة</label>
-                                                            <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="DiscountPercentage" id="DiscountPercentage" placeholder="ادخل نسبة الخصم على الفاتورة" value="@Model.DiscountPercentage" />
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-4">
+
+                                                <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                    <div class="d-flex flex-column text-md-center">
+                                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالي الخصومات على الاصناف</span>
+                                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalItemDiscount">@totalItemDiscount</span>
+                                                        @*<span>Taxes Included</span>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                        <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                            <li class="previous">
+                                                <a href="javascript: void(0);" class="btn btn-primary">
+                                                    <i class="bx bx-chevron-right me-1"></i> السابق
+                                                </a>
+                                            </li>
+                                            <li class="next">
+                                                <a href="javascript: void(0);" class="btn btn-primary">
+                                                    التالي <i class="bx bx-chevron-left ms-1"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--end::Wizard Step 2-->
+                                    <!--begin::Wizard Step 3 تسجيل ايرادات الفاتورة-->
+                                    <div class="tab-pane" id="seller-details3">
+                                        <div class="text-center mb-4">
+                                            <h4>تسجيل إيرادات الفاتورة (ان وجدت)</h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group required">
+                                                    <label> الايراد</label>
+                                                    <input name="accountTree" placeholder="اختر مسمى الايراد" type="text" class="form-control alert-success" id="accountTree" autocomplete="off" />
+                                                    @*<label>مسمى الايراد</label>
+                        @Html.DropDownList("ExpenseTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                        <span class="form-text text-muted">اختر مسمى الايراد</span>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>قيمة الإيراد</label>
+                                                    <input type="number" class="form-control form-control-lg" name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة الإيراد" value="0" />
+                                                    <span class="form-text text-muted">ادخل قيمة الإيراد</span>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-12">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>.</label>
+                                                    <button type="button" onclick="SellInvoice_Module.addSellInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة إيراد</button>
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>الايرادات المسجلة</label>
+                                            <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSellInvoiceExpenses">
+                                                <thead>
+
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot></tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="d-flex justify-content-between flex-column font-size-lg">
+                                                <div class="d-flex flex-column text-md-center">
+                                                    <span class="font-size-lg font-weight-bolder mb-1">اجمالى الإيرادات</span>
+                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalExpenses">@totalExpenses</span>
+                                                    @*<span>Taxes Included</span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                            <li class="previous">
+                                                <a href="javascript: void(0);" class="btn btn-primary">
+                                                    <i class="bx bx-chevron-right me-1"></i> السابق
+                                                </a>
+                                            </li>
+                                            <li class="next">
+                                                <a href="javascript: void(0);" class="btn btn-primary">
+                                                    التالي <i class="bx bx-chevron-left ms-1"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <!--end::Wizard Step 3-->
+                                    <!--begin::Wizard Step 4 تسجيل الضرائب وملخص-->
+                                    <div class="tab-pane" id="seller-details4">
+                                        <div class="text-center mb-4">
+                                            <h4>تسجيل الضرائب (ان وجدت)</h4>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Select-->
+                                                <div class="form-group">
+                                                    <label>احتساب الخصم</label>
+                                                    <div class="radio-inline">
+                                                        <div class="col-xl-6">
+                                                            <label class="radio">
+                                                                <input type="radio" name="radiosInvoice" id="rdo_valAllInvoice" @chkValRdo onchange="SellInvoice_Module.onRdoInvoiceValChanged();" />
+                                                                <input type="hidden" id="isInvoiceDisVal" name="isInvoiceDisVal" value="@isInvoiceDisVal" />
+                                                                <span></span>قيمة
+                                                            </label>
                                                         </div>
-                                                        <!--end::Input-->
+                                                        <div class="col-xl-3">
+                                                            <label class="radio">
+                                                                <input type="radio" name="radiosInvoice" id="rdo_percentageAllInvoice" @chkPerRdo onchange="SellInvoice_Module.onRdoInvoicePercentageChanged();" />
+                                                                <span></span>نسبة
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xl-3" id="divDiscountPercentage" style="display:@displayDiscount">
+                                                            <!--begin::Input-->
+                                                            <div class="form-group">
+                                                                <label>النسبة</label>
+                                                                <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="DiscountPercentage" id="DiscountPercentage" placeholder="ادخل نسبة الخصم على الفاتورة" value="@Model.DiscountPercentage" />
+                                                            </div>
+                                                            <!--end::Input-->
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <!--end::Select-->
                                             </div>
-                                            <!--end::Select-->
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>الخصم على الفاتورة</label>
-                                                <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label> ضريبة القيمة المضافة</label>
-                                                <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>قيمة ضريبة ارباح تجارية</label>
-                                                <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>المبلغ المدفوع</label>
-                                                <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>المبلغ المتبقى</label>
-                                                <input type="number" class="form-control form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>تاريخ استحقاق الفاتورة</label>
-                                                @*<input type="date" class="form-control form-control-lg" name="DueDate" id="DueDate" placeholder="ادخل تاريخ الاستحقاق" value="@Model.DueDate" />*@
-                                                @Html.TextBoxFor(model => model.DueDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-lg", type = "date" })
-
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <!--begin::Input-->
-                                            <div class="form-group">
-                                                <label>ملاحظات على الفاتورة</label>
-                                                @Html.TextAreaFor(x => x.Notes, htmlAttributes: new { @class = "form-control form-control-lg" })
-                                                @*<textarea class="form-control form-control-lg"  name="Notes" id="Notes" ></textarea>*@
-                                            </div>
-                                            <!--end::Input-->
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
-                                            <div class="d-flex flex-column mb-10 mb-md-0">
-                                                <div class="font-weight-bolder font-size-h6-lg mb-3">ملخص الفاتورة</div>
-                                                <div class="d-flex justify-content-between mb-3">
-                                                    <span class="mr-15 font-weight-bold">اجمالى الفاتورة:</span>
-                                                    <span class="text-right" id="TotalAmount">@totalValue</span>
-                                                    <span class="text-right d-none" id="TotalAmount2">@totalValue</span>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>الخصم على الفاتورة</label>
+                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />
                                                 </div>
-                                                <div class="d-flex justify-content-between mb-3">
-                                                    <span class="mr-15 font-weight-bold">اجمالى الخصومات:</span>
-                                                    <span class="text-right" id="TotalDiscount">@totalDiscount</span>
-                                                </div>
-                                                <div class="d-flex justify-content-between mb-3">
-                                                    <span class="mr-15 font-weight-bold">اجمالى الايرادات:</span>
-                                                    <span class="text-right" id="TotalExpenses2">@totalExpenses</span>
-                                                </div>
+                                                <!--end::Input-->
                                             </div>
-                                            <div class="d-flex flex-column text-md-right">
-                                                <span class="font-size-lg font-weight-bolder mb-1">صافى الفاتورة</span>
-                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="SafyInvoice">@safy</span>
-                                                @*<span>Taxes Included</span>*@
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label> ضريبة القيمة المضافة</label>
+                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>قيمة ضريبة ارباح تجارية</label>
+                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />
+                                                </div>
+                                                <!--end::Input-->
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--begin::Input-->
-                                    <div class="form-group">
-                                        @*<label>ملاحظة هامة</label>*@
-                                        <div class="alert alert-primary" role="alert">
-                                            صافى قيمة الفاتورة= ( إجمالي قيمة المبيعات + إجمالي قيمة الايرادات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>المبلغ المدفوع</label>
+                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>المبلغ المتبقى</label>
+                                                    <input type="number" class="form-control form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
                                         </div>
+                                        <div class="row">
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>تاريخ استحقاق الفاتورة</label>
+                                                    @*<input type="date" class="form-control form-control-lg" name="DueDate" id="DueDate" placeholder="ادخل تاريخ الاستحقاق" value="@Model.DueDate" />*@
+                                                    @Html.TextBoxFor(model => model.DueDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-lg", type = "date" })
+
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <!--begin::Input-->
+                                                <div class="form-group">
+                                                    <label>ملاحظات على الفاتورة</label>
+                                                    @Html.TextAreaFor(x => x.Notes, htmlAttributes: new { @class = "form-control form-control-lg" })
+                                                    @*<textarea class="form-control form-control-lg"  name="Notes" id="Notes" ></textarea>*@
+                                                </div>
+                                                <!--end::Input-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                                                <div class="d-flex flex-column mb-10 mb-md-0">
+                                                    <div class="font-weight-bolder font-size-h6-lg mb-3">ملخص الفاتورة</div>
+                                                    <div class="d-flex justify-content-between mb-3">
+                                                        <span class="mr-15 font-weight-bold">اجمالى الفاتورة:</span>
+                                                        <span class="text-right" id="TotalAmount">@totalValue</span>
+                                                        <span class="text-right d-none" id="TotalAmount2">@totalValue</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mb-3">
+                                                        <span class="mr-15 font-weight-bold">اجمالى الخصومات:</span>
+                                                        <span class="text-right" id="TotalDiscount">@totalDiscount</span>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mb-3">
+                                                        <span class="mr-15 font-weight-bold">اجمالى الايرادات:</span>
+                                                        <span class="text-right" id="TotalExpenses2">@totalExpenses</span>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex flex-column text-md-right">
+                                                    <span class="font-size-lg font-weight-bolder mb-1">صافى الفاتورة</span>
+                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="SafyInvoice">@safy</span>
+                                                    @*<span>Taxes Included</span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--begin::Input-->
+                                        <div class="form-group">
+                                            @*<label>ملاحظة هامة</label>*@
+                                            <div class="alert alert-primary" role="alert">
+                                                صافى قيمة الفاتورة= ( إجمالي قيمة المبيعات + إجمالي قيمة الايرادات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
+                                            </div>
+                                        </div>
+                                        <!--end::Input-->
+                                        <ul class="pager wizard twitter-bs-wizard-pager-link" style="margin-bottom:10px;">
+                                            <li class="previous">
+                                                <a href="javascript: void(0);" class="btn btn-primary">
+                                                    <i class="bx bx-chevron-right me-1"></i> السابق
+                                                </a>
+                                            </li>
+                                            <li class="next">
+                                                <button type="button" class="btn btn-success px-9" onclick="SellInvoice_Module.SubmitForm(this,'saveOnly')" data-wizard-type="action-submit">
+                                                    <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة
+                                                </button>
+                                                <button type="button" class="btn btn-success px-9" onclick="SellInvoice_Module.SubmitForm(this,'upload')" data-wizard-type="action-submit">
+                                                    <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة ورفع ملفات
+                                                </button>
+
+
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <!--end::Input-->
-                                    <ul class="pager wizard twitter-bs-wizard-pager-link" style="margin-bottom:10px;">
-                                        <li class="previous">
-                                            <a href="javascript: void(0);" class="btn btn-primary">
-                                                <i class="bx bx-chevron-right me-1"></i> السابق
-                                            </a>
-                                        </li>
-                                        <li class="next">
-                                            <button type="button" class="btn btn-success px-9" onclick="SellInvoice_Module.SubmitForm(this,'saveOnly')" data-wizard-type="action-submit">
-                                                <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة
-                                            </button>
-                                            <button type="button" class="btn btn-success px-9" onclick="SellInvoice_Module.SubmitForm(this,'upload')" data-wizard-type="action-submit">
-                                                <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة ورفع ملفات
-                                            </button>
-
-
-                                        </li>
-                                    </ul>
                                 </div>
-                            </div>
                             <!--end::Wizard Actions-->
                         }
                         <!--end::Wizard Form-->
@@ -875,7 +878,7 @@ else
                                             <div class="form-group row required">
                                               <label>تم البيع من خلال المندوب</label>
                                                 <div class="col-9">
-                                                    @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new {@style = "width: 25px; height: 25px;", @onchange = "showSaleMenDiv();" })
+                                                    @Html.CheckBoxFor(m => m.BySaleMen, htmlAttributes: new {@style = "width: 25px; height: 25px;",@class= "form-check-input", @onchange = "showSaleMenDiv();" })
                                                 </div>
                                             </div>
                                         </div>
@@ -1238,7 +1241,7 @@ else
                                         <div class="col-lg-12">
                                             <div class="form-group row">
                                               <label>الايرادات المسجلة</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_dtSellInvoiceExpenses">
                                                         <thead>
 

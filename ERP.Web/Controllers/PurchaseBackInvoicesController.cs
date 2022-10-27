@@ -172,6 +172,11 @@ namespace ERP.Web.Controllers
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             //ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
 
+            //قبول اضافة صنف بدون رصيد
+            int itemAcceptNoBalance = 0;
+            var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+            if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+                ViewBag.ItemAcceptNoBalance = itemAcceptNoBalance;
 
             if (TempData["model"] != null) //edit
             {

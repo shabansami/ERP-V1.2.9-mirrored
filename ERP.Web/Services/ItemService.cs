@@ -448,6 +448,58 @@ namespace ERP.Web.Services
 
         }
         #endregion
+
+        #region هل الصنف يسمح بالسحب منه بالسالب
+        public Result IsAllowNoBalance(Guid? itemId,Guid? storeId)
+        {
+            using (var db=new VTSaleEntities())
+            {
+                if (itemId != null && itemId != Guid.Empty && storeId != null && storeId != Guid.Empty)
+                {
+                    int itemAcceptNoBalance = 0;
+                    var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+                    if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+                    {
+                        if (itemAcceptNoBalance == 0)// رفض السحب بالسالب 
+                        {
+                            var balance = BalanceService.GetBalance(itemId, storeId);
+                            if (balance <= 0)
+                            {
+                                var itemName = db.Items.Where(x => x.Id == itemId).FirstOrDefault().Name;
+                                return new Result
+                                {
+                                    IsValid = false,
+                                    ItemNotAllowed = itemName
+                                };
+                            }
+
+                        }
+                        return new Result
+                        {
+                            IsValid = true,
+                        };
+                    }
+                    else
+                        return new Result
+                        {
+                            IsValid = false
+                        };
+
+                } else
+                    return new Result
+                    {
+                        IsValid = false
+                    };
+
+            }
+        }
+
+        public class Result
+        {
+            public bool IsValid { get; set; }
+            public string ItemNotAllowed { get; set; }
+        }
+        #endregion
     }
 }
 public class ItemStock

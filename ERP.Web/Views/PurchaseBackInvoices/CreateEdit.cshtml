@@ -51,6 +51,17 @@
 @section Button1Link{/PurchaseBackInvoices/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 
+
+@Html.Hidden("ItemAcceptNoBalance")
+@Html.Hidden("ItemCostCalculateShowInSellRegId")
+@Html.Hidden("ItemCostCalculateId")
+@*الرصيد*@
+<input type="hidden" id="balanceVal" />
+<input type="hidden" id="serialItemId" />
+<input type="hidden" id="productionOrderId" />
+<input type="hidden" id="isIntial" />
+<input type="hidden" id="ExpenseTypeId" />
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -221,7 +232,7 @@
                                     <div class="col-lg-6">
                                         <div class="form-group required">
                                             <label>الصنف</label>
-                                            @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100" })
+                                            @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "PurchaseBackInvoice_Module.onItemChange()" })
                                             <span class="form-text text-muted">اختر الصنف</span>
                                         </div>
                                     </div>
@@ -299,16 +310,25 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-4">
                                         <!--begin::Select-->
                                         <div class="form-group required">
                                             <label>المخزن</label>
-                                            @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                                            @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "PurchaseBackInvoice_Module.getProductionOrdersOnStoreChange();" })
                                             <span class="form-text text-muted">اختر المخزن </span>
                                         </div>
                                         <!--end::Select-->
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-4">
+                                        <!--begin::Select-->
+                                        <div class="form-group required">
+                                            <label>اوامر الانتاج/الرصيد المتاح</label>
+                                            <select class="form-control din-med" id="balanceProductionOrder" onchange="PurchaseBackInvoice_Module.onProductionOrderChange()"></select>
+                                            <span class="form-text text-muted">اختر الرصيد </span>
+                                        </div>
+                                        <!--end::Select-->
+                                    </div>
+                                    <div class="col-xl-4">
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>الحاوية</label>
@@ -331,7 +351,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>.</label>
-                                            <button type="button" onclick="PurchaseBackInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold px-15 w-100">اضافة صنف للفاتورة</button>
+                                            <button type="button" onclick="PurchaseBackInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -411,7 +431,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>.</label>
-                                            <button type="button" onclick="PurchaseBackInvoice_Module.addPurchaseBackInvoiceExpenses();" class="btn btn-warning font-weight-bold px-15 w-100">اضافة مصروف</button>
+                                            <button type="button" onclick="PurchaseBackInvoice_Module.addPurchaseBackInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة مصروف</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -554,10 +574,10 @@
                                         </a>
                                     </li>
                                     <li class="next">
-                                        <button type="button" class="btn btn-success px-9 py-4" onclick="PurchaseBackInvoice_Module.SubmitForm(this,false)" data-wizard-type="action-submit">
+                                        <button type="button" class="btn btn-success " onclick="PurchaseBackInvoice_Module.SubmitForm(this,false)" data-wizard-type="action-submit">
                                             <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة
                                         </button>
-                                        <button type="button" class="btn btn-success px-9 py-4" onclick="PurchaseBackInvoice_Module.SubmitForm(this,true)" data-wizard-type="action-submit">
+                                        <button type="button" class="btn btn-success " onclick="PurchaseBackInvoice_Module.SubmitForm(this,true)" data-wizard-type="action-submit">
                                             <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة ورفع ملفات
                                         </button>
 
@@ -565,7 +585,7 @@
                                 </ul>
                             </div> <!--end::Wizard Step 4--> <!--begin::Wizard Actions-->
                         </div>
-                        <!--end::Wizard Actions-->            }
+                        <!--end::Wizard Actions-->}
                     <!--end::Wizard Form-->
                 </div>
             </div>

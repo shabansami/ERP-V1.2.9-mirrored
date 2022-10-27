@@ -143,9 +143,9 @@
 .radio > input:checked ~ span {
     background-color: #2869ad;
 }
-.checkbox > input:checked ~ span {
+/*.checkbox > input:checked ~ span {
     background-color: #2869ad;
-}
+}*/
 .aside-menu .menu-nav > .menu-section{
 	    background-color: rgba(234, 236, 245, 0.6196078431372549);
 }

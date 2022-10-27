@@ -39,18 +39,31 @@
 <body id="kt_body">
 
     <div class="auth-page">
-        <div class="container-fluid p-0 bg-light">
+        <div class="container-fluid auth-bg p-0">
+            <div class="bg-overlay bg-primary"></div>
+            <ul class="bg-bubbles">
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
             <div class="row g-0">
                 <div class="col-4"></div>
                 <div class="col-xxl-4 col-lg-4">
-                    <div class="auth-full-page-content d-flex p-sm-5 p-4" id="kt_login">
+                    <div class="auth-full-page-content d-flex p-sm-5 p-4">
                         <div class="w-100" style="background-color:white; border-radius:7%;">
                             <div class="d-flex flex-column">
                                 <div class="mb-4 mb-md-5 text-center">
                                     <a href="#" class="d-block auth-logo" style="margin-top:20px;">
                                         <img src="/Assets/media/logos/black-logo.png" alt="" style="max-height:100px;" />
                                     </a>
-                                </div>                      
+                                </div>
 
                                 <div class="auth-content my-auto" id="loginDiv" style="display:@isLogin">
                                     <div class="text-center">
@@ -59,35 +72,35 @@
 
                                     </div>
 
-                                        <form id="kt_login_signin_form" runat="server" action="/Default/Login" method="post" class="mt-4 pt-2" style="padding-left:20px; padding-right:20px;">
-                                            <div class="mb-3">
-                                                <label class="form-label din-bold">اسم المستخدم</label>
-                                                <input type="text" class="form-control din-med" id="userName" name="userName" placeholder="اسم المستخدم" style="text-align:right;">
-                                            </div>
-                                            <div class="mb-3">
-                                                <div class="d-flex align-items-start">
-                                                    <div class="flex-grow-1">
-                                                        <label class="form-label din-bold">كلمة المرور</label>
-
-                                                    </div>
+                                    <form id="kt_login_signin_form" runat="server" action="/Default/Login" method="post" class="mt-4 pt-2" style="padding-left:20px; padding-right:20px;">
+                                        <div class="mb-3">
+                                            <label class="form-label din-bold">اسم المستخدم</label>
+                                            <input type="text" class="form-control din-med" id="userName" name="userName" placeholder="اسم المستخدم" style="text-align:right;">
+                                        </div>
+                                        <div class="mb-3">
+                                            <div class="d-flex align-items-start">
+                                                <div class="flex-grow-1">
+                                                    <label class="form-label din-bold">كلمة المرور</label>
 
                                                 </div>
 
-                                                <div class="input-group auth-pass-inputgroup">
-                                                    <input type="password" class="form-control din-med" placeholder="كلمة المرور" aria-label="Password" aria-describedby="password-addon" style="text-align:right;" id="pass" name="pass">
+                                            </div>
 
-                                                    <button class="btn btn-light shadow-none ms-0" type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
-                                                </div>
-                                                @Html.Hidden("returnUrlVal", "")
+                                            <div class="input-group auth-pass-inputgroup">
+                                                <input type="password" class="form-control din-med" placeholder="كلمة المرور" aria-label="Password" aria-describedby="password-addon" style="text-align:right;" id="pass" name="pass">
 
+                                                <button class="btn btn-light shadow-none ms-0" type="button" id="password-addon"><i class="mdi mdi-eye-outline"></i></button>
                                             </div>
-                                            <div class="form-group d-none flex-wrap justify-content-between align-items-center">
-                                                <a href="javascript:;" onclick="activeDiv()" class="text-muted text-hover-primary din-bold">تفعيل اوفلاين</a>
-                                            </div>
-                                            <div class="mb-3">
-                                                <button class="btn btn-primary w-100 waves-effect waves-light din-bold" type="submit" id="btnLogin">تسجيل دخول</button>
-                                            </div>
-                                        </form>
+                                            @Html.Hidden("returnUrlVal", "")
+
+                                        </div>
+                                        <div class="form-group d-none flex-wrap justify-content-between align-items-center">
+                                            <a href="javascript:;" onclick="activeDiv()" class="text-muted text-hover-primary din-bold">تفعيل اوفلاين</a>
+                                        </div>
+                                        <div class="mb-3">
+                                            <button class="btn btn-primary w-100 waves-effect waves-light din-bold" type="submit" id="btnLogin">تسجيل دخول</button>
+                                        </div>
+                                    </form>
 
 
 
@@ -115,8 +128,9 @@
                 <!-- end col -->
                 <!-- end col -->
             </div>
-            <!-- end row -->
         </div>
+        <!-- end row -->
+    </div>
         <!-- end container fluid -->
     </div>
 

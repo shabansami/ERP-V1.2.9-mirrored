@@ -41,7 +41,7 @@
         <!--- Sidemenu -->
         <div id="sidebar-menu">
             <!-- Left Menu Start -->
-            <ul class="metismenu list-unstyled" id="side-menu">
+            <ul class="metismenu list-unstyled din-bold" id="side-menu">
 
                 <li>
                     <a href="@Url.Action("Index","Home")">
@@ -57,6 +57,10 @@
                 </li>
 
 
+
+
+
+
                 @if (pages.Where(x => x.children.Count() > 0).Any())
                 {
                     foreach (var item in pages)
@@ -66,11 +70,9 @@
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow">
                                     <i class="@item.Icon"></i>
-                                    <span class="din-bold">@item.text</span>
+                                    <span data-key="t-multi-level" class="din-bold">@item.text</span>
                                 </a>
-
-
-                                <ul class="sub-menu" aria-expanded="false">
+                                <ul class="sub-menu" aria-expanded="true">
                                     @foreach (var item2 in item.children)
                                     {
                                         if (item2.children.Count() > 0)
@@ -78,21 +80,20 @@
                                             if (item2.ShowInSideBar)
                                             {
                                                 <li>
-                                                    <a style="padding-right:0;" href="javascript: void(0);" class="has-arrow">
-                                                        <i class="fa-circle-small"></i>
-                                                        <span class="din-bold">@item2.text</span>
+                                                    <a href="javascript: void(0);" class="has-arrow din-bold" data-key="t-level-1-2">
+                                                        <i class="bx bx-minus"></i> 
+                                                        @*@item2.text*@
                                                     </a>
-                                                    <ul class="sub-menu" aria-expanded="false">
+                                                    <ul class="sub-menu" aria-expanded="true">
                                                         @foreach (var item3 in item2.children)
                                                         {
                                                             if (item3.IsPage && item3.HasAccess)
                                                             {
                                                                 <li>
-                                                                    <a style="padding-right:0;" href="@item3.Url">
-                                                                        <i class="menu-bullet  menu-bullet-line">
-                                                                            <span></span>
-                                                                        </i>
-                                                                        <span class="din-bold">@item3.text</span>
+                                                                    <a data-key="t-level-2-1" href="@item3.Url">
+
+                                                                        @*<i class="dripicons-dot"></i>*@
+                                                                        @item3.text
                                                                     </a>
                                                                 </li>
                                                             }
@@ -109,11 +110,9 @@
                                             if (item2.IsPage && item2.HasAccess)
                                             {
                                                 <li>
-                                                    <a href="@item2.Url" style="padding-right:0;">
-                                                        <i class="menu-bullet  menu-bullet-line">
-                                                            <span></span>
-                                                        </i>
-                                                        <span class="din-bold">@item2.text</span>
+                                                    <a href="@item2.Url" data-key="t-level-1-2">
+                                                        @*<i class="bx bx-minus"></i>*@
+                                                        @item2.text
                                                     </a>
                                                 </li>
                                             }

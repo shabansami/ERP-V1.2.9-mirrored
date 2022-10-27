@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section PageTitle1{ حركة صنف}
+@section PageTitle1{كارت صنف بالتكلفة}
 @section PageTitle2{بحث}
 @section Button1{@null}
 @section Button1Link{@null}
@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h4 class=" din-bold">
-                            حركة صنف
+                            كارت صنف بالتكلفة
                         </h4>
                     </div>
                     <div class="col-sm-6">
@@ -257,7 +257,7 @@
                     {
                         extend: 'print',
                         title: function () {
-                            return 'حركة صنف';
+                            return 'كارت صنف بالتكلفة';
                         },
                         customize: function (win) {
                             $(win.document.body)
@@ -286,8 +286,8 @@
                     },
                     {
                         extend: "excelHtml5",
-                        filename: "حركة صنف",
-                        title: "حركة صنف",
+                        filename: "كارت صنف بالتكلفة",
+                        title: "كارت صنف بالتكلفة",
                         exportOptions: {
                             columns: ':visible'
                         }
@@ -301,6 +301,10 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
                 },
 
                 ajax: {

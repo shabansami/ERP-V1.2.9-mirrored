@@ -230,7 +230,6 @@
     <Content Include="Assets\JSCustom\MaintenancesAccountant.js" />
     <Content Include="Assets\JSCustom\MaintenancesFinalApproval.js" />
     <Content Include="Assets\JSCustom\MaintenProblemType.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\wizard-Maintenance.js" />
     <Content Include="Assets\JSCustom\Print\PrintInvoice.js" />
     <Content Include="Assets\JSCustom\Print\PrintPDFDataTableJQuery\pdfmake.min.js" />
     <Content Include="Assets\JSCustom\Print\PrintPDFDataTableJQuery\vfs_fonts.js" />
@@ -248,7 +247,6 @@
     <Content Include="Assets\JSCustom\RptQuantitydamage.js" />
     <Content Include="Assets\JSCustom\SaleMenCustomerCheque.js" />
     <Content Include="Assets\JSCustom\SaleMenCustomerPayment.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\wizard-SaleMenSellInvoice.js" />
     <Content Include="Assets\JSCustom\SaleMenSellBackInvoice.js" />
     <Content Include="Assets\JSCustom\SaleMenStore.js" />
     <Content Include="Assets\JSCustom\SaleMenCustomer.js" />
@@ -265,7 +263,6 @@
     <Content Include="Assets\JSCustom\ContractAttendanceLeaving.js" />
     <Content Include="Assets\JSCustom\ContractType.js" />
     <Content Include="Assets\JSCustom\Contract.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\wizard-Contact.js" />
     <Content Include="Assets\JSCustom\SaleMenSellInvoice.js" />
     <Content Include="Assets\JSCustom\Maintenance.js" />
     <Content Include="Assets\JSCustom\SellInvoice.js" />
@@ -276,13 +273,11 @@
     <Content Include="Assets\JSCustom\SellInvoicePayment.js" />
     <Content Include="Assets\JSCustom\Shift.js" />
     <Content Include="Assets\JSCustom\VacationType.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\bootstrap-timepicker.js" />
     <Content Include="Assets\JSCustom\VacationDay.js" />
     <Content Include="Assets\JSCustom\WorkingPeriod.js" />
     <Content Include="Assets\JSCustom\UserRole.js" />
     <Content Include="Assets\JSCustom\PagesRole.js" />
     <Content Include="Assets\JSCustom\Role.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\wizard-PurchaseInvo.js" />
     <Content Include="Assets\JSCustom\ProductionOrderFisrt.js" />
     <Content Include="Assets\JSCustom\StoresTransfer.js" />
     <Content Include="Assets\JSCustom\RptSellInvoice.js" />
@@ -306,7 +301,6 @@
     <Content Include="Assets\JSCustom\CustomerIntialBalance.js" />
     <Content Include="Assets\JSCustom\SupplierIntialBalance.js" />
     <Content Include="Assets\JSCustom\ProductionOrderColor.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\wizard-ProductionOrder.js" />
     <Content Include="Assets\JSCustom\ProductionOrderReceipt.js" />
     <Content Include="Assets\JSCustom\PurchaseFullBackInvoice.js" />
     <Content Include="Assets\JSCustom\PurchaseBackInvoice.js" />
@@ -325,8 +319,6 @@
     <Content Include="Assets\JSCustom\UploadCenterTypeFile.js" />
     <Content Include="Assets\JSCustom\UploadCenterFile.js" />
     <Content Include="Assets\JSCustom\UploadCenterFolder.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\bootstrap-select.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\wizard-StoresTransfer.js" />
     <Content Include="Assets\JSCustom\PricesChange.js" />
     <Content Include="Assets\JSCustom\PurchaseInvoiceAccounting.js" />
     <Content Include="Assets\JSCustom\PurchaseInvoiceStore.js" />
@@ -1623,7 +1615,6 @@
     <Content Include="Assets\JSCustom\SupplierPayment.js" />
     <Content Include="Assets\JSCustom\Unit.js" />
     <Content Include="Assets\JSCustom\ItemGroup.js" />
-    <Content Include="Assets\JSCustom\JSMetronic\searchableselect2.js" />
     <Content Include="Assets\JSCustom\Country.js" />
     <Content Include="Assets\plugins\Select2\select2.full.min.js" />
     <Content Include="Assets\plugins\Select2\select2.min.css" />

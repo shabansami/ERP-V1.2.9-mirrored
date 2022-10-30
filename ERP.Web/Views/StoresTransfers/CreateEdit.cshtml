@@ -34,7 +34,7 @@
                 <div class="card-header din-bold">
                     <ul class="twitter-bs-wizard-nav">
                         <li class="nav-item">
-                            <a href="#" class="nav-link mx-40" data-toggle="tab">
+                            <a href="#window1" class="nav-link mx-40" data-toggle="tab">
                                 <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="1. البيانات الاساسية لعملية التحويل">
                                     <i class="bx bx-list-ul"></i>
                                 </div>
@@ -42,7 +42,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#2" class="nav-link" data-toggle="tab">
+                            <a href="#window2" class="nav-link" data-toggle="tab">
                                 <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="2. الاصناف المحولة">
                                     <i class="bx bxs-bank"></i>
                                 </div>
@@ -59,7 +59,7 @@
                     <div class="tab-content twitter-bs-wizard-tab-content din-bold">
 
                         <!--begin::Wizard Step 1 البيانات الاساسية-->
-                        <div class="tab-pane" id="">
+                        <div class="tab-pane" id="window1">
                             <div class="text-center mb-4">
                                 <h5>البيانات الاساسية</h5>
                             </div>
@@ -75,7 +75,7 @@
                                 <div class="col-xl-6">
                                     <!--begin::Select-->
                                     <div class="form-group">
-                                        <label>من مخزن <span class="alert alert-warning" id="saleMenFromName"></span></label>
+                                        <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenFromName">من مخزن</span></label>
                                         @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenFromChanged();" })
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
                                 <div class="col-xl-6">
                                     <!--begin::Select-->
                                     <div class="form-group">
-                                        <label>الى مخزن <span class="alert alert-warning" id="saleMenToName"></span></label>
+                                        <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenToName">الى مخزن</span></label>
                                         @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenToChanged();" })
                                     </div>
                                 </div>
@@ -164,7 +164,7 @@
                         </div>
                         <!--end::Wizard Step 1-->
                         <!--begin::Wizard Step 2 ادخال اصناف الفاتورة-->
-                        <div class="tab-pane" id="2">
+                        <div class="tab-pane" id="window2">
                             <div class="text-center mb-4 din-bold">
                                 <h5>اضافة اصناف الفاتورة</h5>
                             </div>
@@ -259,7 +259,7 @@
                                     <!--begin::Input-->
                                     <div class="form-group">
                                         <label>.</label>
-                                        <button type="button" onclick="StoresTransfer_Module.addItemDetails();" class="btn btn-warning font-weight-bold px-15 py-4 w-100">اضافة صنف </button>
+                                        <button type="button" onclick="StoresTransfer_Module.addItemDetails();" class="btn btn-warning font-weight-bold px-15 w-100">اضافة صنف </button>
                                     </div>
                                     <!--end::Input-->
                                 </div>
@@ -315,9 +315,7 @@
 @section Scripts
 {
 <script src="~/Assets/JSCustom/StoresTransfer.js"></script>
-<!--begin::Page Scripts(used by this page)-->
-<script src="~/Assets/JSCustom/JSMetronic/wizard-StoresTransfer.js"></script>
-<!--end::Page Scripts-->
+
 <script type="text/javascript">
     $(document).ready(function () {
         StoresTransfer_Module.initItemDetails();

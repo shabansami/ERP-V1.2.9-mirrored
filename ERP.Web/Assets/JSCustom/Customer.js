@@ -105,7 +105,7 @@ var Customer_Module = function () {
 							<a href="/Customers/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
                         		</a><a href="javascript:;" onclick=Customer_Module.UnActivePerson("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="ايقاف نشاط">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات للعميل">\
 								<i class="fa fa-upload"></i>\
 							</a>\

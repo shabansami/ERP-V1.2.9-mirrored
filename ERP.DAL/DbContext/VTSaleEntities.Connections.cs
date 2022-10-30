@@ -17,11 +17,11 @@ namespace ERP.DAL
 
         //admin:1 MyomSG2prP7o/pLAjDi8Hg==
 
-        static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
+        //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=demo_accounting;user id=demo_accounting;password=m8_kK06y2;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=speedaddress;user id=speedaddress;password=m4_E1w13x;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sg_erp_db;user id=sg_erp_db;password=x_04p70aM;Persist Security Info=True;";
-        //static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=sc_erp_devdb;integrated security=True;";
+        static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=sc_erp_devdb;integrated security=True;";
         //static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=ERPDb2144v2;Persist Security Info=True;User ID=vts;Password=vts-co2020;";
 
         public static readonly string Schema = "dbo";

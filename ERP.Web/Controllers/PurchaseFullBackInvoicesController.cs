@@ -107,7 +107,7 @@ namespace ERP.Web.Controllers
                     //هل الصنف يسمح بالسحب منه بالسالب
                     foreach (var item in itemBackIetails)
                     {
-                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId);
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId,item.Quantity);
                         if (!result.IsValid)
                             return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
                     }
@@ -652,7 +652,7 @@ namespace ERP.Web.Controllers
                     //هل الصنف يسمح بالسحب منه بالسالب
                     foreach (var item in items)
                     {
-                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId);
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId, item.Quantity);
                         if (!result.IsValid)
                             return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
                     }

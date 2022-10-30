@@ -118,7 +118,7 @@ var RptPurchaseInvoice_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
                             <a href="/PurchaseInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\</div>\
 						';
 
@@ -272,7 +272,7 @@ var RptPurchaseInvoice_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
                             <a href="/PurchaseBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\</div>\
 						';
 

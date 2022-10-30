@@ -100,10 +100,8 @@ var ItemIntialBalance_Module = function () {
                         if (row.IsApproval) {
                             return '\
 							<div class="btn-group">\
-                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=ItemIntialBalance_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln d-none" title="فك الاعتماد">\
-								<i class="fa fa-check-square-o"></i>\<a href="javascript:;" onclick=ItemIntialBalance_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="fa fa-trash"></i>\
-							</a></div>\
+                            <a href="javascript:;" onclick=ItemIntialBalance_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i>\</div>\
 						';
                         } else {
                             return '\
@@ -111,7 +109,7 @@ var ItemIntialBalance_Module = function () {
 							<a href="javascript:;" onclick=ItemIntialBalance_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=ItemIntialBalance_Module.approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a></div>\
 						';
                         }

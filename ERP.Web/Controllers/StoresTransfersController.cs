@@ -85,6 +85,8 @@ namespace ERP.Web.Controllers
                     Id = x.Id,
                     ApprovalStore = (!x.IsApprovalStore && !x.IsRefusStore) ? "فى الانتظار" : x.IsApprovalStore ? "تم الاعتماد" : "تم الرفض",
                     CaseName=x.StoresTransferCase.Name,
+                    IsFinalApproval=x.IsFinalApproval,
+                    IsRefusStore=x.IsRefusStore,
                     BranchFromName = x.StoreFrom.Branch.Name, 
                     StoreFromName = x.StoreFrom.Name, 
                     BranchToName = x.StoreTo.Branch.Name, 
@@ -436,13 +438,13 @@ namespace ERP.Web.Controllers
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
-                    //هل الصنف يسمح بالسحب منه بالسالب
-                    foreach (var item in model.StoresTransferDetails.Where(x=>!x.IsDeleted))
-                    {
-                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoresTransfer.StoreFromId);
-                        if (!result.IsValid)
-                            return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
-                    }
+                    ////هل الصنف يسمح بالسحب منه بالسالب
+                    //foreach (var item in model.StoresTransferDetails.Where(x=>!x.IsDeleted))
+                    //{
+                    //    var result = itemService.IsAllowNoBalance(item.ItemId, item.StoresTransfer.StoreFromId, item.Quantity);
+                    //    if (!result.IsValid)
+                    //        return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
+                    //}
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
@@ -467,7 +469,7 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
 
-        }
+        }        
         public ActionResult Edit(string id)
         {
             Guid Id;
@@ -480,7 +482,56 @@ namespace ERP.Web.Controllers
 
         }
         #endregion
+        #region فك الاعتماد 
+        [HttpPost]
+        public ActionResult UnApproval(string id)
+        {
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
+                if (model != null)
+                {
+                    if (TempData["userInfo"] != null)
+                        auth = TempData["userInfo"] as VTSAuth;
+                    else
+                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
+                    //هل الصنف يسمح بالسحب منه بالسالب
+                    foreach (var item in model.StoresTransferDetails.Where(x => !x.IsDeleted))
+                    {
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoresTransfer.StoreFromId,item.Quantity);
+                        if (!result.IsValid)
+                            return Json(new { isValid = false, message = $"غير مسموع بفك الاعتماد لوجود صنف/اكثر رصيده بالسالب {result.ItemNotAllowed}" });
+                    }
+                    model.StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferUnApproval;
+                    //اضافة الحالة 
+                    db.StoresTransferHistories.Add(new StoresTransferHistory
+                    {
+                        StoresTransfer = model,
+                        StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferUnApproval
+                    });
+                    model.IsFinalApproval = false;
+                    model.IsApprovalStore = false;
+                    model.IsRefusStore = false;
+                    db.Entry(model).State = EntityState.Modified;
+
+
+                    if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                        return Json(new { isValid = true, message = "تم فك الاعتماد بنجاح" });
+                    else
+                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                }
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+        }
+
+        #endregion
 
         #region عرض بيانات عملية تحويل مخزنى بالتفصيل وطباعتها
         public ActionResult ShowDetails(string id)

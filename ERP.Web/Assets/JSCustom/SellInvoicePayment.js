@@ -112,7 +112,7 @@ var SellInvoicePayment_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="/SellInvoicePayments/RegisterPyments/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="انشاء/ادارة دفعات الفاتورة">\
-								<i class="fa fa-money"></i>\
+								<i class="fa fa-money-bill"></i>\
 							</a>\<a href="/SellInvoicePayments/RegisterPyments/?pay=1&invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="البدأ فى سداد دفعة">\
 								<i class="fa fa-credit-card"></i>\
 							</a>\

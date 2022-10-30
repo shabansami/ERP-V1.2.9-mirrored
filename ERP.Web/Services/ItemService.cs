@@ -450,8 +450,9 @@ namespace ERP.Web.Services
         #endregion
 
         #region هل الصنف يسمح بالسحب منه بالسالب
-        public Result IsAllowNoBalance(Guid? itemId,Guid? storeId)
+        public Result IsAllowNoBalance(Guid? itemId,Guid? storeId,double quantity) 
         {
+            //quantity الكمية المراد بيعها او مرتجع توريد او رصيد اول او تحويل مخزنى تكون اكبر من او تساوى رصيد الصنف الحالى 
             using (var db=new VTSaleEntities())
             {
                 if (itemId != null && itemId != Guid.Empty && storeId != null && storeId != Guid.Empty)
@@ -463,7 +464,7 @@ namespace ERP.Web.Services
                         if (itemAcceptNoBalance == 0)// رفض السحب بالسالب 
                         {
                             var balance = BalanceService.GetBalance(itemId, storeId);
-                            if (balance <= 0)
+                            if (balance <= 0|| quantity>balance)
                             {
                                 var itemName = db.Items.Where(x => x.Id == itemId).FirstOrDefault().Name;
                                 return new Result

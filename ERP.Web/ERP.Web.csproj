@@ -1616,6 +1616,11 @@
     <Content Include="Assets\JSCustom\Unit.js" />
     <Content Include="Assets\JSCustom\ItemGroup.js" />
     <Content Include="Assets\JSCustom\Country.js" />
+    <Content Include="Assets\plugins\jstree\32px.png" />
+    <Content Include="Assets\plugins\jstree\jstree.bundle.css" />
+    <Content Include="Assets\plugins\jstree\jstree.bundle.js" />
+    <Content Include="Assets\plugins\jstree\jstree.bundle.rtl.css" />
+    <Content Include="Assets\plugins\jstree\throbber.gif" />
     <Content Include="Assets\plugins\Select2\select2.full.min.js" />
     <Content Include="Assets\plugins\Select2\select2.min.css" />
     <Content Include="Files\details_close.png" />

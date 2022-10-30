@@ -113,7 +113,7 @@ var SellBackInvoiceStore_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="/SellBackInvoiceStores/ApprovalStore/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="اعتماد مخزنى">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a></div>\
 						';
                     }

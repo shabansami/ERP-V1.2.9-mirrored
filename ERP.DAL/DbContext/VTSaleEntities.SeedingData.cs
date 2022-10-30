@@ -197,7 +197,7 @@ namespace ERP.DAL
                         db.TransactionsTypes.Add(new TransactionsType { Name = "توريد (ادخال) نقدية" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "تسجيل مصروف" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "رصيد اول المدة اصناف" });
-                        db.TransactionsTypes.Add(new TransactionsType { Name = "قيود حرة" });
+                        db.TransactionsTypes.Add(new TransactionsType { Name = "قيود يومية" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "تكاليف وامر الانتاج" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "صرف شيك لمورد" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "استلام شيك من عميل" });
@@ -320,6 +320,7 @@ namespace ERP.DAL
                         db.StoresTransferCases.Add(new StoresTransferCase { Name = "تم رفض التحويل مخزنيا" });
                         db.StoresTransferCases.Add(new StoresTransferCase { Name = "تم ادخال كميات فعلية مختلفة عن الاصلية " });
                         db.StoresTransferCases.Add(new StoresTransferCase { Name = "تم الاعتماد بشكل نهائى " });
+                        db.StoresTransferCases.Add(new StoresTransferCase { Name = "فك اعتماد تحويل مخزنى " });
                     }
                     // //انواع العروض             
                     if (db.OfferTypes.Where(x => !x.IsDeleted).Count() == 0)
@@ -1301,9 +1302,9 @@ END";
             pages.Add(new Page() { Id = 198, ParentId = 197, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تسجيل حساب جديد", OrderNum = 0, Url = "/AccountsTrees/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 199, ParentId = 197, Icon = null, IsPage = true, Name = "ادارة بيانات حساب", OrderNum = 0, Url = "/AccountsTrees/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 200, ParentId = 197, Icon = null, IsPage = true, Name = "استعراض شجرة الحسابات", OrderNum = 0, Url = "/AccountsTrees/ShowAccounts", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 201, ParentId = 196, Icon = null, IsPage = false, Name = "القيود الحرة", OrderNum = 0, Url = "", OtherUrls = null });
-            pages.Add(new Page() { Id = 202, ParentId = 201, Icon = null, IsPage = true, Name = "تسجيل قيد حر", OrderNum = 0, Url = "/GeneralRecords/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 203, ParentId = 201, Icon = null, IsPage = true, Name = "ادارة قيد حر", OrderNum = 0, Url = "/GeneralRecords/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 201, ParentId = 196, Icon = null, IsPage = false, Name = "القيود اليومية", OrderNum = 0, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 202, ParentId = 201, Icon = null, IsPage = true, Name = "تسجيل قيد يومية", OrderNum = 0, Url = "/GeneralRecords/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 203, ParentId = 201, Icon = null, IsPage = true, Name = "ادارة قيد يومية", OrderNum = 0, Url = "/GeneralRecords/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 204, ParentId = null, Icon = "icon-md fas fa-users-cog ylow", IsPage = false, Name = "الصلاحيات والمستخدمين", OrderNum = 17, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 205, ParentId = 204, Icon = null, IsPage = false, Name = "الصلاحيات", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 206, ParentId = 205, Icon = null, IsPage = true, Name = "تسجيل صلاحية جديدة", OrderNum = 0, Url = "/Roles/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -1428,7 +1429,7 @@ END";
             pages.Add(new Page() { Id = 331, ParentId = 332, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "انشاء أقساط/مبيعات آجله", OrderNum = 0, Url = "/SellInvoiceInstallments/Index", OtherUrls = "/SellInvoiceInstallments/RegisterInstallments ", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 332, ParentId = null, Icon = "icon-md fas fa-cog ylow", IsPage = false, Name = "التقسيط", OrderNum = 11, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 333, ParentId = 332, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "حاسبة قسط", OrderNum = 0, Url = "/SellInvoiceInstallments/Calculate", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 334, ParentId = 201, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تسجيل قيود حرة مركبة", OrderNum = 0, Url = "/GeneralRecordComplex/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 334, ParentId = 201, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تسجيل قيود يومية مركبة", OrderNum = 0, Url = "/GeneralRecordComplex/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 335, ParentId = 332, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تحصيل اقساط", OrderNum = 0, Url = "/SellInvoiceInstallmentSchedules/Index", OtherUrls = "/SellInvoiceInstallmentSchedules/Paid,/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 336, ParentId = 332, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اقساط عميل", OrderNum = 0, Url = "/SellInvoiceHasInstallments/Index", OtherUrls = "/SellInvoiceHasInstallments/Installments", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 337, ParentId = 296, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تقرير مورد", OrderNum = 0, Url = "/SupplierAccounts/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });

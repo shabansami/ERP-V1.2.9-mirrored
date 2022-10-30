@@ -120,7 +120,7 @@ var RptSellInvoice_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
                             <a href="/SellInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\</div>\
 						';
 
@@ -274,7 +274,7 @@ var RptSellInvoice_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
                             <a href="/SellBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\</div>\
 						';
 

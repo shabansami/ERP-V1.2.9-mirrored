@@ -120,7 +120,7 @@ var RptMaintenance_Module = function () {
                         return '\
 							<div class="btn-group">\
 					        <a href="/Maintenances/ShowHistory/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
 								<i class="fa fa-print"></i>\
 							</a>\</div>\

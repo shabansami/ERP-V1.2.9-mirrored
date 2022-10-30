@@ -18,12 +18,16 @@
     string accountVisiable = "none";
     string checkedAttrSafe = "";
     string checkedAttrAccount = "";
+    string disabledAttrSafeAccount = "";
+
     string dtEnterItem = Utility.GetDateTime().ToString("yyyy-MM-dd");
     if (Model.Id == Guid.Empty)
     {
         title = "تسجبل فاتورة توريد";
         btn = "اضافة";
         icon = "fa fa-plus-circle m-1";
+        disabledAttrSafeAccount = "disabled";
+
     }
     else
     {
@@ -209,13 +213,13 @@
                                             <div class="radio-inline">
                                                 <div class="col-xl-6">
                                                     <label class="radio">
-                                                        <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="PurchaseInvoice_Module.onRdoSafeChanged();" />
+                                                        <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe @disabledAttrSafeAccount onchange="PurchaseInvoice_Module.onRdoSafeChanged();" />
                                                         <span></span>خزينة
                                                     </label>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <label class="radio">
-                                                        <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="PurchaseInvoice_Module.onRdoBankChanged();" />
+                                                        <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount @disabledAttrSafeAccount onchange="PurchaseInvoice_Module.onRdoBankChanged();" />
                                                         <span></span>بنك
                                                     </label>
                                                 </div>
@@ -394,7 +398,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>.</label>
-                                            <button type="button" onclick="PurchaseInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
+                                            <button type="button" onclick="PurchaseInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -486,7 +490,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>.</label>
-                                            <button type="button" onclick="PurchaseInvoice_Module.addPurchaseInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة مصروف</button>
+                                            <button type="button" onclick="PurchaseInvoice_Module.addPurchaseInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة مصروف</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -724,7 +728,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row required">
                                                 <label>تاريخ الفاتورة</label>
                                                 <div class="col-9">
@@ -733,7 +737,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row required">
                                                 <label>المورد</label>
                                                 <div class="col-9">
@@ -742,7 +746,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>مديونية المورد</label>
                                                 <div class="col-9">
@@ -750,7 +754,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row required">
                                                 <label>طريقة السداد</label>
                                                 <div class="col-9">
@@ -758,20 +762,20 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>حساب الدفع</label>
                                                 <div class="col-9">
                                                     <div class="radio-inline">
                                                         <div class="col-xl-6">
                                                             <label class="radio">
-                                                                <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="PurchaseInvoice_Module.onRdoSafeChanged();" />
+                                                                <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe @disabledAttrSafeAccount onchange="PurchaseInvoice_Module.onRdoSafeChanged();" />
                                                                 <span></span>خزينة
                                                             </label>
                                                         </div>
                                                         <div class="col-xl-6">
                                                             <label class="radio">
-                                                                <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="PurchaseInvoice_Module.onRdoBankChanged();" />
+                                                                <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount @disabledAttrSafeAccount onchange="PurchaseInvoice_Module.onRdoBankChanged();" />
                                                                 <span></span>بنك
                                                             </label>
                                                         </div>
@@ -779,7 +783,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="display:@safeVisiable;" id="divSafe">
+                                        <div class="col-lg-4" style="display:@safeVisiable;" id="divSafe">
                                             <div class="form-group row">
                                                 <label>خزينة</label>
                                                 <div class="col-9">
@@ -787,7 +791,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="display:@accountVisiable;" id="divBank">
+                                        <div class="col-lg-4" style="display:@accountVisiable;" id="divBank">
                                             <div class="form-group row">
                                                 <label>بنك</label>
                                                 <div class="col-9">
@@ -931,7 +935,7 @@ else
                                             <div class="form-group row">
                                                 <label>.</label>
                                                 <div class="col-9">
-                                                    <button type="button" onclick="PurchaseInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15  w-100">اضافة صنف للفاتورة</button>
+                                                    <button type="button" onclick="PurchaseInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15  w-100">اضافة صنف للفاتورة</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -990,7 +994,7 @@ else
                                             <div class="form-group row">
                                                 <label>.</label>
                                                 <div class="col-9">
-                                                    <button type="button" onclick="PurchaseInvoice_Module.addPurchaseInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة مصروف</button>
+                                                    <button type="button" onclick="PurchaseInvoice_Module.addPurchaseInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة مصروف</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1150,7 +1154,7 @@ else
         $(document).ready(function () {
             PurchaseInvoice_Module.initItemDetails();
             PurchaseInvoice_Module.initPurchaseInvoiceExpenses();
-            $("#rdo_safe,#rdo_bank").attr("disabled", true);
+            //$("#rdo_safe,#rdo_bank").attr("disabled", true);
             //الانتقال بين الحقول بالانتر وعند اضافة صنف
             $("#Quantity").keydown(function (e) {
                 if (e.keyCode == 13) {

@@ -78,6 +78,7 @@ var Item_Module = function () {
             { data: 'GroupBasicName', title: 'المجموعة الاساسية' },
             { data: 'ItemTypeName', title: 'النوع' },
             { data: 'Name', title: 'اسم الصنف'},
+            { data: 'ItemCode', title: 'كود الصنف'},
             { data: 'SellPrice', title: 'سعر البيع'},
             { data: 'LastPurchasePrice', title: 'اخر سعر شراء'},
             { data: 'Actions', responsivePriority: -1, className: 'actions' },

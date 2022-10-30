@@ -108,7 +108,7 @@ var VoucherPayment_Module = function () {
 								<i class="fa fa-edit"></i>\
 							</a>\
                                 <a href="javascript:;" onclick=VoucherPayment_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a><a href="javascript:;" onclick=VoucherPayment_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a></div>\
@@ -117,8 +117,8 @@ var VoucherPayment_Module = function () {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=VoucherPayment_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-check-square-o"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="fa fa-money"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintPayment(\''+ row.Id + '\',\'voucherPayment\');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
+								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+								<i class="fa fa-money-bill"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintPayment(\''+ row.Id + '\',\'voucherPayment\');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
 								<i class="fa fa-print"></i>\
 							</a>\</div>\
 						';

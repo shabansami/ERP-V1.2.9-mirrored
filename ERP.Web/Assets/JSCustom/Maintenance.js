@@ -107,7 +107,7 @@ var Maintenance_Module = function () {
                             return '\
 							<div class="btn-group">\
 					        <a href="/Maintenances/ShowHistory/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
 								<i class="fa fa-print"></i>\
 							</a>\</div>\
@@ -121,7 +121,7 @@ var Maintenance_Module = function () {
 							<a href="javascript:;" onclick=Maintenance_Module.deleteRow("'+ row.InvoiceGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="/Maintenances/ShowHistory/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
 								<i class="fa fa-print"></i>\
 							</a>\</div>\

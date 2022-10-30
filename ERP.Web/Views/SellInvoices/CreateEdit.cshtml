@@ -23,6 +23,7 @@
     string isInvoiceDisVal = "true";
     string chkValRdo = "checked";
     string chkPerRdo = "";
+    string disabledAttrSafeAccount = "";
 
     if (Model.Id == Guid.Empty)
     {
@@ -31,6 +32,7 @@
         icon = "flaticon2-add";
         chkValRdo = "checked";
         chkPerRdo = "";
+        disabledAttrSafeAccount = "disabled";
     }
     else
     {
@@ -266,13 +268,13 @@
                                                 <div class="radio-inline">
                                                     <div class="col-xl-6">
                                                         <label class="radio">
-                                                            <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="SellInvoice_Module.onRdoSafeChanged();" />
+                                                            <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe @disabledAttrSafeAccount onchange="SellInvoice_Module.onRdoSafeChanged();" />
                                                             <span></span>خزينة
                                                         </label>
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <label class="radio">
-                                                            <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="SellInvoice_Module.onRdoBankChanged();" />
+                                                            <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount @disabledAttrSafeAccount onchange="SellInvoice_Module.onRdoBankChanged();" />
                                                             <span></span>بنك
                                                         </label>
                                                     </div>
@@ -501,7 +503,7 @@
                                             <!--begin::Input-->
                                             <div class="form-group">
                                                 <label>.</label>
-                                                <button type="button" onclick="SellInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
+                                                <button type="button" onclick="SellInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
                                             </div>
                                             <!--end::Input-->
                                         </div>
@@ -597,7 +599,7 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>.</label>
-                                                    <button type="button" onclick="SellInvoice_Module.addSellInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة إيراد</button>
+                                                    <button type="button" onclick="SellInvoice_Module.addSellInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة إيراد</button>
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -908,7 +910,7 @@ else
                                         </div>
                                         </div>
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row required">
                                               <label>طريقة السداد</label>
                                                 <div class="col-9">
@@ -916,20 +918,20 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                               <label>حساب الدفع</label>
                                                 <div class="col-9">
                                                     <div class="radio-inline">
                                                         <div class="col-xl-6">
                                                             <label class="radio">
-                                                                <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="SellInvoice_Module.onRdoSafeChanged();" />
+                                                                <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe @disabledAttrSafeAccount onchange="SellInvoice_Module.onRdoSafeChanged();" />
                                                                 <span></span>خزينة
                                                             </label>
                                                         </div>
                                                         <div class="col-xl-6">
                                                             <label class="radio">
-                                                                <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="SellInvoice_Module.onRdoBankChanged();" />
+                                                                <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount @disabledAttrSafeAccount onchange="SellInvoice_Module.onRdoBankChanged();" />
                                                                 <span></span>بنك
                                                             </label>
                                                         </div>
@@ -937,7 +939,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="display:@safeVisiable;" id="divSafe">
+                                        <div class="col-lg-4" style="display:@safeVisiable;" id="divSafe">
                                             <div class="form-group row">
                                               <label>خزينة</label>
                                                 <div class="col-9">
@@ -945,7 +947,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="display:@accountVisiable;" id="divBank">
+                                        <div class="col-lg-4" style="display:@accountVisiable;" id="divBank">
                                             <div class="form-group row">
                                               <label>بنك</label>
                                                 <div class="col-9">
@@ -1133,7 +1135,7 @@ else
                                             <div class="form-group row">
                                               <label></label>
                                                 <div class="col-9">
-                                                    <button type="button" onclick="SellInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
+                                                    <button type="button" onclick="SellInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1223,7 +1225,7 @@ else
                                             <div class="form-group row">
                                               <label>.</label>
                                                 <div class="col-9">
-                                                    <button type="button" onclick="SellInvoice_Module.addSellInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 w-100">اضافة إيراد</button>
+                                                    <button type="button" onclick="SellInvoice_Module.addSellInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة إيراد</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1417,7 +1419,7 @@ else
         $(document).ready(function () {
             SellInvoice_Module.initItemDetails();
             SellInvoice_Module.initSellInvoiceExpenses();
-            $("#rdo_safe,#rdo_bank").attr("disabled", true);
+            //$("#rdo_safe,#rdo_bank").attr("disabled", true);
             $("#rdo_val").prop('checked', true);
             //$("#rdo_valAllInvoice").prop('checked', true);
 

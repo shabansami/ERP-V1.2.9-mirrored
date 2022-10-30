@@ -1481,6 +1481,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "مشتريات",
+                    ActionNumber=x.PurchaseInvoice.InvoiceNumber,
                     ActionDate = x.PurchaseInvoice.InvoiceDate.ToString(),
                     IncomingQuantity = x.Quantity,
                     IncomingCost = x.Amount,
@@ -1499,6 +1500,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "مرتجع مشتريات",
+                    ActionNumber = x.PurchaseBackInvoice.InvoiceNumber,
                     ActionDate = x.PurchaseBackInvoice.InvoiceDate.ToString(),
                     OutcomingQuantity = x.Quantity,
                     OutcomingCost = x.Amount,
@@ -1517,6 +1519,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "بيع",
+                    ActionNumber = x.SellInvoice.InvoiceNumber,
                     ActionDate = x.SellInvoice.InvoiceDate.ToString(),
                     OutcomingQuantity = x.Quantity,
                     OutcomingCost = x.Amount,
@@ -1535,6 +1538,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "مرتجع بيع ",
+                    ActionNumber = x.SellBackInvoice.InvoiceNumber,
                     ActionDate = x.SellBackInvoice.InvoiceDate.ToString(),
                     IncomingQuantity = x.Quantity,
                     IncomingCost = x.Amount,
@@ -1553,6 +1557,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "قطع غيار",
+                    ActionNumber = x.MaintenanceDetail != null ? x.MaintenanceDetail.Maintenance.InvoiceNumber : null,
                     ActionDate = x.MaintenanceDetail != null ? x.MaintenanceDetail.Maintenance.InvoiceDate.ToString() : null,
                     IncomingQuantity = x.Quantity,
                     IncomingCost = x.Amount,
@@ -1608,6 +1613,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "فرق جرد",
+                    ActionNumber = x.InventoryInvoice.InvoiceNumber,
                     ActionDate = x.InventoryInvoice.InvoiceDate.ToString(),
                     IncomingQuantity = x.DifferenceCount > 0 ? x.DifferenceCount : 0,
                     IncomingCost = x.DifferenceAmount > 0 ? x.DifferenceAmount : 0,
@@ -1630,6 +1636,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "امر انتاج وارد",
+                    ActionNumber = x.ProductionOrder.OrderNumber,
                     ActionDate = x.ProductionOrder.ProductionOrderDate.ToString(),
                     IncomingQuantity = x.Quantity + x.Quantitydamage ,
                     IncomingCost = x.ItemCost,
@@ -1648,6 +1655,7 @@ namespace ERP.Web.Services
                 .Select(x => new ItemMovementdDto
                 {
                     ActionType = "امر انتاج صادر",
+                    ActionNumber = x.ProductionOrder.OrderNumber,
                     ActionDate = x.ProductionOrder.ProductionOrderDate.ToString(),
                     OutcomingQuantity = x.Quantity + x.Quantitydamage,
                     OutcomingCost = x.ItemCost,

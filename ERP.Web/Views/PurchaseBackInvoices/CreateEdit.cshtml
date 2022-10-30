@@ -17,11 +17,15 @@
     string accountVisiable = "none";
     string checkedAttrSafe = "";
     string checkedAttrAccount = "";
+    string disabledAttrSafeAccount = "";
+
     if (Model.Id == Guid.Empty)
     {
         title = "تسجبل فاتورة مرتجع توريد";
         btn = "اضافة";
         icon = "fa fa-plus-circle m-1";
+        disabledAttrSafeAccount = "disabled";
+
     }
     else
     {
@@ -175,13 +179,13 @@
                                             <div class="radio-inline">
                                                 <div class="col-xl-6">
                                                     <label class="radio">
-                                                        <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="PurchaseBackInvoice_Module.onRdoSafeChanged();" />
+                                                        <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe @disabledAttrSafeAccount onchange="PurchaseBackInvoice_Module.onRdoSafeChanged();" />
                                                         <span></span>خزينة
                                                     </label>
                                                 </div>
                                                 <div class="col-xl-6">
                                                     <label class="radio">
-                                                        <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="PurchaseBackInvoice_Module.onRdoBankChanged();" />
+                                                        <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount @disabledAttrSafeAccount onchange="PurchaseBackInvoice_Module.onRdoBankChanged();" />
                                                         <span></span>بنك
                                                     </label>
                                                 </div>
@@ -351,7 +355,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>.</label>
-                                            <button type="button" onclick="PurchaseBackInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
+                                            <button type="button" onclick="PurchaseBackInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -431,7 +435,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>.</label>
-                                            <button type="button" onclick="PurchaseBackInvoice_Module.addPurchaseBackInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة مصروف</button>
+                                            <button type="button" onclick="PurchaseBackInvoice_Module.addPurchaseBackInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 py-4 w-100">اضافة مصروف</button>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -598,14 +602,11 @@
 @section Scripts
 {
     <script src="~/assets/JSCustom/PurchaseBackInvoice.js"></script>
-    <!--begin::Page Scripts(used by this page)-->
-    <script src="~/assets/JSCustom/JSMetronic/wizard-PurchaseInvo.js"></script>
-    <!--end::Page Scripts-->
     <script type="text/javascript">
         $(document).ready(function () {
             PurchaseBackInvoice_Module.initItemDetails();
             PurchaseBackInvoice_Module.initPurchaseBackInvoiceExpenses();
-            $("#rdo_safe,#rdo_bank").attr("disabled", true);
+            //$("#rdo_safe,#rdo_bank").attr("disabled", true);
             //الانتقال بين الحقول بالانتر وعند اضافة صنف
             $("#Quantity").keydown(function (e) {
                 if (e.keyCode == 13) {

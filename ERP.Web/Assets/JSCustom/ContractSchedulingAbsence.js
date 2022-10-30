@@ -105,7 +105,7 @@ var ContractSchedulingAbsence_Module = function () {
 							</a></div>\
 						';
                             //                     <a href="javascript:;" onclick=ContractSchedulingAbsence_Module.ApprovalContractSchedulingAbsence(\''+ row.Id + '\') class= "btn btn-sm btn-clean btn-icUrln" title="اعتماد السلفة" >\
-                            //	< i class= "fa fa-check-square-o" ></i >\
+                            //	< i class= "fa fa-unlock-alt" ></i >\
                             //</a >
                         } else {
                             return '\

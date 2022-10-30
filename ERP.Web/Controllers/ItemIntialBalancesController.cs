@@ -27,11 +27,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth;
         StoreService storeService;
+        ItemService itemService;
         public ItemIntialBalancesController()
         {
             db= new VTSaleEntities();
             auth = new VTSAuth();
             storeService= new StoreService();   
+            itemService= new ItemService();   
         }
         public static string DS { get; set; }
 
@@ -313,6 +315,10 @@ namespace ERP.Web.Controllers
                         auth = TempData["userInfo"] as VTSAuth;
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                    ////هل الصنف يسمح بالسحب منه بالسالب
+                    //var result = itemService.IsAllowNoBalance(model.ItemId, model.StoreId, model.Quantity);
+                    //if (!result.IsValid)
+                    //    return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
@@ -348,6 +354,10 @@ namespace ERP.Web.Controllers
                         auth = TempData["userInfo"] as VTSAuth;
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                    //هل الصنف يسمح بالسحب منه بالسالب
+                    var result = itemService.IsAllowNoBalance(model.ItemId, model.StoreId, model.Quantity);
+                    if (!result.IsValid)
+                        return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
 
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
@@ -364,7 +374,7 @@ namespace ERP.Web.Controllers
                     }
 
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                        return Json(new { isValid = true, message = "تم الحذف بنجاح" });
+                        return Json(new { isValid = true, message = "تم فك الاعتماد بنجاح" });
                     else
                         return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
                 }

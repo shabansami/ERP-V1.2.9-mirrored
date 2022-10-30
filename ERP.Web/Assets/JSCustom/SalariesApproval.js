@@ -109,7 +109,7 @@ var SalariesApproval_Module = function () {
 							<a href="/SalariesApproval/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="استعراض وتعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\<a href="javascript:;"  onclick=SalariesApproval_Module.ApprovalSalary("' + row.Id + '") class="btn btn-sm btn-clean btn-icon" title="اعتماد الراتب">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a>\</div>\
 						';
                     } else {

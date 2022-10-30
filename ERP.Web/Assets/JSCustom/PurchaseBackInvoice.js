@@ -101,30 +101,64 @@ var PurchaseBackInvoice_Module = function () {
                 targets: -1,
                 title: 'عمليات',
                 orderable: false,
-                    render: function (data, type, row, meta) {
-                        return '\
+                render: function (data, type, row, meta) {
+                    var ele = '\
 							<div class="btn-group">\
-							<a href="/PurchaseBackInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
-								<i class="fa fa-edit"></i>\
-							</a>\<a href="/PurchaseBackInvoices/ShowPurchaseBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
+							<a href="/PurchaseBackInvoices/ShowPurchaseBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
 								<i class="fa fa-search"></i>\
 							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',null);" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة">\
 								<i class="fa fa-print"></i>\
 							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',\'quantityOnly\');" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة كميات">\
 								<i class="fa fa-print"></i>\
-							</a>\<a href="#" onclick="PrintInvoice_Module.DownloadInvoice(\''+ row.Id +'\',\'purchaseBack\');" class="btn btn-sm btn-clean btn-icon" title="تنزيل فاتورة">\
+							</a>\<a href="#" onclick="PrintInvoice_Module.DownloadInvoice(\''+ row.Id + '\',\'purchaseBack\');" class="btn btn-sm btn-clean btn-icon" title="تنزيل فاتورة">\
 								<i class="fa fa-download"></i>\
 							</a>\
-							<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="fa fa-trash"></i>\
-							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id+'" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
+							<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
 								<i class="fa fa-upload"></i>\
 							</a><a href="/PurchaseBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
-							</a>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=3" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="fa fa-money"></i>\
-							</a>\</div>\
+								<i class="fa fa-random"></i>\
+							</a>\
 						';
+                    if (row.IsFinalApproval) {
+                        ele += '<a href="/GeneralDailies/Index/?tranId=' + row.Id + '&tranTypeId=3" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+								<i class="fa fa-money-bill"></i>\
+							</a>\<ahref="javascript:;" onclick=PurchaseBackInvoice_Module.unApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icon" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i>\
+							</a>';
+
+                    } else {
+                        ele += '<a href="/PurchaseBackInvoices/Edit/?invoGuid=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+								<i class="fa fa-edit"></i>\
+							</a>\<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+								<i class="fa fa-trash"></i>\
+							</a>';
+                    }
+
+                    return ele + '</div>';
+
+      //                  return '\
+						//	<div class="btn-group">\
+						//	<a href="/PurchaseBackInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+						//		<i class="fa fa-edit"></i>\
+						//	</a>\<a href="/PurchaseBackInvoices/ShowPurchaseBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
+						//		<i class="fa fa-search"></i>\
+						//	</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',null);" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة">\
+						//		<i class="fa fa-print"></i>\
+						//	</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',\'quantityOnly\');" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة كميات">\
+						//		<i class="fa fa-print"></i>\
+						//	</a>\<a href="#" onclick="PrintInvoice_Module.DownloadInvoice(\''+ row.Id +'\',\'purchaseBack\');" class="btn btn-sm btn-clean btn-icon" title="تنزيل فاتورة">\
+						//		<i class="fa fa-download"></i>\
+						//	</a>\
+						//	<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+						//		<i class="fa fa-trash"></i>\
+						//	</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id+'" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
+						//		<i class="fa fa-upload"></i>\
+						//	</a><a href="/PurchaseBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
+						//		<i class="fa fa-random"></i>\
+						//	</a>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=3" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+						//		<i class="fa fa-money-bill"></i>\
+						//	</a>\</div>\
+						//';
                    
 },
                         }
@@ -225,6 +259,41 @@ var PurchaseBackInvoice_Module = function () {
         }).then((result) => {
             if (result.value) {
                 var url = '/PurchaseBackInvoices/Delete';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "invoGuid": invoGuid
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+    function unApproval(invoGuid) {
+        Swal.fire({
+            title: 'تأكيد فك الاعتماد',
+            text: 'هل متأكد من فك الاعتماد ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/PurchaseBackInvoices/UnApproval';
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -908,6 +977,7 @@ var PurchaseBackInvoice_Module = function () {
         getSupplierOnCategoryChange: getSupplierOnCategoryChange,
         onItemChange: onItemChange,
         onProductionOrderChange: onProductionOrderChange,
+        unApproval: unApproval,
     };
 
 }();

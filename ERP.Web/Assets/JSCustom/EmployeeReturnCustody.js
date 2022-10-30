@@ -104,7 +104,7 @@ var EmployeeReturnCustody_Module = function () {
 							<a href="javascript:;" onclick=EmployeeReturnCustody_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=EmployeeReturnCustody_Module.ApprovalCustody(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد السلفة">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a></div>\
 						';
                     } else {

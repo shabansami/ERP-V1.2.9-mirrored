@@ -115,19 +115,34 @@ var StoresTransfer_Module = function () {
                     title: 'عمليات',
                     orderable: false,
                     render: function (data, type, row, meta) {
-     
+                        if (row.IsFinalApproval || row.IsRefusStore) {
+                            return '\
+							<div class="btn-group">\
+                                <a href="/StoresTransfers/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
+								<i class="fa fa-random"></i>\
+							</a>\<a href="/StoresTransfers/ShowDetails/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
+								<i class="fa fa-search"></i>\
+							</a>\<ahref="javascript:;" onclick=StoresTransfer_Module.unApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icon" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i>\
+							</a>\</div>\
+						';
+                        } else {
                             return '\
 							<div class="btn-group">\
                                 <a href="/StoresTransfers/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a><a href="/StoresTransfers/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a>\<a href="/StoresTransfers/ShowDetails/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
 								<i class="fa fa-search"></i>\
 							</a>\<a href="javascript:;" onclick=StoresTransfer_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
+							</a><a href="javascript:;" onclick=StoresTransfer_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
+								<i class="fa fa-lock-alt"></i>\
 							</a></div>\
 						';
+                        }
+                            
                        
                        
                     }
@@ -220,6 +235,41 @@ var StoresTransfer_Module = function () {
         }).then((result) => {
             if (result.value) {
                 var url = '/StoresTransfers/Delete';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": invoGuid
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+    function unApproval(invoGuid) {
+        Swal.fire({
+            title: 'تأكيد فك الاعتماد',
+            text: 'هل متأكد من فك الاعتماد ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/StoresTransfers/UnApproval';
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -663,6 +713,7 @@ var StoresTransfer_Module = function () {
         //getSaleMenDepartmentChange: getSaleMenDepartmentChange,
         onRdoBarcodeChanged: onRdoBarcodeChanged,
         onRdoSerialChanged: onRdoSerialChanged,
+        unApproval: unApproval,
     };
 
 }();

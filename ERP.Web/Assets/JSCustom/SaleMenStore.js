@@ -102,7 +102,7 @@ var SaleMenStore_Module = function () {
 							<a href="javascript:;" onclick=SaleMenStore_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف ارتباط بخزن">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="/SaleMenStores/ShowHistory/?empGuid='+ row.EmpGuid + '" class="btn btn-sm btn-clean btn-icon" title="عرض حركات تغيير المخزن ">\
-								<i class="fa fa-sliders"></i>\
+								<i class="fa fa-random"></i>\
 							</a></div>\
 						';
 },

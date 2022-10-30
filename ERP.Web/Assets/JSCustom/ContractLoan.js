@@ -103,14 +103,14 @@ var ContractLoan_Module = function () {
 							<a href="javascript:;" onclick=ContractLoan_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=ContractLoan_Module.ApprovalContractLoan(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد السلفة">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a></div>\
 						';
                     } else {
                         return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=ContractLoan_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-check-square-o"></i></a>\</div>\
+								<i class="fa fa-unlock-alt"></i></a>\</div>\
 						';
                     }
 },

@@ -109,7 +109,7 @@ var Expense_Module = function () {
 								<i class="fa fa-edit"></i>\
 							</a>\
                                 <a href="javascript:;" onclick=Expense_Module.ApprovalExpense(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a><a href="javascript:;" onclick=Expense_Module.deleteRowExpense(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a></div>\
@@ -118,8 +118,8 @@ var Expense_Module = function () {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=Expense_Module.UnApprovalExpense(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-check-square-o"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=7" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="fa fa-money"></i>\
+								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=7" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+								<i class="fa fa-money-bill"></i>\
 							</a>\</div>\
 						';
                         }

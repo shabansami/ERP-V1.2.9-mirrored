@@ -116,7 +116,7 @@ var Contract_Module = function () {
 							<a href="javascript:;" onclick=Contract_Module.deleteRow("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=Contract_Module.ApprovalContract("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
 								<i class="fa fa-upload"></i>\
 							</a></div>\

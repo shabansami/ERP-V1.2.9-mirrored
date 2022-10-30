@@ -74,7 +74,7 @@
                                     <thead>
                                         <tr>
                                             <th>نوع المعاملة</th>
-                                            <th>رقم المعاملة</th>
+                                            <th style="display:none;">رقم المعاملة</th>
                                             <th>تاريخ القيد</th>
                                             <th>رقم الحساب</th>
                                             <th>اسم الحساب</th>
@@ -89,7 +89,7 @@
                                             {
                                                 <tr>
                                                     <td>@item.TransactionsType.Name</td>
-                                                    <td>@item.TransactionId</td>
+                                                    <td style="display:none;">@item.TransactionId</td>
                                                     <td>@item.TransactionDate.Value.ToString("yyyy-MM-dd")</td>
                                                     <td>@item.AccountsTree.AccountNumber</td>
                                                     <td>@item.AccountsTree.AccountName</td>

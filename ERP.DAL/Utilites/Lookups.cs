@@ -230,6 +230,8 @@ namespace ERP.Web.Utilites
             BackInvoiceSaleMenCreated, //تم تسجيل فاتورة مرتجع من خلال مندوب
             BackInvoiceSaleModified,//تم تعديل الفاتورة مرتجع من خلال المندوب 
 
+            InvoiceUnApproval, //تم فك الاعتماد للفاتورة   
+
             //MaintenanceInvoiceCreated, //تم تسجيل فاتورة صيانة
             //MaintenanceInvoiceModified,//تم تعديل فاتورة الصيانة 
             //MaintenanceInvoiceDeleted,//تم حذف الفاتورة  
@@ -322,6 +324,7 @@ namespace ERP.Web.Utilites
             StoreTransferStoreRefus, //تم رفض التحويل مخزنيا
             StoreTransferQuantityDiffReal, //تم ادخال كميات فعلية مختلفة عن الاصلية 
             StoreTransferFinalApproval, //تم اعتمادها بشكل نهائى 
+            StoreTransferUnApproval, //فك اعتماد تحويل مخزنى 
 
 
         }

@@ -106,7 +106,7 @@ var Supplier_Module = function () {
 							<a href="/Suppliers/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
                             </a><a href="javascript:;" onclick=Supplier_Module.UnActivePerson("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="ايقاف نشاط">\
-								<i class="fa fa-check-square-o"></i>\
+								<i class="fa fa-unlock-alt"></i>\
 							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات للمورد">\
 								<i class="fa fa-upload"></i>\
 							</a>\

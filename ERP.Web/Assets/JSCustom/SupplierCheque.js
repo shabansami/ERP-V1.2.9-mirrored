@@ -111,19 +111,19 @@ var SupplierCheque_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a  href="/SupplierChequeCollections/Collection/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تحصيل">\
-								<i class="fa fa-money"></i>\
+								<i class="fa fa-money-bill"></i>\
 							</a>\
                                 <a href="/SupplierChequeRefuses/Refuse/'+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفض/إرجاع الشيك">\
 								<i class="fa fa-ban"></i>\
 							</a><a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=11" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="fa fa-money"></i>\
+								<i class="fa fa-money-bill"></i>\
 							</a>\</div>\
 						';
                         }  else {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=11" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="fa fa-money"></i>\
+								<i class="fa fa-money-bill"></i>\
 							</a>\</div>\
 						';
                         }

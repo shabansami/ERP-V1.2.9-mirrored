@@ -45,7 +45,7 @@ namespace ERP.Web.Controllers
             if (TempData["txtSearch"] != null)
             {
                 txtSearch = TempData["txtSearch"].ToString();
-                var items = db.Items.Where(x => !x.IsDeleted && (x.ItemCode == txtSearch || x.Name.Contains(txtSearch) || x.BarCode.Contains(txtSearch))).OrderBy(x => x.CreatedOn).ToList().Select(x => new { Id = x.Id, LastPurchasePrice = itemService.GetLastPurchasePrice(x.Id, db).ToString(), GroupBasicName = x.GroupBasic.Name, GroupSellName = x.GroupSell?.Name, ItemTypeName = x.ItemType.Name, Name = x.Name, SellPrice = x.SellPrice, Actions = n, Num = n }).ToList();
+                var items = db.Items.Where(x => !x.IsDeleted && (x.ItemCode == txtSearch || x.Name.Contains(txtSearch) || x.BarCode.Contains(txtSearch))).OrderBy(x => x.CreatedOn).ToList().Select(x => new { Id = x.Id, LastPurchasePrice = itemService.GetLastPurchasePrice(x.Id, db).ToString(), GroupBasicName = x.GroupBasic.Name, GroupSellName = x.GroupSell?.Name, ItemTypeName = x.ItemType.Name, Name = x.Name, SellPrice = x.SellPrice, ItemCode = x.ItemCode, Actions = n, Num = n }).ToList();
 
                 return Json(new
                 {
@@ -55,7 +55,7 @@ namespace ERP.Web.Controllers
             }
             else
             {
-                var items = db.Items.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).ToList().Select(x => new { Id = x.Id, LastPurchasePrice = itemService.GetLastPurchasePrice(x.Id, db).ToString(), GroupBasicName = x.GroupBasic.Name, GroupSellName = x.GroupSell?.Name, ItemTypeName = x.ItemType.Name, Name = x.Name, SellPrice = x.SellPrice, Actions = n, Num = n }).ToList();
+                var items = db.Items.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).ToList().Select(x => new { Id = x.Id, LastPurchasePrice = itemService.GetLastPurchasePrice(x.Id, db).ToString(), GroupBasicName = x.GroupBasic.Name, GroupSellName = x.GroupSell?.Name, ItemTypeName = x.ItemType.Name, Name = x.Name, SellPrice = x.SellPrice, ItemCode = x.ItemCode, Actions = n, Num = n }).ToList();
                 return Json(new
                 {
                     data = items

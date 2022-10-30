@@ -17,12 +17,16 @@
     string accountVisiable = "none";
     string checkedAttrSafe = "";
     string checkedAttrAccount = "";
+    string disabledAttrSafeAccount = "";
+
     string showDiv = "none";
     if (Model.Id == Guid.Empty)
     {
         title = "تسجبل فاتورة مرتجع بيع";
         btn = "اضافة";
         icon = "fa fa-plus-circle m-1";
+        disabledAttrSafeAccount = "disabled";
+
     }
     else
     {
@@ -229,13 +233,13 @@
                                         <div class="radio-inline">
                                             <div class="col-xl-6">
                                                 <label class="radio">
-                                                    <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="SellBackInvoice_Module.onRdoSafeChanged();" />
+                                                    <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe @disabledAttrSafeAccount onchange="SellBackInvoice_Module.onRdoSafeChanged();" />
                                                     <span></span>خزينة
                                                 </label>
                                             </div>
                                             <div class="col-xl-6">
                                                 <label class="radio">
-                                                    <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="SellBackInvoice_Module.onRdoBankChanged();" />
+                                                    <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount @disabledAttrSafeAccount onchange="SellBackInvoice_Module.onRdoBankChanged();" />
                                                     <span></span>بنك
                                                 </label>
                                             </div>
@@ -388,7 +392,7 @@
                                     <!--begin::Input-->
                                     <div class="form-group">
                                         <label>.</label>
-                                        <button type="button" onclick="SellBackInvoice_Module.addItemDetails();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
+                                        <button type="button" onclick="SellBackInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
                                     </div>
                                     <!--end::Input-->
                                 </div>
@@ -470,7 +474,7 @@
                                     <!--begin::Input-->
                                     <div class="form-group">
                                         <label>.</label>
-                                        <button type="button" onclick="SellBackInvoice_Module.addSellBackInvoiceExpenses();" class="btn btn-warning font-weight-bold  px-15 py-4 w-100">اضافة إيراد</button>
+                                        <button type="button" onclick="SellBackInvoice_Module.addSellBackInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 py-4 w-100">اضافة إيراد</button>
                                     </div>
                                     <!--end::Input-->
                                 </div>
@@ -645,14 +649,11 @@
 @section Scripts
 {
     <script src="~/Assets/JSCustom/SellBackInvoice.js"></script>
-    <!--begin::Page Scripts(used by this page)-->
-    <script src="~/Assets/JSCustom/JSMetronic/wizard-PurchaseInvo.js"></script>
-    <!--end::Page Scripts-->
     <script type="text/javascript">
         $(document).ready(function () {
             SellBackInvoice_Module.initItemDetails();
             SellBackInvoice_Module.initSellBackInvoiceExpenses();
-            $("#rdo_safe,#rdo_bank").attr("disabled", true);
+            //$("#rdo_safe,#rdo_bank").attr("disabled", true);
             //الانتقال بين الحقول بالانتر وعند اضافة صنف
             $("#Quantity").keydown(function (e) {
                 if (e.keyCode == 13) {

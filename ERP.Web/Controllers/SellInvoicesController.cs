@@ -54,7 +54,7 @@ namespace ERP.Web.Controllers
                 txtSearch = TempData["txtSearch"].ToString();
                 return Json(new
                 {
-                    data = db.SellInvoices.Where(x => !x.IsDeleted && (x.Id.ToString() == txtSearch || x.PersonCustomer.Name.Contains(txtSearch) || x.Employee.Person.Name.Contains(txtSearch))).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, EmployeeName = x.Employee.Person.Name, PaymentTypeName = x.PaymentType.Name, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, Actions = n, Num = n }).ToList()
+                    data = db.SellInvoices.Where(x => !x.IsDeleted && (x.Id.ToString() == txtSearch || x.PersonCustomer.Name.Contains(txtSearch) || x.Employee.Person.Name.Contains(txtSearch))).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, EmployeeName = x.Employee.Person.Name, PaymentTypeName = x.PaymentType.Name, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval=x.IsFinalApproval, Actions = n, Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet); ;
             }
             else
@@ -67,13 +67,13 @@ namespace ERP.Web.Controllers
 
                     return Json(new
                     {
-                        data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, EmployeeName = x.Employee.Person.Name, InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, Actions = n, Num = n }).ToList()
+                        data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, EmployeeName = x.Employee.Person.Name, InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
                     }, JsonRequestBehavior.AllowGet);
                 }
                 else
                     return Json(new
                     {
-                        data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, EmployeeName = x.Employee.Person.Name, InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, Actions = n, Num = n }).ToList()
+                        data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, EmployeeName = x.Employee.Person.Name, InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
                     }, JsonRequestBehavior.AllowGet);
             }
         }
@@ -1034,13 +1034,13 @@ namespace ERP.Web.Controllers
                         auth = TempData["userInfo"] as VTSAuth;
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-                    //هل الصنف يسمح بالسحب منه بالسالب
-                    foreach (var item in model.SellInvoicesDetails.Where(x=>!x.IsDeleted))
-                    {
-                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId);
-                        if (!result.IsValid)
-                            return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
-                    }
+                    ////هل الصنف يسمح بالسحب منه بالسالب
+                    //foreach (var item in model.SellInvoicesDetails.Where(x=>!x.IsDeleted))
+                    //{
+                    //    var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId,item.Quantity);
+                    //    if (!result.IsValid)
+                    //        return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
+                    //}
 
                     model.IsDeleted = true;
                     model.CaseId = (int)CasesCl.InvoiceDeleted;
@@ -1145,7 +1145,64 @@ namespace ERP.Web.Controllers
 
         #endregion
 
+        #region فك الاعتماد 
+        [HttpPost]
+        public ActionResult UnApproval(string invoGuid)
+        {
+            Guid Id;
+            if (Guid.TryParse(invoGuid, out Id))
+            {
+                var model = db.SellInvoices.Where(x => x.Id == Id).FirstOrDefault();
+                if (model != null)
+                {
+                    if (TempData["userInfo"] != null)
+                        auth = TempData["userInfo"] as VTSAuth;
+                    else
+                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                    //هل الصنف يسمح بالسحب منه بالسالب
+                    foreach (var item in model.SellInvoicesDetails.Where(x => !x.IsDeleted))
+                    {
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId, item.Quantity);
+                        if (!result.IsValid)
+                            return Json(new { isValid = false, message = $"لا يمكن فك الاعتماد بسبب تأثر ارصده للصنف  {result.ItemNotAllowed}" });
+                    }
 
+                    model.IsFinalApproval = false;
+                    model.IsApprovalStore = false;
+                    model.IsApprovalAccountant = false;
+                    model.CaseId = (int)CasesCl.InvoiceUnApproval;
+                    db.Entry(model).State = EntityState.Modified;
+                    //اضافة الحالة 
+                    db.CasesSellInvoiceHistories.Add(new CasesSellInvoiceHistory
+                    {
+                        SellInvoice = model,
+                        IsSellInvoice = true,
+                        CaseId = (int)CasesCl.InvoiceUnApproval
+                    });
+                    
+                    var generalDalies = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == model.Id && x.TransactionTypeId == (int)TransactionsTypesCl.Sell).ToList();
+                    // حذف كل القيود 
+                    foreach (var generalDay in generalDalies)
+                    {
+                        generalDay.IsDeleted = true;
+                        db.Entry(generalDay).State = EntityState.Modified;
+                    }
+                   
+                    if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                        return Json(new { isValid = true, message = "تم فك الاعتماد بنجاح" });
+                    else
+                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                }
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+        }
+
+        #endregion
         #region الاعتماد النهائى للفاتورة 
         public ActionResult GetFinalApproval()
         {

@@ -21,7 +21,8 @@ namespace ERP.DAL
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=demo_accounting;user id=demo_accounting;password=m8_kK06y2;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=speedaddress;user id=speedaddress;password=m4_E1w13x;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sg_erp_db;user id=sg_erp_db;password=x_04p70aM;Persist Security Info=True;";
-        static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=sg_erp_db;integrated security=True;";
+        static string connectionString = @"data source=38.242.246.148,1433;initial catalog=pekar-eg;user id=pekar-eg;password=Lbk@j9088;Persist Security Info=True;";
+        //static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=nn_db;integrated security=True;";
         //static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=ERPDb2144v2;Persist Security Info=True;User ID=vts;Password=vts-co2020;";
 
         public static readonly string Schema = "dbo";

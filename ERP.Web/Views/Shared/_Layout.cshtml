@@ -221,7 +221,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-6">
-                        @*<script>document.write(new Date().getFullYear())</script>*@ 
+                        @*<script>document.write(new Date().getFullYear())</script>*@
                     </div>
                     <div class="col-sm-6">
                         <div class="text-sm-end d-none d-sm-block">
@@ -257,7 +257,7 @@
     <script src="~/assets/libs/admin-resources/jquery.vectormap/jquery-jvectormap-1.2.2.min.js"></script>
     <script src="~/assets/libs/admin-resources/jquery.vectormap/maps/jquery-jvectormap-world-mill-en.js"></script>
     <!-- dashboard init -->
-    <script src="~/assets/js/pages/dashboard.init.js"></script>
+    @*<script src="~/assets/js/pages/dashboard.init.js"></script>*@
 
     <!-- Required datatable js -->
     <script src="~/assets/libs/datatables.net/js/jquery.dataTables.min.js"></script>
@@ -279,7 +279,6 @@
     <!-- Datatable init js -->
     <script src="~/assets/js/pages/datatables.init.js"></script>
 
-    <script src="~/assets/js/app.js"></script>
     <!-- twitter-bootstrap-wizard js -->
     <script src="~/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
     <script src="~/assets/libs/twitter-bootstrap-wizard/prettify.js"></script>
@@ -287,25 +286,33 @@
     <!-- form wizard init -->
     <script src="~/assets/js/pages/form-wizard.init.js"></script>
     <!-- choices js -->
-    <script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    @*<script src="~/assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>*@
 
 
     <!-- datepicker js -->
     <script src="~/assets/libs/flatpickr/flatpickr.min.js"></script>
     <!-- color picker js -->
-    <script src="~/assets/libs/simonwep/pickr/pickr.min.js"></script>
-    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>
+    @*<script src="~/assets/libs/simonwep/pickr/pickr.min.js"></script>
+    <script src="~/assets/libs/simonwep/pickr/pickr.es5.min.js"></script>*@
 
     <!-- init js -->
-    <script src="~/assets/js/pages/form-advanced.init.js"></script>
     <script src="~/assets/js/pages/bootstrap-toasts.init.js"></script>
     <!-- choices js -->
-    <script src="~/Assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>
+    @*<script src="~/Assets/libs/choices.js/public/assets/scripts/choices.min.js"></script>*@
     <!-- init js -->
-    <script src="~/Assets/js/pages/form-advanced.init.js"></script>
+    @*<script src="~/Assets/js/pages/form-advanced.init.js"></script>*@
     <script src="~/Assets/js/toastr.min.js"></script>
     <script src="~/Assets/JSCustom/JQuery_Sum.js"></script>
     <script src="~/Assets/plugins/Select2/select2.full.min.js"></script>
+    <!-- DropDown tree-->
+    <script src="~/Assets/plugins/DropDownComboTree/comboTreePlugin.js"></script>
+    <!-- Sweet Alerts js -->
+    <script src="~/Assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+    <!-- Sweet alert init js-->
+    @*<script src="~/Assets/js/pages/sweetalert.init.js"></script>*@
+    <script src="~/assets/js/app.js"></script>
+
     <script>
         toastr.options = {
             "closeButton": false,
@@ -325,13 +332,6 @@
             "hideMethod": "fadeOut"
         };
     </script>
-    <!-- DropDown tree-->
-    <script src="~/Assets/plugins/DropDownComboTree/comboTreePlugin.js"></script>
-    <!-- Sweet Alerts js -->
-    <script src="~/Assets/libs/sweetalert2/sweetalert2.min.js"></script>
-
-    <!-- Sweet alert init js-->
-    <script src="~/Assets/js/pages/sweetalert.init.js"></script>
 
     <script type="text/javascript">
         //========Prevent Double Click in jQuery

@@ -551,40 +551,40 @@ namespace ERP.Web.Controllers
                                         }
 
                                         //تحديد نوع الجرد
-                                        var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                                        Guid accountTreeInventoryType;
-                                        if (int.TryParse(inventoryType, out int inventoryTypeVal))
-                                        {
-                                            //فى حالة الجرد المستمر
-                                            //من ح/ المخزون
-                                            accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
-                                            context.GeneralDailies.Add(new GeneralDaily
-                                            {
-                                                AccountsTreeId = accountTreeInventoryType,
-                                                BranchId = model.BranchId,
-                                                Debit = model.TotalValue,
-                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                TransactionDate = model.InvoiceDate,
-                                                TransactionId = model.Id,
-                                                TransactionShared = model.Id,
-                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                            });
-                                            // الى ح/  تكلفة بضاعه مباعه
-                                            context.GeneralDailies.Add(new GeneralDaily
-                                            {
-                                                AccountsTreeId = Lookups.StockSellCost,
-                                                BranchId = model.BranchId,
-                                                Credit = model.TotalValue,
-                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                TransactionDate = model.InvoiceDate,
-                                                TransactionId = model.Id,
-                                                TransactionShared = model.Id,
-                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                            });
-                                        }
-                                        else
-                                            return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                                        //============================================
+                                        //var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                        //Guid accountTreeInventoryType;
+                                        //if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                        //{
+                                        //    //فى حالة الجرد المستمر
+                                        //    //من ح/ المخزون
+                                        //    accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
+                                        //    context.GeneralDailies.Add(new GeneralDaily
+                                        //    {
+                                        //        AccountsTreeId = accountTreeInventoryType,
+                                        //        BranchId = model.BranchId,
+                                        //        Debit = model.TotalValue,
+                                        //        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                        //        TransactionDate = model.InvoiceDate,
+                                        //        TransactionId = model.Id,
+                                        //        TransactionShared = model.Id,
+                                        //        TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        //    });
+                                        //    // الى ح/  تكلفة بضاعه مباعه
+                                        //    context.GeneralDailies.Add(new GeneralDaily
+                                        //    {
+                                        //        AccountsTreeId = Lookups.StockSellCost,
+                                        //        BranchId = model.BranchId,
+                                        //        Credit = model.TotalValue,
+                                        //        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                        //        TransactionDate = model.InvoiceDate,
+                                        //        TransactionId = model.Id,
+                                        //        TransactionShared = model.Id,
+                                        //        TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        //    });
+                                        //}
+                                        //else
+                                        //    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                        ////============================================
 
                                         // حساب مرتجع المبيعات
                                         context.GeneralDailies.Add(new GeneralDaily

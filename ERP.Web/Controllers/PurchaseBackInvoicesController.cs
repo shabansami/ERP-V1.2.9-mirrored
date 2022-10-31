@@ -527,26 +527,26 @@ namespace ERP.Web.Controllers
                                         }
 
                                         //تحديد نوع الجرد
-                                        var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                                        Guid accountTreeInventoryType;
-                                        if (int.TryParse(inventoryType, out int inventoryTypeVal))
-                                        {
-                                            if (inventoryTypeVal == 1)//جرد دورى
-                                                                      //حساب مرتجع المشتريات
-                                                accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue);
-                                            else if (inventoryTypeVal == 2)//جرد مستمر
-                                                                           //حساب المخزون
-                                                accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
-                                            else
-                                                return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                                        }
-                                        else
-                                            return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                        //var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                        //Guid accountTreeInventoryType;
+                                        //if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                        //{
+                                        //    if (inventoryTypeVal == 1)//جرد دورى
+                                        //                              //حساب مرتجع المشتريات
+                                        //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue);
+                                        //    else if (inventoryTypeVal == 2)//جرد مستمر
+                                        //                                   //حساب المخزون
+                                        //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
+                                        //    else
+                                        //        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                        //}
+                                        //else
+                                        //    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
 
                                         // حساب مرتجع المشتريات
                                         context.GeneralDailies.Add(new GeneralDaily
                                         {
-                                            AccountsTreeId = accountTreeInventoryType,
+                                            AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue),
                                             BranchId = model.BranchId,
                                             Credit = model.TotalValue,
                                             Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
@@ -950,21 +950,21 @@ namespace ERP.Web.Controllers
                             }
 
                             //تحديد نوع الجرد
-                            var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                            Guid accountTreeInventoryType;
-                            if (int.TryParse(inventoryType, out int inventoryTypeVal))
-                            {
-                                if (inventoryTypeVal == 1)//جرد دورى
-                                                          //حساب مرتجع المشتريات
-                                    accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue);
-                                else if (inventoryTypeVal == 2)//جرد مستمر
-                                                               //حساب المخزون
-                                    accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
-                                else
-                                    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                            }
-                            else
-                                return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                            //var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                            //Guid accountTreeInventoryType;
+                            //if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                            //{
+                            //    if (inventoryTypeVal == 1)//جرد دورى
+                            //                              //حساب مرتجع المشتريات
+                            //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue);
+                            //    else if (inventoryTypeVal == 2)//جرد مستمر
+                            //                                   //حساب المخزون
+                            //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
+                            //    else
+                            //        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                            //}
+                            //else
+                            //    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
 
 
                             // حساب المشتريات
@@ -974,7 +974,7 @@ namespace ERP.Web.Controllers
 
                             db.GeneralDailies.Add(new GeneralDaily
                             {
-                                AccountsTreeId = accountTreeInventoryType,
+                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue),
                                 BranchId = model.BranchId,
                                 Credit = model.TotalValue,
                                 Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",

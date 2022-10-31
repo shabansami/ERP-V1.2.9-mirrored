@@ -246,6 +246,7 @@ namespace ERP.DAL
                         db.Cases.Add(new Case { Name = "تم تعديل الفاتورة من خلال المندوب" });
                         db.Cases.Add(new Case { Name = "تم تسجيل فاتورة مرتجع من خلال مندوب" });
                         db.Cases.Add(new Case { Name = "تم تعديل فاتورة مرتجع من خلال المندوب" });
+                        db.Cases.Add(new Case { Name = "تم فك الاعتماد للفاتورة" });
                         //db.Cases.Add(new Case { Name = "تم تسجيل فاتورة صيانة" });
                         //db.Cases.Add(new Case { Name = "تم تعديل فاتورة الصيانة" });
                         //db.Cases.Add(new Case { Name = "تم حذف فاتورة صيانة" });

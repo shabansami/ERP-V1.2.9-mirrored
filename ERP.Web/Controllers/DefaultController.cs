@@ -29,7 +29,7 @@ namespace ERP.Web.Controllers
         public ActionResult Login(int? MsgBadLogin,string ErroeMsg)
         {
             //Lookups.ExcuteFirstInit();
-
+            //var t = VTSAuth.Encrypt("p@ssw0rd");
 
             ////////ItemImportDataZumurada itemImportDataZumurada = new ItemImportDataZumurada();
             ////////itemImportDataZumurada.Excute2();

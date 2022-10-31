@@ -11,110 +11,103 @@
 @section Button1Link{/DamageInvoices/Index}
 @section icon{<i class="fas fa-cog m-1"></i>}
 
+
 <div class="row">
-    <div class="col-12">
-        <div class="card din-bold">
-            <div class="card-header">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="invoice-title">
+                    <div class="d-flex align-items-start">
+                        <div class="flex-grow-1">
+                            <div class="mb-4">
+                                <h4>فاتورة هالك</h4>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <div class="mb-4">
+                                <h4 class="float-end font-size-16">
+                                    <img src="~/Assets/media/logos/white-logo.png" alt="" height="100">
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-1">
+                        <span class="din-bold">@Model.Notes</span>
+                    </p>
+
+                </div>
+                <hr class="my-4">
+
                 <div class="row">
-                    <div class="col-sm-6">
-                        <h4 class=" din-bold">فاتورة هالك</h4>
-                        <div class="d-flex flex-column align-items-md-end px-0">
-                            <!--begin::Logo-->
-                            <a href="#" class="mb-5">
-                                <img src="~/Assets/media/logos/logo-light.png" alt="" />
-                            </a>
-                            <!--end::Logo-->
-                            <span class="text-white d-flex flex-column align-items-md-end opacity-70">
-                                <span class="din-bold">@Model.Notes</span>
-                                <span></span>
-                            </span>
-                        </div>
+                    <div class="col-sm-3">
+                        <h6 class="font-weight-bolde mb-2r din-bold ylow">تاريخ الفاتورة</h6>
+                        <p class="din-med">@Model.InvoiceDate</p>
                     </div>
-                    <div class="border-bottom w-100 opacity-20"></div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolde mb-2r din-bold ylow">تاريخ الفاتورة</span>
-                            <span class="din-bold">@Model.InvoiceDate</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">المخزن</span>
-                            <span class="din-bold">
-                                @Model.Store.Name
-                            </span>
-                        </div>
+                    <div class="col-sm-3">
+                        <h6 class="font-weight-bolder mb-2 din-bold ylow">المخزن</h6>
+                        <p class="din-med">
+                            @Model.Store.Name
+                        </p>
                     </div>
-                    <div class="d-flex justify-content-between text-white pt-6">
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolde mb-2r din-bold ylow">الفرع</span>
-                            <span class="din-bold">@Model.Store.Branch.Name</span>
-                        </div>
-                        <div class="d-flex flex-column flex-root">
-                            <span class="font-weight-bolder mb-2 din-bold ylow">احتساب تكلفة الفروق</span>
-                            <span class="din-bold">@Model.ItemCostCalculation.Name</span>
-                        </div>
+                    <div class="col-sm-3">
+                        <h6 class="font-weight-bolde mb-2r din-bold ylow">الفرع</h6>
+                        <p class="din-med">@Model.Store.Branch.Name</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <h6 class="font-weight-bolder mb-2 din-bold ylow">احتساب تكلفة الفروق</h6>
+                        <p class="din-med">@Model.ItemCostCalculation.Name</p>
+                    </div>
 
-                    </div>
                 </div>
-            </div>
-            <!-- end: Invoice header-->
-            <!-- begin: Invoice body-->
-            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                <div class="col-md-9">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
-                                    <th class="text-right font-weight-bold text-muted text-uppercase din-bold">كمية الهالك</th>
-                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">تكلفة كمية الهالك</th>
+                <hr class="my-4">
+
+                <!-- end: Invoice header-->
+                <!-- begin: Invoice body-->
+
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase din-bold">كمية الهالك</th>
+                                <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">تكلفة كمية الهالك</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DamageInvoiceDetails)
+                            {
+                                <tr class="font-weight-boldest font-size-lg">
+                                    <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
+                                    <td class="text-right pt-7 din-bold">@item.Quantity</td>
+                                    <td class="text-right pt-7 din-bold">@item.CostQuantity</td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.DamageInvoiceDetails)
-                                {
-                                    <tr class="font-weight-boldest font-size-lg">
-                                        <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
-                                        <td class="text-right pt-7 din-bold">@item.Quantity</td>
-                                        <td class="text-right pt-7 din-bold">@item.CostQuantity</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                            }
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            <!-- end: Invoice body-->
-            <!-- begin: Invoice footer-->
-            <div class="border-bottom w-100 opacity-20"></div>
-            <div class="border-bottom w-100 opacity-20"></div>
+                <hr class="my-4">
 
-            <!-- end: Invoice footer-->
-            <!-- begin: Invoice footer ملخص الفاتورة-->
-            <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
-                <div class="col-md-9">
-                    <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
-                        <div class="d-flex flex-column text-md-center">
-                            <span class="font-size-lg font-weight-bolder mb-1 din-bold">اجمالى تكلفة الهوالك</span>
-                            <span class="font-size-h2 font-weight-boldest text-danger mb-1 din-bold">@Model.TotalCostQuantityAmount</span>
-                            @*<span>Taxes Included</span>*@
-                        </div>
+                <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                    <div class="d-flex flex-column text-md-center">
+                        <span class="font-size-lg font-weight-bolder mb-1 din-bold">اجمالى تكلفة الهوالك</span>
+                        <span class="font-size-h2 font-weight-boldest text-danger mb-1 din-bold">@Model.TotalCostQuantityAmount</span>
+                        @*<span>Taxes Included</span>*@
                     </div>
                 </div>
-            </div>
-            <!-- end: Invoice footer-->
-            <!-- begin: Invoice action-->
-            <div class="row justify-content-center py-8 px-8 py-md-10 px-md-0">
-                <div class="col-md-9">
-                    <div class="d-flex justify-content-between">
-                        @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
-                        <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
-                        <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
-                    </div>
+
+                <!-- end: Invoice footer-->
+                <!-- begin: Invoice action-->
+                <hr class="my-4">
+
+                <div class="d-flex justify-content-between">
+                    @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
+                    <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
+                    <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
                 </div>
             </div>
-            <!-- end: Invoice action-->
-            <!-- end: Invoice-->
         </div>
+        <!-- end: Invoice action-->
+        <!-- end: Invoice-->
     </div>
-    <!-- end::Card-->
 </div>
+<!-- end::Card-->

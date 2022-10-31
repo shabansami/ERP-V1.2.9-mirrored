@@ -116,7 +116,7 @@ var StoresTransferApproval_Module = function () {
 							\<a href="/StoresTransferApprovals/ApprovalStore/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="اعتماد مخزنى">\
 								<i class="fa fa-unlock-alt"></i>\
 							</a><a href="javascript:;" onclick=StoresTransferApproval_Module.Refused(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln" title="رفض عملية تحويل مخزنى">\
-								<i class="fa fa-close"></i>\
+								<i class="fa fa-close-alt"></i>\
 							</a></div>\
 						';
                     }

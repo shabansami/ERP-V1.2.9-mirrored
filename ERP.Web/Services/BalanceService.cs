@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using System.Data.Entity;
 using ERP.DAL.Models;
+using System.Windows.Media.Media3D;
 
 namespace ERP.Web.Services
 {
@@ -1323,7 +1324,7 @@ namespace ERP.Web.Services
 
 
 
-        #region تقرير حركة صنف 3
+        #region تقرير حركة صنف 3 /كارت صنف بالتكلفة
         public static List<ItemMovementdDto> SearchItemMovement(string itemCode, string barCode, Guid? itemId, Guid? storeId, int? ActionTypeId, DateTime? dtFrom, DateTime? dtTo)
         {
             /*
@@ -1340,6 +1341,8 @@ namespace ERP.Web.Services
             10:فرق جرد
             11:امر انتاج صادر
             12:امر انتاج وارد
+            13:تحويل مخزنى صادر 
+            14:تحويل مخزنى وارد 
              */
 
             Stopwatch stopwatch = new Stopwatch();
@@ -1380,6 +1383,8 @@ namespace ERP.Web.Services
                     //10:فرق جرد
                     //11:امر انتاج صادر
                     //12:امر انتاج وارد
+                    //13:تحويل مخزنى صادر 
+                    //14:تحويل مخزنى وارد
                     if (ActionTypeId != null)
                     {
                         if (!int.TryParse(ActionTypeId.ToString(), out var actionType))
@@ -1401,6 +1406,8 @@ namespace ERP.Web.Services
                                 list.AddRange(InventoryBalanceMovement(db, item.Id, storeId, dtFrom, dtTo));//فرق جرد
                                 list.AddRange(ProductionOrderBalanceOutcoming(db, item.Id, storeId, dtFrom, dtTo));//امر انتاج صادر
                                 list.AddRange(ProductionOrderBalanceIncoming(db, item.Id, storeId, dtFrom, dtTo));//امر انتاج وارد
+                                list.AddRange(StoreTransferOutcoming(db, item.Id, storeId, dtFrom, dtTo));//تحويل مخزنى صادر
+                                list.AddRange(StoreTransferIn(db, item.Id, storeId, dtFrom, dtTo));//تحويل مخزنى وارد
                                 return list;
                             case 1:
                                 //رصيد اول  
@@ -1438,6 +1445,12 @@ namespace ERP.Web.Services
                             case 12:
                                 //12:امر انتاج وارد
                                 return ProductionOrderBalanceIncoming(db, item.Id, storeId, dtFrom, dtTo);
+                            case 13:
+                                //11:تحويل مخزنى صادر
+                                return StoreTransferOutcoming(db, item.Id, storeId, dtFrom, dtTo);
+                            case 14:
+                                //12:تحويل مخزنى وارد
+                                return StoreTransferIn(db, item.Id, storeId, dtFrom, dtTo);
                             default:
                                 break;
                         }
@@ -1464,6 +1477,7 @@ namespace ERP.Web.Services
                  {
                      ActionType = "رصيد اول",
                      ActionDate = x.DateIntial.ToString(),
+                    DateReal = x.DateIntial,
                      IncomingQuantity = x.Quantity,
                      IncomingCost = x.Amount,
                  }).ToList();
@@ -1483,6 +1497,7 @@ namespace ERP.Web.Services
                     ActionType = "مشتريات",
                     ActionNumber=x.PurchaseInvoice.InvoiceNumber,
                     ActionDate = x.PurchaseInvoice.InvoiceDate.ToString(),
+                    DateReal= x.PurchaseInvoice.InvoiceDate,
                     IncomingQuantity = x.Quantity,
                     IncomingCost = x.Amount,
                 }).ToList();
@@ -1502,6 +1517,7 @@ namespace ERP.Web.Services
                     ActionType = "مرتجع مشتريات",
                     ActionNumber = x.PurchaseBackInvoice.InvoiceNumber,
                     ActionDate = x.PurchaseBackInvoice.InvoiceDate.ToString(),
+                    DateReal= x.PurchaseBackInvoice.InvoiceDate,
                     OutcomingQuantity = x.Quantity,
                     OutcomingCost = x.Amount,
                 }).ToList();
@@ -1521,6 +1537,7 @@ namespace ERP.Web.Services
                     ActionType = "بيع",
                     ActionNumber = x.SellInvoice.InvoiceNumber,
                     ActionDate = x.SellInvoice.InvoiceDate.ToString(),
+                    DateReal= x.SellInvoice.InvoiceDate,
                     OutcomingQuantity = x.Quantity,
                     OutcomingCost = x.Amount,
                 }).ToList();
@@ -1540,6 +1557,7 @@ namespace ERP.Web.Services
                     ActionType = "مرتجع بيع ",
                     ActionNumber = x.SellBackInvoice.InvoiceNumber,
                     ActionDate = x.SellBackInvoice.InvoiceDate.ToString(),
+                    DateReal = x.SellBackInvoice.InvoiceDate,
                     IncomingQuantity = x.Quantity,
                     IncomingCost = x.Amount,
                 }).ToList();
@@ -1559,6 +1577,7 @@ namespace ERP.Web.Services
                     ActionType = "قطع غيار",
                     ActionNumber = x.MaintenanceDetail != null ? x.MaintenanceDetail.Maintenance.InvoiceNumber : null,
                     ActionDate = x.MaintenanceDetail != null ? x.MaintenanceDetail.Maintenance.InvoiceDate.ToString() : null,
+                    DateReal= x.MaintenanceDetail != null ? x.MaintenanceDetail.Maintenance.InvoiceDate : new DateTime(),
                     IncomingQuantity = x.Quantity,
                     IncomingCost = x.Amount,
                 }).ToList();
@@ -1577,6 +1596,7 @@ namespace ERP.Web.Services
                 {
                     ActionType = x.StorePermission.IsReceive == true ? "اذن استلام" : "اذن صرف",
                     ActionDate = x.StorePermission != null ? x.StorePermission.PermissionDate.ToString() : null,
+                    DateReal = x.StorePermission != null ? x.StorePermission.PermissionDate : null,
                     IncomingQuantity = x.StorePermission.IsReceive ? x.Quantity : 0,
                     IncomingCost = x.StorePermission.IsReceive ? x.Amount : 0,
                     OutcomingQuantity = x.StorePermission.IsReceive == false ? x.Quantity : 0,
@@ -1597,6 +1617,7 @@ namespace ERP.Web.Services
                 {
                     ActionType = "هالك",
                     ActionDate = x.DamageInvoice.InvoiceDate.ToString(),
+                    DateReal= x.DamageInvoice.InvoiceDate,
                     OutcomingQuantity = x.Quantity,
                     OutcomingCost = x.CostQuantity,
                 }).ToList();
@@ -1615,6 +1636,7 @@ namespace ERP.Web.Services
                     ActionType = "فرق جرد",
                     ActionNumber = x.InventoryInvoice.InvoiceNumber,
                     ActionDate = x.InventoryInvoice.InvoiceDate.ToString(),
+                    DateReal= x.InventoryInvoice.InvoiceDate,
                     IncomingQuantity = x.DifferenceCount > 0 ? x.DifferenceCount : 0,
                     IncomingCost = x.DifferenceAmount > 0 ? x.DifferenceAmount : 0,
                     OutcomingQuantity = x.DifferenceCount < 0 ? x.DifferenceCount : 0,
@@ -1638,7 +1660,8 @@ namespace ERP.Web.Services
                     ActionType = "امر انتاج وارد",
                     ActionNumber = x.ProductionOrder.OrderNumber,
                     ActionDate = x.ProductionOrder.ProductionOrderDate.ToString(),
-                    IncomingQuantity = x.Quantity + x.Quantitydamage ,
+                    DateReal= x.ProductionOrder.ProductionOrderDate,
+                    IncomingQuantity = x.Quantity + x.Quantitydamage,
                     IncomingCost = x.ItemCost,
                 }).ToList();
         }
@@ -1657,8 +1680,69 @@ namespace ERP.Web.Services
                     ActionType = "امر انتاج صادر",
                     ActionNumber = x.ProductionOrder.OrderNumber,
                     ActionDate = x.ProductionOrder.ProductionOrderDate.ToString(),
+                    DateReal = x.ProductionOrder.ProductionOrderDate,
                     OutcomingQuantity = x.Quantity + x.Quantitydamage,
                     OutcomingCost = x.ItemCost,
+                }).ToList();
+        }
+        //تحويل مخزنى صادر
+        static List<ItemMovementdDto> StoreTransferOutcoming(VTSaleEntities db, Guid? itemId, Guid? storeId, DateTime? dtFrom, DateTime? dtTo)
+        {
+            IQueryable<StoresTransferDetail> storesTransferOut = null;
+             storesTransferOut = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval);
+            if (storeId != null)
+                storesTransferOut = storesTransferOut.Where(x => x.StoresTransfer.StoreFromId == storeId);
+            if (dtFrom != null)
+                storesTransferOut = storesTransferOut.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) >= dtFrom);
+            if (dtTo != null)
+                storesTransferOut = storesTransferOut.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) <= dtTo);
+
+            //معرفة احتساب تكلفة الصنف من الاعدادات 
+            ItemService itemService = new ItemService();
+            var itemCost = db.GeneralSettings.Where(x =>!x.IsDeleted&& x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault();
+            int itemCostVal = 1;
+            if (itemCost != null)
+                int.TryParse(itemCost.SValue, out itemCostVal);
+            
+            return storesTransferOut.ToList()
+                .Select(x => new ItemMovementdDto
+                {
+                    ActionType = "تحويل مخزنى صادر",
+                    ActionNumber = x.StoresTransfer.StoreTransferNumber,
+                    ActionDate = x.StoresTransfer.TransferDate.ToString(),
+                    DateReal=x.StoresTransfer.TransferDate,
+                    OutcomingQuantity = x.Quantity,
+                    OutcomingCost =itemService.GetItemCostCalculation(itemCostVal,x.ItemId),
+                }).ToList();
+        }     
+        //تحويل مخزنى وارد
+        static List<ItemMovementdDto> StoreTransferIn(VTSaleEntities db, Guid? itemId, Guid? storeId, DateTime? dtFrom, DateTime? dtTo)
+        {
+            IQueryable<StoresTransferDetail> storesTransferOut = null;
+             storesTransferOut = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval);
+            if (storeId != null)
+                storesTransferOut = storesTransferOut.Where(x => x.StoresTransfer.StoreToId == storeId);
+            if (dtFrom != null)
+                storesTransferOut = storesTransferOut.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) >= dtFrom);
+            if (dtTo != null)
+                storesTransferOut = storesTransferOut.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) <= dtTo);
+
+            //معرفة احتساب تكلفة الصنف من الاعدادات 
+            ItemService itemService = new ItemService();
+            var itemCost = db.GeneralSettings.Where(x =>!x.IsDeleted&& x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault();
+            int itemCostVal = 1;
+            if (itemCost != null)
+                int.TryParse(itemCost.SValue, out itemCostVal);
+            
+            return storesTransferOut.ToList()
+                .Select(x => new ItemMovementdDto
+                {
+                    ActionType = "تحويل مخزنى وارد",
+                    ActionNumber = x.StoresTransfer.StoreTransferNumber,
+                    ActionDate = x.StoresTransfer.TransferDate.ToString(),
+                    DateReal=x.StoresTransfer.TransferDate,
+                    IncomingQuantity = x.Quantity ,
+                    IncomingCost =itemService.GetItemCostCalculation(itemCostVal,x.ItemId),
                 }).ToList();
         }
         #endregion

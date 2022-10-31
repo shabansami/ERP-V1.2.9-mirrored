@@ -10,6 +10,7 @@ namespace ERP.Web.DataTablesDS
         public string ActionType { get; set; }//نوع الحركة
         public string ActionNumber { get; set; }//رقم الحركة مثلا رقم فاتورة البيع /التوريد ....
         public string ActionDate { get; set; }//تاريخ الحركة
+        public DateTime? DateReal { get; set; }
         public double IncomingQuantity { get; set; }//كمية الوارد 
         public double IncomingCost { get; set; }//تكلفة الوارد 
         public double OutcomingQuantity { get; set; }//كمية الصادر 

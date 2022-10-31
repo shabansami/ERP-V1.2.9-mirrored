@@ -110,7 +110,7 @@
                         <div class="form-group">
                             <div>
                                 <label> الصنف</label>
-                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select select2  din-med" })
                             </div>
                         </div>
                     </div>
@@ -149,6 +149,8 @@
                                     <option value="10">فرق جرد</option>
                                     <option value="11">امر انتاج صادر</option>
                                     <option value="12">امر انتاج وارد</option>
+                                    <option value="13">تحويل مخزنى صادر</option>
+                                    <option value="14">تحويل مخزنى وارد</option>
                                 </select>
                             </div>
                         </div>

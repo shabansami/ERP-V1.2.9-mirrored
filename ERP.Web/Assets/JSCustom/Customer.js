@@ -120,7 +120,7 @@ var Customer_Module = function () {
 							<a href="/Customers/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
                         		</a><a href="javascript:;" onclick=Customer_Module.ActivePerson("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="تنشيط">\
-								<i class="fa fa-times-circle"></i>\
+								<i class="fas fa-times-circle"></i>\
 							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات للعميل">\
 								<i class="fa fa-upload"></i>\
 							</a>\

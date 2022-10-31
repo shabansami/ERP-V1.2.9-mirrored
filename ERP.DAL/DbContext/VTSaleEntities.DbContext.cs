@@ -17,6 +17,8 @@ namespace ERP.DAL
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            Database.SetInitializer<VTSaleEntities>(null);
+            base.OnModelCreating(modelBuilder);
         }
 
         public virtual DbSet<AccountsTree> AccountsTrees { get; set; }

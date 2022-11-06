@@ -165,5 +165,8 @@ namespace ERP.DAL
         public virtual DbSet<Offer> Offers { get; set; }
         public virtual DbSet<OfferDetail> OfferDetails { get; set; }
         public virtual DbSet<OfferSellInvoice> OfferSellInvoices { get; set; }
+        public virtual DbSet<ContractCustomerSupplier> ContractCustomerSuppliers { get; set; }
+        public virtual DbSet<QuoteOrderSell> QuoteOrderSells { get; set; }
+        public virtual DbSet<QuoteOrderSellDetail> QuoteOrderSellDetails { get; set; }
     }
 }

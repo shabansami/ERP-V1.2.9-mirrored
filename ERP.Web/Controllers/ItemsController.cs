@@ -13,6 +13,7 @@ using static ERP.Web.Utilites.Lookups;
 using ERP.Web.DataTablesDS;
 using ERP.Web.Services;
 using System.IO;
+using System.Windows;
 
 namespace ERP.Web.Controllers
 {
@@ -312,6 +313,8 @@ namespace ERP.Web.Controllers
                 model.CreateSerial = vm.CreateSerial;
                 model.BarCode = vm.BarCode;
                 model.ItemCode = itemCode;
+                model.Thickness = vm.Thickness;
+                model.ItemSize=vm.ItemSize;
                 if (ImageName != null)
                 {
                     string folderName = "~/Files/ItemImages";
@@ -419,7 +422,9 @@ namespace ERP.Web.Controllers
                     UnitConvertFromId = vm.UnitConvertFromId,
                     UnitConvertFromCount = vm.UnitConvertFromCount,
                     CreateSerial = vm.CreateSerial,
-                    ImageName = ImageFullName
+                    ImageName = ImageFullName,
+                    Thickness = vm.Thickness,
+                    ItemSize=vm.ItemSize,
                 };
                 db.Items.Add(item);
                 if (ImageName != null)

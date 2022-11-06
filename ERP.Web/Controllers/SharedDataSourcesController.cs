@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using System.Data.Entity;
 
 namespace ERP.Web.Controllers
 {
@@ -255,7 +256,7 @@ namespace ERP.Web.Controllers
                 return Json(new { data = itemSellPrice }, JsonRequestBehavior.AllowGet);
             }
             else
-                return Json(null, JsonRequestBehavior.AllowGet);
+                return Json(0, JsonRequestBehavior.AllowGet);
         }
         //تغيير سعر البيع حسب سياسة البيع المحدد
         public JsonResult GetPricePolicySellPrice(string itemId, Guid? pricePolicyId, Guid? customerId) //price policy id
@@ -1231,6 +1232,21 @@ namespace ERP.Web.Controllers
                 customeSell = itemPrices.SellPrice;
             }
             return Json(new { pricingPolicyId = pricingPolicyId, customeSell = customeSell ?? 0 }, JsonRequestBehavior.AllowGet);
+        }
+
+        //تحديد مدة الاستحقاق تلقائيا فى حالة تحديدها مسبقا 
+        public JsonResult GetContractCustomer(Guid? id, bool isCustomer,DateTime? invoDate)
+        {
+            if (id == null||invoDate==null)
+                return Json(0, JsonRequestBehavior.AllowGet);
+            IQueryable<ContractCustomerSupplier> contract;
+            if (isCustomer)
+                contract = db.ContractCustomerSuppliers.Where(x =>!x.IsDeleted&& x.CustomerId == id); //عميل
+            else
+                contract = db.ContractCustomerSuppliers.Where(x => !x.IsDeleted && x.SupplierId == id); //عميل
+            contract = contract.Where(x => invoDate >= DbFunctions.TruncateTime(x.FromDate) && invoDate <= DbFunctions.TruncateTime(x.ToDate));
+            var data = contract.OrderByDescending(x=>x.CreatedOn).FirstOrDefault();
+            return Json(data!=null?invoDate.Value.AddDays(data.DayCount).ToString("yyyy-MM-dd") :invoDate.Value.AddMonths(1).ToString("yyyy-MM-dd"), JsonRequestBehavior.AllowGet);
         }
         #endregion
         #region رصيد حساب

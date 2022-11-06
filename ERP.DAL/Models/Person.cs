@@ -42,6 +42,9 @@ namespace ERP.DAL
             this.SupplierPayments = new HashSet<SupplierPayment>();
             this.Users = new HashSet<User>();
             this.PersonIntialBalances = new HashSet<PersonIntialBalance>();
+            this.ContractCustomers = new HashSet<ContractCustomerSupplier>();
+            this.ContractSuppliers = new HashSet<ContractCustomerSupplier>();
+            this.QuoteOrderSells = new HashSet<QuoteOrderSell>();
         }
 
         //AccountsTreeID
@@ -141,5 +144,8 @@ namespace ERP.DAL
         public virtual ICollection<SupplierPayment> SupplierPayments { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<PersonIntialBalance> PersonIntialBalances { get; set; }
+        public virtual ICollection<ContractCustomerSupplier> ContractCustomers { get; set; }
+        public virtual ICollection<ContractCustomerSupplier> ContractSuppliers { get; set; }
+        public virtual ICollection<QuoteOrderSell> QuoteOrderSells { get; set; }
     }
 }

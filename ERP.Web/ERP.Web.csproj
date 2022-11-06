@@ -200,7 +200,9 @@
     <Content Include="Assets\images\users\avatar-7.jpg" />
     <Content Include="Assets\images\users\avatar-8.jpg" />
     <Content Include="Assets\images\users\avatar-9.jpg" />
+    <Content Include="Assets\JSCustom\ContractSupplier.js" />
     <Content Include="Assets\JSCustom\District.js" />
+    <Content Include="Assets\JSCustom\ContractCustomer.js" />
     <Content Include="Assets\JSCustom\Offer.js" />
     <Content Include="Assets\JSCustom\JQuery_Sum.js" />
     <Content Include="Assets\JSCustom\Region.js" />
@@ -1648,11 +1650,13 @@
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\ContractAttendanceLeavingsController.cs" />
+    <Compile Include="Controllers\ContractCustomersController.cs" />
     <Compile Include="Controllers\ContractLoansController.cs" />
     <Compile Include="Controllers\ContractSalaryAdditionsController.cs" />
     <Compile Include="Controllers\ContractSalaryPenaltiesController.cs" />
     <Compile Include="Controllers\ContractSchedulingAbsencesController.cs" />
     <Compile Include="Controllers\ContractsController.cs" />
+    <Compile Include="Controllers\ContractSuppliersController.cs" />
     <Compile Include="Controllers\ContractTypesController.cs" />
     <Compile Include="Controllers\CustomerAccountsController.cs" />
     <Compile Include="Controllers\CustomerCategoriesController.cs" />
@@ -2333,6 +2337,10 @@
     <Content Include="Views\VoucherReceipts\Index.cshtml" />
     <Content Include="Views\WorkingPeriods\CreateEdit.cshtml" />
     <Content Include="Views\WorkingPeriods\Index.cshtml" />
+    <Content Include="Views\ContractCustomers\Index.cshtml" />
+    <Content Include="Views\ContractCustomers\CreateEdit.cshtml" />
+    <Content Include="Views\ContractSuppliers\Index.cshtml" />
+    <Content Include="Views\ContractSuppliers\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -32,7 +32,7 @@
 <div class="card-body">
 
     <div class="row">
-        <div class="col-lg-6 alert alert-primary">
+        <div class="col-lg-6">
             <div class="form-group required">
                 <div>
                     <label> الوحدة</label>
@@ -41,26 +41,26 @@
             </div>
         </div>
 
-        <div class="col-lg-6 alert alert-primary">
+        <div class="col-lg-6">
             <div class="form-group required">
                 <label>نوع الصنف</label>
                 @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
             </div>
         </div>
 
-        <div class="col-lg-4 alert alert-primary">
+        <div class="col-lg-4">
             <div class="form-group required">
-                <label>الكمية<span class="alert alert-danger">من الوحدة الاساسية</span></label>
+                <label>الكمية من الوحدة الاساسية</label>
                 @Html.TextBoxFor(m => m.GeneralQuantity, htmlAttributes: new { @class = "form-control ", @style = "text-align:right;" })
             </div>
         </div>
-        <div class="col-lg-4 alert alert-primary">
+        <div class="col-lg-4">
             <div class="form-group required">
                 <label>السعر</label>
                 @Html.TextBoxFor(m => m.GeneralSellPrice, htmlAttributes: new { @class = "form-control ", @style = "text-align:right;" })
             </div>
         </div>
-        <div class="col-lg-4 alert alert-primary">
+        <div class="col-lg-4">
             <div class="form-group ">
                 <label>.</label>
                 <input  style = "text-align:center;" type="submit" @*onclick="Item_Module.SubmitFormTreePrice()"*@ value="بحث" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" />

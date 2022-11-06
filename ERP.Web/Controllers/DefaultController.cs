@@ -11,6 +11,8 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.DAL.Dtos;
+using System.Web.Security;
+using ERP.Web.ViewModels;
 
 namespace ERP.Web.Controllers
 {
@@ -30,6 +32,20 @@ namespace ERP.Web.Controllers
         {
             //Lookups.ExcuteFirstInit();
             //var t = VTSAuth.Encrypt("p@ssw0rd");
+            //add pages
+            //List<Page> pages = new List<Page>();
+            //Guid roleID = new Guid("B55F8D95-96DC-47A1-AD3A-98EB6CBFC8B1");
+            //Guid userId = new Guid("9B5D4273-1321-4870-B7D4-32E90801C987");
+            ////pages.Add(new Page() { Id = 390, ParentId = 88, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "مدة استحقاق السداد", OrderNum = 0, Url = "", OtherUrls = null });
+            //pages.Add(new Page() { Id = 391, ParentId = 390, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة مدة استحقاق", OrderNum = 0, Url = "/ContractCustomers/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //pages.Add(new Page() { Id = 392, ParentId = 390, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة مدة استحقاق", OrderNum = 0, Url = "/ContractCustomers/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //pages.Add(new Page() { Id = 393, ParentId = 66, Icon = "icon-md fas fa-coins ylow", IsPage = false, Name = "مدة استحقاق السداد", OrderNum = 0, Url = "", OtherUrls = null });
+            //pages.Add(new Page() { Id = 394, ParentId = 393, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة مدة استحقاق", OrderNum = 0, Url = "/ContractSuppliers/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //pages.Add(new Page() { Id = 395, ParentId = 393, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة مدة استحقاق", OrderNum = 0, Url = "/ContractSuppliers/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //db.Pages.AddRange(pages);
+            //db.SaveChanges(userId);
+
+
 
             ////////ItemImportDataZumurada itemImportDataZumurada = new ItemImportDataZumurada();
             ////////itemImportDataZumurada.Excute2();

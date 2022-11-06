@@ -69,7 +69,7 @@ namespace ERP.Web.Controllers
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted&&x.BranchId== branchId), "Id", "Name", null);
                 //ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.LastRow = db.ExpenseIncomes.Where(x => !x.IsDeleted && x.IsExpense).OrderByDescending(x => x.Id).FirstOrDefault();
+                ViewBag.LastRow = db.ExpenseIncomes.Where(x => !x.IsDeleted && x.IsExpense).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new ExpenseIncome() { PaymentDate = Utility.GetDateTime() });
             }
         }

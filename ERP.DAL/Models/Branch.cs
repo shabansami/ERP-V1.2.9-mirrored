@@ -41,6 +41,7 @@ namespace ERP.DAL
             this.PersonIntialBalances = new HashSet<PersonIntialBalance>();
             this.PointOfSales = new HashSet<PointOfSale>();
             this.Offers = new HashSet<Offer>();
+            this.QuoteOrderSells = new HashSet<QuoteOrderSell>();
         }
 
         public string Name { get; set; }
@@ -75,5 +76,6 @@ namespace ERP.DAL
         public virtual ICollection<PersonIntialBalance> PersonIntialBalances { get; set; }
         public virtual ICollection<PointOfSale> PointOfSales { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
+        public virtual ICollection<QuoteOrderSell> QuoteOrderSells { get; set; }
     }
 }

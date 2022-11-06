@@ -18,11 +18,13 @@ namespace ERP.DAL
         public PersonType()
         {
             this.Persons = new HashSet<Person>();
+            this.ContractCustomerSuppliers = new HashSet<ContractCustomerSupplier>();
         }
     
         public string Name { get; set; }
     
 
         public virtual ICollection<Person> Persons { get; set; }
+        public virtual ICollection<ContractCustomerSupplier> ContractCustomerSuppliers { get; set; }
     }
 }

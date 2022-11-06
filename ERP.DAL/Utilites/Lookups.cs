@@ -325,8 +325,13 @@ namespace ERP.Web.Utilites
             StoreTransferQuantityDiffReal, //تم ادخال كميات فعلية مختلفة عن الاصلية 
             StoreTransferFinalApproval, //تم اعتمادها بشكل نهائى 
             StoreTransferUnApproval, //فك اعتماد تحويل مخزنى 
+        }
 
-
+        //الفاتورة عرض سعر/امر بيع
+        public enum QuoteOrderSell
+        {
+            Qoute=1,//عرض سعر
+            OrderSell//امر بيع
         }
         //ارقام حسابات المركز المالى 
         //public static int InvestmentFormation => 121; //تكوين استثمارى

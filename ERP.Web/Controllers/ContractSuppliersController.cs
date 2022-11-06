@@ -1,33 +1,33 @@
-﻿
-using ERP.Web.Identity;
+﻿using ERP.DAL.Utilites;
 using ERP.DAL;
 using ERP.Web.Utilites;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-
+using System.Web;
 using System.Web.Mvc;
-using System;using ERP.DAL.Utilites;
+using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Identity;
 
 namespace ERP.Web.Controllers
 {
     [Authorization]
-
-    public class AreasController : Controller
+    public class ContractSuppliersController : Controller
     {
-        // GET: Areas
+        // GET: ContractSuppliers
         VTSaleEntities db;
         VTSAuth auth;
-        public AreasController()
+        public ContractSuppliersController()
         {
             db = new VTSaleEntities();
             auth = new VTSAuth();
         }
-        [Authorization]
+        #region ادارة 
+
+        [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
-            ViewBag.CityId = new SelectList(new List<City>(), "Id", "Name");
             return View();
         }
         public ActionResult GetAll()
@@ -35,11 +35,9 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.Areas.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn=x.CreatedOn, CountryName = x.City.Country.Name,CityName=x.City.Name, Name = x.Name, Actions = n, Num = n }).ToList()
+                data = db.ContractCustomerSuppliers.Where(x => !x.IsDeleted && x.PersonTypeId == (int)PersonTypeCl.Supplier).Select(x => new { Id = x.Id, SupplierName = x.Supplier != null ? x.Supplier.Name : null, FromDate = x.FromDate.ToString(), ToDate = x.ToDate.ToString(), DayCount = x.DayCount.ToString(), Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
-
         }
-        [Authorization]
         [HttpGet]
         public ActionResult CreateEdit()
         {
@@ -48,11 +46,8 @@ namespace ERP.Web.Controllers
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
-                    var model = db.Areas.FirstOrDefault(x=>x.Id==id);
-
-                    ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name",model.City.CountryId);
-                    ViewBag.CityId = new SelectList(db.Cities.Where(x => !x.IsDeleted&&x.CountryId== model.City.CountryId), "Id", "Name",model.CityId);
-
+                    var model = db.ContractCustomerSuppliers.FirstOrDefault(x => x.Id == id);
+                    ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer) && x.IsActive), "Id", "Name", model.SupplierId);
                     return View(model);
                 }
                 else
@@ -60,81 +55,55 @@ namespace ERP.Web.Controllers
             }
             else
             {                   // add
-                ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.CityId = new SelectList(new List<City>(), "Id", "Name");
-                ViewBag.LastRow = db.Areas.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
-                return View(new Area());
+                ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer) && x.IsActive), "Id", "Name");
+                ViewBag.LastRow = db.ContractCustomerSuppliers.Where(x => !x.IsDeleted && x.PersonTypeId == (int)PersonTypeCl.Supplier).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
+                return View(new ContractCustomerSupplier() { FromDate = Utility.GetDateTime(), ToDate = Utility.GetDateTime().AddMonths(1) });
             }
         }
-
-        public ActionResult IndexNewStyle()
-        {
-            ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
-            ViewBag.CityId = new SelectList(new List<City>(), "Id", "Name");
-            return View();
-        }
-        [HttpGet]
-        public ActionResult TestNewStyle()
-        {
-            if (TempData["model"] != null) //edit
-            {
-                Guid id;
-                if (Guid.TryParse(TempData["model"].ToString(), out id))
-                {
-                    var model = db.Areas.FirstOrDefault(x=>x.Id==id);
-
-                    ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name",model.City.CountryId);
-                    ViewBag.CityId = new SelectList(db.Cities.Where(x => !x.IsDeleted&&x.CountryId== model.City.CountryId), "Id", "Name",model.CityId);
-
-                    return View(model);
-                }
-                else
-                    return RedirectToAction("Index");
-            }
-            else
-            {                   // add
-                ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.CityId = new SelectList(new List<City>(), "Id", "Name");
-                ViewBag.LastRow = db.Areas.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
-                return View(new Area());
-            }
-        }
-        [Authorization]
         [HttpPost]
-        public JsonResult CreateEdit(Area vm)
+        public JsonResult CreateEdit(ContractCustomerSupplier vm)
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(vm.Name) || vm.CityId == null)
+                if (vm.SupplierId == null || vm.FromDate == null || vm.ToDate == null || vm.DayCount == 0)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
                 if (TempData["userInfo"] != null)
                     auth = TempData["userInfo"] as VTSAuth;
                 else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                    return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
 
                 if (vm.Id != Guid.Empty)
                 {
-                    if (db.Areas.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
-                        return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
+                    //if (db.Areas.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
+                    //    return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
+                    if (db.ContractCustomerSuppliers.Where(x => !x.IsDeleted && x.Id != vm.Id && x.SupplierId == vm.SupplierId && vm.FromDate >= DbFunctions.TruncateTime(x.FromDate) && vm.ToDate <= DbFunctions.TruncateTime(x.ToDate)).Any())
+                        return Json(new { isValid = false, message = "المدة المدخلة متداخلة مع مدد سابقة تم ادخالها" });
 
-                    var model = db.Areas.FirstOrDefault(x=>x.Id==vm.Id);
-                    model.Name = vm.Name;
-                    model.CityId= vm.CityId    ;
+                    var model = db.ContractCustomerSuppliers.FirstOrDefault(x => x.Id == vm.Id);
+                    model.SupplierId = vm.SupplierId;
+                    model.FromDate = vm.FromDate;
+                    model.ToDate = vm.ToDate;
+                    model.DayCount = vm.DayCount;
 
                     db.Entry(model).State = EntityState.Modified;
                 }
                 else
                 {
-                    if (db.Areas.Where(x => !x.IsDeleted && x.Name == vm.Name).Count() > 0)
-                        return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
+                    //if (db.ContractCustomerSuppliers.Where(x => !x.IsDeleted && x.ItemId == vm.ItemId&&x.BranchId==vm.BranchId).Count() > 0)
+                    //    return Json(new { isValid = false, message = "تم تحديد سعر البيع للصنف للفرع موجود مسبقا" });
+                    if (db.ContractCustomerSuppliers.Where(x => !x.IsDeleted && x.Id != vm.Id && x.SupplierId == vm.SupplierId && vm.FromDate >= DbFunctions.TruncateTime(x.FromDate) && vm.ToDate <= DbFunctions.TruncateTime(x.ToDate)).Any())
+                        return Json(new { isValid = false, message = "المدة المدخلة متداخلة مع مدد سابقة تم ادخالها" });
 
                     isInsert = true;
-                    db.Areas.Add(new Area
+                    db.ContractCustomerSuppliers.Add(new ContractCustomerSupplier
                     {
-                        Name = vm.Name,
-                        CityId = vm.CityId
+                        SupplierId = vm.SupplierId,
+                        FromDate = vm.FromDate,
+                        ToDate = vm.ToDate,
+                        DayCount = vm.DayCount,
+                        PersonTypeId = (int)PersonTypeCl.Supplier
                     });
                 }
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -152,7 +121,7 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
 
         }
-        [Authorization]
+
         public ActionResult Edit(string id)
         {
             Guid Id;
@@ -164,14 +133,13 @@ namespace ERP.Web.Controllers
             return RedirectToAction("CreateEdit");
 
         }
-        [Authorization]
         [HttpPost]
         public ActionResult Delete(string id)
         {
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var model = db.Areas.FirstOrDefault(x=>x.Id==Id);
+                var model = db.ContractCustomerSuppliers.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
                     if (TempData["userInfo"] != null)
@@ -193,6 +161,9 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
         }
+
+        #endregion
+
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {
@@ -202,5 +173,6 @@ namespace ERP.Web.Controllers
             }
             base.Dispose(disposing);
         }
+
     }
 }

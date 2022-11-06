@@ -39,6 +39,7 @@ namespace ERP.DAL
             this.DamageInvoiceDetails = new HashSet<DamageInvoiceDetail>();
             this.ItemCustomSellPrices = new HashSet<ItemCustomSellPrice>();
             this.OfferDetails = new HashSet<OfferDetail>();
+            this.QuoteOrderSellDetails = new HashSet<QuoteOrderSellDetail>();
         }
 
         [ForeignKey(nameof(GroupBasic))]
@@ -66,6 +67,10 @@ namespace ERP.DAL
         public bool AvaliableToSell { get; set; }
         public bool CreateSerial { get; set; }
         public string ImageName { get; set; }
+
+        //„Ê«’›«  «·’‰› «-«Õ„œ ÕﬂÌ„
+        public string Thickness { get; set; }
+        public string ItemSize { get; set; }
 
         //Group
         public virtual Group GroupBasic { get; set; }
@@ -98,6 +103,7 @@ namespace ERP.DAL
         public virtual ICollection<DamageInvoiceDetail> DamageInvoiceDetails { get; set; }
         public virtual ICollection<ItemCustomSellPrice> ItemCustomSellPrices { get; set; }
         public virtual ICollection<OfferDetail> OfferDetails { get; set; }
+        public virtual ICollection<QuoteOrderSellDetail> QuoteOrderSellDetails { get; set; }
 
 
 

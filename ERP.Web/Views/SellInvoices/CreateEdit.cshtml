@@ -677,7 +677,8 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>الخصم على الفاتورة</label>
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />
+                                                    @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />*@
+                                                    @Html.TextBoxFor(model => model.InvoiceDiscount, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.onInvoiceDiscountChange();", @type = "number", @placeholder = "ادخل قيمة الخصم على الفاتورة" })
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -688,7 +689,8 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label> ضريبة القيمة المضافة</label>
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />
+                                                    @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />*@
+                                                    @Html.TextBoxFor(model => model.SalesTax, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة القيمة المضافة" })
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -696,7 +698,8 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>قيمة ضريبة ارباح تجارية</label>
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />
+                                                    @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />*@
+                                                    @Html.TextBoxFor(model => model.ProfitTax, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة ارباح تجارية" })
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -706,7 +709,8 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>المبلغ المدفوع</label>
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />
+                                                    @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />*@
+                                                    @Html.TextBoxFor(model => model.PayedValue, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.onPayedValueChange();", @type = "number", @placeholder = "ادخل المبلغ المدفوع" })
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -714,7 +718,8 @@
                                                 <!--begin::Input-->
                                                 <div class="form-group">
                                                     <label>المبلغ المتبقى</label>
-                                                    <input type="number" class="form-control form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />
+                                                    @*<input type="number" class="form-control form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />*@
+                                                    @Html.TextBoxFor(model => model.RemindValue, htmlAttributes: new { @class = "form-control form-control-lg", @type = "number", @readonly= "readonly", @placeholder = " المبلغ المتبقى" })
                                                 </div>
                                                 <!--end::Input-->
                                             </div>
@@ -1295,41 +1300,47 @@ else
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                               <label>قيمة الخصم على الفاتورة</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />
-                                                </div>
+                                              <div class="col-9">
+                                                  @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />*@
+                                                  @Html.TextBoxFor(model => model.InvoiceDiscount, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.onInvoiceDiscountChange();", @type = "number", @placeholder = "ادخل قيمة الخصم على الفاتورة" })
+
+                                              </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                               <label>ضريبة القيمة المضافة</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />
-                                                </div>
+                                              <div class="col-9">
+                                                  @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />*@
+                                                  @Html.TextBoxFor(model => model.SalesTax, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة القيمة المضافة" })
+                                              </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                               <label>قيمة ضريبة ارباح تجارية</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />
-                                                </div>
+                                              <div class="col-9">
+                                                  @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />*@
+                                                  @Html.TextBoxFor(model => model.ProfitTax, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة ارباح تجارية" })
+                                              </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                               <label>المبلغ المدفوع</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />
-                                                </div>
+                                              <div class="col-9">
+                                                  @*<input type="number" class="form-control form-control-lg" onkeyup="SellInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />*@
+                                                  @Html.TextBoxFor(model => model.PayedValue, htmlAttributes: new { @class = "form-control form-control-lg", @onkeyup = "SellInvoice_Module.onPayedValueChange();", @type = "number", @placeholder = "ادخل المبلغ المدفوع" })
+                                              </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                               <label>المبلغ المتبقى</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />
-                                                </div>
+                                              <div class="col-9">
+                                                  @*<input type="number" class="form-control form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />*@
+                                                  @Html.TextBoxFor(model => model.RemindValue, htmlAttributes: new { @class = "form-control form-control-lg", @type = "number", @readonly = "readonly", @placeholder = " المبلغ المتبقى" })
+                                              </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
@@ -1557,6 +1568,12 @@ else
                     });
                 }
 
+            });
+              //تحديد مدة الاستحقاق تلقائيا فى حالة تحديدها مسبقا 
+            $.get("/SharedDataSources/GetContractCustomer", { id: $("#CustomerId").val(), isCustomer: true, invoDate: $("#InvoiceDate").val() }, function (data) {
+                if (data!=0) {
+                    $("#DueDate").val(data);
+                }
             });
             showSaleMenDiv();
         }

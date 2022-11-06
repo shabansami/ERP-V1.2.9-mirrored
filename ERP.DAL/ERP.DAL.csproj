@@ -252,7 +252,12 @@
     <Compile Include="Migrations\202210240349159_add-OfferDiscount-in-OfferSellInvoice.designer.cs">
       <DependentUpon>202210240349159_add-OfferDiscount-in-OfferSellInvoice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.cs" />
+    <Compile Include="Migrations\202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.designer.cs">
+      <DependentUpon>202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
     <Compile Include="Models\DamageInvoiceDetail.cs" />
     <Compile Include="Models\District.cs" />
@@ -264,6 +269,8 @@
     <Compile Include="Models\OfferSellInvoice.cs" />
     <Compile Include="Models\OfferType.cs" />
     <Compile Include="Models\ProductionType.cs" />
+    <Compile Include="Models\QuoteOrderSell.cs" />
+    <Compile Include="Models\QuoteOrderSellDetail.cs" />
     <Compile Include="Models\StorePermissionItem.cs" />
     <Compile Include="Models\PersonIntialBalance.cs" />
     <Compile Include="Models\Region.cs" />
@@ -558,6 +565,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202210240349159_add-OfferDiscount-in-OfferSellInvoice.resx">
       <DependentUpon>202210240349159_add-OfferDiscount-in-OfferSellInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.resx">
+      <DependentUpon>202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

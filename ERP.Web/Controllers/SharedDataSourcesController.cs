@@ -259,18 +259,23 @@ namespace ERP.Web.Controllers
                 return Json(0, JsonRequestBehavior.AllowGet);
         }
         //تغيير سعر البيع حسب سياسة البيع المحدد
-        public JsonResult GetPricePolicySellPrice(string itemId, Guid? pricePolicyId, Guid? customerId) //price policy id
+        public JsonResult GetPricePolicySellPrice(string itemId, Guid? pricePolicyId, Guid? personId,bool isCustomer) //price policy id personId(customer/supplier)
         {
             Guid Id;
             if (Guid.TryParse(itemId, out Id) && pricePolicyId != null)
             {
-                ItemPrice itemPrice = null;
+                IQueryable<ItemPrice> itemPrice = null;
                 double? itemSellPrice = 0;
-                itemPrice = db.ItemPrices.Where(x => !x.IsDeleted && x.ItemId == Id && x.PricingPolicyId == pricePolicyId && (x.CustomerId == customerId || x.CustomerId == null)).FirstOrDefault();
-                if (itemPrice == null)
+                itemPrice = db.ItemPrices.Where(x => !x.IsDeleted && x.ItemId == Id && x.PricingPolicyId == pricePolicyId);
+                if (isCustomer)
+                    itemPrice = itemPrice.Where(x => x.CustomerId == personId);
+                else//supplier
+                    itemPrice = itemPrice.Where(x => x.SupplierId == personId);
+
+                if (itemPrice.Count()==0)
                     itemSellPrice = 0;
                 else
-                    itemSellPrice = itemPrice.SellPrice;
+                    itemSellPrice = itemPrice.FirstOrDefault().SellPrice;
 
                 return Json(new { data = itemSellPrice }, JsonRequestBehavior.AllowGet);
             }
@@ -1219,17 +1224,22 @@ namespace ERP.Web.Controllers
             return Json(balance, JsonRequestBehavior.AllowGet);
         }     
         //سياسة اسعار عميل محدد فى فاتورة بيع 
-        public JsonResult GetItemPriceByCustomer(Guid? id,Guid? itemId)//customer id
+        public JsonResult GetItemPriceByCustomer(Guid? id,Guid? itemId,bool isCustomer)//customer id
         {
             double?  customeSell=0;
             Guid? pricingPolicyId=null;
             if (id == null||id==Guid.Empty|| itemId == null|| itemId == Guid.Empty)
                 return Json(new { pricingPolicyId= pricingPolicyId, customeSell= customeSell??0 }, JsonRequestBehavior.AllowGet);
-            var itemPrices = db.ItemPrices.Where(x => x.CustomerId == id&&x.ItemId== itemId).OrderByDescending(x=>x.CreatedOn).FirstOrDefault();
-            if(itemPrices!=null)
+            var itemPrices = db.ItemPrices.Where(x => x.ItemId == itemId);
+            if (isCustomer)
+                itemPrices = itemPrices.Where(x => x.CustomerId == id);
+            else
+                itemPrices = itemPrices.Where(x => x.SupplierId == id);
+            if (itemPrices.Count()>0)
             {
-                pricingPolicyId = itemPrices.PricingPolicyId;
-                customeSell = itemPrices.SellPrice;
+                var data=itemPrices.OrderByDescending(x => x.CreatedOn).FirstOrDefault();
+                pricingPolicyId = data.PricingPolicyId;
+                customeSell = data.SellPrice;
             }
             return Json(new { pricingPolicyId = pricingPolicyId, customeSell = customeSell ?? 0 }, JsonRequestBehavior.AllowGet);
         }

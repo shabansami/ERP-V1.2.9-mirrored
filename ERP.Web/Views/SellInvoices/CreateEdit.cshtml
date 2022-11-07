@@ -1555,7 +1555,7 @@ else
                 $("#PesonBalance").val(data);
             });
             //سياسة اسعار عميل محدد فى فاتورة بيع
-            $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val() }, function (data) {
+            $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val(), isCustomer: true }, function (data) {
                 if (data.customeSell > 0) {
                     $("#PricingPolicyId").val(data.pricingPolicyId);
                     $("#Price").val(data.customeSell);

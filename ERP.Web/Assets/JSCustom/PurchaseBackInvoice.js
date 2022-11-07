@@ -684,58 +684,7 @@ var PurchaseBackInvoice_Module = function () {
         $("#isIntial").val(null);
         $("#balanceProductionOrder").val(null);
 
-        //سياسة اسعار عميل محدد فى فاتورة بيع 
-        $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val() }, function (data) {
-            if (data.customeSell > 0) {
-                $("#PricingPolicyId").val(data.pricingPolicyId);
-                $("#Price").val(data.customeSell);
-                $("#Amount").val(data.customeSell * $("#Quantity").val());
-            } else {
-                var newPrice = 0;
-                //السعر من جدول تحديد اسعار البيع تلقائيا حسب الفرع/الفئة/الصنف
-                $.get("/SharedDataSources/GetItemCustomSellPrice", { itemId: $("#ItemId").val(), branchId: $("#BranchId").val() }, function (data) {
-                    newPrice = data.data;
-                    $("#Price").val(newPrice);
-                    $("#Amount").val(newPrice * $("#Quantity").val());
-                });
-                if (newPrice === 0) {
-                    //سعر بيع الصنف الافتراضى المسجل 
-                    $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
-                        console.log(data);
-                        newPrice = data.data;
-                        $("#Price").val(newPrice);
-                        $("#Amount").val(newPrice * $("#Quantity").val());
-                    });
-                }
 
-
-            }
-
-        });
-        //اخر اسعار سعر بيع للصنف
-        $.get("/SharedDataSources/GetPreviousPrices/", { itemId: $("#ItemId").val(), isSell: true }, function (data) {
-            $("#prevouisPrice").empty();
-            $("#prevouisPrice").append("<option value='0'>اختر سعر</option>");
-            $.each(data, function (index, row) {
-                $("#prevouisPrice").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
-            });
-        });
-        //اظهار تكلفة الصنف
-        if ($('#ItemCostCalculateShowInSellRegId').val() === '1') {
-            $.get("/SharedDataSources/GetPriceOnItemCostCalculateChange", { itemCostCalcId: $("#ItemCostCalculateId").val(), itemId: $("#ItemId").val() }, function (res) {
-                $("#ItemCost").val(res.price);
-            });
-        } else
-            $("#ItemCost").val(0);
-        //وحدات الصنف 
-        $.get("/SharedDataSources/GeItemUnits", { id: $("#ItemId").val() }, function (data) {
-            $("#ItemUnitsId").empty();
-            $("#ItemUnitsId").append("<option value=>اختر عنصر من القائمة</option>");
-            $.each(data, function (index, row) {
-                $("#ItemUnitsId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
-            });
-
-        });
     };
 
     //#endregion ========= end Step 2 ==========

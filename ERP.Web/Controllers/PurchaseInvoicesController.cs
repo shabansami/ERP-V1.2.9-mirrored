@@ -174,6 +174,8 @@ namespace ERP.Web.Controllers
         public ActionResult CreateEdit(string shwTab)
         {
             ViewBag.ContainerId = new SelectList(db.Containers.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
+
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");

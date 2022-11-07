@@ -957,7 +957,7 @@ var SellInvoice_Module = function () {
         $("#balanceProductionOrder").val(null);
 
         //سياسة اسعار عميل محدد فى فاتورة بيع 
-        $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val() }, function (data) {
+        $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val(), isCustomer: true }, function (data) {
             if (data.customeSell > 0 ) {
                 $("#PricingPolicyId").val(data.pricingPolicyId);
                 $("#Price").val(data.customeSell);
@@ -967,6 +967,7 @@ var SellInvoice_Module = function () {
                 //السعر من جدول تحديد اسعار البيع تلقائيا حسب الفرع/الفئة/الصنف
                 $.get("/SharedDataSources/GetItemCustomSellPrice", { itemId: $("#ItemId").val(), branchId: $("#BranchId").val() }, function (data) {
                     newPrice = data.data;
+                    $("#PricingPolicyId").val(null);
                     $("#Price").val(newPrice);
                     $("#Amount").val(newPrice * $("#Quantity").val());
                 });
@@ -975,6 +976,7 @@ var SellInvoice_Module = function () {
                     $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
                         console.log(data);
                         newPrice = data.data;
+                        $("#PricingPolicyId").val(null);
                         $("#Price").val(newPrice);
                         $("#Amount").val(newPrice * $("#Quantity").val());
                     });
@@ -1019,7 +1021,7 @@ var SellInvoice_Module = function () {
     function onPricingPolicyChange() {
         console.log(11);
 
-        $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), customerId: $("#CustomerId").val() }, function (data) {
+        $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), personId: $("#CustomerId").val(),isCustomer:true }, function (data) {
             $("#Price").val(data.data);
             onPriceOrQuanKeyUp();
         });

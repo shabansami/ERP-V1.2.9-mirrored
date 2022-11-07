@@ -630,7 +630,7 @@ var SaleMenSellInvoice_Module = function () {
     };
     //تغيير سعر البيع حسب سياسة البيع المحدد
     function onPricingPolicyChange() {
-        $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), customerId: $("#CustomerId").val() }, function (data) {
+        $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), personId: $("#CustomerId").val(), isCustomer: true }, function (data) {
             $("#Price").val(data.data);
         });
     };

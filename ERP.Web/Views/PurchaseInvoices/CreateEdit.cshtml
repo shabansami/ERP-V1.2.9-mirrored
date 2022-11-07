@@ -265,18 +265,25 @@
                                     </h4>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group required">
                                             <label> المجموعة الاساسية</label>
                                             <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
                                             <span class="form-text text-muted">اختر مجموعة</span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group required">
                                             <label>الصنف</label>
                                             @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", @onchange = "PurchaseInvoice_Module.onItemChange()" })
                                             <span class="form-text text-muted">اختر الصنف</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>سياسة الاسعار </label>
+                                            @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med w-100", onchange = "PurchaseInvoice_Module.onPricingPolicyChange()" })
+                                            <span class="form-text text-muted">اختر سياسة الاسعار</span>
                                         </div>
                                     </div>
                                 </div>
@@ -295,7 +302,7 @@
                                         <!--begin::Input-->
                                         <div class="form-group">
                                             <label>اسعار الشراء السابقة</label>
-                                            <select id="prevouisPrice" class="form-control din-med w-100" onchange="PurchaseInvoice_Module.ChangeCurrentPice()"></select>
+                                            <select id="prevouisPrice" class="form-select din-med w-100" onchange="PurchaseInvoice_Module.ChangeCurrentPice()"></select>
                                         </div>
                                         <!--end::Input-->
                                     </div>
@@ -814,7 +821,7 @@ else
                                 <div class="my-5 din-med">
                                     <h3 class="text-dark font-weight-bold mb-10 din-med">اضافة اصناف الفاتورة : </h3>
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>المجموعة الاساسية</label>
                                                 <div class="col-9">
@@ -823,7 +830,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>الصنف</label>
                                                 <div class="col-9">
@@ -832,6 +839,14 @@ else
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label>سياسة الاسعار </label>
+                                                @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med w-100", onchange = "PurchaseInvoice_Module.onPricingPolicyChange()" })
+                                                <span class="form-text text-muted">اختر سياسة الاسعار</span>
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>الكمية</label>
@@ -864,7 +879,7 @@ else
                                             <div class="form-group row">
                                                 <label>اسعار الشراء السابقة</label>
                                                 <div class="col-7">
-                                                    <select id="prevouisPrice" class="form-control w-100" onchange="PurchaseInvoice_Module.ChangeCurrentPice()"></select>
+                                                    <select id="prevouisPrice" class="form-select w-100" onchange="PurchaseInvoice_Module.ChangeCurrentPice()"></select>
                                                 </div>
                                             </div>
                                         </div>
@@ -896,23 +911,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group row">
-                                                <label>القيمة</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="form-group row">
-                                                <label>قيمة الخصم على الصنف</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>المخزن</label>
                                                 <div class="col-9">
@@ -921,16 +920,33 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
-                                                <label>الحاوية</label>
+                                                <label>القيمة</label>
                                                 <div class="col-9">
-                                                    @Html.DropDownList("ContainerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                                                    <span class="form-text text-muted">اختر حاوية </span>
+                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
+                                            <div class="form-group row">
+                                                <label>قيمة الخصم على الصنف</label>
+                                                <div class="col-9">
+                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-3">
+                                            <div class="form-group row">
+                                                <label>الحاوية</label>
+                                                <div class="col-9">
+                                                    @Html.DropDownList("ContainerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med" })
+                                                    <span class="form-text text-muted">اختر حاوية </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
                                             <div class="form-group row">
                                                 <label>تاريخ دخول الصنف</label>
                                                 <div class="col-9">
@@ -938,7 +954,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-5">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>.</label>
                                                 <div class="col-9">
@@ -946,7 +962,7 @@ else
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-2">
                                             <div class="form-group row">
                                                 <div class="d-flex justify-content-between flex-column  font-size-lg">
                                                     <div class="d-flex flex-column text-md-center">
@@ -1191,6 +1207,21 @@ else
             }
             $.get("/SharedDataSources/GetPersonBalance", { id: $("#SupplierId").val(), isCustomer: false }, function (data) {
                 $("#PesonBalance").val(data);
+            });
+            //سياسة اسعار مورد محدد فى فاتورة التوريد 
+            $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#SupplierId").val(), itemId: $("#ItemId").val(), isCustomer: false }, function (data) {
+                if (data.customeSell > 0) {
+                    $("#PricingPolicyId").val(data.pricingPolicyId);
+                    $("#Price").val(data.customeSell);
+                    $("#Amount").val(data.customeSell * $("#Quantity").val());
+                } else {
+                    $("#PricingPolicyId").val(null);
+                    $("#Price").val(0);
+                    $("#Quantity").val(0);
+                    $("#Amount").val(0);
+
+                }
+
             });
             //تحديد مدة الاستحقاق تلقائيا فى حالة تحديدها مسبقا 
             $.get("/SharedDataSources/GetContractCustomer", { id: $("#SupplierId").val(), isCustomer: false, invoDate: $("#InvoiceDate").val() }, function (data) {

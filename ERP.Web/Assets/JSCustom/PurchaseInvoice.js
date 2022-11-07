@@ -587,7 +587,21 @@ var PurchaseInvoice_Module = function () {
                 $("#prevouisPrice").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
             });
         });
+        //سياسة اسعار مورد محدد فى فاتورة التوريد 
+        $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#SupplierId").val(), itemId: $("#ItemId").val(),isCustomer:false }, function (data) {
+            if (data.customeSell > 0) {
+                $("#PricingPolicyId").val(data.pricingPolicyId);
+                $("#Price").val(data.customeSell);
+                $("#Amount").val(data.customeSell * $("#Quantity").val());
+            } else {
+                $("#PricingPolicyId").val(null);
+                $("#Price").val(0);
+                $("#Quantity").val(0);
+                $("#Amount").val(0);
 
+            }
+
+        });
     };
     //تغيير سعر البيع حسب اختيار اسعار بيع سابقة
     function ChangeCurrentPice() {
@@ -615,7 +629,13 @@ var PurchaseInvoice_Module = function () {
         $("#Quantity").val($("#UnitCount").val() * $("#UnitConvertFromCount").val());
         onPriceOrQuanKeyUp();
     }
-
+    //تغيير سعر البيع حسب سياسة البيع المحدد
+    function onPricingPolicyChange() {
+        $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), personId: $("#SupplierId").val(), isCustomer: false }, function (data) {
+            $("#Price").val(data.data);
+            onPriceOrQuanKeyUp();
+        });
+    };
     //#endregion ========= end Step 2 ==========
 
 
@@ -851,6 +871,7 @@ var PurchaseInvoice_Module = function () {
         onPriceOrQuanKeyUp: onPriceOrQuanKeyUp,
         showUnitConvert: showUnitConvert,
         updateQuantity: updateQuantity,
+        onPricingPolicyChange: onPricingPolicyChange,
         //step3
         initPurchaseInvoiceExpenses: function () {
             initDTPurchaseInvoiceExpenses();

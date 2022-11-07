@@ -190,7 +190,7 @@ namespace ERP.Web.Controllers
                         .Select(x => new PricingPolicyDT
                         {
                             CustomerId = x.CustomerId,
-                            CustomerName = x.Person != null ? x.Person.Name : null,
+                            CustomerName = x.Customer != null ? x.Customer.Name : null,
                             Id = x.Id,
                             PricingPolicyId = x.PricingPolicyId,
                             PricingPolicyName = x.PricingPolicy != null ? x.PricingPolicy.Name : null,

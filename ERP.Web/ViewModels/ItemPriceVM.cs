@@ -14,7 +14,9 @@ namespace ERP.Web.ViewModels
         public Nullable<Guid> PricingPolicyId { get; set; }
         public Nullable<Guid> PersonCategoryId { get; set; }
         public Nullable<Guid> CustomerId { get; set; }
+        public Nullable<Guid> SupplierId { get; set; }
         public Nullable<Guid> ItemtypeId { get; set; }
+        public bool ShowAllItems { get; set; }
         public List<ItemCustomers> ItemsDetails { get; set; }
     }
 

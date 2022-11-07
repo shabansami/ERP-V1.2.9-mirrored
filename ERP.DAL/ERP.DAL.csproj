@@ -256,6 +256,10 @@
     <Compile Include="Migrations\202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.designer.cs">
       <DependentUpon>202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211071213407_update_tb_ItemPrice_Supplier.cs" />
+    <Compile Include="Migrations\202211071213407_update_tb_ItemPrice_Supplier.designer.cs">
+      <DependentUpon>202211071213407_update_tb_ItemPrice_Supplier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -568,6 +572,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.resx">
       <DependentUpon>202211061229050_add_new_tbs_QuoteOrderSell_QuoteOrderSellDetails_ContractCustomerSupplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211071213407_update_tb_ItemPrice_Supplier.resx">
+      <DependentUpon>202211071213407_update_tb_ItemPrice_Supplier.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

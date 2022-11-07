@@ -1,31 +1,30 @@
-﻿using Newtonsoft.Json;
-using ERP.Web.Identity;
+﻿using ERP.DAL.Utilites;
 using ERP.DAL;
-using ERP.Web.Services;
 using ERP.Web.Utilites;
 using ERP.Web.ViewModels;
-using System;using ERP.DAL.Utilites;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Identity;
 
 namespace ERP.Web.Controllers
 {
     [Authorization]
-
-    public class ItemPricesController : Controller
+    public class ItemPriceSuppliersController : Controller
     {
-        // GET: ItemPrices
+        // GET: ItemPriceSuppliers
         VTSaleEntities db = new VTSaleEntities();
         VTSAuth auth = new VTSAuth();
         [HttpGet]
         public ActionResult CreateEdit()
         {
-            ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
-            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted&&x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
+            ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name");
+            ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Supplier || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name"); // سياسة الخصوصية
 
@@ -37,38 +36,39 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name", vm.PersonCategoryId);
-                ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", vm.CustomerId);
+                ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name", vm.PersonCategoryId);
+                ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Supplier || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", vm.SupplierId);
                 ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.ItemtypeId);// item type (منتج خام - وسيط - نهائى 
                 ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name", vm.PricingPolicyId); // سياسة الخصوصية
 
-                if (vm.CustomerId == null || vm.PricingPolicyId == null /*|| vm.ItemtypeId == null*/)
+                if (vm.SupplierId == null || vm.PricingPolicyId == null /*|| vm.ItemtypeId == null*/)
                 {
                     ViewBag.ErrorMsg = "تأكد من اختيار البيانات بشكل صحيح";
                     return View(vm);
                 }
 
-                var itemsQ = db.Items.Where(x => !x.IsDeleted  && x.AvaliableToSell && x.GroupBasic.GroupTypeId == (int)GroupTypeCl.Basic);
-                if(!vm.ShowAllItems)
-                     if (vm.ItemtypeId != null)
-                          itemsQ = itemsQ.Where(x => x.ItemTypeId == vm.ItemtypeId);
-                    else
+                var itemsQ = db.Items.Where(x => !x.IsDeleted && x.AvaliableToSell && x.GroupBasic.GroupTypeId == (int)GroupTypeCl.Basic);
+                if (!vm.ShowAllItems)
+                    if (vm.ItemtypeId != null)
+                        itemsQ = itemsQ.Where(x => x.ItemTypeId == vm.ItemtypeId);
+                        else
                     {
                         ViewBag.ErrorMsg = "تأكد من تحديد عرض كل الاصناف او تحديد نوع الصنف";
                         return View(vm);
                     }
+
                 var items = itemsQ.Select(x => new ItemCustomers
                 {
-                    ItemPriceId = x.ItemPrices.Where(ip => !ip.IsDeleted && ip.CustomerId == vm.CustomerId && ip.PricingPolicyId == vm.PricingPolicyId).FirstOrDefault() != null ? x.ItemPrices.Where(ip => !ip.IsDeleted && ip.CustomerId == vm.CustomerId && ip.PricingPolicyId == vm.PricingPolicyId).FirstOrDefault().Id : Guid.Empty,
+                    ItemPriceId = x.ItemPrices.Where(ip => !ip.IsDeleted && ip.SupplierId == vm.SupplierId && ip.PricingPolicyId == vm.PricingPolicyId).FirstOrDefault() != null ? x.ItemPrices.Where(ip => !ip.IsDeleted && ip.SupplierId == vm.SupplierId && ip.PricingPolicyId == vm.PricingPolicyId).FirstOrDefault().Id : Guid.Empty,
                     ItemId = x.Id,
                     ItemName = x.Name,
-                    SellPrice = x.SellPrice,
-                    SellPriceCustome = x.ItemPrices.Where(ip => !ip.IsDeleted && ip.CustomerId == vm.CustomerId && ip.PricingPolicyId == vm.PricingPolicyId).FirstOrDefault().SellPrice ?? 0
+                    SellPrice = x.PurchaseInvoicesDetails.Where(p=>!p.IsDeleted).OrderByDescending(p => p.CreatedOn).Select(p=>p.Price).FirstOrDefault(),
+                    SellPriceCustome = x.ItemPrices.Where(ip => !ip.IsDeleted && ip.SupplierId == vm.SupplierId && ip.PricingPolicyId == vm.PricingPolicyId).FirstOrDefault().SellPrice ?? 0
                 }).ToList();
 
                 return View(new ItemPriceVM
                 {
-                    CustomerId = vm.CustomerId,
+                    SupplierId = vm.SupplierId,
                     ItemtypeId = vm.ItemtypeId,
                     PersonCategoryId = vm.PersonCategoryId,
                     PricingPolicyId = vm.PricingPolicyId,
@@ -83,9 +83,9 @@ namespace ERP.Web.Controllers
 
         }
         [HttpPost]
-        public ActionResult AddItemPriceCustomer(string PricingPolicyId, string CustomerId, string data)
+        public ActionResult AddItemPriceSupplier(string PricingPolicyId, string SupplierId, string data)
         {
-            if (string.IsNullOrEmpty(CustomerId) || string.IsNullOrEmpty(PricingPolicyId))
+            if (string.IsNullOrEmpty(SupplierId)||!Guid.TryParse(SupplierId,out Guid supplierId)||supplierId==Guid.Empty || string.IsNullOrEmpty(PricingPolicyId))
                 return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
 
             List<ItemCustomers> DTItemPrices = new List<ItemCustomers>();
@@ -109,18 +109,18 @@ namespace ERP.Web.Controllers
                     {
                         if (item.ItemPriceId != Guid.Empty)//يوجد ادخال سابق لسياسة الاسعار 
                         {
-                            var itemPrice = db.ItemPrices.FirstOrDefault(x=>x.Id==item.ItemPriceId);
+                            var itemPrice = db.ItemPrices.FirstOrDefault(x => x.Id == item.ItemPriceId);
                             itemPrice.SellPrice = item.SellPriceCustome;
                             db.Entry(itemPrice).State = EntityState.Modified;
                         }
-                        else//يتم اضافة سياسة السعر للعميل لاول مرة 
+                        else//يتم اضافة سياسة السعر للمورد لاول مرة 
                         {
                             db.ItemPrices.Add(new ItemPrice
                             {
                                 ItemId = item.ItemId,
                                 PricingPolicyId = Guid.Parse(PricingPolicyId),
                                 SellPrice = item.SellPriceCustome,
-                                CustomerId = Guid.Parse(CustomerId)
+                                SupplierId = supplierId
                             });
 
                         }
@@ -141,7 +141,7 @@ namespace ERP.Web.Controllers
             //{
             //    ItemId = x.ItemId,
             //    PricingPolicyId = vm.PricingPolicyId,
-            //    CustomerId = vm.CustomerId,
+            //    SupplierId = vm.SupplierId,
             //    SellPrice = x.SellPriceCustome
             //}).ToList();
 

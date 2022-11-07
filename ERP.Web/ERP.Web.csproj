@@ -203,6 +203,7 @@
     <Content Include="Assets\JSCustom\ContractSupplier.js" />
     <Content Include="Assets\JSCustom\District.js" />
     <Content Include="Assets\JSCustom\ContractCustomer.js" />
+    <Content Include="Assets\JSCustom\ItemPriceSupplier.js" />
     <Content Include="Assets\JSCustom\Offer.js" />
     <Content Include="Assets\JSCustom\JQuery_Sum.js" />
     <Content Include="Assets\JSCustom\Region.js" />
@@ -1696,6 +1697,7 @@
     <Compile Include="Controllers\ItemGroupsController.cs" />
     <Compile Include="Controllers\ItemIntialBalancesController.cs" />
     <Compile Include="Controllers\ItemPricesController.cs" />
+    <Compile Include="Controllers\ItemPriceSuppliersController.cs" />
     <Compile Include="Controllers\ItemProductionsController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\ItemTypesController.cs" />
@@ -2341,6 +2343,7 @@
     <Content Include="Views\ContractCustomers\CreateEdit.cshtml" />
     <Content Include="Views\ContractSuppliers\Index.cshtml" />
     <Content Include="Views\ContractSuppliers\CreateEdit.cshtml" />
+    <Content Include="Views\ItemPriceSuppliers\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

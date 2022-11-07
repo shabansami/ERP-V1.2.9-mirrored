@@ -24,15 +24,18 @@ namespace ERP.DAL
 
         public Nullable<double> SellPrice { get; set; }
 
-        [ForeignKey(nameof(Person))]
+        [ForeignKey(nameof(Customer))]
         public Nullable<Guid> CustomerId { get; set; }
+        [ForeignKey(nameof(Supplier))]
+        public Nullable<Guid> SupplierId { get; set; }
 
         [ForeignKey(nameof(Unit))]
         public Nullable<Guid> UnitId { get; set; }
 
         public virtual Item Item { get; set; }
         public virtual PricingPolicy PricingPolicy { get; set; }
-        public virtual Person Person { get; set; }
+        public virtual Person Customer { get; set; }
+        public virtual Person Supplier { get; set; }
         public virtual Unit Unit { get; set; }
     }
 }

@@ -29,7 +29,7 @@
             {
 <div class="card-body">
     <div class="row">
-        <div class="col-lg-6 alert alert-primary">
+        <div class="col-lg-4">
             <div class="form-group">
                 <div>
                     <label> فئات العملاء</label>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-6 alert alert-primary">
+        <div class="col-lg-4">
             <div class="form-group required">
                 <div>
                     <label> العميل</label>
@@ -46,19 +46,25 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 alert alert-primary">
+        <div class="col-lg-4 ">
             <div class="form-group required">
                 <label>سياسة الاسعار</label>
                 @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   " })
             </div>
         </div>
-        <div class="col-lg-4 alert alert-primary">
+        <div class="col-lg-4 ">
             <div class="form-group">
                 <label>نوع الصنف</label>
                 @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
             </div>
+        </div> 
+        <div class="col-lg-4 ">
+            <div class="form-group">
+                <label>عرض كل الاصناف</label>
+                @Html.CheckBoxFor(m=>m.ShowAllItems, htmlAttributes: new { @class = "form-check-input" })
+            </div>
         </div>
-        <div class="col-lg-4 alert alert-primary">
+        <div class="col-lg-4 ">
             <div class="form-group ">
                 <label>.</label>
                 <input type="submit" @*onclick="Item_Module.SubmitFormTreePrice()"*@ value="بحث" style="text-align:center;" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" />

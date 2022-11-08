@@ -461,7 +461,18 @@ namespace ERP.Web.Controllers
                 ParentId = x.ParentId
             }).ToList();
         }
+        #region Group Tree View
+        public JsonResult GetItemGroupView()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var data = new List<TreeViewDraw>();
+            data = _itemService.GetGroups();
 
+            stopwatch.Stop();
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+        #endregion
         #region Upload Center 
         public JsonResult GetUploadCenters(bool selectedTree = false)
         {
@@ -1291,6 +1302,34 @@ namespace ERP.Web.Controllers
                     return Json("0", JsonRequestBehavior.AllowGet);
             }
 
+        }
+        #endregion
+
+        #region فواتير البيع 
+        //ارقام فواتير البيع بدلالة العميل 
+        public JsonResult GetSellInvoiceIds(Guid? customerId)
+        {
+            if (customerId!=null)
+            {
+                var list = db.SellInvoices.Where(x => !x.IsDeleted && x.CustomerId == customerId&&(x.PaymentTypeId==(int)PaymentTypeCl.Deferred||x.PaymentTypeId==(int)PaymentTypeCl.Partial)).ToList().Select(x => new { Id = x.Id, Name = $"فاتورة رقم : {x.InvoiceNumber} | بتاريخ {x.InvoiceDate.ToString("yyyy-MM-dd")}" });
+                var selectList = new SelectList(list, "Id", "Name");
+                return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(null, JsonRequestBehavior.AllowGet);
+        } 
+        //قيمة فاتورة البيع بدلالة رقمها  
+        public JsonResult GetInvoiceAmount(Guid? sellInvoiceId)
+        {
+            if (sellInvoiceId != null)
+            {
+                var amount = db.SellInvoices.Where(x => !x.IsDeleted && x.Id == sellInvoiceId ).FirstOrDefault().Safy;
+                var totalInvoiceAmount = db.SellInvoicePayments.Where(x => !x.IsDeleted && x.SellInvoiceId == sellInvoiceId).DefaultIfEmpty().Sum(y => (double?)y.Amount ?? 0);
+                var remindAmount = amount - totalInvoiceAmount;
+                return Json(new {invoiceAmount=amount, totalInvoiceAmount= totalInvoiceAmount, remindAmount= remindAmount }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(0, JsonRequestBehavior.AllowGet);
         }
         #endregion
         //Releases unmanaged resources and optionally releases managed resources.

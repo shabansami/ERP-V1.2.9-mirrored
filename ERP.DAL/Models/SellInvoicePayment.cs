@@ -18,11 +18,10 @@ namespace ERP.DAL
     {
         [ForeignKey(nameof(SellInvoice))]
         public Nullable<Guid> SellInvoiceId { get; set; }
-        public System.Guid PayGuid { get; set; }
-        public Nullable<System.DateTime> DueDate { get; set; }
+        public Nullable<System.DateTime> OperationDate { get; set; }
         public double Amount { get; set; }
-        public bool IsPayed { get; set; }
-    
+        public string Notes { get; set; }
+
         public virtual SellInvoice SellInvoice { get; set; }
     }
 }

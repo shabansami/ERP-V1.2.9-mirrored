@@ -23,6 +23,8 @@ namespace ERP.Web.Controllers
             db = new VTSaleEntities();
             auth = new VTSAuth();
         }
+
+        #region عرض البيانات
         public ActionResult Index()
         {
             //ViewBag.GroupTypeId = new SelectList(db.GroupTypes.Where(x => !x.IsDeleted), "Id", "Name");
@@ -33,10 +35,42 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.Groups.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, Name = x.Name,GroupTypeName=x.GroupType.Name, Actions = n, Num = n }).ToList()
+                data = db.Groups.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, Name = x.Name, GroupTypeName = x.GroupType.Name, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
 
         }
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                var model = db.Groups.FirstOrDefault(x => x.Id == Id);
+                if (model != null)
+                {
+                    if (TempData["userInfo"] != null)
+                        auth = TempData["userInfo"] as VTSAuth;
+                    else
+                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+
+                    model.IsDeleted = true;
+                    db.Entry(model).State = EntityState.Modified;
+                    if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                        return Json(new { isValid = true, message = "تم الحذف بنجاح" });
+                    else
+                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                }
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+        }
+
+        #endregion
+
+        #region تعديل واضافة
         [HttpGet]
         public ActionResult CreateEdit()
         {
@@ -46,8 +80,8 @@ namespace ERP.Web.Controllers
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
-                    var model = db.Groups.FirstOrDefault(x=>x.Id==id);
-                    ViewBag.GroupTypeId = new SelectList(db.GroupTypes.Where(x => !x.IsDeleted), "Id", "Name",model.GroupTypeId);
+                    var model = db.Groups.FirstOrDefault(x => x.Id == id);
+                    ViewBag.GroupTypeId = new SelectList(db.GroupTypes.Where(x => !x.IsDeleted), "Id", "Name", model.GroupTypeId);
                     ViewBag.GroupTypeIdTree = model.GroupTypeId;
                     //var data =Services.GetItemGroupTree(model.GroupTypeId);
                     //ViewBag.dataSou =JsonConvert.SerializeObject(data).ToString();
@@ -85,7 +119,7 @@ namespace ERP.Web.Controllers
                     if (db.Groups.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
 
-                    var model = db.Groups.FirstOrDefault(x=>x.Id==vm.Id);
+                    var model = db.Groups.FirstOrDefault(x => x.Id == vm.Id);
                     model.Name = vm.Name;
                     model.ParentId = vm.ParentId;
                     db.Entry(model).State = EntityState.Modified;
@@ -134,34 +168,15 @@ namespace ERP.Web.Controllers
             return RedirectToAction("CreateEdit");
 
         }
-        [HttpPost]
-        public ActionResult Delete(string id)
+
+        #endregion
+
+        #region استعراض المجموعات
+        public ActionResult ShowGroups()
         {
-            Guid Id;
-            if (Guid.TryParse(id, out Id))
-            {
-                var model = db.Groups.FirstOrDefault(x=>x.Id==Id);
-                if (model != null)
-                {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-                    model.IsDeleted = true;
-                    db.Entry(model).State = EntityState.Modified;
-                    if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                        return Json(new { isValid = true, message = "تم الحذف بنجاح" });
-                    else
-                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-                }
-                else
-                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-            }
-            else
-                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-
+            return View();
         }
+        #endregion
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

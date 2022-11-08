@@ -1,10 +1,13 @@
 ﻿using ERP.DAL;
+using ERP.Web.DataTablesDS;
+using ERP.Web.Utilites;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using static ERP.Web.Services.AccountTreeService;
 using static ERP.Web.Utilites.Lookups;
 
 namespace ERP.Web.Services
@@ -16,12 +19,12 @@ namespace ERP.Web.Services
         public double GetItemCostCalculation(int costCalculation, Guid? itemId)
         {
             // اذا كان الصنف تم انتاجه من امر انتاج يتم اختساب متوسط تكلفته فى جميع اوامر الانتاج
-            using (var db=new VTSaleEntities())
+            using (var db = new VTSaleEntities())
             {
                 var productionOrderDetails = db.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.ProductionTypeId == (int)ProductionTypeCl.Out);
                 if (productionOrderDetails.Any())
                 {
-                   return Math.Round(productionOrderDetails.Sum(x => (double?)x.ItemCost ?? 0) / productionOrderDetails.Count());
+                    return Math.Round(productionOrderDetails.Sum(x => (double?)x.ItemCost ?? 0) / productionOrderDetails.Count());
                 }
             }
             switch (costCalculation)
@@ -222,7 +225,7 @@ namespace ERP.Web.Services
                             sellBackBalance = sellBackBalance.Where(x => DbFunctions.TruncateTime(x.SellBackInvoice.InvoiceDate) <= dtTo);
                         return sellBackBalance.Count() > 0 ? sellBackBalance.Sum(x => x.Quantity) : 0;
                     case ParemeterReport.StoreTranFrom: //تحويل مخزنى(من)
-                        var storeTranFromBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval );
+                        var storeTranFromBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval);
                         if (storeId != null)
                             storeTranFromBalance = storeTranFromBalance.Where(x => x.StoresTransfer.StoreFromId == storeId);
                         if (branchId != null)
@@ -233,7 +236,7 @@ namespace ERP.Web.Services
                             storeTranFromBalance = storeTranFromBalance.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) <= dtTo);
                         return storeTranFromBalance.Count() > 0 ? storeTranFromBalance.Sum(x => x.Quantity) : 0;
                     case ParemeterReport.StoreTranTo: //تحويل مخزنى الى
-                        var storeTranToBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval );
+                        var storeTranToBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval);
                         if (storeId != null)
                             storeTranToBalance = storeTranToBalance.Where(x => x.StoresTransfer.StoreToId == storeId);
                         if (branchId != null)
@@ -450,10 +453,10 @@ namespace ERP.Web.Services
         #endregion
 
         #region هل الصنف يسمح بالسحب منه بالسالب
-        public Result IsAllowNoBalance(Guid? itemId,Guid? storeId,double quantity) 
+        public Result IsAllowNoBalance(Guid? itemId, Guid? storeId, double quantity)
         {
             //quantity الكمية المراد بيعها او مرتجع توريد او رصيد اول او تحويل مخزنى تكون اكبر من او تساوى رصيد الصنف الحالى 
-            using (var db=new VTSaleEntities())
+            using (var db = new VTSaleEntities())
             {
                 if (itemId != null && itemId != Guid.Empty && storeId != null && storeId != Guid.Empty)
                 {
@@ -464,7 +467,7 @@ namespace ERP.Web.Services
                         if (itemAcceptNoBalance == 0)// رفض السحب بالسالب 
                         {
                             var balance = BalanceService.GetBalance(itemId, storeId);
-                            if (balance <= 0|| quantity>balance)
+                            if (balance <= 0 || quantity > balance)
                             {
                                 var itemName = db.Items.Where(x => x.Id == itemId).FirstOrDefault().Name;
                                 return new Result
@@ -486,7 +489,8 @@ namespace ERP.Web.Services
                             IsValid = false
                         };
 
-                } else
+                }
+                else
                     return new Result
                     {
                         IsValid = false
@@ -501,67 +505,90 @@ namespace ERP.Web.Services
             public string ItemNotAllowed { get; set; }
         }
         #endregion
+
+        #region استعراض المجموعات فى شكل شجرى 
+        public List<TreeViewDraw> GetGroups()
+        {
+            List<TreeViewDraw> accountTrees = new List<TreeViewDraw>();
+            using (var db = new VTSaleEntities())
+            {
+                //8 milliseconds after maping AccountTree to DTO class
+                var parentss = db.Groups.Where(x => !x.IsDeleted).ToList();
+
+                return GetAll(parentss, null);
+            }
+        }
+        public List<TreeViewDraw> GetAll(List<Group> groups, Guid? parent)
+        {
+            var parents = groups.Where(x => !x.IsDeleted && x.ParentId == parent);
+            return parents.Select(x => new TreeViewDraw
+            {
+                text = x.Name,
+                children = GetAll(groups, x.Id)
+            }).ToList();
+        }
+        #endregion
     }
-}
-public class ItemStock
-{
-    public Guid ItemId { get; set; }
-    public string ItemName { get; set; }
-    public string ItemUnit { get; set; }
-    public string StoreName { get; set; }
-    public double InitialBalances { get; set; }
-    public double ItemBalance { get; set; }//رصيد الصنف
-    public double Purchases { get; set; }
-    public double BackPurchases { get; set; }
-    public double Sell { get; set; }
-    public double SellBack { get; set; }
-    public double StoreTranFrom { get; set; } //تحويل مخزنى من
-    public double StoreTranTo { get; set; } //تحويل مخزنى الى
-    public double Inventories { get; set; } //جرد
-    public double ProductionOrders { get; set; }//اوامر الانتاج
-    public double ProductionOrderDetails { get; set; }//خامات اوامر الانتاج
-    public double Maintenances { get; set; }//الصيانة
-    public double MaintenanceSpareParts { get; set; }//قطع غيار الصيانة
-    public double ItemCostPurchase { get; set; }//سعر تكلفة الشراء
-    public double ItemCostSell { get; set; }//سعر تكلفة البيع
-    public double TotalItemCostPurchase { get; set; }//اجمالى رصيد الشراء
-    public double TotalItemCostSell { get; set; }//سعر رصيد البيع
-    public double TotalIn { get; set; }//اجمالى وارد 
-    public double TotalOut { get; set; }//اجمالى صادر 
-    public double Damage { get; set; }//الهالك 
-    public double StorePermissionReceive { get; set; }//اذن استلام 
-    public double StorePermissionLeave { get; set; }//اذن صرف 
-}
+    public class ItemStock
+    {
+        public Guid ItemId { get; set; }
+        public string ItemName { get; set; }
+        public string ItemUnit { get; set; }
+        public string StoreName { get; set; }
+        public double InitialBalances { get; set; }
+        public double ItemBalance { get; set; }//رصيد الصنف
+        public double Purchases { get; set; }
+        public double BackPurchases { get; set; }
+        public double Sell { get; set; }
+        public double SellBack { get; set; }
+        public double StoreTranFrom { get; set; } //تحويل مخزنى من
+        public double StoreTranTo { get; set; } //تحويل مخزنى الى
+        public double Inventories { get; set; } //جرد
+        public double ProductionOrders { get; set; }//اوامر الانتاج
+        public double ProductionOrderDetails { get; set; }//خامات اوامر الانتاج
+        public double Maintenances { get; set; }//الصيانة
+        public double MaintenanceSpareParts { get; set; }//قطع غيار الصيانة
+        public double ItemCostPurchase { get; set; }//سعر تكلفة الشراء
+        public double ItemCostSell { get; set; }//سعر تكلفة البيع
+        public double TotalItemCostPurchase { get; set; }//اجمالى رصيد الشراء
+        public double TotalItemCostSell { get; set; }//سعر رصيد البيع
+        public double TotalIn { get; set; }//اجمالى وارد 
+        public double TotalOut { get; set; }//اجمالى صادر 
+        public double Damage { get; set; }//الهالك 
+        public double StorePermissionReceive { get; set; }//اذن استلام 
+        public double StorePermissionLeave { get; set; }//اذن صرف 
+    }
 
-public enum ParemeterReport
-{
-    TotalIn = 1,//اجمالى وارد 
-    TotalOut, //اجمالى صادر 
-    Intial, //رصيد اول
-    Purchase,//شراء
-    PurchaseBack,//مرتجع شراء
-    Sell, //بيع
-    SellBack,//مرتجع بيع
-    StoreTranFrom,//تحويل من
-    StoreTranTo,//تحويل الى
-    Inventory,//جرد
-    ProductionOrder,//اوامر الانتاج
-    ProductionOrderDetails,//خامات اوامر انتاج
-    Maintenance,//صيانة
-    MaintenanceSpareParts,//قطع غيار صيانة
-    Damages,//هالك
-    StorePermissionReceive,//اذن صرف
-    StorePermissionLeave,//اذن استلام
-}
+    public enum ParemeterReport
+    {
+        TotalIn = 1,//اجمالى وارد 
+        TotalOut, //اجمالى صادر 
+        Intial, //رصيد اول
+        Purchase,//شراء
+        PurchaseBack,//مرتجع شراء
+        Sell, //بيع
+        SellBack,//مرتجع بيع
+        StoreTranFrom,//تحويل من
+        StoreTranTo,//تحويل الى
+        Inventory,//جرد
+        ProductionOrder,//اوامر الانتاج
+        ProductionOrderDetails,//خامات اوامر انتاج
+        Maintenance,//صيانة
+        MaintenanceSpareParts,//قطع غيار صيانة
+        Damages,//هالك
+        StorePermissionReceive,//اذن صرف
+        StorePermissionLeave,//اذن استلام
+    }
 
-public class ItemGift
-{
-    public Guid Id { get; set; }
-    public string ItemCode { get; set; }
-    public string ItemName { get; set; }
-    public string UnitName { get; set; }
-    public double Quantity { get; set; }
-    public double CostItem { get; set; }
-    public double Amount { get; set; }
-    public int? Num { get; set; }
+    public class ItemGift
+    {
+        public Guid Id { get; set; }
+        public string ItemCode { get; set; }
+        public string ItemName { get; set; }
+        public string UnitName { get; set; }
+        public double Quantity { get; set; }
+        public double CostItem { get; set; }
+        public double Amount { get; set; }
+        public int? Num { get; set; }
+    }
 }

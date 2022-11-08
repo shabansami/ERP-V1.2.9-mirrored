@@ -148,16 +148,22 @@
                                         @Html.DropDownList("PaidWithBalance", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>الاعتماد المباشر بعد حفظ فواتير البيع والتوريد</label>
                                         @Html.DropDownList("InvoicesApprovalAfterSaveId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group ">
                                         <label>المدة المسموح بها فى سداد قسط(بالايام)</label>
                                         @Html.TextBoxFor(m => m.PeriodAllowedPayInstallment, new { @class = "form-control" })
+                                    </div>
+                                </div> 
+                                <div class="col-lg-4">
+                                    <div class="form-group ">
+                                        <label>السماح البيع للعميل فى حالة تخطى رصيده حد الائتمانى </label>
+                                        @Html.DropDownList("LimitDangerSell", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
                                 <div class="col-lg-6">

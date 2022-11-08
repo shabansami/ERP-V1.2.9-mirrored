@@ -7,7 +7,7 @@ namespace ERP.Web.DataTablesDS
 {
     public class DropDownList
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public string Name { get; set; }
     }
     public class DropDownListInt

@@ -260,6 +260,10 @@
     <Compile Include="Migrations\202211071213407_update_tb_ItemPrice_Supplier.designer.cs">
       <DependentUpon>202211071213407_update_tb_ItemPrice_Supplier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211081353283_update_SellInvoicePayments.cs" />
+    <Compile Include="Migrations\202211081353283_update_SellInvoicePayments.designer.cs">
+      <DependentUpon>202211081353283_update_SellInvoicePayments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -575,6 +579,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211071213407_update_tb_ItemPrice_Supplier.resx">
       <DependentUpon>202211071213407_update_tb_ItemPrice_Supplier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211081353283_update_SellInvoicePayments.resx">
+      <DependentUpon>202211081353283_update_SellInvoicePayments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

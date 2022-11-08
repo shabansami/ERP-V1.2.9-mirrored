@@ -26,7 +26,7 @@ namespace ERP.Web.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted&&x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             return View();
         }
 
@@ -35,138 +35,138 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.SellInvoices.Where(x => !x.IsDeleted&&x.PaymentTypeId==(int)PaymentTypeCl.Deferred).Select(x => new { Id = x.Id, InvoiceNum = x.Id, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name,AnyPaid=x.SellInvoicePayments.Where(p=>!p.IsDeleted&&p.IsPayed).Any(), Actions = n, Num = n }).ToList()
+                data = db.SellInvoicePayments.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, InvoiceNumber = x.SellInvoice.InvoiceNumber,CustomerName=x.SellInvoice.PersonCustomer.Name, InvoiceDate = x.SellInvoice.InvoiceDate.ToString(), OperationDate = x.OperationDate.ToString(),Notes=x.Notes,Amount=x.Amount, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
 
 
+        [Authorization]
         [HttpGet]
-        public ActionResult RegisterPyments(string invoGuid, string pay)
+        public ActionResult CreateEdit()
         {
-            Guid sellGuid;
-            if (Guid.TryParse(invoGuid, out sellGuid))
+            //if (TempData["model"] != null) //edit
+            //{
+            //    Guid id;
+            //    if (Guid.TryParse(TempData["model"].ToString(), out id))
+            //    {
+            //        var model = db.SellInvoicePayments.Where(x => x.Id == id).FirstOrDefault();
+
+            //        ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",model.SellInvoice.CustomerId);
+            //        ViewBag.SellInvoiceId = new SelectList(new List<DropDownList>() { new DropDownList {Id=model.SellInvoiceId, Name = $"فاتورة رقم : {model.SellInvoice.InvoiceNumber} | بتاريخ {model.SellInvoice.InvoiceDate.ToString("yyyy-MM-dd")}" } }, "Id", "Name", model.SellInvoiceId);
+            //        var amount = model.SellInvoice.Safy;
+            //        var totalInvoiceAmount = db.SellInvoicePayments.Where(x => !x.IsDeleted && x.SellInvoiceId == model.SellInvoiceId).DefaultIfEmpty().Sum(y => (double?)y.Amount ?? 0);
+            //        var currentAmount = model.Amount;
+            //        var remindAmount = amount - (totalInvoiceAmount - currentAmount);
+
+            //        ViewBag.InvoiceAmount = amount;
+            //        ViewBag.TotalInvoiceAmount = totalInvoiceAmount;
+            //        ViewBag.RemindAmount = remindAmount;
+
+            //        return View(model);
+            //    }
+            //    else
+            //        return RedirectToAction("Index");
+            //}
+            //else
+            //{                   // add
+                ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
+                    ViewBag.SellInvoiceId = new SelectList(new List<DropDownList>(), "Id", "Name");
+            ViewBag.InvoiceAmount = 0;
+            ViewBag.TotalInvoiceAmount = 0;
+            ViewBag.RemindAmount = 0;
+            ViewBag.LastRow = db.SellInvoicePayments.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
+                return View(new SellInvoicePayment() { OperationDate=Utility.GetDateTime()});
+            //}
+        }
+
+        [HttpPost]
+        public JsonResult CreateEdit(SellInvoicePayment vm)
+        {
+            if (ModelState.IsValid)
             {
-                var sell = db.SellInvoices.Where(x => x.Id == sellGuid).FirstOrDefault();
-                List<SellInvoicePaymentDetails> generatePaymentList = new List<SellInvoicePaymentDetails>();
-                if (DSPyments != null)
-                    generatePaymentList = JsonConvert.DeserializeObject<List<SellInvoicePaymentDetails>>(DSPyments);
+                if (vm.SellInvoiceId == null||vm.Amount==0||vm.OperationDate==null)
+                    return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
-                //الخزينة فى حالة السداد
-                ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name",1);
-
-                var vm = new SellInvoicePaymentVM
+                var isInsert = false;
+                if (TempData["userInfo"] != null)
+                    auth = TempData["userInfo"] as VTSAuth;
+                else
+                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                //التأكد من ان رقم الفاتورة المدخل موجود ويتبع فواتير الاجل والجزئى فقط 
+                var sellInvoice = db.SellInvoices.Where(x => !x.IsDeleted && x.Id == vm.SellInvoiceId).FirstOrDefault();
+                if (sellInvoice!=null)
                 {
-                    InvoiceDate = sell.InvoiceDate,
-                    RemindValue = sell.RemindValue,
-                    Safy = sell.Safy,
-                    CustomerName = sell.PersonCustomer!=null?sell.PersonCustomer.Name:null,
-                    SellInvoiceId = sell.Id,
-                    FirstDueDate=Utility.GetDateTime(),
-                    sellInvoicePayments = generatePaymentList.Count()>0? generatePaymentList : sell.SellInvoicePayments.Where(x => !x.IsDeleted).Select(x => new SellInvoicePaymentDetails { Id = x.Id, Amount = x.Amount, DueDate = x.DueDate, IsPayed = x.IsPayed,PayGuid=x.PayGuid }).ToList()
-                };
-               if(pay!=null)
-                    ViewBag.Pay = true;
-                return View(vm);
+                    if (sellInvoice.PaymentTypeId==(int)PaymentTypeCl.Partial||sellInvoice.PaymentTypeId==(int)PaymentTypeCl.Deferred)
+                    {
+                        var safy = sellInvoice.Safy;
+                        if (vm.Id != Guid.Empty)
+                        {
+                            var model = db.SellInvoicePayments.FirstOrDefault(x => x.Id == vm.Id);
+                            var prevousPayment = db.SellInvoicePayments.Where(x => !x.IsDeleted && x.SellInvoiceId == sellInvoice.Id && x.Id != model.Id).DefaultIfEmpty().Sum(y => (double?)y.Amount??0);
+                            //التاكد من ان اجمالى المبالغ السابقة بالاضافة الى المبلغ المسدد الحالى يساوى او اقل من قيمة الفاتورة
+                            if (prevousPayment+vm.Amount>safy)
+                                return Json(new { isValid = false, message = "المبالع المسددة اكبر من قيمة الفاتورة" });
 
+                            model.SellInvoiceId = vm.SellInvoiceId;
+                            model.OperationDate = vm.OperationDate;
+                            model.Amount=vm.Amount;
+                            model.Notes = vm.Notes;
+                            db.Entry(model).State = EntityState.Modified;
+                        }
+                        else
+                        {
+                            isInsert = true;
+                            var prevousPayment = db.SellInvoicePayments.Where(x => !x.IsDeleted && x.SellInvoiceId == sellInvoice.Id).DefaultIfEmpty().Sum(y => (double?)y.Amount ?? 0);
+                            //التاكد من ان اجمالى المبالغ السابقة بالاضافة الى المبلغ المسدد الحالى يساوى او اقل من قيمة الفاتورة
+                            if (prevousPayment + vm.Amount > safy)
+                                return Json(new { isValid = false, message = "المبالع المسددة اكبر من قيمة الفاتورة" });
+                            db.SellInvoicePayments.Add(new SellInvoicePayment
+                            {
+                                SellInvoiceId = vm.SellInvoiceId,
+                                OperationDate = vm.OperationDate,
+                                Amount = vm.Amount,
+                                Notes = vm.Notes
+                            });
+                        }
+                    }
+                }
+ 
+                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                {
+                    if (isInsert)
+                        return Json(new { isValid = true, isInsert, message = "تم الاضافة بنجاح" });
+                    else
+                        return Json(new { isValid = true, isInsert, message = "تم التعديل بنجاح" });
+
+                }
+                else
+                    return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
             }
             else
+                return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
+
+        }
+        [Authorization]
+        public ActionResult Edit(string id)
+        {
+            Guid Id;
+
+            if (!Guid.TryParse(id, out Id) || string.IsNullOrEmpty(id) || id == "undefined")
                 return RedirectToAction("Index");
-        }
-        [HttpPost]
-        public ActionResult RegisterPyments(string data)
-        {
-            List<SellInvoicePaymentDetails> deDS = new List<SellInvoicePaymentDetails>();
-            deDS = JsonConvert.DeserializeObject<List<SellInvoicePaymentDetails>>(data);
 
-            if (deDS.Count()==0)
-                return Json(new { isValid = false, message = "تأكد من انشاء دفعات اولا" });
-
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-            List<SellInvoicePayment> sellInvoicePayments = new List<SellInvoicePayment>();
-            List<Notification> notifications = new List<Notification>();
-            var invoId = deDS[0].SellInvoiceId;
-            var sellInvo = db.SellInvoices.Where(x=>x.Id==invoId).Select(x=>new {Id=x.Id, RemindValue = x.RemindValue, customerName = x.PersonCustomer.Name }).FirstOrDefault();
-            if (sellInvo.RemindValue!=deDS.Sum(x=>x.Amount))
-                return Json(new { isValid = false, message = "اجمالى المبلغ المتبقى لا يتساوى مع الدفعات المدخلة" });
-
-            foreach (var item in deDS)
-            {
-                sellInvoicePayments.Add(new SellInvoicePayment
-                {
-                    Id = item.Id,
-                    DueDate = item.DueDate,
-                    Amount = item.Amount,
-                    SellInvoiceId = sellInvo.Id,
-                    PayGuid=Guid.NewGuid()
-                });
-                notifications.Add(new Notification
-                {
-                    Name = $"استحقاق دفعة من فاتورة بيع رقم: {sellInvo.Id} على العميل: {sellInvo.customerName}",
-                    DueDate = item.DueDate,
-                    RefNumber = sellInvo.Id,
-                    NotificationTypeId = (int)NotificationTypeCl.SellInvoicePayments,
-                    Amount = item.Amount
-                });
-            }
-            //حذف اى دفعات سابقة 
-            var prevouisPayments = db.SellInvoicePayments.Where(x => !x.IsDeleted && x.SellInvoiceId == sellInvo.Id).ToList();
-            foreach (var item in prevouisPayments)
-            {
-                item.IsDeleted = true;
-                db.Entry(item).State = EntityState.Modified;            
-            }
-
-            //حذف اى دفعات من الاشعارات
-            var prevouisNotyPayments = db.Notifications.Where(x => !x.IsDeleted && x.RefNumber == sellInvo.Id && x.NotificationTypeId == (int)NotificationTypeCl.SellInvoicePayments).ToList();
-            foreach (var item in prevouisNotyPayments)
-            {
-                item.IsDeleted = true;
-                db.Entry(item).State = EntityState.Modified;            
-            }
-            //اضافة الدفعات الجديدة
-            db.SellInvoicePayments.AddRange(sellInvoicePayments);
-            //اضافة الاشعارات 
-             db.Notifications.AddRange(notifications);
-          
-            if (db.SaveChanges(auth.CookieValues.UserId)>0)
-                return Json(new { isValid = true, message = "تم تسجيل الدفعات بنجاح" });
-            else
-                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            TempData["model"] = Id;
+            return RedirectToAction("CreateEdit");
 
         }
+        [Authorization]
         [HttpPost]
-        public ActionResult GeneratePyments(SellInvoicePaymentVM vm)
+        public ActionResult Delete(string id)
         {
-            if (vm.Duration==0||vm.FirstDueDate == null||vm.RemindValue == 0||vm.PayValue == 0)
-                return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
-            List<SellInvoicePaymentDetails> list = new List<SellInvoicePaymentDetails>();
-            var pay =Math.Round(vm.PayValue ,2);
-            for (int i = 0; i < vm.Duration; i++)
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
             {
-                var duDate = vm.FirstDueDate.Value.AddMonths(i);
-                list.Add(new SellInvoicePaymentDetails
-                {
-                  DueDate= duDate,
-                  Amount= pay
-                });
-            }
-            string listSerilize = JsonConvert.SerializeObject(list);
-            DSPyments = JsonConvert.SerializeObject(list);
-            return Json(new { isValid = true, invoGuid = vm.InvoiceGuid, message="تم انشاء الدفعات بنجاح"});
-        }
-
-        [HttpPost]
-        public ActionResult Paid(string id, Guid? SafeId)
-        {
-            Guid invoGuid;
-            if (Guid.TryParse(id, out invoGuid))
-            {
-                var model = db.SellInvoicePayments.Where(x=>x.PayGuid==invoGuid).FirstOrDefault();
+                var model = db.SellInvoicePayments.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
                     if (TempData["userInfo"] != null)
@@ -174,49 +174,10 @@ namespace ERP.Web.Controllers
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
-                    var sellInvoice = db.SellInvoices.Where(x => x.Id == model.SellInvoiceId).FirstOrDefault();
-                    if (!sellInvoice.IsFinalApproval)
-                        return Json(new { isValid = false, message = "لا يمكن السداد والفاتورة لم يتم اعتمادها بعد" });
-
-                    var customerAccountId = db.Persons.Where(x => x.Id == sellInvoice.CustomerId).FirstOrDefault().AccountsTreeCustomerId;
-                    if (AccountTreeService.CheckAccountTreeIdHasChilds(customerAccountId))
-                        return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
-                    if (SafeId == null )
-                        return Json(new { isValid = false, message = "تأكد من تحديد الخزينة" });
-                    //تسجيل قيود الدفعة
-                    //  المبلغ المدفوع .. من حساب الخزينة (مدين
-                    var safeAccountId = db.Safes.Where(x => x.Id == SafeId).FirstOrDefault().AccountsTreeId;
-                    db.GeneralDailies.Add(new GeneralDaily
-                    {
-                        AccountsTreeId = safeAccountId,
-                        BranchId = sellInvoice.BranchId,
-                        Debit = model.Amount,
-                        Notes = $"سداد دفعة من فاتورة بيع رقم : {sellInvoice.Id}",
-                        TransactionDate = Utility.GetDateTime(),
-                        TransactionId = model.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.CashIn
-                    });
-                   //الى حساب العميل
-                    db.GeneralDailies.Add(new GeneralDaily
-                    {
-                        AccountsTreeId = customerAccountId,
-                        BranchId = sellInvoice.BranchId,
-                        Credit = model.Amount,
-                        Notes = $"سداد دفعة فاتورة بيع رقم : {sellInvoice.Id}",
-                        TransactionDate = Utility.GetDateTime(),
-                        TransactionId = model.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.CashIn
-                    });
-
-                    //سداد 
-                       model.IsPayed = true;
-                        db.Entry(model).State = EntityState.Modified;
-                    //تحديث طريقة السداد فى فاتورة البيع
-                    sellInvoice.SafeId = SafeId;
-                    db.Entry(sellInvoice).State = EntityState.Modified;
-
+                    model.IsDeleted = true;
+                    db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                        return Json(new { isValid = true, message = "تم السداد بنجاح" });
+                        return Json(new { isValid = true, message = "تم الحذف بنجاح" });
                     else
                         return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
                 }
@@ -226,8 +187,8 @@ namespace ERP.Web.Controllers
             else
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
-
         }
+
 
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)

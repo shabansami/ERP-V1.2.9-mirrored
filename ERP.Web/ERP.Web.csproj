@@ -2274,7 +2274,6 @@
     <Content Include="Views\SellInvoiceInstallments\Index.cshtml" />
     <Content Include="Views\SellInvoiceInstallments\RegisterInstallments.cshtml" />
     <Content Include="Views\SellInvoicePayments\Index.cshtml" />
-    <Content Include="Views\SellInvoicePayments\RegisterPyments.cshtml" />
     <Content Include="Views\SellInvoiceStores\ApprovalStore.cshtml" />
     <Content Include="Views\SellInvoiceStores\Index.cshtml" />
     <Content Include="Views\SellInvoices\ApprovalFinalInvoice.cshtml" />
@@ -2344,6 +2343,8 @@
     <Content Include="Views\ContractSuppliers\Index.cshtml" />
     <Content Include="Views\ContractSuppliers\CreateEdit.cshtml" />
     <Content Include="Views\ItemPriceSuppliers\CreateEdit.cshtml" />
+    <Content Include="Views\ItemGroups\ShowGroups.cshtml" />
+    <Content Include="Views\SellInvoicePayments\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

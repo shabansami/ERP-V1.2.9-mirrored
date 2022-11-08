@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Utilites;
 
 namespace ERP.Web.Services
 {
@@ -158,6 +159,46 @@ namespace ERP.Web.Services
 
 
             }
+        }
+        #endregion
+
+        #region تقرير اعمار الديون
+        public List<int> AgesDebt()
+        {
+            //فواتير الاجل والجزئية 
+            using (VTSaleEntities db=new VTSaleEntities())
+            {
+                IQueryable <SellInvoice> sellInvoices = null;
+                sellInvoices = db.SellInvoices.Where(x => !x.IsDeleted && (x.PaymentTypeId == (int)PaymentTypeCl.Deferred) || x.PaymentTypeId == (int)PaymentTypeCl.Partial);
+                sellInvoices = sellInvoices.Where(x => x.Safy != x.SellInvoicePayments.Where(p => !p.IsDeleted).DefaultIfEmpty().Sum(p => p.Amount));
+                var invoicesList = sellInvoices.ToList();
+                foreach (var invoice in invoicesList)
+                {
+                    //مقارنة تاريخ اليوم مع تاريخ الاستحقاق لاحتساب عمر الدين 
+                    var currentDate = Utility.GetDateTime();
+                    var dueDate = invoice.DueDate;
+                    if (dueDate!=null)
+                    {
+                        //عمر الدين 30 يوم 
+                        if (currentDate<=dueDate)
+                        {
+
+                        }
+                    }
+                }
+
+            }
+            return new List<int>();
+        }
+        public class AgesDebtDto
+        {
+            public string CustomerName { get; set; }
+            public double DebtAmount { get; set; }//اساس الدين
+            public DateTime? InvoiceDate { get; set; }//تاريخ الفاتورة
+            public double TotalAmount { get; set; }//اجمالى ماتم تحصيله
+            public double TotalRemind { get; set; }//اجمالى المتبقى 
+            public int AgeDebt { get; set; }//عمر الدين
+            public string InvoiceNumber { get; set; }//رقم فاتورة البيع
         }
         #endregion
 

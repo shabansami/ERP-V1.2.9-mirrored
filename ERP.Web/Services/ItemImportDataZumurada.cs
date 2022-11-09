@@ -11,6 +11,16 @@ using static ERP.Web.Utilites.Lookups;
 using ERP.DAL.Models;
 using System.Text.RegularExpressions;
 using Group = ERP.DAL.Group;
+using ERP.Web.NewFolder2;
+using ItemType = ERP.DAL.ItemType;
+using Unit = ERP.DAL.Unit;
+using Item = ERP.DAL.Item;
+using ItemUnit = ERP.DAL.ItemUnit;
+using AccountsTree = ERP.DAL.AccountsTree;
+using PersonCategory = ERP.DAL.PersonCategory;
+using Person = ERP.DAL.Person;
+using PersonIntialBalance = ERP.DAL.PersonIntialBalance;
+using ERP.Web.ViewModels;
 
 namespace ERP.Web.Services
 {
@@ -171,6 +181,217 @@ namespace ERP.Web.Services
 
 
         //}
+
+        #region Update Old version to latest version 1.3 
+        public bool UpdateDataToVersion1_3()
+        {
+            //get old data 
+            var dbOld = new sc_clientsDb2Entities();
+            var items = dbOld.Items.Where(x => !x.IsDeleted).ToList();
+            var itemUnitsOld = dbOld.ItemUnits.Where(x => !x.IsDeleted).ToList();
+            var dtCustomers = dbOld.Persons.Where(x => !x.IsDeleted && x.PersonTypeId == 2).ToList();
+
+            //Transaction
+            using (var dbNew = new VTSaleEntities())
+            {
+                using (DbContextTransaction transaction = dbNew.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Guid userId = dbNew.Users.FirstOrDefault().Id;
+                        Guid AreaId = dbNew.Areas.FirstOrDefault().Id;
+                        var groups = new List<ObjectDto>();
+                        var types = new List<ObjectDto>();
+                        var units = new List<ObjectDto>();
+                        var itemsSaved = new List<ObjectDto>();
+                        //add items
+                        foreach (var item in items)
+                        {
+                            //add group if not exists
+                            Guid? groupId;
+                            string groupCoode;
+                            var groupExist = groups.Where(x => x.OldId == item.GroupBasicId).FirstOrDefault();
+                            if (groupExist != null)
+                            {
+                                groupId = groupExist.NewId;
+                                groupCoode = groupExist.GroupCode;
+                            }
+                            else
+                            {
+                                //add new group
+                                string codePrefix = Properties.Settings.Default.CodePrefix;
+                                var GroupCode = codePrefix + (dbNew.Groups.Count(x => x.GroupCode.StartsWith(codePrefix)) + 1);
+
+                                var groupNew = new Group { Name = item.Group.Name, GroupTypeId = 1, GroupCode = GroupCode };
+                                dbNew.Groups.Add(groupNew);
+                                if (dbNew.SaveChanges(userId) == 0)
+                                    throw new Exception("group not saved " + item.Group.Name);
+                                groups.Add(new ObjectDto { OldId = item.GroupBasicId, NewId = groupNew.Id, Name = item.Group.Name, GroupCode = GroupCode });
+                                groupId = groupNew.Id;
+                                groupCoode = groupNew.GroupCode;
+                            }
+                            //add itemType if not exists
+                            Guid? typeId;
+                            var typeExist = types.Where(x => x.OldId == item.ItemTypeId).FirstOrDefault();
+                            if (typeExist != null)
+                            {
+                                typeId = typeExist.NewId;
+                            }
+                            else
+                            {
+                                //add new type
+                                var typeNew = new ItemType { Name = item.ItemType.Name };
+                                dbNew.ItemTypes.Add(typeNew);
+                                if (dbNew.SaveChanges(userId) == 0)
+                                    throw new Exception("type not saved " + item.ItemType.Name);
+                                types.Add(new ObjectDto { OldId = item.ItemTypeId, NewId = typeNew.Id, Name = item.ItemType.Name });
+                                typeId = typeNew.Id;
+                            }
+                            //add Unit if not exists
+                            Guid? unitId;
+                            var unitExist = units.Where(x => x.OldId == item.UnitId).FirstOrDefault();
+                            if (unitExist != null)
+                            {
+                                unitId = unitExist.NewId;
+                            }
+                            else
+                            {
+                                //add new unit
+                                var unitNew = new Unit { Name = item.Unit.Name };
+                                dbNew.Units.Add(unitNew);
+                                if (dbNew.SaveChanges(userId) == 0)
+                                    throw new Exception("unit not saved " + item.Unit.Name);
+                                units.Add(new ObjectDto { OldId = item.UnitId, NewId = unitNew.Id, Name = item.Unit.Name });
+                                unitId = unitNew.Id;
+                            }
+                            //add new item
+                            string itemCode;
+                            if (string.IsNullOrEmpty(item.ItemCode.ToString()))
+                                itemCode = groupCoode + "-" + (dbNew.Items.Where(x => x.GroupBasicId == groupId && !x.IsDeleted).Count() + 1).ToString();
+                            else
+                                itemCode = item.ItemCode.ToString();
+
+                            var itemNew = new Item
+                            {
+                                Name = item.Name,
+                                ItemCode = itemCode,
+                                GroupBasicId = groupId,
+                                ItemTypeId = typeId,
+                                SellPrice = item.SellPrice,
+                                MaxPrice = item.MaxPrice,
+                                MinPrice = item.MinPrice,
+                                BarCode = item.BarCode,
+                                UnitId = unitId,
+                                AvaliableToSell = item.AvaliableToSell,
+                                CreateSerial = false,
+                            };
+                            dbNew.Items.Add(itemNew);
+                            if (dbNew.SaveChanges(userId) == 0)
+                                throw new Exception("item not saved " + item.Name);
+                            itemsSaved.Add(new ObjectDto { OldId = item.Id, NewId = itemNew.Id, Name = item.Name });
+                            var t = 1;
+                        }
+
+                        //add item units
+                        foreach (var itemUnit in itemUnitsOld)
+                        {
+                            //add Unit if not exists
+                            Guid? unitId;
+                            var unitExist = units.Where(x => x.OldId == itemUnit.UnitId).FirstOrDefault();
+                            if (unitExist != null)
+                            {
+                                unitId = unitExist.NewId;
+                            }
+                            else
+                            {
+                                //add new unit
+                                var unitNew = new Unit { Name = itemUnit.Unit.Name };
+                                dbNew.Units.Add(unitNew);
+                                if (dbNew.SaveChanges(userId) == 0)
+                                    throw new Exception("unit not saved itemUnit " + itemUnit.Unit.Name);
+                                types.Add(new ObjectDto { OldId = itemUnit.UnitId, NewId = unitNew.Id, Name = itemUnit.Unit.Name });
+                                unitId = unitNew.Id;
+                            }
+                            //add ItemUnit if not exists
+                            var itemObj = itemsSaved.Where(x => x.OldId == itemUnit.ItemId).FirstOrDefault();
+                            if (itemObj != null)
+                            {
+                                var itemUnitNew = new ItemUnit { ItemId = itemObj.NewId, UnitId = unitId, Quantity = itemUnit.Quantity, SellPrice = itemUnit.SellPrice };
+                                dbNew.ItemUnits.Add(itemUnitNew);
+                                if (dbNew.SaveChanges(userId) == 0)
+                                    throw new Exception("unit not saved itemUnit " + itemUnit.Id);
+                            }
+
+                        }
+                        //add customer
+                        var cat = new PersonCategory { Name = "فئة عملاء عامة", IsCustomer = true };
+                        //var cat = new Guid("C36D7EF6-40BC-43EE-942B-27594E42B6D1");
+                        dbNew.PersonCategories.Add(cat);
+                        dbNew.SaveChanges(userId);
+                        foreach (var cust in dtCustomers)
+                        {
+                            Person person = new Person()
+                            {
+                                Name = cust.Name.Trim(),
+                                AreaId = AreaId,
+                                Mob1 = cust.Mob1,
+                                ParentId = null,
+                                PersonCategoryId = cat.Id,
+                                PersonTypeId = 2,
+                                IsActive = true
+                            };
+
+                            //add as customer in account tree
+                            long newAccountNum = 0;// new account number 
+                            var val = dbNew.GeneralSettings.Find((int)GeneralSettingCl.AccountTreeCustomerAccount).SValue;
+
+                            var accountTree = dbNew.AccountsTrees.Find(Guid.Parse(val));
+                            var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                            if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                                newAccountNum = long.Parse(accountTree.AccountNumber + "000001");
+                            else
+                                newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                            // add new account tree 
+                            var accountTreeCust = new AccountsTree
+                            {
+                                AccountLevel = accountTree.AccountLevel + 1,
+                                AccountName = person.Name,
+                                AccountNumber = newAccountNum,
+                                ParentId = accountTree.Id,
+                                TypeId = (int)AccountTreeSelectorTypesCl.Customer,
+                                SelectedTree = false
+                            };
+                            dbNew.AccountsTrees.Add(accountTreeCust);
+                            //add person in personTable
+                            person.AccountsTreeCustomer = accountTreeCust;
+                            dbNew.Persons.Add(person);
+                            if (dbNew.SaveChanges(userId) == 0)
+                                throw new Exception("customer not saved " + cust.Id);
+
+                        }
+                        transaction.Commit();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                    }
+                }
+            }
+
+
+            return true;
+        }
+
+        public class ObjectDto
+        {
+            public int? OldId { get; set; }
+            public Guid? NewId { get; set; }
+            public string Name { get; set; }
+            public string GroupCode { get; set; }
+        }
+        #endregion
     }
 
 

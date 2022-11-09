@@ -53,7 +53,8 @@ namespace ERP.Web.Controllers
 
 
 
-            ////////ItemImportDataZumurada itemImportDataZumurada = new ItemImportDataZumurada();
+            //ItemImportDataZumurada itemImportDataZumurada = new ItemImportDataZumurada();
+            //itemImportDataZumurada.UpdateDataToVersion1_3();
             ////////itemImportDataZumurada.Excute2();
             ////ItemImportMohRamadan itemImportMohRamadan = new ItemImportMohRamadan();
             ////////itemImportMohRamadan.Excute();

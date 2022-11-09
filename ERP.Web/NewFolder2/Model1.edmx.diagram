@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e61b2a01ca2c44c59dbcf4464bdc264e" Name="Diagram1">
+        <EntityTypeShape EntityType="sc_clientsDb2Model.AccountsTree" Width="1.5" PointX="24.75" PointY="303.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Area" Width="1.5" PointX="30.5" PointY="282.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Asset" Width="1.5" PointX="35" PointY="272.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.BalanceFirstDuration" Width="1.5" PointX="35.75" PointY="282" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.BankAccount" Width="1.5" PointX="32.75" PointY="261.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Bank" Width="1.5" PointX="27.5" PointY="288.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Branch" Width="1.5" PointX="43.75" PointY="287.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Case" Width="1.5" PointX="31.5" PointY="309.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.CasesItemSerialHistory" Width="1.5" PointX="30.5" PointY="287.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.CasesPurchaseInvoiceHistory" Width="1.5" PointX="52" PointY="290.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.CasesSellInvoiceHistory" Width="1.5" PointX="43" PointY="268.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Cheque" Width="1.5" PointX="5.25" PointY="275.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.City" Width="1.5" PointX="32.75" PointY="276.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Container" Width="1.5" PointX="19.5" PointY="258.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractAttendanceLeaving" Width="1.5" PointX="46.25" PointY="266.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractDefinitionVacation" Width="1.5" PointX="24" PointY="314.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractLoan" Width="1.5" PointX="49" PointY="272.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractLoanScheduling" Width="1.5" PointX="57.25" PointY="274.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Contract" Width="1.5" PointX="21.75" PointY="275.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractSalaryAddition" Width="1.5" PointX="41" PointY="287.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractSalaryPenalty" Width="1.5" PointX="35.75" PointY="287.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractSalaryType" Width="1.5" PointX="19.5" PointY="292" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractSchedulingAbsence" Width="1.5" PointX="38.25" PointY="312.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractScheduling" Width="1.5" PointX="35" PointY="263.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractSchedulingsMain" Width="1.5" PointX="19.5" PointY="264.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractType" Width="1.5" PointX="19.5" PointY="269" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ContractVacation" Width="1.5" PointX="8.25" PointY="277" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Country" Width="1.5" PointX="19.5" PointY="273.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.CustomerPayment" Width="1.5" PointX="11.25" PointY="276.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.DamageInvoiceDetail" Width="1.5" PointX="46" PointY="286.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.DamageInvoice" Width="1.5" PointX="37.75" PointY="276" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.DelayAbsenceSystem" Width="1.5" PointX="19.5" PointY="277.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Department" Width="1.5" PointX="19.5" PointY="282.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.EmployeeGivingCustody" Width="1.5" PointX="24.5" PointY="276.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.EmployeeReturnCashCustody" Width="1.5" PointX="24.5" PointY="269.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.EmployeeReturnCustody" Width="1.5" PointX="24.5" PointY="283.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Employee" Width="1.5" PointX="8.25" PointY="265.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ExpenseIncome" Width="1.5" PointX="38.75" PointY="288.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ExpenseType" Width="1.5" PointX="36" PointY="294.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Gender" Width="1.5" PointX="19.5" PointY="287.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.GeneralDaily" Width="1.5" PointX="46" PointY="304.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.GeneralRecord" Width="1.5" PointX="44" PointY="262" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.GeneralSetting" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.GeneralSettingType" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Group" Width="1.5" PointX="30.5" PointY="265.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.GroupType" Width="1.5" PointX="28.25" PointY="257" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.IncomeType" Width="1.5" PointX="41" PointY="294.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Installment" Width="1.5" PointX="38" PointY="262.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.InstallmentSchedule" Width="1.5" PointX="51.25" PointY="264.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.InventoryInvoiceDetail" Width="1.5" PointX="49" PointY="288.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.InventoryInvoice" Width="1.5" PointX="38.75" PointY="281.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemCostCalculation" Width="1.5" PointX="35.5" PointY="258.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemCustomSellPrice" Width="1.5" PointX="57" PointY="283.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemIntialBalance" Width="1.5" PointX="32.75" PointY="270" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemPrice" Width="1.5" PointX="8.25" PointY="283.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemProductionDetail" Width="1.5" PointX="27.5" PointY="266.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemProduction" Width="1.5" PointX="11.25" PointY="271.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Item" Width="1.5" PointX="35.75" PointY="307.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemSerial" Width="1.5" PointX="46" PointY="278" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemType" Width="1.5" PointX="19.5" PointY="297.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ItemUnit" Width="1.5" PointX="38" PointY="306.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Job" Width="1.5" PointX="19.5" PointY="301.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceCaseHistory" Width="1.5" PointX="25" PointY="264.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceCas" Width="1.5" PointX="19.5" PointY="310.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceDamageDetail" Width="1.5" PointX="61.75" PointY="277.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceDamage" Width="1.5" PointX="59.5" PointY="277.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceDetail" Width="1.5" PointX="54.25" PointY="285" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceIncome" Width="1.5" PointX="59.5" PointY="282.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Maintenance" Width="1.5" PointX="21.75" PointY="284.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenanceSparePart" Width="1.5" PointX="62.5" PointY="282.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.MaintenProblemType" Width="1.5" PointX="19.5" PointY="306.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Notification" Width="1.5" PointX="32.75" PointY="291" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.NotificationType" Width="1.5" PointX="19.5" PointY="315.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Offer" Width="1.5" PointX="21.75" PointY="308.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Page" Width="1.5" PointX="19.5" PointY="325.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PagesRole" Width="1.5" PointX="27.75" PointY="298.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PaymentType" Width="1.5" PointX="19.5" PointY="330.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PersonCategory" Width="1.5" PointX="0.75" PointY="277.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PersonIntialBalance" Width="1.5" PointX="5.25" PointY="269.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Person" Width="1.5" PointX="3" PointY="273.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PersonType" Width="1.5" PointX="0.75" PointY="274" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PointOfSale" Width="1.5" PointX="5.25" PointY="283.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PriceInvoice" Width="1.5" PointX="5.25" PointY="332.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PriceInvoicesDetail" Width="1.5" PointX="7.5" PointY="333.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PricesChanx" Width="1.5" PointX="52" PointY="296.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PricingPolicy" Width="1.5" PointX="19.5" PointY="335.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ProductionOrderColor" Width="1.5" PointX="38.5" PointY="258.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ProductionOrderDetail" Width="1.5" PointX="37.75" PointY="270" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ProductionOrderExpens" Width="1.5" PointX="46" PointY="272.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ProductionOrderReceipt" Width="1.5" PointX="40.75" PointY="276.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ProductionOrder" Width="1.5" PointX="40.75" PointY="267.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PurchaseBackInvoice" Width="1.5" PointX="30.75" PointY="298.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PurchaseBackInvoicesDetail" Width="1.5" PointX="49" PointY="293.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PurchaseBackInvoicesExpens" Width="1.5" PointX="47" PointY="261.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PurchaseInvoice" Width="1.5" PointX="33.75" PointY="296.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PurchaseInvoicesDetail" Width="1.5" PointX="46" PointY="291.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.PurchaseInvoicesExpens" Width="1.5" PointX="49" PointY="267.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Role" Width="1.5" PointX="19.5" PointY="340.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Safe" Width="1.5" PointX="11.25" PointY="284" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SalaryAddition" Width="1.5" PointX="27.75" PointY="293.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SalaryAdditionType" Width="1.5" PointX="19.5" PointY="349.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SalaryPenalty" Width="1.5" PointX="22.5" PointY="264.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SalaryPenaltyType" Width="1.5" PointX="20.25" PointY="250" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SaleMenArea" Width="1.5" PointX="14.25" PointY="277.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SaleMenCustomer" Width="1.5" PointX="27.5" PointY="276.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SaleMenStoreHistory" Width="1.5" PointX="27.5" PointY="271.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ScalarValueFunction" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SelectorType" Width="1.5" PointX="19.5" PointY="358.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellBackInvoiceIncome" Width="1.5" PointX="28" PointY="261.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellBackInvoice" Width="1.5" PointX="21.75" PointY="297.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellBackInvoicesDetail" Width="1.5" PointX="54.25" PointY="278.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellInvoiceIncome" Width="1.5" PointX="30" PointY="292.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellInvoicePayment" Width="1.5" PointX="41" PointY="262.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellInvoice" Width="1.5" PointX="24.75" PointY="291.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SellInvoicesDetail" Width="1.5" PointX="51.25" PointY="271.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SerialCas" Width="1.5" PointX="43.75" PointY="296.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Shift" Width="1.5" PointX="21.75" PointY="316.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.ShiftsOffline" Width="1.5" PointX="27.5" PointY="281.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SocialStatus" Width="1.5" PointX="19.5" PointY="362.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.StoreAdjustment" Width="1.5" PointX="41.75" PointY="281.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Store" Width="1.5" PointX="30.5" PointY="272" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.StoresTransferDetail" Width="1.5" PointX="54.25" PointY="271.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.StoresTransfer" Width="1.5" PointX="43.75" PointY="274.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.SupplierPayment" Width="1.5" PointX="52" PointY="278.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.TransactionsType" Width="1.5" PointX="19.5" PointY="367" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Unit" Width="1.5" PointX="19.5" PointY="371.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.UploadCenter" Width="1.5" PointX="33.5" PointY="282" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.UploadCenterType" Width="1.5" PointX="31.25" PointY="258" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.User" Width="1.5" PointX="17.25" PointY="245.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.VacationDay" Width="1.5" PointX="21.75" PointY="270" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.VacationType" Width="1.5" PointX="19.5" PointY="382.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.Voucher" Width="1.5" PointX="49" PointY="279.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.WeekDay" Width="1.5" PointX="19.5" PointY="253.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.WorkingPeriod" Width="1.5" PointX="19.5" PointY="386.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sc_clientsDb2Model.OldDataaaa" Width="1.5" PointX="32.75" PointY="318.75" IsExpanded="true" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_AccountsTrees_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_AccountsTrees_SelectorTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_AccountsTrees_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_AccountsTrees_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_AccountsTrees_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_AccountsTrees1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_AccountsTrees2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_AccountsTrees3" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BankAccounts_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCustody_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseTypes_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralDailies_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralRecords_AccountsFromTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralRecords_AccountsToTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_IncomsTypes_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_AccountsTrees1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_AccountsTrees2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderExpenses_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesExpenses_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesExpenses_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Safes_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoiceIncomes_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoiceIncomes_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Stores_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vouchers_AccountsTrees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vouchers_AccountsTrees1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Areas_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Areas_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Areas_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Areas_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Branches_Areas" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_Areas" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenAreas_Areas" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Assets_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BalanceFirstDurations_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BalanceFirstDurations_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BalanceFirstDurations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BalanceFirstDurations_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BalanceFirstDurations_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BankAccounts_Banks" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BankAccounts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BankAccounts_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_BankAccounts_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Cheques_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_BankAccounts1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_BankAccounts2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_BankAccounts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Banks_Cities" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Banks_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Banks_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Banks_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Branches_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Branches_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Branches_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ChecksUnderCollections_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralDailies_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemCustomSellPrices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_OldDataaaa_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PersonIntialBalances_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Safes_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Stores_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vouchers_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesPurchaseInvoiceHistories_Cases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesSellInvoiceHistories_Cases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_Cases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_Cases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_Cases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_Cases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesItemSerialHistories_SerialCases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesItemSerialHistories_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesItemSerialHistories_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesItemSerialHistories_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesPurchaseInvoiceHistories_PurchaseBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesPurchaseInvoiceHistories_PurchaseInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesPurchaseInvoiceHistories_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesPurchaseInvoiceHistories_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesPurchaseInvoiceHistories_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesSellInvoiceHistories_SellBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesSellInvoiceHistories_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesSellInvoiceHistories_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesSellInvoiceHistories_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CasesSellInvoiceHistories_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ChecksUnderCollections_Customers" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ChecksUnderCollections_Suppliers" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ChecksUnderCollections_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ChecksUnderCollections_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ChecksUnderCollections_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Cheques_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Cities_Countries" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Cities_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Cities_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Cities_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Containers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Containers_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Containers_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_Containers" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_Containers" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAttendanceLeavings_ContractSchedulings" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAttendanceLeavings_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAttendanceLeavings_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAttendanceLeavings_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractDefinitionVacations_Contracts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractDefinitionVacations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractDefinitionVacations_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractDefinitionVacations_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractDefinitionVacations_VacationTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_ContractSchedulings" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_ShiftsOffline" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoans_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoanSchedulings_ContractLoans" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoanSchedulings_ContractSchedulings" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoanSchedulings_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoanSchedulings_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractLoanSchedulings_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Contracts_ContractSalaryTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Contracts_ContractTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Contracts_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Contracts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Contracts_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Contracts_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryAdditions_Contracts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryPenalties_Contracts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulings_Contracts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractVacations_Contracts" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryAdditions_ContractSchedulings" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryAdditions_SalaryAdditions" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryAdditions_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryAdditions_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryAdditions_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryPenalties_ContractSchedulings" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryPenalties_SalaryPenalties" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryPenalties_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryPenalties_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSalaryPenalties_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAbsences_ContractSchedulings" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAbsences_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAbsences_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractAbsences_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulingAbsences_VacationTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulings_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulings_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulings_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulingMonths_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulingMonths_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractSchedulingMonths_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ContractTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeVacations_Persons1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeVacations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeVacations_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeVacations_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeVacations_VacationTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Countries_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Countries_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Countries_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_CustomerPayments_Users3" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoiceDetails_DamageInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoiceDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoiceDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoiceDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoiceDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoices_ItemCostCalculations" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoices_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoices_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoices_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DamageInvoices_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DelayAbsenceSystems_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DelayAbsenceSystems_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_DelayAbsenceSystems_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Departments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Departments_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Departments_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Branches" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Shifts_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vacations_Departments" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeGivingCustody_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCashCustody_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCustody_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCustody_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCustody_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_EmployeeReturnCustody_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Jobs" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_SocialStatuses" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Employees_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Employees1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenCustomers_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenTransferHistories_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Shifts_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ShiftsOffline_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Stores_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Employees1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_VacationDays_Employees" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_ShiftsOffline" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseIncomes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ExpenseTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Genders_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Genders_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Genders_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_Genders" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralDailies_TransactionsTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralDailies_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralDailies_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralDailies_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralRecords_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralRecords_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_GeneralRecords_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Groups_Groups1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Groups_GroupTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemCustomSellPrices_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemGroups_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemGroups_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemGroups_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_GroupsBasic" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_GroupsSell" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_OldDataaaa_Groups" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_IncomsTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_IncomsTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_IncomsTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Installments_PersonIntialBalances" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Installments_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Installments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Installments_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Installments_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InstallmentSchedules_Installments" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InstallmentSchedules_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InstallmentSchedules_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InstallmentSchedules_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InstallmentSchedules_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoiceDetails_InventoryInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoiceDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoiceDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoiceDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoiceDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoices_ItemCostCalculations" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoices_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoices_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoices_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_InventoryInvoices_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_ItemCostCalculations" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemCustomSellPrices_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemCustomSellPrices_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemCustomSellPrices_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemCustomSellPrices_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemIntialBalances_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemIntialBalances_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemIntialBalances_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemIntialBalances_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemIntialBalances_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_PricingPolicies" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_Units" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemPrices_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductionDetails_ItemProductions" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductionDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductionDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductionDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductionDetails_Users3" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductions_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductions_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductions_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductions_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemProductions_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_ItemTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_Units" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_UnitsConvert" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Items_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemUnits_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamageDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PriceInvoicesDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricesChanges_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoreAdjustments_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_Items" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_Maintenances" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_ProductionOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_SerialCases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemSerials_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_ItemSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_ItemSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_ItemSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_ItemSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_ItemSerials" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_OldDataaaa_ItemTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemUnits_Units" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemUnits_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemUnits_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ItemUnits_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Jobs_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Jobs_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Jobs_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceCaseHistories_MaintenanceCases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceCaseHistories_Maintenances" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceCaseHistories_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceCaseHistories_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceCaseHistories_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_MaintenanceCases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_MaintenanceCases" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamageDetails_MaintenanceDamages" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamageDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamageDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamageDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamages_MaintenanceDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamages_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamages_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamages_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDamages_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_Maintenances" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_MaintenProblemTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceIncomes_MaintenanceDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_MaintenanceDetails" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceIncomes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceIncomes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceIncomes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_PaymentTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Stores1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Maintenances_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenanceSpareParts_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenProblemTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenProblemTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_MaintenProblemTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Notifications_NotificationTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Notifications_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Notifications_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Notifications_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_NotificationTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_NotificationTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_NotificationTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Offers_Units" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Offers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Offers_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Offers_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Pages_PagesRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Pages_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Pages_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Pages_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PagesRoles_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PagesRoles_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PagesRoles_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PagesRoles_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PaymentTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PaymentTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PaymentTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_PaymentTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_PurchaseBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_PurchaseInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_SellBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_PersonCategories" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PersonIntialBalances_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PersonIntialBalances_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PersonIntialBalances_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PersonIntialBalances_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Persons_PersonTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Persons1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PriceInvoices_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Safes_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenAreas_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenCustomers_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoreAdjustments_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Users_Persons" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_PricingPolicies" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PointOfSales_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ShiftsOffline_PointOfSales" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PriceInvoicesDetails_PriceInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PriceInvoicesDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PriceInvoicesDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PriceInvoicesDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricesChanges_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricesChanges_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricesChanges_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricingPolicies_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricingPolicies_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PricingPolicies_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_ProductionOrderColors" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_ProductionOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderExpenses_ProductionOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderExpenses_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderExpenses_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrderExpenses_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionReceipts_ProductionOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionReceipts_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionReceipts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionReceipts_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionReceipts_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ProductionOrders_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_ProductionOrders" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoices_ShiftsOffline" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_PurchaseBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesExpenses_PurchaseBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesExpenses_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesExpenses_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseBackInvoicesExpenses_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoices_ShiftsOffline" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_PurchaseInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesExpenses_PurchaseInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_PurchaseInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesExpenses_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesExpenses_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_PurchaseInvoicesExpenses_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Roles_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Roles_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Roles_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Users_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Safes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Safes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Safes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_Safes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Motivations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Motivations_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Motivations_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SalaryAdditions_SalaryAdditionTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SalaryAdditionTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SalaryAdditionTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SalaryAdditionTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Discounts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Discounts_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Discounts_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SalaryPenalties_SalaryPenaltyTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenAreas_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenAreas_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenAreas_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenCustomers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenCustomers_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenCustomers_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenTransferHistories_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenTransferHistories_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenTransferHistories_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SaleMenTransferHistories_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SelectorTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SelectorTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SelectorTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoiceIncomes_SellBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoiceIncomes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoiceIncomes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoiceIncomes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoices_ShiftsOffline" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_SellBackInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellBackInvoicesDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoiceIncomes_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoiceIncomes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoiceIncomes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoiceIncomes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicePayments_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicePayments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicePayments_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicePayments_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoices_ShiftsOffline" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_SellInvoices" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SellInvoicesDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Shifts_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Shifts_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Shifts_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Shifts_WorkingPeriods" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ShiftsOffline_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_ShiftsOffline_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SocialStatuses_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SocialStatuses_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SocialStatuses_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoreAdjustments_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_OldDataaaa_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Stores_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Stores_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Stores_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Stores" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Stores1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_StoresTransfers" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransferDetails_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_StoresTransfers_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_SupplierPayments_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_TransactionsTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_TransactionsTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_TransactionsTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_OldDataaaa_Units" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Units_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Units_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Units_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_UploadCenters_UploadCenters1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_UploadCenters_UploadCenterTypes" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_UploadCenters_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_UploadCenters_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_UploadCenters_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vacations_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vacations_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vacations_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_VacationTypes_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_VacationTypes_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_VacationTypes_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vouchers_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vouchers_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_Vouchers_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_WorkingPeriods_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_WorkingPeriods_Users1" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_WorkingPeriods_Users2" ManuallyRouted="false" />
+        <AssociationConnector Association="sc_clientsDb2Model.FK_VacationDays_WeekDays" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

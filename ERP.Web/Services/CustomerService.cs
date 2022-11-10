@@ -163,13 +163,19 @@ namespace ERP.Web.Services
         #endregion
 
         #region تقرير اعمار الديون
-        public List<int> AgesDebt()
+        public List<AgesDebtDto> AgesDebt(Guid? branchId, Guid? customerId, bool? allCustomers)
         {
+            IQueryable<SellInvoice> sellInvoices = null;
+            List<AgesDebtDto> rpt = new List<AgesDebtDto>();
             //فواتير الاجل والجزئية 
             using (VTSaleEntities db=new VTSaleEntities())
             {
-                IQueryable <SellInvoice> sellInvoices = null;
-                sellInvoices = db.SellInvoices.Where(x => !x.IsDeleted && (x.PaymentTypeId == (int)PaymentTypeCl.Deferred) || x.PaymentTypeId == (int)PaymentTypeCl.Partial);
+                sellInvoices = db.SellInvoices.Where(x => !x.IsDeleted &&x.IsFinalApproval&& (x.PaymentTypeId == (int)PaymentTypeCl.Deferred) || x.PaymentTypeId == (int)PaymentTypeCl.Partial);
+                if (branchId!=null)
+                    sellInvoices = sellInvoices.Where(x => x.BranchId == branchId);
+                if (customerId!=null&&allCustomers==false)
+                    sellInvoices = sellInvoices.Where(x => x.CustomerId == customerId);
+                
                 sellInvoices = sellInvoices.Where(x => x.Safy != x.SellInvoicePayments.Where(p => !p.IsDeleted).DefaultIfEmpty().Sum(p => p.Amount));
                 var invoicesList = sellInvoices.ToList();
                 foreach (var invoice in invoicesList)
@@ -179,26 +185,44 @@ namespace ERP.Web.Services
                     var dueDate = invoice.DueDate;
                     if (dueDate!=null)
                     {
+                        var ageDebt = new AgesDebtDto();
+                        ageDebt.CustomerName = invoice.PersonCustomer?.Name;
+                        ageDebt.InvoiceNumber = invoice.InvoiceNumber;
+                        ageDebt.DebtAmount =Math.Round(invoice.Safy - invoice.SellInvoicePayments.Where(p => !p.IsDeleted).Sum(p => (double?)p.Amount??0),2,MidpointRounding.ToEven);
+                        ageDebt.InvoiceDate = invoice.InvoiceDate.ToString("yyyy-MM-dd");
+                        //ageDebt.TotalAmount = invoice.SellInvoicePayments.Where(p => !p.IsDeleted).DefaultIfEmpty().Sum(p => p.Amount);
+                        ageDebt.AgeDebt = (currentDate.Date - dueDate.Value.Date).Days;
+                        //عمر الدين بالسالب اى لم يحن استحقاقه بعد 
+                        if (ageDebt.AgeDebt<0)
+                            ageDebt.AgeDebtNotDue = ageDebt.DebtAmount;
                         //عمر الدين 30 يوم 
-                        if (currentDate<=dueDate)
-                        {
-
-                        }
+                        else if (ageDebt.AgeDebt>=0&& ageDebt.AgeDebt<=30)
+                            ageDebt.AgeDebt30 =ageDebt.DebtAmount;
+                        //عمر الدين 60 يوم 
+                        else if (ageDebt.AgeDebt>=31&& ageDebt.AgeDebt<=60)
+                            ageDebt.AgeDebt60 =ageDebt.DebtAmount;
+                        //عمر الدين 90 يوم 
+                        else if (ageDebt.AgeDebt>=61&& ageDebt.AgeDebt<=90)
+                            ageDebt.AgeDebt90 =ageDebt.DebtAmount;
+                        //عمر الدين 120 يوم 
+                        else if (ageDebt.AgeDebt>=91&& ageDebt.AgeDebt<=120)
+                            ageDebt.AgeDebt120 =ageDebt.DebtAmount;
+                        //عمر الدين 150 يوم 
+                        else if (ageDebt.AgeDebt>=121&& ageDebt.AgeDebt<=150)
+                            ageDebt.AgeDebt150 =ageDebt.DebtAmount;
+                        //عمر الدين 180 يوم 
+                        else if (ageDebt.AgeDebt>=151&& ageDebt.AgeDebt<=180)
+                            ageDebt.AgeDebt180 =ageDebt.DebtAmount;
+                        //عمر الدين اكبر من 180 يوم 
+                        else
+                            ageDebt.AgeDebtOver180 = ageDebt.DebtAmount;
+                        
+                        rpt.Add(ageDebt);
                     }
                 }
 
             }
-            return new List<int>();
-        }
-        public class AgesDebtDto
-        {
-            public string CustomerName { get; set; }
-            public double DebtAmount { get; set; }//اساس الدين
-            public DateTime? InvoiceDate { get; set; }//تاريخ الفاتورة
-            public double TotalAmount { get; set; }//اجمالى ماتم تحصيله
-            public double TotalRemind { get; set; }//اجمالى المتبقى 
-            public int AgeDebt { get; set; }//عمر الدين
-            public string InvoiceNumber { get; set; }//رقم فاتورة البيع
+            return rpt;
         }
         #endregion
 

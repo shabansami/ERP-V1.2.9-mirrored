@@ -1497,6 +1497,7 @@ END";
             pages.Add(new Page() { Id = 398, ParentId = 88, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "استلام نقدية مخصصة لفاتورة", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 399, ParentId = 398, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة دفعة مخصصة", OrderNum = 0, Url = "/SellInvoicePayments/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 400, ParentId = 398, Icon = null, IsPage = true, Name = "ادارة دفعة مخصصة", OrderNum = 0, Url = "/SellInvoicePayments/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 401, ParentId = 298, Icon = null, IsPage = true, Name = "تقرير أعمار الديون", OrderNum = 0, Url = "/RptDueInvoices/AgesDebt", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
 
 

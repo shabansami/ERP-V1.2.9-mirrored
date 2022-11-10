@@ -531,7 +531,7 @@ namespace ERP.Web.Controllers
                                     model.ProfitTax = vm.ProfitTax;
                                     model.InvoiceDiscount = invoiceDiscount;
                                     //model.ShippingAddress = vm.ShippingAddress;
-                                    model.DueDate = vm.DueDate;
+                                    model.DueDate =vm.RemindValue>0? vm.DueDate:null;
                                     model.Notes = vm.Notes;
                                     model.CaseId = (int)CasesCl.InvoiceModified;
                                     //فى حالة ان البيع من خلال مندوب
@@ -568,6 +568,7 @@ namespace ERP.Web.Controllers
                                     model.CaseId = (int)CasesCl.InvoiceCreated;
                                     model.SellInvoicesDetails = items;
                                     model.SellInvoiceIncomes = invoicesExpens;
+                                    model.DueDate = vm.RemindValue > 0 ? vm.DueDate : null;
                                     //فى حالة ان البيع من خلال مندوب
                                     if (vm.BySaleMen)
                                     {

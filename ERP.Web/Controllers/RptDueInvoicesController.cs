@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.DataTablesDS;
 
 namespace ERP.Web.Controllers
 {
@@ -17,8 +18,16 @@ namespace ERP.Web.Controllers
     public class RptDueInvoicesController : Controller
     {
         // GET: RptDueInvoices
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db;
+        VTSAuth auth;
+        CustomerService customerService;
+        public RptDueInvoicesController()
+        {
+        db= new VTSaleEntities();
+        auth = new VTSAuth();
+            customerService = new CustomerService();
+        }
+
 
         #region فواتير المتأخر تحصيلها 
 
@@ -80,6 +89,32 @@ namespace ERP.Web.Controllers
 
         }
 
+        #endregion
+
+        #region اعمار الديون 
+        [HttpGet]
+        public ActionResult AgesDebt()
+        {
+            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
+            return View();
+        }
+        public ActionResult GetAgesDebts(Guid? branchId, Guid? customerId, bool? allCustomers)
+        {
+            var list = customerService.AgesDebt(branchId, customerId, allCustomers);
+            return Json(new
+            {
+                data = list
+            }, JsonRequestBehavior.AllowGet);
+
+            //return Json(new
+            //{
+            //    data = new { }
+            //}, JsonRequestBehavior.AllowGet); ;
+
+
+        }
         #endregion
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)

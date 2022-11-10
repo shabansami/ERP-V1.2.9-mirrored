@@ -416,7 +416,7 @@ namespace ERP.Web.Controllers
                                 model.ProfitTax = vm.ProfitTax;
                                 model.InvoiceDiscount = vm.InvoiceDiscount;
                                 //model.ShippingAddress = vm.ShippingAddress;
-                                model.DueDate = vm.DueDate;
+                                model.DueDate = vm.RemindValue > 0 ? vm.DueDate : null;
                                 model.Notes = vm.Notes;
                                 model.CaseId = (int)CasesCl.InvoiceModified;
                                 context.Entry(model).State = EntityState.Modified;
@@ -442,7 +442,7 @@ namespace ERP.Web.Controllers
                                 model.CaseId = (int)CasesCl.InvoiceCreated;
                                 model.PurchaseInvoicesDetails = items;
                                 model.PurchaseInvoicesExpenses = invoicesExpens;
-
+                                model.DueDate = vm.RemindValue > 0 ? vm.DueDate : null;
                                 //اضافة الحالة 
                                 context.CasesPurchaseInvoiceHistories.Add(new CasesPurchaseInvoiceHistory
                                 {

@@ -15,7 +15,7 @@ namespace ERP.DAL
             this.QuoteOrderSellDetails = new HashSet<QuoteOrderSellDetail>();
         }
 
-        public int QuoteOrderSellId { get; set; }//الفاتورة عرض سعر/امر بيع
+        public int QuoteOrderSellType { get; set; }//الفاتورة عرض سعر/امر بيع
         [ForeignKey(nameof(Customer))]
         public Nullable<Guid> CustomerId { get; set; }
         [ForeignKey(nameof(Branch))]

@@ -80,6 +80,17 @@ namespace ERP.Desktop.Views.Transactions.Pricing
             this.label3 = new System.Windows.Forms.Label();
             this.txtInvoiceID = new System.Windows.Forms.TextBox();
             this.DGItems = new System.Windows.Forms.DataGridView();
+            this.Item_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Item_AName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Item_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total_Item_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DiscountVal = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DisountPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalDiscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Final_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.lblFastOpenNewOrder = new System.Windows.Forms.Label();
             this.label32 = new System.Windows.Forms.Label();
             this.lblFastItemSearch = new System.Windows.Forms.Label();
@@ -100,17 +111,6 @@ namespace ERP.Desktop.Views.Transactions.Pricing
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.ckMergeMatched = new System.Windows.Forms.CheckBox();
             this.ckFixedQuantity = new System.Windows.Forms.CheckBox();
-            this.Item_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Item_AName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Item_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total_Item_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DiscountVal = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DisountPerc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.TotalDiscount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Final_Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3.SuspendLayout();
             this.tlpOrderAccounts.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -801,6 +801,117 @@ namespace ERP.Desktop.Views.Transactions.Pricing
             this.DGItems.TabIndex = 100;
             this.DGItems.KeyDown += new System.Windows.Forms.KeyEventHandler(this.DGItems_KeyDown);
             // 
+            // Item_ID
+            // 
+            this.Item_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Item_ID.DataPropertyName = "ItemId";
+            this.Item_ID.HeaderText = "ItemId";
+            this.Item_ID.MinimumWidth = 6;
+            this.Item_ID.Name = "Item_ID";
+            this.Item_ID.ReadOnly = true;
+            this.Item_ID.Visible = false;
+            // 
+            // ItemCode
+            // 
+            this.ItemCode.DataPropertyName = "ItemCode";
+            this.ItemCode.HeaderText = "كود الصنف";
+            this.ItemCode.Name = "ItemCode";
+            this.ItemCode.ReadOnly = true;
+            // 
+            // Item_AName
+            // 
+            this.Item_AName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Item_AName.DataPropertyName = "ItemName";
+            this.Item_AName.HeaderText = "اسم الصنف";
+            this.Item_AName.MinimumWidth = 6;
+            this.Item_AName.Name = "Item_AName";
+            this.Item_AName.ReadOnly = true;
+            // 
+            // Item_Price
+            // 
+            this.Item_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Item_Price.DataPropertyName = "Price";
+            this.Item_Price.HeaderText = "السعر";
+            this.Item_Price.MinimumWidth = 6;
+            this.Item_Price.Name = "Item_Price";
+            this.Item_Price.ReadOnly = true;
+            this.Item_Price.Width = 64;
+            // 
+            // Quantity
+            // 
+            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Quantity.DataPropertyName = "Quantity";
+            this.Quantity.HeaderText = "الكمية";
+            this.Quantity.MinimumWidth = 6;
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            this.Quantity.Width = 66;
+            // 
+            // Total_Item_Price
+            // 
+            this.Total_Item_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Total_Item_Price.DataPropertyName = "Amount";
+            dataGridViewCellStyle1.Format = "N2";
+            dataGridViewCellStyle1.NullValue = "0";
+            this.Total_Item_Price.DefaultCellStyle = dataGridViewCellStyle1;
+            this.Total_Item_Price.HeaderText = "الإجمالى";
+            this.Total_Item_Price.MinimumWidth = 6;
+            this.Total_Item_Price.Name = "Total_Item_Price";
+            this.Total_Item_Price.ReadOnly = true;
+            this.Total_Item_Price.Width = 81;
+            // 
+            // DiscountVal
+            // 
+            this.DiscountVal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.DiscountVal.DataPropertyName = "ItemDiscount";
+            this.DiscountVal.HeaderText = "خصم قيمة";
+            this.DiscountVal.MinimumWidth = 6;
+            this.DiscountVal.Name = "DiscountVal";
+            this.DiscountVal.ReadOnly = true;
+            this.DiscountVal.Visible = false;
+            // 
+            // DisountPerc
+            // 
+            this.DisountPerc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.DisountPerc.DataPropertyName = "ItemDiscountPercent";
+            this.DisountPerc.HeaderText = "خصم نسبة";
+            this.DisountPerc.MinimumWidth = 6;
+            this.DisountPerc.Name = "DisountPerc";
+            this.DisountPerc.ReadOnly = true;
+            this.DisountPerc.Visible = false;
+            // 
+            // TotalDiscount
+            // 
+            this.TotalDiscount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.TotalDiscount.DataPropertyName = "ItemDiscount";
+            this.TotalDiscount.HeaderText = "اجمالي الخصم";
+            this.TotalDiscount.Name = "TotalDiscount";
+            this.TotalDiscount.ReadOnly = true;
+            this.TotalDiscount.Width = 120;
+            // 
+            // Final_Price
+            // 
+            this.Final_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Final_Price.DataPropertyName = "Safy";
+            dataGridViewCellStyle2.Format = "N2";
+            dataGridViewCellStyle2.NullValue = "0";
+            this.Final_Price.DefaultCellStyle = dataGridViewCellStyle2;
+            this.Final_Price.HeaderText = "الصافى";
+            this.Final_Price.MinimumWidth = 6;
+            this.Final_Price.Name = "Final_Price";
+            this.Final_Price.ReadOnly = true;
+            this.Final_Price.Width = 71;
+            // 
+            // ID
+            // 
+            this.ID.DataPropertyName = "Id";
+            this.ID.HeaderText = "ID";
+            this.ID.MinimumWidth = 6;
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Visible = false;
+            this.ID.Width = 125;
+            // 
             // lblFastOpenNewOrder
             // 
             this.lblFastOpenNewOrder.AutoSize = true;
@@ -1018,120 +1129,6 @@ namespace ERP.Desktop.Views.Transactions.Pricing
             this.ckFixedQuantity.Text = "تثبيت الكمية بواحد";
             this.ckFixedQuantity.UseVisualStyleBackColor = false;
             this.ckFixedQuantity.CheckedChanged += new System.EventHandler(this.ckFixedQuantity_CheckedChanged);
-            // 
-            // Item_ID
-            // 
-            this.Item_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
-            this.Item_ID.DataPropertyName = "ItemId";
-            this.Item_ID.HeaderText = "ItemId";
-            this.Item_ID.MinimumWidth = 6;
-            this.Item_ID.Name = "Item_ID";
-            this.Item_ID.ReadOnly = true;
-            this.Item_ID.Visible = false;
-            this.Item_ID.Width = 50;
-            // 
-            // ItemCode
-            // 
-            this.ItemCode.DataPropertyName = "ItemCode";
-            this.ItemCode.HeaderText = "كود الصنف";
-            this.ItemCode.Name = "ItemCode";
-            this.ItemCode.ReadOnly = true;
-            // 
-            // Item_AName
-            // 
-            this.Item_AName.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.Item_AName.DataPropertyName = "ItemName";
-            this.Item_AName.HeaderText = "اسم الصنف";
-            this.Item_AName.MinimumWidth = 6;
-            this.Item_AName.Name = "Item_AName";
-            this.Item_AName.ReadOnly = true;
-            // 
-            // Item_Price
-            // 
-            this.Item_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Item_Price.DataPropertyName = "Price";
-            this.Item_Price.HeaderText = "السعر";
-            this.Item_Price.MinimumWidth = 6;
-            this.Item_Price.Name = "Item_Price";
-            this.Item_Price.ReadOnly = true;
-            this.Item_Price.Width = 64;
-            // 
-            // Quantity
-            // 
-            this.Quantity.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Quantity.DataPropertyName = "Quantity";
-            this.Quantity.HeaderText = "الكمية";
-            this.Quantity.MinimumWidth = 6;
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            this.Quantity.Width = 66;
-            // 
-            // Total_Item_Price
-            // 
-            this.Total_Item_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Total_Item_Price.DataPropertyName = "Amount";
-            dataGridViewCellStyle1.Format = "N2";
-            dataGridViewCellStyle1.NullValue = "0";
-            this.Total_Item_Price.DefaultCellStyle = dataGridViewCellStyle1;
-            this.Total_Item_Price.HeaderText = "الإجمالى";
-            this.Total_Item_Price.MinimumWidth = 6;
-            this.Total_Item_Price.Name = "Total_Item_Price";
-            this.Total_Item_Price.ReadOnly = true;
-            this.Total_Item_Price.Width = 81;
-            // 
-            // DiscountVal
-            // 
-            this.DiscountVal.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.DiscountVal.DataPropertyName = "ItemDiscount";
-            this.DiscountVal.HeaderText = "خصم قيمة";
-            this.DiscountVal.MinimumWidth = 6;
-            this.DiscountVal.Name = "DiscountVal";
-            this.DiscountVal.ReadOnly = true;
-            this.DiscountVal.Visible = false;
-            this.DiscountVal.Width = 89;
-            // 
-            // DisountPerc
-            // 
-            this.DisountPerc.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.DisountPerc.DataPropertyName = "ItemDiscountPercent";
-            this.DisountPerc.HeaderText = "خصم نسبة";
-            this.DisountPerc.MinimumWidth = 6;
-            this.DisountPerc.Name = "DisountPerc";
-            this.DisountPerc.ReadOnly = true;
-            this.DisountPerc.Visible = false;
-            this.DisountPerc.Width = 94;
-            // 
-            // TotalDiscount
-            // 
-            this.TotalDiscount.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.TotalDiscount.DataPropertyName = "ItemDiscount";
-            this.TotalDiscount.HeaderText = "اجمالي الخصم";
-            this.TotalDiscount.Name = "TotalDiscount";
-            this.TotalDiscount.ReadOnly = true;
-            this.TotalDiscount.Width = 120;
-            // 
-            // Final_Price
-            // 
-            this.Final_Price.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
-            this.Final_Price.DataPropertyName = "Safy";
-            dataGridViewCellStyle2.Format = "N2";
-            dataGridViewCellStyle2.NullValue = "0";
-            this.Final_Price.DefaultCellStyle = dataGridViewCellStyle2;
-            this.Final_Price.HeaderText = "الصافى";
-            this.Final_Price.MinimumWidth = 6;
-            this.Final_Price.Name = "Final_Price";
-            this.Final_Price.ReadOnly = true;
-            this.Final_Price.Width = 71;
-            // 
-            // ID
-            // 
-            this.ID.DataPropertyName = "Id";
-            this.ID.HeaderText = "ID";
-            this.ID.MinimumWidth = 6;
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Visible = false;
-            this.ID.Width = 125;
             // 
             // PriceInvoicesCashier
             // 

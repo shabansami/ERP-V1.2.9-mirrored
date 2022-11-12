@@ -143,7 +143,6 @@ namespace ERP.Web.Controllers
             dateInit = dateInit.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
             //الاصناف
             List<ItemDetailsDT> itemDetailsDT = new List<ItemDetailsDT>();
-            List<PurchaseInvoicesDetail> items = new List<PurchaseInvoicesDetail>();
 
             if (DT_Datasource != null)
             {

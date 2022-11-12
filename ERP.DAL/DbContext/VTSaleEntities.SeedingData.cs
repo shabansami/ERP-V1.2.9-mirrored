@@ -1498,6 +1498,12 @@ END";
             pages.Add(new Page() { Id = 399, ParentId = 398, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة دفعة مخصصة", OrderNum = 0, Url = "/SellInvoicePayments/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 400, ParentId = 398, Icon = null, IsPage = true, Name = "ادارة دفعة مخصصة", OrderNum = 0, Url = "/SellInvoicePayments/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 401, ParentId = 298, Icon = null, IsPage = true, Name = "تقرير أعمار الديون", OrderNum = 0, Url = "/RptDueInvoices/AgesDebt", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 402, ParentId = null, Icon = "icon-md fas fa-coins ylow", IsPage = false, Name = "عروض الاسعار وأوامر البيع", OrderNum = 3, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 403, ParentId = 402, Icon = null, IsPage = false, Name = "عروض الاسعار", OrderNum = 0, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 404, ParentId = 403, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تسجيل عرض سعر", OrderNum = 0, Url = "/Quotes/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 405, ParentId = 403, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة عرض سعر", OrderNum = 0, Url = "/Quotes/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 406, ParentId = 402, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "أوامر البيع", OrderNum = 0, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 408, ParentId = 406, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة أوامر البيع", OrderNum = 0, Url = "/OrderSells/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
 
 

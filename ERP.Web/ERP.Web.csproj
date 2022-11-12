@@ -203,6 +203,8 @@
     <Content Include="Assets\JSCustom\ContractSupplier.js" />
     <Content Include="Assets\JSCustom\District.js" />
     <Content Include="Assets\JSCustom\ContractCustomer.js" />
+    <Content Include="Assets\JSCustom\OrderSell.js" />
+    <Content Include="Assets\JSCustom\Quote.js" />
     <Content Include="Assets\JSCustom\ItemPriceSupplier.js" />
     <Content Include="Assets\JSCustom\Offer.js" />
     <Content Include="Assets\JSCustom\JQuery_Sum.js" />
@@ -1637,16 +1639,6 @@
     <Content Include="Files\UploadCenter\defaultWordeUpload.png" />
     <Content Include="Files\Users\defaultImage.jpg" />
     <Content Include="Global.asax" />
-    <Content Include="NewFolder2\Model1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="NewFolder2\Model1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
-    </Content>
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -1722,6 +1714,7 @@
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\NotificationTasksController.cs" />
     <Compile Include="Controllers\OffersController.cs" />
+    <Compile Include="Controllers\OrderSellsController.cs" />
     <Compile Include="Controllers\PagesRolesController.cs" />
     <Compile Include="Controllers\PeriodicExpensesController.cs" />
     <Compile Include="Controllers\PeriodicIncomesController.cs" />
@@ -1741,6 +1734,7 @@
     <Compile Include="Controllers\PurchaseInvoiceAccountingController.cs" />
     <Compile Include="Controllers\PurchaseInvoicesController.cs" />
     <Compile Include="Controllers\PurchaseInvoiceStoresController.cs" />
+    <Compile Include="Controllers\QuotesController.cs" />
     <Compile Include="Controllers\RegionsController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\RptAccountStatementsController.cs" />
@@ -1855,426 +1849,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Identity\Authorization.cs" />
-    <Compile Include="NewFolder2\AccountsTree.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Area.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Asset.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\BalanceFirstDuration.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Bank.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\BankAccount.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Branch.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Case.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\CasesItemSerialHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\CasesPurchaseInvoiceHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\CasesSellInvoiceHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Cheque.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\City.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Container.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Contract.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractAttendanceLeaving.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractDefinitionVacation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractLoan.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractLoanScheduling.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractSalaryAddition.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractSalaryPenalty.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractSalaryType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractScheduling.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractSchedulingAbsence.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractSchedulingsMain.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ContractVacation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Country.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\CustomerPayment.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\DamageInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\DamageInvoiceDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\DelayAbsenceSystem.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Department.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Employee.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\EmployeeGivingCustody.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\EmployeeReturnCashCustody.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\EmployeeReturnCustody.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ExpenseIncome.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ExpenseType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Gender.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\GeneralDaily.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\GeneralRecord.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\GeneralSetting.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\GeneralSettingType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Group.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\GroupType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\IncomeType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Installment.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\InstallmentSchedule.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\InventoryInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\InventoryInvoiceDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Item.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemCostCalculation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemCustomSellPrice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemIntialBalance.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemPrice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemProduction.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemProductionDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemSerial.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ItemUnit.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Job.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Maintenance.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceCas.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceCaseHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceDamage.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceDamageDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceIncome.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenanceSparePart.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\MaintenProblemType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Model1.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Model1.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Model1.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Notification.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\NotificationType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Offer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\OldDataaaa.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Page.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PagesRole.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PaymentType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Person.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PersonCategory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PersonIntialBalance.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PersonType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PointOfSale.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PriceInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PriceInvoicesDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PricesChanx.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PricingPolicy.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ProductionOrder.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ProductionOrderColor.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ProductionOrderDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ProductionOrderExpens.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ProductionOrderReceipt.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PurchaseBackInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PurchaseBackInvoicesDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PurchaseBackInvoicesExpens.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PurchaseInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PurchaseInvoicesDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\PurchaseInvoicesExpens.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Role.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Safe.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SalaryAddition.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SalaryAdditionType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SalaryPenalty.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SalaryPenaltyType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SaleMenArea.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SaleMenCustomer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SaleMenStoreHistory.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ScalarValueFunction.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SelectorType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellBackInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellBackInvoiceIncome.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellBackInvoicesDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellInvoice.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellInvoiceIncome.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellInvoicePayment.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SellInvoicesDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SerialCas.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Shift.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\ShiftsOffline.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SocialStatus.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Store.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\StoreAdjustment.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\StoresTransfer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\StoresTransferDetail.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\SupplierPayment.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\TransactionsType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Unit.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\UploadCenter.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\UploadCenterType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\User.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\VacationDay.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\VacationType.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\Voucher.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\WeekDay.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
-    <Compile Include="NewFolder2\WorkingPeriod.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -2423,7 +1997,6 @@
     <Content Include="Assets\libs\feather-icons\icons.json" />
     <Content Include="Assets\libs\gmaps\jsdoc.json" />
     <Content Include="Assets\libs\gmaps\umd.hbs" />
-    <Content Include="Assets\libs\gmaps\yarn-error.log" />
     <Content Include="Assets\libs\swiper\angular\swiper_angular.metadata.json" />
     <Content Include="Assets\libs\swiper\cjs\svelte\swiper-slide.svelte" />
     <Content Include="Assets\libs\swiper\cjs\svelte\swiper.svelte" />
@@ -2433,13 +2006,6 @@
     <Content Include="Assets\libs\twitter-bootstrap-wizard\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\libs\twitter-bootstrap-wizard\bootstrap\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Assets\libs\wnumb\LICENSE.MD" />
-    <EntityDeploy Include="NewFolder2\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="NewFolder2\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
-    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -2784,6 +2350,10 @@
     <Content Include="Views\ItemGroups\ShowGroups.cshtml" />
     <Content Include="Views\SellInvoicePayments\CreateEdit.cshtml" />
     <Content Include="Views\RptDueInvoices\AgesDebt.cshtml" />
+    <Content Include="Views\Quotes\Index.cshtml" />
+    <Content Include="Views\Quotes\CreateEdit.cshtml" />
+    <Content Include="Views\OrderSells\Index.cshtml" />
+    <Content Include="Views\OrderSells\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2824,7 +2394,6 @@
     <Folder Include="Assets\libs\swiper\vue\" />
     <Folder Include="Assets\libs\table-edits\src\" />
     <Folder Include="Assets\libs\twitter-bootstrap-wizard\examples\" />
-    <Folder Include="NewFolder1\" />
     <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="Reports\" />
     <Folder Include="Test\" />

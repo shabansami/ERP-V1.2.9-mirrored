@@ -328,7 +328,7 @@ namespace ERP.Web.Utilites
         }
 
         //الفاتورة عرض سعر/امر بيع
-        public enum QuoteOrderSell
+        public enum QuoteOrderSellTypeCl
         {
             Qoute=1,//عرض سعر
             OrderSell//امر بيع

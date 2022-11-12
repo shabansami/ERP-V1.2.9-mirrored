@@ -291,7 +291,7 @@ namespace ERP.Web.Controllers
                         model = new SellInvoice()
                         {
                             Id = vm.Id,
-                            InvoiceNumber = codePrefix + (db.PriceInvoices.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1),
+                            InvoiceNumber = codePrefix + (db.SellInvoices.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1),
                             BranchId = vm.BranchId,
                             CustomerId = vm.CustomerId,
                             BySaleMen = true,

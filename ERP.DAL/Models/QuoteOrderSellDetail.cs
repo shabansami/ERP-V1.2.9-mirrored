@@ -19,7 +19,6 @@ namespace ERP.DAL
         /// الكمية
         /// </summary>
         public double Quantity { get; set; }
-        public double QuantityReal { get; set; }
         /// <summary>
         /// سعر الصنف
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using ERP.Desktop.Services;
+using ERP.Desktop.Services.Employees;
 using ERP.Desktop.Utilities;
 using ERP.Desktop.Views._Main;
 using PrintEngine.HTMLPrint.ReportClasses;
@@ -40,7 +41,8 @@ namespace ERP.Desktop.Views.Settings.MainSettings
             cmbPrinters.Items.AddRange(printers.ToArray());
             var db = DBContext.UnitDbContext;
             {
-                var branches = db.Branches.Where(x => !x.IsDeleted).ToList();
+                var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+                //var branches = db.Branches.Where(x => !x.IsDeleted).ToList();
                 CommonMethods.FillComboBox(cmbBranches, branches, "Name", "Id");
             }
         }

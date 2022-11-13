@@ -1,5 +1,6 @@
 ﻿using ERP.DAL;
 using ERP.Desktop.Services;
+using ERP.Desktop.Services.Employees;
 using ERP.Desktop.Services.Transactions;
 using ERP.Desktop.Utilities;
 using ERP.Desktop.ViewModels;
@@ -45,7 +46,8 @@ namespace ERP.Desktop.Views.Transactions.Incoming
             var customers = db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
             FillComboBox(cmbCustomers, customers, "Name", "ID");
 
-            var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            //var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
             FillComboBox(cmbBranches, branches, "Name", "ID");
             if (pos != null)
             {

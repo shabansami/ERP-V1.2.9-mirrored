@@ -103,19 +103,19 @@ var Contract_Module = function () {
 							<div class="btn-group">\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
 								<i class="fa fa-upload"></i>\
-							</a><a href = "javascript:;" onclick = Contract_Module.UnApprovalContract("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title = "الغاء الاعتماد" >\
+							</a><a href = "javascript:;" onclick = Contract_Module.UnApprovalContract("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title = "الغاء الاعتماد" >\
                             <i class="las la-times-circle"></i>\
                             </div >\
 ';
                         } else {
                             return '\
 							<div class="btn-group">\
-							<a href="/Contracts/Edit/?conGuid='+ row.ConGuid + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+							<a href="/Contracts/Edit/?conGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
-							<a href="javascript:;" onclick=Contract_Module.deleteRow("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+							<a href="javascript:;" onclick=Contract_Module.deleteRow("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a><a href="javascript:;" onclick=Contract_Module.ApprovalContract("'+ row.ConGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
+							</a><a href="javascript:;" onclick=Contract_Module.ApprovalContract("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-unlock-alt"></i>\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
 								<i class="fa fa-upload"></i>\
@@ -217,7 +217,7 @@ var Contract_Module = function () {
 
     }
 
-    function deleteRow(conGuid) {
+    function deleteRow(Id) {
         Swal.fire({
             title: 'تأكيد الحذف',
             text: 'هل متأكد من الحدف ؟',
@@ -233,7 +233,7 @@ var Contract_Module = function () {
                     type: "POST",
                     url: url,
                     data: {
-                        "conGuid": conGuid
+                        "conGuid": Id
                     },
                     //async: true,
                     //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
@@ -252,7 +252,7 @@ var Contract_Module = function () {
             }
         });
     };
-    function ApprovalContract(conGuid) {
+    function ApprovalContract(Id) {
         Swal.fire({
             title: 'تأكيد الاعتماد',
             text: 'هل متأكد من الاعتماد ؟',
@@ -268,7 +268,7 @@ var Contract_Module = function () {
                     type: "POST",
                     url: url,
                     data: {
-                        "conGuid": conGuid
+                        "conGuid": Id
                     },
                     //async: true,
                     //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
@@ -287,7 +287,7 @@ var Contract_Module = function () {
             }
         });
     };
-    function UnApprovalContract(conGuid) {
+    function UnApprovalContract(Id) {
         Swal.fire({
             title: 'تأكيد الغاء الاعتماد',
             text: 'هل متأكد من الغاء الاعتماد ؟',
@@ -303,7 +303,7 @@ var Contract_Module = function () {
                     type: "POST",
                     url: url,
                     data: {
-                        "conGuid": conGuid
+                        "conGuid": Id
                     },
                     //async: true,
                     //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },

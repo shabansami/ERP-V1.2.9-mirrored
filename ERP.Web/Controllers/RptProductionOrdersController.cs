@@ -19,9 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: RptProductionOrders
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
-
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         [HttpGet]
         public ActionResult SearchProductionOrders()
         {
@@ -33,8 +31,8 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
             ViewBag.ColorId = new SelectList(db.ProductionOrderColors.Where(x => !x.IsDeleted), "Id", "Name");
 
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 

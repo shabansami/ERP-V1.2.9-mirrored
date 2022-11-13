@@ -2,7 +2,7 @@
 using ERP.DAL.Utilites;
 using ERP.Web.Identity;
 using ERP.Web.Services;
-using System;using ERP.DAL.Utilites;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,12 +16,11 @@ namespace ERP.Web.Controllers
     {
         // GET: RptGiftItems
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService itemService;
         public RptGiftItemsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             itemService = new ItemService();
         }
 
@@ -37,7 +36,8 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name"); // final item
@@ -67,7 +67,8 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name"); // final item

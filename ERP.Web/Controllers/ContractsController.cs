@@ -37,7 +37,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.Contracts.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, ConGuid = x.ConGuid, IsActive = x.IsActive, ConNum = x.Id, FromDate = x.FromDate.ToString().Substring(0, 7), ToDate = x.ToDate.ToString().Substring(0, 7), EmployeeName = x.Employee.Person.Name, ContractTypeName = x.ContractType.Name, Salary = x.Salary, IsApproval = x.IsApproval, IsActiveStatus = x.IsActive ? "العقد نشط" : "العقد غير نشط", EmpGuid = x.Employee.EmpGuid, typ = (int)UploalCenterTypeCl.Employee, Actions = n, Num = n }).ToList()
+                data = db.Contracts.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, IsActive = x.IsActive, ConNum = x.Id, FromDate = x.FromDate.ToString().Substring(0, 7), ToDate = x.ToDate.ToString().Substring(0, 7), EmployeeName = x.Employee.Person.Name, ContractTypeName = x.ContractType.Name, Salary = x.Salary, IsApproval = x.IsApproval, IsActiveStatus = x.IsActive ? "العقد نشط" : "العقد غير نشط", EmpGuid = x.Employee.Id, typ = (int)UploalCenterTypeCl.Employee, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
@@ -185,7 +185,7 @@ namespace ERP.Web.Controllers
                 Guid guId;
                 if (Guid.TryParse(TempData["model"].ToString(), out guId))
                 {
-                    var vm = db.Contracts.Where(x => x.ConGuid == guId).FirstOrDefault();
+                    var vm = db.Contracts.Where(x => x.Id == guId).FirstOrDefault();
 
                     List<ContractSalaryAdditionsDT> salaryAdditionsDTs = new List<ContractSalaryAdditionsDT>();
                     var salaryAdditions = db.ContractSalaryAdditions.Where(x => !x.IsDeleted && x.ContractId == vm.Id).Select(item => new
@@ -380,7 +380,6 @@ namespace ERP.Web.Controllers
                     {
 
                         isInsert = true;
-                        model.ConGuid = Guid.NewGuid();
                         model.ContractSalaryAdditions = salaryAdditions;
                         model.ContractSalaryPenalties = salaryPenalties;
                         model.ContractDefinitionVacations = definitionVacations;
@@ -390,9 +389,9 @@ namespace ERP.Web.Controllers
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                     {
                         if (isInsert)
-                            return Json(new { isValid = true, typ = (int)UploalCenterTypeCl.Employee, refGid = model.Employee.EmpGuid, isInsert, message = "تم الاضافة بنجاح" });
+                            return Json(new { isValid = true, typ = (int)UploalCenterTypeCl.Employee, refGid = model.Employee.Id, isInsert, message = "تم الاضافة بنجاح" });
                         else
-                            return Json(new { isValid = true, typ = (int)UploalCenterTypeCl.Employee, refGid = model.Employee.EmpGuid, isInsert, message = "تم التعديل بنجاح" });
+                            return Json(new { isValid = true, typ = (int)UploalCenterTypeCl.Employee, refGid = model.Employee.Id, isInsert, message = "تم التعديل بنجاح" });
 
                     }
                     else
@@ -423,7 +422,7 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(conGuid, out Id))
             {
-                var model = db.Contracts.Where(x => x.ConGuid == Id).FirstOrDefault();
+                var model = db.Contracts.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
                     if (TempData["userInfo"] != null)
@@ -480,7 +479,7 @@ namespace ERP.Web.Controllers
                 Guid Id;
                 if (Guid.TryParse(conGuid, out Id))
                 {
-                    var model = db.Contracts.Where(x => x.ConGuid == Id).FirstOrDefault();
+                    var model = db.Contracts.Where(x => x.Id == Id).FirstOrDefault();
                     if (model != null)
                     {
                         if (TempData["userInfo"] != null)
@@ -601,7 +600,7 @@ namespace ERP.Web.Controllers
                 Guid Id;
                 if (Guid.TryParse(conGuid, out Id))
                 {
-                    var model = db.Contracts.Where(x => x.ConGuid == Id).FirstOrDefault();
+                    var model = db.Contracts.Where(x => x.Id == Id).FirstOrDefault();
                     if (model != null)
                     {
                         if (TempData["userInfo"] != null)

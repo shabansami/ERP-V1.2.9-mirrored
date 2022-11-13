@@ -39,7 +39,6 @@ namespace ERP.DAL
             this.NotificationEmployees = new HashSet<NotificationEmployee>();
         }
     
-        public System.Guid EmpGuid { get; set; }
         [ForeignKey(nameof(Person))]
         public Nullable<Guid> PersonId { get; set; }
         [ForeignKey(nameof(Branch))]
@@ -109,5 +108,6 @@ namespace ERP.DAL
         public virtual ICollection<StoresTransfer> StoresTransfersTo { get; set; }
         public virtual ICollection<VacationDay> VacationDays { get; set; }
         public virtual ICollection<NotificationEmployee> NotificationEmployees { get; set; }
+        public virtual ICollection<EmployeeBranch> EmployeeBranches { get; set; }
     }
 }

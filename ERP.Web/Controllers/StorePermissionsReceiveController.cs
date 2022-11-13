@@ -22,12 +22,11 @@ namespace ERP.Web.Controllers
     {
         // GET: StorePermissions
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public StorePermissionsReceiveController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public static string DS { get; set; }
@@ -105,7 +104,7 @@ namespace ERP.Web.Controllers
             // add
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
             ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name", db.Safes.Select(x => x.Id).FirstOrDefault());
@@ -138,11 +137,6 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
-
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
             var Person = db.Persons.Where(x => x.Id == vm.PersonId).FirstOrDefault();
             if (Person.PersonTypeId == (int)PersonTypeCl.Supplier || Person.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
@@ -185,11 +179,6 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 var model = db.StorePermissions.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 //    //تسجيل القيود
                 // General Dailies
@@ -280,11 +269,6 @@ namespace ERP.Web.Controllers
                 var model = db.StorePermissions.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     //حذف القيود
@@ -315,11 +299,6 @@ namespace ERP.Web.Controllers
                 var model = db.StorePermissions.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
                     db.Entry(model).State = EntityState.Modified;

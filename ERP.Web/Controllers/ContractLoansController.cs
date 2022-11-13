@@ -20,8 +20,8 @@ namespace ERP.Web.Controllers
     {
         // GET: ContractLoans
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        
         public ActionResult Index()
         {
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -52,6 +52,7 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid id;
@@ -64,7 +65,7 @@ namespace ERP.Web.Controllers
                     ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(departmentId), "Id", "Name", model.ContractScheduling.Contract.EmployeeId);
                     ViewBag.ContractSchedulingId = new SelectList(EmployeeService.GetContractSchedulingEmployee(model.ContractScheduling.Contract.EmployeeId.ToString()), "Id", "Name", model.ContractSchedulingId);
 
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", model.BankAccountId);
 
@@ -75,8 +76,7 @@ namespace ERP.Web.Controllers
             }
             else
             {                   // add
-                IQueryable<Branch> branches = db.Branches.Where(x => !x.IsDeleted);
-                ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name");
                 ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branches.Select(y => y.Id).FirstOrDefault()), "Id", "Name", 1);
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
 
@@ -107,10 +107,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة سداد السلفه/القرض (بنكى-خزنة) بشكل صحيح" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 //التأكد من ان عدد الاقساط اقل من او يساوى عدد الاشهر المتبقية للموظف
                 var contract = db.ContractSchedulings.FirstOrDefault(x => x.Id == vm.ContractSchedulingId).Contract;
@@ -194,10 +190,6 @@ namespace ERP.Web.Controllers
                 var model = db.ContractLoans.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
@@ -231,10 +223,6 @@ namespace ERP.Web.Controllers
                             var model = context.ContractLoans.Where(x => x.Id == Id).FirstOrDefault();
                             if (model != null)
                             {
-                                if (TempData["userInfo"] != null)
-                                    auth = TempData["userInfo"] as VTSAuth;
-                                else
-                                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                                 //التأكد من عدم تكرار اعتماد القيد
                                 if (GeneralDailyService.GeneralDailaiyExists(model.Id, (int)TransactionsTypesCl.Loans))
                                     return Json(new { isValid = false, message = "تم الاعتماد مسبقا " });
@@ -394,10 +382,6 @@ namespace ERP.Web.Controllers
                 var model = db.ContractLoans.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     //التأكد من ان السلفة لم يتم اعتمادها وصرفها فى الرواتب 
                     var loanSchedulingExsits = db.ContractLoanSchedulings.Where(x => !x.IsDeleted && x.ContractLoanId == model.Id && x.IsPayed).Any();
                     if (loanSchedulingExsits)

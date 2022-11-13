@@ -351,7 +351,6 @@ namespace ERP.DAL
         public string SessionKey { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
 
-
         public virtual Person Person { get; set; }
         public virtual Role Role { get; set; }
 

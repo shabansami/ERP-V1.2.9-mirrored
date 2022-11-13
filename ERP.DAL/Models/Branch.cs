@@ -42,6 +42,7 @@ namespace ERP.DAL
             this.PointOfSales = new HashSet<PointOfSale>();
             this.Offers = new HashSet<Offer>();
             this.QuoteOrderSells = new HashSet<QuoteOrderSell>();
+            this.EmployeeBranches = new HashSet<EmployeeBranch>();
         }
 
         public string Name { get; set; }
@@ -77,5 +78,6 @@ namespace ERP.DAL
         public virtual ICollection<PointOfSale> PointOfSales { get; set; }
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<QuoteOrderSell> QuoteOrderSells { get; set; }
+        public virtual ICollection<EmployeeBranch> EmployeeBranches { get; set; }
     }
 }

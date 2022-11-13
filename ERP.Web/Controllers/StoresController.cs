@@ -18,12 +18,11 @@ namespace ERP.Web.Controllers
     {
         // GET: Stores
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public StoresController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public ActionResult Index()
@@ -42,6 +41,7 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid id;
@@ -49,7 +49,7 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.Stores.Where(x => x.Id == id).FirstOrDefault();
                     ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",model.EmployeeId);
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name",model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name",model.BranchId);
 
                     return View(model);
                 }
@@ -60,7 +60,6 @@ namespace ERP.Web.Controllers
             {                   // add
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
 
                 ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
@@ -77,11 +76,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.Stores.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
@@ -148,10 +142,6 @@ namespace ERP.Web.Controllers
                 var model = db.Stores.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     // التاكد من عدم ارتبط المخزن  باى عمليات اخري 
                     var storeExistSetting = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.StoreDefault&&x.SValue==Id.ToString()).Any();
                     if (storeExistSetting)

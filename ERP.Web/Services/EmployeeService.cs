@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using static ERP.Web.Utilites.Lookups;
+using ERP.DAL.Dtos;
 
 namespace ERP.Web.Services
 {
@@ -191,6 +192,28 @@ namespace ERP.Web.Services
 
         #endregion
 
+        #region فروع اليوزر المسموحة له
+        public static List<DropDownList> GetBranchesByUser(UserInfo userInfo)
+        {
+            if (userInfo == null)
+                return new List<DropDownList>();
+            IQueryable<Branch> branches = null;
+            using (var db=new VTSaleEntities())
+            {
+                branches = db.Branches.Where(x => !x.IsDeleted);
+                if (!userInfo.IsAdmin)//اليوزر ليس له صلاحية على كل الفروع
+                {
+                    var empBranches = db.EmployeeBranches.Where(x => !x.IsDeleted && x.EmployeeId == userInfo.EmployeeId);
+                    if (empBranches.Any())//اليوزر له صلاحية على فرع محدد 
+                        branches = branches.Where(x => empBranches.Any(e=>e.BranchId==x.Id));
+                    else//اليوزر ليس له صلاحية على فرع محدد 
+                            return new List<DropDownList>();                 
+                }
+                return branches.Select(x=>new DropDownList { Id=x.Id,Name=x.Name}).ToList();
+            }
+            
+        }
+        #endregion
         //public static IQueryable<Employee> GetEmployees(VTSaleEntities db, int? departmentId = null)
         //{
         //    //using (var db=new VTSaleEntities())

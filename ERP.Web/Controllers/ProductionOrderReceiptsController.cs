@@ -20,12 +20,11 @@ namespace ERP.Web.Controllers
     {
         // GET: ProductionOrderReceipts
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public ProductionOrderReceiptsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
 
@@ -69,8 +68,7 @@ namespace ERP.Web.Controllers
                 };
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
-
+                var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.FinalItemStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name", defaultStore?.Id);
 
@@ -87,12 +85,6 @@ namespace ERP.Web.Controllers
             {
                 if (vm.ReceiptQuantity == 0 || vm.ProductionOrderId == null || vm.FinalItemStoreId == null || vm.ReceiptDate == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
-
-                var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 //التأكد من ان اجمالى الكميات المستلمة السابقة والحالية اقل او تساوى الكمية المنتجة 
                 var receiptQuantityOld = db.ProductionOrderReceipts.Where(x => !x.IsDeleted && x.ProductionOrderId == vm.ProductionOrderId).Select(x => x.ReceiptQuantity).DefaultIfEmpty(0).Sum();

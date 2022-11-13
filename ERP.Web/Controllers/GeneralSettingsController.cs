@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -18,11 +19,11 @@ namespace ERP.Web.Controllers
     {
         // GET: GeneralSettings
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public ActionResult Index()
         {
             GeneralSettingVM vm = new GeneralSettingVM();
-
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             var model = db.GeneralSettings.ToList();
             var generalSettingArea = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataArea).FirstOrDefault();
             Guid id;
@@ -64,7 +65,7 @@ namespace ERP.Web.Controllers
                 Guid stIn = Guid.Parse(productionInternalStore);
                 branchIn = db.Stores.Where(x => x.Id == stIn).FirstOrDefault().BranchId;
             }
-            ViewBag.BranchInId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", branchIn);
+            ViewBag.BranchInId = new SelectList(branches, "Id", "Name", branchIn);
             ViewBag.ProductionInStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchIn && branchIn.HasValue && !x.IsDamages), "Id", "Name", productionInternalStore);
 
             //تحديد المخزن الافتراضى فى فواتير البيع والشراء الافتراضى للجهة
@@ -75,7 +76,7 @@ namespace ERP.Web.Controllers
                 Guid stEx = Guid.Parse(defaultStore);
                 branchEx = db.Stores.Where(x => x.Id == stEx).FirstOrDefault().BranchId;
             }
-            ViewBag.BranchExId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", branchEx);
+            ViewBag.BranchExId = new SelectList(branches, "Id", "Name", branchEx);
             ViewBag.DefaultStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchEx && branchEx.HasValue && !x.IsDamages), "Id", "Name", defaultStore);
 
             //تحديد مخزن تحت التصنيع الافتراضى
@@ -86,7 +87,7 @@ namespace ERP.Web.Controllers
                 Guid stUn = Guid.Parse(productionUnderStore);
                 branchUn = db.Stores.Where(x => x.Id == stUn).FirstOrDefault().BranchId;
             }
-            ViewBag.BranchUnderId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", branchUn);
+            ViewBag.BranchUnderId = new SelectList(branches, "Id", "Name", branchUn);
             ViewBag.ProductionUnderStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchUn && branchUn.HasValue && !x.IsDamages), "Id", "Name", productionUnderStore);
 
             //تحديد مخزن الصيانة
@@ -97,7 +98,7 @@ namespace ERP.Web.Controllers
                 Guid stUn = Guid.Parse(maintenanceStore);
                 branchMaint = db.Stores.Where(x => x.Id == stUn).FirstOrDefault().BranchId;
             }
-            ViewBag.BranchMaintenanceId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", branchMaint);
+            ViewBag.BranchMaintenanceId = new SelectList(branches, "Id", "Name", branchMaint);
             ViewBag.MaintenanceStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchMaint && branchMaint.HasValue && !x.IsDamages), "Id", "Name", maintenanceStore);
 
             //تحديد مخزن توالف الصيانة
@@ -108,7 +109,7 @@ namespace ERP.Web.Controllers
                 Guid stUn = Guid.Parse(maintenanceDamageStore);
                 branchMaintDamage = db.Stores.Where(x => x.Id == stUn).FirstOrDefault().BranchId;
             }
-            ViewBag.BranchMaintenanceDamageId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", branchMaintDamage);
+            ViewBag.BranchMaintenanceDamageId = new SelectList(branches, "Id", "Name", branchMaintDamage);
             ViewBag.MaintenanceDamageStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchMaintDamage && branchMaintDamage.HasValue && x.IsDamages), "Id", "Name", maintenanceDamageStore);
 
 
@@ -493,12 +494,6 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 switch (tabNum)
                 {
                     case 1: // بيانات الجهة 
@@ -636,13 +631,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult SaveAccountSetting(string accountId, string settingId)
         {
-
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-
             if (!string.IsNullOrEmpty(accountId) || !string.IsNullOrEmpty(settingId))
             {
                 var generalSettId = int.Parse(settingId);
@@ -670,13 +658,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult SaveUploadCenterSetting(string folderId, string settingId)
         {
-
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-
             if (!string.IsNullOrEmpty(folderId) || !string.IsNullOrEmpty(settingId))
             {
                 var generalSettId = int.Parse(settingId);

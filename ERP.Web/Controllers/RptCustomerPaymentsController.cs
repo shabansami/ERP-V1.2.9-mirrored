@@ -17,7 +17,7 @@ namespace ERP.Web.Controllers
     {
         // GET: RptCustomerPayments
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         #region التحصيلات النقدية 
 
@@ -33,7 +33,8 @@ namespace ERP.Web.Controllers
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
 
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -96,8 +97,8 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");

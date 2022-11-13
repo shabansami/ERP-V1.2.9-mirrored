@@ -22,12 +22,11 @@ namespace ERP.Web.Controllers
     {
         // GET: Offers
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public OffersController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public static string DS { get; set; }
@@ -111,7 +110,7 @@ namespace ERP.Web.Controllers
             // add
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
@@ -124,12 +123,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult CreateEdit(Offer vm,string DT_Datasource,bool IsDiscountItemVal)
         {
-
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             if (vm.OfferTypeId==0||vm.BranchId==null||string.IsNullOrEmpty(vm.Name)||vm.StartDate==null||vm.EndDate==null)
                 return Json(new { isValid = false, message = "تأكد من ادخال واختيار البيانات المطلوبة" });
 
@@ -211,11 +204,6 @@ namespace ERP.Web.Controllers
                 var model = db.Offers.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     //حذف الاصناف
@@ -246,11 +234,6 @@ namespace ERP.Web.Controllers
                 var model = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
                     db.Entry(model).State = EntityState.Modified;

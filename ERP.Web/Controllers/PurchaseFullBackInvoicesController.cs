@@ -21,12 +21,11 @@ namespace ERP.Web.Controllers
     {
         // GET: PurchaseFullBackInvoices
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService itemService;
         public PurchaseFullBackInvoicesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             itemService = new ItemService();
         }
         public static string DS { get; set; }
@@ -84,11 +83,6 @@ namespace ERP.Web.Controllers
                 var purchaseInvoice = db.PurchaseInvoices.Where(x => x.Id == guid).FirstOrDefault();
                 if (purchaseInvoice != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     if (purchaseInvoice.IsFullReturned==true)
                         return Json(new { isValid = false, message = "فاتورة التوريد تم ارجاعها مسبقا" });
                     var itemBackIetails = purchaseInvoice.PurchaseInvoicesDetails.Where(x => !x.IsDeleted).Select(
@@ -583,9 +577,9 @@ namespace ERP.Web.Controllers
                 ExpenseTypeName = expense.ExpenseTypeAccountTree.AccountName
             }).ToList();
             DSExpenses = JsonConvert.SerializeObject(expenses);
-
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name", vm.SupplierId);
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.BranchId);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
             ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
             ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
             ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
@@ -596,11 +590,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult ReturnPatialInvoice(PurchaseInvoice vm, string DT_DatasourceItems, string DT_DatasourceExpenses)
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             try
             {
                 if (ModelState.IsValid)

@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.ViewModels;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -17,15 +18,15 @@ namespace ERP.Web.Controllers
     {
         // GET: Safes
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public SafesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
         }
         public ActionResult Index()
         {
-            ViewBag.BranchId = new SelectList(db.Branches.OrderBy(x=>x.CreatedOn).Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ResoponsibleId = new SelectList(new List<Person>(), "Id", "Name");
             return View();
         }
@@ -41,13 +42,14 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
                     var model = db.Safes.FirstOrDefault(x=>x.Id==id);
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.ResoponsibleId = new SelectList(db.Persons.Where(x => !x.IsDeleted), "Id", "Name", model.ResoponsiblePersonId);
 
                     return View(model);
@@ -57,7 +59,7 @@ namespace ERP.Web.Controllers
             }
             else
             {                   // add
-                ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name",1);
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name",1);
                 ViewBag.ResoponsibleId = new SelectList(new List<Person>(), "Id", "Name");
                 ViewBag.LastRow = db.Safes.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new Safe());
@@ -78,11 +80,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.Safes.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
@@ -167,10 +164,6 @@ namespace ERP.Web.Controllers
                 var model = db.Safes.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     var isExistGenerarDays = db.GeneralDailies.Where(x => !x.IsDeleted && (x.AccountsTreeId == model.AccountsTreeId )).Any();
                     var isExistSellInvoices = db.SellInvoices.Where(x => !x.IsDeleted && x.SafeId==Id).Any();
                     var isExistSellBackInvoices = db.SellBackInvoices.Where(x => !x.IsDeleted && x.SafeId==Id).Any();

@@ -21,11 +21,10 @@ namespace ERP.Web.Controllers
     {
         // GET: ProductionOrders
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
         public ProductionOrdersController()
         {
-            auth = new VTSAuth();
             db = new VTSaleEntities();
             _itemService = new ItemService();
         }
@@ -93,7 +92,7 @@ namespace ERP.Web.Controllers
             ViewBag.ProductionStoreId = new SelectList(db.Stores.Where(x=>!x.IsDeleted&&!x.IsDamages&&x.BranchId==productionStore.BranchId),"Id","Name",productionStoreId);
             //vm.BranchId = productionStore.BranchId;
             //ViewBag.BranchName = productionStore.Branch.Name;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore.BranchId);
 
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
@@ -217,12 +216,6 @@ namespace ERP.Web.Controllers
                             }
                             ).ToList();
                     }
-
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //ProductionOrder model = null;
                     //    model = vm;
 
@@ -323,14 +316,7 @@ namespace ERP.Web.Controllers
                 var model = db.ProductionOrders.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
-                  
-
                     var materials = db.ProductionOrderDetails.Where(x => x.ProductionOrderId == model.Id).ToList();
                     //details.ForEach(x => x.IsDeleted = true);
                     foreach (var material in materials)

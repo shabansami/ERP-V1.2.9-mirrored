@@ -23,7 +23,7 @@ namespace ERP.Web.Controllers
     {
         // GET: Maintenances
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public static string DS { get; set; }
 
         #region ادارة فواتير الصيانه
@@ -34,10 +34,6 @@ namespace ERP.Web.Controllers
 
         public ActionResult GetAll()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             bool isAdmin = false;
             if (auth.CookieValues.EmployeeId == null)
             {
@@ -121,7 +117,8 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "تأكد من اختيار مخزن الصيانة من شاشة الاعدادات العامة";
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", branchId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", maintenanceStoreId);
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
@@ -175,11 +172,6 @@ namespace ERP.Web.Controllers
 
 
                     var isInsert = false;
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     Maintenance model = JsonConvert.DeserializeObject<Maintenance>(JsonConvert.SerializeObject(vm));
                     model.InvoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                     model.DeliveryDate = vm.DeliveryDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
@@ -291,11 +283,6 @@ namespace ERP.Web.Controllers
                 var model = db.Maintenances.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
 

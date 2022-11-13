@@ -17,12 +17,11 @@ namespace ERP.Web.Controllers
     {
         // GET: SuppliersPayments
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public SuppliersPaymentsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public ActionResult Index()
@@ -83,7 +82,7 @@ namespace ERP.Web.Controllers
             {                   // add
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
+                var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
                 var safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId);
                 
                 ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
@@ -117,11 +116,6 @@ namespace ERP.Web.Controllers
 
                 }
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     //if (db.SupplierPayments.Where(x => !x.IsDeleted && x.Id != vm.Id).Count() > 0)
@@ -197,11 +191,6 @@ namespace ERP.Web.Controllers
                 var model = db.SupplierPayments.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -222,11 +211,6 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //    //تسجيل القيود
                 // General Dailies
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
@@ -309,11 +293,6 @@ namespace ERP.Web.Controllers
                 var model = db.SupplierPayments.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
                     db.Entry(model).State = EntityState.Modified;

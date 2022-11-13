@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ERP.Desktop.Utilities.CommonMethods;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Views.Transactions.InventoryInvoices
 {
@@ -66,8 +67,9 @@ namespace ERP.Desktop.Views.Transactions.InventoryInvoices
             FillComboBox(cmbGroups, groups, "Name", "ID");
             var itemTypes = db.ItemTypes.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
             FillComboBox(cmbItemTypes, itemTypes, "Name", "ID");
-            var branchs = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
-            FillComboBox(cmbBranchs, branchs, "Name", "ID");
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            //var branchs = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            FillComboBox(cmbBranchs, branches, "Name", "ID");
             var costCalcs = db.ItemCostCalculations.Where(x => !x.IsDeleted).Select(x => new IDNameIntVM { ID = x.Id, Name = x.Name }).ToList();
             FillComboBox(cmbCalcMethods, costCalcs, "Name", "ID");
         }

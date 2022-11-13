@@ -15,7 +15,8 @@ namespace ERP.DAL.Dtos
         public Guid? RoleId { get; set; }
         public Guid? PersonId { get; set; }
         public Guid? EmployeeId { get; set; }
-        public Guid? BranchId { get; set; }
+        //public Guid? BranchId { get; set; }
+        //public bool AccessAllBranch { get; set; }
         public Guid? StoreId { get; set; }
         public string Image { get; set; }
         public bool IsActive { get; set; } // الحساب مفعل

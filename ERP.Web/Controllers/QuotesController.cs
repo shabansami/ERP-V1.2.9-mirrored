@@ -23,12 +23,11 @@ namespace ERP.Web.Controllers
     {
         // GET: Quotes
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public QuotesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public static string DS { get; set; }
@@ -124,7 +123,7 @@ namespace ERP.Web.Controllers
                 vm.InvoiceDate = Utility.GetDateTime();
             }
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",customerId);
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
@@ -140,11 +139,6 @@ namespace ERP.Web.Controllers
                 DateTime invoiceDate;
                 if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 invoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                 //الاصناف
@@ -235,11 +229,6 @@ namespace ERP.Web.Controllers
                 var model = db.QuoteOrderSells.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     //حذف الاصناف

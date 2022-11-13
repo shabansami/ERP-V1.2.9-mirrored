@@ -19,16 +19,16 @@ namespace ERP.Web.Controllers
     {
         // GET: RptItemBalances
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         #region ارصدة الاصناف 
 
         [HttpGet]
         public ActionResult SearchItemBalance()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
 
@@ -36,9 +36,10 @@ namespace ERP.Web.Controllers
         }
         public ActionResult SearchItemBalanceMovement()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
 
@@ -119,9 +120,10 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult SearchItemAction()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
 

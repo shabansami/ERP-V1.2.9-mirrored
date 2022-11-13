@@ -21,12 +21,11 @@ namespace ERP.Web.Controllers
     {
         // GET: CustomerIntials
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public CustomerIntialsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public ActionResult Index()
@@ -62,7 +61,7 @@ namespace ERP.Web.Controllers
             //{                   // add
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
@@ -74,7 +73,7 @@ namespace ERP.Web.Controllers
         {
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
             var personIntialBalance = db.PersonIntialBalances.Where(x => !x.IsDeleted && x.IsCustomer);
@@ -105,11 +104,6 @@ namespace ERP.Web.Controllers
                 }
                 vm.BranchId = intialBalanceList.BranchId;
                 vm.DateIntial = intialBalanceList.DateIntial;
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 var customer = db.Persons.Where(x => !x.IsDeleted && x.Id == vm.CustomerId).FirstOrDefault();
                 if (db.PersonIntialBalances.Where(x => !x.IsDeleted && x.IsCustomer && x.PersonId == vm.CustomerId).Count() > 0)
@@ -182,11 +176,6 @@ namespace ERP.Web.Controllers
 
                 var isInsert = false;
                 bool saved = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //if (vm.Id > 0)
                 //{
                 //    if (db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionTypeId == (int)TransactionsTypesCl.BalanceFirstDuration && x.TransactionId != vm.CustomerId).Count() > 0)
@@ -370,10 +359,6 @@ namespace ERP.Web.Controllers
                 var model = db.GeneralDailies.Where(x => x.TransactionId == Id && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalanceCustomer).ToList();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     foreach (var item in model)
                     {
                         item.IsDeleted = true;

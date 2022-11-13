@@ -18,12 +18,11 @@ namespace ERP.Web.Controllers
     {
         // GET: SupplierCheques
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public SupplierChequesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
 
@@ -61,8 +60,7 @@ namespace ERP.Web.Controllers
             // add
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
-
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
@@ -101,12 +99,6 @@ namespace ERP.Web.Controllers
 
                 }
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-
                 if (db.Cheques.Where(x => !x.IsDeleted && x.SupplierId == vm.SupplierId && x.CheckNumber == vm.CheckNumber).Count() > 0) ///??
                     return Json(new { isValid = false, message = "رقم الشيك موجود مسبقا" });
                 if (vm.IsCollected)
@@ -267,11 +259,6 @@ namespace ERP.Web.Controllers
                 var model = db.Cheques.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     //حذف كل القيود المرتبطة بالشيك

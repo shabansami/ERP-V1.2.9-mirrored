@@ -20,7 +20,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ProductionOrderFirst
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public static string DSItemProduction { get; set; }
         public static string DSItemsMaterial { get; set; }
         //public static string DS { get; set; }
@@ -58,7 +58,8 @@ namespace ERP.Web.Controllers
                 productionStoreId = Guid.Parse(storeProductionSetting.SValue);
             else
                 ViewBag.Msg = "تأكد من اختيار مخزن التصنيع الداخلى أولا من شاشة الاعدادات العامة";
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.FinalItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.ItemCostCalculateId = new SelectList(db.ItemCostCalculations.Where(x => !x.IsDeleted), "Id", "Name");
@@ -71,7 +72,6 @@ namespace ERP.Web.Controllers
             DSExpenses = JsonConvert.SerializeObject(new List<InvoiceExpensesDT>());
 
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
             ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
@@ -146,12 +146,6 @@ namespace ERP.Web.Controllers
                             }
                             ).ToList();
                     }
-
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //ProductionOrder model = null;
                     //    model = vm;
 
@@ -239,14 +233,7 @@ namespace ERP.Web.Controllers
                 var model = db.ProductionOrders.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
-
-
                     var materials = db.ProductionOrderDetails.Where(x => x.ProductionOrderId == model.Id).ToList();
                     //details.ForEach(x => x.IsDeleted = true);
                     foreach (var material in materials)

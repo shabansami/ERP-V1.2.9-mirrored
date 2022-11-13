@@ -25,13 +25,12 @@ namespace ERP.Web.Controllers
 
         // GET: ItemIntialBalances
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         ItemService itemService;
         public ItemIntialBalancesController()
         {
             db= new VTSaleEntities();
-            auth = new VTSAuth();
             storeService= new StoreService();   
             itemService= new ItemService();   
         }
@@ -120,9 +119,9 @@ namespace ERP.Web.Controllers
         {
             DS = null;
             // add
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId&&!x.IsDamages), "Id", "Name", defaultStore?.Id);
             //تحميل كل الاصناف فى اول تحميل للصفحة 
@@ -153,12 +152,6 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
-
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             //التأكد من عدم تسجيل مسبق لارصدة اول المدة للاصناف
             int count = 1;
             var listMsg = "";
@@ -239,11 +232,6 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //    //تسجيل القيود
                 // General Dailies
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
@@ -310,10 +298,6 @@ namespace ERP.Web.Controllers
                 var model = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     ////هل الصنف يسمح بالسحب منه بالسالب
                     //var result = itemService.IsAllowNoBalance(model.ItemId, model.StoreId, model.Quantity);
                     //if (!result.IsValid)
@@ -349,10 +333,6 @@ namespace ERP.Web.Controllers
                 var model = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     //هل الصنف يسمح بالسحب منه بالسالب
                     var result = itemService.IsAllowNoBalance(model.ItemId, model.StoreId, model.Quantity);
                     if (!result.IsValid)

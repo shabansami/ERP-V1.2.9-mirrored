@@ -13,5 +13,6 @@ namespace ERP.Web.ViewModels
         public string Pass { get; set; }
         public Nullable<Guid> RoleId { get; set; }  
         public bool IsActive { get; set; }
+
     }
 }

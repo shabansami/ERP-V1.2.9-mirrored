@@ -19,12 +19,11 @@ namespace ERP.Web.Controllers
     {
         // GET: ItemCustomSellPrices
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public ItemCustomSellPricesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         #region تحديد سعر بيع الاصناف 
@@ -32,7 +31,8 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             return View();
         }
         public ActionResult GetAll()
@@ -46,6 +46,7 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid id;
@@ -53,7 +54,7 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.ItemCustomSellPrices.FirstOrDefault(x=>x.Id==id);
                     ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name", model.GroupBasicId); // item groups (مواد خام - كشافات ...)
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList(), "Id", "Name", model.ItemId);
                     return View(model);
                 }
@@ -65,7 +66,6 @@ namespace ERP.Web.Controllers
                 ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 //تحميل كل الاصناف فى اول تحميل للصفحة 
                 var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
@@ -82,11 +82,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id!=Guid.Empty)
                 {
                     //if (db.Areas.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
@@ -150,11 +145,6 @@ namespace ERP.Web.Controllers
                 var model = db.ItemCustomSellPrices.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

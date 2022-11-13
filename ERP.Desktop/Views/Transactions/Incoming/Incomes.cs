@@ -15,6 +15,7 @@ using static ERP.Desktop.Utilities.CommonMethods;
 using ERP.Desktop.Utilities;
 using ERP.Desktop.ViewModels;
 using PrintEngine.HTMLPrint;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Views.Transactions.Incoming
 {
@@ -63,7 +64,8 @@ namespace ERP.Desktop.Views.Transactions.Incoming
             var incomeTypes = db.IncomeTypes.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.AccountsTreeId ?? Guid.Empty, Name = x.Name }).ToList();
             FillComboBox(cmbIncomeTypes, incomeTypes, "Name", "ID");
 
-            var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            //var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
             FillComboBox(cmbBranches, branches, "Name", "ID");
             cmbBranches.SelectedValue = pos.BrunchId ?? Guid.NewGuid();
 

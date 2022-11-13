@@ -21,13 +21,12 @@ namespace ERP.Web.Controllers
     {
         // GET: StoresTransfers
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         ItemService itemService;
         public StoresTransfersController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
             itemService = new ItemService();
         }
@@ -36,10 +35,11 @@ namespace ERP.Web.Controllers
         #region ادارة التحويلات
         public ActionResult Index()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.StoreFromId = new SelectList(new List<Store>(), "Id", "Name");
             ViewBag.StoreToId = new SelectList(new List<Store>(), "Id", "Name");
-            ViewBag.BranchFromId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
-            ViewBag.BranchToId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchFromId = new SelectList(branches, "Id", "Name");
+            ViewBag.BranchToId = new SelectList(branches, "Id", "Name");
 
             return View();
         }
@@ -180,7 +180,7 @@ namespace ERP.Web.Controllers
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             var vm = new StoresTransfer();
-
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid guId;
@@ -204,8 +204,8 @@ namespace ERP.Web.Controllers
 
                     ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted  && !x.IsDamages), "Id", "Name", vm.StoreFromId);
                     ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted  && !x.IsDamages), "Id", "Name", vm.StoreToId);
-                    ViewBag.BranchFromId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.StoreFrom.BranchId);
-                    ViewBag.BranchToId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.StoreTo.BranchId);
+                    ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", vm.StoreFrom.BranchId);
+                    ViewBag.BranchToId = new SelectList(branches, "Id", "Name", vm.StoreTo.BranchId);
                     //ViewBag.DepartmentFromId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                     //ViewBag.EmployeeFromId = new SelectList(new List<Employee>(), "Id", "Name");
                     //ViewBag.DepartmentToId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -221,7 +221,6 @@ namespace ERP.Web.Controllers
                 DS = JsonConvert.SerializeObject(new List<StoresTransferDetailsDto>());
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
 
                 ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted &&  !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted &&  !x.IsDamages), "Id", "Name", defaultStore?.Id);
@@ -250,11 +249,6 @@ namespace ERP.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     if (vm.StoreFromId == null || vm.StoreToId == null || vm.TransferDate == null)
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                     if (vm.StoreFromId == vm.StoreToId)
@@ -433,11 +427,6 @@ namespace ERP.Web.Controllers
                 var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     ////هل الصنف يسمح بالسحب منه بالسالب
                     //foreach (var item in model.StoresTransferDetails.Where(x=>!x.IsDeleted))
                     //{
@@ -492,11 +481,6 @@ namespace ERP.Web.Controllers
                 var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //هل الصنف يسمح بالسحب منه بالسالب
                     foreach (var item in model.StoresTransferDetails.Where(x => !x.IsDeleted))
                     {
@@ -587,14 +571,7 @@ namespace ERP.Web.Controllers
                 if (Guid.TryParse(invoGuid, out Id))
                 {
                     var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
-                    if (model != null)
-                    {
-                        if (TempData["userInfo"] != null)
-                            auth = TempData["userInfo"] as VTSAuth;
-                        else
-                            RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-                    }
-                    else
+                    if (model == null)
                         return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
                     model.IsFinalApproval = true;
@@ -634,11 +611,6 @@ namespace ERP.Web.Controllers
                 var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //model.SaleMenStatus = true;
                     //if (approve == 1) //type(1) 1=>SaleMenIsApproval=true تم الموافقة والاعتماد التحويل 
                     //    model.SaleMenIsApproval = true;

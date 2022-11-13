@@ -19,11 +19,12 @@ namespace ERP.Web.Controllers
     {
         // GET: SafeIntialBalances
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index()
         {
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
             return View();
         }
@@ -66,8 +67,8 @@ namespace ERP.Web.Controllers
             //}
             //else
             //{                   // add
-            IQueryable<Branch> branches = db.Branches.Where(x => !x.IsDeleted);
-            ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branches.Select(y => y.Id).FirstOrDefault()), "Id", "Name", 1);
 
             return View(new IntialBalanceVM() { DateIntial = Utility.GetDateTime() });
@@ -82,11 +83,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //if (vm.Id > 0)
                 //{
                 //    if (db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionTypeId == (int)TransactionsTypesCl.BalanceFirstDuration && x.TransactionId != vm.SafeId).Count() > 0)
@@ -188,10 +184,6 @@ namespace ERP.Web.Controllers
                 var model = db.GeneralDailies.Where(x => x.TransactionId == Id && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalanceSafe).ToList();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     foreach (var item in model)
                     {
                         item.IsDeleted = true;

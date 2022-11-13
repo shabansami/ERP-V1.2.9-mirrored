@@ -20,7 +20,7 @@ namespace ERP.Web.Controllers
     {
         // GET: GeneralRecordComplex
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public static string DS { get; set; }
 
         #region ادارة القيود 
@@ -77,7 +77,8 @@ namespace ERP.Web.Controllers
         public ActionResult CreateEdit()
         {
             // add
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ComplexDebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
 
             return View(new GeneralRecordVM { TransactionDate = Utility.GetDateTime() });
@@ -86,11 +87,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult CreateEdit(GeneralRecordVM vm, string DT_Datasource, bool? isApproval)
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             if (ModelState.IsValid)
             {
                 if (vm.BranchId == null || vm.TransactionDate == null)

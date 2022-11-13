@@ -21,11 +21,10 @@ namespace ERP.Web.Controllers
     {
         // GET: DamageInvoices
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
         public DamageInvoicesController()
         {
-            auth = new VTSAuth();
             db = new VTSaleEntities();
             _itemService = new ItemService();
         }
@@ -45,9 +44,10 @@ namespace ERP.Web.Controllers
         }
         public ActionResult NewDamageInvoice()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
             //احتساب تكلفة المنتج 
@@ -93,11 +93,6 @@ namespace ERP.Web.Controllers
                 if (!double.TryParse(item.BalanceReal.ToString(), out var balancRel))
                     return Json(new { isValid = false, message = "تأكد من ادخال الكميات بشكل صحيح" });
             }
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             int itemCost;
             if (ItemCostCalculateId == null)
             {
@@ -157,11 +152,6 @@ namespace ERP.Web.Controllers
                 var model = db.DamageInvoices.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
 

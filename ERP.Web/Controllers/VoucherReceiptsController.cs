@@ -65,13 +65,14 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
                     var model = db.Vouchers.Where(x => x.Id == id).FirstOrDefault();
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.AccountTreeFromId = new SelectList(AccountTreeService.GetVouchers(db, false), "Id", "Name", model.AccountTreeFromId);
                     return View(model);
                 }
@@ -84,7 +85,6 @@ namespace ERP.Web.Controllers
 
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.AccountTreeFromId = new SelectList(AccountTreeService.GetVouchers(db, false), "Id", "Name");
                 ViewBag.LastRow = db.Vouchers.Where(x => !x.IsDeleted && !x.IsVoucherPayment).OrderByDescending(x => x.Id).FirstOrDefault();

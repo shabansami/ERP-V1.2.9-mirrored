@@ -63,7 +63,8 @@ namespace ERP.Desktop.Views.Transactions.Outcoming
             var deparments = db.Departments.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
             FillComboBox(cmbo_Department, deparments, "Name", "ID");
 
-            var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            //var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
             FillComboBox(cmb_branches, branches, "Name", "ID");
             cmb_branches.SelectedValue = pos.BrunchId;
 

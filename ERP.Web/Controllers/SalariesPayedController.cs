@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: SalariesPayed
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         static List<ContractScheduling> contractSchedulingDS = new List<ContractScheduling>();
 
         #region عرض الموظفين المعتمد رواتبهم حسب الشهر والسنة 
@@ -43,12 +43,8 @@ namespace ERP.Web.Controllers
 
                 if (int.TryParse(vm.ContractSalaryTypId.ToString(), out salaryTypeId) && DateTime.TryParse(vm.dt.ToString(), out dateSearch))
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-                    IQueryable<Branch> branches = db.Branches.Where(x => !x.IsDeleted);
-                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
+                    var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name");
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branches.Select(y => y.Id).FirstOrDefault()), "Id", "Name", 1);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
                     ViewBag.ContractSalaryTypId = new SelectList(db.ContractSalaryTypes.Where(x => !x.IsDeleted), "Id", "Name");
@@ -116,10 +112,6 @@ namespace ERP.Web.Controllers
             DateTime dt;
             if (Guid.TryParse(id, out Id) && double.TryParse(payedValue, out payedVal) && double.TryParse(remindValue, out remindVal) && DateTime.TryParse(dtPayed, out dt))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                 if (safeId == null && bankAccountId == null)
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة الصرف (خزنة/بنك)" });
 

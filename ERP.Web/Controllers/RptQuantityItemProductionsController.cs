@@ -19,11 +19,10 @@ namespace ERP.Web.Controllers
     {
         // GET: RptQuantityItemProductions
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
         public RptQuantityItemProductionsController()
         {
-            auth = new VTSAuth();
             db = new VTSaleEntities();
             _itemService = new ItemService();
         }
@@ -42,7 +41,8 @@ namespace ERP.Web.Controllers
 
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.ItemFinalId = new SelectList(new List<Item>(), "Id", "Name"); // final item
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
 
             //التاكد من تحديد احتساب تكلفة المنتج من الاعدادات اولا 

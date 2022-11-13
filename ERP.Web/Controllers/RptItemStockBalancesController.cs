@@ -15,12 +15,11 @@ namespace ERP.Web.Controllers
     {
         // GET: RptItemStockBalances
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
         public RptItemStockBalancesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             _itemService = new ItemService();
         }
         #region تقرير المخزون 
@@ -33,9 +32,10 @@ namespace ERP.Web.Controllers
                 new SelectListItem { Text = "اخر سعر بيع", Value = "2" },
                 new SelectListItem { Text = "اعلى سعر بيع", Value = "3" },
                 new SelectListItem { Text = "اقل سعر بيع", Value = "4" } };
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.CostCalculationSellId = new SelectList(selectListItems, "Value", "Text", vm.CostCalculationSellId);
             ViewBag.CostCalculationPurchaseId = new SelectList(db.ItemCostCalculations.Where(x => !x.IsDeleted), "Id", "Name", vm.CostCalculationPurchaseId);
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.BranchId);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted && x.Id == vm.ItemId), "Id", "Name", vm.ItemId);
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId), "Id", "Name", vm.StoreId);
             //محددات العرض

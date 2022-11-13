@@ -268,11 +268,16 @@
     <Compile Include="Migrations\202211102140014_remove_field_QuantityReal_in_QuoteOrderSell.designer.cs">
       <DependentUpon>202211102140014_remove_field_QuantityReal_in_QuoteOrderSell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211131726010_add_TB_EmployeeBranches.cs" />
+    <Compile Include="Migrations\202211131726010_add_TB_EmployeeBranches.designer.cs">
+      <DependentUpon>202211131726010_add_TB_EmployeeBranches.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
     <Compile Include="Models\DamageInvoiceDetail.cs" />
     <Compile Include="Models\District.cs" />
+    <Compile Include="Models\EmployeeBranch.cs" />
     <Compile Include="Models\ItemCustomSellPrice.cs" />
     <Compile Include="Models\Nationality.cs" />
     <Compile Include="Models\NotificationEmployee.cs" />
@@ -589,6 +594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211102140014_remove_field_QuantityReal_in_QuoteOrderSell.resx">
       <DependentUpon>202211102140014_remove_field_QuantityReal_in_QuoteOrderSell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211131726010_add_TB_EmployeeBranches.resx">
+      <DependentUpon>202211131726010_add_TB_EmployeeBranches.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -18,12 +18,11 @@ namespace ERP.Web.Controllers
     {
         // GET: CustomerCheques
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public CustomerChequesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
 
@@ -61,7 +60,7 @@ namespace ERP.Web.Controllers
             // add
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            var branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
 
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
@@ -99,11 +98,6 @@ namespace ERP.Web.Controllers
 
                 }
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
 
                 if (db.Cheques.Where(x => !x.IsDeleted && x.CustomerId == vm.CustomerId && x.CheckNumber == vm.CheckNumber).Count() > 0) ///??
                     return Json(new { isValid = false, message = "رقم الشيك موجود مسبقا" });
@@ -267,11 +261,6 @@ namespace ERP.Web.Controllers
                 var model = db.Cheques.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     //حذف كل القيود المرتبطة بالشيك

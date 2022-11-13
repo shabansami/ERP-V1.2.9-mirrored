@@ -65,6 +65,7 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
+                //var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
                 var list = db.Branches.Where(x => !x.IsDeleted && x.AreaId == Id).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
                 var selectList = new SelectList(list, "Id", "Name");
                 return Json(selectList.Items, JsonRequestBehavior.AllowGet);

@@ -66,8 +66,9 @@ namespace ERP.Web.Controllers
             //}
             //else
             //{                   // add
-                ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1" }, new SelectListItem { Text = "دائن", Value = "2",Selected=true } };
 
             return View(new IntialBalanceVM() { DateIntial = Utility.GetDateTime() });

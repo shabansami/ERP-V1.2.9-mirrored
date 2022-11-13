@@ -9,15 +9,20 @@ using System.Web;
 using System.Web.Mvc;
 using ERP.Web.ViewModels;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
+    
     [Authorization]
     public class EmployeesController : Controller
     {
         // GET: Employees
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        //VTSAuth auth = new VTSAuth();
+         VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        //var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+
         public ActionResult Index()
         {
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -40,13 +45,14 @@ namespace ERP.Web.Controllers
             else
                 return Json(new
                 {
-                    data = db.Employees.OrderBy(x => x.CreatedOn).Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, JobName = x.Job.Name, DepartmentName = x.Department.Name, Name = x.Person.Name, Tel = x.Person.Mob1, Actions = n, Num = n }).ToList()
+                    data = db.Employees.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, JobName = x.Job.Name, DepartmentName = x.Department.Name, Name = x.Person.Name, Tel = x.Person.Mob1, Actions = n, Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet); ;
 
         }
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null)
             {
                 Guid id;
@@ -95,7 +101,7 @@ namespace ERP.Web.Controllers
                     ViewBag.GenderId = new SelectList(db.Genders.Where(x => !x.IsDeleted), "Id", "Name", model.Person.GenderId);
                     ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", model.DepartmentId);
                     ViewBag.JobId = new SelectList(db.Jobs.Where(x => !x.IsDeleted), "Id", "Name", model.JobId);
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == model.BranchId && !x.IsDamages), "Id", "Name", model.StoreId);
                     ViewBag.SocialStatusId = new SelectList(db.SocialStatuses.Where(x => !x.IsDeleted), "Id", "Name", model.SocialStatusId);
                     return View(employee);
@@ -112,7 +118,7 @@ namespace ERP.Web.Controllers
                 ViewBag.GenderId = new SelectList(db.Genders.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.JobId = new SelectList(db.Jobs.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name");
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages).GroupBy(x => x.BranchId).FirstOrDefault().ToList(), "Id", "Name");
                 ViewBag.SocialStatusId = new SelectList(db.SocialStatuses.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.LastRow = db.Employees.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
@@ -126,14 +132,11 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(vm.Person.Name) || string.IsNullOrEmpty(vm.Person.Mob1) || string.IsNullOrEmpty(vm.NationalID) || vm.JobId == null || vm.DepartmentId == null)
+                if (string.IsNullOrEmpty(vm.Person.Name) || string.IsNullOrEmpty(vm.Person.Mob1) || string.IsNullOrEmpty(vm.NationalID) || vm.JobId == null || vm.BranchId == null|| vm.DepartmentId == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+
 
                 if (vm.Id != Guid.Empty)
                 {
@@ -242,7 +245,6 @@ namespace ERP.Web.Controllers
                         SocialStatusId = vm.SocialStatusId,
                         DateOfHiring = vm.DateOfHiring,
                         HasRole = vm.HasRole,
-                        EmpGuid = Guid.NewGuid(),
                         BranchId = vm.BranchId,
                         StoreId = vm.StoreId,
                         CommissionPercentage = vm.CommissionPercentage,
@@ -314,11 +316,6 @@ namespace ERP.Web.Controllers
                 var model2 = db.Persons.FirstOrDefault(x=>x.Id==model.PersonId);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     model2.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;

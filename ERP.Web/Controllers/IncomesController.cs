@@ -18,13 +18,12 @@ namespace ERP.Web.Controllers
     {
         // GET: Incomes
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ExpenseIncomeService expenseIncomeService;
         StoreService storeService;
         public IncomesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             expenseIncomeService = new ExpenseIncomeService();
             storeService=new StoreService();    
         }
@@ -48,13 +47,14 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid guid;
                 if (Guid.TryParse(TempData["model"].ToString(), out guid))
                 {
                     var model = db.ExpenseIncomes.FirstOrDefault(x=>x.Id==guid);
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
                     //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name", model.IncomeTypeId);
                     return View(model);
@@ -68,7 +68,6 @@ namespace ERP.Web.Controllers
 
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name", null);
                 //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name");
@@ -87,11 +86,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة السداد بشكل صحيح" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseIncomeTypeAccountTreeId))
                     return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
                 if (vm.Id != Guid.Empty)
@@ -161,11 +155,6 @@ namespace ERP.Web.Controllers
                 var model = db.ExpenseIncomes.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -186,11 +175,6 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //    //تسجيل القيود
                 // General Dailies
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
@@ -266,11 +250,6 @@ namespace ERP.Web.Controllers
                 var model = db.ExpenseIncomes.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
                     db.Entry(model).State = EntityState.Modified;

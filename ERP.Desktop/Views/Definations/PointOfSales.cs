@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using ERP.Desktop.DTOs;
 using ERP.Desktop.Services.Definations;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Views.Definations
 {
@@ -36,7 +37,8 @@ namespace ERP.Desktop.Views.Definations
         }
         void FillCombobox()
         {
-            CommonMethods.FillComboBox(cmb_branchs, db.Branches.Where(x => !x.IsDeleted).ToList(), "Name", "Id");
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            CommonMethods.FillComboBox(cmb_branchs, branches, "Name", "Id");
            CommonMethods.FillComboBox(cmb_bankAccount, db.BankAccounts.Where(x => !x.IsDeleted).ToList(), "AccountName", "Id");
             CommonMethods.FillComboBox(cmbo_BankWallet, db.BankAccounts.Where(x => !x.IsDeleted).ToList(), "AccountName", "Id");
             CommonMethods.FillComboBox(cmbo_BankCard, db.BankAccounts.Where(x => !x.IsDeleted).ToList(), "AccountName", "Id");

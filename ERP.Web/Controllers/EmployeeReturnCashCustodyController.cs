@@ -18,8 +18,7 @@ namespace ERP.Web.Controllers
     {
         // GET: EmployeeReturnCashCustody
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public ActionResult Index()
         {
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -39,7 +38,7 @@ namespace ERP.Web.Controllers
         public ActionResult CreateEdit()
         {
             // add
-            IQueryable<Branch> branches = db.Branches.Where(x => !x.IsDeleted);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
             ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branches.Select(y => y.Id).FirstOrDefault()), "Id", "Name", 1);
             ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
@@ -61,11 +60,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                 if (vm.BankAccountId == null && vm.SafeId == null)
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة التحصيل (بنكى-خزنة) بشكل صحيح" });
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 //التأكد من ان الموظف تم تسجيل له عهدة اولا
                 var empCustody = db.Employees.Where(x => x.Id == vm.EmployeeId).FirstOrDefault().Person;
@@ -106,11 +100,6 @@ namespace ERP.Web.Controllers
                 var model = db.EmployeeReturnCashCustodies.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -143,11 +132,6 @@ namespace ERP.Web.Controllers
                             var model = context.EmployeeReturnCashCustodies.Where(x => x.Id == Id).FirstOrDefault();
                             if (model != null)
                             {
-                                if (TempData["userInfo"] != null)
-                                    auth = TempData["userInfo"] as VTSAuth;
-                                else
-                                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                                 //اعتماد  العهدة 
 
                                 //===================

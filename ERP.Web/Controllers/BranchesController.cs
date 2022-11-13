@@ -7,6 +7,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ERP.Web.Services;
+using System.Windows.Documents;
 
 namespace ERP.Web.Controllers
 {
@@ -16,11 +18,11 @@ namespace ERP.Web.Controllers
     {
         // GET: Branches
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+
         public BranchesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
         }
         public ActionResult Index()
         {
@@ -32,10 +34,22 @@ namespace ERP.Web.Controllers
         public ActionResult GetAll()
         {
             int? n = null;
-            return Json(new
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            if (branches.Count()>0)
             {
-                data = db.Branches.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn=x.CreatedOn, CountryName=x.Area.City.Country.Name,CityName=x.Area.City.Name,AreaName=x.Area.Name ,Name = x.Name, Actions = n, Num = n }).ToList()
-            }, JsonRequestBehavior.AllowGet); ;
+                var list = db.Branches.Where(x=>!x.IsDeleted).ToList().Where(x => branches.Any(y => y.Id == x.Id));
+                return Json(new
+                {
+                    data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn = x.CreatedOn, CountryName = x.Area.City.Country.Name, CityName = x.Area.City.Name, AreaName = x.Area.Name, Name = x.Name, Actions = n, Num = n }).ToList()
+                }, JsonRequestBehavior.AllowGet); ;
+            }
+            else
+            {
+                return Json(new
+                {
+                    data = new {}
+                }, JsonRequestBehavior.AllowGet); ;
+            }
 
         }
         [HttpGet]
@@ -75,10 +89,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 if (vm.Id != Guid.Empty)
                 {
@@ -138,10 +148,6 @@ namespace ERP.Web.Controllers
                 var model = db.Branches.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     // التاكد من عدم ارتبط الفرع باى مخازن او قيود 
                     var branchExistStore = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id).Any();
                     var branchExistDailies = db.GeneralDailies.Where(x => !x.IsDeleted && x.BranchId == Id).Any();

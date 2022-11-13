@@ -14,6 +14,8 @@ using ERP.Desktop.Utilities;
 using ERP.Desktop.ViewModels;
 using PrintEngine.HTMLPrint;
 using System.Data.Entity;
+using ERP.Desktop.Services;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Views.Reports.AccountingReports
 {
@@ -37,8 +39,9 @@ namespace ERP.Desktop.Views.Reports.AccountingReports
 
         private void FillCombos()
         {
-            var branchs = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM() { ID = x.Id, Name = x.Name }).ToList();
-            FillComboBox(cmbBranches, branchs, "Name", "ID");
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            //var branchs = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM() { ID = x.Id, Name = x.Name }).ToList();
+            FillComboBox(cmbBranches, branches, "Name", "ID");
             var tranTypes = db.TransactionsTypes.Where(x => !x.IsDeleted).Select(x => new IDNameIntVM() { ID = x.Id, Name = x.Name }).ToList();
             FillComboBox(cmbo_TransactionType, tranTypes, "Name", "Id");
         }

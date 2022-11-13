@@ -23,12 +23,11 @@ namespace ERP.Web.Controllers
     {
         // GET: PurchaseInvoices
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public PurchaseInvoicesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public static string DS { get; set; }
@@ -185,6 +184,7 @@ namespace ERP.Web.Controllers
             else
                 ViewBag.ShowTab = false;
 
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid guId;
@@ -220,7 +220,7 @@ namespace ERP.Web.Controllers
 
                     ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
                     ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer) || x.Id == vm.SupplierId), "Id", "Name", vm.SupplierId);
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
@@ -237,7 +237,6 @@ namespace ERP.Web.Controllers
 
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
                 var safeId = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId)?.FirstOrDefault().Id;
                 var bankAccountId = db.BankAccounts.Where(x => !x.IsDeleted)?.FirstOrDefault().Id;
 
@@ -333,11 +332,6 @@ namespace ERP.Web.Controllers
                 }
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //Transaction
                 using (var context = new VTSaleEntities())
                 {
@@ -799,11 +793,6 @@ namespace ERP.Web.Controllers
                 var model = db.PurchaseInvoices.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     model.CaseId = (int)CasesCl.InvoiceDeleted;
                     db.Entry(model).State = EntityState.Modified;
@@ -864,11 +853,6 @@ namespace ERP.Web.Controllers
                 var model = db.PurchaseInvoices.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsFinalApproval = false;
                     model.IsApprovalStore = false;
                     model.IsApprovalAccountant = false;
@@ -953,14 +937,7 @@ namespace ERP.Web.Controllers
                 if (Guid.TryParse(invoGuid, out Id))
                 {
                     var model = db.PurchaseInvoices.Where(x => x.Id == Id).FirstOrDefault();
-                    if (model != null)
-                    {
-                        if (TempData["userInfo"] != null)
-                            auth = TempData["userInfo"] as VTSAuth;
-                        else
-                            RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-                    }
-                    else
+                    if (model == null)
                         return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
                     //    //تسجيل القيود

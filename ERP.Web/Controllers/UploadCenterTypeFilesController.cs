@@ -179,7 +179,7 @@ namespace ERP.Web.Controllers
                     case (int)UploalCenterTypeCl.Employee:
                         ViewBag.TitlePage = "رفع ملفات موظف";
                         var uploadCenterModelEmpR = db.UploadCenters.Where(x => x.ReferenceGuid == referenceGuid && x.IsFolder).FirstOrDefault();
-                        var employeeR = db.Employees.Where(x => x.EmpGuid == referenceGuid).FirstOrDefault();
+                        var employeeR = db.Employees.Where(x => x.Id == referenceGuid).FirstOrDefault();
                         // add first file (purchase guid not exsits yet)
                         if (uploadCenterModelEmpR == null)
                         {

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using ERP.DAL;
 using ERP.Desktop.DTOs;
 using System.Data.Entity;
+using ERP.DAL.Dtos;
+using ERP.Web.DataTablesDS;
 
 namespace ERP.Desktop.Services.Employees
 {
@@ -143,6 +145,28 @@ namespace ERP.Desktop.Services.Employees
                 result.Message = "حدث خطأ اثناء تنفيذ العملية";
             return result;
         }
+
+        #region فروع اليوزر المسموحة له
+        public static List<IDNameVM> GetBranchesByUser(UserInfo userInfo)
+        {
+            if (userInfo == null)
+                return new List<IDNameVM>();
+            IQueryable<Branch> branches = null;
+            using (var db = new VTSaleEntities())
+            {
+                branches = db.Branches.Where(x => !x.IsDeleted);
+                if (!userInfo.AccessAllBranch)//اليوزر ليس له صلاحية على كل الفروع
+                {
+                    if (userInfo.BranchId != null)//اليوزر له صلاحية على فرع محدد 
+                        branches = branches.Where(x => x.Id == userInfo.BranchId);
+                    else//اليوزر ليس له صلاحية على فرع محدد 
+                        return new List<IDNameVM>();
+                }
+                return branches.Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
+            }
+
+        }
+        #endregion
 
     }
 }

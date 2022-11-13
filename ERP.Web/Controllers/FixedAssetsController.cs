@@ -19,12 +19,11 @@ namespace ERP.Web.Controllers
     {
         // GET: FixedAssets
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public FixedAssetsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             storeService = new StoreService();
         }
         public ActionResult Index()
@@ -47,6 +46,7 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //show data
             {
                 Guid id;
@@ -56,7 +56,6 @@ namespace ERP.Web.Controllers
 
                     ViewBag.ShowMode = true;
                     ViewBag.AccountTreeParentId = new SelectList(AccountTreeService.GetFixedAssets(), "Id", "AccountName", model.AccountTreeParentId);
-                    var branches = db.Branches.Where(x => !x.IsDeleted);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName",model.BankAccountId);
@@ -75,7 +74,6 @@ namespace ERP.Web.Controllers
                 ViewBag.AccountTreeParentId = new SelectList(AccountTreeService.GetFixedAssets(), "Id", "AccountName");
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                var branches = db.Branches.Where(x => !x.IsDeleted);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
@@ -102,11 +100,6 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات الاهلاك بشكل صحيح" });
 
                 bool? isSaved = false;
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 if (db.Assets.Where(x => !x.IsDeleted && x.Name == vm.Name).Count() > 0)
                     return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
@@ -363,11 +356,6 @@ namespace ERP.Web.Controllers
                 var model = db.Assets.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
 

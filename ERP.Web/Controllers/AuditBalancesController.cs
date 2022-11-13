@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: AuditBalances ميزان المراجعة
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index()
         {
@@ -33,7 +33,8 @@ namespace ERP.Web.Controllers
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
 
             //ViewBag.AccountLevel = new SelectList(db.AccountsTrees.Where(x => !x.IsDeleted).Select(x=>new { AccountLevel= x.AccountLevel }).Distinct(), "AccountLevel", "AccountLevel");
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
 
             return View();
             

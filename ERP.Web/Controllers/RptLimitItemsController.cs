@@ -17,17 +17,17 @@ namespace ERP.Web.Controllers
     {
         // GET: RptLimitItems
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         #region االاصناف التى بلغت حد الطلب الامان 
 
         [HttpGet]
         public ActionResult SearchItemSafety()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
 
 
@@ -50,10 +50,11 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult SearchItemDanger()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
 
             return View();
@@ -83,7 +84,8 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", 1);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", 1);
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
 
             return View();

@@ -15,6 +15,8 @@ using ERP.Desktop.Utilities;
 using ERP.Desktop.Services.Reports.ItemReports;
 using ERP.Desktop.DTOs;
 using PrintEngine.HTMLPrint;
+using ERP.Desktop.Services;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Views.Reports.ProductReports
 {
@@ -44,7 +46,8 @@ namespace ERP.Desktop.Views.Reports.ProductReports
             var itemTypes = db.ItemTypes.Where(x => !x.IsDeleted).Select(x => new IDNameVM { Name = x.Name, ID = x.Id }).ToList();
             FillComboBox(cmbItemTypes, itemTypes, "Name", "ID");
 
-            var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { Name = x.Name, ID = x.Id }).ToList();
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            //var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { Name = x.Name, ID = x.Id }).ToList();
             FillComboBox(cmbBranchs, branches, "Name", "ID");
         }
 

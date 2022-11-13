@@ -24,10 +24,7 @@ namespace ERP.DAL
             this.ContractSchedulings = new HashSet<ContractScheduling>();
             this.ContractVacations = new HashSet<ContractVacation>();
         }
-    
-        public System.Guid ConGuid { get; set; }
-
-
+   
         [ForeignKey(nameof(ContractType))]
         public Nullable<Guid> ContractTypeId { get; set; }
         [ForeignKey(nameof(ContractSalaryType))]

@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: GeneralRecords
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         #region عرض القيود الحرة المسجلة سابقا
         public ActionResult Index()
@@ -61,13 +61,14 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
             {
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
                     var model = db.GeneralRecords.Where(x => x.Id == id).FirstOrDefault();
-                    ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", model.BranchId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     return View(model);
                 }
                 else
@@ -77,7 +78,7 @@ namespace ERP.Web.Controllers
             else
             {                   // add
                                 // add
-            ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name",1);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name",1);
             ViewBag.LastRow = db.GeneralRecords.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
 
             return View(new GeneralRecord { TransactionDate = Utility.GetDateTime() });
@@ -86,11 +87,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult CreateEdit(GeneralRecord vm)
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             if (ModelState.IsValid)
             {
                 if (vm.BranchId == null || vm.TransactionDate == null || (vm.AccountTreeFromId == null && vm.AccountTreeToId == null) || vm.Amount == 0)
@@ -167,11 +163,6 @@ namespace ERP.Web.Controllers
                 var model = db.GeneralRecords.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
 
@@ -197,11 +188,6 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //    //تسجيل القيود
                 // General Dailies
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
@@ -265,11 +251,6 @@ namespace ERP.Web.Controllers
                 var model = db.GeneralRecords.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
                     db.Entry(model).State = EntityState.Modified;

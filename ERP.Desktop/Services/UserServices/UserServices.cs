@@ -37,7 +37,9 @@ namespace ERP.Desktop.Services
                                 UserId = x.Id,
                                 UserName = x.UserName,
                                 IsActive = x.IsActive ? true : false,
-                                //EmployeeId=x.Person.Employees.Where(e => !e.IsDeleted && e.IsSaleMen).FirstOrDefault().Id
+                                EmployeeId = x.Person.Employees.Where(e => !e.IsDeleted /*&& e.PersonId == x.PersonId*/).FirstOrDefault().Id,
+                                //BranchId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().BranchId,
+                                StoreId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().StoreId,
                             }).FirstOrDefault();
                         }
                     }

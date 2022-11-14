@@ -17,6 +17,9 @@ namespace ERP.DAL
 
     public partial class EmployeeReturnCustody : BaseModel
     {
+        [ForeignKey(nameof(Branch))]
+        public Guid BranchId { get; set; }
+
         [ForeignKey(nameof(Employee))]
         public Guid EmployeeId { get; set; }
 
@@ -30,6 +33,7 @@ namespace ERP.DAL
 
         //AccountTree
         public virtual AccountsTree ExpenseTypeAccountTree { get; set; }
+        public virtual Branch Branch { get; set; }
         public virtual Employee Employee { get; set; }
     }
 }

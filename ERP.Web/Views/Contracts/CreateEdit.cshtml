@@ -104,7 +104,6 @@
                                             
                                             @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med removeClassInValid", @onchange = "Contract_Module.getEmployeesDepartmentChange()" })
                                             @Html.HiddenFor(model => model.Id)
-                                            @Html.HiddenFor(model => model.ConGuid)
                                         </div>
                                     </div>
                                     <div class="col-xl-6">

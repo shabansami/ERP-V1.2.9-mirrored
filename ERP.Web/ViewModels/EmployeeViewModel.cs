@@ -8,9 +8,13 @@ namespace ERP.Web.ViewModels
 {
     public class EmployeeViewModel
     {
+        public EmployeeViewModel()
+        {
+            this.BranchIds = new List<Guid>();
+        }
         public Guid Id { get; set; }
         public Nullable<Guid> PersonHidId { get; set; }
-        public Nullable<Guid> BranchId { get; set; }
+        public List<Guid> BranchIds { get; set; }
         public Nullable<Guid> JobId { get; set; }
         public Nullable<Guid> DepartmentId { get; set; }
         public string NationalID { get; set; }

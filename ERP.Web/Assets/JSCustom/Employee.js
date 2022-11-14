@@ -227,17 +227,17 @@ var Employee_Module = function () {
 
         })
     };
-    function onAreaChange() {
-        $.get("/SharedDataSources/onAreaChange", { id: $("#AreaId").val() }, function (data) {
-            $("#BranchId").empty();
-            $("#BranchId").append("<option value=>اختر عنصر من القائمة</option>");
-            $.each(data, function (index, row) {
-                $("#BranchId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
-            });
-        })
-    };
+    //function onAreaChange() {
+    //    $.get("/SharedDataSources/onAreaChange", { id: $("#AreaId").val() }, function (data) {
+    //        $("#BranchId").empty();
+    //        $("#BranchId").append("<option value=>اختر عنصر من القائمة</option>");
+    //        $.each(data, function (index, row) {
+    //            $("#BranchId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+    //        });
+    //    })
+    //};
     function getStoresInBranchChanged() {  // get  stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchIds").val().toString() }, function (data) {
             $("#StoreId").empty();
             $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {
@@ -254,7 +254,7 @@ var Employee_Module = function () {
         deleteRow: deleteRow,
         onCountryChange: onCountryChange,
         onCityChange: onCityChange,
-        onAreaChange: onAreaChange,
+        //onAreaChange: onAreaChange,
         getStoresInBranchChanged: getStoresInBranchChanged
     };
 

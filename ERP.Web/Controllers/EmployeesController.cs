@@ -63,7 +63,6 @@ namespace ERP.Web.Controllers
                     {
                         Id = model.Id,
                         PersonHidId = model.PersonId,
-                        BranchId = model.BranchId,
                         JobId = model.JobId,
                         DepartmentId = model.DepartmentId,
                         IsSaleMen = model.IsSaleMen,
@@ -93,7 +92,11 @@ namespace ERP.Web.Controllers
                         SocialSecurityNumber = model.SocialSecurityNumber,
                     };
 
+                    var defaultBranchIdss = model?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
 
+                    var empbranchIds = model.EmployeeBranches.Where(b => !b.IsDeleted);
+                    var defaultBranchId = empbranchIds.FirstOrDefault()?.BranchId;
+                    employee.BranchIds = empbranchIds.Select(x => x.BranchId).ToList();
                     ViewBag.NationalityId = new SelectList(db.Nationalities.Where(x => !x.IsDeleted), "Id", "Name", model.NationalID);
                     ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name", model.Person.Area?.City.Country.Id);
                     ViewBag.CityId = new SelectList(db.Cities.Where(x => !x.IsDeleted), "Id", "Name", model.Person.Area?.City.Id);
@@ -101,8 +104,8 @@ namespace ERP.Web.Controllers
                     ViewBag.GenderId = new SelectList(db.Genders.Where(x => !x.IsDeleted), "Id", "Name", model.Person.GenderId);
                     ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", model.DepartmentId);
                     ViewBag.JobId = new SelectList(db.Jobs.Where(x => !x.IsDeleted), "Id", "Name", model.JobId);
-                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == model.BranchId && !x.IsDamages), "Id", "Name", model.StoreId);
+                    ViewBag.BranchIds = new SelectList(branches, "Id", "Name", employee.BranchIds);
+                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == defaultBranchId && !x.IsDamages), "Id", "Name", model.StoreId);
                     ViewBag.SocialStatusId = new SelectList(db.SocialStatuses.Where(x => !x.IsDeleted), "Id", "Name", model.SocialStatusId);
                     return View(employee);
                 }
@@ -118,11 +121,11 @@ namespace ERP.Web.Controllers
                 ViewBag.GenderId = new SelectList(db.Genders.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.JobId = new SelectList(db.Jobs.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+                ViewBag.BranchIds = new SelectList(branches, "Id", "Name");
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages).GroupBy(x => x.BranchId).FirstOrDefault().ToList(), "Id", "Name");
                 ViewBag.SocialStatusId = new SelectList(db.SocialStatuses.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.LastRow = db.Employees.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
-                return View(new EmployeeViewModel() { Person = new Person() , Is100Percentage=true});
+                return View(new EmployeeViewModel() { Person = new Person(), Is100Percentage = true, BranchIds = new List<Guid> { new Guid("A563B457-F143-4CEF-BB94-36197778422B") } });
             }
 
 
@@ -132,9 +135,14 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (string.IsNullOrEmpty(vm.Person.Name) || string.IsNullOrEmpty(vm.Person.Mob1) || string.IsNullOrEmpty(vm.NationalID) || vm.JobId == null || vm.BranchId == null|| vm.DepartmentId == null)
+                if (string.IsNullOrEmpty(vm.Person.Name) || string.IsNullOrEmpty(vm.Person.Mob1) || string.IsNullOrEmpty(vm.NationalID) || vm.JobId == null|| vm.DepartmentId == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
+                if (vm.BranchIds.Count() == 0)
+                    return Json(new { isValid = false, message = "تأكد من اختيار فرع /اكتر للموظف" });
+                if (vm.IsSaleMen)
+                    if (vm.BranchIds.Count()>1)
+                        return Json(new { isValid = false, message = "تأكد من اختيار فرع واحد فقط لان الموظف مندوب " });
                 var isInsert = false;
 
 
@@ -156,8 +164,18 @@ namespace ERP.Web.Controllers
                         });
                     }
 
+                    //حذف اى فروع مسجلة للموظف سابقا
+                    var prviousBranches = db.EmployeeBranches.Where(x => !x.IsDeleted && x.EmployeeId == model.Id).ToList();
+                    foreach (var item in prviousBranches)
+                    {
+                        item.IsDeleted = true;
+                        db.Entry(model).State = EntityState.Modified;
 
-                    model.BranchId = vm.BranchId;
+                    }
+                    var empBranches = vm.BranchIds.Select(x => new EmployeeBranch { BranchId = x,EmployeeId=model.Id }).ToList();
+                    //model.EmployeeBranches = empBranches;
+                    db.EmployeeBranches.AddRange(empBranches);
+
                     model.JobId = vm.JobId;
                     model.DepartmentId = vm.DepartmentId;
                     model.IsSaleMen = vm.IsSaleMen;
@@ -234,6 +252,9 @@ namespace ERP.Web.Controllers
 
                     };
                     db.Persons.Add(person);
+                    var empBranches = vm.BranchIds.Select(x => new EmployeeBranch { BranchId = x }).ToList();
+                    //model.EmployeeBranches = empBranches;
+
                     var employee = new Employee
                     {
                         JobId = vm.JobId,
@@ -245,7 +266,7 @@ namespace ERP.Web.Controllers
                         SocialStatusId = vm.SocialStatusId,
                         DateOfHiring = vm.DateOfHiring,
                         HasRole = vm.HasRole,
-                        BranchId = vm.BranchId,
+                        EmployeeBranches = empBranches,
                         StoreId = vm.StoreId,
                         CommissionPercentage = vm.CommissionPercentage,
                         Is100Percentage = vm.Is100Percentage,

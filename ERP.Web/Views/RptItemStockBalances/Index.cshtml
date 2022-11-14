@@ -130,7 +130,7 @@
                                 <div>
                                     <label> محددات العرض</label>
                                     @*@Html.DropDownList("ParemeterReportList", (SelectList)ViewBag.ParemeterReportList, "اختر عنصر من القائمة", htmlAttributes: new { @multiple = "multiple", @class = "form-control kt-bootstrap-select din-med" })*@
-                                    @Html.ListBox("ParemeterReportList", (SelectList)ViewBag.ParemeterReportList, htmlAttributes: new { @multiple = "multiple", @class = "form-control kt-bootstrap-select din-med" })
+                                    @Html.ListBox("ParemeterReportList", (SelectList)ViewBag.ParemeterReportList, htmlAttributes: new { @multiple = "multiple", @class = "form-control select2 din-med" })
                                     @*<select class="form-control kt-bootstrap-select" id="kt_bootstrap_select" multiple="multiple" name="select">
                                 <optgroup label="Picnic" data-max-options="2">
                                     <option>Mustard</option>

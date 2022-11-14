@@ -17,9 +17,14 @@ namespace ERP.Web.Controllers
     public class EmployeeReturnCustodyController : Controller
     {
         // GET: EmployeeReturnCustody
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
+        VTSaleEntities db;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        StoreService storeService;
+        public EmployeeReturnCustodyController()
+        {
+            db = new VTSaleEntities();
+            storeService=new StoreService();    
+        }
         public ActionResult Index()
         {
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -40,6 +45,11 @@ namespace ERP.Web.Controllers
         {
             // add
             //ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var defaultStore = storeService.GetDefaultStore(db);
+            var branchId = defaultStore != null ? defaultStore.BranchId : null;
+
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
             ViewBag.LastRow = db.EmployeeReturnCustodies.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
@@ -53,13 +63,9 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (vm.ReturnDate == null|| vm.ExpenseTypeAccountTreeId == null || vm.EmployeeId == null || vm.EmployeeId == Guid.Empty || vm.Amount == 0)
+                if (vm.ReturnDate == null|| vm.ExpenseTypeAccountTreeId == null || vm.EmployeeId == null|| vm.BranchId ==null|| vm.EmployeeId == Guid.Empty || vm.Amount == 0)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                 //التأكد من ان الموظف تم تسجيل له عهدة اولا
                 var empCustody = db.Employees.Where(x => x.Id == vm.EmployeeId).FirstOrDefault().Person;
                 if (empCustody.AccountTreeEmpCustodyId == null)
@@ -70,6 +76,7 @@ namespace ERP.Web.Controllers
                 {
                     ExpenseTypeAccountTreeId = vm.ExpenseTypeAccountTreeId,
                     EmployeeId = vm.EmployeeId,
+                    BranchId=vm.BranchId,
                     Amount = vm.Amount,
                     Notes = vm.Notes,
                     ReturnDate = vm.ReturnDate
@@ -108,11 +115,6 @@ namespace ERP.Web.Controllers
                 var model = db.EmployeeReturnCustodies.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -145,11 +147,6 @@ namespace ERP.Web.Controllers
                             var model = context.EmployeeReturnCustodies.Where(x => x.Id == Id).FirstOrDefault();
                             if (model != null)
                             {
-                                if (TempData["userInfo"] != null)
-                                    auth = TempData["userInfo"] as VTSAuth;
-                                else
-                                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                                 //اعتماد  العهدة 
 
                                 //===================
@@ -187,7 +184,7 @@ namespace ERP.Web.Controllers
                                     context.GeneralDailies.Add(new GeneralDaily
                                     {
                                         AccountsTreeId = model.ExpenseTypeAccountTreeId,
-                                        BranchId = employee.BranchId,
+                                        BranchId = model.BranchId,
                                         Debit = model.Amount,
                                         Notes = model.Notes,
                                         TransactionDate = model.ReturnDate,
@@ -200,7 +197,7 @@ namespace ERP.Web.Controllers
                                     context.GeneralDailies.Add(new GeneralDaily
                                     {
                                         AccountsTreeId = accountTreeCustodyEmpId,
-                                        BranchId = employee.BranchId,
+                                        BranchId = model.BranchId,
                                         Credit = model.Amount,
                                         Notes = model.Notes,
                                         TransactionDate = model.ReturnDate,

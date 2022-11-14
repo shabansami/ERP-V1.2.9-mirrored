@@ -499,6 +499,7 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = $"حساب الموظف : {employee.Name} ليس بحساب فرعى" });
 
                     // 
+                    var defaultBranchId = contractScheduling.Contract?.Employee?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
 
                     //من ح/  الرواتب والاجور 
                     db.GeneralDailies.Add(new GeneralDaily
@@ -508,7 +509,7 @@ namespace ERP.Web.Controllers
                         Notes = $"راتب مستحق عن : {contractScheduling.Name}",
                         TransactionDate = Utility.GetDateTime(),
                         TransactionId = contractScheduling.Id,
-                        BranchId = contractScheduling.Contract.Employee.BranchId,
+                        BranchId = defaultBranchId,
                         TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
                     });
                     debit = debit + salary;
@@ -521,7 +522,7 @@ namespace ERP.Web.Controllers
                         Notes = $"  راتب مستحق للموظف: {employee.Name} عن : {contractScheduling.Name}",
                         TransactionDate = Utility.GetDateTime(),
                         TransactionId = contractScheduling.Id,
-                        BranchId = contractScheduling.Contract.Employee.BranchId,
+                        BranchId = defaultBranchId,
                         TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
                     });
                     credit = credit + salary;

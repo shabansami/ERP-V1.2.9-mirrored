@@ -130,7 +130,7 @@ namespace ERP.Web.Controllers
 
                     var totalPenalties = contractScheduling.TotalAmountAbsences + contractScheduling.TotalEveryMonthSalaryPenaltie + contractScheduling.TotalSalaryPenaltie + contractScheduling.LoanValue;
                     var totalAdditions = contractScheduling.TotalSalaryAddAllowances + contractScheduling.TotalSalaryAddition;
-                    var branchId = contractScheduling.Contract.Employee.BranchId;
+                    var branchId = contractScheduling.Contract.Employee?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
                     var month = contractScheduling.MonthYear.Value.Month;
                     var year = contractScheduling.MonthYear.Value.Year;
 

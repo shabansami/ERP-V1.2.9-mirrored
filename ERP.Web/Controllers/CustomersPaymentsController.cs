@@ -116,13 +116,13 @@ namespace ERP.Web.Controllers
                 ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
 
-                var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
+                //var defaultStore = storeService.GetDefaultStore(db);
+                //var branchId = defaultStore != null ? defaultStore.BranchId : null;
                 var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-                var safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId);
+                //var safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId);
 
-                ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
-                ViewBag.SafeId = new SelectList(safes, "Id", "Name", safes.FirstOrDefault()?.Id);
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+                ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 ViewBag.LastRow = db.CustomerPayments.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();
                 return View(new CustomerPayment() { PaymentDate = Utility.GetDateTime(), SellInvoiceId = invoId });
             }

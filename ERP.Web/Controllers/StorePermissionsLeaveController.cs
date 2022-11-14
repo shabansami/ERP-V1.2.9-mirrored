@@ -37,7 +37,7 @@ namespace ERP.Web.Controllers
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }), "Id", "Name");
             ViewBag.PersonId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId != 5).Select(x => new { Id = x.Id, Name = x.Name }), "Id", "Name");
-            ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name", db.Safes.Select(x => x.Id).FirstOrDefault());
+            ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
 
             return View();
         }
@@ -108,7 +108,7 @@ namespace ERP.Web.Controllers
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
-            ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name", db.Safes.Select(x => x.Id).FirstOrDefault());
+            ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
             ViewBag.PersonId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId != 5).Select(x => new { Id = x.Id, Name = x.Name }), "Id", "Name");
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();

@@ -109,7 +109,7 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var list = db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId == (int)PersonTypeCl.Employee && x.Employees.Any(e => !e.IsDeleted && (e.BranchId == Id || e.BranchId == null))).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                var list = db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId == (int)PersonTypeCl.Employee && x.Employees.Any(e => !e.IsDeleted && (e.EmployeeBranches.Where(n=>!n.IsDeleted).FirstOrDefault().BranchId == Id || e.EmployeeBranches.Where(n => !n.IsDeleted).FirstOrDefault().BranchId == null))).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
                 var selectList = new SelectList(list, "Id", "Name");
                 return Json(selectList.Items, JsonRequestBehavior.AllowGet);
             }
@@ -138,7 +138,7 @@ namespace ERP.Web.Controllers
                 return Json(selectList.Items, JsonRequestBehavior.AllowGet);
             }
             else
-                return Json(null, JsonRequestBehavior.AllowGet);
+                return Json(new { }, JsonRequestBehavior.AllowGet);
         }
         //public JsonResult getStoreDamagesOnBranchChanged(string id) //  تحميل  مخازن التوالف فقط بدلالة رقم الفرع 
         //{

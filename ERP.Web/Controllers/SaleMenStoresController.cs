@@ -46,10 +46,12 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.Employees.FirstOrDefault(x=>x.Id==id);
                     var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                    var defaultBranchId = model?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
+
                     ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", model.DepartmentId);
                     ViewBag.EmployeeId = new SelectList(EmployeeService.GetSaleMens(model.DepartmentId), "Id", "Name", model.Id);
-                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == model.BranchId && !x.IsDamages), "Id", "Name", model.StoreId);
+                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", defaultBranchId);
+                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == model.EmployeeBranches.Where(n => !n.IsDeleted).FirstOrDefault().BranchId && !x.IsDamages), "Id", "Name", model.StoreId);
 
                     SaleMenStoreVM vm = new SaleMenStoreVM
                     {

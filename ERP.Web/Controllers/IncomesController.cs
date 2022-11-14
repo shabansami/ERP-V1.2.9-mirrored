@@ -66,10 +66,10 @@ namespace ERP.Web.Controllers
             else
             {                   // add
 
-                var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-                ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name", null);
+                //var defaultStore = storeService.GetDefaultStore(db);
+                //var branchId = defaultStore != null ? defaultStore.BranchId : null;
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+                ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.LastRow = db.ExpenseIncomes.Where(x => !x.IsDeleted && !x.IsExpense).OrderByDescending(x => x.Id).FirstOrDefault();
                 return View(new ExpenseIncome() { PaymentDate = Utility.GetDateTime() });

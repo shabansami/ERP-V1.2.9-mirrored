@@ -35,25 +35,30 @@
 <div class="card-body">
 
     <div class="row">
-
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label>الادارة</label>
-                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "EmployeeReturnCustody_Module.getEmployeesDepartmentChange()" })
+        <div class="col-lg-4">
+            <div class="form-group required">
+                <label>اسم الفرع</label>
+                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select    din-med" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>الادارة</label>
+                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", @onchange = "EmployeeReturnCustody_Module.getEmployeesDepartmentChange()" })
+            </div>
+        </div>
+        <div class="col-lg-4">
             <div class="form-group required">
                 <label>الموظف</label>
                 @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
             </div>
         </div>
         <div class="col-lg-4">
-            <div class="form-group required" >
+            <div class="form-group required">
                 <label> نوع المصروف</label>
-                <input style = "text-align:right;" name="accountTree" placeholder="اختر نوع المصروف" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
-                <input style = "text-align:right;" type="hidden" id="ExpenseTypeAccountTreeId" name="ExpenseTypeAccountTreeId" />
+                <input style="text-align:right;" name="accountTree" placeholder="اختر نوع المصروف" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
+                <input style="text-align:right;" type="hidden" id="ExpenseTypeAccountTreeId" name="ExpenseTypeAccountTreeId" />
 
                 @*@Html.DropDownList("ExpenseTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med",@style = "text-align:right;" })*@
             </div>

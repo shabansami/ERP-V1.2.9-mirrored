@@ -72,10 +72,10 @@ namespace ERP.Web.Controllers
                 // add
                 //ViewBag.AccountTreeParentId = new SelectList(db.AccountsTrees.Where(x => !x.IsDeleted && x.TypeId == (int)AccountTreeSelectorTypesCl.FixedAssets && x.SelectedTree), "Id", "AccountName");
                 ViewBag.AccountTreeParentId = new SelectList(AccountTreeService.GetFixedAssets(), "Id", "AccountName");
-                var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-                ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name");
+                //var defaultStore = storeService.GetDefaultStore(db);
+                //var branchId = defaultStore != null ? defaultStore.BranchId : null;
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+                ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
                 ViewBag.LastRow = db.Assets.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new Asset()

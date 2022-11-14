@@ -155,15 +155,17 @@ namespace ERP.Desktop.Services.Employees
             using (var db = new VTSaleEntities())
             {
                 branches = db.Branches.Where(x => !x.IsDeleted);
-                if (!userInfo.AccessAllBranch)//اليوزر ليس له صلاحية على كل الفروع
+                if (!userInfo.IsAdmin)//اليوزر ليس له صلاحية على كل الفروع
                 {
-                    if (userInfo.BranchId != null)//اليوزر له صلاحية على فرع محدد 
-                        branches = branches.Where(x => x.Id == userInfo.BranchId);
+                    var empBranches = db.EmployeeBranches.Where(x => !x.IsDeleted && x.EmployeeId == userInfo.EmployeeId);
+                    if (empBranches.Any())//اليوزر له صلاحية على فرع محدد 
+                        branches = branches.Where(x => empBranches.Any(e => e.BranchId == x.Id));
                     else//اليوزر ليس له صلاحية على فرع محدد 
                         return new List<IDNameVM>();
                 }
                 return branches.Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();
             }
+
 
         }
         #endregion

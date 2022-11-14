@@ -7,6 +7,8 @@
     {
         public override void Up()
         {
+            DropForeignKey("dbo.Employees", "BranchId", "dbo.Branches");
+            DropIndex("dbo.Employees", new[] { "BranchId" });
             CreateTable(
                 "dbo.EmployeeBranches",
                 c => new
@@ -35,12 +37,14 @@
                 .Index(t => t.DeletedBy);
             
             DropColumn("dbo.Employees", "EmpGuid");
+            DropColumn("dbo.Employees", "BranchId");
             DropColumn("dbo.Contracts", "ConGuid");
         }
         
         public override void Down()
         {
             AddColumn("dbo.Contracts", "ConGuid", c => c.Guid(nullable: false));
+            AddColumn("dbo.Employees", "BranchId", c => c.Guid());
             AddColumn("dbo.Employees", "EmpGuid", c => c.Guid(nullable: false));
             DropForeignKey("dbo.EmployeeBranches", "ModifiedBy", "dbo.Users");
             DropForeignKey("dbo.EmployeeBranches", "DeletedBy", "dbo.Users");
@@ -53,6 +57,8 @@
             DropIndex("dbo.EmployeeBranches", new[] { "BranchId" });
             DropIndex("dbo.EmployeeBranches", new[] { "EmployeeId" });
             DropTable("dbo.EmployeeBranches");
+            CreateIndex("dbo.Employees", "BranchId");
+            AddForeignKey("dbo.Employees", "BranchId", "dbo.Branches", "Id");
         }
     }
 }

@@ -52,7 +52,7 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>الموظف/اكثر</label>
-                                @Html.ListBox("EmployeesList", (SelectList)ViewBag.EmployeesList, htmlAttributes: new { @multiple = "multiple", @class = "form-control kt-bootstrap-select din-med" })
+                                @Html.ListBox("EmployeesList", (SelectList)ViewBag.EmployeesList, htmlAttributes: new { @multiple = "multiple", @class = "form-control select2 din-med" })
                                 @*<select id="EmployeesList" name="EmployeesList" class="form-control kt-bootstrap-select din-med" multiple>
                                         @{
                                             var list = (SelectList)ViewBag.EmployeesList;

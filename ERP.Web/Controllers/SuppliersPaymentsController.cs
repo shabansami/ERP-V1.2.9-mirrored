@@ -83,11 +83,11 @@ namespace ERP.Web.Controllers
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
                 var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-                var safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId);
+                //var safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId);
                 
                 ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
-                ViewBag.SafeId = new SelectList(safes, "Id", "Name",safes.FirstOrDefault()?.Id);
+                ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name");
                 ViewBag.LastRow = db.SupplierPayments.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();

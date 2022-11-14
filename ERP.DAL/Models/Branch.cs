@@ -43,6 +43,7 @@ namespace ERP.DAL
             this.Offers = new HashSet<Offer>();
             this.QuoteOrderSells = new HashSet<QuoteOrderSell>();
             this.EmployeeBranches = new HashSet<EmployeeBranch>();
+            this.EmployeeReturnCustodies = new HashSet<EmployeeReturnCustody>();
         }
 
         public string Name { get; set; }
@@ -79,5 +80,6 @@ namespace ERP.DAL
         public virtual ICollection<Offer> Offers { get; set; }
         public virtual ICollection<QuoteOrderSell> QuoteOrderSells { get; set; }
         public virtual ICollection<EmployeeBranch> EmployeeBranches { get; set; }
+        public virtual ICollection<EmployeeReturnCustody> EmployeeReturnCustodies { get; set; }
     }
 }

@@ -8,9 +8,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Identity;
 
 namespace ERP.Web.Controllers
 {
+    [Authorization]
     public class RptItemStockBalancesController : Controller
     {
         // GET: RptItemStockBalances

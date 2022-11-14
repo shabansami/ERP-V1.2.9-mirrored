@@ -13,7 +13,7 @@ namespace ERP.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202211131726010_add_TB_EmployeeBranches"; }
+            get { return "202211141315224_add_TB_EmployeeBranches"; }
         }
         
         string IMigrationMetadata.Source

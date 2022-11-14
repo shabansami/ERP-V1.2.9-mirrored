@@ -41,8 +41,6 @@ namespace ERP.DAL
     
         [ForeignKey(nameof(Person))]
         public Nullable<Guid> PersonId { get; set; }
-        [ForeignKey(nameof(Branch))]
-        public Nullable<Guid> BranchId { get; set; }
         [ForeignKey(nameof(Store))]
         public Nullable<Guid> StoreId { get; set; }
         [ForeignKey(nameof(Department))]
@@ -76,7 +74,6 @@ namespace ERP.DAL
         public double SocialSecurityCurrentBalance { get; set; } //«·—’Ìœ «·Õ«·Ï «· «„Ì‰«  «·«Ã „«⁄Ì…
 
         public virtual Person Person { get; set; }
-        public virtual Branch Branch { get; set; }
         public virtual Store Store { get; set; }
         public virtual Department Department { get; set; }
         public virtual Job Job { get; set; }

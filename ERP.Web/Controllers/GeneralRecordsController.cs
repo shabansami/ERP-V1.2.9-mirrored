@@ -197,9 +197,11 @@ namespace ERP.Web.Controllers
                     //التأكد من عدم تكرار اعتماد القيد
                     if (GeneralDailyService.GeneralDailaiyExists(generalRecord.Id, (int)TransactionsTypesCl.FreeRestrictions))
                         return Json(new { isValid = false, message = "تم الاعتماد مسبقا " });
+                    if(generalRecord.AccountTreeFromId!=null)
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecord.AccountTreeFromId))
                         return Json(new { isValid = false, message = "الحساب من ليس بحساب فرعى" });
-                    if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecord.AccountTreeToId))
+                    if (generalRecord.AccountTreeToId != null)
+                        if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecord.AccountTreeToId))
                         return Json(new { isValid = false, message = "الحساب الى ليس بحساب فرعى" });
 
                     // من حساب

@@ -42,12 +42,14 @@ namespace ERP.Web.Controllers
             int? n = null;
             //البحث من الصفحة الرئيسية
             string txtSearch = null;
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+
             if (TempData["txtSearch"] != null)
             {
                 txtSearch = TempData["txtSearch"].ToString();
                 return Json(new
                 {
-                    data = db.SellBackInvoices.Where(x => !x.IsDeleted && (x.Id.ToString() == txtSearch || x.PersonCustomer.Name.Contains(txtSearch) || x.Employee.Person.Name.Contains(txtSearch))).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellBackInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
+                    data = db.SellBackInvoices.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList().Where(x => !x.IsDeleted && (x.Id.ToString() == txtSearch || x.PersonCustomer.Name.Contains(txtSearch) || x.Employee.Person.Name.Contains(txtSearch))).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellBackInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet); ;
             }
             else
@@ -55,18 +57,12 @@ namespace ERP.Web.Controllers
                 DateTime dtFrom, dtTo;
                 var list = db.SellBackInvoices.Where(x => !x.IsDeleted);
                 if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
-                {
                     list = list.Where(x => DbFunctions.TruncateTime(x.InvoiceDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.InvoiceDate) <= dtTo.Date);
+                var branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
 
-                    return Json(new
+                return Json(new
                     {
-                        data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellBackInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
-                    }, JsonRequestBehavior.AllowGet);
-                }
-                else
-                    return Json(new
-                    {
-                        data = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellBackInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
+                        data = branchesList.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellBackInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
                     }, JsonRequestBehavior.AllowGet);
             }
         }

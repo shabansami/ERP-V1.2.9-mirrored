@@ -1,4 +1,6 @@
 ﻿using ERP.DAL;
+using ERP.DAL.Dtos;
+using ERP.DAL.Utilites;
 using ERP.Web.DataTablesDS;
 using System;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace ERP.Web.Services
 {
     public class ExpenseIncomeService
     {
-        public List<ExpenseDto> GetExpenses(VTSaleEntities db,string expenseTypeId, string isApprovalStatus, string dFrom, string dTo)
+        public List<ExpenseDto> GetExpenses(VTSaleEntities db,string expenseTypeId, string isApprovalStatus, string dFrom, string dTo, VTSAuth auth)
         {
             int? n = null;
             DateTime dtFrom, dtTo;
@@ -32,8 +34,12 @@ namespace ERP.Web.Services
             }
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                 list = list.Where(x => DbFunctions.TruncateTime(x.PaymentDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.PaymentDate) <= dtTo.Date);
+            
+            //بيانات الفرع/اكتر المحددة لليوزر
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
 
-            var data= list.OrderByDescending(x=>x.CreatedOn).Select(x => new ExpenseDto
+            var data = branchesList.OrderByDescending(x=>x.CreatedOn).Select(x => new ExpenseDto
             {
                 Id = x.Id,
                 CreatedOn=x.CreatedOn,
@@ -51,7 +57,7 @@ namespace ERP.Web.Services
             }).ToList();
             return data;
         }
-        public List<IncomeDto> GetIncomes(VTSaleEntities db, string incomeTypeId, string isApprovalStatus, string dFrom, string dTo)
+        public List<IncomeDto> GetIncomes(VTSaleEntities db, string incomeTypeId, string isApprovalStatus, string dFrom, string dTo, VTSAuth auth)
         {
             int? n = null;
             DateTime dtFrom, dtTo;
@@ -73,6 +79,9 @@ namespace ERP.Web.Services
 
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                 list = list.Where(x => DbFunctions.TruncateTime(x.PaymentDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.PaymentDate) <= dtTo.Date);
+            //بيانات الفرع/اكتر المحددة لليوزر
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
 
             var data = list.OrderByDescending(x=>x.CreatedOn).
                 Select(x => new IncomeDto 

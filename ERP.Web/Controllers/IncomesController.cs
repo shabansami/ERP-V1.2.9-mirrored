@@ -34,7 +34,7 @@ namespace ERP.Web.Controllers
         }
         public ActionResult GetAll(string incomeTypeId, string isApprovalStatus, string dFrom, string dTo)
         {
-            var list = expenseIncomeService.GetIncomes(db, incomeTypeId, isApprovalStatus, dFrom, dTo);
+            var list = expenseIncomeService.GetIncomes(db, incomeTypeId, isApprovalStatus, dFrom, dTo,auth);
             return Json(new
             {
                 data = list

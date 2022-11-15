@@ -12,6 +12,7 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.Identity;
+using System.Windows.Documents;
 
 namespace ERP.Web.Controllers
 {
@@ -35,11 +36,15 @@ namespace ERP.Web.Controllers
         public ActionResult GetAll()
         {
             int? n = null;
-            var data = db.PersonIntialBalances.Where(x => !x.IsDeleted && !x.IsCustomer).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, SupplierName = x.Person != null ? x.Person.Name : null, Amount = x.Amount, OperationDate = x.OperationDate.ToString(), Actions = n, Num = n }).ToList();
+            //بيانات الفرع/اكتر المحددة لليوزر
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var list = db.PersonIntialBalances.Where(x => !x.IsDeleted && !x.IsCustomer);
+            var branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
+           
             return Json(new
             {
-                data = data
-            }, JsonRequestBehavior.AllowGet); ;
+                data = branchesList.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, SupplierName = x.Person != null ? x.Person.Name : null, Amount = x.Amount, OperationDate = x.OperationDate.ToString(), Actions = n, Num = n }).ToList()
+        }, JsonRequestBehavior.AllowGet); ;
 
         }
         public ActionResult CreateEditIntial()

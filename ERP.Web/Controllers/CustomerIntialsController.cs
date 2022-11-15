@@ -36,7 +36,12 @@ namespace ERP.Web.Controllers
         public ActionResult GetAll()
         {
             int? n = null;
-            var data = db.PersonIntialBalances.Where(x => !x.IsDeleted && x.IsCustomer).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, CustomerName = x.Person != null ? x.Person.Name : null, Amount = x.Amount, OperationDate = x.OperationDate.ToString(), IsInstallment = x.Installments.Where(i => !i.IsDeleted).Any(), Actions = n, Num = n }).ToList();
+            //بيانات الفرع/اكتر المحددة لليوزر
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var list = db.PersonIntialBalances.Where(x => !x.IsDeleted && x.IsCustomer);
+            var branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
+
+            var data = branchesList.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, CustomerName = x.Person != null ? x.Person.Name : null, Amount = x.Amount, OperationDate = x.OperationDate.ToString(), IsInstallment = x.Installments.Where(i => !i.IsDeleted).Any(), Actions = n, Num = n }).ToList();
             return Json(new
             {
                 data = data

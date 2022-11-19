@@ -83,6 +83,7 @@ namespace ERP.Web.Controllers
             var data = storesTrans.OrderBy(x=>x.CreatedOn)
                 .Select(x => new { 
                     Id = x.Id,
+                    StoreTransferNumber=x.StoreTransferNumber,
                     ApprovalStore = (!x.IsApprovalStore && !x.IsRefusStore) ? "فى الانتظار" : x.IsApprovalStore ? "تم الاعتماد" : "تم الرفض",
                     CaseName=x.StoresTransferCase.Name,
                     IsFinalApproval=x.IsFinalApproval,

@@ -205,7 +205,8 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "الحساب الى ليس بحساب فرعى" });
 
                     // من حساب
-                    db.GeneralDailies.Add(new GeneralDaily
+                    if (generalRecord.AccountTreeFromId != null)
+                        db.GeneralDailies.Add(new GeneralDaily
                     {
                         AccountsTreeId = generalRecord.AccountTreeFromId,
                         Debit = generalRecord.Amount,
@@ -215,6 +216,7 @@ namespace ERP.Web.Controllers
                         TransactionId = generalRecord.Id,
                         TransactionTypeId = (int)TransactionsTypesCl.FreeRestrictions
                     });
+                    if(generalRecord.AccountTreeToId != null)
                     //إلي حساب 
                     db.GeneralDailies.Add(new GeneralDaily
                     {

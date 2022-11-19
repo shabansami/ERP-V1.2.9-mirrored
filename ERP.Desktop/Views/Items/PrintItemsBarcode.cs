@@ -49,6 +49,8 @@ namespace ERP.Desktop.Views.Items
             {
                 FillDgvBySupplier();
             }
+            CommonMethods.AutoComplateTextbox(txtSearch);
+
         }
 
 
@@ -203,6 +205,32 @@ namespace ERP.Desktop.Views.Items
         {
             Validations.txtIsNumberOnly(e);
         }
+
+        private async void btnFillDgvByItem_Click(object sender, EventArgs e)
+        {
+            dgvItems.DataSource = null;
+            SplashScreen.ShowSplashScreen();
+            var itemName = txtSearch.Text;
+            List<ItemBalanceVM> items = null;
+            await Task.Run(() => {
+                var list = db.Items.Where(x => !x.IsDeleted);
+                if (!string.IsNullOrEmpty(itemName))
+                    list = list.Where(x => x.Name.Trim() == itemName.Trim());
+                items = list.AsEnumerable().Select(x => new ItemBalanceVM
+                {
+                    ID = x.Id,
+                    Name = x.Name,
+                    Price = x.SellPrice,
+                    //Quantity = balanceService.GetBalanceByItemAllStores(x.Id),
+                    Barcode = x.BarCode,
+                    ItemCode = x.ItemCode.ToString()
+                }).ToList();
+            });
+            dgvItems.DataSource = items;
+            SplashScreen.CloseSplashScreen();
+        }
+
+
 
 
         #endregion

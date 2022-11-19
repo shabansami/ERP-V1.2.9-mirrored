@@ -134,8 +134,8 @@ var Expense_Module = function () {
                 $(api.table().footer()).html(html + totalAmount + '</label></div></th>  </tr>');
             },
 
-            //"order": [[0, "asc"]]
-            "order": [[0, "desc"]]
+            "order": [[0, "asc"]]
+            //"order": [[0, "desc"]]
 
         });
         $('#export_print').on('click', function (e) {

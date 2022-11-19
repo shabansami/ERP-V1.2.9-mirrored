@@ -927,6 +927,7 @@ var PurchaseBackInvoice_Module = function () {
         onItemChange: onItemChange,
         onProductionOrderChange: onProductionOrderChange,
         unApproval: unApproval,
+        getProductionOrdersOnStoreChange: getProductionOrdersOnStoreChange,
     };
 
 }();

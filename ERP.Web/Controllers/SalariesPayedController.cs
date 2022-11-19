@@ -45,7 +45,7 @@ namespace ERP.Web.Controllers
                 {
                     var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name");
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branches.Select(y => y.Id).FirstOrDefault()), "Id", "Name", 1);
+                    ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
                     ViewBag.ContractSalaryTypId = new SelectList(db.ContractSalaryTypes.Where(x => !x.IsDeleted), "Id", "Name");
                     ViewBag.DepartmntId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");

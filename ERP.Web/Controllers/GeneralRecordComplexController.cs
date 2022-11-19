@@ -108,7 +108,12 @@ namespace ERP.Web.Controllers
                     //التاكد من ان القيود موزونة
                     if (deDS.Sum(x => x.ComplexDebitName) != deDS.Sum(x => x.ComplexCreditName))
                         return Json(new { isValid = false, message = "القيود غير موزونة" });
-
+                    //التأكد من كل الحسابات المحدد ليس لها حسابات فرعية
+                    foreach (var generalRecord in deDS)
+                    {
+                        if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecord.ComplexAccountTreeId))
+                            return Json(new { isValid = false, message = $"الحساب {generalRecord.ComplexAccountTreeName} ليس بحساب فرعى" });
+                    }
                     newGeneralRecords = deDS.Select(x => new GeneralRecord
                     {
                         AccountTreeFromId = x.ComplexDebitCredit == 1 ? x.ComplexAccountTreeId : null,
@@ -137,16 +142,19 @@ namespace ERP.Web.Controllers
                             foreach (var item in newGeneralRecords)
                             {
                                 var generalRecord = db.GeneralRecords.Where(x => x.Id == item.Id).FirstOrDefault();
-                                if (item.AccountTreeFromId != null)
-                                {
-                                    //التأكد من عدم تكرار اعتماد القيد
-                                    if (GeneralDailyService.GeneralDailaiyExists(generalRecord.Id, (int)TransactionsTypesCl.FreeRestrictions))
-                                        continue;
+                                //التأكد من عدم تكرار اعتماد القيد
+                                if (GeneralDailyService.GeneralDailaiyExists(generalRecord.Id, (int)TransactionsTypesCl.FreeRestrictions))
+                                    continue;
+                                if (generalRecord.AccountTreeFromId != null)
                                     if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecord.AccountTreeFromId))
                                         return Json(new { isValid = false, message = "الحساب من ليس بحساب فرعى" });
+                                if (generalRecord.AccountTreeToId != null)
                                     if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecord.AccountTreeToId))
                                         return Json(new { isValid = false, message = "الحساب الى ليس بحساب فرعى" });
 
+
+                                if (item.AccountTreeFromId != null)
+                                {
                                     // من حساب
                                     db.GeneralDailies.Add(new GeneralDaily
                                     {

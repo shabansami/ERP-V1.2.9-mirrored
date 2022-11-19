@@ -94,6 +94,7 @@ var StoresTransfer_Module = function () {
             { data: 'StoreFromName', title: 'من مخزن' },
             { data: 'BranchToName', title: 'الى فرع' },
             { data: 'StoreToName', title: 'الى مخزن' },
+            { data: 'StoreTransferNumber', title: 'رقم العملية' },
             { data: 'TransferDate', title: 'تاريخ العملية' },
             { data: 'EmployeeFromName', title: 'من المندوب' },
             { data: 'EmployeeToName', title: 'الى المندوب' },

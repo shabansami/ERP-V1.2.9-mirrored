@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Services.Settings
 {
@@ -16,7 +17,10 @@ namespace ERP.Desktop.Services.Settings
         VTSaleEntities dbContext = DBContext.UnitDbContext;
         public List<ShiftVM> GetAllNotClosedShifts()
         {
-            return dbContext.ShiftsOfflines.Where(x => !x.IsDeleted && !x.IsClosed).Select(x => new ShiftVM()
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            var shifts = dbContext.ShiftsOfflines.Where(x => !x.IsDeleted && !x.IsClosed).ToList().Where(x=>branches.Any(b=>b.ID==x.PointOfSale.BrunchId)).ToList();
+
+            return shifts.Select(x => new ShiftVM()
             {
                 ID = x.Id,
                 Date = x.Date,
@@ -30,8 +34,11 @@ namespace ERP.Desktop.Services.Settings
         public List<ShiftVM> GetAllClosedShifts(DateTime dtFrom, DateTime dtTo)
         {
             var dbContext = DBContext.UnitDbContext;
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            var shifts = dbContext.ShiftsOfflines.Where(x => !x.IsDeleted && x.IsClosed && DbFunctions.TruncateTime(x.ClosedOn) >= dtFrom && DbFunctions.TruncateTime(x.ClosedOn) <= dtTo).ToList().Where(x => branches.Any(b => b.ID == x.PointOfSale.BrunchId)).ToList();
 
-            return dbContext.ShiftsOfflines.Where(x => !x.IsDeleted && x.IsClosed && DbFunctions.TruncateTime(x.ClosedOn) >= dtFrom && DbFunctions.TruncateTime(x.ClosedOn) <= dtTo).Select(x => new ShiftVM()
+
+            return shifts.Select(x => new ShiftVM()
             {
                 ID = x.Id,
                 ShiftNumber = x.ShiftNumber,

@@ -18,7 +18,7 @@ namespace ERP.Web.Controllers
     {
         // GET: CustomerAccounts
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         CustomerService customerService = new CustomerService();
 
         #region  كشف حساب عميل  

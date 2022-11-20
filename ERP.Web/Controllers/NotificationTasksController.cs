@@ -21,11 +21,10 @@ namespace ERP.Web.Controllers
     {
         // GET: NotificationTasks
         VTSaleEntities db ;
-        VTSAuth auth ;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public NotificationTasksController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
         }
         public ActionResult Index()
         {
@@ -80,10 +79,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                 var EmployeesList = JsonConvert.DeserializeObject<List<Guid>>(EmpsList);
                 if (vm.Id != Guid.Empty)
                 {
@@ -178,11 +173,6 @@ namespace ERP.Web.Controllers
                 var model = db.Notifications.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     var emps = model.NotificationEmployees.Where(x => !x.IsDeleted);
                     if (emps.Count()>0)

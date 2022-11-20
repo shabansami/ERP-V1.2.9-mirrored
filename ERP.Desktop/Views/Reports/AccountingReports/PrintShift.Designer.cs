@@ -29,24 +29,59 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.dgv_shift = new System.Windows.Forms.DataGridView();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new ERP.Desktop.Utilities.ReusableControls.SuccessButton();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.dgv_shift = new System.Windows.Forms.DataGridView();
-            this.Shift_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ShiftNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CreatedOn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Person_Name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Person_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.PointName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Shift_ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.print = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_shift)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.dgv_shift);
+            this.groupBox2.Location = new System.Drawing.Point(3, 67);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(633, 316);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "الورديات المغلقة";
+            // 
+            // dgv_shift
+            // 
+            this.dgv_shift.AllowUserToAddRows = false;
+            this.dgv_shift.AllowUserToDeleteRows = false;
+            this.dgv_shift.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgv_shift.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgv_shift.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ShiftNumber,
+            this.CreatedOn,
+            this.Person_Name,
+            this.Person_ID,
+            this.PointName,
+            this.Shift_ID,
+            this.print});
+            this.dgv_shift.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dgv_shift.Location = new System.Drawing.Point(3, 19);
+            this.dgv_shift.Margin = new System.Windows.Forms.Padding(3, 22, 3, 22);
+            this.dgv_shift.Name = "dgv_shift";
+            this.dgv_shift.ReadOnly = true;
+            this.dgv_shift.RowTemplate.Height = 30;
+            this.dgv_shift.Size = new System.Drawing.Size(627, 294);
+            this.dgv_shift.TabIndex = 3;
+            this.dgv_shift.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_shift_CellContentClick);
             // 
             // groupBox1
             // 
@@ -113,46 +148,12 @@
             this.label6.TabIndex = 0;
             this.label6.Text = "من :";
             // 
-            // groupBox2
+            // ShiftNumber
             // 
-            this.groupBox2.Controls.Add(this.dgv_shift);
-            this.groupBox2.Location = new System.Drawing.Point(3, 67);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(633, 316);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "الورديات المغلقة";
-            // 
-            // dgv_shift
-            // 
-            this.dgv_shift.AllowUserToAddRows = false;
-            this.dgv_shift.AllowUserToDeleteRows = false;
-            this.dgv_shift.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgv_shift.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgv_shift.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Shift_ID,
-            this.CreatedOn,
-            this.Person_Name,
-            this.Person_ID,
-            this.PointName,
-            this.print});
-            this.dgv_shift.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgv_shift.Location = new System.Drawing.Point(3, 19);
-            this.dgv_shift.Margin = new System.Windows.Forms.Padding(3, 22, 3, 22);
-            this.dgv_shift.Name = "dgv_shift";
-            this.dgv_shift.ReadOnly = true;
-            this.dgv_shift.RowTemplate.Height = 30;
-            this.dgv_shift.Size = new System.Drawing.Size(627, 294);
-            this.dgv_shift.TabIndex = 3;
-            this.dgv_shift.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgv_shift_CellContentClick);
-            // 
-            // Shift_ID
-            // 
-            this.Shift_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Shift_ID.DataPropertyName = "ID";
-            this.Shift_ID.HeaderText = "رقم الوردية";
-            this.Shift_ID.Name = "Shift_ID";
-            this.Shift_ID.ReadOnly = true;
+            this.ShiftNumber.DataPropertyName = "ShiftNumber";
+            this.ShiftNumber.HeaderText = "رقم الوردية";
+            this.ShiftNumber.Name = "ShiftNumber";
+            this.ShiftNumber.ReadOnly = true;
             // 
             // CreatedOn
             // 
@@ -189,6 +190,15 @@
             this.PointName.Name = "PointName";
             this.PointName.ReadOnly = true;
             // 
+            // Shift_ID
+            // 
+            this.Shift_ID.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Shift_ID.DataPropertyName = "ID";
+            this.Shift_ID.HeaderText = "ID";
+            this.Shift_ID.Name = "Shift_ID";
+            this.Shift_ID.ReadOnly = true;
+            this.Shift_ID.Visible = false;
+            // 
             // print
             // 
             this.print.HeaderText = "طباعه";
@@ -208,10 +218,10 @@
             this.Name = "PrintShift";
             this.Text = "طباعة وردية مغلقة";
             this.Load += new System.EventHandler(this.PrintShift_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgv_shift)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -226,11 +236,12 @@
         private System.Windows.Forms.DateTimePicker dtpTo;
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private System.Windows.Forms.DataGridView dgv_shift;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Shift_ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ShiftNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn CreatedOn;
         private System.Windows.Forms.DataGridViewTextBoxColumn Person_Name;
         private System.Windows.Forms.DataGridViewTextBoxColumn Person_ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn PointName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Shift_ID;
         private System.Windows.Forms.DataGridViewButtonColumn print;
     }
 }

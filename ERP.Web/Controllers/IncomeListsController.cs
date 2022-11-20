@@ -18,7 +18,6 @@ namespace ERP.Web.Controllers
     {
         // GET: IncomeLists
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
         [HttpGet]
         public ActionResult Index()
         {

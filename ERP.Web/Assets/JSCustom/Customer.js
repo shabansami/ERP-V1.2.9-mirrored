@@ -76,10 +76,10 @@ var Customer_Module = function () {
             },
             columns: [
                 { data: 'Num', responsivePriority: 0 },
-                { data: 'CountryName', title: 'الدولة' },
                 { data: 'CityName', title: 'المدينة' },
                 { data: 'AreaName', title: 'المنطقة' },
                 { data: 'Name', title: 'العميل' },
+                { data: 'Mob1', title: 'رقم الهاتف' },
                 { data: 'PersonCategoryName', title: 'الفئة' },
                 { data: 'RegionName', title: 'المنطقة', visible: false },
                 { data: 'DistrictName', title: 'الحي', visible: false },

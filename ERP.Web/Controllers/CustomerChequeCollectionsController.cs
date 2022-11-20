@@ -15,7 +15,7 @@ namespace ERP.Web.Controllers
     public class CustomerChequeCollectionsController : Controller
     {
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         // GET: CustomerChequeCollections
         public ActionResult Index()
         {
@@ -52,11 +52,6 @@ namespace ERP.Web.Controllers
             {
                 if ( vm.CollectionDate == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال تاريخ التحصيل" });
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                     var model = db.Cheques.FirstOrDefault(x=>x.Id==vm.Id);
                     model.CollectionDate = vm.CollectionDate;

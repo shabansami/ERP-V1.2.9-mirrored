@@ -16,7 +16,7 @@ namespace ERP.Web.Controllers
     {
         // GET: AccountsTrees
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         #region ادارة شجرة الحسابات
         public ActionResult Index()
@@ -71,11 +71,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.AccountsTrees.Where(x => !x.IsDeleted && x.Id != vm.Id && x.AccountNumber == vm.AccountNumber  ).Count() > 0)
@@ -156,11 +151,6 @@ namespace ERP.Web.Controllers
                 var model = db.AccountsTrees.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

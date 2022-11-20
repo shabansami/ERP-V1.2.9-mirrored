@@ -20,7 +20,7 @@ namespace ERP.Web.Controllers
     {
         // GET: Contracts
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public static string DS_SalaryAddition { get; set; }
         public static string DS_SalaryPenalty { get; set; }
         public static string DS_DefinitionVacation { get; set; }
@@ -315,11 +315,6 @@ namespace ERP.Web.Controllers
 
 
                     var isInsert = false;
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     Contract model = null;
                     if (vm.Id != Guid.Empty)
                         model = db.Contracts.FirstOrDefault(x => x.Id == vm.Id);
@@ -425,11 +420,6 @@ namespace ERP.Web.Controllers
                 var model = db.Contracts.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
 
@@ -482,11 +472,6 @@ namespace ERP.Web.Controllers
                     var model = db.Contracts.Where(x => x.Id == Id).FirstOrDefault();
                     if (model != null)
                     {
-                        if (TempData["userInfo"] != null)
-                            auth = TempData["userInfo"] as VTSAuth;
-                        else
-                            RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                         //الغاء تنشيط اى عقد اخر بخلاف المحدد
                         var contracts = db.Contracts.Where(x => !x.IsDeleted && x.EmployeeId == model.EmployeeId && x.Id != model.Id).ToList();
                         foreach (var item in contracts)
@@ -603,12 +588,6 @@ namespace ERP.Web.Controllers
                     var model = db.Contracts.Where(x => x.Id == Id).FirstOrDefault();
                     if (model != null)
                     {
-                        if (TempData["userInfo"] != null)
-                            auth = TempData["userInfo"] as VTSAuth;
-                        else
-                            RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-
                         // الغاء اعتماد وتنشيط العقد الحالى 
                         model.IsApproval = false;
                         model.IsActive = false;

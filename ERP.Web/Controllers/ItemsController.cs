@@ -22,12 +22,11 @@ namespace ERP.Web.Controllers
     {
         // GET: Items
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService itemService;
         public ItemsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
             itemService = new ItemService();
         }
         public ActionResult Index()
@@ -242,11 +241,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال كمية الوحدة المحول منها" });
             }
             var isInsert = false;
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             List<PricingPolicyDT> deDS = new List<PricingPolicyDT>();
             List<ItemPrice> itemPrices = new List<ItemPrice>();
             List<ItemUnitDto> deDSUnits = new List<ItemUnitDto>();
@@ -479,11 +473,6 @@ namespace ERP.Web.Controllers
                 var model = db.Items.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     //Remove Item Image

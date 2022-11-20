@@ -15,11 +15,10 @@ namespace ERP.Web.Controllers
     public class BanksAccountsController : Controller
     {
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public BanksAccountsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
         }        // GET: BanksAccounts
         public ActionResult Index()
         {
@@ -68,11 +67,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.BankAccounts.Where(x => !x.IsDeleted && x.AccountName == vm.AccountName && x.Id != vm.Id).Count() > 0) ///???
@@ -159,11 +153,6 @@ namespace ERP.Web.Controllers
                 var model = db.BankAccounts.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     var accountTree = db.AccountsTrees.FirstOrDefault(x=>x.Id==model.AccountsTreeId);

@@ -18,7 +18,7 @@ namespace ERP.Web.Controllers
     {
         // GET: FinancialCenter
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         [HttpGet]
         public ActionResult Index()
         {

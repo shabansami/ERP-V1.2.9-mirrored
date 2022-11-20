@@ -16,7 +16,7 @@ namespace ERP.Web.Controllers
     {
         // GET: DelayAbsenceSystems
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public ActionResult Index()
         {
             return View();
@@ -47,11 +47,6 @@ namespace ERP.Web.Controllers
         {
                 if ( vm.IsDelay == null)
                     return Json(new { isValid = false, message = "تأكد من اختيار نوع النظام" });
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                    
                 if (db.DelayAbsenceSystems.Where(x => !x.IsDeleted && !x.IsDelay == !vm.IsDelay).Count() > 0)
                         return Json(new { isValid = false, message = "نظام الغياب موجود مسبقا" });
@@ -92,11 +87,6 @@ namespace ERP.Web.Controllers
                 var model = db.DelayAbsenceSystems.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

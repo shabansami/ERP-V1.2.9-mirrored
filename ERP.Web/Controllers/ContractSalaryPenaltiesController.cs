@@ -18,7 +18,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ContractSalaryPenalties
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public ActionResult Index()
         {
             //var contracts = db.Contracts.Where(x => !x.IsDeleted && x.IsActive && x.IsApproval);
@@ -86,11 +86,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من اختيار الشهر/الاسبوع" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     //if (db.ContractContractSalaryPenalties.Where(x => !x.IsDeleted && x.EmployeeId == vm.EmployeeId&&x.SalaryPenaltyId==vm.SalaryPenaltyId&&x.AdditionDate==vm.AdditionDate && x.Id != vm.Id).Count() > 0)
@@ -201,11 +196,6 @@ namespace ERP.Web.Controllers
                 var model = db.ContractSalaryPenalties.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

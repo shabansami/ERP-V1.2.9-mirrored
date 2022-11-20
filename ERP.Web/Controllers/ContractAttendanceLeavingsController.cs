@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ContractAttendanceLeavings
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         //IQueryable<Employee> GetEmployees()
         //{
@@ -97,10 +97,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال وقت الحضور او الانصراف" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 DateTime attendanceDt = new DateTime();
                 DateTime leavingDt = new DateTime();
@@ -240,11 +236,6 @@ namespace ERP.Web.Controllers
                 var model = db.ContractAttendanceLeavings.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

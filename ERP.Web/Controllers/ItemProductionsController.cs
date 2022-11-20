@@ -21,7 +21,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ItemProductions
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public static string DSItems { get; set; }
         public static string DSItemDetails { get; set; }
 
@@ -156,11 +156,6 @@ namespace ERP.Web.Controllers
 
                 if (db.ItemProductions.Where(x => !x.IsDeleted && x.Name == vm.Name).Count() > 0)
                     return Json(new { isValid = false, message = "مسمى التوليفة موجود مسبقا" });
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //الاصناف النهائية او الكاملة
                 List<ItemProductionDetailsDT> deDSItem = new List<ItemProductionDetailsDT>();
                 List<ItemProductionDetail> itemProItems = null;
@@ -259,10 +254,6 @@ namespace ERP.Web.Controllers
                 var model = db.ItemProductions.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     var itemProductionOrderExist = db.ProductionOrderDetails.Where(x => !x.IsDeleted && x.ItemProductionId == Id).Any();
                     if (itemProductionOrderExist)
                         return Json(new { isValid = false, message = "لايمكن حذف التوليفة لارتباطها بأوامر انتاج" });

@@ -42,7 +42,8 @@ namespace ERP.Desktop.Views.Settings.Shift
         private void FillCombos()
         {
             var dbContext = DBContext.UnitDbContext;
-            var POSs = dbContext.PointOfSales.Where(x => !x.IsDeleted).ToList();
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            var POSs = dbContext.PointOfSales.Where(x => !x.IsDeleted).ToList().Where(x=>branches.Any(b=>b.ID==x.BrunchId)).ToList();
             FillComboBox(cmbPOSs, POSs, "Name", "ID");
 
             //var emps = dbContext.Users.Where(x => x.IsActive && !x.IsDeleted && x.Person != null && !x.Person.IsDeleted && x.Person.Employees.Count(y => !y.IsDeleted && y.IsSaleMen) > 0)

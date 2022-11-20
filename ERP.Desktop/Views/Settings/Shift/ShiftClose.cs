@@ -54,7 +54,7 @@ namespace ERP.Desktop.Views.Settings.Shift
             //Fill shift details
             lblCashier.Text = shift.Employee.Person.Name;
             lblPOS.Text = shift.PointOfSale.Name;
-            lblShiftId.Text = shift.Id + "";
+            lblShiftId.Text = shift.ShiftNumber + "";
             lblShiftDate.Text = shift.Date.ToString("yyyy/MM/dd");
 
             //expenses and employee loan
@@ -220,7 +220,7 @@ namespace ERP.Desktop.Views.Settings.Shift
 
             shift.IsClosed = true;
             shift.ClosedOn = CommonMethods.TimeNow;
-            shift.ClosedBy = UserServices.UserInfo.EmployeeId;
+            shift.ClosedBy = UserServices.UserInfo.UserId;
            var aff= db.SaveChanges(UserServices.UserInfo.UserId);
             if (aff>0)
             {

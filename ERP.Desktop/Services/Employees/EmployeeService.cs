@@ -9,6 +9,8 @@ using ERP.Desktop.DTOs;
 using System.Data.Entity;
 using ERP.DAL.Dtos;
 using ERP.Web.DataTablesDS;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TreeView;
+using Branch = ERP.DAL.Branch;
 
 namespace ERP.Desktop.Services.Employees
 {
@@ -24,7 +26,9 @@ namespace ERP.Desktop.Services.Employees
                     employees = employees.Where(x => x.DepartmentId == deparmentId);
                 var contracts = db.Contracts.Where(x => !x.IsDeleted && x.IsActive && x.IsApproval);
                 employees = employees.Where(e => contracts.Any(c => c.EmployeeId == e.Id));
-                return employees.Select(x => new IDNameVM { ID = x.Id, Name = x.Person.Name }).ToList();
+                var branches = GetBranchesByUser(UserServices.UserInfo);
+                var empList=employees.ToList().Where(x=>x.EmployeeBranches.Where(b=>!b.IsDeleted&&branches.Any(v=>v.ID==b.BranchId)).Any());
+                return empList.Select(x => new IDNameVM { ID = x.Id, Name = x.Person.Name }).ToList();
             }
         }
 

@@ -18,7 +18,7 @@ namespace ERP.Web.Controllers
     public class CustomersController : Controller
     {
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         // GET: Clients
         public ActionResult Index()
         {
@@ -49,7 +49,7 @@ namespace ERP.Web.Controllers
             else
                 return Json(new
                 {
-                    data = db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn = x.CreatedOn, CountryName = x.Area.City.Country.Name, CityName = x.Area.City.Name, AreaName = x.Area.Name, RegionName = x.District.Region.Name, DistrictName = x.District.Name, Name = x.Name, PersonCategoryName = x.PersonCategory.Name, IsActive = x.IsActive, typ = (int)UploalCenterTypeCl.Customer, Actions = n, Num = n }).ToList(),
+                    data = db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn = x.CreatedOn, Mob1 = x.Mob1, CityName = x.Area.City.Name, AreaName = x.Area.Name, RegionName = x.District.Region.Name, DistrictName = x.District.Name, Name = x.Name, PersonCategoryName = x.PersonCategory.Name, IsActive = x.IsActive, typ = (int)UploalCenterTypeCl.Customer, Actions = n, Num = n }).ToList(),
                     //Mob1 = x.Mob1,
                     //Mob2 = x.Mob2,
                     //Tel = x.Tel
@@ -156,12 +156,6 @@ namespace ERP.Web.Controllers
 
                 var isInsert = false;
                 bool? isSaved = false;
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 List<ResponsibleDT> deDS = new List<ResponsibleDT>();
                 List<Person> CustomerResponsible = new List<Person>();
 
@@ -335,11 +329,6 @@ namespace ERP.Web.Controllers
                 var model = db.Persons.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     var isExistGenerarDays = db.GeneralDailies.Where(x => !x.IsDeleted && (x.AccountsTreeId == model.AccountsTreeCustomerId || x.AccountsTreeId == model.AccountTreeSupplierId || x.AccountsTreeId == model.AccountTreeEmpCustodyId)).Any();
                     if (isExistGenerarDays)
                         return Json(new { isValid = false, message = "لا يمكن الحذف لارتباط الحساب بمعاملات مسجله مسبقا" });
@@ -386,10 +375,6 @@ namespace ERP.Web.Controllers
                 var model = db.Persons.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     model.IsActive = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -416,10 +401,6 @@ namespace ERP.Web.Controllers
                 var model = db.Persons.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     model.IsActive = false;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

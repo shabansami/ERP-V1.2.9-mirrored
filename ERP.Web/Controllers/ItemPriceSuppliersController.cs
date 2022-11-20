@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ItemPriceSuppliers
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         [HttpGet]
         public ActionResult CreateEdit()
         {
@@ -95,11 +95,6 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "تأكد من وجود اصناف" });
 
             var currentItemPrices = db.ItemPrices.Where(x => !x.IsDeleted);
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             foreach (var item in DTItemPrices)
             {
                 double sellPriceCustome;

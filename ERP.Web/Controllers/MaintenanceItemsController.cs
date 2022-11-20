@@ -20,7 +20,7 @@ namespace ERP.Web.Controllers
     {
         // GET: MaintenanceItems
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public static string DS_SpareParts { get; set; } //قطع الغيار
         public static string DS_Damages { get; set; } //التوالف
         public static string DS_Incomes { get; set; } //ايرادات الصيانة
@@ -56,11 +56,6 @@ namespace ERP.Web.Controllers
                 var model = db.Maintenances.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.MaintenanceCaseId = maintenanceCaseId;
                     db.Entry(model).State = EntityState.Modified;
                     //اضافة حالة الطلب 
@@ -93,10 +88,6 @@ namespace ERP.Web.Controllers
                 var model = db.Maintenances.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     //فى حالة الخصم على الفاتورة نسية /قيمة 
                     if (!bool.TryParse(isInvoiceDisVal.ToString(), out var t))
                         return Json(new { isValid = false, message = "تأكد من اختيار احتساب الخصم على الفاتورة" });
@@ -313,12 +304,6 @@ namespace ERP.Web.Controllers
                     }
                     else
                         return Json(new { isValid = false, message = "تأكد من ادخال تكلفة الصيانة" });
-
-
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                     MaintenanceDetail model = null;
                     model = db.MaintenanceDetails.FirstOrDefault(x => x.Id == vm.Id);

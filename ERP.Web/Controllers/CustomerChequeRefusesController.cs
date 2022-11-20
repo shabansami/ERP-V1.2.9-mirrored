@@ -18,7 +18,7 @@ namespace ERP.Web.Controllers
     {
         // GET: CustomerChequeRefuses
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index()
         {
@@ -55,11 +55,6 @@ namespace ERP.Web.Controllers
             {
                 if (vm.RefuseDate == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال تاريخ الرفض" });
-
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                 var model = db.Cheques.FirstOrDefault(x=>x.Id==vm.Id);
                 model.RefuseDate = vm.CollectionDate;

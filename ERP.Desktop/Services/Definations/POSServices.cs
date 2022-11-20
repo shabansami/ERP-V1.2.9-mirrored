@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using ERP.Desktop.Services.Employees;
 
 namespace ERP.Desktop.Services.Definations
 {
@@ -20,7 +22,10 @@ namespace ERP.Desktop.Services.Definations
 
         public List<POSVM> GetAllPointOfSales()
         {
-            return db.PointOfSales.Where(x => !x.IsDeleted).Select(x => new POSVM()
+            var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
+            var pointOfSales = db.PointOfSales.Where(x => !x.IsDeleted).ToList().Where(x => branches.Any(b => b.ID == x.BrunchId)).ToList();
+
+            return pointOfSales.Where(x => !x.IsDeleted).Select(x => new POSVM()
             {
                 Id = x.Id,
                 Name = x.Name,

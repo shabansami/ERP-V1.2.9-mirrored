@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: MaintenancesFinalApprovals
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index()
         {
@@ -44,12 +44,6 @@ namespace ERP.Web.Controllers
                 var model = db.Maintenances.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-
                     //    //تسجيل القيود
                     // General Dailies
                     if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))

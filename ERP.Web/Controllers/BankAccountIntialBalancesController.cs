@@ -19,12 +19,11 @@ namespace ERP.Web.Controllers
     {
         // GET: BankAccountIntialBalances
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public BankAccountIntialBalancesController()
         {
             db = new VTSaleEntities();
-          auth  = new VTSAuth();
             storeService= new StoreService();
         }
         public ActionResult Index()
@@ -84,11 +83,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //if (vm.Id != Guid.Empty)
                 //{
                 //    if (db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionTypeId == (int)TransactionsTypesCl.BalanceFirstDuration && x.TransactionId != vm.CustomerId).Count() > 0)
@@ -194,10 +188,6 @@ namespace ERP.Web.Controllers
                 var model = db.GeneralDailies.Where(x => x.TransactionId == Id && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalanceBank).ToList();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     foreach (var item in model)
                     {
                         item.IsDeleted = true;

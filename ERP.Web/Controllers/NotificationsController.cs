@@ -17,7 +17,7 @@ namespace ERP.Web.Controllers
     public class NotificationsController : Controller
     {
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         // GET: Notifications
         public ActionResult Index()
@@ -184,11 +184,6 @@ namespace ERP.Web.Controllers
                 var model = db.Notifications.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsClosed = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

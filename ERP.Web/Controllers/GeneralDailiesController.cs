@@ -18,11 +18,6 @@ namespace ERP.Web.Controllers
         //TransactionShared رقم المعاملة المشتركة بين المعاملات (فاتورة البيع) مثلا (فاتورة بيع -دفعة من عميل تحت نفس فاتورة البيع - قسط شهر من حسابنفس فاتورة البيع
         public ActionResult Index(string tranId, string tranTypeId, string shw)
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             Guid transactionId;
             int transactionsTypeId;
             if (Guid.TryParse(tranId, out transactionId) && int.TryParse(tranTypeId, out transactionsTypeId))

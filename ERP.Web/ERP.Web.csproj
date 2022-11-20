@@ -2398,7 +2398,6 @@
     <Folder Include="Reports\" />
     <Folder Include="Test\" />
     <Folder Include="Views\Base\" />
-    <Folder Include="Views\District\" />
     <Folder Include="Views\ExpenseIncomes\" />
     <Folder Include="Views\PurchaseInvoiceScroll\" />
     <Folder Include="Views\RptLimitNormalItems\" />

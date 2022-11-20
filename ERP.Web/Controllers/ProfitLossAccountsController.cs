@@ -18,7 +18,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ProfitLossAccounts
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index()
         {

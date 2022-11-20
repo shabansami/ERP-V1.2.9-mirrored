@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: ProductionOrderDamages
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index(string ordrGud)
         {
@@ -58,11 +58,6 @@ namespace ERP.Web.Controllers
                 var model = db.ProductionOrders.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     foreach (var item in itemMaterials)
                         {
                             if (item.Quantitydamage!=0)

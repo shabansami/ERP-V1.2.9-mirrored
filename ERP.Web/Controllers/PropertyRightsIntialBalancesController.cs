@@ -19,12 +19,10 @@ namespace ERP.Web.Controllers
     {
         // GET: PropertyRightsIntialBalances
         VTSaleEntities db;
-        VTSAuth auth;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public PropertyRightsIntialBalancesController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
-
         }
         public ActionResult Index()
         {
@@ -75,11 +73,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 //var accountTreeCust = db.Persons.Where(x => !x.IsDeleted && x.Id == vm.CustomerId).FirstOrDefault().AccountsTreeId;
                 if (db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalancePropertyRights && x.TransactionId == vm.AccountId).Count() > 0)
                     return Json(new { isValid = false, message = "تم تسجيل رصيد اول المدة للحساب من قبل" });
@@ -181,10 +174,6 @@ namespace ERP.Web.Controllers
                 var model = db.GeneralDailies.Where(x => x.TransactionId == Id && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalancePropertyRights).ToList();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     foreach (var item in model)
                     {
                         item.IsDeleted = true;

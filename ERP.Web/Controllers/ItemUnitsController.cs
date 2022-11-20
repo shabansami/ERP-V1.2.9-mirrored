@@ -19,12 +19,10 @@ namespace ERP.Web.Controllers
     {
         // GET: ItemUnits
         VTSaleEntities db;
-        VTSAuth auth;
-
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public ItemUnitsController()
         {
             db = new VTSaleEntities();
-            auth = new VTSAuth();
         }
         [HttpGet]
         public ActionResult CreateEdit()
@@ -90,11 +88,6 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "تأكد من وجود اصناف" });
 
             //var currentItemUnits = db.ItemUnits.Where(x => !x.IsDeleted);
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             Guid unitID;
             if (!Guid.TryParse(unitId, out unitID))
                 return Json(new { isValid = false, message = "تأكد من اختيار الوحدة" });

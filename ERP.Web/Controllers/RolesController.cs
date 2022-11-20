@@ -16,7 +16,7 @@ namespace ERP.Web.Controllers
     {
         // GET: Roles
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         public ActionResult Index()
         {
@@ -62,11 +62,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.Roles.Where(x => !x.IsDeleted && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
@@ -125,11 +120,6 @@ namespace ERP.Web.Controllers
                 {
                     if(model.IsAdmin)
                         return Json(new { isValid = false, message = "لا يمكن حذف صلاحية مدير النظام!!" });
-
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;

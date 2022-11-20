@@ -17,7 +17,7 @@ namespace ERP.Web.Controllers
     {
         // GET: MaintenancesAccountants
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         #region ادارة فواتير الصيانه
         public ActionResult Index()
@@ -81,12 +81,6 @@ namespace ERP.Web.Controllers
                 var model = db.Maintenances.Where(x => x.Id == vm.Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
-
                     //model.PaymentTypeId = vm.PaymentTypeId;
                     model.SafeId = vm.SafeId;
                     model.BankAccountId = vm.BankAccountId;

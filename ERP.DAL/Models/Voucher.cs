@@ -28,6 +28,7 @@ namespace ERP.DAL
         public double Amount { get; set; }
         public string Notes { get; set; }
         public bool IsApproval { get; set; }
+        public string VoucherNumber { get; set; }
 
         //AccountTree
         public virtual AccountsTree AccountsTreeFrom { get; set; }

@@ -81,6 +81,7 @@ var VoucherReceipt_Module = function () {
                 { data: 'Num', responsivePriority: 0 },
                 { data: 'AccountTreeFromName', title: 'من حساب' },
                 { data: 'AccountTreeToName', title: 'الي حساب' },
+                { data: 'VoucherNumber', title: 'رقم السند' },
                 { data: 'Amount', title: 'المبلغ' },
                 { data: 'VoucherDate', title: 'تاريخ العملية' },
                 { data: 'Notes', title: 'البيان' },

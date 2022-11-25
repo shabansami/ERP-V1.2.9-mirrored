@@ -8,6 +8,28 @@
 @section Button1{استعراض كل فواتير البيع}
 @section Button1Link{/SellInvoices/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
+@section Styles
+{
+    <style type="text/css" media="print">
+   @@media print {
+       h4{
+           margin-right:50px;
+       }
+        tr td {
+            background-color: rgba(247, 202, 24, 0.3) !important;
+            border-style: solid;
+            border-width: 1px;
+        }
+        thead th{
+
+        }
+        .backGrond td {
+            background-color: #ff6a00 !important;
+        }
+        
+    }
+    </style>
+}
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -18,6 +40,23 @@
                             <div class="mb-4">
                                 <h4> فاتورة بيع</h4>
                             </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="font-weight-bolde mb-2r din-bold ylow">تاريخ الفاتورة : </label>
+                                    <label>@Model.InvoiceDate</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="font-weight-bolde mb-2r din-bold ylow">رقم الفاتورة : </label>
+                                    <label>@Model.InvoiceNumber</label>
+                                </div>
+                            </div> <div class="row">
+                                <div class="col-sm-12">
+                                    <label class="font-weight-bolde mb-2r din-bold ylow">العميل : </label>
+                                    <label>@Model.PersonCustomer.Name</label>
+                                </div>
+                            </div>
                         </div>
                         <div class="flex-shrink-0">
                             <div class="mb-4">
@@ -27,61 +66,17 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mb-1">
-                        <span class="din-bold">@Model.Notes</span>
-                    </p>
 
                 </div>
 
-                <hr class="my-4">
-
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h6 class="font-weight-bolde mb-2r din-bold ylow">
-                            تاريخ الفاتورة
-                        </h6>
-                        <p class="din-med">@Model.InvoiceDate</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h6 class="font-weight-bolder mb-2 din-bold ylow">رقم الفاتورة</h6>
-                        <p class="din-med">@Model.InvoiceNumber</p>
-                    </div>
-                    <div class="col-sm-4">
-                        <h6 class="font-weight-bolder mb-2 din-bold ylow">العميل</h6>
-                        <p class="din-med">
-                            @Model.PersonCustomer.Name
-                            <br />@Model.PersonCustomer.Address
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <h6 class="font-weight-bolde mb-2r din-bold ylow">الفرع</h6>
-                        <p class="din-med">@Model.Branch.Name</p>
-                    </div>
-                    <div class="col-sm-4">
-
-                        <h6 class="font-weight-bolder mb-2 din-bold ylow">المبلغ المدفوع</h6>
-                        <p class="din-med">@Model.PayedValue</p>
-                    </div>
-                    <div class="col-sm-4">
-
-                        <h6 class="font-weight-bolder mb-2 din-bold ylow">المبلغ المتبقى</h6>
-                        <p class="din-med">
-                            @Model.RemindValue
-                        </p>
-                    </div>
-                </div>
                 <hr class="my-4">
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                             <tr>
                                 <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
-                                <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
-                                <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية المستلمة</th>
                                 <th class="text-right font-weight-bold text-muted text-uppercase din-bold">السعر</th>
-                                <th class="text-right font-weight-bold text-muted text-uppercase din-bold">المخزن</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
                                 <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">القيمة</th>
                             </tr>
                         </thead>
@@ -90,129 +85,76 @@
                             {
                                 <tr class="font-weight-boldest font-size-lg">
                                     <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
-                                    <td class="text-right pt-7 din-bold">@item.Quantity</td>
-                                    <td class="text-right pt-7 din-bold">@item.QuantityReal</td>
                                     <td class="text-right pt-7 din-bold">@item.Price</td>
-                                    <td class="text-right pt-7 din-bold">@item.Store.Name</td>
+                                    <td class="text-right pt-7 din-bold">@item.Quantity</td>
                                     <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Amount</td>
                                 </tr>
                             }
+                            <tr class="font-weight-boldest font-size-lg table-primary backGrond">
+                                <td class="pl-0 pt-7 din-bold" colspan="2">الاجمالى</td>
+                                <td class="pl-0 pt-7 din-bold">@Model.TotalQuantity</td>
+                                <td class="pl-0 pt-7 din-bold">@Model.TotalValue</td>
+                            </tr>
+                            @if (Model.TotalDiscount > 0)
+                            {
+                                string dis = "0";
+                                if (Model.DiscountPercentage > 0)
+                                { dis = Model.DiscountPercentage + " %"; }
+                                <tr class="font-weight-boldest font-size-lg table-primary backGrond">
+                                    <td class="pl-0 pt-7 din-bold" colspan="2">اجمالى الخصومات</td>
+                                    <td class="pl-0 pt-7 din-bold">@dis</td>
+                                    <td class="pl-0 pt-7 din-bold">@Model.TotalDiscount</td>
+                                </tr>
+                            }
+                            <tr class="font-weight-boldest font-size-lg table-secondary backGrond">
+                                <td class="pl-0 pt-7 din-bold" colspan="3">الصافى</td>
+                                @*<td class="pl-0 pt-7 din-bold">@Model.Safy</td>*@
+                                <td class="pl-0 pt-7 din-bold">@Model.Safy</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
                 <!-- end: Invoice body-->
                 <!-- begin: Invoice body الايرادات-->
-                <hr class="my-4">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الإيراد</th>
-                                <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">القيمة</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model.SellInvoiceIncomes)
-                            {
-                                <tr class="font-weight-boldest font-size-lg">
-                                    <td class="pl-0 pt-7 din-bold">@item.IncomeTypeAccountTree.AccountName</td>
-                                    <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Amount</td>
+                @if (Model.SellInvoiceIncomes.Count() > 0)
+                {
+                    <hr class="my-4">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الإيراد</th>
+                                    <th class="text-right pr-0 font-weight-bold text-muted text-uppercase din-bold">القيمة</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-
-                <hr class="my-4">
-                <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
-                    <div class="d-flex flex-column mb-10 mb-md-0">
-                        @{ var paymentType = string.Empty;
-                            switch (Model.PaymentTypeId)
-                            {
-                                case 1:// نقدى
-                                    paymentType = "نقدى";
-                                    break;
-                                case 2:// آجل
-                                    paymentType = "آجل";
-                                    break;
-                                case 3:// جزئى
-                                    paymentType = "جزئى";
-                                    break;
-                                default:
-                                    break;
-                            } }
-                        <div class="font-weight-bolder font-size-lg mb-3 din-bold">طريقة السداد (@paymentType)</div>
-                        @if (Model.PaymentTypeId == (int)Lookups.PaymentTypeCl.Cash || Model.PaymentTypeId == (int)Lookups.PaymentTypeCl.Partial)
-                        {
-                            if (Model.SafeId != null)
-                            {
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="mr-15 font-weight-bold din-bold">اسم الخزينة:</span>
-                                    <span class="text-right din-bold">@Model.Safe.Name</span>
-                                </div> }
-                            else if (Model.BankAccountId != null)
-                            {
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="mr-15 font-weight-bold din-bold">اسم البنك:</span>
-                                    <span class="text-right din-bold">@Model.BankAccount.Bank.Name</span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-3">
-                                    <span class="mr-15 font-weight-bold din-bold">اسم الحساب:</span>
-                                    <span class="text-right din-bold">@Model.BankAccount.AccountName</span>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <span class="mr-15 font-weight-bold din-bold">رقم الحساب:</span>
-                                    <span class="text-right din-bold">@Model.BankAccount.AccountNo</span>
-                                </div>}
-                        }
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.SellInvoiceIncomes)
+                                {
+                                    <tr class="font-weight-boldest font-size-lg">
+                                        <td class="pl-0 pt-7 din-bold">@item.IncomeTypeAccountTree.AccountName</td>
+                                        <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Amount</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
+                }
 
 
-                </div>
+
 
 
                 <!-- end: Invoice footer-->
                 <!-- begin: Invoice footer ملخص الفاتورة-->
-                <hr class="my-4">
 
-                <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
-                    <div class="d-flex flex-column mb-10 mb-md-0">
-                        <div class="font-weight-bolder font-size-lg mb-3 din-bold">ملخص الفاتورة</div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="mr-15 font-weight-bold din-bold">اجمالى الفاتورة:</span>
-                            <span class="text-right din-bold">@Model.TotalValue</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="mr-15 font-weight-bold din-bold">اجمالى الخصومات:</span>
-                            <span class="text-right din-bold">@Model.TotalDiscount</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="mr-15 font-weight-bold din-bold">اجمالى الايرادات:</span>
-                            <span class="text-right din-bold">@Model.TotalExpenses</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-3">
-                            <span class="mr-15 font-weight-bold din-bold">ضريبة القيمة المضافة:</span>
-                            <span class="text-right din-bold">@Model.SalesTax</span>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <span class="mr-15 font-weight-bold din-bold">قيمة ضريبة ارباح تجارية:</span>
-                            <span class="text-right din-bold">@Model.ProfitTax</span>
-                        </div>
-                    </div>
-                    <div class="d-flex flex-column text-md-center">
-                        <span class="font-size-lg font-weight-bolder mb-1 din-bold">صافى الفاتورة</span>
-                        <span class="font-size-h2 font-weight-boldest text-danger mb-1 din-bold">@Model.Safy</span>
-                        @*<span>Taxes Included</span>*@
-                    </div>
-                </div>
                 <hr class="my-4">
                 <!-- end: Invoice footer-->
                 <!-- begin: Invoice action-->
-                    <div class="d-flex justify-content-between">
-                        @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
-                        <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
-                        <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
-                    </div>
+                <div class="d-flex justify-content-between">
+                    @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
+                    <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
+                    <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
+                </div>
             </div>
             <!-- end: Invoice action-->
             <!-- end: Invoice-->
@@ -228,6 +170,16 @@
         $(document).ready(function () {
             SellInvoice_Module.init();
         });
+        function printdiv(printdivname) {
+            var headstr = "<html><head><title>Booking Details</title></head><body>";
+            var footstr = "</body>";
+            var newstr = document.getElementsByClassName(printdivname).innerHTML;
+            var oldstr = document.body.innerHTML;
+            document.body.innerHTML = headstr + newstr + footstr;
+            window.print();
+            document.body.innerHTML = oldstr;
+            return false;
+        }
     </script>
 }
 

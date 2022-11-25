@@ -57,7 +57,7 @@ namespace ERP.Web.Controllers
 
                 return Json(new
                 {
-                    data = list.Select(x => new { Id = x.Id, AccountTreeFromName = x.AccountsTreeFrom.AccountName, AccountTreeToName = x.AccountsTreeTo.AccountName, IsApproval = x.IsApproval,  Amount = x.Amount, Notes = x.Notes, VoucherDate = x.VoucherDate.ToString(), Actions = n, Num = n }).ToList()
+                    data = list.Select(x => new { Id = x.Id, VoucherNumber = x.VoucherNumber, AccountTreeFromName = x.AccountsTreeFrom.AccountName, AccountTreeToName = x.AccountsTreeTo.AccountName, IsApproval = x.IsApproval,  Amount = x.Amount, Notes = x.Notes, VoucherDate = x.VoucherDate.ToString(), Actions = n, Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet);
 
         }
@@ -151,6 +151,10 @@ namespace ERP.Web.Controllers
                         VoucherDate = vm.VoucherDate,
                         IsVoucherPayment = true,
                     };
+                    //اضافة رقم السند
+                    string codePrefix = Properties.Settings.Default.CodePrefix;
+                    model.VoucherNumber = codePrefix + (db.Vouchers.Count(x => x.VoucherNumber.StartsWith(codePrefix)) + 1);
+
                     db.Vouchers.Add(model);
 
                 }

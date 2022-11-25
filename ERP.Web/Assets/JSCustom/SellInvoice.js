@@ -126,7 +126,7 @@ var SellInvoice_Module = function () {
                     if (row.IsFinalApproval) {
                         ele += '<a href="/GeneralDailies/Index/?tranId=' + row.Id + '&tranTypeId=2" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
 								<i class="fa fa-money-bill"></i>\
-							</a>\<ahref="javascript:;" onclick=SellInvoice_Module.unApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icon" title="فك الاعتماد">\
+							</a>\<a href="javascript:;" onclick=SellInvoice_Module.unApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icon" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i>\
 							</a>';
                         
@@ -138,7 +138,7 @@ var SellInvoice_Module = function () {
 							</a>';
                     }
 
-                    return ele +'</div>';
+                    return ele +='</div>';
       //                  return '\
 						//	<div class="btn-group">\
 						//	<a href="/SellInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\

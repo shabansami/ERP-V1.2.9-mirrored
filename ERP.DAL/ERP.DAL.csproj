@@ -272,6 +272,10 @@
     <Compile Include="Migrations\202211141315224_add_TB_EmployeeBranches.designer.cs">
       <DependentUpon>202211141315224_add_TB_EmployeeBranches.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211242109330_add_field_VoucherNumber_in_Voucher.cs" />
+    <Compile Include="Migrations\202211242109330_add_field_VoucherNumber_in_Voucher.designer.cs">
+      <DependentUpon>202211242109330_add_field_VoucherNumber_in_Voucher.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -597,6 +601,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211141315224_add_TB_EmployeeBranches.resx">
       <DependentUpon>202211141315224_add_TB_EmployeeBranches.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211242109330_add_field_VoucherNumber_in_Voucher.resx">
+      <DependentUpon>202211242109330_add_field_VoucherNumber_in_Voucher.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

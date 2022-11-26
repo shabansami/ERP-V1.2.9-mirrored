@@ -75,7 +75,7 @@
         <div class="col-lg-12">
             <div class="form-group ">
                 <label>الحسابات المدخلة</label>
-                <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatableGenralComplex">
+                <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatableGenralComplex">
                     <thead>
 
                     </thead>
@@ -131,15 +131,15 @@
             //});
             $('#kt_datatableGenralComplex').DataTable({
                 // DOM Layout settings
-                "createdRow": function (row, data, dataIndex) {
-                    console.log(data);;
-                    if (data.IsCustRelated == true) {
-                        $(row).addClass('alert alert-warning');
+                //"createdRow": function (row, data, dataIndex) {
+                //    console.log(data);;
+                //    if (data.IsCustRelated == true) {
+                //        $(row).addClass('alert alert-warning');
 
-                    }
+                //    }
 
-                    /*$(row).addClass('red');*/
-                },
+                //    /*$(row).addClass('red');*/
+                //},
                 dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
                 language: {
                     search: "البحث",

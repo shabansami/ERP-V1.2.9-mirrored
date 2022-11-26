@@ -221,7 +221,7 @@
 
                 ],
                 drawCallback: function () {
-                    var html = ' <tr><th colspan ="6" style= "text-align:center" ><div class="row alert alert-success">الاجمالى : <label>';
+                    var html = ' <tr><th colspan ="6" style= "text-align:center" ><div class="row alert-success">الاجمالى : <label>';
                     var api = this.api();
                     var balance = api.column(3).data().sum();
                     $(api.table().footer()).html(html + balance + '</label></div></th>  </tr>');

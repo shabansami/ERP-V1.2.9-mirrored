@@ -32,7 +32,7 @@ namespace ERP.Web.Services
                 if (dtTo != null)
                     sellInvoices = sellInvoices.Where(x => DbFunctions.TruncateTime(x.InvoiceDate) <= dtTo);
 
-                var list = sellInvoices.Select(
+                var list = sellInvoices.ToList().Select(
                     x => new SellInvoiceInstallmentDto
                     {
                         CustomerName = x.PersonCustomer != null ? x.PersonCustomer.Name : null,
@@ -41,8 +41,8 @@ namespace ERP.Web.Services
                         PaymentTypeName = x.PaymentTypeId != null ? x.PaymentType.Name : null,
                         InvoiceNum = x.InvoiceNumber,
                         Safy = x.Safy,
-                        PayedValue = x.PayedValue,
-                        RemindValue = x.RemindValue,
+                        PayedValue = x.PayedValue+ (x.CustomerPayments.Where(c => !c.IsDeleted).Sum(c => (double?)c.Amount ?? 0)),
+                        RemindValue = x.RemindValue-(x.CustomerPayments.Where(c=>!c.IsDeleted).Sum(c=>(double?)c.Amount??0)),
                         InvoiceDate = x.InvoiceDate.ToString(),
                         AnySchedules = x.Installments.Where(i => !i.IsDeleted && i.InstallmentSchedules.Where(d => !d.IsDeleted).Any()).Any(),
                         StatusTxt = "فاتورة بيع",

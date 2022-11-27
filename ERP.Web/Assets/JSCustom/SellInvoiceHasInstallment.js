@@ -108,13 +108,22 @@ var SellInvoiceHasInstallment_Module = function () {
                     else if (!typ.IsSell) {
                         typ = "initial";
                     };
-                    
-                    return '\
+                    if (row.AnySchedules) {
+                        return '\
 							<div class="btn-group">\
-							<a href="/SellInvoiceHasInstallments/Installments/?invoGuid='+ row.InvoiceId + '&typ='+typ+'" class="btn btn-sm btn-clean btn-icon" title="استعراض اقساط الفاتورة">\
+							<a href="/SellInvoiceHasInstallments/Installments/?invoGuid='+ row.InvoiceId + '&typ=' + typ + '" class="btn btn-sm btn-clean btn-icon" title="استعراض اقساط الفاتورة">\
 								<i class="fa fa-search"></i>\
+							</a><a href="javascript:;" onclick=SellInvoiceHasInstallment_Module.deleteRow(\''+ row.InvoiceId + '\',\'' + typ + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+								<i class="fa fa-trash"></i>\
 							</a>\
                            </div>\
+						';
+
+                    } else
+
+                    return '\
+							<div class="btn-group">\
+							                          </div>\
 						';
 
                    
@@ -149,7 +158,43 @@ var SellInvoiceHasInstallment_Module = function () {
         });
     };
 
-  
+    function deleteRow(id,typ) {
+        Swal.fire({
+            title: 'تأكيد الحذف',
+            text: 'هل متأكد من حذف جميع الاقساط ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/SellInvoiceHasInstallments/Delete';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "invoGuid": id,
+                        "typ": typ,
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+
     //#endregion =========  ==========
     //#region =========== Generate Payments
 
@@ -190,6 +235,7 @@ var SellInvoiceHasInstallment_Module = function () {
         tablePaidInTime: tablePaidInTime,
         tablePaidNotInTime: tablePaidNotInTime,
         tableNotPaid: tableNotPaid,
+        deleteRow: deleteRow,
     };
 
 }();

@@ -8,7 +8,7 @@ var SellInvoiceInstallment_Module = function () {
 
         // begin first table
         table.DataTable({
-            responsive: true,
+            //responsive: true,
             searchDelay: 500,
             processing: true,
             serverSide: false,
@@ -108,7 +108,7 @@ var SellInvoiceInstallment_Module = function () {
                         return '\
 							<div class="btn-group">\
 							<a href="javascript:void(0)" onclick="SellInvoiceInstallment_Module.ChangePaymentTypeToInstallment(\''+ row.InvoiceId + '\')" class="btn btn-sm btn-clean btn-icon" title="تغيير الى تقسيط">\
-								<i class="fa fa-refresh"></i>\
+								<i class="fa fa-key"></i>\
 							</a>\<a href="/CustomersPayments/CreateEdit/?invoGuid='+ row.InvoiceId + '" class="btn btn-sm btn-clean btn-icon" title="استلام نقدية من العميل">\
 								<i class="fa fa-money-bill"></i>\
 							</a>\
@@ -128,7 +128,12 @@ var SellInvoiceInstallment_Module = function () {
                         }
 
                     ],
-
+            drawCallback: function () {
+                var html = ' <tr><th colspan ="11" style= "text-align:center" ><div class="row alert-success"><label>اجمالى المبلغ المتبقى : ';
+                var api = this.api();
+                var totalAmount = api.column(5).data().sum();
+                $(api.table().footer()).html(html + totalAmount + '</label></div></th>  </tr>');
+            },
 "order": [[0, "desc"]]
 //"order": [[0, "desc"]] 
 

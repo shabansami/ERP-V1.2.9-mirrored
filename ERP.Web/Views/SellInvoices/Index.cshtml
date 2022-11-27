@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-5">
+                    <div class="col-lg-3">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> من تاريخ</label>
@@ -119,15 +119,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5">
+                    <div class="col-lg-3">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> إلي تاريخ</label>
                                 @Html.TextBox("dtTo", Utility.GetDateTime(), "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
+                    </div><div class="col-lg-3">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label> طريقة السداد</label>
+                                @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-lg-3">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> .</label>
@@ -189,6 +196,13 @@
                         textSelected = "";
                     }
                     $('#kt_datatable').DataTable().column(8).search(textSelected).draw();
+                });
+                $('#PaymentTypeId').on('change', function () {
+                    var textSelected = $("#PaymentTypeId option:selected").text();
+                    if ($("#PaymentTypeId option:selected").val() === "") {
+                        textSelected = "";
+                    }
+                    $('#kt_datatable').DataTable().column(10).search(textSelected).draw();
                 });
             });
         </script>

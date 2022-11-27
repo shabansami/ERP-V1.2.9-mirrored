@@ -1,4 +1,5 @@
 ﻿using ERP.Web.DataTablesDS;
+using ERP.Web.Utilites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +19,16 @@ namespace ERP.Web.ViewModels
             PaidInstallments = new List<SellInvoiceInstallmentScheduleDto>();
             PaidNotInTimeInstallments = new List<SellInvoiceInstallmentScheduleDto>();
             NotPaidInstallments = new List<SellInvoiceInstallmentScheduleDto>();
+            DtFrom = Utility.GetDateTime().AddMonths(-1);
+            DtTo = Utility.GetDateTime();
 
         }
         public Guid? CustomerId { get; set; }
         public string PesonBalance { get; set; }  //مديونية العميل/المورد
 
         public string CustomerName { get; set; }
-        public string DtFrom { get; set; }
-        public string DtTo { get; set; }
+        public DateTime? DtFrom { get; set; }
+        public DateTime? DtTo { get; set; }
         public bool AllTimes { get; set; } //عرض الكل بدون نطاق زمنى
         public bool IsFinalApproval { get; set; } //الفواتير المعتمدة فقط 
         public List<RptInvoiceDto> SellInvoices { get; set; } //فواتير البيع

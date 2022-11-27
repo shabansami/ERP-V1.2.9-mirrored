@@ -528,6 +528,36 @@ namespace ERP.Web.Services
             }).ToList();
         }
         #endregion
+        #region تقرير بكميات الاصناف المباعه خلال فترة 
+        public List<RptItemSellDto> GetItemSell(Guid? branchId, DateTime? dtFrom, DateTime? dtTo)
+        {
+            using (var db=new VTSaleEntities())
+            {
+                IQueryable<SellInvoicesDetail> sellInvoicesDetails = null;
+                sellInvoicesDetails = db.SellInvoicesDetails.Where(x => !x.IsDeleted&&!x.SellInvoice.IsDeleted&&x.SellInvoice.IsFinalApproval);
+                if (branchId != null)
+                    sellInvoicesDetails = sellInvoicesDetails.Where(x => x.SellInvoice.BranchId == branchId);
+                else
+                    return new List<RptItemSellDto>();
+                //if (IsFinalApproval)
+                //    sellInvoicesDetails = sellInvoicesDetails.Where(x => x.SellInvoice.IsFinalApproval);
+                //if (!AllTimes)
+                    if (dtFrom != null && dtTo != null)
+                        sellInvoicesDetails = sellInvoicesDetails.Where(x => DbFunctions.TruncateTime(x.SellInvoice.InvoiceDate) >= dtFrom && DbFunctions.TruncateTime(x.SellInvoice.InvoiceDate) <= dtTo);
+                var itemsGroup = sellInvoicesDetails.GroupBy(x => x.ItemId).Select(x => new RptItemSellDto
+                {
+                    ItemId = x.Key,
+                    ItemName = x.FirstOrDefault().Item.Name,
+                    ItemCode=x.FirstOrDefault().Item.ItemCode,
+                    Quantity = x.Sum(i => (double?)i.Quantity ?? 0)
+                }).ToList();
+                return itemsGroup;
+            }
+
+        }
+
+
+        #endregion
     }
     public class ItemStock
     {

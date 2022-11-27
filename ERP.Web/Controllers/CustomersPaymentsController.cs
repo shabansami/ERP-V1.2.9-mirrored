@@ -92,7 +92,7 @@ namespace ERP.Web.Controllers
                     ViewBag.CustomerId = new SelectList(EmployeeService.GetCustomerByCategory(model.PersonCustomer.PersonCategoryId, null,null), "Id", "Name", model.CustomerId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
-
+                    ViewBag.InvoiceNumber = model.SellInvoice?.InvoiceNumber;
                     return View(model);
                 }
                 else
@@ -100,14 +100,15 @@ namespace ERP.Web.Controllers
             }
             else
             {                   // add
-                Guid? invoId = null; Guid? custId = null;
+                 Guid? custId = null;double remindVal = 0;
                 if (Guid.TryParse(invoGuid, out Guid invGuid))
                 {
                     var sellInvo = db.SellInvoices.Where(x => x.Id == invGuid).FirstOrDefault();
                     if (sellInvo != null)
                     {
-                        invoId = sellInvo.Id;
+                        ViewBag.InvoiceNumber = sellInvo.InvoiceNumber;
                         custId = sellInvo.CustomerId;
+                        remindVal = sellInvo.RemindValue-sellInvo.CustomerPayments.Where(x => !x.IsDeleted).Sum(x =>(double?) x.Amount??0);
                     }
                 }
                 //ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
@@ -124,11 +125,11 @@ namespace ERP.Web.Controllers
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name");
                 ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 ViewBag.LastRow = db.CustomerPayments.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();
-                return View(new CustomerPayment() { PaymentDate = Utility.GetDateTime(), SellInvoiceId = invoId });
+                return View(new CustomerPayment() { PaymentDate = Utility.GetDateTime(),Amount= remindVal });
             }
         }
         [HttpPost]
-        public JsonResult CreateEdit(CustomerPayment vm)
+        public JsonResult CreateEdit(CustomerPayment vm,string invoiceNumber)
         {
             if (ModelState.IsValid)
             {
@@ -136,18 +137,25 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                 if (vm.SafeId == null)
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة السداد بشكل صحيح" });
-                //فى حالة ادخال رقم فاتورة توريد يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير البيع 
-                if (vm.SellInvoiceId != null)
+                //فى حالة ادخال رقم فاتورة بيع يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير البيع 
+                if (!string.IsNullOrEmpty(invoiceNumber))
                 {
-                    if (int.TryParse(vm.SellInvoiceId.ToString(), out var id))
+                    var sellInvoice= db.SellInvoices.Where(x => !x.IsDeleted && x.InvoiceNumber == invoiceNumber.Trim()).FirstOrDefault();
+                    if (sellInvoice!=null)
                     {
-                        var sellIsExists = db.SellInvoices.Where(x => !x.IsDeleted && x.Id == vm.SellInvoiceId).Count();
-                        if (sellIsExists == 0)
-                            return Json(new { isValid = false, message = "خطأ .... رقم الفاتورة غير موجود فى فواتير البيع" });
+                        vm.SellInvoiceId = sellInvoice.Id;
+
+                       var prevousPaymenys= sellInvoice.CustomerPayments.Where(x => !x.IsDeleted).Sum(x => (double?)x.Amount ?? 0);
+                        //التأكد من ان المبلغ المسدد يساوى او اقل من المتبقى
+                        if ((prevousPaymenys + vm.Amount)>sellInvoice.RemindValue)
+                            return Json(new { isValid = false, message = "خطأ .... المبالغ المسددة اكبر المتبقى للفاتورة " });
+
                     }
                     else
-                        return Json(new { isValid = false, message = "تأكد من ادخال رقم فاتورة البيع بشكل صحيح " });
+                    return Json(new { isValid = false, message = "خطأ .... رقم الفاتورة غير موجود فى فواتير البيع" });
 
+                    //else
+                    //    return Json(new { isValid = false, message = "تأكد من ادخال رقم فاتورة البيع بشكل صحيح " });
                 }
                 var isInsert = false;
                 if (vm.Id != Guid.Empty)

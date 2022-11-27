@@ -40,6 +40,8 @@ namespace ERP.Web.Controllers
         #region ادارة فواتير البيع
         public ActionResult Index()
         {
+            ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes, "Id", "Name");
+
             return View();
         }
 

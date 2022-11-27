@@ -30,7 +30,7 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name", custId);
 
             DateTime dtFrom, dtTo;
-            if (DateTime.TryParse(vm.DtFrom, out dtFrom) && DateTime.TryParse(vm.DtTo, out dtTo))
+            if (DateTime.TryParse(vm.DtFrom.ToString(), out dtFrom) && DateTime.TryParse(vm.DtTo.ToString(), out dtTo))
                 vm = customerService.GetCustomerAccount(vm.CustomerId, dtFrom, dtTo, vm.AllTimes, vm.IsFinalApproval);
             else
                 vm = customerService.GetCustomerAccount(vm.CustomerId, null, null, vm.AllTimes, vm.IsFinalApproval);

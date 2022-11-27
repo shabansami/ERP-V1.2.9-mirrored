@@ -1743,6 +1743,7 @@
     <Compile Include="Controllers\RptGiftItemsController.cs" />
     <Compile Include="Controllers\RptItemBalancesController.cs" />
     <Compile Include="Controllers\RptItemInvoicesController.cs" />
+    <Compile Include="Controllers\RptItemsController.cs" />
     <Compile Include="Controllers\RptItemStockBalancesController.cs" />
     <Compile Include="Controllers\RptLimitItemsController.cs" />
     <Compile Include="Controllers\RptMaintenancesController.cs" />
@@ -1838,6 +1839,7 @@
     <Compile Include="DataTablesDS\PrintInvoiceDto.cs" />
     <Compile Include="DataTablesDS\RptInvoiceDto.cs" />
     <Compile Include="DataTablesDS\RptItemInvoiceDto.cs" />
+    <Compile Include="DataTablesDS\RptItemSellDto.cs" />
     <Compile Include="DataTablesDS\RptMaintenanceProblemDto.cs" />
     <Compile Include="DataTablesDS\RptProductionOrderDto.cs" />
     <Compile Include="DataTablesDS\SaleMenCustomerDT.cs" />
@@ -2354,6 +2356,7 @@
     <Content Include="Views\Quotes\CreateEdit.cshtml" />
     <Content Include="Views\OrderSells\Index.cshtml" />
     <Content Include="Views\OrderSells\CreateEdit.cshtml" />
+    <Content Include="Views\RptItems\SearchItemSell.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

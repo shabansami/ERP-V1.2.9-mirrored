@@ -1,4 +1,5 @@
 ﻿using ERP.Web.DataTablesDS;
+using ERP.Web.Utilites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace ERP.Web.ViewModels
             PurchaseBackInvoices = new List<RptInvoiceDto>();
             SupplierPayments = new List<RptInvoiceDto>();
             Cheques = new List<RptInvoiceDto>();
+            DtFrom = Utility.GetDateTime().AddMonths(-1).ToString();
+            DtTo = Utility.GetDateTime().ToString();
         }
         public Guid? SupplierId { get; set; } //المورد 
         public string SupplierName { get; set; }//المورد 

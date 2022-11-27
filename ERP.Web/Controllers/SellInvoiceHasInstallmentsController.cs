@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Data.Entity;
+using static ERP.Web.Utilites.Lookups;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Web.Controllers
 {
@@ -18,7 +21,7 @@ namespace ERP.Web.Controllers
     {
         // GET: SellInvoiceHasInstallments
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         SellInvoiceInstallmentService installmentService = new SellInvoiceInstallmentService();
         public ActionResult Index()
         {
@@ -87,6 +90,149 @@ namespace ERP.Web.Controllers
             }
             else
                 return RedirectToAction("Index");
+
+        }
+
+        [HttpPost]
+        public ActionResult Delete(string invoGuid, string typ)
+        {
+            if (!string.IsNullOrEmpty(typ))
+            {
+                if (typ.Trim() == "sell")
+                {
+                    Guid sellGuid;
+                    if (Guid.TryParse(invoGuid, out sellGuid))
+                    {
+                        var sell = db.SellInvoices.Where(x => x.Id == sellGuid).FirstOrDefault();
+                        if (sell!=null)
+                        {
+                            //حذف الاقساط
+                            var installments = db.Installments.Where(x => !x.IsDeleted && x.SellInvoiceId == sell.Id).FirstOrDefault();
+                            if (installments!=null)
+                            {
+                                installments.IsDeleted = true;
+                                db.Entry(installments).State = EntityState.Modified;
+
+                                var generalDailies = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == installments.Id).ToList();
+                                foreach (var item in generalDailies)
+                                {
+                                    item.IsDeleted = true;
+                                    db.Entry(item).State = EntityState.Modified;
+
+                                }
+                                var installmentSchedules = installments.InstallmentSchedules.Where(x => !x.IsDeleted).ToList();
+                                foreach (var item in installmentSchedules)
+                                {
+                                    var generalDailiesSchedules = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == item.Id).ToList();
+                                    foreach (var item2 in generalDailiesSchedules)
+                                    {
+                                        item2.IsDeleted = true;
+                                        db.Entry(item2).State = EntityState.Modified;
+
+                                    }
+                                    item.IsDeleted = true;
+                                    db.Entry(item).State = EntityState.Modified;
+
+                                }
+                                var prevouisNotyInstallmentSchedules = db.Notifications.Where(x => !x.IsDeleted && x.RefNumber == sell.Id && x.NotificationTypeId == (int)NotificationTypeCl.SellInvoiceInstallments).ToList();
+                                foreach (var item in prevouisNotyInstallmentSchedules)
+                                {
+                                    item.IsDeleted = true;
+                                    db.Entry(item).State = EntityState.Modified;
+
+                                }
+                                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                                    return Json(new { isValid = true, message = "تم الحذف بنجاح" });
+                                else
+                                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+                            }
+                            else
+                                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                        }
+                        else
+                            return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+
+                    }
+                    else
+                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                }
+                else if (typ.Trim() == "initial")
+                {
+                    Guid custInitialId;
+                    if (Guid.TryParse(invoGuid, out custInitialId))
+                    {
+                        var custInitial = db.PersonIntialBalances.Where(x => x.Id == custInitialId).FirstOrDefault();
+                        if (custInitial != null)
+                        {
+                            //حذف الاقساط
+                            var installments = db.Installments.Where(x => !x.IsDeleted && x.IntialCustomerId == custInitial.Id).FirstOrDefault();
+                            if (installments != null)
+                            {
+                                installments.IsDeleted = true;
+                                db.Entry(installments).State = EntityState.Modified;
+
+                                var generalDailies = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == installments.Id).ToList();
+                                foreach (var item in generalDailies)
+                                {
+                                    item.IsDeleted = true;
+                                    db.Entry(item).State = EntityState.Modified;
+
+                                }
+                                var installmentSchedules = installments.InstallmentSchedules.Where(x => !x.IsDeleted).ToList();
+                                foreach (var item in installmentSchedules)
+                                {
+                                    var generalDailiesSchedules = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == item.Id).ToList();
+                                    foreach (var item2 in generalDailiesSchedules)
+                                    {
+                                        item2.IsDeleted = true;
+                                        db.Entry(item2).State = EntityState.Modified;
+
+                                    }
+                                    item.IsDeleted = true;
+                                    db.Entry(item).State = EntityState.Modified;
+
+                                }
+                                var prevouisNotyInstallmentSchedules = db.Notifications.Where(x => !x.IsDeleted && x.RefNumber == custInitial.Id && x.NotificationTypeId == (int)NotificationTypeCl.SellInvoiceInstallments).ToList();
+                                foreach (var item in prevouisNotyInstallmentSchedules)
+                                {
+                                    item.IsDeleted = true;
+                                    db.Entry(item).State = EntityState.Modified;
+
+                                }
+                                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                                    return Json(new { isValid = true, message = "تم الحذف بنجاح" });
+                                else
+                                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+                            }
+                            else
+                                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+                        }
+                        else
+                            return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
+
+
+                    }
+                    else
+                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                }
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+
 
         }
 

@@ -82,7 +82,7 @@
                             <div class="form-group">
                                 <div>
                                     <label>  الفواتير المعتمدة فقط</label>
-                                    @Html.CheckBox("IsFinalApproval", false, htmlAttributes: new { @class = "form-control din-med" })
+                                    @Html.CheckBox("IsFinalApproval", false, htmlAttributes: new { @class = "form-check-input din-med" })
                                 </div>
                             </div>
                         </div>
@@ -217,7 +217,7 @@
                     <div class="col-lg-12 din-bold  alert alert-success" style="text-align: center ;">
                         <div class="form-group ">
                             <div>
-                                <label> اجمالى صافى الفواتير : <span class="badge badge-soft-warning fa-1x">@Model.TotalPurchaseInvoices</span> </label>
+                                <label> اجمالى صافى الفواتير : <span class="badge badge-soft-primary fa-1x">@Model.TotalPurchaseInvoices</span> </label>
                             </div>
                         </div>
                     </div>
@@ -306,7 +306,7 @@
                     <div class="col-lg-12 din-bold  alert alert-success" style="text-align: center ;">
                         <div class="form-group ">
                             <div>
-                                <label> اجمالى صافى الفواتير : <span class="badge badge-soft-warning fa-1x">@Model.TotalPurchaseBackInvoices</span> </label>
+                                <label> اجمالى صافى الفواتير : <span class="badge badge-soft-primary fa-1x">@Model.TotalPurchaseBackInvoices</span> </label>
                             </div>
                         </div>
                     </div>
@@ -395,7 +395,7 @@
                     <div class="col-lg-12 din-bold  alert alert-success" style="text-align: center ;">
                         <div class="form-group ">
                             <div>
-                                <label> اجمالى المبالغ المحصلة : <span class="badge badge-soft-warning fa-1x">@Model.TotalSupplierPayments</span> </label>
+                                <label> اجمالى المبالغ المحصلة : <span class="badge badge-soft-primary fa-1x">@Model.TotalSupplierPayments</span> </label>
                             </div>
                         </div>
                     </div>
@@ -404,7 +404,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group ">
                                         <div>
-                                            <label> اجمالى المبالغ المحصلة : <span class="badge badge-soft-warning fa-1x">@Model.TotalSupplierPayments</span> </label>
+                                            <label> اجمالى المبالغ المحصلة : <span class="badge badge-soft-primary fa-1x">@Model.TotalSupplierPayments</span> </label>
                                         </div>
                                     </div>
                                 </div><div class="col-lg-6">
@@ -497,7 +497,7 @@
                     <div class="col-lg-12 din-bold  alert alert-success" style="text-align: center ;">
                         <div class="form-group ">
                             <div>
-                                <label> اجمالى قيمة الشيكات : <span class="badge badge-soft-warning fa-1x">@Model.TotalCheques</span> </label>
+                                <label> اجمالى قيمة الشيكات : <span class="badge badge-soft-primary fa-1x">@Model.TotalCheques</span> </label>
                             </div>
                         </div>
                     </div>
@@ -580,6 +580,10 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
                 },
                 "order": [[1, "asc"]]
                 //"order": [[0, "desc"]]
@@ -656,6 +660,10 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
                 },
                 "order": [[1, "asc"]]
                 //"order": [[0, "desc"]]
@@ -734,6 +742,10 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
                 },
                 "order": [[1, "asc"]]
                 //"order": [[0, "desc"]]
@@ -810,6 +822,10 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
                 },
                 "order": [[1, "asc"]]
                 //"order": [[0, "desc"]]

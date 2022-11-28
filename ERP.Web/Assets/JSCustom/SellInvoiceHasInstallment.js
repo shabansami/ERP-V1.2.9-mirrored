@@ -202,8 +202,18 @@ var SellInvoiceHasInstallment_Module = function () {
             paging: false,
             info: false,
             search: false,
-            searching: false,
-            "order": [[0, "asc"]]
+        searching: false,
+        ordering: false,
+        language: {
+            search: "البحث",
+            lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+            info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+            processing: "جارى التحميل",
+            zeroRecords: "لا يوجد سجلات لعرضها",
+            infoFiltered: "",
+            infoEmpty: 'لا يوجد سجلات متاحه',
+        },
+            //"order": [[0, "asc"]]
             //"order": [[0, "desc"]] 
 
         });
@@ -211,8 +221,18 @@ var SellInvoiceHasInstallment_Module = function () {
             paging: false,
             info: false,
             search: false,
-            searching: false,
-            "order": [[0, "asc"]]
+        searching: false,
+        ordering: false,
+        language: {
+            search: "البحث",
+            lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+            info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+            processing: "جارى التحميل",
+            zeroRecords: "لا يوجد سجلات لعرضها",
+            infoFiltered: "",
+            infoEmpty: 'لا يوجد سجلات متاحه',
+        },
+            //"order": [[0, "asc"]]
             //"order": [[0, "desc"]] 
 
         });
@@ -220,8 +240,18 @@ var SellInvoiceHasInstallment_Module = function () {
             paging: false,
             info: false,
             search: false,
-            searching: false,
-            "order": [[0, "asc"]]
+        searching: false,
+        ordering: false,
+        language: {
+            search: "البحث",
+            lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+            info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+            processing: "جارى التحميل",
+            zeroRecords: "لا يوجد سجلات لعرضها",
+            infoFiltered: "",
+            infoEmpty: 'لا يوجد سجلات متاحه',
+        },
+            //"order": [[0, "asc"]]
             //"order": [[0, "desc"]] 
 
         });

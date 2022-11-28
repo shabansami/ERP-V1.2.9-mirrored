@@ -104,7 +104,7 @@ namespace ERP.Web.Services
                     installmentSchedules = installmentSchedules.Where(x => DbFunctions.TruncateTime(x.InstallmentDate) <= dtTo);
 
                 //IQueryable<InstallmentSchedule> installmentSchedules2 = installmentSchedules;
-                var list = installmentSchedules.OrderBy(x=>x.InstallmentDate).Select(
+                var list = installmentSchedules.ToList().OrderBy(x=>x.InstallmentDate).Select(
                     x => new SellInvoiceInstallmentScheduleDto
                     {
                         CustomerName = x.Installment.SellInvoice != null ? x.Installment.SellInvoice.PersonCustomer.Name : x.Installment.CustomerIntialBalance.Person.Name,
@@ -112,7 +112,7 @@ namespace ERP.Web.Services
                         InvoiceNum = x.Installment.SellInvoiceId != null ? x.Installment.SellInvoice.InvoiceNumber : x.Installment.CustomerIntialBalance.Id.ToString(),
                         InvoiceDate = x.Installment.SellInvoice != null ? x.Installment.SellInvoice.InvoiceDate.ToString() : x.Installment.CustomerIntialBalance.OperationDate.ToString(),
                         PaidInTime = x.PaidInTime,
-                        InstallmentDate = x.InstallmentDate.ToString(),
+                        InstallmentDate = x.InstallmentDate?.ToString("yyyy-MM-dd"),
                         PaymentDate = x.PaymentDate.ToString(),
                         Amount = x.Amount,
                         StatusTxt = x.Installment.SellInvoiceId != null ? "فاتورة بيع" : "رصيد اول لعميل",
@@ -159,33 +159,33 @@ namespace ERP.Web.Services
                 var paidInstallments = installmentSchedules.OrderBy(x => x.InstallmentDate);
                 var paidNotInTimeInstallments = installmentSchedules.OrderBy(x => x.InstallmentDate);
                 var notPaidInstallments = installmentSchedules.OrderBy(x => x.InstallmentDate);
-                scheduleCollection.PaidInstallments = paidInstallments.Where(x => x.IsPayed && x.PaidInTime).OrderBy(x=>x.InstallmentDate).Select(
+                scheduleCollection.PaidInstallments = paidInstallments.Where(x => x.IsPayed && x.PaidInTime).ToList().OrderBy(x=>x.InstallmentDate).Select(
                     x => new SellInvoiceInstallmentScheduleDto
                     {
                         Amount = x.Amount,
                         ScheduleId = x.Id,
                         PaidInTime = x.PaidInTime,
-                        InstallmentDate = x.InstallmentDate.ToString(),
+                        InstallmentDate = x.InstallmentDate?.ToString("yyyy-MM-dd"),
                         PaymentDate = x.PaymentDate.ToString(),
                     }
                     ).ToList();
-                scheduleCollection.PaidNotInTimeInstallments = paidNotInTimeInstallments.Where(x => x.IsPayed && !x.PaidInTime).OrderBy(x => x.InstallmentDate).Select(
+                scheduleCollection.PaidNotInTimeInstallments = paidNotInTimeInstallments.Where(x => x.IsPayed && !x.PaidInTime).ToList().OrderBy(x => x.InstallmentDate).Select(
                      x => new SellInvoiceInstallmentScheduleDto
                      {
                          Amount = x.Amount,
                          ScheduleId = x.Id,
                          PaidInTime = x.PaidInTime,
-                         InstallmentDate = x.InstallmentDate.ToString(),
+                         InstallmentDate = x.InstallmentDate?.ToString("yyyy-MM-dd"),
                          PaymentDate = x.PaymentDate.ToString(),
                      }
                      ).ToList();
-                scheduleCollection.NotPaidInstallments = notPaidInstallments.Where(x => !x.IsPayed).Select(
+                scheduleCollection.NotPaidInstallments = notPaidInstallments.Where(x => !x.IsPayed).ToList().OrderBy(x => x.InstallmentDate).Select(
                      x => new SellInvoiceInstallmentScheduleDto
                      {
                          ScheduleId = x.Id,
                          PaidInTime = x.PaidInTime,
                          Amount = x.Amount,
-                         InstallmentDate = x.InstallmentDate.ToString(),
+                         InstallmentDate = x.InstallmentDate?.ToString("yyyy-MM-dd"),
                          PaymentDate = x.PaymentDate.ToString(),
                      }
                      ).ToList();

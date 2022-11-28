@@ -105,7 +105,9 @@ var OrderSell_Module = function () {
 							</a>\
 							<a href="javascript:;" onclick=OrderSell_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a></div>\
+							</a><a href="/SellInvoices/CreateEdit/?orderSell='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تسجيل فاتورة بيع">\
+								<i class="fa fa-money"></i>\
+							</a>\</div>\
 						';                    },
                 }
 

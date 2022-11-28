@@ -134,7 +134,7 @@ var SellInvoiceInstallmentSchedule_Module = function () {
                 $(api.table().footer()).html(html + totalAmount + '</label></div></th> <th colspan ="5" style= "text-align:center" ><div class="row alert-success"><label>اجمالى العدد :' + totalQuantity + '</label ></div ></th > </tr>');
             },
 
-"order": [[0, "desc"]]
+"order": [[0, "asc"]]
 //"order": [[0, "desc"]] 
 
         });
@@ -274,7 +274,7 @@ var SellInvoiceInstallmentSchedule_Module = function () {
                 var totalQuantity = api.column(4).data().count();
                 $(api.table().footer()).html(html + totalAmount + '</label></div></th> <th colspan ="5" style= "text-align:center" ><div class="row alert-success"><label>اجمالى العدد :' + totalQuantity + '</label ></div ></th > </tr>');
             },
-"order": [[0, "desc"]]
+"order": [[0, "asc"]]
 //"order": [[0, "desc"]] 
 
         });

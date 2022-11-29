@@ -164,14 +164,14 @@
                         </div>
                     </div>
 
-                    <table class="table table-separate table-head-custom table-foot-custom table-checkable" id="kt_datatable">
+                    <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
                         <thead>
 
                             <tr>
-                                <th style="display:none;">Id</th>
+                                @*<th style="display:none;">Id</th>
                                 <th style="display:none;">TransactionId</th>
                                 <th style="display:none;">AccountsTreeId</th>
-                                <th style="display:none;">TransactionTypeId</th>
+                                <th style="display:none;">TransactionTypeId</th>*@
                                 @if (!Model.ShowRptEn)
                                 {
                                     <th>تاريخ المعاملة</th>
@@ -202,10 +202,10 @@
                             @if (Model.GeneralDalies.Count > 0)
                             {
                                 <tr>
+                                    @*<td style="display:none;"></td>
                                     <td style="display:none;"></td>
                                     <td style="display:none;"></td>
-                                    <td style="display:none;"></td>
-                                    <td style="display:none;"></td>
+                                    <td style="display:none;"></td>*@
                                     <td></td>
                                     <td></td>
                                     <td>  <label style="color:firebrick">@AccountActionBalanceBeforPeriod </label></td>
@@ -223,7 +223,7 @@
                                     <td></td>
                                     <td>
                                         <label style="color:firebrick">
-                                            @AccountActionBalanceBeforPeriod
+                                            @*@AccountActionBalanceBeforPeriod*@
                                         </label>
                                     </td>
                                     <td></td>
@@ -251,10 +251,10 @@
                             @foreach (var item in Model.GeneralDalies)
                             {
                                 <tr>
-                                    <td style="display:none;">@item.Id</td>
+                                    @*<td style="display:none;">@item.Id</td>
                                     <td style="display:none;">@item.TransactionId</td>
                                     <td style="display:none;">@item.AccountsTreeId</td>
-                                    <td style="display:none;">@item.TransactionTypeId</td>
+                                    <td style="display:none;">@item.TransactionTypeId</td>*@
                                     <td>@item.TransactionDate</td>
                                     <td>@item.AccountNumber</td>
                                     <td>@item.AccountsTreeName</td>

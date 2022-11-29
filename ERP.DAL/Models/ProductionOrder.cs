@@ -37,7 +37,9 @@ namespace ERP.DAL
         [ForeignKey(nameof(ProductionStore))]
         public Nullable<Guid> ProductionStoreId { get; set; }
         [ForeignKey(nameof(ProductionUnderStore))]
-        public Nullable<Guid> ProductionUnderStoreId { get; set; }
+        public Nullable<Guid> ProductionUnderStoreId { get; set; }    
+        [ForeignKey(nameof(OrderSell))]
+        public Nullable<Guid> OrderSellId { get; set; }
 
         public double TotalCost { get; set; }//«Ã„«·Ï  ﬂ·›… «„— «·«‰ «Ã  ﬂ«·Ì› «·„Ê«œ «·Œ«„+ ﬂ«·Ì› «·«‰ «Ã+ ﬂ·›… «· Ê«·›
         public string Notes { get; set; }
@@ -52,6 +54,7 @@ namespace ERP.DAL
         public virtual Store ProductionStore { get; set; }
         public virtual Store ProductionUnderStore { get; set; }
         public virtual ProductionOrderColor ProductionOrderColor { get; set; }
+        public virtual QuoteOrderSell OrderSell { get; set; }
 
 
         public virtual ICollection<ItemSerial> ItemSerials { get; set; }

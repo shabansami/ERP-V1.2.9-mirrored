@@ -70,7 +70,8 @@ namespace ERP.DAL
         public Nullable<bool> IsFullReturned { get; set; }
         public string InvoiceNumPaper { get; set; }
         public string InvoiceNumber { get; set; }
-    
+        [ForeignKey(nameof(OrderSell))]
+        public Nullable<Guid> OrderSellId { get; set; }
 
         public virtual BankAccount BankAccount { get; set; }
         public virtual Branch Branch { get; set; }
@@ -80,6 +81,7 @@ namespace ERP.DAL
         public virtual Person PersonCustomer { get; set; }
         public virtual Safe Safe { get; set; }
         public virtual ShiftsOffline ShiftsOffline { get; set; }
+        public virtual QuoteOrderSell OrderSell { get; set; }
 
 
         public virtual ICollection<Installment> Installments { get; set; }

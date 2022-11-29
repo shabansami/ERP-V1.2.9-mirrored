@@ -1601,6 +1601,8 @@
     <Content Include="Assets\media\logos\favicon.ico" />
     <Content Include="Assets\media\logos\transfer-3787.png" />
     <Content Include="Assets\media\logos\white-logo.png" />
+    <Content Include="Assets\media\nestedDt\details_close.png" />
+    <Content Include="Assets\media\nestedDt\details_open.png" />
     <Content Include="Assets\plugins\DropDownComboTree\comboTreePlugin.js" />
     <Content Include="Assets\plugins\DropDownComboTree\Sample.html" />
     <Content Include="Assets\plugins\DropDownComboTree\style.css" />
@@ -1899,6 +1901,7 @@
     <Compile Include="ViewModels\ItemUnitVM.cs" />
     <Compile Include="ViewModels\MaintenanceVM.cs" />
     <Compile Include="ViewModels\NotificationVM.cs" />
+    <Compile Include="ViewModels\OrderSellVM.cs" />
     <Compile Include="ViewModels\PrintBarcodeVM.cs" />
     <Compile Include="ViewModels\ProductionOrderReceiptVM.cs" />
     <Compile Include="ViewModels\ProductionOrderReportVM.cs" />

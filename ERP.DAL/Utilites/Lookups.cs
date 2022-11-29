@@ -332,6 +332,20 @@ namespace ERP.Web.Utilites
         {
             Qoute=1,//عرض سعر
             OrderSell//امر بيع
+        }       
+        //نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج)
+        public enum OrderSellItemTypeCl
+        {
+            Sell=1,//اصناف للبيع
+            ProductionOrder//اصناف للانتاج
+        }       
+        //حالات امر البيع (تم البيع /تم الانتاج/ جارى التنفيذ/تم الانتهاء)
+        public enum OrderSellCaseCl
+        {
+            Pocessing=1,//جارى التنفيذ
+            SellDone,//تم البيع
+            ProductionOrderDone,//تم الانتاج
+            Done,//تم الانتهاء
         }
         //ارقام حسابات المركز المالى 
         //public static int InvestmentFormation => 121; //تكوين استثمارى

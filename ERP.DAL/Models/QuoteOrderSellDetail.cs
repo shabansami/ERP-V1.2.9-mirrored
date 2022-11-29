@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ERP.Web.Utilites.Lookups;
 
 namespace ERP.DAL
 {
@@ -14,6 +15,7 @@ namespace ERP.DAL
         public Nullable<Guid> QuoteOrderSellId { get; set; }
         [ForeignKey(nameof(Item))]
         public Nullable<Guid> ItemId { get; set; }
+        public Nullable<int> OrderSellItemType { get; set; }//نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج
 
         /// <summary>
         /// الكمية

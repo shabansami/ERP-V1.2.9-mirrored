@@ -1,4 +1,4 @@
-﻿@model ERP.DAL.QuoteOrderSell
+﻿@model ERP.Web.ViewModels.OrderSellVM
 @using ERP.Web.Utilites
 
 
@@ -45,14 +45,17 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "OrderSell_Module.getStoresOnBranchChanged();" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @disabled = "disabled" })
                                 @Html.HiddenFor(m => m.Id)
+                                @Html.HiddenFor(m => m.BranchId)
+                                @Html.HiddenFor(m => m.CustomerId)
+                                @Html.HiddenFor(m => m.QuoteId)
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>العميل</label>
-                                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med", @disabled = "disabled" })
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -65,64 +68,40 @@
                         <div class="col-lg-12">
                             <div class="form-group required">
                                 <label>ملاحظات </label>
-                                @Html.TextBoxFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
                             </div>
                         </div>
                         
-                            <div class="col-lg-12">
-                                <h5 class=" din-bold">اضافة الاصناف</h5>
-                                <hr />
-                            </div>
-
-               
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label> المجموعة الاساسية</label>
-                                <input style="text-align:right;" name="groupBasic" type="text" class="form-control din-med" id="groupBasic" autocomplete="off" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group required">
-                                <label>الصنف</label>
-                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                            </div>
-                        </div>
-
-                        <div class="row col-lg-12">
-                            <div class="col-lg-4">
-                                <div class="form-group required">
-                                    <label>الكمية</label>
-                                    <input type="number" class="form-control din-med" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="OrderSell_Module.onPriceOrQuanKeyUp();" />
-                                </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group required">
-                                    <label>سعر الوحدة </label>
-                                    <input type="number" class="form-control din-med" name="Price" id="Price" placeholder="سعر الشراء" value="0" onkeyup="OrderSell_Module.onPriceOrQuanKeyUp();" />
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group required">
-                                    <label>القيمة</label>
-                                    <input type="number" class="form-control din-med" name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>.</label>
-                                <button type="button" onclick="OrderSell_Module.addItemDetails();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">اضافة الصنف </button>
-                            </div>
-                        </div>
+                       
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>الاصناف المسجلة</label>
                                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
                                     <thead>
+                                        <tr>
+                                            <td>الصنف</td>
+                                        <td>الكمية</td>
+                                        <td>السعر</td>
+                                        <td>النوع</td>
+                                        <td>الرصيد الحالى</td>
+                                        </tr>
 
                                     </thead>
                                     <tbody>
+                                        
+                                        @for (int i = 0; i < Model.OrderSellItems.Count; i++)
+                                        {
+                                            <tr>
+                                                <td>@Model.OrderSellItems[i].ItemName</td>
+                                                @Html.HiddenFor(m => m.OrderSellItems[i].ItemId)
+                                                @Html.HiddenFor(m => m.OrderSellItems[i].Id)
+                                                <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Quantity, new { @class = "form-control", @style = "text-align:right;" }) </td>
+                                                <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Price, new { @class = "form-control", @style = "text-align:right;" }) </td>
+                                                <td>@Html.DropDownList("OrderSellItemType",null, htmlAttributes: new { @class = "form-select din-med", @Name = "OrderSellItems[" + i + "].OrderSellItemType" })</td>
+                                                <td>@Model.OrderSellItems[i].CurrentBalance</td>
+                                            </tr>
+                                        }
+
                                     </tbody>
                                     <tfoot></tfoot>
                                 </table>
@@ -149,62 +128,5 @@
 @section Scripts
 {
     <script src="~/Assets/JSCustom/OrderSell.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            OrderSell_Module.initItemDetails();
-        });
-    </script>
-    <script>
-        var treeBasic;
-        $(document).ready(function () {
-            //الانتقال بين الحقول بالانتر وعند اضافة صنف
-            $("#Quantity").keydown(function (e) {
-                if (e.keyCode == 13) {
-                    e.preventDefault();
-                    $("#Price").focus().select();
-                }
-            });
-            $("#Price").keydown(function (e) {
-                if (e.keyCode == 13) {
-                    e.preventDefault();
-                    OrderSell_Module.addItemDetails();
-                }
-            });
-            $("#ItemId").on('select2:select', function () {
-                setTimeout(function () { $("#Quantity").focus().select(); }, 2000)
-            })
-            //المجموعة الاساسية
-            var dsBasic = [];
-            $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
-                treeBasic.setSource(data);
-            });
-
-            treeBasic = $('#groupBasic').comboTree({
-                source: dsBasic,
-                isMultiple: false,
-                collapse: true,
-                selected: []
-                //selectableLastNode: true
-
-            });
-            treeBasic.onChange(function () {
-                if (treeBasic.getSelectedIds() != null) {
-                    var currentSelected = treeBasic.getSelectedIds()[0];
-
-                    $.get("/SharedDataSources/ItemsOnGroupChanged", { id: currentSelected }, function (data) {
-                        $("#ItemId").empty();
-                        $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
-                        $.each(data, function (index, row) {
-                            $("#ItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
-                        });
-                    });
-
-                }
-            });
-            // ============== نهاية المجموعة الاساسية
-
-        });
-    </script>
-
 }
 

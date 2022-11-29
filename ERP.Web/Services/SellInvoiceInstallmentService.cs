@@ -237,7 +237,7 @@ namespace ERP.Web.Services
             {
                 IQueryable<InstallmentSchedule> installmentSchedules = null;
                 installmentSchedules = db.InstallmentSchedules.Where(x => !x.IsDeleted && !x.IsPayed);
-                var groupSchedules = installmentSchedules.Select(x => new
+                var groupSchedules = installmentSchedules.ToList().Select(x => new
                 {
                     CustomerName = x.Installment.SellInvoice != null ? x.Installment.SellInvoice.PersonCustomer.Name : x.Installment.CustomerIntialBalance.Person.Name,
                     Mob = x.Installment.SellInvoice != null ? x.Installment.SellInvoice.PersonCustomer.Mob1 : x.Installment.CustomerIntialBalance.Person.Mob1,

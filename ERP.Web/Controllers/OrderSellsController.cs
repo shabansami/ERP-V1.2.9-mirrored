@@ -12,6 +12,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.ViewModels;
+using System.Diagnostics;
 
 namespace ERP.Web.Controllers
 {
@@ -28,7 +30,7 @@ namespace ERP.Web.Controllers
             db = new VTSaleEntities();
             storeService = new StoreService();
         }
-        public static string DS { get; set; }
+        //public static string DS { get; set; }
 
         public ActionResult Index()
         {
@@ -45,7 +47,7 @@ namespace ERP.Web.Controllers
             if (customerId != null)
                 list = list.Where(x => x.CustomerId == customerId);
 
-            var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), TotalValue = x.TotalValue, Actions = n, Num = n }).ToList();
+            var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, OrderSellInvoiceNumber = x.InvoiceNumber, QuoteInvoiceNumber = x.Quote.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), TotalValue = x.TotalValue, Actions = n, Num = n }).ToList();
             return Json(new
             {
                 data = items
@@ -54,49 +56,49 @@ namespace ERP.Web.Controllers
         }
 
         #region  اضافة الاصناف 
-        public ActionResult GetDSItemDetails()
-        {
-            int? n = null;
-            if (DS == null)
-                return Json(new
-                {
-                    data = new List<ItemDetailsDT>()
-                }, JsonRequestBehavior.AllowGet);
-            else
-                return Json(new
-                {
-                    data = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(DS)
-                }, JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult GetDSItemDetails()
+        //{
+        //    int? n = null;
+        //    if (DS == null)
+        //        return Json(new
+        //        {
+        //            data = new List<ItemDetailsDT>()
+        //        }, JsonRequestBehavior.AllowGet);
+        //    else
+        //        return Json(new
+        //        {
+        //            data = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(DS)
+        //        }, JsonRequestBehavior.AllowGet);
+        //}
 
-        public ActionResult AddItemDetails(ItemDetailsDT vm)
-        {
-            List<ItemDetailsDT> deDS = new List<ItemDetailsDT>();
-            string itemName = "";
-            if (vm.DT_Datasource != null)
-                deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
-            if (vm.ItemId != null)
-            {
-                if (deDS.Where(x => x.ItemId == vm.ItemId).Count() > 0)
-                    return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-                itemName = db.Items.FirstOrDefault(x => x.Id == vm.ItemId).Name;
-            }
-            else
-                return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
+        //public ActionResult AddItemDetails(ItemDetailsDT vm)
+        //{
+        //    List<ItemDetailsDT> deDS = new List<ItemDetailsDT>();
+        //    string itemName = "";
+        //    if (vm.DT_Datasource != null)
+        //        deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
+        //    if (vm.ItemId != null)
+        //    {
+        //        if (deDS.Where(x => x.ItemId == vm.ItemId).Count() > 0)
+        //            return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+        //        itemName = db.Items.FirstOrDefault(x => x.Id == vm.ItemId).Name;
+        //    }
+        //    else
+        //        return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
 
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price };
-            deDS.Add(newItemDetails);
-            DS = JsonConvert.SerializeObject(deDS);
-            return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount) }, JsonRequestBehavior.AllowGet);
-        }
+        //    var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price };
+        //    deDS.Add(newItemDetails);
+        //    DS = JsonConvert.SerializeObject(deDS);
+        //    return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount) }, JsonRequestBehavior.AllowGet);
+        //}
 
         #endregion
 
         [HttpGet]
         public ActionResult CreateEdit(Guid? quoteId)
         {
-            DS = null;
-            QuoteOrderSell vm = new QuoteOrderSell();
+            //DS = null;
+            OrderSellVM vm = new OrderSellVM();
             Guid? customerId = null;
             Guid? branchId = null;
             if (TempData["model"] != null) //edit
@@ -105,11 +107,24 @@ namespace ERP.Web.Controllers
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
                     var model = db.QuoteOrderSells.FirstOrDefault(x => x.Id == id);
-                    customerId = model?.CustomerId;
-                    branchId = model?.BranchId;
-                    var itemDetails = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted).Select(x => new ItemDetailsDT { ItemId = x.ItemId, ItemName = x.Item.Name, Quantity = x.Quantity, Price = x.Price, Amount = x.Quantity * x.Price }).ToList();
-                    DS = JsonConvert.SerializeObject(itemDetails);
-                    vm = model;
+                    vm.CustomerId = model?.CustomerId;
+                    vm.BranchId = model?.BranchId;
+                    vm.OrderSellItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted)
+                        .Select(x => new OrderSellItemsDto{ 
+                            Id = x.Id,
+                            ItemId = x.ItemId,
+                            ItemName = x.Item.Name,
+                            Quantity = x.Quantity, 
+                            Price = x.Price, 
+                            Amount = x.Quantity * x.Price,
+                            CurrentBalance= BalanceService.GetBalance(x.ItemId, null, null)
+                        }).ToList();
+                    vm.InvoiceDate = model.InvoiceDate;
+                    vm.Notes= model.Notes;
+                    vm.Id = model.Id;
+                    branchId = model.BranchId;
+                    customerId = model.CustomerId;
+
                 }
                 else
                     return RedirectToAction("Index");
@@ -124,9 +139,20 @@ namespace ERP.Web.Controllers
                         branchId=quote.BranchId;
                         customerId=quote.CustomerId;
                         var itemDetails = quote.QuoteOrderSellDetails.Where(x => !x.IsDeleted).Select(x => new ItemDetailsDT { ItemId = x.ItemId, ItemName = x.Item.Name, Quantity = x.Quantity, Price = x.Price, Amount = x.Quantity * x.Price }).ToList();
-                        DS = JsonConvert.SerializeObject(itemDetails);
+                        vm.OrderSellItems = quote.QuoteOrderSellDetails.Where(x => !x.IsDeleted)
+                             .Select(x => new OrderSellItemsDto
+                             {
+                                 Id = x.Id,
+                                 ItemId = x.ItemId,
+                                 ItemName = x.Item.Name,
+                                 Quantity = x.Quantity,
+                                 Price = x.Price,
+                                 Amount = x.Quantity * x.Price,
+                                 CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null)
+                             }).ToList();
                         vm.InvoiceDate = quote.InvoiceDate;
-
+                        vm.QuoteId=quote.QuoteId;  
+                        
                     }
                     else
                         return RedirectToAction("Index");
@@ -137,36 +163,35 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-            //تحميل كل الاصناف فى اول تحميل للصفحة 
-            var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
-            ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
-
+            //نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج)
+            ViewBag.OrderSellItemType = new List<SelectListItem> { new SelectListItem { Text = "صنف بيع", Value = "1", Selected = true }, new SelectListItem { Text = "صنف انتاج", Value = "2" } };
+            vm.BranchId = branchId;
+            vm.CustomerId = customerId;
             return View(vm);
         }
         [HttpPost]
-        public JsonResult CreateEdit(QuoteOrderSell vm, string DT_Datasource)
+        public JsonResult CreateEdit(OrderSellVM vm)
         {
             if (ModelState.IsValid)
             {
                 DateTime invoiceDate;
                 if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null)
-                    return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
                 invoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                 //الاصناف
-                List<ItemDetailsDT> itemDetailsDT = new List<ItemDetailsDT>();
                 List<QuoteOrderSellDetail> items = new List<QuoteOrderSellDetail>();
-
-                if (DT_Datasource != null)
+                items = vm.OrderSellItems.Select(x => new QuoteOrderSellDetail
                 {
-                    itemDetailsDT = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(DT_Datasource);
-                    if (itemDetailsDT.Count() == 0)
-                        return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
-                    else
-                        items = itemDetailsDT.Select(x => new QuoteOrderSellDetail { ItemId = x.ItemId, Amount = x.Amount, Quantity = x.Quantity, Price = x.Price }).ToList();
-                }
-                else
-                    return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
+                    Id = x.Id,
+                    ItemId = x.ItemId,
+                    OrderSellItemType = x.OrderSellItemType,
+                    Quantity = x.Quantity,
+                    Price = x.Price,
+                    Amount = x.Quantity * x.Price,
+                }).ToList();
+                if (vm.OrderSellItems.Count()==0)
+                    return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
 
                 var isInsert = false;
                 if (vm.Id != Guid.Empty)
@@ -174,38 +199,52 @@ namespace ERP.Web.Controllers
                     //حذف اى اصناف تم تسجيلها مسباق 
 
                     var model = db.QuoteOrderSells.FirstOrDefault(x => x.Id == vm.Id);
-                    var previousItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted).ToList();
-                    foreach (var item in previousItems)
+                    var currentItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted).ToList();
+                    foreach (var item in currentItems)
                     {
-                        item.IsDeleted = true;
+                        var t = items.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if (t!=null)
+                        {
+                            item.OrderSellItemType = t.OrderSellItemType;
+                            item.Quantity = t.Quantity;
+                            item.Price = t.Price;
+                            item.Amount = t.Quantity * t.Price;
+
+                        }
+
                     }
 
-                    model.CustomerId = vm.CustomerId;
                     model.InvoiceDate = invoiceDate;
-                    model.BranchId = vm.BranchId;
                     model.Notes = vm.Notes;
                     model.TotalQuantity = items.Sum(x => (double?)x.Quantity ?? 0);
                     model.TotalValue = items.Sum(x => (double?)x.Amount ?? 0);
-                    model.QuoteOrderSellDetails = items;
+                    //model.QuoteOrderSellDetails = items;
                     //db.Entry(model).State = EntityState.Modified;
                 }
                 else
                 {
+
                     isInsert = true;
                     //اضافة رقم الفاتورة
                     string codePrefix = Properties.Settings.Default.CodePrefix;
-                    vm.InvoiceNumber = codePrefix + (db.QuoteOrderSells.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1);
-                    vm.InvoiceDate = invoiceDate;
-                    vm.TotalQuantity = items.Sum(x => (double?)x.Quantity ?? 0);
-                    vm.TotalValue = items.Sum(x => (double?)x.Amount ?? 0);
-                    vm.QuoteOrderSellType = (int)QuoteOrderSellTypeCl.OrderSell;
-                    vm.QuoteOrderSellDetails = items;
-                    db.QuoteOrderSells.Add(vm);
+                    QuoteOrderSell quoteOrderSell = new QuoteOrderSell
+                    {
+                        InvoiceNumber = codePrefix + (db.QuoteOrderSells.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1),
+                        InvoiceDate = invoiceDate,
+                        TotalQuantity = items.Sum(x => (double?)x.Quantity ?? 0),
+                        TotalValue = items.Sum(x => (double?)x.Amount ?? 0),
+                        QuoteOrderSellType = (int)QuoteOrderSellTypeCl.OrderSell,
+                        BranchId=vm.BranchId,
+                        CustomerId=vm.CustomerId,
+                        QuoteId=vm.QuoteId,
+                    };
+
+                    quoteOrderSell.QuoteOrderSellDetails = items;
+                    db.QuoteOrderSells.Add(quoteOrderSell);
 
                 }
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                 {
-                    DS = null;
                     if (isInsert)
                         return Json(new { isValid = true, isInsert, message = "تم الاضافة بنجاح" });
                     else
@@ -216,7 +255,7 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
             }
             else
-                return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
         }
 

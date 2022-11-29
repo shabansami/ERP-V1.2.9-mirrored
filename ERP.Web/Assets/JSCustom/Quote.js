@@ -105,15 +105,15 @@ var Quote_Module = function () {
 							</a>\
 							<a href="javascript:;" onclick=Quote_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a><a href="/OrderSells/CreateEdit/?quoteId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="امر بيع">\
-								<i class="fa fa-unlock-alt"></i>\
+							</a><a href="/OrderSells/CreateEdit/?quoteId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تسجيل أمر بيع">\
+								<i class="fa fa-shopping-cart"></i>\
 							</a>\</div>\
 						';                    },
                 }
 
             ],
             drawCallback: function () {
-                var html = ' <tr><th colspan ="2" style= "text-align:center" >الاجمالى : <label>';
+                var html = ' <tr><th colspan ="4" style= "text-align:center" >الاجمالى : <label>';
                 var api = this.api();
                 var balance = api.column(4).data().sum();
                 $(api.table().footer()).html(html + balance + '</label></th>  </tr>');

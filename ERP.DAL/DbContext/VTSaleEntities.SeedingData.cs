@@ -329,6 +329,14 @@ namespace ERP.DAL
                         db.OfferTypes.Add(new OfferType { Name = "عرض على صنف او اكتر" });
                         db.OfferTypes.Add(new OfferType { Name = "عرض على فاتورة" });
                     }
+                    // //حالات امر البيع              
+                    if (db.OrderSellCases.Where(x => !x.IsDeleted).Count() == 0)
+                    {
+                        db.OrderSellCases.Add(new OrderSellCase { Name = "جارى التنفيذ" });
+                        db.OrderSellCases.Add(new OrderSellCase { Name = "تم البيع" });
+                        db.OrderSellCases.Add(new OrderSellCase { Name = "تم الانتاج" });
+                        db.OrderSellCases.Add(new OrderSellCase { Name = "تم الانتهاء" });
+                    }
                     db.SaveChanges(user.Id);
 
 

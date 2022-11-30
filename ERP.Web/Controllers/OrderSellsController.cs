@@ -55,45 +55,7 @@ namespace ERP.Web.Controllers
 
         }
 
-        #region  اضافة الاصناف 
-        //public ActionResult GetDSItemDetails()
-        //{
-        //    int? n = null;
-        //    if (DS == null)
-        //        return Json(new
-        //        {
-        //            data = new List<ItemDetailsDT>()
-        //        }, JsonRequestBehavior.AllowGet);
-        //    else
-        //        return Json(new
-        //        {
-        //            data = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(DS)
-        //        }, JsonRequestBehavior.AllowGet);
-        //}
-
-        //public ActionResult AddItemDetails(ItemDetailsDT vm)
-        //{
-        //    List<ItemDetailsDT> deDS = new List<ItemDetailsDT>();
-        //    string itemName = "";
-        //    if (vm.DT_Datasource != null)
-        //        deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
-        //    if (vm.ItemId != null)
-        //    {
-        //        if (deDS.Where(x => x.ItemId == vm.ItemId).Count() > 0)
-        //            return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-        //        itemName = db.Items.FirstOrDefault(x => x.Id == vm.ItemId).Name;
-        //    }
-        //    else
-        //        return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
-
-        //    var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price };
-        //    deDS.Add(newItemDetails);
-        //    DS = JsonConvert.SerializeObject(deDS);
-        //    return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount) }, JsonRequestBehavior.AllowGet);
-        //}
-
-        #endregion
-
+        #region اضافة/حذف امر بيع 
         [HttpGet]
         public ActionResult CreateEdit(Guid? quoteId)
         {
@@ -110,17 +72,19 @@ namespace ERP.Web.Controllers
                     vm.CustomerId = model?.CustomerId;
                     vm.BranchId = model?.BranchId;
                     vm.OrderSellItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted)
-                        .Select(x => new OrderSellItemsDto{ 
+                        .Select(x => new OrderSellItemsDto
+                        {
                             Id = x.Id,
                             ItemId = x.ItemId,
                             ItemName = x.Item.Name,
-                            Quantity = x.Quantity, 
-                            Price = x.Price, 
+                            Quantity = x.Quantity,
+                            Price = x.Price,
                             Amount = x.Quantity * x.Price,
-                            CurrentBalance= BalanceService.GetBalance(x.ItemId, null, null)
+                            OrderSellItemType = x.OrderSellItemType,
+                            CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null)
                         }).ToList();
                     vm.InvoiceDate = model.InvoiceDate;
-                    vm.Notes= model.Notes;
+                    vm.Notes = model.Notes;
                     vm.Id = model.Id;
                     branchId = model.BranchId;
                     customerId = model.CustomerId;
@@ -131,14 +95,13 @@ namespace ERP.Web.Controllers
             }
             else
             {                   // add
-                if(quoteId!=null)
+                if (quoteId != null && quoteId != Guid.Empty)
                 {
                     var quote = db.QuoteOrderSells.Where(x => x.Id == quoteId).FirstOrDefault();
-                    if (quote!=null)
+                    if (quote != null)
                     {
-                        branchId=quote.BranchId;
-                        customerId=quote.CustomerId;
-                        var itemDetails = quote.QuoteOrderSellDetails.Where(x => !x.IsDeleted).Select(x => new ItemDetailsDT { ItemId = x.ItemId, ItemName = x.Item.Name, Quantity = x.Quantity, Price = x.Price, Amount = x.Quantity * x.Price }).ToList();
+                        branchId = quote.BranchId;
+                        customerId = quote.CustomerId;
                         vm.OrderSellItems = quote.QuoteOrderSellDetails.Where(x => !x.IsDeleted)
                              .Select(x => new OrderSellItemsDto
                              {
@@ -151,8 +114,8 @@ namespace ERP.Web.Controllers
                                  CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null)
                              }).ToList();
                         vm.InvoiceDate = quote.InvoiceDate;
-                        vm.QuoteId=quote.QuoteId;  
-                        
+                        vm.QuoteOrderSellId = quote.Id;
+
                     }
                     else
                         return RedirectToAction("Index");
@@ -164,7 +127,8 @@ namespace ERP.Web.Controllers
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             //نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج)
-            ViewBag.OrderSellItemType = new List<SelectListItem> { new SelectListItem { Text = "صنف بيع", Value = "1", Selected = true }, new SelectListItem { Text = "صنف انتاج", Value = "2" } };
+            //ViewBag.OrderSellItemType = new List<SelectListItem> { new SelectListItem { Text = "صنف بيع", Value = "1", Selected = true }, new SelectListItem { Text = "صنف انتاج", Value = "2" } };
+            ViewBag.DropDownListSellItemType = new List<DropDownListInt> { new DropDownListInt { Id = 1, Name = "صنف بيع" }, new DropDownListInt { Id = 2, Name = "صنف انتاج" } };
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
             return View(vm);
@@ -190,20 +154,20 @@ namespace ERP.Web.Controllers
                     Price = x.Price,
                     Amount = x.Quantity * x.Price,
                 }).ToList();
-                if (vm.OrderSellItems.Count()==0)
+                if (vm.OrderSellItems.Count() == 0)
                     return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
 
                 var isInsert = false;
                 if (vm.Id != Guid.Empty)
                 {
-                    //حذف اى اصناف تم تسجيلها مسباق 
+                    //تحديث اى اصناف تم تسجيلها مسباق 
 
                     var model = db.QuoteOrderSells.FirstOrDefault(x => x.Id == vm.Id);
                     var currentItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted).ToList();
                     foreach (var item in currentItems)
                     {
                         var t = items.Where(x => x.Id == item.Id).FirstOrDefault();
-                        if (t!=null)
+                        if (t != null)
                         {
                             item.OrderSellItemType = t.OrderSellItemType;
                             item.Quantity = t.Quantity;
@@ -234,9 +198,10 @@ namespace ERP.Web.Controllers
                         TotalQuantity = items.Sum(x => (double?)x.Quantity ?? 0),
                         TotalValue = items.Sum(x => (double?)x.Amount ?? 0),
                         QuoteOrderSellType = (int)QuoteOrderSellTypeCl.OrderSell,
-                        BranchId=vm.BranchId,
-                        CustomerId=vm.CustomerId,
-                        QuoteId=vm.QuoteId,
+                        BranchId = vm.BranchId,
+                        CustomerId = vm.CustomerId,
+                        QuoteId = vm.QuoteOrderSellId,
+                        Notes = vm.Notes,
                     };
 
                     quoteOrderSell.QuoteOrderSellDetails = items;
@@ -301,6 +266,289 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
         }
+
+        #endregion
+
+        #region تجهيز امر بيع 
+        [HttpGet]
+        public ActionResult OrderForSell(Guid? orderId,Guid? storeId)
+        {
+            //DS = null;
+            OrderSellVM vm = new OrderSellVM();
+            Guid? customerId = null;
+            Guid? branchId = null;
+                 // add
+                if (orderId != null&&orderId!=Guid.Empty)
+                {
+                    var orderSell = db.QuoteOrderSells.Where(x => x.Id == orderId).FirstOrDefault();
+                    if (orderSell != null)
+                    {
+                        branchId = orderSell.BranchId;
+                        customerId = orderSell.CustomerId;
+                    vm.InvoiceDate = orderSell.InvoiceDate;
+                    vm.QuoteOrderSellId = orderSell.Id;
+                    vm.StoreId = orderSell.StoreId;
+                    if (storeId != null && storeId != Guid.Empty)
+                        vm.StoreId = storeId;
+                    else 
+                        vm.StoreId = orderSell.StoreId;
+                        vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted&&x.OrderSellItemType==(int)OrderSellItemTypeCl.Sell)
+                             .Select(x => new OrderSellItemsDto
+                             {
+                                 Id = x.Id,
+                                 ItemId = x.ItemId,
+                                 ItemName = x.Item.Name,
+                                 Quantity = x.Quantity,
+                                 Price = x.Price,
+                                 Amount = x.Quantity * x.Price,
+                                 CurrentBalance =  BalanceService.GetBalance(x.ItemId, vm.StoreId, null)
+                             }).ToList();
+
+                    }
+                    else
+                        return RedirectToAction("Index");
+                }
+                else
+                    return RedirectToAction("Index");
+            
+            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name",vm.StoreId);
+            vm.BranchId = branchId;
+            vm.CustomerId = customerId;
+            return View(vm);
+        }
+        [HttpPost]
+        public JsonResult OrderForSell(OrderSellVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null|| vm.StoreId == null)
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                if (vm.OrderSellItems.Where(x=>x.Quantity>x.CurrentBalance).Any())
+                {
+                    //قبول اضافة صنف بدون رصيد
+                    int itemAcceptNoBalance = 0;
+                    var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+                    if (!int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+                        return Json(new { isValid = false, message = "تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات" });
+                    if (itemAcceptNoBalance == 0)
+                        return Json(new { isValid = false, message = "الكمية المدخلة اكبر من الرصيد المتاح" });
+                }
+
+                //الاصناف
+                List<QuoteOrderSellDetail> items = new List<QuoteOrderSellDetail>();
+                items = vm.OrderSellItems.Select(x => new QuoteOrderSellDetail
+                {
+                    Id = x.Id,
+                    ItemId = x.ItemId,
+                    Quantity = x.Quantity,
+                    Price = x.Price,
+                    Amount = x.Quantity * x.Price,
+                }).ToList();
+                if (vm.OrderSellItems.Count() == 0)
+                    return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
+
+                if (vm.QuoteOrderSellId != Guid.Empty&&vm.QuoteOrderSellId!=null)
+                {
+                    //تحديث اى اصناف تم تسجيلها مسباق 
+
+                    var model = db.QuoteOrderSells.FirstOrDefault(x => x.Id == vm.QuoteOrderSellId);
+                    var currentItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted).ToList();
+                    foreach (var item in currentItems)
+                    {
+                        var t = items.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if (t != null)
+                        {
+                            item.Quantity = t.Quantity;
+                            item.Price = t.Price;
+                            item.Amount = t.Quantity * t.Price;
+
+                        }
+
+                    }
+
+                    model.TotalQuantity = currentItems.Sum(x => (double?)x.Quantity ?? 0);
+                    model.TotalValue = currentItems.Sum(x => (double?)x.Amount ?? 0);
+                    model.StoreId = vm.StoreId;
+                }else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                        return Json(new { isValid = true, message = "تم التجهيز للبيع بنجاح والانتقال لفاتورة البيع" });
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+        }
+
+        #endregion
+
+        #region تجهيز امر انتاج مجمع 
+        [HttpGet]
+        public ActionResult OrderForProduction(Guid? orderId,int? fi)
+        {
+            //DS = null;
+            OrderSellVM vm = new OrderSellVM();
+            Guid? customerId = null;
+            Guid? branchId = null;
+                 // add
+                if (orderId != null&&orderId!=Guid.Empty)
+                {
+                    var orderSell = db.QuoteOrderSells.Where(x => x.Id == orderId).FirstOrDefault();
+                    if (orderSell != null)
+                    {
+                        branchId = orderSell.BranchId;
+                        customerId = orderSell.CustomerId;
+                    vm.InvoiceDate = orderSell.InvoiceDate;
+                    vm.QuoteOrderSellId = orderSell.Id;
+                        vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted&&x.OrderSellItemType==(int)OrderSellItemTypeCl.ProductionOrder)
+                             .Select(x => new OrderSellItemsDto
+                             {
+                                 Id = x.Id,
+                                 ItemId = x.ItemId,
+                                 ItemName = x.Item.Name,
+                                 Quantity = x.Quantity,
+                                 Price = x.Price,
+                                 Amount = x.Quantity * x.Price,
+                                 CurrentBalance =  BalanceService.GetBalance(x.ItemId,null, null),
+                                 ItemProductionId=x.ItemProductionId,
+                                 ItemProductionList=ItemService.GetItemProduction(x.ItemId)
+                             }).ToList();
+
+                    }
+                    else
+                        return RedirectToAction("Index");
+                }
+                else
+                    return RedirectToAction("Index");
+            
+            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            vm.BranchId = branchId;
+            vm.CustomerId = customerId;
+            return View(vm);
+        }
+        [HttpPost]
+        public ActionResult OrderForProduction(OrderSellVM vm)
+        {
+            Guid? customerId = null;
+            Guid? branchId = null;
+            // add
+            if (vm.QuoteOrderSellId != null && vm.QuoteOrderSellId != Guid.Empty)
+            {
+                var orderSell = db.QuoteOrderSells.Where(x => x.Id == vm.QuoteOrderSellId).FirstOrDefault();
+                if (orderSell != null)
+                {
+                    branchId = orderSell.BranchId;
+                    customerId = orderSell.CustomerId;
+                    vm.InvoiceDate = orderSell.InvoiceDate;
+                    vm.QuoteOrderSellId = orderSell.Id;
+                    //vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.OrderSellItemType == (int)OrderSellItemTypeCl.ProductionOrder)
+                    //     .Select(x => new OrderSellItemsDto
+                    //     {
+                    //         Id = x.Id,
+                    //         ItemId = x.ItemId,
+                    //         ItemName = x.Item.Name,
+                    //         Quantity = x.Quantity,
+                    //         Price = x.Price,
+                    //         Amount = x.Quantity * x.Price,
+                    //         CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null),
+                    //         ItemProductionId = x.ItemProductionId,
+                    //         ItemProductionList = ItemService.GetItemProduction(x.ItemId)
+                    //     }).ToList();
+
+                }
+                else
+                    return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index");
+
+            ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            vm.BranchId = branchId;
+            vm.CustomerId = customerId;
+            //foreach (var item in vm.OrderSellItems)
+            //{
+            //    item.ItemProductionList = ItemService.GetItemProduction(item.ItemId);
+            //}
+            vm.OrderSellItems.ForEach(x => x.ItemProductionList = ItemService.GetItemProduction(x.ItemId));
+            return View(vm);
+        }
+        public JsonResult OrderForProduction2(OrderSellVM vm)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null|| vm.StoreId == null)
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                if (vm.OrderSellItems.Where(x=>x.Quantity>x.CurrentBalance).Any())
+                {
+                    //قبول اضافة صنف بدون رصيد
+                    int itemAcceptNoBalance = 0;
+                    var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+                    if (!int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+                        return Json(new { isValid = false, message = "تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات" });
+                    if (itemAcceptNoBalance == 0)
+                        return Json(new { isValid = false, message = "الكمية المدخلة اكبر من الرصيد المتاح" });
+                }
+
+                //الاصناف
+                List<QuoteOrderSellDetail> items = new List<QuoteOrderSellDetail>();
+                items = vm.OrderSellItems.Select(x => new QuoteOrderSellDetail
+                {
+                    Id = x.Id,
+                    ItemId = x.ItemId,
+                    Quantity = x.Quantity,
+                    Price = x.Price,
+                    Amount = x.Quantity * x.Price,
+                }).ToList();
+                if (vm.OrderSellItems.Count() == 0)
+                    return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
+
+                if (vm.QuoteOrderSellId != Guid.Empty&&vm.QuoteOrderSellId!=null)
+                {
+                    //تحديث اى اصناف تم تسجيلها مسباق 
+
+                    var model = db.QuoteOrderSells.FirstOrDefault(x => x.Id == vm.QuoteOrderSellId);
+                    var currentItems = model.QuoteOrderSellDetails.Where(x => !x.IsDeleted).ToList();
+                    foreach (var item in currentItems)
+                    {
+                        var t = items.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if (t != null)
+                        {
+                            item.Quantity = t.Quantity;
+                            item.Price = t.Price;
+                            item.Amount = t.Quantity * t.Price;
+
+                        }
+
+                    }
+
+                    model.TotalQuantity = currentItems.Sum(x => (double?)x.Quantity ?? 0);
+                    model.TotalValue = currentItems.Sum(x => (double?)x.Amount ?? 0);
+                    model.StoreId = vm.StoreId;
+                }else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                        return Json(new { isValid = true, message = "تم التجهيز للبيع بنجاح والانتقال لفاتورة البيع" });
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+        }
+
+        #endregion
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

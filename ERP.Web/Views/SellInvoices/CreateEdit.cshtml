@@ -25,6 +25,10 @@
     string chkPerRdo = "";
     string disabledAttrSafeAccount = "";
 
+    totalValue = Model.TotalValue;
+    totalQuantity = Model.TotalQuantity;
+    safy = Model.Safy;
+
     if (Model.Id == Guid.Empty)
     {
         title = "تسجبل فاتورة بيع";
@@ -60,12 +64,9 @@
         title = "تعديل فاتورة بيع ";
         btn = "تعديل";
         icon = "flaticon-edit";
-        totalValue = Model.TotalValue;
-        totalQuantity = Model.TotalQuantity;
         totalItemDiscount = Model.SellInvoicesDetails.Where(x => !x.IsDeleted).Select(x => x.ItemDiscount).Sum();
         totalExpenses = Model.TotalExpenses;
         totalDiscount = Model.TotalDiscount;
-        safy = Model.Safy;
     }
     bool shwTab = ViewBag.ShowTab;
 
@@ -178,6 +179,7 @@
                                                 <label>الفرع</label>
                                                 @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-lg din-med", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
                                                 @Html.HiddenFor(x => x.Id)
+                                                @Html.HiddenFor(x => x.OrderSellId)
                                             </div>
                                         </div>
                                         <div class="col-xl-4">
@@ -832,6 +834,7 @@ else
                                                 <div class="col-9">
                                                     @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
                                                     @Html.HiddenFor(x => x.Id)
+                                                    @Html.HiddenFor(x => x.OrderSellId)
                                                 </div>
                                             </div>
                                         </div>

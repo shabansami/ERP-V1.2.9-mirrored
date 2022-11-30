@@ -2360,6 +2360,8 @@
     <Content Include="Views\OrderSells\Index.cshtml" />
     <Content Include="Views\OrderSells\CreateEdit.cshtml" />
     <Content Include="Views\RptItems\SearchItemSell.cshtml" />
+    <Content Include="Views\OrderSells\OrderForSell.cshtml" />
+    <Content Include="Views\OrderSells\OrderForProduction.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

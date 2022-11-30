@@ -280,6 +280,10 @@
     <Compile Include="Migrations\202211291307091_update_QuoteOrderSell.designer.cs">
       <DependentUpon>202211291307091_update_QuoteOrderSell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202211301235039_update_QuoteOrderSell_tb.cs" />
+    <Compile Include="Migrations\202211301235039_update_QuoteOrderSell_tb.designer.cs">
+      <DependentUpon>202211301235039_update_QuoteOrderSell_tb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -612,6 +616,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202211291307091_update_QuoteOrderSell.resx">
       <DependentUpon>202211291307091_update_QuoteOrderSell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202211301235039_update_QuoteOrderSell_tb.resx">
+      <DependentUpon>202211301235039_update_QuoteOrderSell_tb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

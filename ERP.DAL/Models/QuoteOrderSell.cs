@@ -34,11 +34,13 @@ namespace ERP.DAL
         public string InvoiceNumber { get; set; }
         [ForeignKey(nameof(OrderSellCase))]
         public Nullable<int> OrderSellCaseId { get; set; }//حالات امر البيع (تم البيع /تم الانتاج/ جارى التنفيذ/تم الانتهاء)
-
+        [ForeignKey(nameof(Store))]
+        public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
         public virtual Branch Branch { get; set; }
         public virtual Person Customer { get; set; }
         public virtual QuoteOrderSell Quote { get; set; } //عرض السعر المرتبطه به امر البيع
         public virtual OrderSellCase OrderSellCase { get; set; }
+        public virtual Store Store { get; set; } //المخزن المحدد فى حالة تجهيز لفاتورة بيع 
 
         public virtual ICollection<QuoteOrderSellDetail> QuoteOrderSellDetails { get; set; }
         public virtual ICollection<ProductionOrder> ProductionOrders { get; set; }

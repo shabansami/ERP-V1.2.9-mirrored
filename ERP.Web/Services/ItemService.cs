@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 using static ERP.Web.Services.AccountTreeService;
 using static ERP.Web.Utilites.Lookups;
 
@@ -557,6 +558,22 @@ namespace ERP.Web.Services
         }
 
 
+        #endregion
+
+        #region توليفة بدلالة اسم الصنف
+        public static List<DropDownList> GetItemProduction(Guid? itemId)
+        {
+            using (var db=new VTSaleEntities())
+            {
+                var itemGroups = db.ItemProductionDetails.Where(x => !x.IsDeleted && x.ItemId == itemId);
+                var list = itemGroups.Select(x => new DropDownList
+                {
+                    Id = x.ItemProductionId,
+                    Name = x.ItemProduction.Name
+                }).ToList();
+                return list;
+            }
+        }
         #endregion
     }
     public class ItemStock

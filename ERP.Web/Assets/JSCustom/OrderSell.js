@@ -1,6 +1,7 @@
 ﻿"use strict";
 
 var OrderSell_Module = function () {
+    //#region ادارة امر البيع
     var initDT = function () {
         var table = $('#kt_datatable');
 
@@ -106,12 +107,13 @@ var OrderSell_Module = function () {
 							</a>\
 							<a href="javascript:;" onclick=OrderSell_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a><a href="/SellInvoices/CreateEdit/?orderSell='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز بيع">\
+							</a><a href="/OrderSells/OrderForSell/?orderId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز بيع">\
 								<i class="fa fa-shopping-cart"></i>\
-							</a<a href="/SellInvoices/CreateEdit/?orderSell='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز إنتاج">\
-								<i class="fa fa-industry"></i>\
+							</a><a href="/OrderSells/OrderForProduction/?orderId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز إنتاج">\
+								<i class="fas fa-wrench"></i>\
 							</a>\</div>\
-						';                    },
+						';
+                    },
                 }
 
             ],
@@ -145,15 +147,7 @@ var OrderSell_Module = function () {
     function SubmitForm(btn) {
         try {
             var form = document.getElementById('form1');
-            var DT_Datasource;
-            var dataSet = $('#kt_dtItemDetails').DataTable().rows().data().toArray();
-            if (dataSet != null) {
-                if (dataSet.length > 0) {
-                    DT_Datasource = JSON.stringify(dataSet);
-                }
-            }
             var formData = new FormData(form);
-            formData.append('DT_Datasource', DT_Datasource);
             $.ajax({
                 type: 'POST',
                 url: form.action,
@@ -165,10 +159,7 @@ var OrderSell_Module = function () {
                         //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
                         $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
                         toastr.success(res.message, '',)
-                        if (!res.isInsert) {
                             setTimeout(function () { window.location = "/OrderSells/Index" }, 3000);
-                        } else
-                            setTimeout(function () { window.location = "/OrderSells/CreateEdit" }, 3000);
                         //$('#kt_datatableLast').DataTable().ajax.reload();
                     } else {
                         toastr.error(res.message, '');
@@ -225,7 +216,108 @@ var OrderSell_Module = function () {
         });
     };
 
+    //#endregion
 
+    //#region تجهيز لفاتورة بيع
+    function SubmitFormForSell(btn) {
+        try {
+            var form = document.getElementById('form1');
+            var formData = new FormData(form);
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
+                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
+                        toastr.success(res.message, '',)
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const orderId = urlParams.get('orderId');
+                        setTimeout(function () { window.location = "/SellInvoices/CreateEdit/?orderSellId=" + orderId }, 3000);
+                    } else {
+                        toastr.error(res.message, '');
+                    }
+                    //document.getElementById('submit').disabled = false;
+                    //document.getElementById('reset').disabled = false;
+                },
+                error: function (err) {
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
+
+    //function getStoresBranchChanged() {  // get safes and stores by branchId
+    //    $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+    //        $("#StoreId").empty();
+    //        $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
+    //        $.each(data, function (index, row) {
+    //            $("#StoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+    //        })
+    //    });
+    //};
+    function UpdateData() {
+        if ($("#StoreId").val()==='') {
+            toastr.error('تأكد من تحديد المخزن', ''); return false;
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        window.location = "/OrderSells/OrderForSell/?orderId=" + orderId + "&storeId=" + $("#StoreId").val()
+    }
+    //#endregion
+
+    //#region تجهيز امر انتاج
+    function SubmitFormForProduction(btn) {
+        try {
+            var form = document.getElementById('form1');
+            var formData = new FormData(form);
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
+                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
+                        toastr.success(res.message, '',)
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const orderId = urlParams.get('orderId');
+                        setTimeout(function () { window.location = "/SellInvoices/CreateEdit/?orderSellId=" + orderId }, 3000);
+                    } else {
+                        toastr.error(res.message, '');
+                    }
+                    //document.getElementById('submit').disabled = false;
+                    //document.getElementById('reset').disabled = false;
+                },
+                error: function (err) {
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
+    function ExcuteProdictionOrder() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('orderId');
+        window.location = "/OrderSells/OrderForProduction/?orderId=" + orderId + "&fi=1" 
+    }
+    //#endregion
 
     return {
         //main function to initiate the module
@@ -234,6 +326,10 @@ var OrderSell_Module = function () {
         },
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
+        SubmitFormForSell: SubmitFormForSell,
+        UpdateData: UpdateData,
+        SubmitFormForProduction: SubmitFormForProduction,
+        ExcuteProdictionOrder: ExcuteProdictionOrder,
     };
 
 }();

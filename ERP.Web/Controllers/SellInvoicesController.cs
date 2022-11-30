@@ -194,7 +194,7 @@ namespace ERP.Web.Controllers
 
         #region تسجيل فاتورة بيع وتعديلها وحذفها
         [HttpGet]
-        public ActionResult CreateEdit(string shwTab)
+        public ActionResult CreateEdit(string shwTab,Guid? orderSellId)
         {
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
@@ -215,6 +215,7 @@ namespace ERP.Web.Controllers
                 ViewBag.ItemAcceptNoBalance = itemAcceptNoBalance;
 
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+
             if (TempData["model"] != null) //edit
             {
                 Guid guId;
@@ -281,7 +282,38 @@ namespace ERP.Web.Controllers
             }
             else
             {                   // add
-                DS = JsonConvert.SerializeObject(new List<ItemDetailsDT>());
+
+                var vm = new SellInvoice();
+                vm.InvoiceDate = Utility.GetDateTime();
+                vm.DueDate = Utility.GetDateTime().AddMonths(1);
+                Guid? customerId = null;
+                if (orderSellId != Guid.Empty&&orderSellId!=null)//امر بيع 
+                {
+                    var quoteOrderSellDetails = db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == orderSellId);
+                    var items = quoteOrderSellDetails.Select(item => new
+                  ItemDetailsDT
+                    {
+                        Amount = item.Amount,
+                        ItemId = item.ItemId,
+                        ItemName = item.Item.Name,
+                        Price = item.Price,
+                        Quantity = item.Quantity,
+                        StoreId = item.QuoteOrderSell.StoreId,
+                        StoreName = item.QuoteOrderSell.Store.Name,
+                        IsIntial = 0,
+                    }).ToList();
+                    DS = JsonConvert.SerializeObject(items);
+                    var orderSell = quoteOrderSellDetails.FirstOrDefault().QuoteOrderSell;
+                    //if (orderSell != null)
+                    //{
+                        customerId = orderSell.CustomerId;
+                        vm.OrderSellId=orderSellId;
+                        vm.TotalQuantity=orderSell.TotalQuantity;
+                        vm.TotalValue=orderSell.TotalValue;
+                        vm.Safy=orderSell.TotalValue;
+                    //}
+                }else
+                 DS = JsonConvert.SerializeObject(new List<ItemDetailsDT>());
                 DSExpenses = JsonConvert.SerializeObject(new List<InvoiceExpensesDT>());
 
 
@@ -291,7 +323,7 @@ namespace ERP.Web.Controllers
                 var bankAccountId = db.BankAccounts.Where(x => !x.IsDeleted)?.FirstOrDefault().Id;
 
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
-                ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
+                ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",customerId);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
@@ -303,9 +335,6 @@ namespace ERP.Web.Controllers
                 ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
 
-                var vm = new SellInvoice();
-                vm.InvoiceDate = Utility.GetDateTime();
-                vm.DueDate = Utility.GetDateTime().AddMonths(1);
                 //اظهار تكلفة الصنف فى شاشة البيع
                 int itemCostCalculateShowInSellReg = 0;
                 var costCalculateShowInSellRegSet = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateShowInSellReg).FirstOrDefault();

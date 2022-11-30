@@ -38,6 +38,7 @@ namespace ERP.DAL
             this.StoresTransfersFrom = new HashSet<StoresTransfer>();
             this.StoresTransfersTo = new HashSet<StoresTransfer>();
             this.DamageInvoices = new HashSet<DamageInvoice>();
+            this.QuoteOrderSells = new HashSet<QuoteOrderSell>();
         }
 
         [ForeignKey(nameof(AccountsTree))]
@@ -84,5 +85,6 @@ namespace ERP.DAL
         public virtual ICollection<StoresTransfer> StoresTransfersTo { get; set; }
         public virtual ICollection<PointOfSale> PointOfSales { get; set; }
         public virtual ICollection<DamageInvoice> DamageInvoices { get; set; }
+        public virtual ICollection<QuoteOrderSell> QuoteOrderSells { get; set; }
     }
 }

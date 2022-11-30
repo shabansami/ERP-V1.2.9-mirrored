@@ -563,7 +563,7 @@ var SellInvoice_Module = function () {
             };
             if (quantity > parseFloat(balanceVal)) {
                 if ($('#ItemAcceptNoBalance').val() === null || $('#ItemAcceptNoBalance').val() === '' || $('#ItemAcceptNoBalance').val() === 'undefined') {
-                    toastr.error('الكمية المدخلة اكبر من الرصيد المتاح', '');
+                    toastr.error('تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات', '');
                     $("#Quantity").focus().select();
                     return false;
                 } else if ($('#ItemAcceptNoBalance').val() === "0") {

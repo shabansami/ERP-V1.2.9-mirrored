@@ -35,7 +35,8 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="headingOne">
                                 <button class="accordion-button fw-medium" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <i class="fa fa-chart-pie m-1"></i>الصنف المؤلف
+                                    <i class="fa fa-chart-pie m-1"></i>الاصناف
+                                    <span id="lblItemTab1" class="badge badge-soft-warning fa-1x ">المخرجات</span>
                                 </button>
                             </h2>
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -77,7 +78,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group ">
-                                                <label id="lblItem" class="badge badge-soft-warning fa-1x">الصنف/اكتر المراد انتاجه</label>
+                                                <label id="lblItemDetailsTab1" class="badge badge-soft-warning fa-1x ">الصنف/اكتر المراد انتاجه (المخرجات)</label>
                                                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtProductionItems">
                                                     <thead>
 
@@ -97,7 +98,7 @@
                             <h2 class="accordion-header" id="headingTwo">
                                 <button class="accordion-button fw-medium collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                     <i class="fa fa-bell m-1"></i>الاصناف
-                                    <span id="lblItemDetails" class="badge badge-soft-warning fa-1x">اصناف المواد الخام</span>
+                                    <span id="lblItemTab2" class="badge badge-soft-warning fa-1x">المدخلات</span>
 
                                 </button>
                             </h2>
@@ -130,7 +131,7 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group ">
-                                                <label>الاصناف المدخلة</label>
+                                                <label id="lblItemDetailsTab2" class="badge badge-soft-warning fa-1x">الصنف/اكتر المدخلات</label>
                                                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtProductionDetails">
                                                     <thead>
 
@@ -225,9 +226,15 @@
         function changeDescriptio() {
             console.log($("#ItemProductionTypeId option:selected").val());
             if ($("#ItemProductionTypeId option:selected").val() === "1") {
-                $("#lblItem").text("الصنف/اكتر المراد انتاجه")
+                $("#lblItemDetailsTab1").text("الصنف/اكتر المراد انتاجه (المخرجات)")
+                $("#lblItemDetailsTab2").text("الصنف/اكتر المدخلات")
+                $("#lblItemTab1").text("المخرجات")
+                $("#lblItemTab2").text("المدخلات")
             } else {
-                $("#lblItem").text("الصنف/اكتر المراد تقطيعه و تكسيره")
+                $("#lblItemDetailsTab1").text("الصنف/اكتر المراد تقطيعه و تكسيره(المدخلات)")
+                $("#lblItemDetailsTab2").text("الصنف/اكتر المخرجات")
+                $("#lblItemTab1").text("المدخلات")
+                $("#lblItemTab2").text("المخرجات")
             }
         }
     </script>

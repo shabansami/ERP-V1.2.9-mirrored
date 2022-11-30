@@ -1,7 +1,9 @@
-﻿using System;
+﻿using ERP.Web.DataTablesDS;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace ERP.Web.ViewModels
 {
@@ -13,15 +15,20 @@ namespace ERP.Web.ViewModels
         }
         public Guid Id { get; set; }
         public Nullable<Guid> BranchId { get; set; }
+        public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
         public Nullable<Guid> CustomerId { get; set; }
         public System.DateTime InvoiceDate { get; set; }
-        public Nullable<Guid> QuoteId { get; set; }
+        public Nullable<Guid> QuoteOrderSellId { get; set; } //عرض السعر/امر بيع
         public string Notes { get; set; }
 
         public List<OrderSellItemsDto> OrderSellItems { get; set; }
     }
     public class OrderSellItemsDto
     {
+        public OrderSellItemsDto()
+        {
+            ItemProductionList = new List<DropDownList>();
+        }
         public Guid Id { get; set; }
         public Nullable<Guid> ItemId { get; set; }
         public string ItemName { get; set; }
@@ -30,6 +37,8 @@ namespace ERP.Web.ViewModels
         public double Amount { get; set; }
         public Nullable<int> OrderSellItemType { get; set; }//نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج
         public double CurrentBalance { get; set; }
+        public Nullable<Guid> ItemProductionId { get; set; }//التوليفة المحددة فى حالة تجهيز لانتاج مجمع
+        public List<DropDownList> ItemProductionList { get; set; }
     }
 
 }

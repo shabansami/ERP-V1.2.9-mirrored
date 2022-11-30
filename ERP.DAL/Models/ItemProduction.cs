@@ -20,6 +20,7 @@ namespace ERP.DAL
         {
             this.ItemProductionDetails = new HashSet<ItemProductionDetail>();
             this.ProductionOrderDetails = new HashSet<ProductionOrderDetail>();
+            this.QuoteOrderSellDetails = new HashSet<QuoteOrderSellDetail>();
         }
 
         public string Name { get; set; }
@@ -32,5 +33,6 @@ namespace ERP.DAL
 
         public virtual ICollection<ItemProductionDetail> ItemProductionDetails { get; set; }
         public virtual ICollection<ProductionOrderDetail> ProductionOrderDetails { get; set; }
+        public virtual ICollection<QuoteOrderSellDetail> QuoteOrderSellDetails { get; set; }
     }
 }

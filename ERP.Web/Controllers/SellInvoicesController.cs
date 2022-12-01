@@ -289,7 +289,7 @@ namespace ERP.Web.Controllers
                 Guid? customerId = null;
                 if (orderSellId != Guid.Empty&&orderSellId!=null)//امر بيع 
                 {
-                    var quoteOrderSellDetails = db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == orderSellId);
+                    var quoteOrderSellDetails = db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == orderSellId&&x.OrderSellItemType==(int)OrderSellItemTypeCl.Sell);
                     var items = quoteOrderSellDetails.Select(item => new
                   ItemDetailsDT
                     {
@@ -298,8 +298,8 @@ namespace ERP.Web.Controllers
                         ItemName = item.Item.Name,
                         Price = item.Price,
                         Quantity = item.Quantity,
-                        StoreId = item.QuoteOrderSell.StoreId,
-                        StoreName = item.QuoteOrderSell.Store.Name,
+                        StoreId = item.StoreId,
+                        StoreName = item.Store.Name,
                         IsIntial = 0,
                     }).ToList();
                     DS = JsonConvert.SerializeObject(items);
@@ -308,11 +308,12 @@ namespace ERP.Web.Controllers
                     //{
                         customerId = orderSell.CustomerId;
                         vm.OrderSellId=orderSellId;
-                        vm.TotalQuantity=orderSell.TotalQuantity;
-                        vm.TotalValue=orderSell.TotalValue;
-                        vm.Safy=orderSell.TotalValue;
+                        vm.TotalQuantity= items.Sum(x=>x.Quantity);
+                        vm.TotalValue= items.Sum(x => x.Amount);
+                    vm.Safy= items.Sum(x => x.Amount);
                     //}
-                }else
+                }
+                else
                  DS = JsonConvert.SerializeObject(new List<ItemDetailsDT>());
                 DSExpenses = JsonConvert.SerializeObject(new List<InvoiceExpensesDT>());
 

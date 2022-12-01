@@ -15,7 +15,6 @@ namespace ERP.Web.ViewModels
         }
         public Guid Id { get; set; }
         public Nullable<Guid> BranchId { get; set; }
-        public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
         public Nullable<Guid> CustomerId { get; set; }
         public System.DateTime InvoiceDate { get; set; }
         public Nullable<Guid> QuoteOrderSellId { get; set; } //عرض السعر/امر بيع
@@ -39,6 +38,8 @@ namespace ERP.Web.ViewModels
         public double CurrentBalance { get; set; }
         public Nullable<Guid> ItemProductionId { get; set; }//التوليفة المحددة فى حالة تجهيز لانتاج مجمع
         public List<DropDownList> ItemProductionList { get; set; }
+        public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
+        public List<DropDownList> StoreItemList { get; set; }
     }
 
 }

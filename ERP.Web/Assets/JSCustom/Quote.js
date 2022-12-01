@@ -98,17 +98,24 @@ var Quote_Module = function () {
                     title: 'عمليات',
                     orderable: false,
                     render: function (data, type, row, meta) {
-                        return '\
+                        var ele = '\
 							<div class="btn-group">\
 							<a href="/Quotes/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=Quote_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a><a href="/OrderSells/CreateEdit/?quoteId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تسجيل أمر بيع">\
+							</a>';
+                        if (row.OrderSellExist) {
+                            ele += 'تم انشاء امر انتاج للعرض';
+                        } else {
+                            ele += '<a href="/OrderSells/CreateEdit/?quoteId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تسجيل أمر بيع">\
 								<i class="fa fa-shopping-cart"></i>\
-							</a>\</div>\
-						';                    },
+							</a>';
+                        }
+                        ele += '</div>';
+                        return ele;
+                    },
                 }
 
             ],
@@ -371,6 +378,35 @@ var Quote_Module = function () {
         } else
             $("#Amount").val($("#Price").val() * $("#Quantity").val());
     };
+    function onItemChange() {
+        //سياسة اسعار عميل محدد فى فاتورة بيع 
+        $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val(), isCustomer: true }, function (data) {
+            if (data.customeSell > 0) {
+                $("#Price").val(data.customeSell);
+                $("#Amount").val(data.customeSell * $("#Quantity").val());
+            } else {
+                var newPrice = 0;
+                //السعر من جدول تحديد اسعار البيع تلقائيا حسب الفرع/الفئة/الصنف
+                $.get("/SharedDataSources/GetItemCustomSellPrice", { itemId: $("#ItemId").val(), branchId: $("#BranchId").val() }, function (data) {
+                    newPrice = data.data;
+                    $("#Price").val(newPrice);
+                    $("#Amount").val(newPrice * $("#Quantity").val());
+                });
+                if (newPrice === 0) {
+                    //سعر بيع الصنف الافتراضى المسجل 
+                    $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
+                        newPrice = data.data;
+                        $("#Price").val(newPrice);
+                        $("#Amount").val(newPrice * $("#Quantity").val());
+                    });
+                }
+
+
+            }
+
+        });
+    };
+
     return {
         //main function to initiate the module
         init: function () {
@@ -383,7 +419,8 @@ var Quote_Module = function () {
         deleteRow: deleteRow,
         addItemDetails: addItemDetails,
         deleteRowItemDetails: deleteRowItemDetails,
-        onPriceOrQuanKeyUp: onPriceOrQuanKeyUp
+        onPriceOrQuanKeyUp: onPriceOrQuanKeyUp,
+        onItemChange: onItemChange
     };
 
 }();

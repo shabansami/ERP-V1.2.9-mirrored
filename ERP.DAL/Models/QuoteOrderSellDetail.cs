@@ -18,6 +18,8 @@ namespace ERP.DAL
         [ForeignKey(nameof(ItemProduction))]
         public Nullable<Guid> ItemProductionId { get; set; }//التوليفة المحددة فى حالة تجهيز لانتاج مجمع 
         public Nullable<int> OrderSellItemType { get; set; }//نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج
+        [ForeignKey(nameof(Store))]
+        public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
 
         /// <summary>
         /// الكمية
@@ -36,5 +38,7 @@ namespace ERP.DAL
         public virtual Item Item { get; set; }
         public virtual QuoteOrderSell QuoteOrderSell { get; set; }
         public virtual ItemProduction ItemProduction { get; set; }//التوليفة المحددة فى حالة تجهيز لانتاج مجمع 
+        public virtual Store Store { get; set; } //المخزن المحدد فى حالة تجهيز لفاتورة بيع 
+
     }
 }

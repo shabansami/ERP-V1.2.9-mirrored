@@ -47,7 +47,7 @@ namespace ERP.Web.Controllers
             if(customerId != null)
                 list=list.Where(x => x.CustomerId == customerId);
 
-                var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), TotalValue = x.TotalValue, Actions = n, Num = n }).ToList();
+                var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), TotalValue = x.TotalValue,OrderSellExist=x.QuoteOrderSellsChildren.Where(t=>!t.IsDeleted).Any(), Actions = n, Num = n }).ToList();
             return Json(new
             {
                 data = items

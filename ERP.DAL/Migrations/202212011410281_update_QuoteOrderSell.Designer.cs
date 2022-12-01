@@ -13,7 +13,7 @@ namespace ERP.DAL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202211291307091_update_QuoteOrderSell"; }
+            get { return "202212011410281_update_QuoteOrderSell"; }
         }
         
         string IMigrationMetadata.Source

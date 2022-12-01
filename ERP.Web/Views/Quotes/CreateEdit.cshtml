@@ -63,9 +63,9 @@
                         </div>
 
                         <div class="col-lg-12">
-                            <div class="form-group required">
+                            <div class="form-group">
                                 <label>ملاحظات </label>
-                                @Html.TextBoxFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -83,7 +83,7 @@
                         <div class="col-lg-6">
                             <div class="form-group required">
                                 <label>الصنف</label>
-                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", onchange = "Quote_Module.onItemChange()" })
                             </div>
                         </div>
 

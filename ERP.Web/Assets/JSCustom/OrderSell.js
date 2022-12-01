@@ -256,23 +256,23 @@ var OrderSell_Module = function () {
 
     }
 
-    //function getStoresBranchChanged() {  // get safes and stores by branchId
-    //    $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
-    //        $("#StoreId").empty();
-    //        $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
-    //        $.each(data, function (index, row) {
-    //            $("#StoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
-    //        })
-    //    });
-    //};
-    function UpdateData() {
-        if ($("#StoreId").val()==='') {
-            toastr.error('تأكد من تحديد المخزن', ''); return false;
-        }
-        const urlParams = new URLSearchParams(window.location.search);
-        const orderId = urlParams.get('orderId');
-        window.location = "/OrderSells/OrderForSell/?orderId=" + orderId + "&storeId=" + $("#StoreId").val()
-    }
+    function getBalanceStoreChange(id) {  // OrderSellItems[1].StoreItemId
+        //console.log("name='OrderSellItems[" + id + "].StoreItemId']");
+        var itemId = $("[name='OrderSellItems[" + id + "].ItemId']").val();
+        var storeId = $("[name='OrderSellItems[" + id + "].StoreId']").val();
+        var currentBalance = $("[name='OrderSellItems[" + id + "].CurrentBalance']");
+        $.get("/SharedDataSources/GetBalanceByStore", { itemId: itemId, storeId: storeId }, function (data) {
+            currentBalance.val(data.balance);
+        });
+    };
+    //function UpdateData() {
+    //    if ($("#StoreId").val()==='') {
+    //        toastr.error('تأكد من تحديد المخزن', ''); return false;
+    //    }
+    //    const urlParams = new URLSearchParams(window.location.search);
+    //    const orderId = urlParams.get('orderId');
+    //    window.location = "/OrderSells/OrderForSell/?orderId=" + orderId + "&storeId=" + $("#StoreId").val()
+    //}
     //#endregion
 
     //#region تجهيز امر انتاج
@@ -327,9 +327,9 @@ var OrderSell_Module = function () {
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
         SubmitFormForSell: SubmitFormForSell,
-        UpdateData: UpdateData,
         SubmitFormForProduction: SubmitFormForProduction,
         ExcuteProdictionOrder: ExcuteProdictionOrder,
+        getBalanceStoreChange: getBalanceStoreChange,
     };
 
 }();

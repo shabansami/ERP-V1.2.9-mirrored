@@ -37,12 +37,12 @@ namespace ERP.Web.Controllers
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             //List<Page> pages = new List<Page>();
-            //Guid roleID = new Guid("37AC012B-0C26-4DDA-8A6E-1F4C6E78F78E");
-            //Guid userId = new Guid("B4A8212F-CD4C-43A8-AF0D-F5E1248B3CDE");
-            //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            //pages.Add(new Page() { Id = 386, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد النهائى ", OrderNum = 0, Url = "/StoresTransfers/ApprovalFinalInvoice", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
+            //Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
+            ////pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            ////pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            ////pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            ////pages.Add(new Page() { Id = 386, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد النهائى ", OrderNum = 0, Url = "/StoresTransfers/ApprovalFinalInvoice", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 387, ParentId = 49, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "تسجيل العروض", OrderNum = 0, Url = "", OtherUrls = null });
             //pages.Add(new Page() { Id = 388, ParentId = 387, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة عرض", OrderNum = 0, Url = "/Offers/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 389, ParentId = 387, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة بيانات عرض", OrderNum = 0, Url = "/Offers/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -63,7 +63,7 @@ namespace ERP.Web.Controllers
             //pages.Add(new Page() { Id = 404, ParentId = 403, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تسجيل عرض سعر", OrderNum = 0, Url = "/Quotes/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 405, ParentId = 403, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة عرض سعر", OrderNum = 0, Url = "/Quotes/Index", OtherUrls = "/OrderSells/CreateEdit", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 406, ParentId = 402, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "أوامر البيع", OrderNum = 0, Url = "", OtherUrls = null });
-            //pages.Add(new Page() { Id = 408, ParentId = 406, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة أوامر البيع", OrderNum = 0, Url = "/OrderSells/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //pages.Add(new Page() { Id = 408, ParentId = 406, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة أوامر البيع", OrderNum = 0, Url = "/OrderSells/Index", OtherUrls = "/OrderSells/OrderForSell,/OrderSells/OrderForProduction", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 409, ParentId = 285, Icon = null, IsPage = true, Name = "الاصناف المباعه خلال فترة", OrderNum = 0, Url = "/RptItems/SearchItemSell", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
             //db.Pages.AddRange(pages);
@@ -79,7 +79,22 @@ namespace ERP.Web.Controllers
             ////////FixInitialBalance fixInitialBalance = new FixInitialBalance();
             ////fixInitialBalance.Excute();
             //////itemImportMohRamadan.ExcuteV1_2();
-
+            using (var db = new VTSaleEntities())
+            {
+                var itemsUnits = db.Items.Where(x => !x.IsDeleted).Select(x=>new {Id=x.Id,Name=x.Name,UnitId=x.UnitId,UnitName=x.Unit.Name}).ToList();
+                var units = db.Units.Where(x => !x.IsDeleted );
+                var unitss = db.Units.Where(x => !x.IsDeleted ).ToList();
+                var unitsIte = db.ItemUnits.Where(x => !x.IsDeleted&& units.Any(y=>y.Id==x.UnitId)).ToList();
+                var unitsIte2 = db.ItemUnits.Where(x => !x.IsDeleted&& !units.Any(y=>y.Id==x.UnitId)).ToList();
+                var iteUnits = db.ItemUnits.Where(x => !x.IsDeleted);
+                var iteUnitsss = db.ItemUnits.Where(x => !x.IsDeleted).ToList();
+                var yy = db.Units.Where(x => !x.IsDeleted && iteUnits.Any(y => y.UnitId == x.Id)).ToList();
+                var tt = units.ToList();
+                //foreach (var unit in units.ToList())
+                //{
+                //    unit.IsDeleted = true;
+                //}
+            }
             if (MsgBadLogin!=null)
                 if(MsgBadLogin==1)
                 ViewBag.MsgBadLogin = "انتهاء صلاحية الجلسة";

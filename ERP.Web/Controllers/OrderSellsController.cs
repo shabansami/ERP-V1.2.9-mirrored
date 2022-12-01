@@ -269,9 +269,9 @@ namespace ERP.Web.Controllers
 
         #endregion
 
-        #region تجهيز امر بيع 
+        #region تجهيز لفاتورة بيع 
         [HttpGet]
-        public ActionResult OrderForSell(Guid? orderId,Guid? storeId)
+        public ActionResult OrderForSell(Guid? orderId)
         {
             //DS = null;
             OrderSellVM vm = new OrderSellVM();
@@ -287,12 +287,7 @@ namespace ERP.Web.Controllers
                         customerId = orderSell.CustomerId;
                     vm.InvoiceDate = orderSell.InvoiceDate;
                     vm.QuoteOrderSellId = orderSell.Id;
-                    vm.StoreId = orderSell.StoreId;
-                    if (storeId != null && storeId != Guid.Empty)
-                        vm.StoreId = storeId;
-                    else 
-                        vm.StoreId = orderSell.StoreId;
-                        vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted&&x.OrderSellItemType==(int)OrderSellItemTypeCl.Sell)
+                    vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted&&x.OrderSellItemType==(int)OrderSellItemTypeCl.Sell)
                              .Select(x => new OrderSellItemsDto
                              {
                                  Id = x.Id,
@@ -301,7 +296,9 @@ namespace ERP.Web.Controllers
                                  Quantity = x.Quantity,
                                  Price = x.Price,
                                  Amount = x.Quantity * x.Price,
-                                 CurrentBalance =  BalanceService.GetBalance(x.ItemId, vm.StoreId, null)
+                                 CurrentBalance = x.StoreId!=null? BalanceService.GetBalance(x.ItemId, x.StoreId, null):0,
+                                 StoreId=x.StoreId,
+                                 StoreItemList=db.Stores.Where(y => !y.IsDeleted && y.BranchId == branchId && !y.IsDamages).Select(y=>new DropDownList { Id=y.Id,Name=y.Name}).ToList()
                              }).ToList();
 
                     }
@@ -314,7 +311,6 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name",vm.StoreId);
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
             return View(vm);
@@ -324,7 +320,7 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null|| vm.StoreId == null)
+                if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null)
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
                 if (vm.OrderSellItems.Where(x=>x.Quantity>x.CurrentBalance).Any())
@@ -347,6 +343,7 @@ namespace ERP.Web.Controllers
                     Quantity = x.Quantity,
                     Price = x.Price,
                     Amount = x.Quantity * x.Price,
+                    StoreId=x.StoreId
                 }).ToList();
                 if (vm.OrderSellItems.Count() == 0)
                     return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
@@ -365,14 +362,13 @@ namespace ERP.Web.Controllers
                             item.Quantity = t.Quantity;
                             item.Price = t.Price;
                             item.Amount = t.Quantity * t.Price;
-
+                            item.StoreId=t.StoreId;
                         }
 
                     }
 
                     model.TotalQuantity = currentItems.Sum(x => (double?)x.Quantity ?? 0);
                     model.TotalValue = currentItems.Sum(x => (double?)x.Amount ?? 0);
-                    model.StoreId = vm.StoreId;
                 }else
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
@@ -486,7 +482,7 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null|| vm.StoreId == null)
+                if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null)
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
                 if (vm.OrderSellItems.Where(x=>x.Quantity>x.CurrentBalance).Any())
@@ -534,7 +530,6 @@ namespace ERP.Web.Controllers
 
                     model.TotalQuantity = currentItems.Sum(x => (double?)x.Quantity ?? 0);
                     model.TotalValue = currentItems.Sum(x => (double?)x.Amount ?? 0);
-                    model.StoreId = vm.StoreId;
                 }else
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 

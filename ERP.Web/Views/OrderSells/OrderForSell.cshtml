@@ -20,103 +20,110 @@
 @section Button1Link{/OrderSells/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 
-<div class="row">
-    <div class="col-12">
-        <div class="card din-bold">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h4 class=" din-bold">@title </h4>
+<div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card din-bold">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <h4 class=" din-bold">@title </h4>
+                        </div>
                     </div>
                 </div>
+                @using (Html.BeginForm("OrderForSell", "OrderSells", FormMethod.Post, new { id = "form1" }))
+                {
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <label>العميل</label>
+                                    @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med", @disabled = "disabled" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <label>تاريخ العملية </label>
+                                    @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @disabled = "disabled" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label>الفرع</label>
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @disabled = "disabled" })
+                                    @Html.HiddenFor(m => m.Id)
+                                    @Html.HiddenFor(m => m.BranchId)
+                                    @Html.HiddenFor(m => m.CustomerId)
+                                    @Html.HiddenFor(m => m.QuoteOrderSellId)
+                                </div>
+                            </div>
+                            @*<div class="col-lg-6">
+            <div class="form-group required">
+                <label>المخزن</label>
+                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
             </div>
-            @using (Html.BeginForm("OrderForSell", "OrderSells", FormMethod.Post, new { id = "form1" }))
-            {
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="form-group required">
-                                <label>العميل</label>
-                                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med", @disabled = "disabled" })
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group required">
-                                <label>تاريخ العملية </label>
-                                @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @disabled = "disabled" })
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @disabled = "disabled" })
-                                @Html.HiddenFor(m => m.Id)
-                                @Html.HiddenFor(m => m.BranchId)
-                                @Html.HiddenFor(m => m.CustomerId)
-                                @Html.HiddenFor(m => m.QuoteOrderSellId)
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group required">
-                                <label>المخزن</label>
-                                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label>.</label>
-                                <button type="button" onclick="OrderSell_Module.UpdateData();" class="btn btn-primary font-weight-bold  px-15 w-100">تحديث البيانات</button>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>الاصناف المسجلة</label>
-                                <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
-                                    <thead>
-                                        <tr>
-                                            <td>الصنف</td>
-                                            <td>الكمية</td>
-                                            <td>السعر</td>
-                                            <td>الرصيد فى المخزن المحدد</td>
-                                        </tr>
-
-                                    </thead>
-                                    <tbody>
-
-                                        @for (int i = 0; i < Model.OrderSellItems.Count; i++)
-                                        {
-                                            <tr>
-                                                <td>@Model.OrderSellItems[i].ItemName</td>
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].ItemId)
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].Id)
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].CurrentBalance)
-                                                <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Quantity, new { @class = "form-control", @style = "text-align:right;" }) </td>
-                                                <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Price, new { @class = "form-control", @style = "text-align:right;" }) </td>
-                                                <td>@Model.OrderSellItems[i].CurrentBalance</td>
-                                            </tr>
-                                        }
-
-                                    </tbody>
-                                    <tfoot></tfoot>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+        </div>
+        <div class="col-lg-6">
+                <div class="form-group">
+                    <label>.</label>
+                    <button type="button" onclick="OrderSell_Module.UpdateData();" class="btn btn-primary font-weight-bold  px-15 w-100">تحديث البيانات</button>
                 </div>
-                <div class="card-footer">
-                    <div class="row">
-                        <div class="col-12" style="text-align:left;">
-                            @*<input type="button" onclick="OrderSell_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
-                            <a href="javascript:void(0);" onclick="OrderSell_Module.SubmitFormForSell(this);" class="btn btn-primary font-weight-bold w-100"><i class="@icon"></i>@btn</a>
-                            @*@if (Model.Id != Guid.Empty)
-                                {
-                                    <a href="/OrderSells/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
-                                }*@
+            </div>*@
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label>الاصناف المسجلة</label>
+                                    <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
+                                        <thead>
+                                            <tr>
+                                                <td>الصنف</td>
+                                                <td>الكمية</td>
+                                                <td>السعر</td>
+                                                <td>المخزن</td>
+                                                <td>الرصيد فى المخزن المحدد</td>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+
+                                            @for (int i = 0; i < Model.OrderSellItems.Count; i++)
+                                            {
+                                                var list = new SelectList(Model.OrderSellItems[i].StoreItemList, "Id", "Name", Model.OrderSellItems[i].StoreId);
+
+                                                <tr>
+                                                    <td>@Model.OrderSellItems[i].ItemName</td>
+                                                    @Html.HiddenFor(m => m.OrderSellItems[i].ItemId)
+                                                    @Html.HiddenFor(m => m.OrderSellItems[i].Id)
+                                                    @Html.HiddenFor(m => m.OrderSellItems[i].CurrentBalance)
+                                                    <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Quantity, new { @class = "form-control", @style = "text-align:right;" }) </td>
+                                                    <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Price, new { @class = "form-control", @style = "text-align:right;" }) </td>
+                                                    <td>@Html.DropDownList("StoreId", list, htmlAttributes: new { @class = "form-select din-med", @Name = "OrderSellItems[" + i + "].StoreId", @onchange = "OrderSell_Module.getBalanceStoreChange(" + i + ");" })</td>
+
+                                                    <td>@Html.TextBoxFor(m => m.OrderSellItems[i].CurrentBalance, new { @class = "form-control", @style = "text-align:right;", @disabled = "disabled" }) </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                        <tfoot></tfoot>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>}
+                    <div class="card-footer">
+                        <div class="row">
+                            <div class="col-12" style="text-align:left;">
+                                @*<input type="button" onclick="OrderSell_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                                <a href="javascript:void(0);" onclick="OrderSell_Module.SubmitFormForSell(this);" class="btn btn-primary font-weight-bold w-100"><i class="@icon"></i>@btn</a>
+                                @*@if (Model.Id != Guid.Empty)
+                                    {
+                                        <a href="/OrderSells/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
+                                    }*@
+                            </div>
+                        </div>
+                    </div>}
+            </div>
         </div>
     </div>
 </div>

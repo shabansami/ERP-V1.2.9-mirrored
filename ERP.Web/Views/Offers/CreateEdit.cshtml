@@ -42,37 +42,37 @@
 
                                             <div class="row">
 
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-4">
                                                     <div class="form-group required">
                                                         <label>الفرع</label>
                                                         @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-4">
                                                     <div class="form-group required">
                                                         <label>نوع العرض</label>
                                                         @Html.DropDownList("OfferTypeId", null, null, htmlAttributes: new { @class = "form-control din-med", @onchange = "Offer_Module.onOfferTypeChange();" })
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-4">
                                                     <div class="form-group required">
                                                         <label>مسمى العرض</label>
-                                                        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { @class = "form-control select2 din-med" })
+                                                        @Html.TextBoxFor(m => m.Name, htmlAttributes: new { @class = "form-control din-med" })
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-4">
                                                     <div class="form-group">
                                                         <label>الحد المسموح به</label>
-                                                        @Html.TextBoxFor(m => m.Limit, htmlAttributes: new { @class = "form-control select2 din-med", @type = "number" })
+                                                        @Html.TextBoxFor(m => m.Limit, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-4">
                                                     <div class="form-group required">
                                                         <label>بداية العرض </label>
                                                         @Html.TextBoxFor(m => m.StartDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-3">
+                                                <div class="col-lg-4">
                                                     <div class="form-group required">
                                                         <label>نهاية العرض </label>
                                                         @Html.TextBoxFor(m => m.EndDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
@@ -80,77 +80,6 @@
                                                 </div>
 
 
-                                                <div class="col-lg-3">
-                                                    <div class="form-group">
-                                                        <label>احتساب الخصم</label>
-
-                                                        <div class="radio-inline">
-                                                            <div class="col-xl-6">
-                                                                <label class="radio">
-                                                                    <input type="radio" checked name="radiosItem" id="rdo_val" onchange="Offer_Module.onRdoValChanged();" />
-                                                                    <input type="hidden" id="IsDiscountItemVal" value="true" />
-                                                                    <span></span>قيمة
-                                                                </label>
-                                                            </div>
-                                                            <div class="col-xl-6">
-                                                                <label class="radio">
-                                                                    <input type="radio" name="radiosItem" id="rdo_percentage" onchange="Offer_Module.onRdoPercentageChanged();" />
-                                                                    <span></span>نسبة
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-3">
-                                                    <div class="form-group">
-                                                        <label>الخصم</label>
-                                                        @*<input type="number" class="form-control" name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />*@
-                                                        @Html.TextBoxFor(m => m.DiscountAmount, htmlAttributes: new { @class = "form-control din-med", @type = "number", @placeholder = "ادخل قيمة الخصم على الصنف", @onkeyup = "Offer_Module.onDiscountChange();" })
-
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12" id="div_offerTypItems">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group">
-                                                                <label>القيمة قبل العرض</label>
-                                                                @Html.TextBoxFor(m => m.AmountBefore, htmlAttributes: new { @class = "form-control din-med", @type = "number", @readonly = "readonly" })
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group required">
-                                                                <label>القيمة بعد العرض</label>
-                                                                @Html.TextBoxFor(m => m.AmountAfter, htmlAttributes: new { @class = "form-control select2 din-med", @type = "number" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12" id="div_offerTypInvoice" style="display:none;">
-                                                    <div class="row">
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group required">
-                                                                <label>اجمالى الفاتورة من</label>
-                                                                @Html.TextBoxFor(m => m.InvoiceAmountFrom, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                            <div class="form-group required">
-                                                                <label>اجمالى الفاتورة الى</label>
-                                                                @Html.TextBoxFor(m => m.InvoiceAmountTo, htmlAttributes: new { @class = "form-control select2 din-med", @type = "number" })
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-
-                                                <div class="col-lg-12">
-                                                    <div class="form-group">
-                                                        <label>ملاحظات</label>
-                                                        @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control select2 din-med" })
-                                                    </div>
-                                                </div>
 
                                             </div>
                                             <div class="row" id="div_items">
@@ -215,12 +144,84 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="row">
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>احتساب الخصم</label>
+
+                                                        <div class="radio-inline">
+                                                            <div class="col-xl-6">
+                                                                <label class="radio">
+                                                                    <input type="radio" checked name="radiosItem" id="rdo_val" onchange="Offer_Module.onRdoValChanged();" />
+                                                                    <input type="hidden" id="IsDiscountItemVal" value="true" />
+                                                                    <span></span>قيمة
+                                                                </label>
+                                                            </div>
+                                                            <div class="col-xl-6">
+                                                                <label class="radio">
+                                                                    <input type="radio" name="radiosItem" id="rdo_percentage" onchange="Offer_Module.onRdoPercentageChanged();" />
+                                                                    <span></span>نسبة
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-6">
+                                                    <div class="form-group">
+                                                        <label>الخصم</label>
+                                                        @*<input type="number" class="form-control" name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />*@
+                                                        @Html.TextBoxFor(m => m.DiscountAmount, htmlAttributes: new { @class = "form-control din-med", @type = "number", @placeholder = "ادخل قيمة الخصم على الصنف", @onkeyup = "Offer_Module.onDiscountChange();" })
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" id="div_offerTypItems">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label>القيمة قبل العرض</label>
+                                                                @Html.TextBoxFor(m => m.AmountBefore, htmlAttributes: new { @class = "form-control din-med", @type = "number", @readonly = "readonly" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group required">
+                                                                <label>القيمة بعد العرض</label>
+                                                                @Html.TextBoxFor(m => m.AmountAfter, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12" id="div_offerTypInvoice" style="display:none;">
+                                                    <div class="row">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group required">
+                                                                <label>اجمالى الفاتورة من</label>
+                                                                @Html.TextBoxFor(m => m.InvoiceAmountFrom, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group required">
+                                                                <label>اجمالى الفاتورة الى</label>
+                                                                @Html.TextBoxFor(m => m.InvoiceAmountTo, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <label>ملاحظات</label>
+                                                        @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-footer">
                                             <div class="row">
                                                 <div class="col-12">
                                                     @*<input type="button" onclick="Offer_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
-                                                    <a href="javascript:void(0);" onclick="Offer_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold  px-15 py-4 w-100"><i class="@icon"></i>@btn</a>
+                                                    <a href="javascript:void(0);" onclick="Offer_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold  w-100"><i class="@icon"></i>@btn</a>
                                                     @*@if (Model.Id != Guid.Empty)
                                                         {
                                                             <a href="/Offers/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="flaticon2-back-1"></i>عودة</a>

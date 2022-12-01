@@ -181,7 +181,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.label5.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.label5.Size = new System.Drawing.Size(105, 16);
             this.label5.TabIndex = 125;
-            this.label5.Text = "خصموات العروض :";
+            this.label5.Text = "خصومات العروض :";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // txtInvoiceOffersDiscount

@@ -53,7 +53,7 @@ namespace ERP.Desktop.Utilities
             cmbo.DisplayMember = displayMem;
             cmbo.ValueMember = valueMem;
             if (list.Count == 2)
-                cmbo.SelectedIndex = 1;
+                cmbo.SelectedIndex = 0;
         }
 
         public static Keys GetKeyEnum(int key) => GetEnum<Keys>(key);

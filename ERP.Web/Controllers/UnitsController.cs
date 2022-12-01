@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static ERP.Web.Utilites.Lookups;
 
 namespace ERP.Web.Controllers
 {
@@ -126,6 +127,9 @@ namespace ERP.Web.Controllers
                         auth = TempData["userInfo"] as VTSAuth;
                     else
                         RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                    // التاكد من عدم ارتبط الوحدة بصنف 
+                    if (model.Items.Where(x=>!x.IsDeleted).Any())
+                        return Json(new { isValid = false, message = "لا يمكن حذف الوحدة لارتباطها بالوحدة الاساسية لصنف" });
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;

@@ -79,22 +79,27 @@ namespace ERP.Web.Controllers
             ////////FixInitialBalance fixInitialBalance = new FixInitialBalance();
             ////fixInitialBalance.Excute();
             //////itemImportMohRamadan.ExcuteV1_2();
-            using (var db = new VTSaleEntities())
-            {
-                var itemsUnits = db.Items.Where(x => !x.IsDeleted).Select(x=>new {Id=x.Id,Name=x.Name,UnitId=x.UnitId,UnitName=x.Unit.Name}).ToList();
-                var units = db.Units.Where(x => !x.IsDeleted );
-                var unitss = db.Units.Where(x => !x.IsDeleted ).ToList();
-                var unitsIte = db.ItemUnits.Where(x => !x.IsDeleted&& units.Any(y=>y.Id==x.UnitId)).ToList();
-                var unitsIte2 = db.ItemUnits.Where(x => !x.IsDeleted&& !units.Any(y=>y.Id==x.UnitId)).ToList();
-                var iteUnits = db.ItemUnits.Where(x => !x.IsDeleted);
-                var iteUnitsss = db.ItemUnits.Where(x => !x.IsDeleted).ToList();
-                var yy = db.Units.Where(x => !x.IsDeleted && iteUnits.Any(y => y.UnitId == x.Id)).ToList();
-                var tt = units.ToList();
-                //foreach (var unit in units.ToList())
-                //{
-                //    unit.IsDeleted = true;
-                //}
-            }
+            //using (var db = new VTSaleEntities())
+            //{
+            //    var items = db.Items.Where(x => !x.IsDeleted).Select(x=>new {Id=x.Id,Name=x.Name,UnitId=x.UnitId,UnitName=x.Unit.Name}).ToList();
+            //    var itemssss = db.Items.Where(x => !x.IsDeleted);
+            //    var units = db.Units.Where(x => !x.IsDeleted );
+            //    var units2 = db.Units.Where(x => !x.IsDeleted ).ToList();
+            //    var unitss = db.Items.Where(x => !x.IsDeleted&&units.Any(u=>u.Id==x.UnitId) ).ToList();
+            //    var unitsssss = db.Units.Where(x => !x.IsDeleted&& !itemssss.Any(i=>i.UnitId==x.Id)).ToList();
+            //    var unitsssss2 = db.Units.Where(x => !x.IsDeleted&& itemssss.Any(i=>i.UnitId==x.Id)).ToList();
+
+            //    var unitsIte = db.ItemUnits.Where(x => !x.IsDeleted&& units.Any(y=>y.Id==x.UnitId)).ToList();
+            //    var unitsIte2 = db.ItemUnits.Where(x => !x.IsDeleted&& !units.Any(y=>y.Id==x.UnitId)).ToList();
+            //    var iteUnits = db.ItemUnits.Where(x => !x.IsDeleted);
+            //    var iteUnitsss = db.ItemUnits.Where(x => !x.IsDeleted).ToList();
+            //    var yy = db.Units.Where(x => !x.IsDeleted && iteUnits.Any(y => y.UnitId == x.Id)).ToList();
+            //    var tt = units.ToList();
+            //    //foreach (var unit in units.ToList())
+            //    //{
+            //    //    unit.IsDeleted = true;
+            //    //}
+            //}
             if (MsgBadLogin!=null)
                 if(MsgBadLogin==1)
                 ViewBag.MsgBadLogin = "انتهاء صلاحية الجلسة";

@@ -618,7 +618,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             var units = item.ItemUnits.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Unit.Name, Object = x.UnitId }).ToList();
             FillComboBox(cmbItemPrices, units, "Name", "Id");
 
-            if (currentItem == null)
+            //if (currentItem == null)
                 currentItem = item;
 
             if (ckFixedQuantity.Checked)
@@ -703,7 +703,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             {
                 if (cmbItemPrices.SelectedIndex > 0 && Guid.TryParse(cmbItemPrices.SelectedValue + "", out Guid id))
                 {
-                    var itemUnit = currentItem.ItemUnits.Where(x => !x.IsDeleted && x.Id == id && x.ItemId == currentItem.Id).FirstOrDefault();
+                    var itemUnit = currentItem.ItemUnits.Where(x => !x.IsDeleted && x.Id == id).FirstOrDefault();
                     if (itemUnit != null)
                         txtPrice.Text = itemUnit.SellPrice.ToString();
                 }

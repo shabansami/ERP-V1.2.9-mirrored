@@ -78,9 +78,9 @@ namespace ERP.Web.Controllers
 
             //التاكد من تحديد مخزن التصنيع الداخلى من الاعدادات اولا 
             var storeProductionSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreProductionInternalId).FirstOrDefault();
-            Guid? productionStoreId = null;
+            //Guid? productionStoreId = null;
             Store productionStore = null;
-            if (!string.IsNullOrEmpty(storeProductionSetting.SValue))
+            if (Guid.TryParse(storeProductionSetting.SValue, out Guid productionStoreId))
             {
                 productionStoreId = Guid.Parse(storeProductionSetting.SValue);
                 productionStore = db.Stores.Where(x=>x.Id== productionStoreId).FirstOrDefault() ;
@@ -97,9 +97,9 @@ namespace ERP.Web.Controllers
 
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
             var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
-            Guid? productionUnderStoreId = null;
+            //Guid? productionUnderStoreId = null;
             Store productionUnderStore = null;
-            if (!string.IsNullOrEmpty(storeProductionUnderSetting.SValue))
+            if (Guid.TryParse(storeProductionUnderSetting.SValue, out Guid productionUnderStoreId))
             {
                 productionUnderStoreId = Guid.Parse(storeProductionUnderSetting.SValue);
                 productionUnderStore = db.Stores.Where(x => x.Id == productionUnderStoreId).FirstOrDefault();

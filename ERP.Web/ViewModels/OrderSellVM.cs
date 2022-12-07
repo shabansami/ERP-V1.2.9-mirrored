@@ -20,6 +20,10 @@ namespace ERP.Web.ViewModels
         public Nullable<Guid> QuoteOrderSellId { get; set; } //عرض السعر/امر بيع
         public string Notes { get; set; }
 
+        public Nullable<Guid> ProductionUnderStoreId { get; set; } //مخزن تحت التصنيع
+        public Nullable<Guid> ProductionStoreId { get; set; }//مخزن التصنيع النهائى
+        public int? ItemCostCalculateId { get; set; }
+
         public List<OrderSellItemsDto> OrderSellItems { get; set; }
     }
     public class OrderSellItemsDto
@@ -27,6 +31,8 @@ namespace ERP.Web.ViewModels
         public OrderSellItemsDto()
         {
             ItemProductionList = new List<DropDownList>();
+            ItemProductionOrderDetailsIn = new List<ItemProductionOrderDetailsDT>();
+            ItemProductionOrderDetailsOut = new List<ItemProductionOrderDetailsDT>();
         }
         public Guid Id { get; set; }
         public Nullable<Guid> ItemId { get; set; }
@@ -40,6 +46,10 @@ namespace ERP.Web.ViewModels
         public List<DropDownList> ItemProductionList { get; set; }
         public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
         public List<DropDownList> StoreItemList { get; set; }
+
+        //انشاء امر انتاج مجمع
+        public List<ItemProductionOrderDetailsDT> ItemProductionOrderDetailsIn { get; set; }
+        public List<ItemProductionOrderDetailsDT> ItemProductionOrderDetailsOut { get; set; }
     }
 
 }

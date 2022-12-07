@@ -25,10 +25,12 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
+        ItemService _itemService;
         public OrderSellsController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
+            _itemService = new ItemService();
         }
         //public static string DS { get; set; }
 
@@ -398,25 +400,25 @@ namespace ERP.Web.Controllers
                     var orderSell = db.QuoteOrderSells.Where(x => x.Id == orderId).FirstOrDefault();
                     if (orderSell != null)
                     {
-                        branchId = orderSell.BranchId;
-                        customerId = orderSell.CustomerId;
+                    vm = GetData(vm, orderSell.BranchId);
                     vm.InvoiceDate = orderSell.InvoiceDate;
                     vm.QuoteOrderSellId = orderSell.Id;
-                        vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted&&x.OrderSellItemType==(int)OrderSellItemTypeCl.ProductionOrder)
-                             .Select(x => new OrderSellItemsDto
-                             {
-                                 Id = x.Id,
-                                 ItemId = x.ItemId,
-                                 ItemName = x.Item.Name,
-                                 Quantity = x.Quantity,
-                                 Price = x.Price,
-                                 Amount = x.Quantity * x.Price,
-                                 CurrentBalance =  BalanceService.GetBalance(x.ItemId,null, null),
-                                 ItemProductionId=x.ItemProductionId,
-                                 ItemProductionList=ItemService.GetItemProduction(x.ItemId)
-                             }).ToList();
-
-                    }
+                    vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.OrderSellItemType == (int)OrderSellItemTypeCl.ProductionOrder)
+                         .Select(x => new OrderSellItemsDto
+                         {
+                             Id = x.Id,
+                             ItemId = x.ItemId,
+                             ItemName = x.Item.Name,
+                             Quantity = x.Quantity,
+                             Price = x.Price,
+                             Amount = x.Quantity * x.Price,
+                             CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null),
+                             ItemProductionId = x.ItemProductionId,
+                             ItemProductionList = ItemService.GetItemProduction(x.ItemId)
+                         }).ToList();
+                    branchId = orderSell.BranchId;
+                    customerId = orderSell.CustomerId;
+                }
                     else
                         return RedirectToAction("Index");
                 }
@@ -428,10 +430,12 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
+
+
             return View(vm);
         }
         [HttpPost]
-        public ActionResult OrderForProduction(OrderSellVM vm)
+        public ActionResult OrderForProduction(OrderSellVM vm,string actionType)
         {
             Guid? customerId = null;
             Guid? branchId = null;
@@ -441,24 +445,49 @@ namespace ERP.Web.Controllers
                 var orderSell = db.QuoteOrderSells.Where(x => x.Id == vm.QuoteOrderSellId).FirstOrDefault();
                 if (orderSell != null)
                 {
-                    branchId = orderSell.BranchId;
+                  vm=  GetData(vm, orderSell.BranchId);
+                    foreach (var itemOrder in vm.OrderSellItems)
+                    {
+                        //الاصناف الداخلة 
+                        var itemsIn = db.ItemProductionDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)ProductionTypeCl.In && x.ItemProductionId == itemOrder.ItemProductionId);
+                        if (itemsIn.Count() > 0)
+                        {
+                            itemOrder.ItemProductionOrderDetailsIn.AddRange(itemsIn.ToList().Select(x => new ItemProductionOrderDetailsDT
+                            {
+                                ItemProductionId = x.ItemProductionId,
+                                ItemId = x.ItemId,
+                                ItemName = x.Item.Name,
+                                QuantityRequired = x.Quantity * itemOrder.Quantity,
+                                QuantityAvailable = BalanceService.GetBalance(x.ItemId, vm.ProductionUnderStoreId),
+                                ItemCost = _itemService.GetItemCostCalculation(vm.ItemCostCalculateId ?? 0, x.ItemId),
+                                StoreUnderId = vm.ProductionUnderStoreId,
+                                ItemCostCalculateId = vm.ItemCostCalculateId,
+                                IsAllQuantityDone = x.Quantity * itemOrder.Quantity <= BalanceService.GetBalance(x.ItemId, vm.ProductionUnderStoreId) ? true : false,
+                            }).ToList());
+                        }
+                        else
+                        {
+                            //الاصناف الخارجة
+                            var itemsOut = db.ItemProductionDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)ProductionTypeCl.Out && x.ItemProductionId == itemOrder.ItemProductionId);
+                            if (itemsOut.Count() > 0)
+                            {
+                                var itemsMaterials = itemsOut.ToList().Select(x => new ItemProductionOrderDetailsDT
+                                {
+                                    ItemProductionId = x.ItemProductionId,
+                                    ItemId = x.ItemId,
+                                    ItemName = x.Item.Name,
+                                    QuantityRequired = x.Quantity * itemOrder.Quantity,
+                                    QuantityAvailable = BalanceService.GetBalance(x.ItemId, vm.ProductionUnderStoreId, null, null, null),
+                                }).ToList();
+                            }
+
+                        }
+
+                    }
+                        branchId = orderSell.BranchId;
                     customerId = orderSell.CustomerId;
                     vm.InvoiceDate = orderSell.InvoiceDate;
                     vm.QuoteOrderSellId = orderSell.Id;
-                    //vm.OrderSellItems = orderSell.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.OrderSellItemType == (int)OrderSellItemTypeCl.ProductionOrder)
-                    //     .Select(x => new OrderSellItemsDto
-                    //     {
-                    //         Id = x.Id,
-                    //         ItemId = x.ItemId,
-                    //         ItemName = x.Item.Name,
-                    //         Quantity = x.Quantity,
-                    //         Price = x.Price,
-                    //         Amount = x.Quantity * x.Price,
-                    //         CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null),
-                    //         ItemProductionId = x.ItemProductionId,
-                    //         ItemProductionList = ItemService.GetItemProduction(x.ItemId)
-                    //     }).ToList();
-
                 }
                 else
                     return RedirectToAction("Index");
@@ -471,13 +500,44 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
-            //foreach (var item in vm.OrderSellItems)
-            //{
-            //    item.ItemProductionList = ItemService.GetItemProduction(item.ItemId);
-            //}
             vm.OrderSellItems.ForEach(x => x.ItemProductionList = ItemService.GetItemProduction(x.ItemId));
             return View(vm);
         }
+
+        private OrderSellVM GetData(OrderSellVM vm,Guid? branchId)
+        {
+            Guid productionUnderStoreId = Guid.NewGuid();
+            Guid productionStoreId = Guid.NewGuid();
+            if (vm.ProductionUnderStoreId == null)
+            {
+                //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
+                var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
+                //Guid? productionUnderStoreId = null;
+                if (!Guid.TryParse(storeProductionUnderSetting.SValue, out productionUnderStoreId))
+                    ViewBag.Msg = "تأكد من اختيار مخزن تحت التصنيع أولا من شاشة الاعدادات العامة";
+            }
+            ViewBag.ProductionUnderStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionUnderStoreId);
+
+            if (vm.ProductionStoreId == null)
+            {
+                //التاكد من تحديد مخزن التصنيع الداخلى من الاعدادات اولا 
+                var storeProductionSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreProductionInternalId).FirstOrDefault();
+                if (!Guid.TryParse(storeProductionSetting.SValue, out productionStoreId))
+                    ViewBag.Msg = "تأكد من اختيار مخزن التصنيع الداخلى أولا من شاشة الاعدادات العامة";
+            }
+            ViewBag.ProductionStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionStoreId);
+
+            //التاكد من تحديد احتساب تكلفة المنتج من الاعدادات اولا 
+            if (vm.ItemCostCalculateId == null)
+            {
+                var itemCostSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault();
+                if (!int.TryParse(itemCostSetting.SValue, out int itemCostId))
+                    ViewBag.Msg = "تأكد من اختيار طريقة احتساب تكلفة المنتج أولا من شاشة الاعدادات العامة";
+                vm.ItemCostCalculateId = itemCostId;
+            }
+            return vm;
+        }
+
         public JsonResult OrderForProduction2(OrderSellVM vm)
         {
             if (ModelState.IsValid)

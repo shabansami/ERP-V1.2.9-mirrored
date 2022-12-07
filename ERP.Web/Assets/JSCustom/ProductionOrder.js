@@ -298,7 +298,7 @@ var ProductionOrder_Module = function () {
                 { data: 'ItemId', visible: false },
                 { data: 'StoreUnderId', visible: false },
                 { data: 'ItemCostCalculateId', visible: false },
-                { data: 'ItemName', title: 'المنتج الخام' },
+                { data: 'ItemName', title: 'المنتج الداخل' },
                 { data: 'ItemCost', title: 'تكلفة المنتج' },
                 { data: 'QuantityRequired', title: 'الكمية المطلوبة' },
                 { data: 'QuantityAvailable', title: 'الكمية المتاحة' },

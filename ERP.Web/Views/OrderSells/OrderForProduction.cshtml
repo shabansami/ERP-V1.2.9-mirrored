@@ -43,7 +43,7 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group required">
-                                <label>تاريخ العملية </label>
+                                <label>تاريخ امر البيع </label>
                                 @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @disabled = "disabled" })
                             </div>
                         </div>
@@ -58,7 +58,26 @@
                                 @Html.HiddenFor(m => m.QuoteOrderSellId)
                             </div>
                         </div>
-
+                        <div class="col-xl-6">
+                            <!--begin::Select-->
+                            <div class="form-group">
+                                <label>مخزن تحت التصنيع)</label>
+                                @Html.DropDownList("ProductionUnderStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                            <!--end::Select-->
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>مخزن التصنيع (المنتج النهائى)</label>
+                                @Html.DropDownList("ProductionStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label>ملاحظات</label>
+                                @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control", @placeholder = "ادخل ملاحظات امر الانتاج" })
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>الاصناف المسجلة</label>
@@ -101,28 +120,224 @@
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>.</label>
-                                <button type="submit" @*onclick="OrderSell_Module.UpdateData();"*@ class="btn btn-primary font-weight-bold  px-15 w-100">تحديث البيانات</button>
+                                <button type="submit" name="actionType" value="generateItemProduction" @*onclick="OrderSell_Module.UpdateData();"*@ class="btn btn-primary font-weight-bold  px-15 w-100">انشاء اصناف التوليفات</button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col-12" style="text-align:left;" id="divSave">
-                            @if (ViewBag.vv != null)
-                            {
-                                <a href="javascript:void(0);" onclick="OrderSell_Module.SubmitFormForProduction(this);" class="btn btn-primary font-weight-bold w-100"><i class="@icon"></i>@btn</a>
-
-                            }
-                        </div>
                     </div>
                 </div>}
         </div>
     </div>
 </div>
 
+<div class="row din-bold">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+
+                <h4>بيانات التوليفة</h4>
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-xl-5">
+                        <!--begin::List Widget 2-->
+                        <div class="card bg-soft-success text-White border-success">
+                            <!--begin::Header-->
+                            <div class="card-body pt-2">
+
+                                <h3 class="mb-3 text-White">الصنف/الاصناف الداخلة</h3>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="form-group">
+                                    @for (int o = 0; o < Model.OrderSellItems.Count; o++)
+                                    {
+                                        <table class="table table-bordered dt-responsive  nowrap w-100 kt_datatableItems">
+                                            <thead>
+                                                <tr>
+                                                    <td>المنتج الداخل</td>
+                                                    <td>تكلفة المنتج</td>
+                                                    <td>الكمية المطلوبة</td>
+                                                    <td>الكمية المتاحة</td>
+                                                    <td>عمليات</td>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+
+
+                                                @for (int i = 0; i < Model.OrderSellItems[o].ItemProductionOrderDetailsIn.Count(); i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.OrderSellItems[o].ItemProductionOrderDetailsIn[i].ItemName</td>
+                                                        @Html.HiddenFor(m => m.OrderSellItems[o].ItemProductionOrderDetailsIn[i].ItemProductionId)
+                                                        @Html.HiddenFor(m => m.OrderSellItems[o].ItemProductionOrderDetailsIn[i].ItemId)
+                                                        @Html.HiddenFor(m => m.OrderSellItems[o].ItemProductionOrderDetailsIn[i].ItemCostCalculateId)
+                                                        <td>@Model.OrderSellItems[o].ItemProductionOrderDetailsIn[i].ItemCost</td>
+                                                        <td>@Model.OrderSellItems[o].ItemProductionOrderDetailsIn[i].QuantityRequired</td>
+                                                        <td>@Model.OrderSellItems[o].ItemProductionOrderDetailsIn[i].QuantityAvailable</td>
+                                                        <td>
+                                                            <div class="btn-group"><a href="javascript:;" onclick=ProductionOrder_Module.deleteRowItemIn() class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف"><i class="fa fa-trash"></i></a></div>
+                                                        </td>
+                                                    </tr>
+                                                }
+
+
+                                            </tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+
+                                    }
+
+
+                                </div>
+
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::List Widget 2-->
+                    </div>
+                    <div class="col-xl-2">
+                        <!--begin::List Widget 2-->
+                        <div class="card bg-soft-danger">
+                            <!--begin::Header-->
+                            <!--end::Header-->
+                            <!--begin::Body-->
+                            <div class="card-body pt-1">
+                                <!--begin::Item-->
+                                <div class="d-flex align-items-center mb-10">
+
+                                    <!--begin::Text-->
+                                    <div class="d-flex flex-column font-weight-bold">
+                                        @*<a href="#" class="text-dark text-hover-primary mb-1 font-size-lg"><<<<</a>
+                            <span class="text-muted"></span>*@
+                                        <img src="~/Assets/media/logos/transfer-3787.png" class="h-75 align-self-end" />
+                                    </div>
+                                    <!--end::Text-->
+                                </div>
+                                <!--end::Item-->
+                                <!--begin::Item-->
+                                <!--end::Item-->
+
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::List Widget 2-->
+                    </div>
+                    <div class="col-xl-5">
+                        <!--begin::List Widget 2-->
+                        <div class="card bg-soft-success text-White border-success">
+                            <!--begin::Header-->
+                            <div class="card-body pt-2">
+
+                                <h3 class="mb-3 text-White">الصنف/الاصناف الداخلة</h3>
+                                <!--end::Header-->
+                                <!--begin::Body-->
+                                <div class="form-group">
+                                    @for (int o = 0; o < Model.OrderSellItems.Count; o++)
+                                    {
+                                        <table class="table table-bordered dt-responsive  nowrap w-100 kt_datatableItems">
+                                            <thead>
+                                                <tr>
+                                                    <td>المنتج الخارج</td>
+                                                    <td>الكمية المطلوبة</td>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+
+
+                                                @for (int i = 0; i < Model.OrderSellItems[o].ItemProductionOrderDetailsOut.Count(); i++)
+                                                {
+                                                    <tr>
+                                                        <td>@Model.OrderSellItems[o].ItemProductionOrderDetailsOut[i].ItemName</td>
+                                                        @Html.HiddenFor(m => m.OrderSellItems[o].ItemProductionOrderDetailsOut[i].ItemProductionId)
+                                                        @Html.HiddenFor(m => m.OrderSellItems[o].ItemProductionOrderDetailsOut[i].ItemId)
+                                                        @Html.HiddenFor(m => m.OrderSellItems[o].ItemProductionOrderDetailsOut[i].ItemCostCalculateId)
+                                                        <td>@Model.OrderSellItems[o].ItemProductionOrderDetailsOut[i].QuantityRequired</td>
+                                                    </tr>
+                                                }
+
+
+                                            </tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+
+                                    }
+
+
+                                </div>
+
+                            </div>
+                            <!--end::Body-->
+                        </div>
+                        <!--end::List Widget 2-->
+                    </div>
+
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>.</label>
+                            <button type="submit" name="actionType" value="saveProductionOrder" @*onclick="OrderSell_Module.UpdateData();"*@ class="btn btn-primary font-weight-bold  px-15 w-100">انشاء اصناف التوليفات</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
 @section Scripts
 {
     <script src="~/Assets/JSCustom/OrderSell.js"></script>
+    @if(ViewBag.Msg!=null)
+    {
+        <script>
+            toastr.error('@ViewBag.Msg', '');
+        </script>
+    }
+    <script>
+        $(document).ready(function () {
+            $('.kt_datatableItems').DataTable({
+                responsive: true,
+                searchDelay: 500,
+                processing: true,
+                serverSide: false,
+                paging: false,
+                info: false,
+                lengthChange: false,
+                // DOM Layout settings
+                dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
+                language: {
+                    search: "البحث",
+                    lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+                    info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+                    processing: "جارى التحميل",
+                    zeroRecords: "لا يوجد سجلات لعرضها",
+                    infoFiltered: "",
+                    infoEmpty: 'لا يوجد سجلات متاحه',
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                    }
+                },
+
+
+               
+                //"order": [[0, "desc"]]
+                //"order": [[0, "desc"]] 
+
+            });
+        })
+    </script>
 }
 

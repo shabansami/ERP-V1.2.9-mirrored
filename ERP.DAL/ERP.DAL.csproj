@@ -280,6 +280,10 @@
     <Compile Include="Migrations\202212011410281_update_QuoteOrderSell.designer.cs">
       <DependentUpon>202212011410281_update_QuoteOrderSell.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.cs" />
+    <Compile Include="Migrations\202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.designer.cs">
+      <DependentUpon>202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -612,6 +616,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212011410281_update_QuoteOrderSell.resx">
       <DependentUpon>202212011410281_update_QuoteOrderSell.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.resx">
+      <DependentUpon>202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

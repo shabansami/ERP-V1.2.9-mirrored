@@ -204,6 +204,7 @@
     <Content Include="Assets\JSCustom\District.js" />
     <Content Include="Assets\JSCustom\ContractCustomer.js" />
     <Content Include="Assets\JSCustom\OrderSell.js" />
+    <Content Include="Assets\JSCustom\OrderForProduction.js" />
     <Content Include="Assets\JSCustom\Quote.js" />
     <Content Include="Assets\JSCustom\ItemPriceSupplier.js" />
     <Content Include="Assets\JSCustom\Offer.js" />

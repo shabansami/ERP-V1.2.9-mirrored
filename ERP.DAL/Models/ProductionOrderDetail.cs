@@ -31,7 +31,7 @@ namespace ERP.DAL
         public double Quantitydamage { get; set; }
         [ForeignKey(nameof(ProductionType))]
         public Nullable<int> ProductionTypeId { get; set; }
-
+        public Nullable<int> ComplexProductionIndex { get; set; }//›Â—”… «· Ê·Ì›«  ·«„— «·«‰ «Ã «·Ê«Õœ ·⁄—÷Â« „‰›’·Â 
         public virtual ItemCostCalculation ItemCostCalculation { get; set; }
         public virtual Item Item { get; set; }
         public virtual ProductionOrder ProductionOrder { get; set; }

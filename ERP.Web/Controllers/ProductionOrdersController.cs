@@ -232,7 +232,16 @@ namespace ERP.Web.Controllers
                                 vm.ProductionOrderDate = vm.ProductionOrderDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                                 //اضافة رقم الامر
                                 string codePrefix = Properties.Settings.Default.CodePrefix;
-                                vm.OrderNumber = codePrefix + (db.ProductionOrders.Count(x => x.OrderNumber.StartsWith(codePrefix)) + 1);
+                                vm.OrderNumber = codePrefix + (context.ProductionOrders.Count(x => x.OrderNumber.StartsWith(codePrefix)) + 1);
+                               //انشاء الباركود
+                                string barcode;
+                                generate:
+                                    barcode = GeneratBarcodes.GenerateRandomBarcode();
+                                    var isExistInItems = context.ProductionOrders.Where(x => x.OrderBarCode == barcode).Any();
+                                    if (isExistInItems)
+                                        goto generate;
+                       
+                                    vm.OrderBarCode=barcode;
 
                                 // احتساب كل التكاليف (منتج واحد او اجمالى وتكلفة المواد الخام
                                 //List<ItemsMaterialDT> itemMaterials = itemInDT.Select(x => new ItemsMaterialDT

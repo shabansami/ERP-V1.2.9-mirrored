@@ -100,6 +100,30 @@ var OrderSell_Module = function () {
                     title: 'عمليات',
                     orderable: false,
                     render: function (data, type, row, meta) {
+                        var ele = '\
+							<div class="btn-group">\
+							<a href="/OrderSells/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<a href="javascript:;" onclick=OrderSell_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+								<i class="fa fa-trash"></i>\
+							</a><a href="/OrderSells/OrderForSell/?orderId='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز بيع">\
+								<i class="fa fa-shopping-cart"></i>\
+							</a>\</div>\
+						';
+                        if (row.RegSell && row.RegOrderProduction) {
+                            return '<div class="btn-group">div>';
+                        }
+                        if (row.RegSell) {
+                            return '<div class="btn-group"><a href="/OrderSells/OrderForProduction/?orderId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز إنتاج">\
+								<i class="fas fa-wrench"></i>\
+							</a>\</div>'
+                        }
+                        if (row.RegOrderProduction) {
+                           return '<div class="btn-group"><a href="/OrderSells/OrderForSell/?orderId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز بيع">\
+								<i class="fa fa-shopping-cart"></i>\
+							</a>\</div>';
+                        }
                         return '\
 							<div class="btn-group">\
 							<a href="/OrderSells/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\

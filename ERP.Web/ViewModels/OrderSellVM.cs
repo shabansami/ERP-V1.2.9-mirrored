@@ -1,4 +1,5 @@
-﻿using ERP.Web.DataTablesDS;
+﻿using ERP.DAL;
+using ERP.Web.DataTablesDS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,24 +8,28 @@ using System.Web.Mvc;
 
 namespace ERP.Web.ViewModels
 {
-    public class OrderSellVM
+    public class OrderSellVM :ProductionOrder
     {
         public OrderSellVM()
         {
             OrderSellItems = new List<OrderSellItemsDto>();
+            ProductionOrderExpens = new List<InvoiceExpensesDT>();
         }
-        public Guid Id { get; set; }
-        public Nullable<Guid> BranchId { get; set; }
         public Nullable<Guid> CustomerId { get; set; }
-        public System.DateTime InvoiceDate { get; set; }
+        public System.DateTime InvoiceDate { get; set; } //تاريخ امر البيع
+        //public System.DateTime ProductionOrderDate { get; set; }//تاريخ امر الانتاج المجمع
         public Nullable<Guid> QuoteOrderSellId { get; set; } //عرض السعر/امر بيع
-        public string Notes { get; set; }
 
-        public Nullable<Guid> ProductionUnderStoreId { get; set; } //مخزن تحت التصنيع
-        public Nullable<Guid> ProductionStoreId { get; set; }//مخزن التصنيع النهائى
+        //public Nullable<Guid> ProductionUnderStoreId { get; set; } //مخزن تحت التصنيع
+        //public Nullable<Guid> ProductionStoreId { get; set; }//مخزن التصنيع النهائى
         public int? ItemCostCalculateId { get; set; }
 
         public List<OrderSellItemsDto> OrderSellItems { get; set; }
+        public List<InvoiceExpensesDT> ProductionOrderExpens { get; set; }
+        public Guid? ExpenseTypeId { get; set; }
+        public double ExpenseAmount { get; set; }
+        public string ExpenseNotes { get; set; }
+        public Guid? ExpenseTypeIdDeleted { get; set; }
     }
     public class OrderSellItemsDto
     {

@@ -39,7 +39,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.ItemProductions.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id,   ItemProductionName = x.Name, Actions = n, Num = n }).ToList()
+                data = db.ItemProductions.Where(x => !x.IsDeleted).OrderByDescending(x=>x.CreatedOn).Select(x => new { Id = x.Id,   ItemProductionName = x.Name, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
 
         }

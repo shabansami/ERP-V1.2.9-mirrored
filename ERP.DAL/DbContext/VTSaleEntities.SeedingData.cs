@@ -276,6 +276,7 @@ namespace ERP.DAL
                         db.UploadCenterTypes.Add(new UploadCenterType { Name = "مورد" });
                         db.UploadCenterTypes.Add(new UploadCenterType { Name = "عميل" });
                         db.UploadCenterTypes.Add(new UploadCenterType { Name = "قسط" });
+                        db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
                     }
 
 

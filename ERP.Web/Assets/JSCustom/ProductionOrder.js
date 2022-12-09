@@ -119,6 +119,8 @@ var ProductionOrder_Module = function () {
                                 row.Id +
                                 '" class="btn btn-sm btn-clean btn-icon" title="عرض ملخص أمر اللإنتاج">\
 								<i class="fa fa-search"></i>\
+							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات لامر الانتاج">\
+								<i class="fa fa-upload"></i>\
 							</a>\
 							<a href="javascript:;" onclick=ProductionOrder_Module.deleteRow(\'' +
                                 row.Id +

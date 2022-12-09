@@ -37,6 +37,8 @@ namespace ERP.DAL
             this.StoresTransfersTo = new HashSet<StoresTransfer>();
             this.VacationDays = new HashSet<VacationDay>();
             this.NotificationEmployees = new HashSet<NotificationEmployee>();
+            this.EmployeeProductions = new HashSet<ProductionOrder>();
+            this.EmployeeOperations = new HashSet<ProductionOrder>();
         }
     
         [ForeignKey(nameof(Person))]
@@ -106,5 +108,7 @@ namespace ERP.DAL
         public virtual ICollection<VacationDay> VacationDays { get; set; }
         public virtual ICollection<NotificationEmployee> NotificationEmployees { get; set; }
         public virtual ICollection<EmployeeBranch> EmployeeBranches { get; set; }
+        public virtual ICollection<ProductionOrder> EmployeeProductions { get; set; }
+        public virtual ICollection<ProductionOrder> EmployeeOperations { get; set; }
     }
 }

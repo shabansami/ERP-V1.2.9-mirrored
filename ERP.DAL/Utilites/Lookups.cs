@@ -260,6 +260,7 @@ namespace ERP.Web.Utilites
             Supplier, //مورد 
             Customer, //عميل 
             Installment, //قسط 
+            ProductionOrder, //اوامر الانتاج 
         }
 
         //طريقة احتساب تكلفة المنتج شراء

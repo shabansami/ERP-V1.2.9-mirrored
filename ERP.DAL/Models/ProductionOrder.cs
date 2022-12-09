@@ -46,8 +46,14 @@ namespace ERP.DAL
         public DateTime ProductionOrderDate { get; set; }
         public bool IsDone { get; set; }
         public string OrderNumber { get; set; }
-
+        [ForeignKey(nameof(EmployeeProduction))]
+        public Nullable<Guid> EmployeeProductionId { get; set; }
+        [ForeignKey(nameof(EmployeeOperation))]
+        public Nullable<Guid> EmployeeOperationId { get; set; }
         public virtual Branch Branch { get; set; }
+        public virtual Employee EmployeeProduction { get; set; }//«·„”∆Ê· ⁄‰ «·«‰ «Ã
+        public virtual Employee EmployeeOperation { get; set; }//«·„”∆Ê· ⁄‰ «· ‘€Ì·
+
         //Item
 
         //Store

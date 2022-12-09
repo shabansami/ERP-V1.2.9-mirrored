@@ -84,7 +84,7 @@ namespace ERP.Web.Controllers
                             Price = x.Price,
                             Amount = x.Quantity * x.Price,
                             OrderSellItemType = x.OrderSellItemType,
-                            CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null)
+                            CurrentBalance = BalanceService.GetBalance(x.ItemId, null, vm.BranchId)
                         }).ToList();
                     vm.InvoiceDate = model.InvoiceDate;
                     vm.Notes = model.Notes;
@@ -114,7 +114,7 @@ namespace ERP.Web.Controllers
                                  Quantity = x.Quantity,
                                  Price = x.Price,
                                  Amount = x.Quantity * x.Price,
-                                 CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null)
+                                 CurrentBalance = BalanceService.GetBalance(x.ItemId, null, vm.BranchId)
                              }).ToList();
                         vm.InvoiceDate = quote.InvoiceDate;
                         vm.QuoteOrderSellId = quote.Id;
@@ -429,6 +429,8 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
+            ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
             vm.ProductionOrderDate = Utility.GetDateTime();
@@ -502,6 +504,8 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",vm.EmployeeProductionId);
+            ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",vm.EmployeeOperationId);
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
             vm.OrderSellItems.ForEach(x => x.ItemProductionList = ItemService.GetItemProduction(x.ItemId));
@@ -567,16 +571,16 @@ namespace ERP.Web.Controllers
 
                     if (vm.OrderSellItems.Any(x=>x.ItemProductionOrderDetailsIn.Any()) || vm.OrderSellItems.Any(x => x.ItemProductionOrderDetailsOut.Any()))
                     {
-                        //if (vm.OrderSellItems.Any(x => x.ItemProductionOrderDetailsIn.Any(y => !y.IsAllQuantityDone)))
-                        //{
-                        //    if (itemAcceptNoBalance == 0)
-                        //    {
-                        //        ViewBag.Msg = "تأكد من وجود ارصدة تكفى فى مخزن تحت التصنيع ";
-                        //        return View(vm);
-                        //    }
-                        //}
+                        if (vm.OrderSellItems.Any(x => x.ItemProductionOrderDetailsIn.Any(y => !y.IsAllQuantityDone)))
+                        {
+                            if (itemAcceptNoBalance == 0)
+                            {
+                                ViewBag.Msg = "تأكد من وجود ارصدة تكفى فى مخزن تحت التصنيع ";
+                                return View(vm);
+                            }
+                        }
 
-                       List<ProductionOrderDetail> proInOut = new List<ProductionOrderDetail>();
+                        List<ProductionOrderDetail> proInOut = new List<ProductionOrderDetail>();
                        List<ProductionOrderDetail> proOut = new List<ProductionOrderDetail>();
                         for (int i = 0; i < vm.OrderSellItems.Count; i++)
                         {
@@ -648,6 +652,8 @@ namespace ERP.Web.Controllers
                             productionOrder.OrderSellId = vm.QuoteOrderSellId;
                             productionOrder.ProductionStoreId = vm.ProductionStoreId;
                             productionOrder.ProductionUnderStoreId = vm.ProductionUnderStoreId;
+                            productionOrder.EmployeeProductionId = vm.EmployeeProductionId;
+                            productionOrder.EmployeeOperationId = vm.EmployeeOperationId;
                             //تسجيل امر الانتاج
                             productionOrder.ProductionOrderDate = vm.ProductionOrderDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                             //اضافة رقم الامر

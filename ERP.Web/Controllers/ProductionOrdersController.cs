@@ -51,7 +51,7 @@ namespace ERP.Web.Controllers
                 txtSearch = TempData["txtSearch"].ToString();
                 return Json(new
                 {
-                data = db.ProductionOrders.Where(x => !x.IsDeleted&&(x.Id.ToString()==txtSearch||/*x.FinalItem.Name.Contains(txtSearch)||*/x.OrderBarCode==txtSearch)).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), /*FinalItemName = x.FinalItem.ItemCode + "|" + x.FinalItem.Name, OrderQuantity = x.OrderQuantity,*/ IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "1" : "2", Actions = n , Num = n }).ToList()
+                data = db.ProductionOrders.Where(x => !x.IsDeleted&&(x.Id.ToString()==txtSearch||/*x.FinalItem.Name.Contains(txtSearch)||*/x.OrderBarCode==txtSearch)).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), /*FinalItemName = x.FinalItem.ItemCode + "|" + x.FinalItem.Name, OrderQuantity = x.OrderQuantity,*/ IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "1" : "2", typ = (int)UploalCenterTypeCl.ProductionOrder, Actions = n , Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet); ;
             }
             else
@@ -60,7 +60,7 @@ namespace ERP.Web.Controllers
                 //var list = db.ProductionOrders.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), ItemOutName = x.ProductionOrderDetails.Where(p => !p.IsDeleted && p.ProductionTypeId == (int)ProductionTypeCl.Out).ToList().Select(p => p.Item.Name + "|").Aggregate((i, j) => i + delimiter + j), OrderQuantity = x.ProductionOrderDetails.Where(p => !p.IsDeleted && p.ProductionTypeId == (int)ProductionTypeCl.Out).FirstOrDefault().Quantity, IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "1" : "2", Actions = n, Num = n }).ToList();
                 return Json(new
                 {
-                    data = db.ProductionOrders.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), ItemProduction=x.ProductionOrderDetails.Where(d=>!d.IsDeleted).FirstOrDefault().ItemProduction.Name, IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "1" : "2", Actions = n, Num = n }).ToList()
+                    data = db.ProductionOrders.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), ItemProduction=x.ProductionOrderDetails.Where(d=>!d.IsDeleted).FirstOrDefault().ItemProduction.Name, IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "1" : "2", typ = (int)UploalCenterTypeCl.ProductionOrder, Actions = n, Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet);
 
             }
@@ -94,7 +94,8 @@ namespace ERP.Web.Controllers
             //ViewBag.BranchName = productionStore.Branch.Name;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore.BranchId);
-
+            ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
+            ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
             var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
             //Guid? productionUnderStoreId = null;

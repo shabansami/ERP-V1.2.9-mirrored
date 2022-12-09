@@ -316,6 +316,53 @@ namespace ERP.Web.Controllers
                         else
                             return View(new UploadCenter { ParentId = uploadCenterInstall.Id, ReferenceGuid = referenceGuid, UploadCenterTypeId = (int)UploalCenterTypeCl.Installment, UploadCenterParent = new UploadCenter { Name = uploadCenterInstall.Name } });
 
+                    //اوامر الانتاج 
+                    case (int)UploalCenterTypeCl.ProductionOrder:
+                        ViewBag.TitlePage = "رفع ملفات لأمر الانتاج";
+                        var uploadCenterProdOrder = db.UploadCenters.Where(x => x.ReferenceGuid == referenceGuid && x.IsFolder).FirstOrDefault();
+                        var prodOrder = db.ProductionOrders.Where(x => x.Id == referenceGuid).FirstOrDefault();
+                        // add first file (purchase guid not exsits yet)
+                        if (uploadCenterProdOrder == null)
+                        {
+                            // get defult folder from general setting 
+                            //var parent = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterCustomer).FirstOrDefault().SValue);
+                            //create directory 
+                            var folderName = "امر انتاج رقم " + prodOrder.OrderNumber;
+                            var uploadCenterParent = new UploadCenter
+                            {
+                                IsFolder = true,
+                                Name = "أوامر الانتاج",
+                                ParentId = null,
+                                ReferenceGuid = null,
+                                UploadCenterTypeId = null
+                            };
+                            db.UploadCenters.Add(uploadCenterParent);
+                            UploadCenter uploadCenter = new UploadCenter();
+                            if (db.SaveChanges(auth.CookieValues.UserId)>0)
+                            {
+                                uploadCenter = new UploadCenter
+                                {
+                                    IsFolder = true,
+                                    Name = folderName,
+                                    ParentId = uploadCenterParent.Id,
+                                    ReferenceGuid = referenceGuid,
+                                    UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder
+                                };
+                            }
+                            
+                            db.UploadCenters.Add(uploadCenter);
+                            //string path = "";
+                            if (db.SaveChanges(auth.CookieValues.UserId) == 0)
+                            {
+                                ViewBag.redirect = "errorCreateDir";
+                                return View(new UploadCenter());
+                                //path = Server.MapPath($"~/Files/UploadCenter/{ intallment.Id}/");
+                                //Directory.CreateDirectory(path);
+                            }
+                            return View(new UploadCenter { ParentId = uploadCenter.Id, ReferenceGuid = referenceGuid, UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder, UploadCenterParent = new UploadCenter { Name = folderName } });
+                        }
+                        else
+                            return View(new UploadCenter { ParentId = uploadCenterProdOrder.Id, ReferenceGuid = referenceGuid, UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder, UploadCenterParent = new UploadCenter { Name = uploadCenterProdOrder.Name } });
 
                     default:
                         return View(new UploadCenter());

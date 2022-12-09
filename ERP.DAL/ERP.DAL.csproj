@@ -284,6 +284,10 @@
     <Compile Include="Migrations\202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.designer.cs">
       <DependentUpon>202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212091726430_add_field_EmployeeProduction_inProductionOrder.cs" />
+    <Compile Include="Migrations\202212091726430_add_field_EmployeeProduction_inProductionOrder.designer.cs">
+      <DependentUpon>202212091726430_add_field_EmployeeProduction_inProductionOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -619,6 +623,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.resx">
       <DependentUpon>202212081433430_add_field_ComplexProductionIndex_in_ProductionOrderDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212091726430_add_field_EmployeeProduction_inProductionOrder.resx">
+      <DependentUpon>202212091726430_add_field_EmployeeProduction_inProductionOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

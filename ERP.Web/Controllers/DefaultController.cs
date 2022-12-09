@@ -68,6 +68,8 @@ namespace ERP.Web.Controllers
 
             //db.Pages.AddRange(pages);
             //db.SaveChanges(userId);
+            //db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
+            //db.SaveChanges(userId);
 
 
 

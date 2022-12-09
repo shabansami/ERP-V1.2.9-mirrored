@@ -310,6 +310,7 @@ namespace ERP.Web.Controllers
                         vm.OrderSellId=orderSellId;
                         vm.TotalQuantity= items.Sum(x=>x.Quantity);
                         vm.TotalValue= items.Sum(x => x.Amount);
+                        vm.PayedValue= items.Sum(x => x.Amount);
                     vm.Safy= items.Sum(x => x.Amount);
                     //}
                 }

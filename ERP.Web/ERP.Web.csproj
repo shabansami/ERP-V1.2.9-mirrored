@@ -201,6 +201,7 @@
     <Content Include="Assets\images\users\avatar-8.jpg" />
     <Content Include="Assets\images\users\avatar-9.jpg" />
     <Content Include="Assets\JSCustom\ContractSupplier.js" />
+    <Content Include="Assets\JSCustom\ProductionLine.js" />
     <Content Include="Assets\JSCustom\District.js" />
     <Content Include="Assets\JSCustom\ContractCustomer.js" />
     <Content Include="Assets\JSCustom\OrderSell.js" />
@@ -1723,6 +1724,7 @@
     <Compile Include="Controllers\PeriodicIncomesController.cs" />
     <Compile Include="Controllers\PricesChangesController.cs" />
     <Compile Include="Controllers\PricingPoliciesController.cs" />
+    <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\ProductionOrderColorsController.cs" />
     <Compile Include="Controllers\ProductionOrderDamagesController.cs" />
     <Compile Include="Controllers\ProductionOrderFirstController.cs" />
@@ -2408,6 +2410,7 @@
     <Folder Include="Test\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\ExpenseIncomes\" />
+    <Folder Include="Views\ProductionLines\" />
     <Folder Include="Views\PurchaseInvoiceScroll\" />
     <Folder Include="Views\RptLimitNormalItems\" />
     <Folder Include="Views\SharedDataSources\" />

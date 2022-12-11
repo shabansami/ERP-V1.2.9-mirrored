@@ -288,6 +288,10 @@
     <Compile Include="Migrations\202212091726430_add_field_EmployeeProduction_inProductionOrder.designer.cs">
       <DependentUpon>202212091726430_add_field_EmployeeProduction_inProductionOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212111652446_add_new_TB_ProductionLineEmployee.cs" />
+    <Compile Include="Migrations\202212111652446_add_new_TB_ProductionLineEmployee.designer.cs">
+      <DependentUpon>202212111652446_add_new_TB_ProductionLineEmployee.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -302,6 +306,8 @@
     <Compile Include="Models\OfferSellInvoice.cs" />
     <Compile Include="Models\OfferType.cs" />
     <Compile Include="Models\OrderSellCase.cs" />
+    <Compile Include="Models\ProductionLine.cs" />
+    <Compile Include="Models\ProductionLineEmployee.cs" />
     <Compile Include="Models\ProductionType.cs" />
     <Compile Include="Models\QuoteOrderSell.cs" />
     <Compile Include="Models\QuoteOrderSellDetail.cs" />
@@ -626,6 +632,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212091726430_add_field_EmployeeProduction_inProductionOrder.resx">
       <DependentUpon>202212091726430_add_field_EmployeeProduction_inProductionOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212111652446_add_new_TB_ProductionLineEmployee.resx">
+      <DependentUpon>202212111652446_add_new_TB_ProductionLineEmployee.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

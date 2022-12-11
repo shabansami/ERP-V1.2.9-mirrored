@@ -39,8 +39,9 @@ namespace ERP.DAL
             this.NotificationEmployees = new HashSet<NotificationEmployee>();
             this.EmployeeProductions = new HashSet<ProductionOrder>();
             this.EmployeeOperations = new HashSet<ProductionOrder>();
+            this.ProductionLineEmployees = new HashSet<ProductionLineEmployee>();
         }
-    
+
         [ForeignKey(nameof(Person))]
         public Nullable<Guid> PersonId { get; set; }
         [ForeignKey(nameof(Store))]
@@ -110,5 +111,7 @@ namespace ERP.DAL
         public virtual ICollection<EmployeeBranch> EmployeeBranches { get; set; }
         public virtual ICollection<ProductionOrder> EmployeeProductions { get; set; }
         public virtual ICollection<ProductionOrder> EmployeeOperations { get; set; }
+        public virtual ICollection<ProductionLineEmployee> ProductionLineEmployees { get; set; }
+
     }
 }

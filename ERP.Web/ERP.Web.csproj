@@ -1906,6 +1906,7 @@
     <Compile Include="ViewModels\NotificationVM.cs" />
     <Compile Include="ViewModels\OrderSellVM.cs" />
     <Compile Include="ViewModels\PrintBarcodeVM.cs" />
+    <Compile Include="ViewModels\ProductionLineVM.cs" />
     <Compile Include="ViewModels\ProductionOrderReceiptVM.cs" />
     <Compile Include="ViewModels\ProductionOrderReportVM.cs" />
     <Compile Include="ViewModels\PurchaseInvoiceVM.cs" />
@@ -2365,6 +2366,8 @@
     <Content Include="Views\RptItems\SearchItemSell.cshtml" />
     <Content Include="Views\OrderSells\OrderForSell.cshtml" />
     <Content Include="Views\OrderSells\OrderForProduction.cshtml" />
+    <Content Include="Views\ProductionLines\Index.cshtml" />
+    <Content Include="Views\ProductionLines\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -2410,7 +2413,6 @@
     <Folder Include="Test\" />
     <Folder Include="Views\Base\" />
     <Folder Include="Views\ExpenseIncomes\" />
-    <Folder Include="Views\ProductionLines\" />
     <Folder Include="Views\PurchaseInvoiceScroll\" />
     <Folder Include="Views\RptLimitNormalItems\" />
     <Folder Include="Views\SharedDataSources\" />

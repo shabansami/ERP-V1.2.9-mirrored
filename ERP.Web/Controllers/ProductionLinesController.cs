@@ -7,14 +7,21 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ERP.Web.ViewModels;
+using Newtonsoft.Json;
+using ERP.Web.DataTablesDS;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
+    [Authorization]
+
     public class ProductionLinesController : Controller
     {
         // GET: ProductionLines
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        private static string DS;
         public ProductionLinesController()
         {
             db = new VTSaleEntities();
@@ -33,36 +40,112 @@ namespace ERP.Web.Controllers
             }, JsonRequestBehavior.AllowGet); ;
 
         }
+        #region تسجيل موظف
+        public ActionResult GetDSProductionLineEmp()
+        {
+            int? n = null;
+            if (DS == null)
+                return Json(new
+                {
+                    data = new ProductionLineEmpDto()
+                }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new
+                {
+                    data = JsonConvert.DeserializeObject<List<ProductionLineEmpDto>>(DS)
+                }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddProductionLineEmp(ProductionLineEmpDto vm)
+        {
+            List<ProductionLineEmpDto> deDS = new List<ProductionLineEmpDto>();
+            string employeeName = "";
+            string jobName = "";
+            if (vm.DT_Datasource != null)
+                deDS = JsonConvert.DeserializeObject<List<ProductionLineEmpDto>>(vm.DT_Datasource);
+            if (vm.EmployeeId != null)
+            {
+                if (deDS.Where(x => x.EmployeeId == vm.EmployeeId).Count() > 0)
+                    return Json(new { isValid = false, msg = "الموظف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+                var emp = db.Employees.FirstOrDefault(x => x.Id == vm.EmployeeId);
+                employeeName = emp.Person.Name;
+                jobName = emp.Job!=null?emp.Job.Name:null;
+            }
+            else
+                return Json(new { isValid = false, msg = "تأكد من اختيار موظف " }, JsonRequestBehavior.AllowGet);
+
+            var newProEmp = new ProductionLineEmpDto { EmployeeId = vm.EmployeeId, ProductionEmpType=vm.IsProductionEmp?"بالانتاج":null, EmployeeName = employeeName, DT_Datasource = vm.DT_Datasource, JobName =jobName };
+            deDS.Add(newProEmp);
+            DS = JsonConvert.SerializeObject(deDS);
+            return Json(new { isValid = true, msg = "تم اضافة الموظف بنجاح " }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
         [Authorization]
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            ProductionLineVM model= new ProductionLineVM();
             if (TempData["model"] != null) //edit
             {
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
-                    var model = db.ProductionLines.FirstOrDefault(x => x.Id == id);
-                    return View(model);
+                     model = db.ProductionLines.Where(x => x.Id == id).Select(
+                        x=>new ProductionLineVM
+                        {
+                            Id=x.Id,
+                            Name= x.Name,
+                            Notes= x.Notes,
+                            ProductionLineEmps=x.ProductionLineEmployees.Where(p=>!p.IsDeleted)
+                            .Select(p=>new ProductionLineEmpDto {
+                                EmployeeId=p.EmployeeId,
+                                ProductionLineId=p.ProductionLineId,
+                                EmployeeName=p.Employee.Person!=null?p.Employee.Person.Name:null,
+                                JobName=p.Employee.Job!=null?p.Employee.Job.Name:null,
+                                IsProductionEmp=p.IsProductionEmp}).ToList()
+                        }).FirstOrDefault();
+                    DS = JsonConvert.SerializeObject(model.ProductionLineEmps);
                 }
                 else
                     return RedirectToAction("Index");
             }
             else
             {                   // add
+                DS = null;
                 ViewBag.LastRow = db.ProductionLines.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
-                return View(new ProductionLine());
             }
+            ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
+            return View(model);
+
         }
 
         [Authorization]
         [HttpPost]
-        public JsonResult CreateEdit(ProductionLine vm)
+        public JsonResult CreateEdit(ProductionLineVM vm,string DT_Datasource)
         {
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(vm.Name) )
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                //الموظفين
+                List<ProductionLineEmpDto> productionLineEmpDtos = new List<ProductionLineEmpDto>();
+                List<ProductionLineEmployee> productionLineEmployees = new List<ProductionLineEmployee>();
+
+                if (DT_Datasource != null)
+                {
+                    productionLineEmpDtos = JsonConvert.DeserializeObject<List<ProductionLineEmpDto>>(DT_Datasource);
+                    productionLineEmployees = productionLineEmpDtos.Select(
+                        x => new ProductionLineEmployee
+                        {
+                            ProductionLineId=vm.Id,
+                           EmployeeId= x.EmployeeId,
+                           IsProductionEmp= x.IsProductionEmp,
+                        }
+                        ).ToList();
+                }
 
                 var isInsert = false;
                 if (vm.Id != Guid.Empty)
@@ -78,9 +161,9 @@ namespace ERP.Web.Controllers
                     var prevouisEmps = db.ProductionLineEmployees.Where(x => !x.IsDeleted && x.ProductionLineId == model.Id).ToList();
                     foreach (var emp in prevouisEmps)
                     {
-                        emp.IsDeleted = false;
+                        emp.IsDeleted = true;
                     }
-                    model.ProductionLineEmployees = vm.ProductionLineEmployees;
+                    db.ProductionLineEmployees.AddRange(productionLineEmployees);
                 }
                 else
                 {
@@ -92,7 +175,7 @@ namespace ERP.Web.Controllers
                     {
                         Name = vm.Name,
                         Notes = vm.Notes,
-                        ProductionLineEmployees = vm.ProductionLineEmployees
+                        ProductionLineEmployees = productionLineEmployees
                     };
                     db.ProductionLines.Add(productionLine);
                 }

@@ -301,6 +301,7 @@ namespace ERP.Web.Utilites
             Monthly = 1, //شهرى
             Weekly, //اسبوعى
             Daily, // يومى
+            Production, // بالانتاج
         }
         //انواع الاشعارات
         public enum NotificationTypeCl

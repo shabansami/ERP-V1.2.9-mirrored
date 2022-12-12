@@ -609,17 +609,19 @@ namespace ERP.Web.Controllers
 
         #region Employee
         //الموظفين بدلالة الادارة  )
-        public JsonResult GetEmployeeByDepartment(string id, bool isUserRole = false, bool isContractReg = false, bool showAll = true) // department id
+        public JsonResult GetEmployeeByDepartment(string id, bool isUserRole = false, bool isContractReg = false, bool showAll = true,bool isProductionEmp=false) // department id
         {
-            //isUserRole تستخدم عند عرض الموظفين المسموح لهم بتسجيل الدخول فى النظام
-            //isContractReg تستخدم فى شاشة اضافة عقد جديد بحيث يتم عرض كل الموظفين سواء له عقد او لا 
-            //showAll تستخدم لعرض كل موظفى التعاقدات (شهرى/اسبوعى/يومى ) او فى حالة الغياب والسلف يكون (شهرى/اسبوعى) فقط
+            /* 
+           isUserRole تستخدم عند عرض الموظفين المسموح لهم بتسجيل الدخول فى النظام
+           isContractReg تستخدم فى شاشة اضافة عقد جديد بحيث يتم عرض كل الموظفين سواء له عقد او لا 
+           showAll تستخدم لعرض كل موظفى التعاقدات (شهرى/اسبوعى/يومى ) او فى حالة الغياب والسلف يكون (شهرى/اسبوعى) فقط
+            isProductionEmp تستخدم مع شاشة خط الانتاج وتعرض الموظفين من نوع بالانتاج فقط
+             */
             Guid Id;
             //EmployeeService employeeService = new EmployeeService();
             if (Guid.TryParse(id, out Id))
             {
                 var list = db.Employees.Where(x => !x.IsDeleted && x.DepartmentId == Id);
-                var n = list.ToList();
                 if (!isContractReg)
                 {
                     var contracts = db.Contracts.Where(x => !x.IsDeleted && x.IsActive && x.IsApproval);
@@ -627,11 +629,12 @@ namespace ERP.Web.Controllers
                         contracts = contracts.Where(x => x.ContractSalaryTypeId != (int)ContractSalaryTypeCl.Daily);
 
                     list = list.Where(e => contracts.Any(c => c.EmployeeId == e.Id));
-                    var tt = list.ToList();
                 }
                 //var list = employeeService.GetEmployees().Where(x => x.DepartmentId == Id);
                 if (isUserRole)
                     list = list.Where(x => x.HasRole);
+                if (isProductionEmp)
+                    list = list.Where(x=>x.Contracts.Where(c=>!c.IsDeleted&&c.IsActive&&c.IsApproval&&c.ContractSalaryTypeId==(int)ContractSalaryTypeCl.Production).Any());
 
                 var list2 = list.Select(x => new { Id = x.Id, Name = x.Person.Name }).ToList();
                 var selectList = new SelectList(list2, "Id", "Name");

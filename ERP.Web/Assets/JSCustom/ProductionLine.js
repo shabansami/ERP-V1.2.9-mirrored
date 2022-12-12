@@ -19,7 +19,7 @@ var ProductionLine_Module = function () {
                     extend: 'print',
                     title: function () {
 
-                        var div = "<div style='color:black;' >المدن</div>"
+                        var div = "<div style='color:black;' >خطوط الانتاج</div>"
                         return div;
                     },
                     customize: function (win) {
@@ -49,8 +49,8 @@ var ProductionLine_Module = function () {
                 },
                 {
                     "extend": "excelHtml5",
-                    "filename": "المدن",
-                    "title": "المدن",
+                    "filename": "خطوط الانتاج",
+                    "title": "خطوط الانتاج",
                     exportOptions: {
                         columns: ':visible'
                     }
@@ -138,10 +138,18 @@ var ProductionLine_Module = function () {
     function SubmitForm(btn) {
         try {
             var form = document.getElementById('form1');
+            var formData = new FormData(form);
+            var dataSet = $('#kt_dtEmployees').DataTable().rows().data().toArray();
+            if (dataSet != null) {
+                if (dataSet.length > 0) {
+                    formData.append("DT_Datasource", JSON.stringify(dataSet));
+                }
+            }
+
             $.ajax({
                 type: 'POST',
                 url: form.action,
-                data: new FormData(form),
+                data: formData,
                 contentType: false,
                 processData: false,
                 success: function (res) {
@@ -208,6 +216,146 @@ var ProductionLine_Module = function () {
             }
         });
     };
+    //#region ======== Step 3 تسجيل الموظفين=================
+    var initDTEployees = function () {
+        var table = $('#kt_dtEmployees');
+
+        // begin first table
+        table.DataTable({
+            responsive: true,
+            searchDelay: 500,
+            processing: true,
+            serverSide: false,
+            select: true,
+
+            // DOM Layout settings
+            dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
+            language: {
+                search: "البحث",
+                lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+                info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+                processing: "جارى التحميل",
+                zeroRecords: "لا يوجد سجلات لعرضها",
+                infoFiltered: "",
+                infoEmpty: 'لا يوجد سجلات متاحه',
+                oPaginate: {
+                    sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                    sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
+                }
+            },
+
+            ajax: {
+                url: '/ProductionLines/GetDSProductionLineEmp',
+                type: 'GET',
+
+            },
+            columns: [
+                { data: 'EmployeeName', title: 'الموظف' },
+                { data: 'JobName', title: 'الوظيفة' },
+                { data: 'ProductionEmpType', title: 'نوع الاحتساب' },
+                { data: 'Actions', responsivePriority: -1 },
+
+            ],
+            columnDefs: [
+                //{
+                //    targets: 1,
+                //    title: 'م',
+                //    orderable: false,
+                //    render: function (data, type, row, meta) {
+                //        return  meta.row + meta.settings._iDisplayStart + 1;
+                //    },
+                //},
+                {
+                    targets: -1,
+                    title: 'عمليات',
+                    orderable: false,
+                    render: function (data, type, row, meta) {
+                        return '\
+							<div class="btn-group">\
+							<a href="javascript:;" onclick=ProductionLine_Module.deleteRowEmployee('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
+								<i class="fa fa-trash"></i>\
+							</a></div>\
+						';
+                    },
+                }
+
+            ],
+
+            "order": [[0, "asc"]]
+            //"order": [[0, "desc"]] 
+
+        });
+    };
+
+    function AddProductionLineEmp() {
+        try {
+            var employeeId = document.getElementById('EmployeeId').value;
+            var isProductionEmp = $('#IsProductionEmp:checked').val();
+            var formData = new FormData();
+            if (employeeId === '') {
+                toastr.error('تأكد من اختيار الموظف', '');
+                return false;
+            };
+            formData.append('EmployeeId', employeeId)
+            formData.append('IsProductionEmp', isProductionEmp)
+            var dataSet = $('#kt_dtEmployees').DataTable().rows().data().toArray();
+            if (dataSet != null) {
+                if (dataSet.length > 0) {
+                    formData.append("DT_Datasource", JSON.stringify(dataSet));
+                }
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/ProductionLines/AddProductionLineEmp',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#kt_dtEmployees').DataTable().ajax.reload();
+                        $('#EmployeeId').val('');
+                        $('#IsProductionEmp').val(false);
+                        toastr.success(res.msg, '');
+                    } else
+                        toastr.error(res.msg, '');
+                    return false;
+                },
+                error: function (err) {
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+            //$('#kt_datatableTreePrice').DataTable().ajax.reload();
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
+
+    function deleteRowEmployee() {
+        $('#kt_dtEmployees tbody').on('click', 'a.deleteIcon', function () {
+            $('#kt_dtEmployees').DataTable().row($(this).parents('tr')).remove().draw();
+            getSafyInvoice();
+
+        })
+
+    };
+
+    //#endregion ========= end Step 2 ==========
+
+    function getEmployeesDepartmentChange() {
+        $.get("/SharedDataSources/GetEmployeeByDepartment", { id: $("#DepartmentId").val(), isUserRole: false, isContractReg: false, showAll: true, isProductionEmp: $("#IsProductionEmp:checked").val() }, function (data) {
+            $("#EmployeeId").empty();
+            $("#EmployeeId").append("<option value=>اختر عنصر من القائمة</option>");
+            $.each(data, function (index, row) {
+                $("#EmployeeId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            });
+        });
+    };
     return {
         //main function to initiate the module
         init: function () {
@@ -215,6 +363,10 @@ var ProductionLine_Module = function () {
         },
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
+        getEmployeesDepartmentChange: getEmployeesDepartmentChange,
+        AddProductionLineEmp: AddProductionLineEmp,
+        deleteRowEmployee: deleteRowEmployee,
+        initDTEployees: initDTEployees,
     };
 
 }();

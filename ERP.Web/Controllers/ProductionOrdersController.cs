@@ -96,6 +96,7 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore.BranchId);
             ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
             ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
+            ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x=>!x.IsDeleted), "Id", "Name");
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
             var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
             //Guid? productionUnderStoreId = null;
@@ -652,6 +653,8 @@ namespace ERP.Web.Controllers
             vm.ProductionOrderDetails = vm.ProductionOrderDetails.Where(x => !x.IsDeleted).ToList();
             vm.ProductionOrderExpenses = vm.ProductionOrderExpenses.Where(x => !x.IsDeleted).ToList();
             vm.ProductionOrderReceipts = vm.ProductionOrderReceipts.Where(x => !x.IsDeleted).ToList();
+            if (vm.ProductionLineId != null)
+                vm.ProductionLine = db.ProductionLines.Where(x => x.Id == vm.ProductionLineId).FirstOrDefault();
             return View(vm);
         }
 

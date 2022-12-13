@@ -292,6 +292,10 @@
     <Compile Include="Migrations\202212111652446_add_new_TB_ProductionLineEmployee.designer.cs">
       <DependentUpon>202212111652446_add_new_TB_ProductionLineEmployee.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212131613152_add_field_CalculatingHours_in_ProductionLine.cs" />
+    <Compile Include="Migrations\202212131613152_add_field_CalculatingHours_in_ProductionLine.designer.cs">
+      <DependentUpon>202212131613152_add_field_CalculatingHours_in_ProductionLine.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -635,6 +639,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212111652446_add_new_TB_ProductionLineEmployee.resx">
       <DependentUpon>202212111652446_add_new_TB_ProductionLineEmployee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212131613152_add_field_CalculatingHours_in_ProductionLine.resx">
+      <DependentUpon>202212131613152_add_field_CalculatingHours_in_ProductionLine.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

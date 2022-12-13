@@ -23,6 +23,7 @@ namespace ERP.Web.ViewModels
         public string JobName { get; set; }
         public bool IsProductionEmp { get; set; }//موظف بالانتاج ام لا 
         public string ProductionEmpType { get; set; }//موظف بالانتاج ام لا 
+        public bool CalculatingHours { get; set; }//احتساب عدد ساعات الانتاج لراتب الموظف ام لا
         public string DT_Datasource { get; set; }
         public int? Actions { get; set; }
 

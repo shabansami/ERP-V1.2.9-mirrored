@@ -74,7 +74,7 @@ namespace ERP.Web.Controllers
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار موظف " }, JsonRequestBehavior.AllowGet);
 
-            var newProEmp = new ProductionLineEmpDto { EmployeeId = vm.EmployeeId, ProductionEmpType=vm.IsProductionEmp?"بالانتاج":null, EmployeeName = employeeName, DT_Datasource = vm.DT_Datasource, JobName =jobName };
+            var newProEmp = new ProductionLineEmpDto { EmployeeId = vm.EmployeeId, ProductionEmpType=vm.IsProductionEmp?"بالانتاج":null, CalculatingHours = vm.CalculatingHours, EmployeeName = employeeName, DT_Datasource = vm.DT_Datasource, JobName =jobName };
             deDS.Add(newProEmp);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الموظف بنجاح " }, JsonRequestBehavior.AllowGet);
@@ -126,6 +126,8 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult CreateEdit(ProductionLineVM vm,string DT_Datasource)
         {
+            var t = JsonConvert.DeserializeObject<List<ProductionLineEmpDto>>(DT_Datasource);
+
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(vm.Name) )
@@ -218,7 +220,11 @@ namespace ERP.Web.Controllers
                 if (model != null)
                 {
                     model.IsDeleted = true;
-                    db.Entry(model).State = EntityState.Modified;
+                    var proEmps=model.ProductionLineEmployees.Where(x=>!x.IsDeleted).ToList();
+                    foreach (var item in proEmps)
+                    {
+                        item.IsDeleted = true;
+                    }
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم الحذف بنجاح" });
                     else

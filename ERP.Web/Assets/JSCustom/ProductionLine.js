@@ -290,7 +290,10 @@ var ProductionLine_Module = function () {
     function AddProductionLineEmp() {
         try {
             var employeeId = document.getElementById('EmployeeId').value;
-            var isProductionEmp = $('#IsProductionEmp:checked').val();
+            var isProductionEmp = $('#IsProductionEmp').is(':checked');
+            var calculatingHours = $('#CalculatingHours').is(':checked');
+            console.log(isProductionEmp);
+            console.log(calculatingHours);
             var formData = new FormData();
             if (employeeId === '') {
                 toastr.error('تأكد من اختيار الموظف', '');
@@ -298,6 +301,7 @@ var ProductionLine_Module = function () {
             };
             formData.append('EmployeeId', employeeId)
             formData.append('IsProductionEmp', isProductionEmp)
+            formData.append('CalculatingHours', calculatingHours)
             var dataSet = $('#kt_dtEmployees').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
@@ -313,7 +317,7 @@ var ProductionLine_Module = function () {
                 success: function (res) {
                     if (res.isValid) {
                         $('#kt_dtEmployees').DataTable().ajax.reload();
-                        $('#EmployeeId').val('');
+                        $('#EmployeeId').val(null);
                         $('#IsProductionEmp').val(false);
                         toastr.success(res.msg, '');
                     } else
@@ -339,8 +343,6 @@ var ProductionLine_Module = function () {
     function deleteRowEmployee() {
         $('#kt_dtEmployees tbody').on('click', 'a.deleteIcon', function () {
             $('#kt_dtEmployees').DataTable().row($(this).parents('tr')).remove().draw();
-            getSafyInvoice();
-
         })
 
     };
@@ -348,13 +350,27 @@ var ProductionLine_Module = function () {
     //#endregion ========= end Step 2 ==========
 
     function getEmployeesDepartmentChange() {
-        $.get("/SharedDataSources/GetEmployeeByDepartment", { id: $("#DepartmentId").val(), isUserRole: false, isContractReg: false, showAll: true, isProductionEmp: $("#IsProductionEmp:checked").val() }, function (data) {
+        $.get("/SharedDataSources/GetEmployeeByDepartment", { id: $("#DepartmentId").val(), isUserRole: false, isContractReg: false, showAll: true, isProductionEmp:false /*$("#IsProductionEmp:checked").val()*/ }, function (data) {
             $("#EmployeeId").empty();
             $("#EmployeeId").append("<option value=>اختر عنصر من القائمة</option>");
             $.each(data, function (index, row) {
                 $("#EmployeeId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
             });
         });
+    };
+    function onIsProductionEmpChange() {
+        //console.log($("#IsProductionEmp").is(':checked'));
+        if ($("#IsProductionEmp").is(':checked') === true) {
+            $("#CalculatingHours").prop('checked', true);
+            console.log($("#CalculatingHours").is(':checked'));
+
+        }
+        else {
+            $("#CalculatingHours").prop('checked', false);
+            console.log($("#CalculatingHours").is(':checked'));
+
+        }
+
     };
     return {
         //main function to initiate the module
@@ -367,6 +383,7 @@ var ProductionLine_Module = function () {
         AddProductionLineEmp: AddProductionLineEmp,
         deleteRowEmployee: deleteRowEmployee,
         initDTEployees: initDTEployees,
+        onIsProductionEmpChange: onIsProductionEmpChange,
     };
 
 }();

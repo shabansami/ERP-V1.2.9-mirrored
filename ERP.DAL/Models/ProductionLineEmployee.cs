@@ -15,7 +15,7 @@ namespace ERP.DAL
         [ForeignKey(nameof(Employee))]
         public Guid EmployeeId { get; set; }
         public bool IsProductionEmp { get; set; }//موظف بالانتاج ام لا 
-
+        public bool CalculatingHours { get; set; }//احتساب عدد ساعات الانتاج لراتب الموظف ام لا
         public virtual Employee Employee { get; set; }
         public virtual ProductionLine ProductionLine { get; set; }
     }

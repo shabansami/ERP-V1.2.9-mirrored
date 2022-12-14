@@ -94,8 +94,6 @@ namespace ERP.Web.Controllers
             //ViewBag.BranchName = productionStore.Branch.Name;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore.BranchId);
-            ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
-            ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
             ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x=>!x.IsDeleted), "Id", "Name");
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
             var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
@@ -290,7 +288,50 @@ namespace ERP.Web.Controllers
                                     });
                                     context.SaveChanges(auth.CookieValues.UserId);
                                 }
+                                //اضافة يوم الانتاج فى جدول جدوله ايام الموظف 
+                                if (vm.ProductionLineId!=null)
+                                {
+                                    //تحديد اذا كان يوجد موظف فى خط الانتاج يتم احتساب راتبه بالانتاج 
+                                    var productionLine = context.ProductionLines.Where(x => !x.IsDeleted && x.Id == vm.ProductionLineId).FirstOrDefault();
+                                    var proLinEmps = productionLine.ProductionLineEmployees.Where(e => !e.IsDeleted && e.CalculatingHours).ToList();
+                                    foreach (var emp in proLinEmps)
+                                    {
+                                        //فى حالة العقد بالانتاج وولا يوجد اى عمليات غير مدفوعه للموظف 
+                                        var contract = context.Contracts.Where(x => x.IsActive && x.EmployeeId == emp.EmployeeId).FirstOrDefault();
 
+                                        if (contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Production)
+                                        {
+                                            //التأكد من عدم وجود التاريخ مجدول مسبقا
+                                            var contractSchedulingsIsExist = context.ContractSchedulings.Where(x => !x.IsDeleted && x.ContractId == contract.Id&&!x.IsApproval&&!x.IsPayed).FirstOrDefault();
+                                            ContractScheduling contractScheduling = contractSchedulingsIsExist;
+                                            if (contractScheduling == null)//لم يتم اضافة جدولة مدفوعا مسبقا
+                                             //اضافة حقل فى جدول الجدولة 
+                                            {
+                                                contractScheduling = new ContractScheduling
+                                                {
+                                                    Contract = contract,
+                                                    //MonthYear = vm.ProductionOrderDate,
+                                                    //ToDate = vm.PenaltyDate,
+                                                    Name = $"اوامر انتاج"
+                                                };
+                                                contractScheduling.ContractSchedulingProductions.Add(new ContractSchedulingProduction
+                                                {
+                                                    ProductionOrderId = vm.Id,
+                                                });
+                                            }
+                                            else //تم انشاء حقل مسبقا ولم يتم الدفع بعد 
+                                            {
+                                                contractScheduling.ContractSchedulingProductions.Add(new ContractSchedulingProduction
+                                                {
+                                                    ProductionOrderId = vm.Id,
+                                                });
+                                            }
+                                            context.ContractSchedulings.Add(contractScheduling);
+                                            context.SaveChanges(auth.CookieValues.UserId);
+
+                                        }
+                                    }
+                                }
                                 transaction.Commit();
                                 return Json(new { isValid = true, refGid = vm.Id, message = "تم إضافة أمر الإنتاج بنجاح" });
 

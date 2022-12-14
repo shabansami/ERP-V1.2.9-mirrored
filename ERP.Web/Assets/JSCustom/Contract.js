@@ -104,7 +104,7 @@ var Contract_Module = function () {
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
 								<i class="fa fa-upload"></i>\
 							</a><a href = "javascript:;" onclick = Contract_Module.UnApprovalContract("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title = "الغاء الاعتماد" >\
-                            <i class="las la-times-circle"></i>\
+                            <i class="fa fa-unlock-alt"></i>\
                             </div >\
 ';
                         } else {
@@ -116,7 +116,7 @@ var Contract_Module = function () {
 							<a href="javascript:;" onclick=Contract_Module.deleteRow("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=Contract_Module.ApprovalContract("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fas fa-check"></i>\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
 								<i class="fa fa-upload"></i>\
 							</a></div>\

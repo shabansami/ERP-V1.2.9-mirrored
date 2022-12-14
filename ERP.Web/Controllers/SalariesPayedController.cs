@@ -40,6 +40,8 @@ namespace ERP.Web.Controllers
                 Guid DepartmentId;
                 DateTime dateSearch;
                 List<Scheduling> contractSchedulingDS = new List<Scheduling>();
+                ViewBag.ContractSalaryTypId = new SelectList(db.ContractSalaryTypes.Where(x => !x.IsDeleted), "Id", "Name",vm.ContractSalaryTypId);
+                ViewBag.DepartmntId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name",vm.DepartmntId);
 
                 if (int.TryParse(vm.ContractSalaryTypId.ToString(), out salaryTypeId) && DateTime.TryParse(vm.dt.ToString(), out dateSearch))
                 {
@@ -47,8 +49,8 @@ namespace ERP.Web.Controllers
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name");
                     ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
-                    ViewBag.ContractSalaryTypId = new SelectList(db.ContractSalaryTypes.Where(x => !x.IsDeleted), "Id", "Name");
-                    ViewBag.DepartmntId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
+                    //ViewBag.ContractSalaryTypId = new SelectList(db.ContractSalaryTypes.Where(x => !x.IsDeleted), "Id", "Name");
+                    //ViewBag.DepartmntId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
 
                     IQueryable<ContractScheduling> contractSchedulings = null;
                     //اليومى
@@ -84,7 +86,7 @@ namespace ERP.Web.Controllers
                 }
                 else
                 {
-                    ViewBag.Msg = "حدث خطأ اثناء تنفيذ العملية";
+                    ViewBag.Msg = "تأكد من اختيار بيانات صحيحة";
                     return View(vm);
                 }
                 if (contractSchedulingDS.Count() == 0)

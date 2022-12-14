@@ -79,10 +79,7 @@ var SalariesApproval_Module = function () {
                 }
                     },
         columns: [
-            { data: 'Id', title: 'م', visible: false },
-            { data: 'IsApproval', visible: false },
-            { data: 'IsPayed', visible: false },
-            { data: 'Num',responsivePriority:1 },
+            { data: 'Num',responsivePriority:0 },
             { data: 'Employee', title: 'الموظف' },
             { data: 'SchedulingName', title: 'شهر/اسبوع/يوم'},
             { data: 'Actions', responsivePriority: -1},
@@ -91,7 +88,7 @@ var SalariesApproval_Module = function () {
         ],
             columnDefs: [
                 {
-                    targets: 1,
+                    targets: 0,
                     title: 'م',
                     orderable: false,
                     render: function (data, type, row, meta) {
@@ -109,7 +106,7 @@ var SalariesApproval_Module = function () {
 							<a href="/SalariesApproval/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="استعراض وتعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\<a href="javascript:;"  onclick=SalariesApproval_Module.ApprovalSalary("' + row.Id + '") class="btn btn-sm btn-clean btn-icon" title="اعتماد الراتب">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fas fa-check"></i>\
 							</a>\</div>\
 						';
                     } else {

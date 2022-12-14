@@ -296,8 +296,17 @@
     <Compile Include="Migrations\202212131613152_add_field_CalculatingHours_in_ProductionLine.designer.cs">
       <DependentUpon>202212131613152_add_field_CalculatingHours_in_ProductionLine.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212141146476_add_field_ProductionOrder_in_ContractScheduling.cs" />
+    <Compile Include="Migrations\202212141146476_add_field_ProductionOrder_in_ContractScheduling.designer.cs">
+      <DependentUpon>202212141146476_add_field_ProductionOrder_in_ContractScheduling.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202212141459047_add_TB_ContractSchedulingProduction.cs" />
+    <Compile Include="Migrations\202212141459047_add_TB_ContractSchedulingProduction.designer.cs">
+      <DependentUpon>202212141459047_add_TB_ContractSchedulingProduction.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
+    <Compile Include="Models\ContractSchedulingProduction.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
     <Compile Include="Models\DamageInvoiceDetail.cs" />
     <Compile Include="Models\District.cs" />
@@ -642,6 +651,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212131613152_add_field_CalculatingHours_in_ProductionLine.resx">
       <DependentUpon>202212131613152_add_field_CalculatingHours_in_ProductionLine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212141146476_add_field_ProductionOrder_in_ContractScheduling.resx">
+      <DependentUpon>202212141146476_add_field_ProductionOrder_in_ContractScheduling.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212141459047_add_TB_ContractSchedulingProduction.resx">
+      <DependentUpon>202212141459047_add_TB_ContractSchedulingProduction.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

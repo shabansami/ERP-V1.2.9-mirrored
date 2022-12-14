@@ -48,6 +48,8 @@ namespace ERP.Web.Controllers
                     contractSchedulings = db.ContractSchedulings.Where(x => !x.IsDeleted && x.Contract.IsActive && x.Contract.ContractSalaryTypeId == salaryTypeId && dateSearch >= x.MonthYear && dateSearch <= x.ToDate);
                 else if (salaryTypeId == (int)ContractSalaryTypeCl.Monthly)
                     contractSchedulings = db.ContractSchedulings.Where(x => !x.IsDeleted && x.Contract.IsActive && x.Contract.ContractSalaryTypeId == salaryTypeId && x.MonthYear.Value.Month == dateSearch.Month);
+                else if(salaryTypeId == (int)ContractSalaryTypeCl.Production)
+                    contractSchedulings = db.ContractSchedulings.Where(x => !x.IsDeleted && x.Contract.IsActive && x.Contract.ContractSalaryTypeId == salaryTypeId);
 
                 if (Guid.TryParse(DepartmntId, out DepartmentId))
                     contractSchedulings = contractSchedulings.Where(x => x.Contract.Employee.DepartmentId == DepartmentId);
@@ -230,8 +232,9 @@ namespace ERP.Web.Controllers
                             Salary = salary,
                             Safy = safy,
                             SchedulingName = contractScheduling.Name,
-                            Month = contractScheduling.MonthYear.Value.Month,
-                            Year = contractScheduling.MonthYear.Value.Year,
+                            Month = contractScheduling.MonthYear!=null? (int)contractScheduling?.MonthYear.Value.Month :0,
+                            Year = contractScheduling.MonthYear!=null? (int)contractScheduling?.MonthYear.Value.Year :0,
+                            //Year = (int)contractScheduling?.MonthYear.Value.Year,
 
                             TotalAllowances = totalAllowances,
                             TotalSalaryAdditions = totalSalaryAdditions,

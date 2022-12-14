@@ -23,6 +23,7 @@ namespace ERP.DAL
             this.ProductionOrderExpenses = new HashSet<ProductionOrderExpens>();
             this.ProductionOrderReceipts = new HashSet<ProductionOrderReceipt>();
             this.StoresTransferDetails = new HashSet<StoresTransferDetail>();
+            this.ContractSchedulingProductions = new HashSet<ContractSchedulingProduction>();
         }
     
         public string OrderBarCode { get; set; }
@@ -46,16 +47,16 @@ namespace ERP.DAL
         public DateTime ProductionOrderDate { get; set; }
         public bool IsDone { get; set; }
         public string OrderNumber { get; set; }
-        [ForeignKey(nameof(EmployeeProduction))]
-        public Nullable<Guid> EmployeeProductionId { get; set; }
-        [ForeignKey(nameof(EmployeeOperation))]
-        public Nullable<Guid> EmployeeOperationId { get; set; }     
+        //[ForeignKey(nameof(EmployeeProduction))]
+        //public Nullable<Guid> EmployeeProductionId { get; set; }
+        //[ForeignKey(nameof(EmployeeOperation))]
+        //public Nullable<Guid> EmployeeOperationId { get; set; }     
         [ForeignKey(nameof(ProductionLine))]
         public Nullable<Guid> ProductionLineId { get; set; }
         public int ProductionOrderHours { get; set; }//⁄œœ ”«⁄«  «„— «·«‰ «Ã
         public virtual Branch Branch { get; set; }
-        public virtual Employee EmployeeProduction { get; set; }//«·„”∆Ê· ⁄‰ «·«‰ «Ã
-        public virtual Employee EmployeeOperation { get; set; }//«·„”∆Ê· ⁄‰ «· ‘€Ì·
+        //public virtual Employee EmployeeProduction { get; set; }//«·„”∆Ê· ⁄‰ «·«‰ «Ã
+        //public virtual Employee EmployeeOperation { get; set; }//«·„”∆Ê· ⁄‰ «· ‘€Ì·
         public ProductionLine ProductionLine { get; set; }
 
         //Item
@@ -72,5 +73,6 @@ namespace ERP.DAL
         public virtual ICollection<ProductionOrderExpens> ProductionOrderExpenses { get; set; }
         public virtual ICollection<ProductionOrderReceipt> ProductionOrderReceipts { get; set; }
         public virtual ICollection<StoresTransferDetail> StoresTransferDetails { get; set; }
+        public virtual ICollection<ContractSchedulingProduction> ContractSchedulingProductions { get; set; }
     }
 }

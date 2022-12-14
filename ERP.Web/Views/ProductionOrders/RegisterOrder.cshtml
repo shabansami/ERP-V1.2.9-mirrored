@@ -37,13 +37,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>الفرع</label>
                                 @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
                             </div>
                         </div>
-                        <div class="col-xl-3">
+                        <div class="col-xl-4">
                             <!--begin::Select-->
                             <div class="form-group">
                                 <label>مخزن تحت التصنيع)</label>
@@ -52,18 +52,13 @@
                             </div>
                             <!--end::Select-->
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>مخزن التصنيع (المنتج النهائى)</label>
                                 @Html.DropDownList("ProductionStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
                             </div>
-                        </div>         
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <label>عدد ساعات امر الانتاج</label>
-                                @Html.TextBoxFor(m=>m.ProductionOrderHours,  htmlAttributes: new { @class = "form-control din-med",@type="number" })
-                            </div>
                         </div>
+
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>تاريخ امر الانتاج</label>
@@ -77,14 +72,27 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-2">
+                        <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الكمية</label>
                                 <input type="number" id="OrderQuantity" value="1" class="form-control din-med" />
                             </div>
                         </div>
 
-                        <div class="col-lg-2">
+
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>خط الانتاج</label>
+                                @Html.DropDownList("ProductionLineId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>عدد ساعات امر الانتاج</label>
+                                @Html.TextBoxFor(m => m.ProductionOrderHours, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>لون المنتج</label>
                                 <div class="input-group">
@@ -95,24 +103,6 @@
                                     </div>
 
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label>مسئول امر الانتاج</label>
-                                @Html.DropDownList("EmployeeProductionId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                            </div>
-                        </div> 
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label>مسئول امر التشغيل</label>
-                                @Html.DropDownList("EmployeeOperationId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <label>خط الانتاج</label>
-                                @Html.DropDownList("ProductionLineId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                             </div>
                         </div>
                         <div class="col-lg-12">

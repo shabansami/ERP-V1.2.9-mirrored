@@ -626,7 +626,7 @@ namespace ERP.Web.Controllers
                 {
                     var contracts = db.Contracts.Where(x => !x.IsDeleted && x.IsActive && x.IsApproval);
                     if (!showAll)
-                        contracts = contracts.Where(x => x.ContractSalaryTypeId != (int)ContractSalaryTypeCl.Daily);
+                        contracts = contracts.Where(x => x.ContractSalaryTypeId != (int)ContractSalaryTypeCl.Daily&& x.ContractSalaryTypeId != (int)ContractSalaryTypeCl.Production);
 
                     list = list.Where(e => contracts.Any(c => c.EmployeeId == e.Id));
                 }

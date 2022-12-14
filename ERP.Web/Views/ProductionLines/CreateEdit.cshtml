@@ -59,31 +59,37 @@
                                 <label>الموظفين المسجلين</label>
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>موظفين الانتاج فقط</label>
-                                @Html.CheckBox("IsProductionEmp", false, htmlAttributes: new {@class= "form-check-input", @style = "width: 25px; height: 25px;" ,@onchange= "ProductionLine_Module.onIsProductionEmpChange()" })
+                                @Html.CheckBox("IsProductionEmp", false, htmlAttributes: new { @class = "form-check-input", @style = "width: 25px; height: 25px;", @onchange = "ProductionLine_Module.onIsProductionEmpChange()" })
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>الادارة</label>
                                 @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control", @onchange = "ProductionLine_Module.getEmployeesDepartmentChange()" })
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>الموظف</label>
                                 @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2" })
                             </div>
                         </div>
-                        <div class="col-lg-3">
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>احتساب عدد ساعات الانتاج</label>
                                 @Html.CheckBox("CalculatingHours", false, htmlAttributes: new { @class = "form-check-input", @style = "width: 25px; height: 25px;" })
                             </div>
                         </div>
-                        <div class="col-lg-12">
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>اجر الساعه</label>
+                                @Html.TextBox("HourlyWage",0, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
                             <div class="form-group">
                                 <label>.</label>
                                 <button type="button" onclick="ProductionLine_Module.AddProductionLineEmp();" class="btn btn-primary font-weight-bold w-100">اضافة موظف</button>

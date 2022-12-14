@@ -40,7 +40,7 @@ namespace ERP.Web.Controllers
             }, JsonRequestBehavior.AllowGet); ;
 
         }
-        #region تسجيل موظف
+        #region اضافة موظف لخط الانتاج
         public ActionResult GetDSProductionLineEmp()
         {
             int? n = null;
@@ -73,8 +73,12 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار موظف " }, JsonRequestBehavior.AllowGet);
+            //التأكد من ادخال اجر الساعه فى حالة احتساب عدد ساعات الانتاج
+            if (vm.CalculatingHours)
+                if (vm.HourlyWage<=0)
+                    return Json(new { isValid = false, msg = "لابد من ادخال أجر الساعه للموظف" }, JsonRequestBehavior.AllowGet);
 
-            var newProEmp = new ProductionLineEmpDto { EmployeeId = vm.EmployeeId, ProductionEmpType=vm.IsProductionEmp?"بالانتاج":null, CalculatingHours = vm.CalculatingHours, EmployeeName = employeeName, DT_Datasource = vm.DT_Datasource, JobName =jobName };
+            var newProEmp = new ProductionLineEmpDto { EmployeeId = vm.EmployeeId, ProductionEmpType=vm.IsProductionEmp?"بالانتاج":null, CalculatingHours = vm.CalculatingHours, IsProductionEmp=vm.IsProductionEmp, HourlyWage =vm.HourlyWage, EmployeeName = employeeName, DT_Datasource = vm.DT_Datasource, JobName =jobName };
             deDS.Add(newProEmp);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الموظف بنجاح " }, JsonRequestBehavior.AllowGet);
@@ -104,7 +108,9 @@ namespace ERP.Web.Controllers
                                 ProductionLineId=p.ProductionLineId,
                                 EmployeeName=p.Employee.Person!=null?p.Employee.Person.Name:null,
                                 JobName=p.Employee.Job!=null?p.Employee.Job.Name:null,
-                                IsProductionEmp=p.IsProductionEmp}).ToList()
+                                IsProductionEmp=p.IsProductionEmp,
+                                HourlyWage=p.HourlyWage
+                            }).ToList()
                         }).FirstOrDefault();
                     DS = JsonConvert.SerializeObject(model.ProductionLineEmps);
                 }
@@ -145,6 +151,8 @@ namespace ERP.Web.Controllers
                             ProductionLineId=vm.Id,
                            EmployeeId= x.EmployeeId,
                            IsProductionEmp= x.IsProductionEmp,
+                            HourlyWage=x.HourlyWage,
+                            CalculatingHours=x.CalculatingHours,
                         }
                         ).ToList();
                 }

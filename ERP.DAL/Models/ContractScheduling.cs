@@ -25,6 +25,7 @@ namespace ERP.DAL
             this.ContractSalaryAdditions = new HashSet<ContractSalaryAddition>();
             this.ContractSalaryPenalties = new HashSet<ContractSalaryPenalty>();
             this.ContractSchedulingAbsences = new HashSet<ContractSchedulingAbsence>();
+            this.ContractSchedulingProductions = new HashSet<ContractSchedulingProduction>();
         }
 
         [ForeignKey(nameof(Contract))]
@@ -44,8 +45,6 @@ namespace ERP.DAL
         public double PayedValue { get; set; }
         public double RemindValue { get; set; }
         public string Notes { get; set; }
-
-
         public virtual Contract Contract { get; set; }
 
         public virtual ICollection<ContractAttendanceLeaving> ContractAttendanceLeavings { get; set; }
@@ -54,5 +53,6 @@ namespace ERP.DAL
         public virtual ICollection<ContractSalaryAddition> ContractSalaryAdditions { get; set; }
         public virtual ICollection<ContractSalaryPenalty> ContractSalaryPenalties { get; set; }
         public virtual ICollection<ContractSchedulingAbsence> ContractSchedulingAbsences { get; set; }
+        public virtual ICollection<ContractSchedulingProduction> ContractSchedulingProductions { get; set; }
     }
 }

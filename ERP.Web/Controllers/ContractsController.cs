@@ -37,7 +37,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.Contracts.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, IsActive = x.IsActive, ConNum = x.Id, FromDate = x.FromDate.ToString().Substring(0, 7), ToDate = x.ToDate.ToString().Substring(0, 7), EmployeeName = x.Employee.Person.Name, ContractTypeName = x.ContractType.Name, Salary = x.Salary, IsApproval = x.IsApproval, IsActiveStatus = x.IsActive ? "العقد نشط" : "العقد غير نشط", EmpGuid = x.Employee.Id, typ = (int)UploalCenterTypeCl.Employee, Actions = n, Num = n }).ToList()
+                data = db.Contracts.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).ToList().Select(x => new { Id = x.Id, IsActive = x.IsActive, ConNum = x.Id, FromDate = x.FromDate.Value.ToString("yyyy-MM-dd"), ToDate =x.ToDate.Value.ToString("yyyy-MM-dd"), EmployeeName = x.Employee.Person.Name, ContractTypeName = x.ContractType.Name, Salary = x.Salary, IsApproval = x.IsApproval, IsActiveStatus = x.IsActive ? "العقد نشط" : "العقد غير نشط", EmpGuid = x.Employee.Id, typ = (int)UploalCenterTypeCl.Employee, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }

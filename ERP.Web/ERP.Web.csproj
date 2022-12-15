@@ -2368,6 +2368,7 @@
     <Content Include="Views\OrderSells\OrderForProduction.cshtml" />
     <Content Include="Views\ProductionLines\Index.cshtml" />
     <Content Include="Views\ProductionLines\CreateEdit.cshtml" />
+    <Content Include="Views\ProductionLines\ShowDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

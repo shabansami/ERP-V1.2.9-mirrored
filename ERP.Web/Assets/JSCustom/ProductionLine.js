@@ -106,7 +106,9 @@ var ProductionLine_Module = function () {
 							</a></div>\
 						';
                         } else {
-                            return '<div class="btn-group">تم ربط خط الانتاج بأمر انتاج</div>'
+                            return '<div class="btn-group">تم ربط خط الانتاج بأمر انتاج <a href="/ProductionLines/ShowDetails/' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
+								<i class="fa fa-search"></i>\
+							</a></div>'
                         }
                        
                     },

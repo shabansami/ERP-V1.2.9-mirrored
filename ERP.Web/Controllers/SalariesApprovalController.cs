@@ -21,8 +21,17 @@ namespace ERP.Web.Controllers
     public class SalariesApprovalController : Controller
     {
         // GET: SalariesApproval
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db ;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        SalaryApprovalVM vm;
+        List<ProductionOrderEmployee> productionOrderEmployee;
+
+        public SalariesApprovalController()
+        {
+            db = new VTSaleEntities();
+            productionOrderEmployee = new List<ProductionOrderEmployee>();
+            vm = new SalaryApprovalVM();
+        }
 
         #region عرض الموظفين حسب الشهر والسنة 
         public ActionResult Index()
@@ -99,14 +108,15 @@ namespace ERP.Web.Controllers
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
-                    var contractScheduling = db.ContractSchedulings.FirstOrDefault(x => x.Id == id);
+                    var contractScheduling = db.ContractSchedulings.Where(x => x.Id == id).FirstOrDefault();
                     var employee = contractScheduling.Contract.Employee;
-
+                    GetSalary(contractScheduling, employee);
+                    double salary = vm.IsEmployeeProduction? productionOrderEmployee.Sum(x=>x.ProductionOrderHours*x.HourlyWage): contractScheduling.Contract.Salary;
+                    vm.ProductionAmount = productionOrderEmployee.Sum(x => x.ProductionOrderHours * x.HourlyWage);
                     //الطريقة الاول لاحتساب راتب الموظف لليوم الواحد 
-                    var dayCostEmp = Math.Round(contractScheduling.Contract.Salary / 30, 2);
+                    var dayCostEmp = Math.Round(salary / 30, 2);
                     //الطريقة الادق لاحتساب راتب الموظف لليوم الواحد 
                     //var dayCostEmp = Math.Round((contractScheduling.Contract.Salary*12) / 365, 2);
-                    double salary = contractScheduling.Contract.Salary;
                     //ايام الغياب بخصم بعدد ايام
                     var totalAbsencePenalty = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && x.ContractSchedulingId == contractScheduling.Id && x.IsPenalty).Select(x => x.PenaltyNumber).DefaultIfEmpty(0).Sum();
                     //اجمالى قيمة ايام الغياب بخصم 
@@ -220,54 +230,51 @@ namespace ERP.Web.Controllers
                     double totalLoans = db.ContractLoanSchedulings.Where(x => !x.IsDeleted && x.ContractSchedulingId == contractScheduling.Id).Select(x => x.ContractLoan.AmountMonth).DefaultIfEmpty(0).Sum();
 
                     //صافى الراتب
-                    double safy = (salary + totalSalaryAdditionAllowances) - (totalAllSalaryPenalties + totalLoans);
-                    SalaryApprovalVM vm = new SalaryApprovalVM();
+                    double safy = (salary + totalSalaryAdditionAllowances+ vm.ProductionAmount) - (totalAllSalaryPenalties + totalLoans);
                     try
                     {
-                        vm = new SalaryApprovalVM
-                        {
-                            ContractSchedulingId = contractScheduling.Id,
-                            EmployeeName = employee.Person.Name,
-                            DepartmentName = contractScheduling.Contract.Employee.Department.Name,
-                            Salary = salary,
-                            Safy = safy,
-                            SchedulingName = contractScheduling.Name,
-                            Month = contractScheduling.MonthYear!=null? (int)contractScheduling?.MonthYear.Value.Month :0,
-                            Year = contractScheduling.MonthYear!=null? (int)contractScheduling?.MonthYear.Value.Year :0,
-                            //Year = (int)contractScheduling?.MonthYear.Value.Year,
+                            vm.ContractSchedulingId = contractScheduling.Id;
+                            vm.EmployeeName = employee.Person.Name;
+                            vm.DepartmentName = contractScheduling.Contract.Employee.Department.Name;
+                            vm.Salary = salary;
+                            vm.Safy = safy;
+                            vm.SchedulingName = contractScheduling.Name;
+                            vm.Month = contractScheduling.MonthYear!=null? (int)contractScheduling?.MonthYear.Value.Month :0;
+                            vm.Year = contractScheduling.MonthYear!=null? (int)contractScheduling?.MonthYear.Value.Year :0;
+                            //Year = (int)contractScheduling?.MonthYear.Value.Year;
 
-                            TotalAllowances = totalAllowances,
-                            TotalSalaryAdditions = totalSalaryAdditions,
-                            TotalSalaryAdditionAllowances = totalSalaryAdditionAllowances,
-                            TotalSalaryEveryMonthPenalties = totalSalaryEveryMonthPenalties,
-                            TotalSalaryPenalties = totalSalaryPenalties,
-                            TotalAllSalaryPenalties = totalAllSalaryPenalties,
+                            vm.TotalAllowances = totalAllowances;
+                            vm.TotalSalaryAdditions = totalSalaryAdditions;
+                            vm.TotalSalaryAdditionAllowances = totalSalaryAdditionAllowances;
+                            vm.TotalSalaryEveryMonthPenalties = totalSalaryEveryMonthPenalties;
+                            vm.TotalSalaryPenalties = totalSalaryPenalties;
+                            vm.TotalAllSalaryPenalties = totalAllSalaryPenalties;
 
                             //ايام الغياب المسموح بها
-                            TotalAbsenceAllowed = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && x.ContractSchedulingId == contractScheduling.Id && !x.IsPenalty).Select(x => x.AbsenceDayNumber).DefaultIfEmpty(0).Sum(),
+                            vm.TotalAbsenceAllowed = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && x.ContractSchedulingId == contractScheduling.Id && !x.IsPenalty).Select(x => x.AbsenceDayNumber).DefaultIfEmpty(0).Sum();
                             //ايام الغياب بخصم بعدد ايام
-                            TotalAbsencePenalty = totalAbsencePenalty,
+                            vm.TotalAbsencePenalty = totalAbsencePenalty;
                             //اجمالى قيمة ايام الغياب بخصم 
-                            TotalAllAmountAbsences = totalAllAmountAbsences,
+                            vm.TotalAllAmountAbsences = totalAllAmountAbsences;
                             //اجمالى السلف
-                            TotalLoans = totalLoans,
+                            vm.TotalLoans = totalLoans;
                             //تكلفة اجر اليوم للموظف
-                            DayCost = dayCostEmp,
+                            vm.DayCost = dayCostEmp;
 
-                            //البدلات
-                            ContractAllowances = contractAllowancesList
-                  .Select(c => new ContractSalaryAdditionsDT
-                  {
-                      Id = c.Id,
-                      SalaryAdditionAmount = c.Amount,
-                      SalaryAdditionAmountPayed = c.AmountPayed,
-                      SalaryAdditionName = c.SalaryAddition.Name,
-                      SalaryAdditionTypeName = c.SalaryAddition.SalaryAdditionType.Name,
-                      SalaryAdditionNotes = c.Notes,
-                      IsAffactAbsence = c.IsAffactAbsence
-                  }).ToList(),
+                        //البدلات
+                        vm.ContractAllowances = contractAllowancesList
+              .Select(c => new ContractSalaryAdditionsDT
+              {
+                  Id = c.Id,
+                  SalaryAdditionAmount = c.Amount,
+                  SalaryAdditionAmountPayed = c.AmountPayed,
+                  SalaryAdditionName = c.SalaryAddition.Name,
+                  SalaryAdditionTypeName = c.SalaryAddition.SalaryAdditionType.Name,
+                  SalaryAdditionNotes = c.Notes,
+                  IsAffactAbsence = c.IsAffactAbsence
+              }).ToList();
                             //الاضافات 
-                            ContractSalaryAdditions = contractSalaryAdditionsList
+                            vm.ContractSalaryAdditions = contractSalaryAdditionsList
                   .Select(c => new ContractSalaryAdditionsDT
                   {
                       Id = c.Id,
@@ -277,9 +284,9 @@ namespace ERP.Web.Controllers
                       SalaryAdditionTypeName = c.SalaryAddition.SalaryAdditionType.Name,
                       SalaryAdditionNotes = c.Notes,
                       IsAffactAbsence = c.IsAffactAbsence
-                  }).ToList(),
+                  }).ToList();
                             //الخصومات كل شهر  
-                            SalaryEveryMonthPenalties = db.ContractSalaryPenalties.Where(x => !x.IsDeleted && x.IsEveryMonth && x.ContractId == contractScheduling.ContractId)
+                           vm.SalaryEveryMonthPenalties = db.ContractSalaryPenalties.Where(x => !x.IsDeleted && x.IsEveryMonth && x.ContractId == contractScheduling.ContractId)
                   .Select(c => new ContractSalaryPenaltyDT
                   {
                       Id = c.Id,
@@ -288,9 +295,9 @@ namespace ERP.Web.Controllers
                       SalaryPenaltyName = c.SalaryPenalty.Name,
                       SalaryPenaltyTypeName = c.SalaryPenalty.SalaryPenaltyType.Name,
                       SalaryPenaltyNotes = c.Notes
-                  }).ToList(),
+                  }).ToList();
                             //الخصومات حسب كل شهر  
-                            ContractSalaryPenalties = db.ContractSalaryPenalties.Where(x => !x.IsDeleted && !x.IsEveryMonth && x.ContractSchedulingId == contractScheduling.Id)
+                            vm.ContractSalaryPenalties = db.ContractSalaryPenalties.Where(x => !x.IsDeleted && !x.IsEveryMonth && x.ContractSchedulingId == contractScheduling.Id)
                   .Select(c => new ContractSalaryPenaltyDT
                   {
                       Id = c.Id,
@@ -299,9 +306,9 @@ namespace ERP.Web.Controllers
                       SalaryPenaltyName = c.SalaryPenalty.Name,
                       SalaryPenaltyTypeName = c.SalaryPenalty.SalaryPenaltyType.Name,
                       SalaryPenaltyNotes = c.Notes,
-                  }).ToList(),
+                  }).ToList();
                             //الغياب المسموح به
-                            ContractSchedulingAllowAbsencs = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && !x.IsPenalty && x.ContractSchedulingId == contractScheduling.Id)
+                            vm.ContractSchedulingAllowAbsencs = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && !x.IsPenalty && x.ContractSchedulingId == contractScheduling.Id)
                   .Select(c => new ContractSchedulingAbsenceDT
                   {
                       Id = c.Id,
@@ -309,18 +316,18 @@ namespace ERP.Web.Controllers
                       ToDate = c.ToDate.Value.Year.ToString() + "-" + c.ToDate.Value.Month.ToString() + "-" + c.ToDate.Value.Day.ToString(),
                       AbsenceDayNumber = c.AbsenceDayNumber,
                       VacationTypeName = c.VacationType.Name,
-                  }).ToList(),
+                  }).ToList();
                             //الغياب بخصم
-                            ContractSchedulingPenaltyAbsencs = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && x.IsPenalty && x.ContractSchedulingId == contractScheduling.Id)
+                           vm.ContractSchedulingPenaltyAbsencs = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && x.IsPenalty && x.ContractSchedulingId == contractScheduling.Id)
                   .Select(c => new ContractSchedulingAbsenceDT
                   {
                       Id = c.Id,
                       FromDate = c.FromDate.Value.Year.ToString() + "-" + c.FromDate.Value.Month.ToString() + "-" + c.FromDate.Value.Day.ToString(),
                       ToDate = c.ToDate.Value.Year.ToString() + "-" + c.ToDate.Value.Month.ToString() + "-" + c.ToDate.Value.Day.ToString(),
                       AbsenceDayNumber = c.PenaltyNumber,
-                  }).ToList(),
+                  }).ToList();
                             //السلف 
-                            ContractLoans = contractScheduling.ContractLoanSchedulings.Where(x => !x.IsDeleted && x.ContractLoan.IsApproval && x.ContractSchedulingId == contractScheduling.Id)
+                            vm.ContractLoans = contractScheduling.ContractLoanSchedulings.Where(x => !x.IsDeleted && x.ContractLoan.IsApproval && x.ContractSchedulingId == contractScheduling.Id)
                  .Select(c => new ContractLoansDT
                  {
                      Id = c.Id,
@@ -329,8 +336,8 @@ namespace ERP.Web.Controllers
                      TotalAmount = c.ContractLoan.Amount,
                      LoanDate = c.ContractLoan.LoanDate.Value.ToString("yyyy-MM-dd"),
                      LoanNotes = c.ContractLoan.Notes
-                 }).ToList(),
-                        };
+                 }).ToList();
+                        
 
                     }
                     catch (Exception ex)
@@ -352,10 +359,6 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public JsonResult CreateEdit(SalaryApprovalVM vm)
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             // البدلات والاضافات
             List<EditDatatable> allowanceAdditions = new List<EditDatatable>();
             if (vm.currentAllowances != null)
@@ -412,17 +415,16 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 var contractScheduling = db.ContractSchedulings.FirstOrDefault(x => x.Id == Id);
+                var employee = contractScheduling.Contract.Employee;
+                GetSalary(contractScheduling, employee);
+                vm.ProductionAmount = productionOrderEmployee.Sum(x => x.ProductionOrderHours * x.HourlyWage);
+
                 //الطريقة الاول لاحتساب راتب الموظف لليوم الواحد 
                 var dayCostEmp = Math.Round(contractScheduling.Contract.Salary / 30, 2);
                 //الطريقة الادق لاحتساب راتب الموظف لليوم الواحد 
                 //var dayCostEmp = Math.Round((contractScheduling.Contract.Salary * 12) / 365, 2);
-                double salary = contractScheduling.Contract.Salary;
+                double salary = vm.IsEmployeeProduction ? productionOrderEmployee.Sum(x => x.ProductionOrderHours * x.HourlyWage) : contractScheduling.Contract.Salary;
                 //ايام الغياب بخصم بعدد ايام
                 var totalAbsencePenalty = db.ContractSchedulingAbsences.Where(x => !x.IsDeleted && x.ContractSchedulingId == contractScheduling.Id && x.IsPenalty).Select(x => x.PenaltyNumber).DefaultIfEmpty(0).Sum();
 
@@ -462,7 +464,7 @@ namespace ERP.Web.Controllers
                 //اجمالى السلف
                 double totalLoans = db.ContractLoanSchedulings.Where(x => !x.IsDeleted && x.ContractSchedulingId == contractScheduling.Id).Select(x => x.ContractLoan.AmountMonth).DefaultIfEmpty(0).Sum();
                 //صافى الراتب
-                double safy = (salary + totalSalaryAdditionAllowances) - (totalAllSalaryPenalties + totalLoans + totalAllAmountAbsences);
+                double safy = (salary + totalSalaryAdditionAllowances+vm.ProductionAmount) - (totalAllSalaryPenalties + totalLoans + totalAllAmountAbsences);
 
                 contractScheduling.TotalSalaryAddAllowances = totalAllowances;
                 contractScheduling.TotalSalaryAddition = totalSalaryAdditions;
@@ -496,10 +498,8 @@ namespace ERP.Web.Controllers
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalaries).FirstOrDefault().SValue)))
                         return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب فرعى" });
 
-                    var employee = contractScheduling.Contract.Employee.Person;
-
-                    if (AccountTreeService.CheckAccountTreeIdHasChilds(employee.AccountsTreeCustomerId))
-                        return Json(new { isValid = false, message = $"حساب الموظف : {employee.Name} ليس بحساب فرعى" });
+                    if (AccountTreeService.CheckAccountTreeIdHasChilds(employee.Person.AccountsTreeCustomerId))
+                        return Json(new { isValid = false, message = $"حساب الموظف : {employee.Person.Name} ليس بحساب فرعى" });
 
                     // 
                     var defaultBranchId = contractScheduling.Contract?.Employee?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
@@ -520,9 +520,9 @@ namespace ERP.Web.Controllers
                     //الى ح/ذمم الموظف 1 .... 
                     db.GeneralDailies.Add(new GeneralDaily
                     {
-                        AccountsTreeId = employee.AccountsTreeCustomerId,
+                        AccountsTreeId = employee.Person.AccountsTreeCustomerId,
                         Credit = salary,
-                        Notes = $"  راتب مستحق للموظف: {employee.Name} عن : {contractScheduling.Name}",
+                        Notes = $"  راتب مستحق للموظف: {employee.Person.Name} عن : {contractScheduling.Name}",
                         TransactionDate = Utility.GetDateTime(),
                         TransactionId = contractScheduling.Id,
                         BranchId = defaultBranchId,
@@ -554,6 +554,54 @@ namespace ERP.Web.Controllers
 
         #endregion
 
+        void GetSalary(ContractScheduling contractScheduling, Employee employee)
+        {
+            //فى حالة الموظف بالانتاج 
+            if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Production)
+            {
+                List<ContractSchedulingProduction> schedulProductionEmp = contractScheduling.ContractSchedulingProductions.Where(x => !x.IsDeleted).ToList();
+                foreach (var item in schedulProductionEmp)
+                {
+                    //اجر العامل فى الساعه فى خط الانتاج
+                    var productionOrder = db.ProductionOrders.Where(x => x.Id == item.ProductionOrderId).FirstOrDefault();
+                    var productionLine = db.ProductionLines.Where(x => x.Id == productionOrder.ProductionLineId).FirstOrDefault().ProductionLineEmployees.Where(x => !x.IsDeleted && x.EmployeeId == employee.Id).FirstOrDefault();
+                    productionOrderEmployee.Add(new ProductionOrderEmployee
+                    {
+                        ProductionOrderId = productionOrder.Id,
+                        ProductionOrderHours = productionOrder.ProductionOrderHours,
+                        HourlyWage = productionLine != null ? productionLine.HourlyWage : 0
+                    });
+
+                }
+                vm.IsEmployeeProduction = true;
+            }
+            else
+            {
+                //فى حالة موظف ليس بالانتاج ولكن له اجر فى خطوط الانتاج
+                var productionLinEmp = db.ProductionLineEmployees.Where(x => !x.IsDeleted && x.EmployeeId == employee.Id);
+                //كل اوامر الانتاج للموظف الحالى وتم تسجيله فى خط انتاج
+                var productionOrders = db.ProductionOrders.Where(x => !x.IsDeleted && productionLinEmp.Any(e => e.ProductionLineId == x.ProductionLineId));
+                if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Daily)
+                    productionOrders = productionOrders.Where(x => DbFunctions.TruncateTime(x.ProductionOrderDate) == contractScheduling.MonthYear);
+                else if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Weekly)
+                    productionOrders = productionOrders.Where(x => DbFunctions.TruncateTime(x.ProductionOrderDate) >= contractScheduling.MonthYear && DbFunctions.TruncateTime(x.ProductionOrderDate) < contractScheduling.ToDate);
+                else if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Monthly)
+                    productionOrders = productionOrders.Where(x => DbFunctions.TruncateTime(x.ProductionOrderDate).Value.Month == contractScheduling.MonthYear.Value.Month);
+
+
+                foreach (var productionOrder in productionOrders.ToList())
+                {
+                    var productionLine = db.ProductionLines.Where(x => x.Id == productionOrder.ProductionLineId).FirstOrDefault().ProductionLineEmployees.Where(x => !x.IsDeleted && x.EmployeeId == employee.Id).FirstOrDefault();
+                    productionOrderEmployee.Add(new ProductionOrderEmployee
+                    {
+                        ProductionOrderId = productionOrder.Id,
+                        ProductionOrderHours = productionOrder.ProductionOrderHours,
+                        HourlyWage = productionLine != null ? productionLine.HourlyWage : 0
+                    });
+                }
+
+            }
+        }
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

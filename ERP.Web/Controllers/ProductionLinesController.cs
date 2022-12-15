@@ -86,6 +86,7 @@ namespace ERP.Web.Controllers
 
         #endregion
 
+        #region تسجيل/تعديل/حذف خط انتاج 
         [Authorization]
         [HttpGet]
         public ActionResult CreateEdit()
@@ -245,6 +246,32 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
         }
+
+        #endregion
+
+        #region عرض بيانات خط انتاج بالتفصيل وطباعتها
+        public ActionResult ShowDetails(string id)
+        {
+
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                var vm = db.ProductionLines.Where(x => x.Id == Id).FirstOrDefault();
+                if (vm != null)
+                {
+                    vm.ProductionOrders = vm.ProductionOrders.Where(x => !x.IsDeleted).ToList();
+                    vm.ProductionLineEmployees = vm.ProductionLineEmployees.Where(x => !x.IsDeleted).ToList();
+                    return View(vm);
+                }
+                else
+                    return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index");
+
+        }
+        #endregion
+
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

@@ -47,10 +47,22 @@ namespace ERP.Web.ViewModels
         public string currentSalaryEveryMonthPenalties { get; set; }
         public string currentSalaryPenalties { get; set; }
 
+        //فى حالة ان الموظف بالانتاج 
+        public bool IsEmployeeProduction { get; set; }//الموظف بالانتاج 
+        //فى حالة موظف ليس بالانتاج ولكن له اجر فى خطوط الانتاج
+        public double ProductionAmount { get; set; }
     }
     public class EditDatatable
     {
         public Guid Id { get; set; }
         public double AmountPayed { get; set; }
+    }
+
+    //فى حالة ان الموظف بالانتاج 
+    public class ProductionOrderEmployee
+    {
+        public Guid ProductionOrderId { get; set; }
+        public int ProductionOrderHours { get; set; } //عدد ساعات امر الانتاج 
+        public double HourlyWage { get; set; }//اجر الساعة للعامل 
     }
 }

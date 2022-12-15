@@ -58,6 +58,8 @@ namespace ERP.Web.Controllers
                         contractSchedulings = db.ContractSchedulings.Where(x => !x.IsDeleted && x.Contract.IsActive && x.Contract.ContractSalaryTypeId == salaryTypeId && x.MonthYear == dateSearch);
                     else if (salaryTypeId == (int)ContractSalaryTypeCl.Monthly || salaryTypeId == (int)ContractSalaryTypeCl.Weekly)
                         contractSchedulings = db.ContractSchedulings.Where(x => !x.IsDeleted && x.Contract.IsActive && x.Contract.ContractSalaryTypeId == salaryTypeId && dateSearch >= x.MonthYear && dateSearch <= x.ToDate);
+                    else if (salaryTypeId == (int)ContractSalaryTypeCl.Production)
+                        contractSchedulings = db.ContractSchedulings.Where(x => !x.IsDeleted && x.Contract.IsActive && x.Contract.ContractSalaryTypeId == salaryTypeId);
 
                     if (Guid.TryParse(vm.DepartmntId.ToString(), out DepartmentId))
                         contractSchedulings = contractSchedulings.Where(x => x.Contract.Employee.DepartmentId == DepartmentId);
@@ -155,8 +157,21 @@ namespace ERP.Web.Controllers
                     var loanVal = contractScheduling.LoanValue;
                     var totalAdditions = contractScheduling.TotalSalaryAddAllowances + contractScheduling.TotalSalaryAddition;
                     var branchId = contractScheduling.Contract.Employee?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
-                    var month = contractScheduling.MonthYear.Value.Month;
-                    var year = contractScheduling.MonthYear.Value.Year;
+                    var month = contractScheduling.MonthYear!=null? contractScheduling.MonthYear.Value.Month:0;
+                    var year = contractScheduling.MonthYear!=null? contractScheduling.MonthYear.Value.Year:0;
+                    var day = contractScheduling.MonthYear!=null? contractScheduling.MonthYear.Value.Day:0;
+                    var toMonth = contractScheduling.ToDate!=null? contractScheduling.ToDate.Value.Month:0;
+                    var toYear = contractScheduling.ToDate != null? contractScheduling.ToDate.Value.Year:0;
+                    var toDay = contractScheduling.ToDate != null? contractScheduling.ToDate.Value.Day:0;
+                    string note = string.Empty;
+                    if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Daily)
+                        note = $"من يوم : {day} لشهر : {month} لسنه : {year}";      
+                    if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Weekly)
+                        note = $"من يوم : {day} لشهر : {month} لسنه : {year} حتى يوم : {toDay} لشهر : {toMonth} لسنة : {toYear}";
+                    if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Monthly)
+                        note = $" من شهر : {month} لسنه : {year}";
+                    if (contractScheduling.Contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Production)
+                        note = $"اوامر الانتاج";
 
                     // قيد الاستقطاعات والخصومات 
                     //======================================
@@ -169,7 +184,8 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = EmpAccountTreeId,
                             BranchId = branchId,
                             Debit = totalPenalties,
-                            Notes = $"اجمالى مستقطع من شهر : {month} لسنه : {year}",
+                            //Notes = $"اجمالى مستقطع من شهر : {month} لسنه : {year}",
+                            Notes = $"اجمالى مستقطع {note}",
                             TransactionDate = dt,
                             TransactionId = contractScheduling.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -184,7 +200,8 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = EmpAccountTreeId,
                             BranchId = branchId,
                             Debit = loanVal,
-                            Notes = $"استقطاع سلفة من شهر : {month} لسنه : {year}",
+                            //Notes = $"استقطاع سلفة من شهر : {month} لسنه : {year}",
+                            Notes = $"استقطاع سلفة {note}",
                             TransactionDate = dt,
                             TransactionId = contractScheduling.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -199,7 +216,7 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMiscellaneousRevenus).FirstOrDefault().SValue),
                             BranchId = branchId,
                             Credit = totalPenalties ,
-                            Notes = $"اجمالى خصومات شهر : {month} لسنه : {year}",
+                            Notes = $"اجمالى خصومات {note}",
                             TransactionDate = dt,
                             TransactionId = contractScheduling.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -217,7 +234,7 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = contractScheduling.Contract.Employee.Person.AccountTreeSupplierId,
                             BranchId = branchId,
                             Credit = contractScheduling.LoanValue,
-                            Notes = $"سداد سلفه/قرض من راتب شهر : {month} لسنه : {year}",
+                            Notes = $"سداد سلفه/قرض من راتب {note}",
                             TransactionDate = dt,
                             TransactionId = contractScheduling.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -235,7 +252,7 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalaries).FirstOrDefault().SValue),
                             BranchId = branchId,
                             Debit = totalAdditions,
-                            Notes = $"اجمالى بدلات واضافى للموظف : {contractScheduling.Contract.Employee.Person.Name} شهر : {month} لسنه : {year}",
+                            Notes = $"اجمالى بدلات واضافى للموظف : {contractScheduling.Contract.Employee.Person.Name} {note}",
                             TransactionDate = dt,
                             TransactionId = contractScheduling.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -250,7 +267,7 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = EmpAccountTreeId,
                             BranchId = branchId,
                             Credit = totalAdditions,
-                            Notes = $"اجمالى بدلات واضافات شهر : {month} لسنه : {year}",
+                            Notes = $"اجمالى بدلات واضافات {note}",
                             TransactionDate = dt,
                             TransactionId = contractScheduling.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -266,7 +283,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = EmpAccountTreeId,
                         BranchId = branchId,
                         Debit = payedVal,
-                        Notes = $"صرف راتب شهر : {month} لسنه : {year}",
+                        Notes = $"صرف راتب {note}",
                         TransactionDate = dt,
                         TransactionId = contractScheduling.Id,
                         TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries
@@ -284,7 +301,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = accountTreePayedId,
                         BranchId = branchId,
                         Credit = payedVal,
-                        Notes = $"صرف راتب الموظف : {contractScheduling.Contract.Employee.Person.Name} شهر : {month} لسنه : {year}",
+                        Notes = $"صرف راتب الموظف : {contractScheduling.Contract.Employee.Person.Name} {note}",
                         TransactionDate = dt,
                         TransactionId = contractScheduling.Id,
                         TransactionTypeId = (int)TransactionsTypesCl.EmployeeSalaries

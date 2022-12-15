@@ -302,8 +302,7 @@ namespace ERP.Web.Controllers
                                         if (contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Production)
                                         {
                                             //التأكد من عدم وجود التاريخ مجدول مسبقا
-                                            var contractSchedulingsIsExist = context.ContractSchedulings.Where(x => !x.IsDeleted && x.ContractId == contract.Id&&!x.IsApproval&&!x.IsPayed).FirstOrDefault();
-                                            ContractScheduling contractScheduling = contractSchedulingsIsExist;
+                                            var contractScheduling = context.ContractSchedulings.Where(x => !x.IsDeleted && x.ContractId == contract.Id&&!x.IsApproval&&!x.IsPayed).FirstOrDefault();
                                             if (contractScheduling == null)//لم يتم اضافة جدولة مدفوعا مسبقا
                                              //اضافة حقل فى جدول الجدولة 
                                             {
@@ -328,6 +327,9 @@ namespace ERP.Web.Controllers
                                             }
                                             context.ContractSchedulings.Add(contractScheduling);
                                             context.SaveChanges(auth.CookieValues.UserId);
+
+                                        }else if (contract.ContractSalaryTypeId == (int)ContractSalaryTypeCl.Daily)
+                                        {
 
                                         }
                                     }

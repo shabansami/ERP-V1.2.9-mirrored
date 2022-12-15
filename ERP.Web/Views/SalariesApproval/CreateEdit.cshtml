@@ -496,14 +496,31 @@
                                 <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
                                     <div class="d-flex flex-column mb-10 mb-md-0">
                                         @*<div class="font-weight-bolder font-size-h6-lg mb-3">ملخص الراتب</div>*@
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <span class="mr-15 font-weight-bold">الراتب الاساسى:</span>
-                                            <span class="text-right">@Model.Salary</span>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-3">
-                                            <span class="mr-15 font-weight-bold">اجر اليوم للموظف:</span>
-                                            <span class="text-right">@Model.DayCost</span>
-                                        </div>
+                                        @if (Model.IsEmployeeProduction)
+                                        {
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">المبلغ المستحق من الانتاج:</span>
+                                                <span class="text-right">@Model.Salary</span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">الراتب الاساسى:</span>
+                                                <span class="text-right">@Model.Salary</span>
+                                            </div>
+                                            <div class="d-flex justify-content-between mb-3">
+                                                <span class="mr-15 font-weight-bold">اجر اليوم للموظف:</span>
+                                                <span class="text-right">@Model.DayCost</span>
+                                            </div>
+                                            if (Model.ProductionAmount > 0)
+                                            {
+                                                <div class="d-flex justify-content-between mb-3">
+                                                    <span class="mr-15 font-weight-bold">المبلغ المستحق من الانتاج:</span>
+                                                    <span class="text-right">@Model.ProductionAmount</span>
+                                                </div>
+                                            }
+                                        }
                                         <span style="border: 1px dashed #000; width: 50%; margin: auto; margin-top: 5%; margin-bottom: 5%;"></span>
                                         <div class="d-flex justify-content-between mb-3">
                                             <span class="mr-15 font-weight-bold">اجمالى البدلات:</span>

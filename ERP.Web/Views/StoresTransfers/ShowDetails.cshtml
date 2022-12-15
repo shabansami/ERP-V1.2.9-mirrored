@@ -164,7 +164,7 @@
 
                 <div class="d-flex justify-content-between">
                     @*<button type="button" class="btn btn-light-primary font-weight-bold din-bold" onclick="window.print();">Download Invoice</button>*@
-                    <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="printContent('myDivToPrint ');">طباعة</button>
+                    <button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة</button>
                     @*<button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="window.print();">طباعة222</button>*@
                     <a href="#" onclick="window.history.back()" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left  m-1"></i>عودة</a>
 
@@ -176,21 +176,3 @@
 <!-- end::Card-->
                               </div>
 
-@section Scripts
-{
-    <script src="~/Assets/JSCustom/StoresTransfer.js"></script>
-    <script>
-        $(document).ready(function () {
-            StoresTransfer_Module.init();
-        });
-    </script>
-    <script>
-        function printContent(el) {
-            var restorepage = $('body').html();
-            var printcontent = $('#' + el).clone();
-            $('body').empty().html(printcontent);
-            window.print();
-            $('body').html(restorepage);
-        }
-    </script>
-}

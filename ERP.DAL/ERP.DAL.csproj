@@ -304,6 +304,10 @@
     <Compile Include="Migrations\202212141459047_add_TB_ContractSchedulingProduction.designer.cs">
       <DependentUpon>202212141459047_add_TB_ContractSchedulingProduction.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212171512572_remove_field_IsDone_in_ProductionOrder.cs" />
+    <Compile Include="Migrations\202212171512572_remove_field_IsDone_in_ProductionOrder.designer.cs">
+      <DependentUpon>202212171512572_remove_field_IsDone_in_ProductionOrder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\ContractSchedulingProduction.cs" />
@@ -657,6 +661,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212141459047_add_TB_ContractSchedulingProduction.resx">
       <DependentUpon>202212141459047_add_TB_ContractSchedulingProduction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212171512572_remove_field_IsDone_in_ProductionOrder.resx">
+      <DependentUpon>202212171512572_remove_field_IsDone_in_ProductionOrder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

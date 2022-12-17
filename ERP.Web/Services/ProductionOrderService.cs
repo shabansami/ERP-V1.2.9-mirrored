@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using ERP.DAL.Models;
 using static ERP.Web.Utilites.Lookups;
+using System.Data.Entity;
+using ERP.Web.ViewModels;
 
 namespace ERP.Web.Services
 {
@@ -120,5 +122,58 @@ namespace ERP.Web.Services
         }
         #endregion
 
+        #region تقرير موظفى خطوط الانتاج
+        public static List<RptProductionLineDto> GetProductionOrderByEmployee(Guid? branchId, Guid? employeeId,DateTime? dtFrom,DateTime?dtTo)
+        {
+            using (var db=new VTSaleEntities())
+            {
+                IQueryable<ProductionOrder> productionOrders = null;
+                if (employeeId != null&&branchId!=null)
+                {
+                    productionOrders = db.ProductionOrders.Where(x => !x.IsDeleted && x.ProductionLineId != null&&x.BranchId==branchId);
+                    if (dtFrom!=null&&dtTo!=null)
+                        productionOrders = productionOrders.Where(x => DbFunctions.TruncateTime(x.ProductionOrderDate) >= dtFrom && DbFunctions.TruncateTime(x.ProductionOrderDate) <= dtTo);
+                    var t = productionOrders.ToList();
+                    return productionOrders.ToList().Select(x => new RptProductionLineDto
+                    {
+                        ProductionId=x.Id,
+                        ProductionOrderDate=x.ProductionOrderDate.ToString(),
+                        ProductionNumber=x.OrderNumber,
+                        ProductionLineName=x.ProductionLine.Name,
+                        ProductionLineId=x.ProductionLineId,
+                        EmployeeCost =x.ProductionLine.ProductionLineEmployees.Where(e=>!e.IsDeleted&&e.EmployeeId==employeeId).Sum(e=>(double?)e.HourlyWage??0 ) * x.ProductionOrderHours
+                    }).ToList();
+                }
+                else
+                    return new List<RptProductionLineDto>();
+            }
+        }
+        #endregion
+        #region تقرير خطوط الانتاج
+        public static List<RptProductionLineDto> GetProductionOrderByProLine(Guid? branchId, Guid? productionLineId, DateTime? dtFrom,DateTime?dtTo)
+        {
+            using (var db=new VTSaleEntities())
+            {
+                IQueryable<ProductionOrder> productionOrders = null;
+                if (productionLineId != null&&branchId!=null)
+                {
+                    productionOrders = db.ProductionOrders.Where(x => !x.IsDeleted && x.ProductionLineId != null&&x.BranchId==branchId);
+                    if (dtFrom!=null&&dtTo!=null)
+                        productionOrders = productionOrders.Where(x => DbFunctions.TruncateTime(x.ProductionOrderDate) >= dtFrom && DbFunctions.TruncateTime(x.ProductionOrderDate) <= dtTo);
+                    return productionOrders.Select(x => new RptProductionLineDto
+                    {
+                        ProductionId=x.Id,
+                        ProductionOrderDate=x.ProductionOrderDate.ToString(),
+                        ProductionNumber=x.OrderNumber,
+                        ProductionLineName=x.ProductionLine.Name,
+                        ProductionLineId=x.ProductionLineId,
+                        EmployeeCost =x.ProductionLine.ProductionLineEmployees.Where(e=>!e.IsDeleted).Sum(e=>(double?)e.HourlyWage??0 ) * x.ProductionOrderHours
+                    }).ToList();
+                }
+                else
+                    return new List<RptProductionLineDto>();
+            }
+        }
+        #endregion
     }
 }

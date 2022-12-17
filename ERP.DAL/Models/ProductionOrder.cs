@@ -45,7 +45,6 @@ namespace ERP.DAL
         public double TotalCost { get; set; }//«Ã„«·Ï  ﬂ·›… «„— «·«‰ «Ã  ﬂ«·Ì› «·„Ê«œ «·Œ«„+ ﬂ«·Ì› «·«‰ «Ã+ ﬂ·›… «· Ê«·›
         public string Notes { get; set; }
         public DateTime ProductionOrderDate { get; set; }
-        public bool IsDone { get; set; }
         public string OrderNumber { get; set; }
         //[ForeignKey(nameof(EmployeeProduction))]
         //public Nullable<Guid> EmployeeProductionId { get; set; }
@@ -57,7 +56,7 @@ namespace ERP.DAL
         public virtual Branch Branch { get; set; }
         //public virtual Employee EmployeeProduction { get; set; }//«·„”∆Ê· ⁄‰ «·«‰ «Ã
         //public virtual Employee EmployeeOperation { get; set; }//«·„”∆Ê· ⁄‰ «· ‘€Ì·
-        public ProductionLine ProductionLine { get; set; }
+        public virtual ProductionLine ProductionLine { get; set; }
 
         //Item
 

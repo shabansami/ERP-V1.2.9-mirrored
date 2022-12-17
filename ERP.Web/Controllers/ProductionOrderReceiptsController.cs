@@ -41,7 +41,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.ProductionOrders.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), /*FinalItemName = x.FinalItem.ItemCode + "|" + x.FinalItem.Name, OrderQuantity = x.OrderQuantity,*/ IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "تم التسليم" : "لم يتم التسليم بعد", Actions = n, Num=n }).ToList()
+                data = db.ProductionOrders.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), /*FinalItemName = x.FinalItem.ItemCode + "|" + x.FinalItem.Name, OrderQuantity = x.OrderQuantity,IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "تم التسليم" : "لم يتم التسليم بعد",*/  Actions = n, Num=n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
@@ -102,7 +102,7 @@ namespace ERP.Web.Controllers
                 if (receiptQuantityOld + vm.ReceiptQuantity == vm.OrderQuantity)
                 {
                     var productionOrder = db.ProductionOrders.Where(x => x.Id == vm.ProductionOrderId).FirstOrDefault();
-                    productionOrder.IsDone = true;
+                    //productionOrder.IsDone = true;
                     db.Entry(productionOrder).State = EntityState.Modified;
                 }
 

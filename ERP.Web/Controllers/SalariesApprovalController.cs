@@ -564,7 +564,7 @@ namespace ERP.Web.Controllers
                 {
                     //اجر العامل فى الساعه فى خط الانتاج
                     var productionOrder = db.ProductionOrders.Where(x => x.Id == item.ProductionOrderId).FirstOrDefault();
-                    var productionLine = db.ProductionLines.Where(x => x.Id == productionOrder.ProductionLineId).FirstOrDefault().ProductionLineEmployees.Where(x => !x.IsDeleted && x.EmployeeId == employee.Id).FirstOrDefault();
+                    var productionLine = productionOrder.ProductionLine.ProductionLineEmployees.Where(x => !x.IsDeleted && x.EmployeeId == employee.Id).FirstOrDefault();
                     productionOrderEmployee.Add(new ProductionOrderEmployee
                     {
                         ProductionOrderId = productionOrder.Id,

@@ -39,7 +39,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.ProductionOrders.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), /*FinalItemName = x.FinalItem.ItemCode + "|" + x.FinalItem.Name, OrderQuantity = x.OrderQuantity,*/ IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "تم التسليم" : "لم يتم التسليم بعد", Actions = n }).ToList()
+                data = db.ProductionOrders.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, OrderNumber = x.OrderNumber, ProductionOrderDate = x.ProductionOrderDate.ToString(), /*FinalItemName = x.FinalItem.ItemCode + "|" + x.FinalItem.Name, OrderQuantity = x.OrderQuantity,IsDone = x.IsDone, IsDoneTitle = x.IsDone ? "تم التسليم" : "لم يتم التسليم بعد",*/  Actions = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }

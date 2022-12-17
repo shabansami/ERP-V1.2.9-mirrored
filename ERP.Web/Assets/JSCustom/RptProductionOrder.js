@@ -74,7 +74,7 @@ var RptProductionOrder_Module = function () {
                     d.dFrom = $("#dtFrom").val();
                     d.dTo = $("#dtTo").val();
                     d.OrderNumber = $("#OrderNumber").val();
-                    d.isDone = $("#IsDone").is(":checked");
+                    //d.isDone = $("#IsDone").is(":checked");
                     d.itemId = $("#ItemId").val();
                 }
 

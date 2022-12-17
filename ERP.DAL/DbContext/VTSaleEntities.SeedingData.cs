@@ -1410,7 +1410,7 @@ END";
             pages.Add(new Page() { Id = 301, ParentId = 298, Icon = null, IsPage = true, Name = "متأخرات تحصيل بيع", OrderNum = 0, Url = "/RptDueInvoices/SearchDueSell", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 302, ParentId = 285, Icon = null, IsPage = true, Name = "حركة صنف", OrderNum = 0, Url = "/RptItemBalances/SearchItemAction", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 303, ParentId = 220, Icon = null, IsPage = false, Name = "تقارير الانتاج", OrderNum = 0, Url = "", OtherUrls = null });
-            pages.Add(new Page() { Id = 304, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير اصناف الانتاج", OrderNum = 0, Url = "/RptProductionOrders/SearchProductionOrders", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 304, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير اصناف الانتاج", OrderNum = 2, Url = "/RptProductionOrders/SearchProductionOrders", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 305, ParentId = 220, Icon = null, IsPage = false, Name = "تقارير الصيانة", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 306, ParentId = 305, Icon = null, IsPage = true, Name = "فواتير الصيانة", OrderNum = 0, Url = "/RptMaintenances/SearchMaintenance", OtherUrls = ",/Maintenances/ShowHistory,/Maintenances/ShowMaintenance,", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 307, ParentId = 305, Icon = null, IsPage = true, Name = "تقرير الاعطال ", OrderNum = 0, Url = "/RptMaintenances/SearchMaintenanceProblem", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -1518,6 +1518,8 @@ END";
             pages.Add(new Page() { Id = 410, ParentId = 117, Icon = null, IsPage = false, Name = "خطوط الانتاج", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 411, ParentId = 410, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "تسجيل خط انتاج", OrderNum = 0, Url = "/ProductionLines/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 412, ParentId = 410, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة خط انتاج", OrderNum = 0, Url = "/ProductionLines/Index", OtherUrls = "/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 413, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير موظف خط الانتاج", OrderNum = 0, Url = "/RptProductionLines/SearchProductionOrderEmployee", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 414, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير خطوط الانتاج", OrderNum = 1, Url = "/RptProductionLines/SearchProductionLine", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
 
 

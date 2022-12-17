@@ -13,7 +13,6 @@ namespace ERP.Web.DataTablesDS
         }
         public Guid Id { get; set; }
         public string OrderNumber { get; set; }
-        public bool? IsDone { get; set; }
         public string FinalItemName { get; set; }
         public string ProductionOrderDate { get; set; }
         public double OrderQuantity { get; set; }

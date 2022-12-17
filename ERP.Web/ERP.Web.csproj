@@ -200,6 +200,7 @@
     <Content Include="Assets\images\users\avatar-7.jpg" />
     <Content Include="Assets\images\users\avatar-8.jpg" />
     <Content Include="Assets\images\users\avatar-9.jpg" />
+    <Content Include="Assets\JSCustom\RptProductionLine.js" />
     <Content Include="Assets\JSCustom\ContractSupplier.js" />
     <Content Include="Assets\JSCustom\ProductionLine.js" />
     <Content Include="Assets\JSCustom\District.js" />
@@ -1752,6 +1753,7 @@
     <Compile Include="Controllers\RptItemStockBalancesController.cs" />
     <Compile Include="Controllers\RptLimitItemsController.cs" />
     <Compile Include="Controllers\RptMaintenancesController.cs" />
+    <Compile Include="Controllers\RptProductionLinesController.cs" />
     <Compile Include="Controllers\RptProductionOrdersController.cs" />
     <Compile Include="Controllers\RptPurchaseInvoicesController.cs" />
     <Compile Include="Controllers\RptQuantityDamagesController.cs" />
@@ -1846,6 +1848,7 @@
     <Compile Include="DataTablesDS\RptItemInvoiceDto.cs" />
     <Compile Include="DataTablesDS\RptItemSellDto.cs" />
     <Compile Include="DataTablesDS\RptMaintenanceProblemDto.cs" />
+    <Compile Include="DataTablesDS\RptProductionLineDto.cs" />
     <Compile Include="DataTablesDS\RptProductionOrderDto.cs" />
     <Compile Include="DataTablesDS\SaleMenCustomerDT.cs" />
     <Compile Include="DataTablesDS\SellInvoiceInstallmentDto.cs" />
@@ -2369,6 +2372,8 @@
     <Content Include="Views\ProductionLines\Index.cshtml" />
     <Content Include="Views\ProductionLines\CreateEdit.cshtml" />
     <Content Include="Views\ProductionLines\ShowDetails.cshtml" />
+    <Content Include="Views\RptProductionLines\SearchProductionOrderEmployee.cshtml" />
+    <Content Include="Views\RptProductionLines\SearchProductionLine.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

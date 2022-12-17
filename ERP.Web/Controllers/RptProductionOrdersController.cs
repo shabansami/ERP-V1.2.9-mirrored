@@ -42,7 +42,7 @@ namespace ERP.Web.Controllers
         }
 
         #region اوامر الانتاج 
-        public ActionResult GetProductionOrders(Guid? branchId, Guid? colorId, string OrderNumber, bool? isDone, Guid? itemId, string dFrom, string dTo)
+        public ActionResult GetProductionOrders(Guid? branchId, Guid? colorId, string OrderNumber, Guid? itemId, string dFrom, string dTo)
         {
             DateTime dtFrom, dtTo;
             IQueryable<ProductionOrder> productionOrders = db.ProductionOrders.Where(x => !x.IsDeleted);
@@ -50,8 +50,8 @@ namespace ERP.Web.Controllers
             if (OrderNumber != null)
                 productionOrders = productionOrders.Where(x => x.OrderNumber == OrderNumber);
            
-            if (isDone == true)
-                productionOrders = productionOrders.Where(x => x.IsDone);
+            //if (isDone == true)
+            //    productionOrders = productionOrders.Where(x => x.IsDone);
             if (branchId != null)
                 productionOrders = productionOrders.Where(x => x.BranchId == branchId);
 
@@ -73,7 +73,7 @@ namespace ERP.Web.Controllers
                 ProductionOrderDate=x.ProductionOrderDate.ToString("yyyy-MM-dd"),
                 //FinalItemName=x.FinalItem.Name,
                 //FinalItemCost=Math.Round(x.FinalItemCost,2,MidpointRounding.ToEven),
-                IsDone=x.IsDone,
+                //IsDone=x.IsDone,
                 //MaterialItemCost= Math.Round(x.MaterialItemCost, 2, MidpointRounding.ToEven),
                 //OrderQuantity=x.OrderQuantity,
                 TotalCost=x.TotalCost,

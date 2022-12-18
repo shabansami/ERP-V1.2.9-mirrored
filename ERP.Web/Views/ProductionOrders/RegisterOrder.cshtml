@@ -40,7 +40,7 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med",@onchange= "ProductionOrder_Module.getStoresBranchChanged()" })
                             </div>
                         </div>
                         <div class="col-xl-4">

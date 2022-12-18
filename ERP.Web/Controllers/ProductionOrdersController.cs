@@ -12,6 +12,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.ViewModels;
 
 namespace ERP.Web.Controllers
 {
@@ -703,13 +704,392 @@ namespace ERP.Web.Controllers
 
         #endregion
 
+        #region امر انتاج مجمع
+        public ActionResult RegisterOrderComplex()
+        {
+            OrderSellVM vm = new OrderSellVM();
+
+            // add
+                    vm = GetData(vm);
+            vm.ProductionOrderDate = Utility.GetDateTime();
+
+            return View(vm);
+        }
+        [HttpPost]
+        public ActionResult RegisterOrderComplex(OrderSellVM vm, string actionType)
+        {
+            // add
+
+
+            vm = GetData(vm);
+            //فى حالى الضغط على اضافة توليفة لامر الانتاج 
+            if (actionType == "addProductionItem")
+            {
+                if (vm.QuantityItemProduction == 0)
+                {
+                    ViewBag.Msg = "تأكد من ادخال الكمية ";
+                    return View(vm);
+                }
+                if (vm.ItemProductionId != null)
+                {
+                    if (vm.ItemProductionDetails.Where(x => x.ItemProductionId == vm.ItemProductionId).Count() > 0)
+                    {
+                        ViewBag.Msg = "التوليفة المحدده موجودة مسبقا ";
+                        return View(vm);
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "تأكد من اختيار توليفة";
+                    return View(vm);
+                }
+                var itemProductionName = db.ItemProductions.Where(x => x.Id == vm.ItemProductionId).FirstOrDefault();
+                vm.ItemProductionDetails.Add(new ItemProductionDetails
+                {
+                    ItemProductionId = vm.ItemProductionId,
+                    ItemProductionName = itemProductionName != null ? itemProductionName.Name : null,
+                    Quantity = vm.QuantityItemProduction
+                });
+                vm.QuantityItemProduction = 0;
+                vm.ItemProductionId = null;
+            }
+            //فى حالة الضغط على زر حذف توليفة
+            if (actionType == "deletItemProduction")
+            {
+                if (vm.ItemProductionDeleted != null)
+                {
+                    var item = vm.ItemProductionDetails.Where(x => x.ItemProductionId == vm.ItemProductionDeleted).FirstOrDefault();
+                    vm.ItemProductionDetails.Remove(item);
+                }
+            }
+
+
+                vm.OrderSellItems = vm.ItemProductionDetails
+                     .Select(x => new OrderSellItemsDto
+                     {
+                         //Id = x.Id,
+                         //ItemId = x.ItemId,
+                         //ItemName = x.Item.Name,
+                         Quantity = x.Quantity,
+                         //Price = x.Price,
+                         //Amount = x.Quantity * x.Price,
+                         //CurrentBalance = BalanceService.GetBalance(x.ItemId, null, null),
+                         ItemProductionId = x.ItemProductionId,
+                         //ItemProductionList = ItemService.GetItemProduction(x.ItemId)
+                     }).ToList();
+                foreach (var item in vm.OrderSellItems)
+                {
+                    item.ItemProductionOrderDetailsIn.Clear();
+                    item.ItemProductionOrderDetailsOut.Clear();
+                }
+                foreach (var itemOrder in vm.OrderSellItems)
+                {
+                    //الاصناف الداخلة 
+                    var itemsIn = db.ItemProductionDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)ProductionTypeCl.In && x.ItemProductionId == itemOrder.ItemProductionId);
+                    if (itemsIn.Count() > 0)
+                    {
+                        itemOrder.ItemProductionOrderDetailsIn.AddRange(itemsIn.ToList().Select(x => new ItemProductionOrderDetailsDT
+                        {
+                            ItemProductionId = x.ItemProductionId,
+                            ItemId = x.ItemId,
+                            ItemName = x.Item.Name,
+                            QuantityRequired = x.Quantity * itemOrder.Quantity,
+                            QuantityAvailable = BalanceService.GetBalance(x.ItemId, vm.ProductionUnderStoreId),
+                            ItemCost = _itemService.GetItemCostCalculation(vm.ItemCostCalculateId ?? 0, x.ItemId),
+                            StoreUnderId = vm.ProductionUnderStoreId,
+                            ItemCostCalculateId = vm.ItemCostCalculateId,
+                            IsAllQuantityDone = x.Quantity * itemOrder.Quantity <= BalanceService.GetBalance(x.ItemId, vm.ProductionUnderStoreId) ? true : false,
+                        }).ToList());
+                    }
+                    //الاصناف الخارجة
+                    var itemsOut = db.ItemProductionDetails.Where(x => !x.IsDeleted && x.ProductionTypeId == (int)ProductionTypeCl.Out && x.ItemProductionId == itemOrder.ItemProductionId);
+                    if (itemsOut.Count() > 0)
+                    {
+                        itemOrder.ItemProductionOrderDetailsOut.AddRange(itemsOut.ToList().Select(x => new ItemProductionOrderDetailsDT
+                        {
+                            ItemProductionId = x.ItemProductionId,
+                            ItemId = x.ItemId,
+                            ItemName = x.Item.Name,
+                            QuantityRequired = x.Quantity * itemOrder.Quantity,
+                            QuantityAvailable = BalanceService.GetBalance(x.ItemId, vm.ProductionUnderStoreId, null, null, null),
+                        }).ToList());
+                    }
+
+
+
+                }
+
+            
+
+            //فى حالى الضغط على اضافة تكلفة انتاج 
+            if (actionType == "addExpense")
+            {
+                if (vm.ExpenseTypeId != null)
+                {
+                    if (vm.ProductionOrderExpens.Where(x => x.ExpenseTypeId == vm.ExpenseTypeId).Count() > 0)
+                    {
+                        ViewBag.Msg = "التكلفة المحدده موجود مسبقا ";
+                        return View(vm);
+                    }
+                    if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseTypeId))
+                    {
+                        ViewBag.Msg = "حساب المصروف ليس بحساب فرعى";
+                        return View(vm);
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "تأكد من اختيار تكلفة";
+                    return View(vm);
+                }
+
+                vm.ProductionOrderExpens.Add(new InvoiceExpensesDT
+                {
+                    ExpenseAmount = vm.ExpenseAmount,
+                    ExpenseTypeId = vm.ExpenseTypeId,
+                    ExpenseTypeName = vm.ExpenseTypeId != null ? db.AccountsTrees.Where(x => x.Id == vm.ExpenseTypeId).FirstOrDefault()?.AccountName : null,
+                    Notes = vm.ExpenseNotes
+                });
+                vm.ExpenseAmount = 0;
+                vm.ExpenseTypeId = null;
+                vm.ExpenseNotes = null;
+            }
+            //فى حالة الضغط على زر حذف مصروف
+            if (actionType == "deletExpense")
+            {
+                if (vm.ExpenseTypeIdDeleted != null)
+                {
+                    var item = vm.ProductionOrderExpens.Where(x => x.ExpenseTypeId == vm.ExpenseTypeIdDeleted).FirstOrDefault();
+                    vm.ProductionOrderExpens.Remove(item);
+                }
+            }
+            //فى حالة الضغط على تسجيل امر انتاج مجمع
+            if (actionType == "save")
+            {
+                if (vm.BranchId == null || vm.ProductionStoreId == null || vm.ProductionUnderStoreId == null /*|| vm.FinalItemId == null|| vm.OrderQuantity == 0 */ || vm.ProductionOrderDate == null || vm.ItemCostCalculateId == null)
+                {
+                    ViewBag.Msg = "تأكد من تحديد البيانات بشكل صحيح";
+                    return View(vm);
+                }
+
+
+                //المواد الداخلة
+                List<ProductionOrderDetail> productionOrderDetail = null;
+                //قبول اضافة صنف بدون رصيد
+                int itemAcceptNoBalance = 0;
+                var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+                if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+
+                    if (vm.OrderSellItems.Any(x => x.ItemProductionOrderDetailsIn.Any()) || vm.OrderSellItems.Any(x => x.ItemProductionOrderDetailsOut.Any()))
+                    {
+                        if (vm.OrderSellItems.Any(x => x.ItemProductionOrderDetailsIn.Any(y => !y.IsAllQuantityDone)))
+                        {
+                            if (itemAcceptNoBalance == 0)
+                            {
+                                ViewBag.Msg = "تأكد من وجود ارصدة تكفى فى مخزن تحت التصنيع ";
+                                return View(vm);
+                            }
+                        }
+
+                        List<ProductionOrderDetail> proInOut = new List<ProductionOrderDetail>();
+                        List<ProductionOrderDetail> proOut = new List<ProductionOrderDetail>();
+                        for (int i = 0; i < vm.OrderSellItems.Count; i++)
+                        {
+                            var itemProductionOrderDetailsIn = vm.OrderSellItems[i].ItemProductionOrderDetailsIn.ToList();
+                            proInOut.AddRange(itemProductionOrderDetailsIn.Select(x =>
+                        new ProductionOrderDetail
+                        {
+                            ItemProductionId = x.ItemProductionId,
+                            ProductionTypeId = (int)ProductionTypeCl.In,
+                            ItemId = x.ItemId,
+                            Quantity = x.QuantityRequired ?? 0,
+                            ItemCost = x.ItemCost ?? 0,
+                            ItemCostCalculateId = x.ItemCostCalculateId,
+                            ComplexProductionIndex = i
+
+                        }).ToList());
+
+                            var itemProductionOrderDetailsOut = vm.OrderSellItems[i].ItemProductionOrderDetailsOut.ToList();
+                            proOut.AddRange(itemProductionOrderDetailsOut.Select(x =>
+                             new ProductionOrderDetail
+                             {
+                                 ItemProductionId = x.ItemProductionId,
+                                 ProductionTypeId = (int)ProductionTypeCl.Out,
+                                 ItemId = x.ItemId,
+                                 Quantity = x.QuantityRequired ?? 0,
+                                 ItemCost = x.ItemCost ?? 0,
+                                 ItemCostCalculateId = x.ItemCostCalculateId,
+                                 ComplexProductionIndex = i
+
+                             }).ToList());
+                        }
+
+                        proInOut.AddRange(proOut);
+                        productionOrderDetail = proInOut;
+
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "تأكد من ادخال صنف خام واحد على الاقل";
+                        return View(vm);
+                    }
+
+                //المصروفات
+                List<ProductionOrderExpens> productionOrderExpens = new List<ProductionOrderExpens>();
+                if (vm.ProductionOrderExpens.Count() > 0)
+                {
+                    productionOrderExpens = vm.ProductionOrderExpens.Select(
+                        x => new ProductionOrderExpens
+                        {
+                            ExpenseTypeAccountTreeId = x.ExpenseTypeId,
+                            Amount = x.ExpenseAmount,
+                            Note = x.Notes
+                        }
+                        ).ToList();
+                }
+
+                // تسجيل قيود تكاليف امر الانتاج
+
+
+                using (var context = new VTSaleEntities())
+                {
+                    using (DbContextTransaction transaction = context.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            ProductionOrder productionOrder = new ProductionOrder();
+                            productionOrder.BranchId = vm.BranchId;
+                            productionOrder.Notes = vm.Notes;
+                            productionOrder.OrderSellId = vm.QuoteOrderSellId;
+                            productionOrder.ProductionStoreId = vm.ProductionStoreId;
+                            productionOrder.ProductionUnderStoreId = vm.ProductionUnderStoreId;
+                            productionOrder.ProductionOrderHours = vm.ProductionOrderHours;
+                            productionOrder.ProductionLineId = vm.ProductionLineId;
+                            //تسجيل امر الانتاج
+                            productionOrder.ProductionOrderDate = vm.ProductionOrderDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
+                            //اضافة رقم الامر
+                            string codePrefix = Properties.Settings.Default.CodePrefix;
+                            productionOrder.OrderNumber = codePrefix + (context.ProductionOrders.Count(x => x.OrderNumber.StartsWith(codePrefix)) + 1);
+                            //انشاء الباركود
+                            string barcode;
+                        generate:
+                            barcode = GeneratBarcodes.GenerateRandomBarcode();
+                            var isExistInItems = context.ProductionOrders.Where(x => x.OrderBarCode == barcode).Any();
+                            if (isExistInItems)
+                                goto generate;
+
+                            productionOrder.OrderBarCode = barcode;
+                            productionOrder.OrderSellId = vm.QuoteOrderSellId;
+                            var GetProductionOrderCosts = ProductionOrderService.GetProductionOrderCost(null, productionOrderDetail, vm.ProductionOrderExpens);
+                            if (!GetProductionOrderCosts.IsValid)
+                                ViewBag.Msg = "حدث خطأ اثناء تنفيذ العملية";
+                            productionOrder.TotalCost = GetProductionOrderCosts.TotalCost;
+                            foreach (var item in productionOrderDetail)
+                            {
+                                if (item.ProductionTypeId == (int)ProductionTypeCl.Out)
+                                    item.ItemCost = GetProductionOrderCosts.FinalItemCost;
+                            }
+                            productionOrder.ProductionOrderDetails = productionOrderDetail;
+                            productionOrder.ProductionOrderExpenses = productionOrderExpens;
+
+                            //vm.FinalItemCost = GetProductionOrderCosts.FinalItemCost;
+                            context.ProductionOrders.Add(productionOrder);
+                            context.SaveChanges(auth.CookieValues.UserId);
+
+                            // المصروفات (مدين
+                            foreach (var expense in productionOrderExpens)
+                            {
+                                //var expressAccountsTreeId = db.ExpenseTypes.Where(x => x.Id == expense.ExpenseTypeId).FirstOrDefault().AccountsTreeId;
+                                var expressAccountsTreeId = expense.ExpenseTypeAccountTreeId;
+                                if (AccountTreeService.CheckAccountTreeIdHasChilds(expressAccountsTreeId))
+                                    return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
+
+                                context.GeneralDailies.Add(new GeneralDaily
+                                {
+                                    AccountsTreeId = expressAccountsTreeId,
+                                    BranchId = productionOrder.BranchId,
+                                    Debit = expense.Amount,
+                                    Notes = $"تكاليف أمر إنتاج مجمع رقم : {productionOrder.OrderNumber}",
+                                    TransactionDate = productionOrder.ProductionOrderDate,
+                                    TransactionId = productionOrder.Id,
+                                    TransactionTypeId = (int)TransactionsTypesCl.ProductionOrderExpenses
+                                });
+                                context.SaveChanges(auth.CookieValues.UserId);
+                            }
+
+                            transaction.Commit();
+                            ViewBag.MsgSuccess = "تم إضافة أمر الإنتاج بنجاح";
+                            return View(vm);
+
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            ViewBag.Msg = "حدث خطأ اثناء تنفيذ العملية";
+                            return View(vm);
+                        }
+                    }
+                }
+
+            }
+
+            return View(vm);
+        }
+
+
+        private OrderSellVM GetData(OrderSellVM vm)
+        {
+            Guid? branchId = null;
+
+            branchId = vm.BranchId;
+            Guid productionUnderStoreId = Guid.NewGuid();
+            Guid productionStoreId = Guid.NewGuid();
+            if (vm.ProductionUnderStoreId == null)
+            {
+                //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
+                var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
+                //Guid? productionUnderStoreId = null;
+                if (!Guid.TryParse(storeProductionUnderSetting.SValue, out productionUnderStoreId))
+                    ViewBag.Msg = "تأكد من اختيار مخزن تحت التصنيع أولا من شاشة الاعدادات العامة";
+            }
+            ViewBag.ProductionUnderStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionUnderStoreId);
+
+            if (vm.ProductionStoreId == null)
+            {
+                //التاكد من تحديد مخزن التصنيع الداخلى من الاعدادات اولا 
+                var storeProductionSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreProductionInternalId).FirstOrDefault();
+                if (!Guid.TryParse(storeProductionSetting.SValue, out productionStoreId))
+                    ViewBag.Msg = "تأكد من اختيار مخزن التصنيع الداخلى أولا من شاشة الاعدادات العامة";
+            }
+            ViewBag.ProductionStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionStoreId);
+
+            //التاكد من تحديد احتساب تكلفة المنتج من الاعدادات اولا 
+            if (vm.ItemCostCalculateId == null)
+            {
+                var itemCostSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault();
+                if (!int.TryParse(itemCostSetting.SValue, out int itemCostId))
+                    ViewBag.Msg = "تأكد من اختيار طريقة احتساب تكلفة المنتج أولا من شاشة الاعدادات العامة";
+                vm.ItemCostCalculateId = itemCostId;
+            }
+
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.ItemProductionId = new SelectList(db.ItemProductions.Where(x => !x.IsDeleted), "Id", "Name");
+            vm.BranchId = branchId;
+            //vm.OrderSellItems.ForEach(x => x.ItemProductionList = ItemService.GetItemProduction(x.ItemId));
+
+            return vm;
+        }
+
+    
+    #endregion
 
 
 
 
-
-        //Releases unmanaged resources and optionally releases managed resources.
-        protected override void Dispose(bool disposing)
+    //Releases unmanaged resources and optionally releases managed resources.
+    protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

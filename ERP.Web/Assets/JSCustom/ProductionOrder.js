@@ -249,7 +249,18 @@ var ProductionOrder_Module = function () {
             }
         });
     };
-
+    function getStoresBranchChanged() {  // تحديد محزن الصيانة
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+            $("#ProductionUnderStoreId").empty();
+            $("#ProductionStoreId").empty();
+            $("#ProductionUnderStoreId").append("<option value=>اختر عنصر من القائمة </option>");
+            $("#ProductionStoreId").append("<option value=>اختر عنصر من القائمة </option>");
+            $.each(data, function (index, row) {
+                $("#ProductionUnderStoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                $("#ProductionStoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            })
+        });
+    };
     //#endregion ============== end ==============
 
 
@@ -780,7 +791,8 @@ var ProductionOrder_Module = function () {
         getBalanceOnStoreChange: getBalanceOnStoreChange,
         onQuantityChangeDiffBalance: onQuantityChangeDiffBalance,
         addProductionOrderExpenses: addProductionOrderExpenses,
-        deleteRowProductionOrderExpenses: deleteRowProductionOrderExpenses
+        deleteRowProductionOrderExpenses: deleteRowProductionOrderExpenses,
+        getStoresBranchChanged: getStoresBranchChanged
     };
 
 }();

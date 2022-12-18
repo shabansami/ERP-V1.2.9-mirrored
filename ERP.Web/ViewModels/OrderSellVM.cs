@@ -14,6 +14,7 @@ namespace ERP.Web.ViewModels
         {
             OrderSellItems = new List<OrderSellItemsDto>();
             ProductionOrderExpens = new List<InvoiceExpensesDT>();
+            ItemProductionDetails = new List<ItemProductionDetails>();
         }
         public Nullable<Guid> CustomerId { get; set; }
         public System.DateTime InvoiceDate { get; set; } //تاريخ امر البيع
@@ -26,10 +27,17 @@ namespace ERP.Web.ViewModels
 
         public List<OrderSellItemsDto> OrderSellItems { get; set; }
         public List<InvoiceExpensesDT> ProductionOrderExpens { get; set; }
+        public List<ItemProductionDetails> ItemProductionDetails { get; set; }
         public Guid? ExpenseTypeId { get; set; }
         public double ExpenseAmount { get; set; }
         public string ExpenseNotes { get; set; }
         public Guid? ExpenseTypeIdDeleted { get; set; }
+        public Guid? ItemProductionDeleted { get; set; }
+
+        //اضافة التوليفات فى امر الانتاج المجمع المنفصل
+        public double QuantityItemProduction { get; set; }
+        public Nullable<Guid> ItemProductionId { get; set; }//التوليفة المحددة فى حالة تجهيز لانتاج مجمع
+        public string ItemProductionName { get; set; }
     }
     public class OrderSellItemsDto
     {
@@ -56,5 +64,13 @@ namespace ERP.Web.ViewModels
         public List<ItemProductionOrderDetailsDT> ItemProductionOrderDetailsIn { get; set; }
         public List<ItemProductionOrderDetailsDT> ItemProductionOrderDetailsOut { get; set; }
     }
+
+    public class ItemProductionDetails
+    {
+        public Nullable<Guid> ItemProductionId { get; set; }
+        public string ItemProductionName { get; set; }
+        public double Quantity { get; set; }
+    }
+
 
 }

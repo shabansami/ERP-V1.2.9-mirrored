@@ -200,6 +200,7 @@
     <Content Include="Assets\images\users\avatar-7.jpg" />
     <Content Include="Assets\images\users\avatar-8.jpg" />
     <Content Include="Assets\images\users\avatar-9.jpg" />
+    <Content Include="Assets\JSCustom\ProductionOrderComplex.js" />
     <Content Include="Assets\JSCustom\RptProductionLine.js" />
     <Content Include="Assets\JSCustom\ContractSupplier.js" />
     <Content Include="Assets\JSCustom\ProductionLine.js" />
@@ -2374,6 +2375,7 @@
     <Content Include="Views\ProductionLines\ShowDetails.cshtml" />
     <Content Include="Views\RptProductionLines\SearchProductionOrderEmployee.cshtml" />
     <Content Include="Views\RptProductionLines\SearchProductionLine.cshtml" />
+    <Content Include="Views\ProductionOrders\RegisterOrderComplex.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

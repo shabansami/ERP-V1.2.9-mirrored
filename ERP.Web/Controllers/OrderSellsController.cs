@@ -429,8 +429,7 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-            ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
-            ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
+            ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x => !x.IsDeleted), "Id", "Name");
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
             vm.ProductionOrderDate = Utility.GetDateTime();
@@ -504,8 +503,7 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-            //ViewBag.EmployeeProductionId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",vm.EmployeeProductionId);
-            //ViewBag.EmployeeOperationId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",vm.EmployeeOperationId);
+            ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x => !x.IsDeleted), "Id", "Name");
             vm.BranchId = branchId;
             vm.CustomerId = customerId;
             vm.OrderSellItems.ForEach(x => x.ItemProductionList = ItemService.GetItemProduction(x.ItemId));
@@ -652,8 +650,8 @@ namespace ERP.Web.Controllers
                             productionOrder.OrderSellId = vm.QuoteOrderSellId;
                             productionOrder.ProductionStoreId = vm.ProductionStoreId;
                             productionOrder.ProductionUnderStoreId = vm.ProductionUnderStoreId;
-                            //productionOrder.EmployeeProductionId = vm.EmployeeProductionId;
-                            //productionOrder.EmployeeOperationId = vm.EmployeeOperationId;
+                            productionOrder.ProductionOrderHours = vm.ProductionOrderHours;
+                            productionOrder.ProductionLineId = vm.ProductionLineId;
                             //تسجيل امر الانتاج
                             productionOrder.ProductionOrderDate = vm.ProductionOrderDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                             //اضافة رقم الامر

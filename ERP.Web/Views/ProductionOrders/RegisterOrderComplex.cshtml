@@ -2,13 +2,13 @@
 @using ERP.Web.Utilites
 @using ERP.Web.DataTablesDS
 
-@{ ViewBag.Title = "OrderForProduction";
+@{ ViewBag.Title = "RegisterOrderComplex";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     string title, btn = string.Empty, icon = string.Empty;
 
-    title = "تجهيز لفاتورة بيع ";
-    btn = "تسجيل فاتورة بيع";
+    title = "امر انتاج مجمع";
+    btn = "تسجيل امر انتاج مجمع";
     icon = "fa fa-add m-1";
     var generalAccount = Lookups.GeneralExpenses;
 }
@@ -16,11 +16,11 @@
 
 @section PageTitle1{تجهيز امر انتاج مجمع}
 @section PageTitle2{@title }
-@section Button1{ادارة تجهيز امر انتاج مجمع}
-@section Button1Link{/OrderSells/Index}
+@section Button1{ادارة اوامر انتاج }
+@section Button1Link{/ProductionOrders/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 
-@using (Html.BeginForm("OrderForProduction", "OrderSells", FormMethod.Post, new { id = "form1" }))
+@using (Html.BeginForm("RegisterOrderComplex", "ProductionOrders", FormMethod.Post, new { id = "form1" }))
 {
     <div class="row">
         <div class="col-12">
@@ -35,36 +35,22 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="form-group required">
-                                <label>العميل</label>
-                                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med", @disabled = "disabled" })
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group required">
-                                <label>تاريخ امر البيع </label>
-                                @Html.TextBoxFor(m => m.InvoiceDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date", @disabled = "disabled" })
-                            </div>
-                        </div>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @disabled = "disabled" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @onchange = "ProductionOrder_Module.getStoresBranchChanged()" })
                                 @Html.HiddenFor(m => m.Id)
                                 @Html.HiddenFor(m => m.BranchId)
-                                @Html.HiddenFor(m => m.CustomerId)
-                                @Html.HiddenFor(m => m.QuoteOrderSellId)
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group required">
                                 <label>تاريخ امر الانتاج</label>
                                 @Html.TextBoxFor(m => m.ProductionOrderDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @placeholder = "ادخل تاريخ امر الانتاج", @type = "date" })
                             </div>
                         </div>
-                        <div class="col-xl-4">
+                        <div class="col-xl-6">
                             <!--begin::Select-->
                             <div class="form-group">
                                 <label>مخزن تحت التصنيع)</label>
@@ -72,13 +58,12 @@
                             </div>
                             <!--end::Select-->
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label>مخزن التصنيع (المنتج النهائى)</label>
                                 @Html.DropDownList("ProductionStoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med" })
                             </div>
                         </div>
-
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>خط الانتاج</label>
@@ -91,62 +76,91 @@
                                 @Html.TextBoxFor(m => m.ProductionOrderHours, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
                             </div>
                         </div>
-
                         <div class="col-lg-12">
                             <div class="form-group">
                                 <label>ملاحظات</label>
                                 @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control", @placeholder = "ادخل ملاحظات امر الانتاج" })
                             </div>
                         </div>
+
+                    </div>
+                    <hr />
+                    <h3>اضافة التوليفات</h3>
+                    <hr />
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label> التوليفة</label>
+                                @Html.DropDownList("ItemProductionId", null, htmlAttributes: new { @class = "form-select din-med select2" })                                @Html.HiddenFor(m => m.ExpenseTypeId)
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>الكمية</label>
+                                @Html.TextBoxFor(m => m.QuantityItemProduction, new { @class = "form-control", @type = "number" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group">
+                                <label>.</label>
+                                <button type="submit" name="actionType" value="addProductionItem" @*onclick="ProductionOrder_Module.addProductionOrderExpenses();"*@ class="btn btn-primary font-weight-bold  px-15 w-100">اضافة توليفة</button>
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             <div class="form-group">
-                                <label>الاصناف المسجلة</label>
-                                <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
+                                <label>التوليفات المسجلة</label>
+                                <table class="table table-bordered dt-responsive  nowrap w-100" id="ProductionOrderItem">
                                     <thead>
                                         <tr>
-                                            <td>الصنف</td>
                                             <td>الكمية</td>
-                                            @*<td>السعر</td>*@
                                             <td>التوليفة</td>
-                                            @*<td>الرصيد الحالى</td>*@
+                                            <td>حذف</td>
                                         </tr>
-
                                     </thead>
                                     <tbody>
-
-                                        @for (int i = 0; i < Model.OrderSellItems.Count; i++)
+                                        @for (int i = 0; i < Model.ItemProductionDetails.Count; i++)
                                         {
-                                            //var dropDownItemProductionId = (List<DropDownListInt>)ViewBag.DropDownListSellItemType;
-                                            var list = new SelectList(Model.OrderSellItems[i].ItemProductionList, "Id", "Name", Model.OrderSellItems[i].ItemProductionId);
-
                                             <tr>
-                                                <td>@Model.OrderSellItems[i].ItemName</td>
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].ItemName)
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].ItemId)
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].Id)
-                                                @Html.HiddenFor(m => m.OrderSellItems[i].CurrentBalance)
-                                                <td>@Html.TextBoxFor(m => m.OrderSellItems[i].Quantity, new { @class = "form-control", @style = "text-align:right;" }) </td>
-                                                @*<td>@Html.TextBoxFor(m => m.OrderSellItems[i].Price, new { @class = "form-control", @style = "text-align:right;" }) </td>*@
-                                                <td>@Html.DropDownList("ItemProductionId", list, htmlAttributes: new { @class = "form-select din-med", @Name = "OrderSellItems[" + i + "].ItemProductionId" })</td>
-                                                @*<td>@Model.OrderSellItems[i].CurrentBalance</td>*@
+                                                @*<td>@Model.ItemDetails[i].ItemName</td>*@
+                                                @Html.HiddenFor(m => m.ItemProductionDetails[i].ItemProductionId)
+                                                @Html.HiddenFor(m => m.ItemProductionDetails[i].Quantity)
+                                                @Html.HiddenFor(m => m.ItemProductionDetails[i].ItemProductionName)
+                                                <td>@Model.ItemProductionDetails[i].Quantity </td>
+                                                <td>@Model.ItemProductionDetails[i].ItemProductionName </td>
+                                                <td>
+                                                    <div class="btn-group">
+                                                        @*<a href="javascript:;" onclick=ProductionOrder_Module.deleteRowItemIn() class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف"><i class="fa fa-trash"></i></a>*@
+                                                        <button type="submit" name="actionType" value="deletItemProduction" onclick="deletItemProduction('@Model.ItemProductionDetails[i].ItemProductionId');" class="btn btn-primary font-weight-bold ">حذف</button>
+
+                                                    </div>
+
+                                                </td>
                                             </tr>
                                         }
-
                                     </tbody>
                                     <tfoot></tfoot>
                                 </table>
+                                @Html.HiddenFor(m => m.ItemProductionDeleted)
+
+                                <script>
+                                    function deletItemProduction(id) {
+                                        $("#ItemProductionDeleted").val(id);
+                                    }
+                                </script>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>.</label>
-                                <button type="submit" name="actionType" value="generate" @*onclick="OrderSell_Module.UpdateData();"*@ class="btn btn-primary font-weight-bold  px-15 w-100">انشاء اصناف التوليفات</button>
-                            </div>
-                        </div>
+
                     </div>
+
                 </div>
                 <div class="card-footer">
                     <div class="row">
+                        <div class="form-group">
+                            @*<label>.</label>*@
+                            <!--<button type="submit" name="actionType" value="generateItemProduction"--> @*onclick="OrderSell_Module.UpdateData();"*@ <!--class="btn btn-primary font-weight-bold  px-15 w-100">انشاء اصناف التوليفات</button>-->
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -402,7 +416,7 @@
                                         <div class="d-flex justify-content-between flex-column font-size-lg">
                                             <div class="d-flex flex-column text-md-center">
                                                 <span class="font-size-lg font-weight-bolder mb-1">اجمالى التكاليف</span>
-                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1">@Model.ProductionOrderExpens.Sum(x=>x.ExpenseAmount)</span>
+                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1">@Model.ProductionOrderExpens.Sum(x => x.ExpenseAmount)</span>
                                                 @*<span>Taxes Included</span>*@
                                             </div>
                                         </div>
@@ -415,8 +429,8 @@
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>.</label>
-                                        <button type="submit" name="actionType" value="save" @*onclick="OrderForProduction_Module.SubmitForm(this);"*@ class="btn btn-primary font-weight-bold  px-15 w-100">انشاء أمــر الانتاج المجمع</button>
-                                        @*<a href="javascript:void(0);" onclick="OrderForProduction_Module.SubmitForm(this)" class="btn btn-primary font-weight-bold  px-15  w-100"><i class="fa fa-plus-circle m-1"></i>حفظ العملية</a>*@
+                                        <button type="submit" name="actionType" value="save" @*onclick="RegisterOrderComplex_Module.SubmitForm(this);"*@ class="btn btn-primary font-weight-bold  px-15 w-100">انشاء أمــر الانتاج المجمع</button>
+                                        @*<a href="javascript:void(0);" onclick="RegisterOrderComplex_Module.SubmitForm(this)" class="btn btn-primary font-weight-bold  px-15  w-100"><i class="fa fa-plus-circle m-1"></i>حفظ العملية</a>*@
 
                                     </div>
                                 </div>
@@ -439,18 +453,51 @@
 
 @section Scripts
 {
-    <script src="~/Assets/JSCustom/OrderForProduction.js"></script>
+    <script src="~/Assets/JSCustom/ProductionOrder.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            //ProductionOrderComplex_Module.init();
+            $.get("/SharedDataSources/BindProductionOrderColors", null, function (data) {
+                $("#OrderColorId").empty();
+                $("#OrderColorId").append("<option value=>اختر عنصر من القائمة</option>");
+                $.each(data, function (index, row) {
+                    $("#OrderColorId").append("<option value='" + row.Id + "' style='background-color:" + row.ColorHEX + "'>" + row.Name + "</option>");
+                });
+
+            });
+
+
+
+        });
+        function onColorChange() {
+            var bgColor = $("#OrderColorId option:selected").css("background-color");
+            var hexColor;
+            if (bgColor.search("rgb") == -1) {
+                hexColor = bgColor;
+            }
+            else {
+                bgColor = bgColor.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                function hex(x) {
+                    return ("0" + parseInt(x).toString(16)).slice(-2);
+                }
+                hexColor = "#" + hex(bgColor[1]) + hex(bgColor[2]) + hex(bgColor[3]);
+            }
+            $("#SelectedColor").html("<div style='background-color:" +
+                hexColor + ";width:30px;height:40px'></div>.");
+        }
+    </script>
     @if (ViewBag.Msg != null)
     {
         <script>
             toastr.error('@ViewBag.Msg', '');
         </script>
-    }   
+    }
     @if (ViewBag.MsgSuccess != null)
     {
         <script>
             toastr.success('@ViewBag.MsgSuccess', '');
-            setTimeout(function () { window.location = "/OrderSells/Index" }, 3000);
+            setTimeout(function () { window.location = "/ProductionOrders/Index" }, 3000);
         </script>
     }
     <script>
@@ -481,6 +528,5 @@
 
                         });
     </script>
-
 }
 

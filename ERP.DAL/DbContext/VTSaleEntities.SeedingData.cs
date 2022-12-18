@@ -1520,6 +1520,7 @@ END";
             pages.Add(new Page() { Id = 412, ParentId = 410, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة خط انتاج", OrderNum = 0, Url = "/ProductionLines/Index", OtherUrls = "/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 413, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير موظف خط الانتاج", OrderNum = 0, Url = "/RptProductionLines/SearchProductionOrderEmployee", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 414, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير خطوط الانتاج", OrderNum = 1, Url = "/RptProductionLines/SearchProductionLine", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 415, ParentId = 121, Icon = null, IsPage = true, Name = "اضافة أمر إنتاج مجمع", OrderNum = 0, Url = "/ProductionOrders/RegisterOrderComplex", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
 
 

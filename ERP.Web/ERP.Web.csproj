@@ -287,7 +287,6 @@
     <Content Include="Assets\JSCustom\UserRole.js" />
     <Content Include="Assets\JSCustom\PagesRole.js" />
     <Content Include="Assets\JSCustom\Role.js" />
-    <Content Include="Assets\JSCustom\ProductionOrderFisrt.js" />
     <Content Include="Assets\JSCustom\StoresTransfer.js" />
     <Content Include="Assets\JSCustom\RptSellInvoice.js" />
     <Content Include="Assets\JSCustom\RptPurchaseInvoice.js" />
@@ -307,10 +306,7 @@
     <Content Include="Assets\JSCustom\SellInvoiceAccounting.js" />
     <Content Include="Assets\JSCustom\MaintenanceItem.js" />
     <Content Include="Assets\JSCustom\SafeIntialBalance.js" />
-    <Content Include="Assets\JSCustom\CustomerIntialBalance.js" />
-    <Content Include="Assets\JSCustom\SupplierIntialBalance.js" />
     <Content Include="Assets\JSCustom\ProductionOrderColor.js" />
-    <Content Include="Assets\JSCustom\ProductionOrderReceipt.js" />
     <Content Include="Assets\JSCustom\PurchaseFullBackInvoice.js" />
     <Content Include="Assets\JSCustom\PurchaseBackInvoice.js" />
     <Content Include="Assets\JSCustom\PurchaseBackInvoiceAccounting.js" />
@@ -1672,7 +1668,6 @@
     <Compile Include="Controllers\CustomerChequeCollectionsController.cs" />
     <Compile Include="Controllers\CustomerChequeRefusesController.cs" />
     <Compile Include="Controllers\CustomerChequesController.cs" />
-    <Compile Include="Controllers\CustomerIntialBalancesController.cs" />
     <Compile Include="Controllers\CustomerIntialsController.cs" />
     <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\ContainersController.cs" />
@@ -1693,7 +1688,6 @@
     <Compile Include="Controllers\FixedAssetIntialBalancesController.cs" />
     <Compile Include="Controllers\FixedAssetsController.cs" />
     <Compile Include="Controllers\GeneralDailiesController.cs" />
-    <Compile Include="Controllers\GeneralRecordComplexController.cs" />
     <Compile Include="Controllers\GeneralRecordsController.cs" />
     <Compile Include="Controllers\GeneralSettingsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -1729,8 +1723,6 @@
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\ProductionOrderColorsController.cs" />
     <Compile Include="Controllers\ProductionOrderDamagesController.cs" />
-    <Compile Include="Controllers\ProductionOrderFirstController.cs" />
-    <Compile Include="Controllers\ProductionOrderReceiptsController.cs" />
     <Compile Include="Controllers\ProductionOrdersController.cs" />
     <Compile Include="Controllers\ProfitLossAccountsController.cs" />
     <Compile Include="Controllers\PropertyRightsIntialBalancesController.cs" />
@@ -1803,7 +1795,6 @@
     <Compile Include="Controllers\SupplierChequeCollectionsController.cs" />
     <Compile Include="Controllers\SupplierChequeRefusesController.cs" />
     <Compile Include="Controllers\SupplierChequesController.cs" />
-    <Compile Include="Controllers\SupplierIntialBalancesController.cs" />
     <Compile Include="Controllers\SupplierIntialsController.cs" />
     <Compile Include="Controllers\SuppliersPaymentsController.cs" />
     <Compile Include="Controllers\TestPagesController.cs" />
@@ -2070,8 +2061,6 @@
     <Content Include="Views\CustomerChequeRefuses\ChequeRefuse.cshtml" />
     <Content Include="Views\CustomerCheques\CreateEdit.cshtml" />
     <Content Include="Views\CustomerCheques\Index.cshtml" />
-    <Content Include="Views\CustomerIntialBalances\CreateEdit.cshtml" />
-    <Content Include="Views\CustomerIntialBalances\Index.cshtml" />
     <Content Include="Views\CustomerIntials\CreateEdit.cshtml" />
     <Content Include="Views\CustomerIntials\CreateEditIntial.cshtml" />
     <Content Include="Views\CustomerIntials\Index.cshtml" />
@@ -2108,7 +2097,6 @@
     <Content Include="Views\FixedAssets\CreateEdit.cshtml" />
     <Content Include="Views\FixedAssets\Index.cshtml" />
     <Content Include="Views\GeneralDailies\Index.cshtml" />
-    <Content Include="Views\GeneralRecordComplex\CreateEdit.cshtml" />
     <Content Include="Views\GeneralRecords\CreateEdit.cshtml" />
     <Content Include="Views\GeneralRecords\Index.cshtml" />
     <Content Include="Views\GeneralRecords\Search.cshtml" />
@@ -2173,9 +2161,6 @@
     <Content Include="Views\ProductionOrderColors\CreateEdit.cshtml" />
     <Content Include="Views\ProductionOrderColors\Index.cshtml" />
     <Content Include="Views\ProductionOrderDamages\Index.cshtml" />
-    <Content Include="Views\ProductionOrderFirst\RegisterOrder.cshtml" />
-    <Content Include="Views\ProductionOrderReceipts\Index.cshtml" />
-    <Content Include="Views\ProductionOrderReceipts\RegisterReceipts.cshtml" />
     <Content Include="Views\ProductionOrders\Index.cshtml" />
     <Content Include="Views\ProductionOrders\RegisterOrder.cshtml" />
     <Content Include="Views\ProductionOrders\ShowProductionOrder.cshtml" />
@@ -2325,8 +2310,6 @@
     <Content Include="Views\SupplierChequeRefuses\ChequeRefuse.cshtml" />
     <Content Include="Views\SupplierCheques\CreateEdit.cshtml" />
     <Content Include="Views\SupplierCheques\Index.cshtml" />
-    <Content Include="Views\SupplierIntialBalances\CreateEdit.cshtml" />
-    <Content Include="Views\SupplierIntialBalances\Index.cshtml" />
     <Content Include="Views\SupplierIntials\CreateEdit.cshtml" />
     <Content Include="Views\SupplierIntials\CreateEditIntial.cshtml" />
     <Content Include="Views\SupplierIntials\Index.cshtml" />

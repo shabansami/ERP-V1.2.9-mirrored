@@ -176,7 +176,7 @@ namespace ERP.Web.Utilites
             CashIn, //استلام (ادخال) نقدية من  عميل
             Expense, //تسجيل مصروف
             InitialBalanceItem, //رصيد اول اصناف
-            FreeRestrictions, //قيود حرة
+            FreeRestrictions, //قيود يومية
             ProductionOrderExpenses, //تكاليف وامر الانتاج
             ChequeOut, // صرف شيك لمورد
             ChequeIn, // استلام شيك من عميل 

@@ -79,6 +79,8 @@ namespace ERP.Web.Controllers
             //db.SaveChanges(userId);
             //var pag = db.Pages.Where(x => x.Id == 412).FirstOrDefault();
             //pag.OtherUrls = "/ProductionLines/ShowDetails";
+            //var pag2 = db.Pages.Where(x => x.Id == 334).FirstOrDefault();
+            //pag2.IsDeleted=true;
             //db.SaveChanges(userId);
 
 

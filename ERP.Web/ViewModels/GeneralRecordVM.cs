@@ -10,21 +10,24 @@ namespace ERP.Web.ViewModels
         public Guid Id { get; set; }
         public Nullable<Guid> BranchId { get; set; }
         public Nullable<System.DateTime> TransactionDate { get; set; }
-        //قيد منفصل
-        public Nullable<Guid> AccountTreeFromId { get; set; }
-        public Nullable<Guid> AccountTreeToId { get; set; }
-        public double Amount { get; set; }
-        public string Notes { get; set; }       
-        
-        //قيد مركب
-        public Nullable<Guid> ComplexAccountTreeId { get; set; }
-        public Nullable<long> ComplexAccountTreeNum { get; set; }
-        public string ComplexAccountTreeName { get; set; }
-        public double ComplexAmount { get; set; }
-        public string ComplexNotes { get; set; }      
-        public Nullable<int> ComplexDebitCredit { get; set; }
-        public double? ComplexDebitName { get; set; }
-        public double? ComplexCreditName { get; set; }
+        public string Notes { get; set; }
+
+        public Nullable<Guid> SelectedAccountTreeId { get; set; }
+        public double InsertedAmount { get; set; }
+        public string InsertedNotes { get; set; }       
+
+    }
+    public class GeneralRecordDetailDT
+    {
+        //public Guid GeneralRecordDetailId { get; set; }
+        //public Guid GeneralRecordId { get; set; }
+        public Nullable<Guid> AccountTreeId { get; set; }
+        public Nullable<long> AccountTreeNum { get; set; }
+        public string AccountTreeName { get; set; }
+        public Nullable<int> DebitCredit { get; set; }
+        public double DebitAmount { get; set; }
+        public double CreditAmount { get; set; }
+        public string Notes { get; set; }
         public string Actions { get; set; }
 
     }

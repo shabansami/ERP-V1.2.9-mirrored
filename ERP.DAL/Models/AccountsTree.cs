@@ -30,8 +30,7 @@ namespace ERP.DAL
             this.ExpenseIncomes = new HashSet<ExpenseIncome>();
             this.ExpenseTypes = new HashSet<ExpenseType>();
             this.GeneralDailies = new HashSet<GeneralDaily>();
-            this.GeneralRecordFroms = new HashSet<GeneralRecord>();
-            this.GeneralRecordTos = new HashSet<GeneralRecord>();
+            this.GeneralRecordDetails = new HashSet<GeneralRecordDetail>();
             this.IncomeTypes = new HashSet<IncomeType>();
             this.PersonsCustomers = new HashSet<Person>();
             this.PersonsSuppliers = new HashSet<Person>();
@@ -43,8 +42,8 @@ namespace ERP.DAL
             this.SellBackInvoiceIncomes = new HashSet<SellBackInvoiceIncome>();
             this.SellInvoiceIncomes = new HashSet<SellInvoiceIncome>();
             this.Stores = new HashSet<Store>();
-            this.VoucherFroms = new HashSet<Voucher>();
-            this.VoucherTos = new HashSet<Voucher>();
+            this.VoucherDetailFroms = new HashSet<VoucherDetail>();
+            this.VoucherDetailTos = new HashSet<VoucherDetail>();
         }
     
         public long AccountNumber { get; set; }
@@ -89,11 +88,8 @@ namespace ERP.DAL
         
         public virtual ICollection<GeneralDaily> GeneralDailies { get; set; }
 
-        [InverseProperty(nameof(GeneralRecord.AccountTreeFrom))]
-        public virtual ICollection<GeneralRecord> GeneralRecordFroms { get; set; }
-
-        [InverseProperty(nameof(GeneralRecord.AccountTreeTo))]
-        public virtual ICollection<GeneralRecord> GeneralRecordTos { get; set; }
+        [InverseProperty(nameof(GeneralRecordDetail.AccountTree))]
+        public virtual ICollection<GeneralRecordDetail> GeneralRecordDetails { get; set; }
         
         public virtual ICollection<IncomeType> IncomeTypes { get; set; }
 
@@ -123,12 +119,12 @@ namespace ERP.DAL
         
         public virtual ICollection<Store> Stores { get; set; }
 
-        //Vouchers
-        [InverseProperty(nameof(Voucher.AccountsTreeFrom))]
-        public virtual ICollection<Voucher> VoucherFroms { get; set; }
-        
-        //Vouchers1
-        [InverseProperty(nameof(Voucher.AccountsTreeTo))]
-        public virtual ICollection<Voucher> VoucherTos { get; set; }
+        //VoucherDetails
+        [InverseProperty(nameof(VoucherDetail.AccountsTreeFrom))]
+        public virtual ICollection<VoucherDetail> VoucherDetailFroms { get; set; }
+
+        //VoucherDetails
+        [InverseProperty(nameof(VoucherDetail.AccountsTreeTo))]
+        public virtual ICollection<VoucherDetail> VoucherDetailTos { get; set; }
     }
 }

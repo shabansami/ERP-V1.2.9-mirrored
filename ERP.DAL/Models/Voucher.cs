@@ -16,27 +16,25 @@ namespace ERP.DAL
 
     public partial class Voucher : BaseModel
     {
+        public Voucher()
+        {
+            this.VoucherDetails = new HashSet<VoucherDetail>();
+        }
         public bool IsVoucherPayment { get; set; }
         [ForeignKey(nameof(Branch))]
         public Nullable<Guid> BranchId { get; set; }
-        [ForeignKey(nameof(AccountsTreeFrom))]
-        public Nullable<Guid> AccountTreeFromId { get; set; }
-        [ForeignKey(nameof(AccountsTreeTo))]
-        public Nullable<Guid> AccountTreeToId { get; set; }
+
         public Nullable<System.DateTime> VoucherDate { get; set; }
 
-        public double Amount { get; set; }
         public string Notes { get; set; }
         public bool IsApproval { get; set; }
         public string VoucherNumber { get; set; }
 
-        //AccountTree
-        public virtual AccountsTree AccountsTreeFrom { get; set; }
 
-        //AccountTree1
-        public virtual AccountsTree AccountsTreeTo { get; set; }
 
         public virtual Branch Branch { get; set; }
+        public virtual ICollection<VoucherDetail> VoucherDetails { get; set; }
+
 
     }
 }

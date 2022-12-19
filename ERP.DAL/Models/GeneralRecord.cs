@@ -16,17 +16,14 @@ namespace ERP.DAL
 
     public partial class GeneralRecord : BaseModel
     {
+        public GeneralRecord()
+        {
+            this.GeneralRecordDetails = new HashSet<GeneralRecordDetail>();
+        }
         public Nullable<Guid> BranchId { get; set; }
         public Nullable<System.DateTime> TransactionDate { get; set; }
-        [ForeignKey(nameof(AccountTreeFrom))]
-        public Nullable<Guid> AccountTreeFromId { get; set; }
-        [ForeignKey(nameof(AccountTreeTo))]
-        public Nullable<Guid> AccountTreeToId { get; set; }
-        public double Amount { get; set; }
         public string Notes { get; set; }
         public bool IsApproval { get; set; }
-    
-        public virtual AccountsTree AccountTreeFrom { get; set; }
-        public virtual AccountsTree AccountTreeTo { get; set; }
+        public virtual ICollection<GeneralRecordDetail> GeneralRecordDetails { get; set; }
     }
 }

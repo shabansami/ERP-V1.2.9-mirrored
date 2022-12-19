@@ -20,7 +20,7 @@ var GeneralRecord_Module = function () {
                 {
                     extend: 'print',
                     title: function () {
-                        return 'قيود حرة';
+                        return 'قيود يومية';
                     },
                     customize: function (win) {
                         $(win.document.body)
@@ -49,8 +49,8 @@ var GeneralRecord_Module = function () {
                 },
                 {
                     extend: "excelHtml5",
-                    filename: "قيود حرة",
-                    title: "قيود حرة",
+                    filename: "قيود يومية",
+                    title: "قيود يومية",
                     exportOptions: {
                         columns: ':visible'
                     }
@@ -80,13 +80,10 @@ var GeneralRecord_Module = function () {
             },
             columns: [
                 { data: 'Num', responsivePriority: 0 },
-                { data: 'AccountFrom', title: 'من حساب' },
-                { data: 'AccountTo', title: 'إلي حساب' },
+                { data: 'AccountName', title: 'الحساب' },
                 { data: 'TransactionDate', title: 'تاريخ المعاملة' },
                 { data: 'Amount', title: 'المبلغ' },
                 { data: 'IsApprovalStatus', title: 'حالة الاعتماد' },
-                { data: 'AccountTreeFromId', visible: false },
-                { data: 'AccountTreeToId', visible: false },
                 { data: 'Actions', responsivePriority: -1 },
 
             ],
@@ -185,47 +182,6 @@ var GeneralRecord_Module = function () {
 
     //#endregion
 
-    //#region add single general record
-    function SubmitForm(btn) {
-        try {
-            var form = document.getElementById('form1');
-            $.ajax({
-                type: 'POST',
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    if (res.isValid) {
-                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
-                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
-                        toastr.success(res.message, '',)
-                        if (!res.isInsert) {
-                            setTimeout(function () { window.location = "/GeneralRecords/Index" }, 3000);
-                        } else
-                            setTimeout(function () { window.location = "/GeneralRecords/CreateEdit" }, 3000);
-                        //$('#kt_datatableLast').DataTable().ajax.reload();
-                    } else {
-                        toastr.error(res.message, '');
-                    }
-                    //document.getElementById('submit').disabled = false;
-                    //document.getElementById('reset').disabled = false;
-                },
-                error: function (err) {
-                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
-                    console.log(err)
-                }
-            })
-            //to prevent default form submit event
-            return false;
-        } catch (ex) {
-            console.log(ex)
-        }
-
-    };
-
-    //#endregion
-
     //#region Un/approval
     function approval(id) {
         Swal.fire({
@@ -301,77 +257,105 @@ var GeneralRecord_Module = function () {
     //#endregion
 
     //#region complex general record
-    function SubmitFormComplex(btn,isApproval) {
-        try {
-            var form = document.getElementById('form1');
-            var formData = new FormData(form);
-            var dataSet = $('#kt_datatableGenralComplex').DataTable().rows().data().toArray();
-            if (dataSet != null) {
-                if (dataSet.length > 0) {
-                    formData.append("DT_Datasource", JSON.stringify(dataSet));
+    var initDetailsDT = function () {
+        var table = $('#kt_datatableGenralDetails');
+        table.DataTable({
+            paging:false,
+            dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
+            language: {
+                search: "البحث",
+                lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+                info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+                processing: "جارى التحميل",
+                zeroRecords: "لا يوجد سجلات لعرضها",
+                infoFiltered: "",
+                infoEmpty: 'لا يوجد سجلات متاحه',
+            },
+
+            ajax: {
+                url: '/GeneralRecords/GetDSGenaralComplex',
+                type: 'GET',
+
+            },
+            columns: [
+                { data: 'DebitAmount', title: 'مدين' },
+                { data: 'CreditAmount', title: 'دائن' },
+                { data: 'AccountTreeName', title: 'الحساب' },
+                { data: 'AccountTreeNum', title: 'رقم الحساب' },
+                { data: 'Notes', title: 'البيان' },
+                { data: 'Actions', responsivePriority: -1 },
+
+            ],
+
+            columnDefs: [
+               
+                {
+                    targets: -1,
+                    title: 'عمليات',
+                    orderable: false,
+                    render: function (data, type, row, meta) {
+                        return '\
+							<div class="btn-group">\
+							<a href="javascript:;" onclick=GeneralRecord_Module.deleteRowComplex('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
+								<i class="fas fa-trash"></i>\
+							</a></div>\
+						';
+                    },
                 }
-            };
-            formData.append("isApproval", isApproval);
-            $.ajax({
-                type: 'POST',
-                url: form.action,
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    if (res.isValid) {
-                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
-                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
-                        toastr.success(res.message, '',)
-                        setTimeout(function () { window.location = "/GeneralRecordComplex/CreateEdit" }, 3000);
-                        //$('#kt_datatableLast').DataTable().ajax.reload();
+
+            ],
+            drawCallback: function () {
+                var html = ' <tr><th colspan ="2" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى المدين : ';
+                var api = this.api();
+                var balanceStatusTxt = '';
+                var debit = api.column(0).data().sum();
+                var credit = api.column(1).data().sum();
+                var balance = Number.parseFloat(debit) - Number.parseFloat(credit);
+                if (balance > 0) {
+                    balanceStatusTxt = 'الرصيد مدين : ' + balance;
+                } else
+                    if (balance < 0) {
+                        balanceStatusTxt = 'الرصيد دائن : ' + balance;
                     } else {
-                        toastr.error(res.message, '');
+                        balanceStatusTxt = 'الرصيد : 0';
                     }
-                    //document.getElementById('submit').disabled = false;
-                    //document.getElementById('reset').disabled = false;
-                },
-                error: function (err) {
-                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
-                    console.log(err)
-                }
-            })
-            //to prevent default form submit event
-            return false;
-        } catch (ex) {
-            console.log(ex)
-        }
+                $(api.table().footer()).html(html + debit + '</label></div></th> <th colspan ="2" style= "text-align:center" ><div class="row alert alert-success"><label>' + balanceStatusTxt + '</label ></div ></th ><th colspan ="3" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى الدائن :' + credit + '</label ></div ></th > </tr>');
+            },
+
+            "order": [[0, "asc"]]
+            //"order": [[0, "desc"]]
+
+        });
 
     };
 
-
     function AddNewGeneralComplex() {
         try {
-            var ComplexAccountTreeId = document.getElementById('ComplexAccountTreeId').value;
-            var ComplexAmount = document.getElementById('ComplexAmount').value;
-            var ComplexNotes = document.getElementById('ComplexNotes').value;
-            var ComplexDebitCredit = document.getElementById('ComplexDebitCredit').value;
+            var AccountTreeId = document.getElementById('SelectedAccountTreeId').value;
+            var Amount = document.getElementById('InsertedAmount').value;
+            var Notes = document.getElementById('InsertedNotes').value;
+            var DebitCredit = document.getElementById('DebitCredit').value;
             var formData = new FormData();
-            if (ComplexDebitCredit === '') {
+            if (DebitCredit === '') {
                 toastr.error('تأكد من اختيار حالة الحساب', '');
                 return false;
             }
-            if (ComplexAccountTreeId === '') {
+            if (AccountTreeId === '') {
                 toastr.error('تأكد من اختيار الحساب', '');
                 return false;
             }
-            if (ComplexAmount === '' || ComplexAmount == '0') {
+            if (Amount === '' || Amount == '0') {
                 toastr.error('تأكد من ادخال المبلغ', '');
                 return false;
 
             }
 
-            formData.append('ComplexAccountTreeId', ComplexAccountTreeId)
-            formData.append('ComplexAmount', ComplexAmount)
-            formData.append('ComplexNotes', ComplexNotes)
-            formData.append('ComplexDebitCredit', ComplexDebitCredit)
+            formData.append('accountTreeTxtId', AccountTreeId)
+            formData.append('amountTxt', Amount)
+            formData.append('notes', Notes)
+            formData.append('debitCredit', DebitCredit)
             //var dataSet = $('#kt_datatableTreePrice').rows().data();
-            var dataSet = $('#kt_datatableGenralComplex').DataTable().rows().data().toArray();
+            var dataSet = $('#kt_datatableGenralDetails').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
                     formData.append("DT_Datasource", JSON.stringify(dataSet));
@@ -379,15 +363,17 @@ var GeneralRecord_Module = function () {
             }
             $.ajax({
                 type: 'POST',
-                url: '/GeneralRecordComplex/AddGenaralComplex',
+                url: '/GeneralRecords/AddGenaralComplex',
                 data: formData,
                 contentType: false,
                 processData: false,
                 success: function (res) {
                     if (res.isValid) {
-                        $('#kt_datatableGenralComplex').DataTable().ajax.reload();
-                        $('#ComplexNotes').val('');
-                        $('#ComplexAmount').val(0);
+                        $('#kt_datatableGenralDetails').DataTable().ajax.reload();
+                        $('#SelectedAccountTreeId').val(null);
+                        $('#accountId').val('');
+                        $('#InsertedNotes').val('');
+                        $('#InsertedAmount').val(0);
                         toastr.success('تم الاضافة بنجاح', '');
 
                     } else
@@ -411,9 +397,52 @@ var GeneralRecord_Module = function () {
     }
 
     function deleteRowComplex(id) {
-        $('#kt_datatableGenralComplex tbody').on('click', 'a.deleteIcon', function () {
-            $('#kt_datatableGenralComplex').DataTable().row($(this).parents('tr')).remove().draw();
+        $('#kt_datatableGenralDetails tbody').on('click', 'a.deleteIcon', function () {
+            $('#kt_datatableGenralDetails').DataTable().row($(this).parents('tr')).remove().draw();
         })
+
+    };
+
+    function SubmitForm(btn, isApproval) {
+        try {
+            var form = document.getElementById('form1');
+            var formData = new FormData(form);
+            var dataSet = $('#kt_datatableGenralDetails').DataTable().rows().data().toArray();
+            if (dataSet != null) {
+                if (dataSet.length > 0) {
+                    formData.append("DT_Datasource", JSON.stringify(dataSet));
+                }
+            };
+            formData.append("isApproval", isApproval);
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
+                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
+                        toastr.success(res.message, '',)
+                        setTimeout(function () { window.location = "/GeneralRecords/CreateEdit" }, 3000);
+                        //$('#kt_datatableLast').DataTable().ajax.reload();
+                    } else {
+                        toastr.error(res.message, '');
+                    }
+                    //document.getElementById('submit').disabled = false;
+                    //document.getElementById('reset').disabled = false;
+                },
+                error: function (err) {
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
 
     };
 
@@ -423,11 +452,13 @@ var GeneralRecord_Module = function () {
         init: function () {
             initDT();
         },
+        initDetailsDT: function () {
+            initDetailsDT();
+        },
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
         approval: approval,
         Unapproval: Unapproval,
-        SubmitFormComplex: SubmitFormComplex,
         AddNewGeneralComplex: AddNewGeneralComplex,
         deleteRowComplex: deleteRowComplex,
     };

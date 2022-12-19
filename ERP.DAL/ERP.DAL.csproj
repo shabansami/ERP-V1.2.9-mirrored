@@ -308,6 +308,10 @@
     <Compile Include="Migrations\202212171512572_remove_field_IsDone_in_ProductionOrder.designer.cs">
       <DependentUpon>202212171512572_remove_field_IsDone_in_ProductionOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.cs" />
+    <Compile Include="Migrations\202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.designer.cs">
+      <DependentUpon>202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\ContractSchedulingProduction.cs" />
@@ -315,6 +319,7 @@
     <Compile Include="Models\DamageInvoiceDetail.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\EmployeeBranch.cs" />
+    <Compile Include="Models\GeneralRecordDetail.cs" />
     <Compile Include="Models\ItemCustomSellPrice.cs" />
     <Compile Include="Models\Nationality.cs" />
     <Compile Include="Models\NotificationEmployee.cs" />
@@ -334,6 +339,7 @@
     <Compile Include="Models\StorePermission.cs" />
     <Compile Include="Models\StoresTransferCase.cs" />
     <Compile Include="Models\StoresTransferHistory.cs" />
+    <Compile Include="Models\VoucherDetail.cs" />
     <Compile Include="Utilites\DALUtility.cs" />
     <Compile Include="Utilites\DataEmagration.cs" />
     <Compile Include="Utilites\Lookups.cs" />
@@ -664,6 +670,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212171512572_remove_field_IsDone_in_ProductionOrder.resx">
       <DependentUpon>202212171512572_remove_field_IsDone_in_ProductionOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.resx">
+      <DependentUpon>202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

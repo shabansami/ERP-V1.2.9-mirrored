@@ -1139,15 +1139,15 @@ namespace ERP.Web.Controllers
                             Id = x.Id,
                             BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
                             PaymentDate = x.VoucherDate.Value.ToString("yyyy-MM-dd"),
-                            SafeBankName = x.AccountsTreeTo?.AccountName,
-                            SuppCustomerName = x.AccountsTreeFrom?.AccountName,
-                            Amount = x.Amount,
+                            SafeBankName = x.VoucherDetails.FirstOrDefault().AccountsTreeTo?.AccountName,
+                            SuppCustomerName = x.VoucherDetails.FirstOrDefault().AccountsTreeFrom?.AccountName,
+                            Amount = x.VoucherDetails.FirstOrDefault().Amount,
                             Notes = x.Notes,
                             //بيانات الجهة
                             EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
                             EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
                             EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
-                            QRCode = Utility.ConvertToQRCode($"من حساب : {x.AccountsTreeFrom?.AccountName},تاريخ العملية :{x.VoucherDate},المبلغ :{x.Amount}"),
+                            QRCode = Utility.ConvertToQRCode($"من حساب : {x.VoucherDetails.FirstOrDefault().AccountsTreeFrom?.AccountName},تاريخ العملية :{x.VoucherDate},المبلغ :{x.VoucherDetails.FirstOrDefault().Amount}"),
                             //Logo = ' + localStorage.getItem("logo")+'
                         }).FirstOrDefault();
                         return Json(payment, JsonRequestBehavior.AllowGet);
@@ -1164,15 +1164,15 @@ namespace ERP.Web.Controllers
                             Id = x.Id,
                             BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
                             PaymentDate = x.VoucherDate.Value.ToString("yyyy-MM-dd"),
-                            SafeBankName = x.AccountsTreeFrom?.AccountName,
-                            SuppCustomerName = x.AccountsTreeTo?.AccountName,
-                            Amount = x.Amount,
+                            SafeBankName = x.VoucherDetails.FirstOrDefault().AccountsTreeFrom?.AccountName,
+                            SuppCustomerName = x.VoucherDetails.FirstOrDefault().AccountsTreeTo?.AccountName,
+                            Amount = x.VoucherDetails.FirstOrDefault().Amount,
                             Notes = x.Notes,
                             //بيانات الجهة
                             EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
                             EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
                             EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
-                            QRCode = Utility.ConvertToQRCode($"الى حساب : {x.AccountsTreeTo?.AccountName},تاريخ العملية :{x.VoucherDate},المبلغ :{x.Amount}"),
+                            QRCode = Utility.ConvertToQRCode($"الى حساب : {x.VoucherDetails.FirstOrDefault().AccountsTreeTo?.AccountName},تاريخ العملية :{x.VoucherDate},المبلغ :{x.VoucherDetails.FirstOrDefault().Amount}"),
                             //Logo = ' + localStorage.getItem("logo")+'
                         }).FirstOrDefault();
                         return Json(payment, JsonRequestBehavior.AllowGet);

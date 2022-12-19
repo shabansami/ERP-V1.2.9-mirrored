@@ -28,7 +28,8 @@ namespace ERP.DAL
             this.MaintenanceSpareParts = new HashSet<MaintenanceSparePart>();
             //this.ProductionOrderDetails = new HashSet<ProductionOrderDetail>();
             this.ProductionOrderReceipts = new HashSet<ProductionOrderReceipt>();
-            this.ProductionOrders = new HashSet<ProductionOrder>();
+            this.ProductionStores = new HashSet<ProductionOrder>();
+            this.ProductionUnderStores = new HashSet<ProductionOrder>();
             this.PurchaseBackInvoicesDetails = new HashSet<PurchaseBackInvoicesDetail>();
             this.PurchaseInvoicesDetails = new HashSet<PurchaseInvoicesDetail>();
             this.SaleMenStoreHistories = new HashSet<SaleMenStoreHistory>();
@@ -72,7 +73,13 @@ namespace ERP.DAL
         public virtual ICollection<MaintenanceSparePart> MaintenanceSpareParts { get; set; }
         //public virtual ICollection<ProductionOrderDetail> ProductionOrderDetails { get; set; }
         public virtual ICollection<ProductionOrderReceipt> ProductionOrderReceipts { get; set; }
-        public virtual ICollection<ProductionOrder> ProductionOrders { get; set; }
+
+        //ProductionStore „Œ“‰ «· ’‰Ì⁄ «·‰Â«∆Ï
+        [InverseProperty(nameof(ProductionOrder.ProductionStore))]
+        public virtual ICollection<ProductionOrder> ProductionStores { get; set; }
+        //ProductionStore „Œ“‰  Õ  «· ’‰Ì⁄ 
+        [InverseProperty(nameof(ProductionOrder.ProductionUnderStore))]
+        public virtual ICollection<ProductionOrder> ProductionUnderStores { get; set; }
         public virtual ICollection<PurchaseBackInvoicesDetail> PurchaseBackInvoicesDetails { get; set; }
         public virtual ICollection<PurchaseInvoicesDetail> PurchaseInvoicesDetails { get; set; }
         public virtual ICollection<SaleMenStoreHistory> SaleMenStoreHistories { get; set; }

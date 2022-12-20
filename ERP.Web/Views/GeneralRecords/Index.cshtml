@@ -6,10 +6,9 @@
 
 @section PageTitle1{قيود يومية}
 @section PageTitle2{كل القيود}
-@section Button1{اضافة قيد يومية منفصل }
+@section Button1{اضافة قيد يومية }
 @section Button1Link{/GeneralRecords/CreateEdit}
 @section icon{<i class="fa fa-plus-circle m-1"></i>}
-@section Button2{<a href="/GeneralRecordComplex/CreateEdit" class="btn btn-primary din-bold d-inline" style="margin-right:20px;"><i class="fa fa-plus-circle m-1"></i>اضافة قيود حره مركبة</a>}
 
 
 <div class="row">
@@ -79,6 +78,7 @@
                             <div>
                                 <label> شجرة الحسابات</label>
                                 <input style="text-align:right;" name="accountTree" type="text" class="form-control" id="accountTree" autocomplete="off" />
+                                @Html.Hidden("SelectedAccountTreeId")
                             </div>
                         </div>
                     </div>
@@ -125,7 +125,12 @@
                     <thead>
                     </thead>
                     <tbody></tbody>
-                    <tfoot></tfoot>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" style="text-align:right">الاجمالى:</th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -171,9 +176,8 @@
             });
             accounTree.onChange(function () {
                 if (accounTree.getSelectedIds() != null) {
-                    var textSelected = accounTree.getSelectedIds()[0];
-                    //var textSelected = $("#accountTree").val();
-                    $('#kt_datatable').DataTable().search(textSelected).draw();
+                    $('#SelectedAccountTreeId').val(accounTree.getSelectedIds()[0]);
+
                 }
             });
             // ============== نهاية شجرة الحسابات

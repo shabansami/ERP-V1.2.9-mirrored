@@ -34,17 +34,18 @@ namespace ERP.Web.Controllers
         {
             return View();
         }
-        public ActionResult GetAll(string dFrom, string dTo)
+        public ActionResult GetAll(string dFrom, string dTo,Guid? accountId)
         {
             int? n = null;
             DateTime dtFrom, dtTo;
             var list = db.GeneralRecords.Where(x => !x.IsDeleted);
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                 list = list.Where(x => DbFunctions.TruncateTime(x.TransactionDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.TransactionDate) <= dtTo.Date);
-            
+            if (accountId != null && accountId != Guid.Empty)
+                list = list.Where(x => x.GeneralRecordDetails.Where(d => !d.IsDeleted && d.AccountTreeId == accountId).Any());
             return Json(new
             {
-                data = list.Select(x => new { Id = x.Id, IsApproval = x.IsApproval, IsApprovalStatus = x.IsApproval ? "معتمده" : "غير معتمده",  TransactionDate = x.TransactionDate.ToString(), Amount = x.GeneralRecordDetails.Where(d => !d.IsDeleted).DefaultIfEmpty().Sum(d => d.Amount), Notes = x.Notes, Actions = n, Num = n }).ToList()
+                data = list.Select(x => new { Id = x.Id, IsApproval = x.IsApproval, IsApprovalStatus = x.IsApproval ? "معتمده" : "غير معتمده",  TransactionDate = x.TransactionDate.ToString(), Amount = x.GeneralRecordDetails.Where(d => !d.IsDeleted&&d.IsDebit).DefaultIfEmpty().Sum(d => d.Amount), Notes = x.Notes, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
@@ -108,12 +109,43 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
-            // add
+            GeneralRecordVM vm = new GeneralRecordVM();
+             Guid? branchId=null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+
+            if (TempData["model"] != null)
+            {
+                Guid id;
+                if (Guid.TryParse(TempData["model"].ToString(), out id))
+                {
+                    var model = db.GeneralRecords.FirstOrDefault(x => x.Id == id);
+                    branchId = model.BranchId;
+                    vm.Id = model.Id;
+                    vm.BranchId = model.BranchId;
+                    vm.TransactionDate = model.TransactionDate;
+                    vm.Notes = model.Notes;
+                    List<GeneralRecordDetailDT> dt = model.GeneralRecordDetails.Where(x => !x.IsDeleted).Select(x => new GeneralRecordDetailDT
+                    {
+                        AccountTreeId = x.AccountTreeId,
+                        AccountTreeName = x.AccountTree?.AccountName,
+                        AccountTreeNum = x.AccountTree?.AccountNumber,
+                        DebitAmount = x.IsDebit ? x.Amount : 0,
+                        CreditAmount = !x.IsDebit ? x.Amount : 0,
+                        DebitCredit = x.IsDebit ? 1 : 2,
+                        Notes = x.Notes
+                    }).ToList();
+                    DS = JsonConvert.SerializeObject(dt);
+                }
+
+            }
+            else
+                vm = new GeneralRecordVM { TransactionDate = Utility.GetDateTime() };
+
+
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
 
-            return View(new GeneralRecordVM { TransactionDate = Utility.GetDateTime() });
+            return View(vm);
             //}
         }
         [HttpPost]
@@ -148,19 +180,14 @@ namespace ERP.Web.Controllers
                     }
                     generalRecordDetails = deDS.Select(x => new GeneralRecordDetail
                     {
+                        GeneralRecordId=vm.Id,
                         AccountTreeId= x.AccountTreeId,
                         IsDebit=x.DebitCredit==1?true:false,
                         Notes=x.Notes,
                         Amount= x.DebitCredit == 1 ? x.DebitAmount : x.CreditAmount,    
                     }).ToList();
                 }
-                GeneralRecord generalRecord = new GeneralRecord()
-                {
-                    BranchId = vm.BranchId,
-                    Notes = vm.InsertedNotes,
-                    TransactionDate = vm.TransactionDate,
-                    GeneralRecordDetails= generalRecordDetails,
-                };
+ 
                 using (var context = new VTSaleEntities())
                 {
 
@@ -169,7 +196,31 @@ namespace ERP.Web.Controllers
 
                         try
                         {
-                            context.GeneralRecords.Add(generalRecord);
+                            GeneralRecord generalRecord = null;
+                            if (vm.Id != Guid.Empty)
+                            {
+                              generalRecord=context.GeneralRecords.Where(x=>x.Id==vm.Id).FirstOrDefault();
+                                generalRecord.BranchId = vm.BranchId;
+                                generalRecord.TransactionDate = vm.TransactionDate;
+                                generalRecord.Notes=vm.Notes;
+                                //حذف اى حسابات مسجلة مسبقا
+                                var prevoiusGeneral = generalRecord.GeneralRecordDetails.Where(x => !x.IsDeleted).ToList();
+                                foreach (var item in prevoiusGeneral)
+                                {
+                                    item.IsDeleted = true;
+                                }
+                                context.GeneralRecordDetails.AddRange(generalRecordDetails);
+                            }else
+                            {
+                                generalRecord = new GeneralRecord()
+                                {
+                                    BranchId = vm.BranchId,
+                                    Notes = vm.Notes,
+                                    TransactionDate = vm.TransactionDate,
+                                    GeneralRecordDetails = generalRecordDetails,
+                                };
+                                context.GeneralRecords.Add(generalRecord);
+                            }
                             if (context.SaveChanges(auth.CookieValues.UserId)>0)
                             {
                                 DS = null;
@@ -196,10 +247,10 @@ namespace ERP.Web.Controllers
                                                     AccountsTreeId = item.AccountTreeId,
                                                     Debit =item.IsDebit?item.Amount:0,
                                                     Credit =item.IsDebit?0: item.Amount,
-                                                    Notes = item.Notes,
+                                                    Notes =string.IsNullOrEmpty(item.Notes)?vm.Notes: item.Notes,
                                                     BranchId = generalRecord.BranchId,
                                                     TransactionDate = generalRecord.TransactionDate,
-                                                    TransactionId = item.Id,
+                                                    TransactionId = generalRecord.Id,
                                                     TransactionTypeId = (int)TransactionsTypesCl.FreeRestrictions
                                                 });
                  
@@ -207,6 +258,7 @@ namespace ERP.Web.Controllers
 
                                         //تحديث حالة الاعتماد 
                                         generalRecord.IsApproval = true;
+                                        context.SaveChanges(auth.CookieValues.UserId);
                                     }
                                     else
                                         return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات.. لم يتم الاعتماد" });
@@ -312,10 +364,10 @@ namespace ERP.Web.Controllers
                                 AccountsTreeId = item.AccountTreeId,
                                 Debit = item.IsDebit ? item.Amount : 0,
                                 Credit = item.IsDebit ? 0 : item.Amount,
-                                Notes = item.Notes,
+                                Notes = string.IsNullOrEmpty(item.Notes) ? generalRecord.Notes : item.Notes,
                                 BranchId = generalRecord.BranchId,
                                 TransactionDate = generalRecord.TransactionDate,
-                                TransactionId = item.Id,
+                                TransactionId = generalRecord.Id,
                                 TransactionTypeId = (int)TransactionsTypesCl.FreeRestrictions
                             });
                         }
@@ -358,6 +410,7 @@ namespace ERP.Web.Controllers
                         {
                             item.IsDeleted = true;
                         }
+                        model.IsApproval = false;
                     }
 
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

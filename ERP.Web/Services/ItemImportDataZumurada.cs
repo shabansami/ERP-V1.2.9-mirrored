@@ -392,6 +392,41 @@ namespace ERP.Web.Services
         //    public string GroupCode { get; set; }
         //}
         #endregion
+
+        #region update data after change strucure DB in GeneralRecord,Voutcher
+
+        public void UpdateData()
+        {
+            using (var db=new VTSaleEntities())
+            {
+                //قيود اليومية
+                //var generals = db.GeneralRecords.Where(x=>!x.IsDeleted).ToList();
+                //foreach (var item in generals)
+                //{
+                //   item.IsDeleted=true;
+                //    var generalDay = db.GeneralDailies.Where(x => x.TransactionId == item.Id&& !x.IsDeleted).ToList();
+                //    foreach (var gDay in generalDay)
+                //    {
+                //        gDay.IsDeleted = true;
+                //    }
+                //}
+                //db.SaveChanges(new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C"));
+                
+                //سندات الصرف والقبض
+                var vouchers = db.Vouchers.Where(x=>!x.IsDeleted).ToList();
+                foreach (var item in vouchers)
+                {
+                   item.IsDeleted=true;
+                    var generalDay = db.GeneralDailies.Where(x => x.TransactionId == item.Id&& !x.IsDeleted).ToList();
+                    foreach (var gDay in generalDay)
+                    {
+                        gDay.IsDeleted = true;
+                    }
+                }
+                db.SaveChanges(new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C"));
+            }
+        }
+        #endregion
     }
 
 

@@ -173,5 +173,7 @@ namespace ERP.DAL
         public virtual DbSet<ProductionLine> ProductionLines { get; set; }
         public virtual DbSet<ProductionLineEmployee> ProductionLineEmployees { get; set; }
         public virtual DbSet<ContractSchedulingProduction> ContractSchedulingProductions { get; set; }
+        public virtual DbSet<GeneralRecordDetail> GeneralRecordDetails { get; set; }
+        public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
     }
 }

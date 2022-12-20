@@ -163,8 +163,8 @@
                     <tbody></tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="3" style="text-align:center"></th>
-                            <th colspan="3" style="text-align:center"></th>
+                            <th colspan="8" style="text-align:right">الاجمالى:</th>
+                            <th></th>
                         </tr>
                     </tfoot>
                 </table>
@@ -173,10 +173,8 @@
         </div>
     </div>
     <!--end::Container-->
-</div>
+
 <!--end::Entry-->
-                                </div>
-                            </div>
 @section Scripts
 {
     @if (ViewBag.Msg != null)
@@ -196,20 +194,6 @@
 
         var accounTree;
         $(document).ready(function () {
-            // begin first table
-            //https://datatables.net/examples/advanced_init/footer_callback.html
-            //jQuery.fn.dataTable.Api.register('sum()', function () {
-            //    return this.flatten().reduce(function (a, b) {
-            //        if (typeof a === 'string') {
-            //            a = a.replace(/[^\d.-]/g, '') * 1;
-            //        }
-            //        if (typeof b === 'string') {
-            //            b = b.replace(/[^\d.-]/g, '') * 1;
-            //        }
-
-            //        return a + b;
-            //    }, 0);
-            //});
             $('#kt_datatable').DataTable({
                 // DOM Layout settings
                 dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
@@ -238,15 +222,11 @@
 
                 },
                 columns: [
-                    { data: 'TransactionId', visible: false },
-                    { data: 'AccountsTreeId', visible: false },
-                    { data: 'TransactionTypeId', visible: false },
                     { data: 'Num', responsivePriority: 0 },
                     { data: 'Id', title: 'رقم القيد' },
                     { data: 'TransactionDate', title: 'تاريخ المعاملة' },
                     { data: 'AccountNumber', title: 'رقم الحساب' },
                     { data: 'AccountsTreeName', title: 'اسم الحساب' },
-
                     { data: 'Debit', title: 'مدين' },
                     { data: 'Credit', title: 'دائن' },
                     { data: 'TransactionTypeName', title: 'نوع المعاملة' },
@@ -265,13 +245,30 @@
 
                 ],
                 drawCallback: function () {
-                    var html = ' <tr><th colspan ="3" style= "text-align:center" ><div class="row alert alert-warning"><label>اجمالى المدين : ';
+                    var html = ' <tr><th colspan ="3" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى المدين : ';
                     var api = this.api();
-                    $(api.table().footer()).html(html + api.column(8).data().sum() + '</label></div></th>  <th colspan ="3" style= "text-align:center" ><div class="row alert alert-warning"><label>الرصيد :' + (api.column(8).data().sum() - api.column(9).data().sum()) + ' </label ></div ></th >  <th colspan ="3" style= "text-align:center" ><div class="row alert alert-warning"><label>اجمالى الدائن :' + api.column(9).data().sum() + '</label ></div ></th > </tr>');
+                    $(api.table().footer()).html(html + api.column(5).data().sum() + '</label></div></th>  <th colspan ="3" style= "text-align:center" ><div class="row alert alert-success"><label>الرصيد :' + (api.column(5).data().sum() - api.column(6).data().sum()) + ' </label ></div ></th >  <th colspan ="3" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى الدائن :' + api.column(6).data().sum() + '</label ></div ></th > </tr>');
                 },
                 "order": [[0, "asc"]]
                 //"order": [[0, "desc"]]
 
+            });
+            $('#kt_datatable_length').css("text-align", "left");
+
+            $('#export_print').on('click', function (e) {
+                e.preventDefault();
+                $('#kt_datatable').DataTable().button('.buttons-print').trigger();
+            });
+            $('#export_copy').on('click', function (e) {
+                e.preventDefault();
+                $('#kt_datatable').DataTable().button('.buttons-copy').trigger();
+            });
+            $('#export_excel').on('click', function (e) {
+                e.preventDefault();
+                $('#kt_datatable').DataTable().button('.buttons-excel').trigger();
+            });
+            $('#kt_datatable_search_query').on('keyup', function () {
+                $('#kt_datatable').DataTable().search(this.value).draw();
             });
 
             $('#kt_datatable_search_query').on('keyup', function () {

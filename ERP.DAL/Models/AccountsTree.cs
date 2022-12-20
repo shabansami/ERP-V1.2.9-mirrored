@@ -42,8 +42,9 @@ namespace ERP.DAL
             this.SellBackInvoiceIncomes = new HashSet<SellBackInvoiceIncome>();
             this.SellInvoiceIncomes = new HashSet<SellInvoiceIncome>();
             this.Stores = new HashSet<Store>();
-            this.VoucherDetailFroms = new HashSet<VoucherDetail>();
-            this.VoucherDetailTos = new HashSet<VoucherDetail>();
+            this.VoucherDetails = new HashSet<VoucherDetail>();
+            this.Vouchers = new HashSet<Voucher>();
+
         }
     
         public long AccountNumber { get; set; }
@@ -118,13 +119,7 @@ namespace ERP.DAL
         public virtual ICollection<SellInvoiceIncome> SellInvoiceIncomes { get; set; }
         
         public virtual ICollection<Store> Stores { get; set; }
-
-        //VoucherDetails
-        [InverseProperty(nameof(VoucherDetail.AccountsTreeFrom))]
-        public virtual ICollection<VoucherDetail> VoucherDetailFroms { get; set; }
-
-        //VoucherDetails
-        [InverseProperty(nameof(VoucherDetail.AccountsTreeTo))]
-        public virtual ICollection<VoucherDetail> VoucherDetailTos { get; set; }
+        public virtual ICollection<VoucherDetail> VoucherDetails { get; set; }
+        public virtual ICollection<Voucher> Vouchers { get; set; }
     }
 }

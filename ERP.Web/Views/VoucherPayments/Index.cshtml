@@ -88,7 +88,7 @@
                         <div class="form-group mb-0 w-100">
 
                             <div>
-                                <label> من حساب</label>
+                                <label> الحساب المدين</label>
                                 <input style = "text-align:right;" name="accountTree" placeholder="اختر الحساب" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
                                 <input type="hidden" id="AccountTreeFromId" />
                             </div>
@@ -153,20 +153,6 @@
             $('#kt_datatable_search_query').on('keyup', function () {
                 $('#kt_datatable').DataTable().search(this.value).draw();
             });
-            //$('#IsApprovalStatus').on('change', function () {
-            //    var textSelected = $("#IsApprovalStatus option:selected").val();
-            //    if ($("#IsApprovalStatus option:selected").val() === "") {
-            //        textSelected = "";
-            //    }
-            //    $('#kt_datatableExpense').DataTable().column(1).search(textSelected).draw();
-            //});
-            //$('#ExpenseTypeId').on('change', function () {
-            //    var textSelected = $("#ExpenseTypeId option:selected").text();
-            //    if ($("#ExpenseTypeId option:selected").val() === "") {
-            //        textSelected = "";
-            //    }
-            //    $('#kt_datatableExpense').DataTable().search(textSelected).draw();
-            //});
         });
     </script>
     <script>

@@ -55,7 +55,7 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>المبلغ</label>
-                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })
+                                @*@Html.TextBoxFor(m => m.Amount, new { @class = "form-control" })*@
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -63,7 +63,7 @@
                             <div class="form-group required">
                                 <label> من حساب</label>
                                 <input name="accountTreeFrom" placeholder="اختر من حساب" type="text" class="form-control alert alert-success" id="accountTreeFrom" autocomplete="off" />
-                                @Html.HiddenFor(m => m.AccountTreeFromId)
+                                @*@Html.HiddenFor(m => m.AccountTreeFromId)*@
                             </div>
                             <!--end::Input-->
                         </div>
@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         <div class="col-lg-4">
-                            <div class="form-group required">
+                            <div class="form-group">
                                 <label>الرصيد</label>
                                 @Html.TextBox("AccountBalance", null, htmlAttributes: new { @class = "form-control din-med", @readonly = "readonly" })
                             </div>
@@ -130,9 +130,9 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">1</th>
-                                    <td>@modl.AccountsTreeFrom.AccountName</td>
+                                    @*<td>@modl.AccountsTreeFrom.AccountName</td>
                                     <td>@modl.AccountsTreeTo.AccountName</td>
-                                    <td>@modl.Amount</td>
+                                    <td>@modl.Amount</td>*@
                                     <td>@modl.VoucherDate.Value.ToString("yyyy-MM-dd")</td>
                                 </tr>
                             </tbody>
@@ -159,7 +159,7 @@
                 source: dsTree,
                 isMultiple: false,
                 collapse: true,
-                selected: ['@Model.AccountTreeFromId']
+                selected: ['@Model.AccountTreeId']
                 //selectableLastNode: true
 
             });

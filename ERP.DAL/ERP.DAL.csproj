@@ -312,6 +312,10 @@
     <Compile Include="Migrations\202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.designer.cs">
       <DependentUpon>202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212201657463_update_Voucher_Fields_AccountTree.cs" />
+    <Compile Include="Migrations\202212201657463_update_Voucher_Fields_AccountTree.designer.cs">
+      <DependentUpon>202212201657463_update_Voucher_Fields_AccountTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\ContractSchedulingProduction.cs" />
@@ -673,6 +677,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.resx">
       <DependentUpon>202212191703456_change_stuctureDB_in_GeneralRecord_Voucher_masterDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212201657463_update_Voucher_Fields_AccountTree.resx">
+      <DependentUpon>202212201657463_update_Voucher_Fields_AccountTree.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

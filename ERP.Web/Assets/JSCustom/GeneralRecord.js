@@ -8,7 +8,7 @@ var GeneralRecord_Module = function () {
 
         // begin first table
         table.DataTable({
-            responsive: true,
+            //responsive: true,
             searchDelay: 500,
             processing: true,
             serverSide: false,
@@ -76,14 +76,15 @@ var GeneralRecord_Module = function () {
                 data(d) {
                     d.dFrom = $("#dtFrom").val();
                     d.dTo = $("#dtTo").val();
+                    d.accountId = $("#SelectedAccountTreeId").val();
                 }
             },
             columns: [
                 { data: 'Num', responsivePriority: 0 },
-                { data: 'AccountName', title: 'الحساب' },
                 { data: 'TransactionDate', title: 'تاريخ المعاملة' },
                 { data: 'Amount', title: 'المبلغ' },
                 { data: 'IsApprovalStatus', title: 'حالة الاعتماد' },
+                { data: 'Notes', title: 'البيان' },
                 { data: 'Actions', responsivePriority: -1 },
 
             ],
@@ -104,7 +105,10 @@ var GeneralRecord_Module = function () {
                             return '\
 							<div class="btn-group">\
                             <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=GeneralRecord_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-unlock-alt"></i>\</div>\
+								<i class="fa fa-unlock-alt"></i></a>\
+                                <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=9" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
+								<i class="fa fa-search"></i>\
+							</a>\</div>\
 						';
                         } else {
                             return '\
@@ -124,6 +128,12 @@ var GeneralRecord_Module = function () {
 
             ],
 
+            drawCallback: function () {
+                var html = ' <tr><th colspan ="6" style= "text-align:center" ><label>اجمالى المبلغ : ';
+                var api = this.api();
+                var totalAmount = api.column(2).data().sum();
+                $(api.table().footer()).html(html + totalAmount + '</label></th>  </tr>');
+            },
             "order": [[0, "asc"]]
             //"order": [[0, "desc"]] 
 

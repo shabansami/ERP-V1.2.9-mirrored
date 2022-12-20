@@ -23,6 +23,8 @@ namespace ERP.DAL
         public bool IsVoucherPayment { get; set; }
         [ForeignKey(nameof(Branch))]
         public Nullable<Guid> BranchId { get; set; }
+                [ForeignKey(nameof(AccountsTree))]
+        public Nullable<Guid> AccountTreeId { get; set; } //«·Õ”«» «·œ«∆‰ ›Ï Õ««·… ”‰œ ’—› Ê«·Õ”«» «·„œÌ‰ ›Ï Õ«·… ”‰œ ﬁ»÷
 
         public Nullable<System.DateTime> VoucherDate { get; set; }
 
@@ -33,6 +35,7 @@ namespace ERP.DAL
 
 
         public virtual Branch Branch { get; set; }
+        public virtual AccountsTree AccountsTree { get; set; }  
         public virtual ICollection<VoucherDetail> VoucherDetails { get; set; }
 
 

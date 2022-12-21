@@ -24,6 +24,8 @@ namespace ERP.DAL
         public Nullable<System.DateTime> TransactionDate { get; set; }
         public string Notes { get; set; }
         public bool IsApproval { get; set; }
+        public string GeneralRecordNumber { get; set; }
+
         public virtual ICollection<GeneralRecordDetail> GeneralRecordDetails { get; set; }
     }
 }

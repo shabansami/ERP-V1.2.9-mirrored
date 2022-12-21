@@ -15,6 +15,7 @@ namespace ERP.DAL
         [ForeignKey(nameof(AccountsTree))]
         public Nullable<Guid> AccountTreeId { get; set; } //الحساب المدين فى حاالة سند صرف والحساب الدائن فى حالة سند قبض
         public double Amount { get; set; }
+        public string Notes { get; set; }
 
         public virtual Voucher Voucher { get; set; }
 

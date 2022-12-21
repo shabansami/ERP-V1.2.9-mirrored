@@ -9,6 +9,9 @@ using System.Web;
 using System.Web.Mvc;
 using ERP.DAL;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.ViewModels;
+using Newtonsoft.Json;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Web.Controllers
 {
@@ -21,6 +24,7 @@ namespace ERP.Web.Controllers
 
         // GET: VoucherPayments
         VTSaleEntities db ;
+        public static string DS { get; set; }
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         public VoucherPaymentsController()
@@ -28,9 +32,10 @@ namespace ERP.Web.Controllers
             db = new VTSaleEntities();
             storeService = new StoreService();
         }
+
+        #region عرض وادارة سندات الصرف
         public ActionResult Index()
         {
-            //ViewBag.VoucherPayments = new SelectList(AccountTreeService.GetVouchers(db, true), "Id", "Name");
             return View();
         }
         public ActionResult GetAll(string accountTreeFromId, string isApprovalStatus, string dFrom, string dTo)
@@ -61,118 +66,275 @@ namespace ERP.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
 
         }
+
+        #endregion
+
+        #region اضافة قيود متعددة 
+        public ActionResult GetDSVoucherTransaction()
+        {
+            int? n = null;
+            if (DS == null)
+                return Json(new
+                {
+                    data = new VoucherDetailDT()
+                }, JsonRequestBehavior.AllowGet);
+            else
+                return Json(new
+                {
+                    data = JsonConvert.DeserializeObject<List<VoucherDetailDT>>(DS)
+                }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult AddVoucherTransaction(string accountTreeTxtId, string amountTxt, string notes, string DT_Datasource)
+        {
+            List<VoucherDetailDT> deDS = new List<VoucherDetailDT>();
+            if (DT_Datasource != null)
+                deDS = JsonConvert.DeserializeObject<List<VoucherDetailDT>>(DT_Datasource);
+            double amount;
+            Guid accountTreeId;
+            if (!double.TryParse(amountTxt, out amount) || !Guid.TryParse(accountTreeTxtId, out accountTreeId))
+                return Json(new { isValid = false, message = " تأكد من ادخال البيانات المطلوبة بشكل صحيح " }, JsonRequestBehavior.AllowGet);
+
+            //التأكد من عدم وجود اى ابناء للحساب المختار (اخر مستوى فى السشجرة)
+            if (AccountTreeService.CheckAccountTreeIdHasChilds(accountTreeId))
+                return Json(new { isValid = false, message = "تأكد اختيار حساب فرعى صحيح.. الحساب المختار ليس بحساب فرعى)" });
+            //التأكد من عدم تكرار الحساب
+            if (deDS.Any(x => x.AccountTreeIdDT == accountTreeId))
+                return Json(new { isValid = false, message = "تم ادخال الحساب مسبقا" });
+
+            var accountTree = db.AccountsTrees.Where(x => x.Id == accountTreeId).FirstOrDefault();
+            var newVoucher = new VoucherDetailDT
+            {
+                AccountTreeIdDT = accountTreeId,
+                AccountTreeNameDT = accountTree.AccountName,
+                AccountTreeNumDT = accountTree.AccountNumber,
+                DebitAmount =  amount ,
+                Notes = notes
+            };
+
+            deDS.Add(newVoucher);
+            DS = JsonConvert.SerializeObject(deDS);
+            return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
+        #region ادارة السندات 
         [HttpGet]
         public ActionResult CreateEdit()
         {
+            VoucherVM vm = new VoucherVM();
+            Guid? branchId = null;
+            Guid? accountTreeToId = null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-            if (TempData["model"] != null) //edit
+
+            if (TempData["model"] != null)
             {
                 Guid id;
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
                     var model = db.Vouchers.Where(x => x.Id == id).FirstOrDefault();
-                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.AccountTreeToId = new SelectList(AccountTreeService.GetVouchers(db, true), "Id", "Name");
-                    return View(model);
+                    branchId = model.BranchId;
+                    accountTreeToId = model.AccountTreeId;
+                    vm.Id = model.Id;
+                    vm.BranchId = model.BranchId;
+                    vm.VoucherDate = model.VoucherDate;
+                    vm.Notes = model.Notes;
+                    vm.AccountTreeId = model.AccountTreeId;
+                    List<VoucherDetailDT> dt = model.VoucherDetails.Where(x => !x.IsDeleted).Select(x => new VoucherDetailDT
+                    {
+                        AccountTreeIdDT = x.AccountTreeId,
+                        AccountTreeNameDT = x.AccountsTree?.AccountName,
+                        AccountTreeNumDT = x.AccountsTree?.AccountNumber,
+                        DebitAmount = x.Amount,
+                        Notes = x.Notes
+                    }).ToList();
+                    DS = JsonConvert.SerializeObject(dt);
                 }
-                else
-                    return RedirectToAction("Index");
 
             }
             else
-            {                   // add
+                vm = new VoucherVM { VoucherDate = Utility.GetDateTime() };
 
-                var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
-                ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-                ViewBag.AccountTreeToId = new SelectList(AccountTreeService.GetVouchers(db, true), "Id", "Name");
-                //ViewBag.LastRow = db.Vouchers.Where(x => !x.IsDeleted && x.IsVoucherPayment).OrderByDescending(x => x.Id).FirstOrDefault();
-                return View(new Voucher() { VoucherDate = Utility.GetDateTime() });
-            }
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.AccountTreeId = new SelectList(AccountTreeService.GetVouchers(db, true), "Id", "Name", accountTreeToId);
+            return View(vm);
+            //}
         }
-        //[HttpPost]
-        //public JsonResult CreateEdit(Voucher vm)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        if (vm.AccountTreeFromId == null || vm.AccountTreeToId == null || vm.Amount == 0 || vm.BranchId == null || vm.VoucherDate == null)
-        //            return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+        [HttpPost]
+        public JsonResult CreateEdit(VoucherVM vm, string DT_Datasource, bool? isApproval)
+        {
+            if (ModelState.IsValid)
+            {
+                if (vm.BranchId == null || vm.VoucherDate == null || vm.AccountTreeId == null)
+                    return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
-        //        var isInsert = false;
-        //        if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeFromId))
-        //            return Json(new { isValid = false, message = "من حساب .. ليس بحساب فرعى" });
-        //        if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeToId))
-        //            return Json(new { isValid = false, message = "الى حساب .. ليس بحساب فرعى" });
+                vm.VoucherDate = vm.VoucherDate.Value.AddHours(Utility.GetDateTime().Hour).AddMinutes(Utility.GetDateTime().Minute);
 
-        //        //التأكد من امكانية صرف من الخزينة اولا حسب الاعدادات
-        //        int paidWithBalance = 0;
-        //        var paidWithBalanceSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.PaidWithBalance).FirstOrDefault();
-        //        if (int.TryParse(paidWithBalanceSett.SValue, out paidWithBalance))
-        //        {
-        //            if (paidWithBalance == 0)//لايمكن الصرف الا فى حاله وجود رصيد 
-        //            {
-        //                if (vm.AccountTreeToId != null)
-        //                {
-        //                    var balance = GeneralDailyService.GetAccountBalance(vm.AccountTreeToId);
-        //                    if (vm.Amount > balance)
-        //                        return Json(new { isValid = false, isInsert, message = "لا يمكن الصرف لعدم وجود رصيد كافى" });
-        //                }
-        //                else
-        //                    return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
-        //            }
-        //        }
-        //        else
-        //            return Json(new { isValid = false, isInsert, message = "تأكد من تحديد حالة السحب من الخزنة فى وجود رصيد فى شاشة الاعدادات" });
+                List<VoucherDetailDT> deDS = new List<VoucherDetailDT>();
+                List<VoucherDetail> voucherDetails = new List<VoucherDetail>();
+                bool isInsert=false;
+                if (DT_Datasource != null)
+                {
+                    deDS = JsonConvert.DeserializeObject<List<VoucherDetailDT>>(DT_Datasource);
+                    if (deDS.Sum(x => x.DebitAmount) == 0 )
+                        return Json(new { isValid = false, message = "تأكد من ادخال المبلغ للحسابات)" });
 
-        //        //==================
+                    //التأكد من كل الحسابات المحدد ليس لها حسابات فرعية
+                    foreach (var voucherDetail in deDS)
+                    {
+                        if (AccountTreeService.CheckAccountTreeIdHasChilds(voucherDetail.AccountTreeIdDT))
+                            return Json(new { isValid = false, message = $"الحساب {voucherDetail.AccountTreeNameDT} ليس بحساب فرعى" });
+                    }
+                    voucherDetails = deDS.Select(x => new VoucherDetail
+                    {
+                        VoucherId = vm.Id,
+                        AccountTreeId = x.AccountTreeIdDT,
+                        Notes = x.Notes,
+                        Amount =  x.DebitAmount,
+                    }).ToList();
+                    //        //التأكد من امكانية صرف من الخزينة اولا حسب الاعدادات
+                    int paidWithBalance = 0;
+                    var paidWithBalanceSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.PaidWithBalance).FirstOrDefault();
+                    if (int.TryParse(paidWithBalanceSett.SValue, out paidWithBalance))
+                    {
+                        if (paidWithBalance == 0)//لايمكن الصرف الا فى حاله وجود رصيد 
+                        {
+                            if (vm.AccountTreeId != null)
+                            {
+                                var balance = GeneralDailyService.GetAccountBalance(vm.AccountTreeId);
+                                if (voucherDetails.Sum(x=>x.Amount) > balance)
+                                    return Json(new { isValid = false, message = "لا يمكن الصرف لعدم وجود رصيد كافى" });
+                            }
+                            else
+                                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                        }
+                    }
+                    else
+                        return Json(new { isValid = false, isInsert, message = "تأكد من تحديد حالة السحب من الخزنة فى وجود رصيد فى شاشة الاعدادات" });
 
-        //        vm.VoucherDate = vm.VoucherDate.Value.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
-        //        if (vm.Id != Guid.Empty)
-        //        {
-        //            var model = db.Vouchers.Where(x => x.Id == vm.Id).FirstOrDefault();
-        //            model.Amount = vm.Amount;
-        //            model.Notes = vm.Notes;
-        //            model.BranchId = vm.BranchId;
-        //            model.AccountTreeFromId = vm.AccountTreeFromId;
-        //            model.AccountTreeToId = vm.AccountTreeToId;
-        //            model.VoucherDate = vm.VoucherDate;
-        //            db.Entry(model).State = EntityState.Modified;
-        //        }
-        //        else
-        //        {
-        //            isInsert = true;
-        //            var model = new Voucher
-        //            {
-        //                BranchId = vm.BranchId,
-        //                AccountTreeFromId = vm.AccountTreeFromId,
-        //                AccountTreeToId = vm.AccountTreeToId,
-        //                Amount = vm.Amount,
-        //                Notes = vm.Notes,
-        //                VoucherDate = vm.VoucherDate,
-        //                IsVoucherPayment = true,
-        //            };
-        //            //اضافة رقم السند
-        //            string codePrefix = Properties.Settings.Default.CodePrefix;
-        //            model.VoucherNumber = codePrefix + (db.Vouchers.Count(x => x.VoucherNumber.StartsWith(codePrefix)) + 1);
+                }else
+                    return Json(new { isValid = false, message = "تأكد من ادخال الحسابات المدينة" });
 
-        //            db.Vouchers.Add(model);
 
-        //        }
-        //        if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-        //        {
-        //            if (isInsert)
-        //                return Json(new { isValid = true, isInsert, message = "تم الاضافة بنجاح" });
-        //            else
-        //                return Json(new { isValid = true, isInsert, message = "تم التعديل بنجاح" });
+                using (var context = new VTSaleEntities())
+                {
 
-        //        }
-        //        else
-        //            return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
-        //    }
-        //    else
-        //        return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
+                    using (var tran = context.Database.BeginTransaction())
+                    {
 
-        //}
+                        try
+                        {
+                            Voucher voucher = null;
+                            if (vm.Id != Guid.Empty)
+                            {
+                                voucher = context.Vouchers.Where(x => x.Id == vm.Id).FirstOrDefault();
+                                voucher.BranchId = vm.BranchId;
+                                voucher.VoucherDate = vm.VoucherDate;
+                                voucher.Notes = vm.Notes;
+                                voucher.AccountTreeId = vm.AccountTreeId;
+                                //حذف اى حسابات مسجلة مسبقا
+                                var prevoiusVouchers = voucher.VoucherDetails.Where(x => !x.IsDeleted).ToList();
+                                foreach (var item in prevoiusVouchers)
+                                {
+                                    item.IsDeleted = true;
+                                }
+                                context.VoucherDetails.AddRange(voucherDetails);
+                            }
+                            else
+                            {
+                                isInsert= true; 
+                                voucher = new Voucher()
+                                {
+                                    BranchId = vm.BranchId,
+                                    Notes = vm.Notes,
+                                    AccountTreeId=vm.AccountTreeId,
+                                    VoucherDate = vm.VoucherDate,
+                                    IsVoucherPayment=true,
+                                    VoucherDetails = voucherDetails,
+                                };
+                                //            //اضافة رقم السند
+                                string codePrefix = Properties.Settings.Default.CodePrefix;
+                                voucher.VoucherNumber = codePrefix + (context.Vouchers.Count(x => x.VoucherNumber.StartsWith(codePrefix)) + 1);
+
+                                context.Vouchers.Add(voucher);
+                            }
+                            if (context.SaveChanges(auth.CookieValues.UserId) > 0)
+                            {
+                                DS = null;
+                                //اعتماد القيود فى حالة الضغط على حفظ واعتماد
+                                if (isApproval == true)
+                                {
+                                    //    //تسجيل القيود
+                                    // General Dailies
+                                    if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+                                    {
+                                        //التأكد من عدم تكرار اعتماد القيد
+                                        if (GeneralDailyService.GeneralDailaiyExists(voucher.Id, (int)TransactionsTypesCl.VoucherPayment))
+                                            return Json(new { isValid = false, message = "تم تسجيل القيد مسبقا" });
+                                        // use Transactions م حساب
+                                        // الحسابات المدينة
+                                        foreach (var item in voucherDetails)
+                                        {
+                                                if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
+                                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
+                                            //من ح/
+                                            context.GeneralDailies.Add(new GeneralDaily
+                                                            {
+                                                                AccountsTreeId = item.AccountTreeId,
+                                                                Debit = item.Amount,
+                                                                BranchId = voucher.BranchId,
+                                                                Notes = string.IsNullOrEmpty(item.Notes) ? vm.Notes : item.Notes,
+                                                                TransactionDate = voucher.VoucherDate,
+                                                                TransactionId = voucher.Id,
+                                                                TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
+                                                            });
+
+                                        }
+                                        // الى ح/ حساب الحساب الدائن
+                                        context.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = voucher.AccountTreeId,
+                                            Credit = voucherDetails.DefaultIfEmpty().Sum(x=>x.Amount),
+                                            BranchId = voucher.BranchId,
+                                            Notes = string.IsNullOrEmpty(voucher.Notes) ? vm.Notes : voucher.Notes,
+                                            TransactionDate = voucher.VoucherDate,
+                                            TransactionId = voucher.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
+                                        });
+
+                                        //تحديث حالة الاعتماد 
+                                        voucher.IsApproval = true;
+                                        context.SaveChanges(auth.CookieValues.UserId);
+                                    }
+                                    else
+                                        return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات.. لم يتم الاعتماد" });
+
+                                }
+
+                            }
+                            tran.Commit();
+                            if (isApproval == true)
+                                return Json(new { isValid = true, message = "تم حفظ واعتماد سند الصرف بنجاح" });
+                            else
+                                return Json(new { isValid = true, message = "تم الحفظ بنجاح" });
+
+                        }
+                        catch (Exception)
+                        {
+                            tran.Rollback();
+                            return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                        }
+
+                    }
+                }
+
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+        }
+
         public ActionResult Edit(string id)
         {
             Guid Id;
@@ -190,11 +352,16 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var model = db.Vouchers.Where(x => x.Id == Id).FirstOrDefault();
+                var model = db.Vouchers.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
                     model.IsDeleted = true;
-                    db.Entry(model).State = EntityState.Modified;
+                    //حذف الحسابات 
+                    var voucherDetails = model.VoucherDetails.Where(x => !x.IsDeleted).ToList();
+                    foreach (var item in voucherDetails)
+                    {
+                        item.IsDeleted = true;
+                    }
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم الحذف بنجاح" });
                     else
@@ -207,94 +374,90 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
         }
-        //[HttpPost]
-        //public ActionResult Approval(string id)
-        //{
-        //    Guid Id;
-        //    if (Guid.TryParse(id, out Id))
-        //    {
-        //        //    //تسجيل القيود
-        //        // General Dailies
-        //        if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
-        //        {
-        //            var model = db.Vouchers.Where(x => x.Id == Id).FirstOrDefault();
-        //            if (model != null)
-        //            {
-        //                if (AccountTreeService.CheckAccountTreeIdHasChilds(model.AccountTreeFromId))
-        //                    return Json(new { isValid = false, message = "من حساب .. ليس بحساب فرعى" });
-        //                if (AccountTreeService.CheckAccountTreeIdHasChilds(model.AccountTreeToId))
-        //                    return Json(new { isValid = false, message = "الى حساب .. ليس بحساب فرعى" });
-        //                //التأكد من عدم تكرار اعتماد القيد
-        //                if (GeneralDailyService.GeneralDailaiyExists(model.Id, (int)TransactionsTypesCl.VoucherPayment))
-        //                    return Json(new { isValid = false, message = "تم الاعتماد مسبقا " });
 
-        //                //من ح/ 
-        //                db.GeneralDailies.Add(new GeneralDaily
-        //                {
-        //                    AccountsTreeId = model.AccountTreeFromId,
-        //                    Debit = model.Amount,
-        //                    BranchId = model.BranchId,
-        //                    Notes = $"سند صرف من حساب {model.AccountsTreeFrom.AccountName} الى حساب {model.AccountsTreeTo.AccountName}  {model.Notes}",
-        //                    TransactionDate = model.VoucherDate,
-        //                    TransactionId = model.Id,
-        //                    TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
-        //                });
+        #endregion
 
-        //                // الى ح/ حساب 
-        //                db.GeneralDailies.Add(new GeneralDaily
-        //                {
-        //                    AccountsTreeId = model.AccountTreeToId,
-        //                    Credit = model.Amount,
-        //                    BranchId = model.BranchId,
-        //                    Notes = $"سند صرف من حساب {model.AccountsTreeFrom.AccountName} الى حساب {model.AccountsTreeTo.AccountName}  {model.Notes}",
-        //                    TransactionDate = model.VoucherDate,
-        //                    TransactionId = model.Id,
-        //                    TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
-        //                });
+        #region اعتماد القيد 
+        [HttpPost]
+        public ActionResult Approval(string id)
+        {
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                var voucher=db.Vouchers.Where(x=>x.Id==Id).FirstOrDefault();    
+                //    //تسجيل القيود
+                // General Dailies
+                if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+                {
+                    //التأكد من عدم تكرار اعتماد القيد
+                    if (GeneralDailyService.GeneralDailaiyExists(voucher.Id, (int)TransactionsTypesCl.VoucherPayment))
+                        return Json(new { isValid = false, message = "تم تسجيل القيد مسبقا" });
+                    // use Transactions م حساب
+                    // الحسابات المدينة
+                    foreach (var item in voucher.VoucherDetails.Where(x=>!x.IsDeleted))
+                    {
+                        if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
+                            return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" +item.AccountsTree.AccountName });
+                        //من ح/
+                        db.GeneralDailies.Add(new GeneralDaily
+                        {
+                            AccountsTreeId = item.AccountTreeId,
+                            Debit = item.Amount,
+                            BranchId = voucher.BranchId,
+                            Notes = string.IsNullOrEmpty(item.Notes) ? voucher.Notes : item.Notes,
+                            TransactionDate = voucher.VoucherDate,
+                            TransactionId = voucher.Id,
+                            TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
+                        });
+                    }
+                    // الى ح/ حساب الحساب الدائن
+                    db.GeneralDailies.Add(new GeneralDaily
+                    {
+                        AccountsTreeId = voucher.AccountTreeId,
+                        Credit = voucher.VoucherDetails.Where(x => !x.IsDeleted).DefaultIfEmpty().Sum(x => x.Amount),
+                        BranchId = voucher.BranchId,
+                        Notes = voucher.Notes,
+                        TransactionDate = voucher.VoucherDate,
+                        TransactionId = voucher.Id,
+                        TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
+                    });
 
-        //                //تحديث حالة الاعتماد 
-        //                model.IsApproval = true;
-        //                db.Entry(model).State = EntityState.Modified;
+                    //تحديث حالة الاعتماد 
+                    voucher.IsApproval = true;
+                    if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                        return Json(new { isValid = true, message = "تم اعتماد سند الصرف بنجاح" });
+                    else
+                        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
-        //                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-        //                    return Json(new { isValid = true, message = "تم اعتماد سند الصرف بنجاح" });
-        //                else
-        //                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                }
+                else
+                    return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات.. لم يتم الاعتماد" });
+            }
+            else
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
-        //            }
-        //            else
-        //                return Json(new { isValid = false, message = "تأكد من اختيار العملية " });
-
-        //        }
-        //        else
-        //            return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات" });
-        //    }
-        //    else
-        //        return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-
-        //}
+        }
         [HttpPost]
         public ActionResult UnApproval(string id)
         {
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var model = db.Vouchers.Where(x => x.Id == Id).FirstOrDefault();
+                var model = db.Vouchers.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
-                    db.Entry(model).State = EntityState.Modified;
                     //حذف قيود اليومية
-                    var generalDailies = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == model.Id && x.TransactionTypeId == (int)TransactionsTypesCl.VoucherPayment).ToList();
+                    var generalDailies = db.GeneralDailies.Where(x => x.TransactionId == model.Id && x.TransactionTypeId == (int)TransactionsTypesCl.VoucherPayment).ToList();
                     if (generalDailies != null)
                     {
                         foreach (var item in generalDailies)
                         {
                             item.IsDeleted = true;
-                            db.Entry(item).State = EntityState.Modified;
                         }
                     }
+
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم فك الاعتماد بنجاح" });
                     else
@@ -308,7 +471,7 @@ namespace ERP.Web.Controllers
 
         }
 
-
+        #endregion
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

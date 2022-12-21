@@ -104,7 +104,6 @@ namespace ERP.Web.Controllers
 
         #endregion
 
-
         #region ادارة القيود 
         [HttpGet]
         public ActionResult CreateEdit()
@@ -219,6 +218,9 @@ namespace ERP.Web.Controllers
                                     TransactionDate = vm.TransactionDate,
                                     GeneralRecordDetails = generalRecordDetails,
                                 };
+                                //            //اضافة رقم السند
+                                string codePrefix = Properties.Settings.Default.CodePrefix;
+                                generalRecord.GeneralRecordNumber = codePrefix + (context.GeneralRecords.Count(x => x.GeneralRecordNumber.StartsWith(codePrefix)) + 1);
                                 context.GeneralRecords.Add(generalRecord);
                             }
                             if (context.SaveChanges(auth.CookieValues.UserId)>0)

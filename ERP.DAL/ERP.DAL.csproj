@@ -316,6 +316,10 @@
     <Compile Include="Migrations\202212201657463_update_Voucher_Fields_AccountTree.designer.cs">
       <DependentUpon>202212201657463_update_Voucher_Fields_AccountTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.cs" />
+    <Compile Include="Migrations\202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.designer.cs">
+      <DependentUpon>202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\ContractSchedulingProduction.cs" />
@@ -680,6 +684,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212201657463_update_Voucher_Fields_AccountTree.resx">
       <DependentUpon>202212201657463_update_Voucher_Fields_AccountTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.resx">
+      <DependentUpon>202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

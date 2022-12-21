@@ -80,11 +80,9 @@ var VoucherPayment_Module = function () {
             },
             columns: [
                 { data: 'Num', responsivePriority: 0 },
-                { data: 'AccountTreeFromName', title: 'من حساب' },
-                { data: 'AccountTreeToName', title: 'الي حساب' },
-                { data: 'VoucherNumber', title: 'رقم السند' },
+                { data: 'VoucherDate', title: 'تاريخ المعاملة' },
                 { data: 'Amount', title: 'المبلغ' },
-                { data: 'VoucherDate', title: 'تاريخ العملية' },
+                { data: 'VoucherNumber', title: 'رقم السند' },
                 { data: 'Notes', title: 'البيان' },
                 { data: 'Actions', responsivePriority: -1 },
 
@@ -102,36 +100,37 @@ var VoucherPayment_Module = function () {
                     title: 'عمليات',
                     orderable: false,
                     render: function (data, type, row, meta) {
-                        if (!row.IsApproval) {
+                        if (row.IsApproval) {
                             return '\
 							<div class="btn-group">\
-							<a href="/VoucherPayments/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
-								<i class="fa fa-edit"></i>\
-							</a>\
-                                <a href="javascript:;" onclick=VoucherPayment_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-unlock-alt"></i>\
-							</a><a href="javascript:;" onclick=VoucherPayment_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
-								<i class="fa fa-trash"></i>\
-							</a></div>\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=VoucherPayment_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i></a>\
+                                <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
+								<i class="fa fa-search"></i>\
+							</a>\</div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
-                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=VoucherPayment_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
-								<i class="fa fa-money-bill"></i></a><a href="javascript:;" onclick="PrintInvoice_Module.PrintPayment(\''+ row.Id + '\',\'voucherPayment\');" class="btn btn-sm btn-clean btn-icUrln" title="طباعه ايصال">\
-								<i class="fa fa-print"></i>\
-							</a>\</div>\
+                                <a href="/VoucherPayments/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+							<a href="javascript:;" onclick=VoucherPayment_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+								<i class="fa fa-trash"></i>\
+							</a><a href="javascript:;" onclick=VoucherPayment_Module.approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
+								<i class="fa fa-unlock-alt"></i>\
+							</a></div>\
 						';
                         }
+
                     },
                 }
 
             ],
             drawCallback: function () {
-                var html = ' <tr><th colspan ="11" style= "text-align:center" ><div class="row alert-success"><label>اجمالى المبلغ : ';
+                var html = ' <tr><th colspan ="6" style= "text-align:center" ><div class="row alert-success"><label>اجمالى المبلغ : ';
                 var api = this.api();
-                var totalAmount = api.column(3).data().sum();
+                var totalAmount = api.column(2).data().sum();
                 $(api.table().footer()).html(html + totalAmount + '</label></div></th>  </tr>');
             },
             //"order": [[0, "asc"]]
@@ -153,43 +152,6 @@ var VoucherPayment_Module = function () {
             $('#kt_datatable').DataTable().button('.buttons-excel').trigger();
         });
     };
-    function Submit(btn) {
-        try {
-            var form = document.getElementById('form1');
-            $.ajax({
-                type: 'POST',
-                url: form.action,
-                data: new FormData(form),
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    if (res.isValid) {
-                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
-                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
-                        toastr.success(res.message, '',)
-                        if (!res.isInsert) {
-                            setTimeout(function () { window.location = "/VoucherPayments/Index" }, 3000);
-                        } else
-                            setTimeout(function () { window.location = "/VoucherPayments/CreateEdit" }, 3000);
-                        //$('#kt_datatableLast').DataTable().ajax.reload();
-                    } else {
-                        toastr.error(res.message, '');
-                    }
-                    //document.getElementById('submit').disabled = false;
-                    //document.getElementById('reset').disabled = false;
-                },
-                error: function (err) {
-                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
-                    console.log(err)
-                }
-            })
-            //to prevent default form submit event
-            return false;
-        } catch (ex) {
-            console.log(ex)
-        }
-
-    }
     function deleteRow(id) {
         Swal.fire({
             title: 'تأكيد الحذف',
@@ -297,8 +259,185 @@ var VoucherPayment_Module = function () {
     };
 
     //#endregion
+    //#region complex voucher 
+    var initDetailsDT = function () {
+        var table = $('#kt_datatableVoucherDetails');
+        table.DataTable({
+            paging: false,
+            dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
+            language: {
+                search: "البحث",
+                lengthMenu: "عرض _MENU_ عنصر لكل صفحة",
+                info: "العناصر من_START_ الي _END_ من اصل _TOTAL_ عنصر",
+                processing: "جارى التحميل",
+                zeroRecords: "لا يوجد سجلات لعرضها",
+                infoFiltered: "",
+                infoEmpty: 'لا يوجد سجلات متاحه',
+            },
+
+            ajax: {
+                url: '/VoucherPayments/GetDSVoucherTransaction',
+                type: 'GET',
+
+            },
+            columns: [
+                { data: 'DebitAmount', title: 'مدين' },
+                { data: 'CreditAmount', title: 'دائن' },
+                { data: 'AccountTreeNameDT', title: 'الحساب' },
+                { data: 'AccountTreeNumDT', title: 'رقم الحساب' },
+                { data: 'Notes', title: 'البيان' },
+                { data: 'Actions', responsivePriority: -1 },
+
+            ],
+
+            columnDefs: [
+
+                {
+                    targets: -1,
+                    title: 'عمليات',
+                    orderable: false,
+                    render: function (data, type, row, meta) {
+                        return '\
+							<div class="btn-group">\
+							<a href="javascript:;" onclick=VoucherPayment_Module.deleteRowComplex('+ row.Id + ')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="حذف">\
+								<i class="fas fa-trash"></i>\
+							</a></div>\
+						';
+                    },
+                }
+
+            ],
+            drawCallback: function () {
+                var html = ' <tr><th colspan ="6" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى المدين : ';
+                var api = this.api();
+                var balanceStatusTxt = '';
+                var debit = api.column(0).data().sum();
+                
+                $(api.table().footer()).html(html + debit + '</label></div></th>  </tr>');
+            },
+
+            "order": [[0, "asc"]]
+            //"order": [[0, "desc"]]
+
+        });
+
+    };
+
+    function AddVoucherTransaction() {
+        try {
+            var AccountTreeId = document.getElementById('SelectedAccountTreeId').value;
+            var Amount = document.getElementById('InsertedAmount').value;
+            var Notes = document.getElementById('InsertedNotes').value;
+            var formData = new FormData();
+            if (AccountTreeId === '') {
+                toastr.error('تأكد من اختيار الحساب', '');
+                return false;
+            }
+            if (Amount === '' || Amount == '0') {
+                toastr.error('تأكد من ادخال المبلغ', '');
+                return false;
+
+            }
+
+            formData.append('accountTreeTxtId', AccountTreeId)
+            formData.append('amountTxt', Amount)
+            formData.append('notes', Notes)
+            //var dataSet = $('#kt_datatableTreePrice').rows().data();
+            var dataSet = $('#kt_datatableVoucherDetails').DataTable().rows().data().toArray();
+            if (dataSet != null) {
+                if (dataSet.length > 0) {
+                    formData.append("DT_Datasource", JSON.stringify(dataSet));
+                }
+            }
+            $.ajax({
+                type: 'POST',
+                url: '/VoucherPayments/AddVoucherTransaction',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        $('#kt_datatableVoucherDetails').DataTable().ajax.reload();
+                        $('#SelectedAccountTreeId').val(null);
+                        $('#accountTreeFrom').val('');
+                        $('#InsertedNotes').val('');
+                        $('#InsertedAmount').val(0);
+                        toastr.success('تم الاضافة بنجاح', '');
+
+                    } else
+                        toastr.error(res.message, '');
+                    return false;
+                },
+                error: function (err) {
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+            //$('#kt_datatableTreePrice').DataTable().ajax.reload();
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    }
+
+    function deleteRowComplex(id) {
+        $('#kt_datatableVoucherDetails tbody').on('click', 'a.deleteIcon', function () {
+            $('#kt_datatableVoucherDetails').DataTable().row($(this).parents('tr')).remove().draw();
+        })
+
+    };
+
+    function SubmitForm(btn, isApproval) {
+        try {
+            var form = document.getElementById('form1');
+            var formData = new FormData(form);
+            var dataSet = $('#kt_datatableVoucherDetails').DataTable().rows().data().toArray();
+            if (dataSet != null) {
+                if (dataSet.length > 0) {
+                    formData.append("DT_Datasource", JSON.stringify(dataSet));
+                }
+            };
+            formData.append("isApproval", isApproval);
+            $.ajax({
+                type: 'POST',
+                url: form.action,
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    if (res.isValid) {
+                        //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
+                        $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
+                        toastr.success(res.message, '',)
+                        if (!res.isInsert) {
+                            setTimeout(function () { window.location = "/VoucherPayments/Index" }, 3000);
+                        } else
+                            setTimeout(function () { window.location = "/VoucherPayments/CreateEdit" }, 3000);
+                    } else {
+                        toastr.error(res.message, '');
+                    }
+                },
+                error: function (err) {
+                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                    console.log(err)
+                }
+            })
+            //to prevent default form submit event
+            return false;
+        } catch (ex) {
+            console.log(ex)
+        }
+
+    };
+
+    //#endregion
+
     function getBalanceAccountChanged() {  // get balance  by accountid
-        $.get("/SharedDataSources/GetAccountBalance", { id: $("#AccountTreeToId").val(), isSafe: false }, function (data) {
+        $.get("/SharedDataSources/GetAccountBalance", { id: $("#AccountTreeId").val(), isSafe: false }, function (data) {
             $("#AccountBalance").val(data);
 
         });
@@ -309,11 +448,14 @@ var VoucherPayment_Module = function () {
         initDTVoucherPayment: function () {
             initDTVoucherPayment();
         },
-        Submit: Submit,
+        SubmitForm: SubmitForm,
         deleteRow: deleteRow,
         Approval: Approval,
         UnApproval: UnApproval,
         getBalanceAccountChanged: getBalanceAccountChanged,
+        initDetailsDT: initDetailsDT,
+        AddVoucherTransaction: AddVoucherTransaction,
+        deleteRowComplex: deleteRowComplex
     };
 
 }();

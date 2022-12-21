@@ -1919,6 +1919,7 @@
     <Compile Include="ViewModels\UserProfileVM.cs" />
     <Compile Include="ViewModels\UserVM.cs" />
     <Compile Include="ViewModels\VacationDayVM.cs" />
+    <Compile Include="ViewModels\VoucherVM.cs" />
     <Compile Include="ViewModels\WorkingPeriodVM.cs" />
   </ItemGroup>
   <ItemGroup>

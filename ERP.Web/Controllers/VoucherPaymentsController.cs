@@ -26,11 +26,9 @@ namespace ERP.Web.Controllers
         VTSaleEntities db ;
         public static string DS { get; set; }
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
-        StoreService storeService;
         public VoucherPaymentsController()
         {
             db = new VTSaleEntities();
-            storeService = new StoreService();
         }
 
         #region عرض وادارة سندات الصرف
@@ -44,19 +42,14 @@ namespace ERP.Web.Controllers
             DateTime dtFrom, dtTo;
             var list = db.Vouchers.Where(x => !x.IsDeleted && x.IsVoucherPayment);
             int isAppStatus;
-            if (!string.IsNullOrEmpty(accountTreeFromId))
-            {
-                if (Guid.TryParse(accountTreeFromId, out Guid accountFrom))
+            if (Guid.TryParse(accountTreeFromId, out Guid accountFrom))
                     list = list.Where(x => x.VoucherDetails.Where(v=>!v.IsDeleted&&v.AccountTreeId == accountFrom).Any());
-            }
-            if (!string.IsNullOrEmpty(isApprovalStatus))
-            {
-                if (int.TryParse(isApprovalStatus, out isAppStatus))
+            if (int.TryParse(isApprovalStatus, out isAppStatus))
                     if (isAppStatus == 1)
                         list = list.Where(x => x.IsApproval);
                     else if (isAppStatus == 2)
                         list = list.Where(x => !x.IsApproval);
-            }
+            
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                 list = list.Where(x => DbFunctions.TruncateTime(x.VoucherDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.VoucherDate) <= dtTo.Date);
 
@@ -315,9 +308,10 @@ namespace ERP.Web.Controllers
                             }
                             tran.Commit();
                             if (isApproval == true)
-                                return Json(new { isValid = true, message = "تم حفظ واعتماد سند الصرف بنجاح" });
+                                return Json(new { isValid = true, isInsert = isInsert, message = "تم حفظ واعتماد سند الصرف بنجاح" });
                             else
-                                return Json(new { isValid = true, message = "تم الحفظ بنجاح" });
+                                return Json(new { isValid = true, isInsert = isInsert, message = "تم الحفظ بنجاح" });
+
 
                         }
                         catch (Exception)

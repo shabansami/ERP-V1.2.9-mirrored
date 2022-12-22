@@ -66,6 +66,7 @@ namespace ERP.Desktop.Views._Base.Main
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.btnIncomes = new FontAwesome.Sharp.IconMenuItem();
             this.btnExpenses = new FontAwesome.Sharp.IconMenuItem();
+            this.btnEmployeeLoan = new FontAwesome.Sharp.IconMenuItem();
             this.iconMenuItem1 = new FontAwesome.Sharp.IconMenuItem();
             this.btnSales = new FontAwesome.Sharp.IconMenuItem();
             this.btnSalesBack = new FontAwesome.Sharp.IconMenuItem();
@@ -79,7 +80,6 @@ namespace ERP.Desktop.Views._Base.Main
             this.btnNewInventoryInvoice = new FontAwesome.Sharp.IconMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnEmployeeLoan = new FontAwesome.Sharp.IconMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -285,7 +285,7 @@ namespace ERP.Desktop.Views._Base.Main
             this.btnSafeAccountings.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnSafeAccountings.Name = "btnSafeAccountings";
             this.btnSafeAccountings.Size = new System.Drawing.Size(194, 22);
-            this.btnSafeAccountings.Text = "حساب الخزينة";
+            this.btnSafeAccountings.Text = "تقرير الحسابات المالية";
             this.btnSafeAccountings.Click += new System.EventHandler(this.btnSafeAccountings_Click);
             // 
             // iconMenuItem5
@@ -422,14 +422,14 @@ namespace ERP.Desktop.Views._Base.Main
             this.btnCustomersPayments.IconColor = System.Drawing.Color.Turquoise;
             this.btnCustomersPayments.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnCustomersPayments.Name = "btnCustomersPayments";
-            this.btnCustomersPayments.Size = new System.Drawing.Size(180, 22);
+            this.btnCustomersPayments.Size = new System.Drawing.Size(178, 22);
             this.btnCustomersPayments.Text = "دفعة عميل";
             this.btnCustomersPayments.Click += new System.EventHandler(this.btnCustomersPayments_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(175, 6);
             // 
             // btnIncomes
             // 
@@ -437,7 +437,7 @@ namespace ERP.Desktop.Views._Base.Main
             this.btnIncomes.IconColor = System.Drawing.Color.Turquoise;
             this.btnIncomes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnIncomes.Name = "btnIncomes";
-            this.btnIncomes.Size = new System.Drawing.Size(180, 22);
+            this.btnIncomes.Size = new System.Drawing.Size(178, 22);
             this.btnIncomes.Text = "تسجيل ايرادات";
             this.btnIncomes.Click += new System.EventHandler(this.btnIncomes_Click);
             // 
@@ -447,9 +447,19 @@ namespace ERP.Desktop.Views._Base.Main
             this.btnExpenses.IconColor = System.Drawing.Color.Turquoise;
             this.btnExpenses.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExpenses.Name = "btnExpenses";
-            this.btnExpenses.Size = new System.Drawing.Size(180, 22);
+            this.btnExpenses.Size = new System.Drawing.Size(178, 22);
             this.btnExpenses.Text = "تسجيل مصروفات";
             this.btnExpenses.Click += new System.EventHandler(this.btnExpenses_Click);
+            // 
+            // btnEmployeeLoan
+            // 
+            this.btnEmployeeLoan.IconChar = FontAwesome.Sharp.IconChar.SignOutAlt;
+            this.btnEmployeeLoan.IconColor = System.Drawing.Color.Turquoise;
+            this.btnEmployeeLoan.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btnEmployeeLoan.Name = "btnEmployeeLoan";
+            this.btnEmployeeLoan.Size = new System.Drawing.Size(178, 22);
+            this.btnEmployeeLoan.Text = "تسجيل سلفة لموظف";
+            this.btnEmployeeLoan.Click += new System.EventHandler(this.btnEmployeeLoan_Click);
             // 
             // iconMenuItem1
             // 
@@ -568,16 +578,6 @@ namespace ERP.Desktop.Views._Base.Main
             this.timer1.Enabled = true;
             this.timer1.Interval = 60000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnEmployeeLoan
-            // 
-            this.btnEmployeeLoan.IconChar = FontAwesome.Sharp.IconChar.SignOutAlt;
-            this.btnEmployeeLoan.IconColor = System.Drawing.Color.Turquoise;
-            this.btnEmployeeLoan.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.btnEmployeeLoan.Name = "btnEmployeeLoan";
-            this.btnEmployeeLoan.Size = new System.Drawing.Size(180, 22);
-            this.btnEmployeeLoan.Text = "تسجيل سلفة لموظف";
-            this.btnEmployeeLoan.Click += new System.EventHandler(this.btnEmployeeLoan_Click);
             // 
             // UserMainForm
             // 

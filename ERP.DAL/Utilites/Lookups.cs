@@ -190,7 +190,7 @@ namespace ERP.Web.Utilites
             Destruction, // اهلاك الاصول 
             Income, // تسجيل ايراد 
             VoucherPayment, // سند صرف 
-            VoucherReceipt, // سند دفع 
+            VoucherReceipt, // سند قبض 
             Installment, // تقسيط 
             InitialBalanceCustomer, //رصيد اول المدة عملاء
             InitialBalanceSupplier, //رصيد اول المدة مودين

@@ -71,13 +71,13 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>حضور من</label>
-                @Html.TextBox("AttendanceTime", null, new { @class = "form-control kt_timepicker_1" , @style = "text-align:right;" })
+                @Html.TextBox("AttendanceTime", null, new { @class = "form-control" , @style = "text-align:right;", @type = "time" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>انصراف فى</label>
-                @Html.TextBox("LeavingTime", null, new { @class = "form-control kt_timepicker_1" , @style = "text-align:right;" })
+                @Html.TextBox("LeavingTime", null, new { @class = "form-control" , @style = "text-align:right;", @type = "time" })
             </div>
         </div>
 

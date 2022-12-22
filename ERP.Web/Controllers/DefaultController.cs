@@ -37,8 +37,8 @@ namespace ERP.Web.Controllers
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             List<Page> pages = new List<Page>();
-            Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
-            Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
+            //Guid roleID = new Guid("5815E2BB-16C0-4BCD-9DD3-D119399EE760");
+            //Guid userId = new Guid("48BF177C-2274-4796-8B76-7A236AE6190D");
             //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -73,7 +73,7 @@ namespace ERP.Web.Controllers
             //pages.Add(new Page() { Id = 415, ParentId = 121, Icon = null, IsPage = true, Name = "اضافة أمر إنتاج مجمع", OrderNum = 0, Url = "/ProductionOrders/RegisterOrderComplex", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
             //db.Pages.AddRange(pages);
-            //db.SaveChanges(userId);
+            ////db.SaveChanges(userId);
             //db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
             //db.ContractSalaryTypes.Add(new ContractSalaryType { Name = "بالانتاج" });
             //db.SaveChanges(userId);

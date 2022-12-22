@@ -34,14 +34,19 @@
             this.dtpTo = new System.Windows.Forms.DateTimePicker();
             this.dtpFrom = new System.Windows.Forms.DateTimePicker();
             this.btnSearch = new ERP.Desktop.Utilities.ReusableControls.SuccessButton();
-            this.cmbSafes = new System.Windows.Forms.ComboBox();
+            this.cmbAccountTypes = new System.Windows.Forms.ComboBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.cmbBranches = new System.Windows.Forms.ComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.dgvTrans = new System.Windows.Forms.DataGridView();
+            this.colDebit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colCredit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colTrans = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.colNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.lblDebit = new System.Windows.Forms.Label();
@@ -50,11 +55,6 @@
             this.lblBalance = new System.Windows.Forms.Label();
             this.btnPrint = new ERP.Desktop.Utilities.ReusableControls.PrintButton();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.colDebit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colCredit = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colTrans = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNote = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTrans)).BeginInit();
@@ -68,9 +68,9 @@
             this.groupBox1.Controls.Add(this.dtpTo);
             this.groupBox1.Controls.Add(this.dtpFrom);
             this.groupBox1.Controls.Add(this.btnSearch);
-            this.groupBox1.Controls.Add(this.cmbSafes);
+            this.groupBox1.Controls.Add(this.cmbAccountTypes);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.label7);
-            this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cmbBranches);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.label1);
@@ -87,13 +87,13 @@
             this.cmbo_TransactionType.FormattingEnabled = true;
             this.cmbo_TransactionType.Location = new System.Drawing.Point(6, 17);
             this.cmbo_TransactionType.Name = "cmbo_TransactionType";
-            this.cmbo_TransactionType.Size = new System.Drawing.Size(180, 24);
+            this.cmbo_TransactionType.Size = new System.Drawing.Size(122, 24);
             this.cmbo_TransactionType.TabIndex = 5;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(188, 21);
+            this.label8.Location = new System.Drawing.Point(134, 20);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(78, 16);
             this.label8.TabIndex = 4;
@@ -102,9 +102,9 @@
             // dtpTo
             // 
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.dtpTo.Location = new System.Drawing.Point(282, 47);
+            this.dtpTo.Location = new System.Drawing.Point(242, 46);
             this.dtpTo.Name = "dtpTo";
-            this.dtpTo.Size = new System.Drawing.Size(180, 23);
+            this.dtpTo.Size = new System.Drawing.Size(167, 23);
             this.dtpTo.TabIndex = 3;
             // 
             // dtpFrom
@@ -127,38 +127,43 @@
             this.btnSearch.IconSize = 22;
             this.btnSearch.Location = new System.Drawing.Point(6, 44);
             this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(90, 30);
+            this.btnSearch.Size = new System.Drawing.Size(143, 30);
             this.btnSearch.TabIndex = 2;
             this.btnSearch.Text = "بحث";
             this.btnSearch.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnSearch.UseVisualStyleBackColor = false;
             this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
-            // cmbSafes
+            // cmbAccountTypes
             // 
-            this.cmbSafes.FormattingEnabled = true;
-            this.cmbSafes.Location = new System.Drawing.Point(282, 17);
-            this.cmbSafes.Name = "cmbSafes";
-            this.cmbSafes.Size = new System.Drawing.Size(180, 24);
-            this.cmbSafes.TabIndex = 1;
+            this.cmbAccountTypes.FormattingEnabled = true;
+            this.cmbAccountTypes.Items.AddRange(new object[] {
+            "حساب الخزينة",
+            "حساب الفيزا",
+            "حساب المحفظة"});
+            this.cmbAccountTypes.Location = new System.Drawing.Point(242, 17);
+            this.cmbAccountTypes.Name = "cmbAccountTypes";
+            this.cmbAccountTypes.Size = new System.Drawing.Size(167, 24);
+            this.cmbAccountTypes.TabIndex = 1;
+            this.cmbAccountTypes.SelectedIndexChanged += new System.EventHandler(this.cmbAccountTypes_SelectedIndexChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(415, 20);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(74, 16);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "نوع الحساب";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(464, 50);
+            this.label7.Location = new System.Drawing.Point(424, 49);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(36, 16);
             this.label7.TabIndex = 0;
             this.label7.Text = "الي :";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(464, 21);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(53, 16);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "الخزينة :";
             // 
             // cmbBranches
             // 
@@ -215,6 +220,50 @@
             this.dgvTrans.ReadOnly = true;
             this.dgvTrans.Size = new System.Drawing.Size(768, 298);
             this.dgvTrans.TabIndex = 0;
+            // 
+            // colDebit
+            // 
+            this.colDebit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colDebit.DataPropertyName = "Debit";
+            this.colDebit.HeaderText = "مدين";
+            this.colDebit.Name = "colDebit";
+            this.colDebit.ReadOnly = true;
+            this.colDebit.Width = 60;
+            // 
+            // colCredit
+            // 
+            this.colCredit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colCredit.DataPropertyName = "Credit";
+            this.colCredit.HeaderText = "دائن";
+            this.colCredit.Name = "colCredit";
+            this.colCredit.ReadOnly = true;
+            this.colCredit.Width = 55;
+            // 
+            // colDate
+            // 
+            this.colDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colDate.DataPropertyName = "Date";
+            this.colDate.HeaderText = "تاريخ المعاملة";
+            this.colDate.Name = "colDate";
+            this.colDate.ReadOnly = true;
+            this.colDate.Width = 97;
+            // 
+            // colTrans
+            // 
+            this.colTrans.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
+            this.colTrans.DataPropertyName = "TransName";
+            this.colTrans.HeaderText = "المعاملة";
+            this.colTrans.Name = "colTrans";
+            this.colTrans.ReadOnly = true;
+            this.colTrans.Width = 76;
+            // 
+            // colNote
+            // 
+            this.colNote.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.colNote.DataPropertyName = "Note";
+            this.colNote.HeaderText = "البيان";
+            this.colNote.Name = "colNote";
+            this.colNote.ReadOnly = true;
             // 
             // label3
             // 
@@ -305,50 +354,6 @@
             this.groupBox3.TabIndex = 3;
             this.groupBox3.TabStop = false;
             // 
-            // colDebit
-            // 
-            this.colDebit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.colDebit.DataPropertyName = "Debit";
-            this.colDebit.HeaderText = "مدين";
-            this.colDebit.Name = "colDebit";
-            this.colDebit.ReadOnly = true;
-            this.colDebit.Width = 60;
-            // 
-            // colCredit
-            // 
-            this.colCredit.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.colCredit.DataPropertyName = "Credit";
-            this.colCredit.HeaderText = "دائن";
-            this.colCredit.Name = "colCredit";
-            this.colCredit.ReadOnly = true;
-            this.colCredit.Width = 55;
-            // 
-            // colDate
-            // 
-            this.colDate.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.colDate.DataPropertyName = "Date";
-            this.colDate.HeaderText = "تاريخ المعاملة";
-            this.colDate.Name = "colDate";
-            this.colDate.ReadOnly = true;
-            this.colDate.Width = 106;
-            // 
-            // colTrans
-            // 
-            this.colTrans.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.DisplayedCells;
-            this.colTrans.DataPropertyName = "TransName";
-            this.colTrans.HeaderText = "المعاملة";
-            this.colTrans.Name = "colTrans";
-            this.colTrans.ReadOnly = true;
-            this.colTrans.Width = 76;
-            // 
-            // colNote
-            // 
-            this.colNote.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.colNote.DataPropertyName = "Note";
-            this.colNote.HeaderText = "البيان";
-            this.colNote.Name = "colNote";
-            this.colNote.ReadOnly = true;
-            // 
             // SafeAccountings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -359,7 +364,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "SafeAccountings";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Text = "حسابات الخزينة";
+            this.Text = "الحسابات المالية";
             this.Load += new System.EventHandler(this.SafeAccountings_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -376,8 +381,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ComboBox cmbBranches;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox cmbSafes;
-        private System.Windows.Forms.Label label2;
         private Utilities.ReusableControls.SuccessButton btnSearch;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgvTrans;
@@ -400,5 +403,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn colTrans;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNote;
+        private System.Windows.Forms.ComboBox cmbAccountTypes;
+        private System.Windows.Forms.Label label9;
     }
 }

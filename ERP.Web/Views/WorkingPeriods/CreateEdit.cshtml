@@ -49,7 +49,7 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>من الفترة</label>
-                @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control kt_timepicker_1", @style = "text-align:right;" })
+                @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control ", @style = "text-align:right;" ,@type="time" })
                 @*@Html.TextBoxFor(m => m.StartTime, new { @class = "form-control",@type="time" })*@
                 @*<input type="text" class="form-control kt_timepicker_1" id="StartTime2" name="StartTime2" />*@
             </div>
@@ -57,19 +57,19 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الي الفترة</label>
-                @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control kt_timepicker_1", @style = "text-align:right;" })
+                @Html.TextBoxFor(m => m.EndTime, new { @class = "form-control", @style = "text-align:right;", @type = "time" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>تأخير من </label>
-                @Html.TextBoxFor(m => m.DelayFrom, new { @class = "form-control kt_timepicker_1", @style = "text-align:right;" })
+                @Html.TextBoxFor(m => m.DelayFrom, new { @class = "form-control", @style = "text-align:right;", @type = "time" })
             </div>
         </div>
         <div class="col-lg-6">
             <div class="form-group">
                 <label>غياب من </label>
-                @Html.TextBoxFor(m => m.AbsenceOf, new { @class = "form-control kt_timepicker_1", @style = "text-align:right;" })
+                @Html.TextBoxFor(m => m.AbsenceOf, new { @class = "form-control", @style = "text-align:right;", @type = "time" })
             </div>
         </div>
         <div class="col-lg-12">

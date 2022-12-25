@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.Services;
+using System.IO;
 
 namespace ERP.Web.Controllers
 {
@@ -485,6 +486,14 @@ namespace ERP.Web.Controllers
             vm.UploadFileTree.UploadCenterInstallmentSettingId = (int)GeneralSettingCl.UploadCenterInstallment;
             #endregion
 
+            #region PrintSetting
+            vm.PrintSetting.Line1Up = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine1Up).FirstOrDefault().SValue;
+            vm.PrintSetting.Line2Up = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine2Up).FirstOrDefault().SValue;
+            vm.PrintSetting.Line3Up = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine3Up).FirstOrDefault().SValue;
+            vm.PrintSetting.Line1Down = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine1Down).FirstOrDefault().SValue;
+            vm.PrintSetting.Line2Down = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine2Down).FirstOrDefault().SValue;
+
+            #endregion
             return View(vm);
         }
 
@@ -605,6 +614,41 @@ namespace ERP.Web.Controllers
                             if (item.Id == (int)GeneralSettingCl.StoreMaintenanceDamage)
                                 item.SValue = vm.MaintenanceDamageStoreId.ToString();
                             db.Entry(item).State = EntityState.Modified;
+                        };
+
+                        break; 
+                    case 4: //اعدادات الطباعه
+                        var modelPrint = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+                        foreach (var item in modelPrint)
+                        {
+                            //لوجو المؤسسة
+                            if (item.Id == (int)GeneralSettingCl.LogoEntity)
+                            {
+                                string ImageFullName = "printLogo.jpg";
+                                if (vm.PrintSetting.LogoEntity != null)
+                                {
+                                    string folderName = "~/Files";
+                                    string FinalImagePath = Path.Combine(folderName, ImageFullName);
+                                    vm.PrintSetting.LogoEntity.SaveAs(Server.MapPath(FinalImagePath));
+                                }
+                            }
+                            //السطر الاول اعلى الصفحة
+                            if (item.Id == (int)GeneralSettingCl.PrintLine1Up)
+                                item.SValue = vm.PrintSetting.Line1Up;
+                            //السطر الثانى اعلى الصفحة
+                            if (item.Id == (int)GeneralSettingCl.PrintLine2Up)
+                                item.SValue = vm.PrintSetting.Line2Up;
+                            //السطر الثالث اعلى الصفحة
+                            if (item.Id == (int)GeneralSettingCl.PrintLine3Up)
+                                item.SValue = vm.PrintSetting.Line3Up;
+                            //السطر الاول اسفل الصفحة
+                            if (item.Id == (int)GeneralSettingCl.PrintLine1Down)
+                                item.SValue = vm.PrintSetting.Line1Down;
+                            //السطر الثانى اسفل الصفحة
+                            if (item.Id == (int)GeneralSettingCl.PrintLine2Down)
+                                item.SValue = vm.PrintSetting.Line2Down;
+                            db.Entry(item).State = EntityState.Modified;
+
                         };
 
                         break;

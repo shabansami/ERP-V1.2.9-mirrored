@@ -19,6 +19,7 @@ var GeneralSetting_Module = function () {
                         //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
                         //$(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
                         toastr.success(res.message, '',)
+                        $('#imgPath').attr('src','../Files/printLogo.jpg')
                             //setTimeout(function () { window.location = "/GeneralSettings/CreateEdit" }, 3000);
                         //$('#kt_datatableLast').DataTable().ajax.reload();
                     } else {

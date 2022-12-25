@@ -12,6 +12,7 @@ namespace ERP.Web.ViewModels
             EntityData = new EntityData();
             AccountTree = new AccountTreeVM();
             UploadFileTree = new UploadFileTreeVM();
+            PrintSetting = new PrintSetting();
         }
         public Guid Id { get; set; }
         public Nullable<Guid> AreaId { get; set; }
@@ -37,6 +38,7 @@ namespace ERP.Web.ViewModels
         public EntityData EntityData { get; set; }
         public AccountTreeVM AccountTree { get; set; }
         public UploadFileTreeVM UploadFileTree { get; set; }
+        public PrintSetting PrintSetting { get; set; }
     }
     public class EntityData
     {
@@ -206,5 +208,15 @@ namespace ERP.Web.ViewModels
         public Guid? UploadCenterInstallmentSettingValue { get; set; }
         public string UploadCenterInstallmentName { get; set; }
 
+    }
+    public class PrintSetting
+    {
+        public int Id { get; set; }
+        public HttpPostedFileBase LogoEntity { get; set; }
+        public string Line1Up { get; set; }//سطر اول اعلى الصفحة
+        public string Line2Up { get; set; }//سطر ثاني اعلى الصفحة
+        public string Line3Up { get; set; }//سطر ثالث اعلى الصفحة
+        public string Line1Down { get; set; }//سطر اول اسفل الصفحة
+        public string Line2Down { get; set; }//سطر اول اسفل الصفحة
     }
 }

@@ -128,6 +128,13 @@ namespace ERP.Web.Utilites
             LimitDangerSell, //السماح بالبيع عند تخطى الحد الائتمانى للخطر
             InventoryType, //نوع الجرد (دورى/مستمر)
 
+            //اعدادات الطباعه
+            LogoEntity, //لوجو المؤسسة
+            PrintLine1Up,//السطر الاول اعلى الصفحة
+            PrintLine2Up,//السطر الثانى اعلى الصفحة
+            PrintLine3Up,//السطر الثالث اعلى الصفحة
+            PrintLine1Down,//السطر الاول اسفل الصفحة
+            PrintLine2Down//السطر الثانى اسفل الصفحة
         }
 
         public enum GeneralSettingTypeCl // انواع الاعدادات

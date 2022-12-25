@@ -1,0 +1,191 @@
+﻿@model ERP.DAL.SellInvoice
+@using ERP.DAL
+@using ERP.Web.Utilites
+
+@{
+    ViewBag.Title = "ShowSellInvoice2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string logo = "~/Files/printLogo.jpg";
+    int counter = 1;
+    var entityData = (List<GeneralSetting>)ViewBag.EntityData;
+    var line1Up = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine1Up).FirstOrDefault().SValue;
+    var line2Up = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine2Up).FirstOrDefault().SValue;
+    var line3Up = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine3Up).FirstOrDefault().SValue;
+    var line1Down = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine1Down).FirstOrDefault().SValue;
+    var line2Down = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine2Down).FirstOrDefault().SValue;
+}
+@section PageTitle1{استعراض فاتورة بيع}
+@section PageTitle2{ملخص فاتورة}
+@section Button1{استعراض كل فواتير البيع}
+@section Button1Link{/SellInvoices/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+
+@section Styles
+{
+    <link href="~/Assets/JSCustom/Print/Printstyle.css" rel="stylesheet" />
+}
+
+<div class="my-5 page" size="A4">
+    <div class="p-5">
+        <section class="top-content bb d-flex justify-content-between">
+            <div class="top-left">
+                <div class="graphic-path">
+                    <p>فـــاتورة بيع </p>
+                </div>
+                <div class="position-relative">
+                    <p>@line1Up</p>
+                    <p>@line2Up</p>
+                    <p>@line3Up</p>
+                </div>
+            </div>
+            <div class="logo">
+                <img src="~/Files/printLogo.jpg" alt="" class="img-fluid">
+            </div>
+
+        </section>
+
+        <section class="store-user">
+            <div class="col-10">
+                <div class="row bb pb-3">
+                    <div class="col-12">
+                        @*<p>العميل : <span>@(Model.PersonCustomer?.Name)</span></p>*@
+                        <p>العميل</p>
+                        <h2>@(Model.PersonCustomer?.Name)</h2>
+
+                        <p>رقم الفاتورة : <span>@(Model.InvoiceNumber)</span></p>
+                        <p>تاريخ الفاتورة : <span>@(Model.InvoiceDate.ToString("yyyy-MM-dd"))</span></p>
+                        @*<h2></h2>*@
+                        @*<p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>*@
+                        @*<div class="txn mt-2">TXN: XXXXXXX</div>*@
+                    </div>
+                    @*<div class="col-5">
+                            <p>Client,</p>
+                            <h2>Sabur Ali</h2>
+                            <p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
+                            <div class="txn mt-2">TXN: XXXXXXX</div>
+                        </div>*@
+                </div>
+                @*<div class="row extra-info pt-3">
+                        <div class="col-7">
+                            <p>Payment Method: <span>bKash</span></p>
+                            <p>Order Number: <span>#868</span></p>
+                        </div>
+                        <div class="col-5">
+                            <p>Deliver Date: <span>10-04.2021</span></p>
+                        </div>
+                    </div>*@
+            </div>
+        </section>
+
+        <section class="product-area ">
+            @*mt-4*@
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <td>م</td>
+                        <td>الصنف</td>
+                        <td>السعر</td>
+                        <td>الكمية</td>
+                        <td>القيمة</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var item in Model.SellInvoicesDetails)
+                        {
+                            <tr>
+                                <td>@counter</td>
+                                <td>
+                                    <div class="media">
+                                        <div class="media-body">
+                                            @*<p class="mt-0 title">Media heading</p>*@
+                                            @item.Item.Name
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>@item.Price</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Amount</td>
+                            </tr>
+
+                            counter++;
+                        }
+                    }
+
+
+                </tbody>
+            </table>
+        </section>
+
+        <section class="balance-info">
+            <div class="row">
+                <div class="col-8">
+                    <p class="m-0 font-weight-bold"> ملاحظة</p>
+                    <p>@Model.Notes</p>
+                </div>
+                <div class="col-4">
+                    <table class="table border-0 table-hover">
+                        <tr>
+                            <td>الاجمالى :</td>
+                            <td>@Model.TotalValue</td>
+                        </tr>
+                        <tr>
+                            <td>خصم :</td>
+                            <td>@Model.TotalDiscount</td>
+                        </tr>
+
+                        <tfoot>
+                            <tr>
+                                <td>الصافى :</td>
+                                <td>@Model.Safy</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <!-- Signature -->
+                    <div class="col-12">
+                        <img src="signature.png" class="img-fluid" alt="">
+                        <p class="text-center m-0"> التوقيع </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cart BG -->
+        @*<img src="cart.jpg" class="img-fluid cart-bg" alt="">*@
+
+        <footer>
+            <hr>
+            @*<p >
+                    View THis Invoice Online At - <a href="#!"> invoice/saburbd.com/#868 </a>
+                </p>*@
+
+            <p>صسثصث  ثصصثص ثصث ثص  بيبيب يلليليبلب  </p>
+            <p>صسثصث بيبيب يلليليبلب  </p>
+            <p>صسثصث بيبيب ي wewew wwr صثصثصث لليليبلب  </p>
+
+
+        </footer>
+    </div>
+</div>
+<button type="button" class="btn btn-primary font-weight-bold din-bold" onclick="print();">طباعة</button>
+<script>
+    function print() {
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+        mywindow.document.write("<html><head>");
+        mywindow.document.write("<link rel=\"stylesheet\" href=\"~/Assets/JSCustom/Print/Printstyle.cs\" type=\"text/css\" media=\"print\"/>");
+        //mywindow.document.write('<link rel="stylesheet" href="~/Assets/JSCustom/Print/Printstyle.css" type="text/css"  media="print"/>');
+
+        mywindow.document.write('</head><body onload="window.print();window.close()>');
+        var ele = $(".page").html();
+        console.log(ele);
+        mywindow.document.write(ele+'</body></html>');
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+        setTimeout(function () { mywindow.print(); }, 1000);
+        setTimeout(function () { mywindow.close(); }, 1000);
+    }
+</script>
+

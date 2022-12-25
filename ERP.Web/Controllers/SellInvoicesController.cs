@@ -1149,6 +1149,30 @@ namespace ERP.Web.Controllers
             vm.SellInvoicesDetails = vm.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList();
             vm.SellInvoiceIncomes = vm.SellInvoiceIncomes.Where(x => !x.IsDeleted).ToList();
             return View(vm);
+        }      
+        public ActionResult ShowSellInvoice2(Guid? invoGuid)
+        {
+            if (invoGuid == null || invoGuid == Guid.Empty)
+                return RedirectToAction("Index");
+            var vm = db.SellInvoices.Where(x => x.Id == invoGuid && x.SellInvoicesDetails.Any(y => !y.IsDeleted)).FirstOrDefault();
+            vm.SellInvoicesDetails = vm.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList();
+            vm.SellInvoiceIncomes = vm.SellInvoiceIncomes.Where(x => !x.IsDeleted).ToList();
+            //اسطر الطباعه من الاعدادات 
+            var list = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+            ViewBag.EntityData=list;
+            return View(vm);
+        }       
+        public ActionResult ShowSellInvoice3(Guid? invoGuid)
+        {
+            if (invoGuid == null || invoGuid == Guid.Empty)
+                return RedirectToAction("Index");
+            var vm = db.SellInvoices.Where(x => x.Id == invoGuid && x.SellInvoicesDetails.Any(y => !y.IsDeleted)).FirstOrDefault();
+            vm.SellInvoicesDetails = vm.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList();
+            vm.SellInvoiceIncomes = vm.SellInvoiceIncomes.Where(x => !x.IsDeleted).ToList();
+            //اسطر الطباعه من الاعدادات 
+            var list = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+            ViewBag.EntityData=list;
+            return View(vm);
         }
 
         public ActionResult ShowHistory(Guid? invoGuid)

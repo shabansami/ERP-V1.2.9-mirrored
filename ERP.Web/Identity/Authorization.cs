@@ -10,6 +10,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using ERP.DAL.Utilites;
+using static ERP.Web.Utilites.Lookups;
+using BarcodeLib;
+
 namespace ERP.Web.Identity
 {
     public class Authorization : ActionFilterAttribute, IExceptionFilter
@@ -52,6 +55,15 @@ namespace ERP.Web.Identity
                         pages = db.PagesRoles.Where(x => !x.IsDeleted && x.RoleId == roleId);
                         if (pages.Count()>0)
                         {
+                            //تحديد نوع الجرد
+                            var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                            if (!int.TryParse(inventoryType, out int inventoryTypeVal))
+                            {
+                                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "CheckInventoryType" }));
+                                return;
+                            }
+
+
                             if (!filterContext.HttpContext.Request.IsAjaxRequest())
                             {
                                 string url = "";

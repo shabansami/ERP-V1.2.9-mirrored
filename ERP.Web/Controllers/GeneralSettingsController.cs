@@ -11,6 +11,7 @@ using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.Services;
 using System.IO;
+using ERP.Web.DataTablesDS;
 
 namespace ERP.Web.Controllers
 {
@@ -21,6 +22,8 @@ namespace ERP.Web.Controllers
         // GET: GeneralSettings
         VTSaleEntities db = new VTSaleEntities();
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
+
+        #region الاعدادات العامة 
         public ActionResult Index()
         {
             GeneralSettingVM vm = new GeneralSettingVM();
@@ -496,8 +499,6 @@ namespace ERP.Web.Controllers
             #endregion
             return View(vm);
         }
-
-
         [HttpPost]
         public JsonResult CreateEdit(GeneralSettingVM vm, int tabNum)
         {
@@ -616,7 +617,7 @@ namespace ERP.Web.Controllers
                             db.Entry(item).State = EntityState.Modified;
                         };
 
-                        break; 
+                        break;
                     case 4: //اعدادات الطباعه
                         var modelPrint = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
                         foreach (var item in modelPrint)
@@ -678,12 +679,12 @@ namespace ERP.Web.Controllers
             if (!string.IsNullOrEmpty(accountId) || !string.IsNullOrEmpty(settingId))
             {
                 var generalSettId = int.Parse(settingId);
-                var general = db.GeneralSettings.FirstOrDefault(x=>x.Id== generalSettId);
+                var general = db.GeneralSettings.FirstOrDefault(x => x.Id == generalSettId);
                 general.SValue = accountId;
                 db.Entry(general).State = EntityState.Modified;
 
                 var accountTreeId = Guid.Parse(accountId);
-                var accountNum = db.AccountsTrees.FirstOrDefault(x=>x.Id== accountTreeId).AccountNumber;
+                var accountNum = db.AccountsTrees.FirstOrDefault(x => x.Id == accountTreeId).AccountNumber;
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                 {
                     return Json(new { isValid = true, accountNum = accountNum, message = "تم تحديث البيانات بنجاح" });
@@ -697,7 +698,6 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
 
         }
-
         //حفظ اعدادات مركز التحميل 
         [HttpPost]
         public JsonResult SaveUploadCenterSetting(string folderId, string settingId)
@@ -705,7 +705,7 @@ namespace ERP.Web.Controllers
             if (!string.IsNullOrEmpty(folderId) || !string.IsNullOrEmpty(settingId))
             {
                 var generalSettId = int.Parse(settingId);
-                var general = db.GeneralSettings.FirstOrDefault(x=>x.Id== generalSettId);
+                var general = db.GeneralSettings.FirstOrDefault(x => x.Id == generalSettId);
                 general.SValue = folderId;
                 db.Entry(general).State = EntityState.Modified;
 
@@ -723,5 +723,41 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
 
         }
+
+        #endregion
+
+        #region تحديد نوع الجرد للبرنامج
+        public ActionResult CheckInventoryType()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult CheckInventoryType(int? InventoryTypeId )
+        {
+            if (ModelState.IsValid)
+            {
+                if (InventoryTypeId == null)
+                    return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
+                var generalSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault();
+                if (generalSetting != null)
+                    generalSetting.SValue = InventoryTypeId.ToString();
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                {
+                        return Json(new { isValid = true, message = "تم الحفظ بنجاح" });
+
+                }
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
+
+        }
+
+        #endregion
     }
 }

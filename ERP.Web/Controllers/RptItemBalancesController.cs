@@ -34,6 +34,37 @@ namespace ERP.Web.Controllers
 
             return View();
         }
+        public ActionResult SearchItemBalances(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, int isFirstInitPage)
+        {
+            int? n = null;
+            List<ItemBalanceDto> list;
+            bool isFirstInit = false;
+
+            //البحث من الصفحة الرئيسية
+            string txtSearch = null;
+            bool isSearch = false;
+            if (TempData["txtSearch"] != null)
+            {
+                txtSearch = TempData["txtSearch"].ToString();
+                isSearch = true;
+            }
+            if (isFirstInitPage == 1 && !isSearch)
+                return Json(new
+                {
+                    data = new List<ItemBalanceDto>()
+                }, JsonRequestBehavior.AllowGet);
+            else
+                list = BalanceService.SearchItemBalance(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId, isFirstInit, txtSearch);
+            return Json(new
+            {
+                data = list
+            }, JsonRequestBehavior.AllowGet); ;
+
+        }
+
+
+        #endregion
+        #region كارت صنف بالتكلفة 
         public ActionResult SearchItemBalanceMovement()
         {
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
@@ -65,35 +96,8 @@ namespace ERP.Web.Controllers
                 BalanceQuatnitiy += (item.IncomingQuantity - item.OutcomingQuantity);
                 BalanceCost += (item.IncomingCost - item.OutcomingCost);
                 item.BalanceQuantity = BalanceQuatnitiy;
-                item.BalanceCost =Math.Round(BalanceCost,2,MidpointRounding.ToEven);
+                item.BalanceCost = Math.Round(BalanceCost, 2, MidpointRounding.ToEven);
             }
-            return Json(new
-            {
-                data = list
-            }, JsonRequestBehavior.AllowGet); ;
-
-        }
-        public ActionResult SearchItemBalances(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, int isFirstInitPage)
-        {
-            int? n = null;
-            List<ItemBalanceDto> list;
-            bool isFirstInit = false;
-
-            //البحث من الصفحة الرئيسية
-            string txtSearch = null;
-            bool isSearch = false;
-            if (TempData["txtSearch"] != null)
-            {
-                txtSearch = TempData["txtSearch"].ToString();
-                isSearch = true;
-            }
-            if (isFirstInitPage == 1 && !isSearch)
-                return Json(new
-                {
-                    data = new List<ItemBalanceDto>()
-                }, JsonRequestBehavior.AllowGet);
-            else
-                list = BalanceService.SearchItemBalance(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId, isFirstInit, txtSearch);
             return Json(new
             {
                 data = list
@@ -103,6 +107,48 @@ namespace ERP.Web.Controllers
 
         #endregion
 
+        #region كارت صنف بدون تكلفة 
+        public ActionResult SearchItemBalanceNotMovement()
+        {
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
+            ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+            ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
+            ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
+
+            return View();
+        }
+        public ActionResult GetItemNotMovement(string itemCode, string barCode, Guid? itemId, int? actionTypeId, Guid? storeId, int isFirstInitPage, DateTime? dtFrom, DateTime? dtTo)
+        {
+            int? n = null;
+            List<ItemMovementdDto> list;
+
+            if (isFirstInitPage == 1)
+                return Json(new
+                {
+                    data = new List<ItemMovementdDto>()
+                }, JsonRequestBehavior.AllowGet);
+            else
+                list = BalanceService.SearchItemMovement(itemCode, barCode, itemId, storeId, actionTypeId, dtFrom, dtTo);
+            list = list.OrderBy(x => x.DateReal).ToList();
+            double BalanceQuatnitiy = 0;
+            //double BalanceCost = 0;
+            foreach (var item in list)
+            {
+                BalanceQuatnitiy += (item.IncomingQuantity - item.OutcomingQuantity);
+                //BalanceCost += (item.IncomingCost - item.OutcomingCost);
+                item.BalanceQuantity = BalanceQuatnitiy;
+                //item.BalanceCost = Math.Round(BalanceCost, 2, MidpointRounding.ToEven);
+            }
+            return Json(new
+            {
+                data = list
+            }, JsonRequestBehavior.AllowGet); ;
+
+        }
+
+        #endregion
         #region بحث عن صنف بالسيريال 
         public ActionResult SearchItemBySerial(ItemSerial cc, string serial)
         {

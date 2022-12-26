@@ -39,10 +39,6 @@ namespace ERP.Web.Controllers
             {
                 data = list
             }, JsonRequestBehavior.AllowGet);
-
-
-
-
         }
         [HttpGet]
         public ActionResult CreateEdit()

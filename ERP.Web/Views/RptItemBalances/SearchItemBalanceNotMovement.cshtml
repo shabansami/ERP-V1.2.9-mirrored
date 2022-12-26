@@ -1,10 +1,10 @@
 ﻿@using ERP.Web.Utilites
 @{
-    ViewBag.Title = "SearchItemBalanceMovement";
+    ViewBag.Title = "SearchItemBalanceNotMovement";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section PageTitle1{كارت صنف بالتكلفة}
+@section PageTitle1{كارت صنف بدون التكلفة}
 @section PageTitle2{بحث}
 @section Button1{@null}
 @section Button1Link{@null}
@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h4 class=" din-bold">
-                            كارت صنف بالتكلفة
+                            كارت صنف بدون التكلفة
                         </h4>
                     </div>
                     <div class="col-sm-6">
@@ -193,7 +193,7 @@
 
 </div>
 <!--end::Container-->
-                                 
+
 @section Scripts
 {
 
@@ -310,7 +310,7 @@
                 },
 
                 ajax: {
-                    url: '/RptItemBalances/GetItemMovement',
+                    url: '/RptItemBalances/GetItemNotMovement',
                     type: 'GET',
                     data(d) {
                         d.itemCode = $("#ItemCode").val();
@@ -331,11 +331,11 @@
                     { data: 'ActionNumber', title: 'رقم الحركة' },
                     { data: 'ActionDate', title: 'التاربخ' },
                     { data: 'IncomingQuantity', title: 'كمية الوارد' },
-                    { data: 'IncomingCost', title: 'تكلفة الوراد' },
+                    //{ data: 'IncomingCost', title: 'تكلفة الوراد' },
                     { data: 'OutcomingQuantity', title: 'كمية الصادر' },
-                    { data: 'OutcomingCost', title: 'تكلفة الصادر' },
+                    //{ data: 'OutcomingCost', title: 'تكلفة الصادر' },
                     { data: 'BalanceQuantity', title: 'كمية الرصيد' },
-                    { data: 'BalanceCost', title: 'تكلفة الرصيد' },
+                    //{ data: 'BalanceCost', title: 'تكلفة الرصيد' },
                 ],
                 columnDefs: [
                     {

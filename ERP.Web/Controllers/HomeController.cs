@@ -23,6 +23,7 @@ namespace ERP.Web.Controllers
         VTSaleEntities db = new VTSaleEntities();
         VTSAuth auth = new VTSAuth();
 
+        #region Index
         public ActionResult Index()
         {
             //if (UsersRoleService.PagesLoad == null)
@@ -110,6 +111,8 @@ namespace ERP.Web.Controllers
 
             return View(vm);
         }
+
+        #endregion
         
         #region الاشعارات 
          int GetNotify()
@@ -289,6 +292,41 @@ namespace ERP.Web.Controllers
         }
 
         #endregion
+
+        #region تحديد نوع الجرد للبرنامج
+        public ActionResult CheckInventoryType()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult CheckInventoryType(int? InventoryTypeId)
+        {
+            if (ModelState.IsValid)
+            {
+                if (InventoryTypeId == null)
+                    return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
+                var generalSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault();
+                if (generalSetting != null)
+                    generalSetting.SValue = InventoryTypeId.ToString();
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+
+                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
+                {
+                    return Json(new { isValid = true, message = "تم الحفظ بنجاح" });
+
+                }
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+            else
+                return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
+
+        }
+
+        #endregion
+
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

@@ -23,9 +23,11 @@ body {
     box-shadow: var(--pageShadow);
 }
 
-.page[size="A4"] {
+.page {
     width: 21cm;
     height: 29.7cm;
+    /*    width: 100%;
+    height: 100%;*/
     overflow: hidden;
 }
 
@@ -39,8 +41,14 @@ body {
         border: 1px solid black;
     }
     thead {
-        color:black;
-        background: var(--themeColor);
+        color:black !important;
+       background-color:gray !important;
+    }
+    .page {
+        box-shadow: none;
+    }
+    .btnPrint{
+        display:none;
     }
 }
 /* Top Section */
@@ -49,7 +57,7 @@ body {
 }
 
 .logo img {
-    height: 60px;
+    height: 80px;
 }
 
 .top-left p {
@@ -132,7 +140,9 @@ thead {
     text-align: center;
     vertical-align: middle;
 }
-
+.media-body{
+    text-align:right !important;
+}
 tr th:first-child,
 tr td:first-child {
     text-align: right;
@@ -199,7 +209,7 @@ footer a {
 
 footer p {
     padding: 0px;
-    border: 1px solid var(--darkWhite);
+    /*border: 1px solid var(--darkWhite);*/
     background-color: var(--white);
     display: inline-block;
 }

@@ -29,16 +29,17 @@ namespace ERP.Web.Controllers
         public ActionResult Index()
         {
             return View();
-        }       
+        }
 
+        #region Login
         public ActionResult Login(int? MsgBadLogin,string ErroeMsg)
         {
             //Lookups.ExcuteFirstInit();
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             List<Page> pages = new List<Page>();
-            //Guid roleID = new Guid("5815E2BB-16C0-4BCD-9DD3-D119399EE760");
-            Guid userId = new Guid("52883c22-f5c2-447c-bc17-d43fa0cf689c");
+            Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
+            Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
             //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -71,9 +72,13 @@ namespace ERP.Web.Controllers
             //pages.Add(new Page() { Id = 413, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير موظف خط الانتاج", OrderNum = 0, Url = "/RptProductionLines/SearchProductionOrderEmployee", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 414, ParentId = 303, Icon = null, IsPage = true, Name = " تقرير خطوط الانتاج", OrderNum = 1, Url = "/RptProductionLines/SearchProductionLine", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 415, ParentId = 121, Icon = null, IsPage = true, Name = "اضافة أمر إنتاج مجمع", OrderNum = 0, Url = "/ProductionOrders/RegisterOrderComplex", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            //pages.Add(new Page() { Id = 416, ParentId = 285, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "كارت صنف بدون التكلفة", OrderNum = 0, Url = "/RptItemBalances/SearchItemBalanceNotMovement", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
             //db.Pages.AddRange(pages);
-            ////db.SaveChanges(userId);
+            //var pag3 = db.Pages.Where(x => x.Id == 106).FirstOrDefault();
+            //pag3.OtherUrls += ",/SellInvoices/ShowPrintSellInvoice";
+
+            //db.SaveChanges(userId);
             //db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
             //db.ContractSalaryTypes.Add(new ContractSalaryType { Name = "بالانتاج" });
             //db.SaveChanges(userId);
@@ -82,15 +87,15 @@ namespace ERP.Web.Controllers
             //var pag2 = db.Pages.Where(x => x.Id == 334).FirstOrDefault();
             //pag2.IsDeleted = true;
             //db.SaveChanges(userId);
-//            var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;
-//            INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(66, N'لوجو المؤسسة', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
-//INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(67, N'سطر الطباعه الاول اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
-//INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(68, N'سطر الطباعه الثانى اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
-//INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(69, N'سطر الطباعه الثالث اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
-//INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(70, N'سطر الطباعه الرابع اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
-//INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(71, N'سطر الطباعه الخامس اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
-//SET IDENTITY_INSERT[dbo].[GeneralSettings] OFF; ";
-//            db.Database.ExecuteSqlCommand(genralSettings);
+            //            var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;
+            //            INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(66, N'لوجو المؤسسة', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(67, N'سطر الطباعه الاول اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(68, N'سطر الطباعه الثانى اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(69, N'سطر الطباعه الثالث اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(70, N'سطر الطباعه الرابع اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(71, N'سطر الطباعه الخامس اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //SET IDENTITY_INSERT[dbo].[GeneralSettings] OFF; ";
+            //            db.Database.ExecuteSqlCommand(genralSettings);
 
 
 
@@ -165,25 +170,6 @@ namespace ERP.Web.Controllers
                     //    ViewBag.MsgBadLogin = TempData["MsgErrorActive"];
                     return View();
         }      
-        public ActionResult LogOut()
-        {
-            auth.ClearCookies();
-            //UsersRoleService.PagesLoad = null;
-            //Session["pagesSession"] = null;
-            return View("Login");
-        }
-        //List<ListPages> GetPages(int catId, IQueryable<PagesRole> pageRoless)
-        //{
-        //    return db.Pages.Where(p => !p.IsDeleted && p.PageCatogryId == catId && pageRoless.Any(pr => pr.PageId == p.Id)).Select(p => new ListPages
-        //    {
-        //        PageName = p.Name,
-        //        Url = p.Url
-        //    }).ToList();
-        //}
-        //bool HasPages(int catId, IQueryable<PagesRole> pageRolee)
-        //{
-        //    return db.Pages.Where(p => !p.IsDeleted && pageRolee.Any(pr => pr.PageId == p.Id)).Any();
-        //}
         [HttpPost]
         public ActionResult Login(string userName, string pass, string returnUrlVal)
         {
@@ -254,12 +240,20 @@ namespace ERP.Web.Controllers
 
             return View();
         }
-        public ActionResult Error(string ErroeMsg)
+
+        #endregion
+
+        #region LogOut
+        public ActionResult LogOut()
         {
-            //auth.ClearCookies();
-            ViewBag.MsgBadLogin = ErroeMsg;
-            return View();
+            auth.ClearCookies();
+            //UsersRoleService.PagesLoad = null;
+            //Session["pagesSession"] = null;
+            return View("Login");
         }
+
+        #endregion
+        #region Active/Un Offline Mode
         // تفعيل الموقع افلاين
         [HttpPost]
         public ActionResult Activation(string activePass)
@@ -294,9 +288,9 @@ namespace ERP.Web.Controllers
                 }
                 else
                 {
-                        TempData["MsgErrorActive"] = "رقم التفعيل خاطئ";
-                        return RedirectToAction("Login");
-                                    }
+                    TempData["MsgErrorActive"] = "رقم التفعيل خاطئ";
+                    return RedirectToAction("Login");
+                }
             }
             catch (Exception ex)
             {
@@ -307,6 +301,28 @@ namespace ERP.Web.Controllers
             }
 
         }
+
+        #endregion
+        public ActionResult Error(string ErroeMsg)
+        {
+            //auth.ClearCookies();
+            ViewBag.MsgBadLogin = ErroeMsg;
+            return View();
+        }
+
+        //List<ListPages> GetPages(int catId, IQueryable<PagesRole> pageRoless)
+        //{
+        //    return db.Pages.Where(p => !p.IsDeleted && p.PageCatogryId == catId && pageRoless.Any(pr => pr.PageId == p.Id)).Select(p => new ListPages
+        //    {
+        //        PageName = p.Name,
+        //        Url = p.Url
+        //    }).ToList();
+        //}
+        //bool HasPages(int catId, IQueryable<PagesRole> pageRolee)
+        //{
+        //    return db.Pages.Where(p => !p.IsDeleted && pageRolee.Any(pr => pr.PageId == p.Id)).Any();
+        //}
+
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

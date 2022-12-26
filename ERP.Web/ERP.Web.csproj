@@ -305,7 +305,7 @@
     <Content Include="Assets\JSCustom\Print\PrintPDFDataTableJQuery\fonts\NotoKufiArabic-Regular.ttf" />
     <Content Include="Assets\JSCustom\Print\PrintPDFDataTableJQuery\pdfmake.min.js" />
     <Content Include="Assets\JSCustom\Print\PrintPDFDataTableJQuery\vfs_fonts.js" />
-    <Content Include="Assets\JSCustom\Print\Printstyle.css" />
+    <Content Include="Assets\css\Printstyle.css" />
     <Content Include="Assets\JSCustom\ProductionLine.js" />
     <Content Include="Assets\JSCustom\ProductionOrder.js" />
     <Content Include="Assets\JSCustom\ProductionOrderColor.js" />
@@ -2364,7 +2364,11 @@
     <Content Include="Views\RptProductionLines\SearchProductionLine.cshtml" />
     <Content Include="Views\ProductionOrders\RegisterOrderComplex.cshtml" />
     <Content Include="Views\SellInvoices\ShowSellInvoice2.cshtml" />
-    <Content Include="Views\SellInvoices\ShowSellInvoice3.cshtml" />
+    <Content Include="Views\SellInvoices\ViewPrint.cshtml" />
+    <Content Include="Views\RptItemBalances\SearchItemBalanceNotMovement.cshtml" />
+    <Content Include="Views\SellInvoices\ShowPrintSellInvoice.cshtml" />
+    <Content Include="Views\GeneralSettings\CheckInventoryType.cshtml" />
+    <Content Include="Views\Home\CheckInventoryType.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,0 +1,52 @@
+﻿
+@model ERP.DAL.Area
+@using ERP.DAL
+@{ ViewBag.Title = "CheckInventoryType";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section PageTitle1{الاعدادات}
+@section PageTitle2{نوع الجرد}
+@section Button1{@null}
+@section Button1Link{@null}
+@section icon{@null}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold">نوع الجرد</h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("CheckInventoryType", "Home", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group required">
+                                <label>نوع الجرد</label>
+                                <select class="form-select din-med" id="InventoryTypeId" name="InventoryTypeId">
+                                    <option value="1">جرد دورى</option>
+                                    <option value="2">جرد مستمر</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            <a href="javascript:void(0);" onclick="GeneralSetting_Module.SubmitFormInventoryType(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-plus-circle m-1"></i>حفظ</a>
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/GeneralSetting.js"></script>
+
+}
+

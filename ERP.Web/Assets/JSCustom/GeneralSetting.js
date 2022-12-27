@@ -83,39 +83,6 @@ var GeneralSetting_Module = function () {
 
     //#endregion
 
-    //#region تحديد نوع الجرد
-    function SubmitFormInventoryType(btn) {
-        try {
-            var form = document.getElementById('form1');
-            var formData = new FormData(form);
-            $.ajax({
-                type: 'POST',
-                url: form.action,
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function (res) {
-                    if (res.isValid) {
-                        toastr.success(res.message, '',)
-                        setTimeout(function () { window.location = "/GeneralSettings/Index" }, 3000);
-                    } else {
-                        toastr.error(res.message, '');
-                    }
-                },
-                error: function (err) {
-                    toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
-                    console.log(err)
-                }
-            })
-            //to prevent default form submit event
-            return false;
-        } catch (ex) {
-            console.log(ex)
-        }
-
-    }
-
-    //#endregion
 
     //function getStoresInBranchChanged() {  // get internal stores by branchId
     //    $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchInId").val() }, function (data) {
@@ -151,7 +118,6 @@ var GeneralSetting_Module = function () {
         onCityChange: onCityChange,
         getStoresBranchChanged: getStoresBranchChanged,
         getStoreDamagesBranchChanged: getStoreDamagesBranchChanged,
-        SubmitFormInventoryType: SubmitFormInventoryType,
     };
 
 }();

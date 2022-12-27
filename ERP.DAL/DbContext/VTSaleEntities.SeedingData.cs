@@ -222,6 +222,7 @@ namespace ERP.DAL
                         db.TransactionsTypes.Add(new TransactionsType { Name = "رصيد اول حقوق ملكية" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "اذن استلام" });
                         db.TransactionsTypes.Add(new TransactionsType { Name = "اذن صرف" });
+                        db.TransactionsTypes.Add(new TransactionsType { Name = "رصيد اول المدة" });
                     }
                     // add Cases حالات الفواتير)
                     if (db.Cases.Where(x => !x.IsDeleted).Count() == 0)
@@ -1528,6 +1529,9 @@ END";
             pages.Add(new Page() { Id = 414, ParentId = 303, Icon = null, IsPage = true, Name = "تقرير خطوط الانتاج", OrderNum = 1, Url = "/RptProductionLines/SearchProductionLine", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 415, ParentId = 121, Icon = null, IsPage = true, Name = "اضافة أمر إنتاج مجمع", OrderNum = 0, Url = "/ProductionOrders/RegisterOrderComplex", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 416, ParentId = 285, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "كارت صنف بدون التكلفة", OrderNum = 0, Url = "/RptItemBalances/SearchItemBalanceNotMovement", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 417, ParentId = 48, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "رصيد اول المدة", OrderNum = 1, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 418, ParentId = 417, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة رصيد اول المدة", OrderNum = 1, Url = "/AccountTreeIntialBalances/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 419, ParentId = 417, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة رصيد اول المدة", OrderNum = 1, Url = "/AccountTreeIntialBalances/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
 
 

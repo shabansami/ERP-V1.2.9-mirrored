@@ -31,9 +31,6 @@ namespace ERP.Web.ViewModels
         public bool Letters { get; set; }
         public bool Numbers { get; set; }
 
-        //تاريخ بداية ونهاية السنة المالية
-        public DateTime? FinancialYearStartDate { get; set; }
-        public DateTime? FinancialYearEndDate { get; set; }
 
         public EntityData EntityData { get; set; }
         public AccountTreeVM AccountTree { get; set; }

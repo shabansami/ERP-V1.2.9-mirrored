@@ -7,6 +7,7 @@ namespace ERP.Web.ViewModels
 {
     public class IntialBalanceVM
     {
+        public Guid Id { get; set; }
         public Guid? SupplierId { get; set; } //رقم  المورد 
         public Guid? CustomerId { get; set; } //رقم العميل  
         public string PersonName { get; set; } //اسم الشخص  

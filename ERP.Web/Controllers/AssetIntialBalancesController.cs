@@ -51,6 +51,8 @@ namespace ERP.Web.Controllers
         public ActionResult CreateEdit()
         {
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name");
 
             return View(new IntialBalanceVM() {DateIntial=Utility.GetDateTime() });
             //}
@@ -60,7 +62,7 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (vm.Amount == 0 || vm.Amount == null || vm.DateIntial == null || vm.AccountId == null || vm.DebitCredit == null)
+                if (vm.Amount == 0 || vm.Amount == null ||vm.BranchId == null || vm.DateIntial == null || vm.AccountId == null || vm.DebitCredit == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;

@@ -175,5 +175,6 @@ namespace ERP.DAL
         public virtual DbSet<ContractSchedulingProduction> ContractSchedulingProductions { get; set; }
         public virtual DbSet<GeneralRecordDetail> GeneralRecordDetails { get; set; }
         public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
+        public virtual DbSet<AccountTreeIntialBalance> AccountTreeIntialBalances { get; set; }
     }
 }

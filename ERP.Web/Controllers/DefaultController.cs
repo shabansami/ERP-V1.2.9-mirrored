@@ -73,12 +73,12 @@ namespace ERP.Web.Controllers
             //pages.Add(new Page() { Id = 414, ParentId = 303, Icon = null, IsPage = true, Name = " تقرير خطوط الانتاج", OrderNum = 1, Url = "/RptProductionLines/SearchProductionLine", OtherUrls = "/ProductionOrders/ShowProductionOrder,/ProductionLines/ShowDetails", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 415, ParentId = 121, Icon = null, IsPage = true, Name = "اضافة أمر إنتاج مجمع", OrderNum = 0, Url = "/ProductionOrders/RegisterOrderComplex", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 416, ParentId = 285, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "كارت صنف بدون التكلفة", OrderNum = 0, Url = "/RptItemBalances/SearchItemBalanceNotMovement", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 417, ParentId = 48, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "رصيد اول المدة", OrderNum = 1, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 418, ParentId = 417, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة رصيد اول المدة", OrderNum = 1, Url = "/AccountTreeIntialBalances/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 419, ParentId = 417, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة رصيد اول المدة", OrderNum = 1, Url = "/AccountTreeIntialBalances/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
 
-            //db.Pages.AddRange(pages);
-            //var pag3 = db.Pages.Where(x => x.Id == 106).FirstOrDefault();
-            //pag3.OtherUrls += ",/SellInvoices/ShowPrintSellInvoice";
-
-            //db.SaveChanges(userId);
+            db.Pages.AddRange(pages);
+            db.SaveChanges(userId);
             //db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
             //db.ContractSalaryTypes.Add(new ContractSalaryType { Name = "بالانتاج" });
             //db.SaveChanges(userId);
@@ -87,6 +87,12 @@ namespace ERP.Web.Controllers
             //var pag2 = db.Pages.Where(x => x.Id == 334).FirstOrDefault();
             //pag2.IsDeleted = true;
             //db.SaveChanges(userId);
+            //var pag3 = db.Pages.Where(x => x.Id == 106).FirstOrDefault();
+            //pag3.OtherUrls += ",/SellInvoices/ShowPrintSellInvoice";
+            //db.SaveChanges(userId);
+            //db.TransactionsTypes.Add(new TransactionsType { Name = "رصيد اول المدة });
+            //db.SaveChanges(userId);
+
             //            var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;
             //            INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(66, N'لوجو المؤسسة', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(67, N'سطر الطباعه الاول اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)

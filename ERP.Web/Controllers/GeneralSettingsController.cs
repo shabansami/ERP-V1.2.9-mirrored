@@ -378,9 +378,6 @@ namespace ERP.Web.Controllers
 
             #endregion
 
-            //تاريخ بداية ونهاية السنة المالية
-            vm.FinancialYearStartDate = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue, out var dt) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue) : Utility.GetDateTime();
-            vm.FinancialYearEndDate = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue, out var dt2) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue) : Utility.GetDateTime();
 
             //احتساب تكلفة المنتج 
             var itemCost = model.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue;
@@ -533,18 +530,6 @@ namespace ERP.Web.Controllers
 
                             db.Entry(item).State = EntityState.Modified;
                         }
-                        //تاريخ بداية ونهاية السنة المالية
-                        var financialYear = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                        foreach (var item in financialYear)
-                        {
-                            if (item.Id == (int)GeneralSettingCl.FinancialYearStartDate)
-                                item.SValue = vm.FinancialYearStartDate.Value.ToString("yyyy-MM-dd");
-                            if (item.Id == (int)GeneralSettingCl.FinancialYearEndDate)
-                                item.SValue = vm.FinancialYearEndDate.Value.ToString("yyyy-MM-dd");
-
-                            db.Entry(item).State = EntityState.Modified;
-                        }
-
                         // طول الباركود
                         var modelBarCode = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.BarCodeData).ToList();
                         foreach (var item in modelBarCode)
@@ -726,38 +711,5 @@ namespace ERP.Web.Controllers
 
         #endregion
 
-        #region تحديد نوع الجرد للبرنامج
-        public ActionResult CheckInventoryType()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public JsonResult CheckInventoryType(int? InventoryTypeId )
-        {
-            if (ModelState.IsValid)
-            {
-                if (InventoryTypeId == null)
-                    return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
-                var generalSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault();
-                if (generalSetting != null)
-                    generalSetting.SValue = InventoryTypeId.ToString();
-                else
-                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-
-                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                {
-                        return Json(new { isValid = true, message = "تم الحفظ بنجاح" });
-
-                }
-                else
-                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-            }
-            else
-                return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
-
-        }
-
-        #endregion
     }
 }

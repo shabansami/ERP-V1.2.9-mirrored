@@ -44,6 +44,7 @@ namespace ERP.DAL
             this.Stores = new HashSet<Store>();
             this.VoucherDetails = new HashSet<VoucherDetail>();
             this.Vouchers = new HashSet<Voucher>();
+            this.AccountTreeIntialBalances = new HashSet<AccountTreeIntialBalance>();
 
         }
     
@@ -121,5 +122,6 @@ namespace ERP.DAL
         public virtual ICollection<Store> Stores { get; set; }
         public virtual ICollection<VoucherDetail> VoucherDetails { get; set; }
         public virtual ICollection<Voucher> Vouchers { get; set; }
+        public virtual ICollection<AccountTreeIntialBalance> AccountTreeIntialBalances { get; set; }
     }
 }

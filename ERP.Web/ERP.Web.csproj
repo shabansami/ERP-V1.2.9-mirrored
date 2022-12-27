@@ -257,6 +257,7 @@
     <Content Include="Assets\JSCustom\CustomerCheque.js" />
     <Content Include="Assets\JSCustom\CustomerChequeCollection.js" />
     <Content Include="Assets\JSCustom\CustomerChequeRefuse.js" />
+    <Content Include="Assets\JSCustom\AccountTreeIntialBalance.js" />
     <Content Include="Assets\JSCustom\CustomerIntial.js" />
     <Content Include="Assets\JSCustom\CustomerPayment.js" />
     <Content Include="Assets\JSCustom\DamageInvoice.js" />
@@ -1735,6 +1736,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountsTreesController.cs" />
+    <Compile Include="Controllers\AccountTreeIntialBalancesController.cs" />
     <Compile Include="Controllers\AreasController.cs" />
     <Compile Include="Controllers\AssetIntialBalancesController.cs" />
     <Compile Include="Controllers\AuditBalancesController.cs" />
@@ -1982,6 +1984,7 @@
     <Compile Include="ViewModels\IntialBalanceListVM.cs" />
     <Compile Include="ViewModels\IntialBalanceVM.cs" />
     <Compile Include="ViewModels\InventoryInvoiceVM.cs" />
+    <Compile Include="ViewModels\InventoryTypeVM.cs" />
     <Compile Include="ViewModels\ItemPriceVM.cs" />
     <Compile Include="ViewModels\ItemProductionVM.cs" />
     <Compile Include="ViewModels\ItemStockBalanceVM.cs" />
@@ -2369,6 +2372,8 @@
     <Content Include="Views\SellInvoices\ShowPrintSellInvoice.cshtml" />
     <Content Include="Views\GeneralSettings\CheckInventoryType.cshtml" />
     <Content Include="Views\Home\CheckInventoryType.cshtml" />
+    <Content Include="Views\AccountTreeIntialBalances\Index.cshtml" />
+    <Content Include="Views\AccountTreeIntialBalances\CreateEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

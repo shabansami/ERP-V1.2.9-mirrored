@@ -1,8 +1,8 @@
 ﻿
-@model ERP.DAL.Area
-@using ERP.DAL
 @{ ViewBag.Title = "CheckInventoryType";
     Layout = "~/Views/Shared/_Layout.cshtml";
+@model ERP.Web.ViewModels.InventoryTypeVM
+
 }
 @section PageTitle1{الاعدادات}
 @section PageTitle2{نوع الجرد}
@@ -32,12 +32,24 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>بداية السنة المالية</label>
+                                @Html.TextBoxFor(m => m.FinancialYearStartDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>نهاية السنة المالية</label>
+                                @Html.TextBoxFor(m => m.FinancialYearEndDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12" style="text-align:left;">
-                            <a href="javascript:void(0);" onclick="GeneralSetting_Module.SubmitFormInventoryType(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-plus-circle m-1"></i>حفظ</a>
+                            <a href="javascript:void(0);" onclick="SubmitFormInventoryType(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="fa fa-plus-circle m-1"></i>حفظ</a>
                         </div>
                     </div>
                 </div>}
@@ -46,7 +58,42 @@
 </div>
 @section Scripts
 {
-    <script src="~/Assets/JSCustom/GeneralSetting.js"></script>
+    <script>
+        //#region تحديد نوع الجرد
+        function SubmitFormInventoryType(btn) {
+            try {
+                var form = document.getElementById('form1');
+                var formData = new FormData(form);
+                $.ajax({
+                    type: 'POST',
+                    url: form.action,
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                        if (res.isValid) {
+                            toastr.success(res.message, '',)
+                            setTimeout(function () { window.location = "/GeneralSettings/Index" }, 3000);
+                        } else {
+                            toastr.error(res.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        toastr.error('حدث خطأ اثناء تنفيذ العملية', '');
+                        console.log(err)
+                    }
+                })
+                //to prevent default form submit event
+                return false;
+            } catch (ex) {
+                console.log(ex)
+            }
+
+        }
+
+    //#endregion
+
+    </script>
 
 }
 

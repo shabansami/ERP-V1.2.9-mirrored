@@ -1,6 +1,5 @@
 ﻿"use strict";
-
-var AssetIntialBalance_Module = function () {
+var AccountTreeIntialBalance_Module = function () {
     var initDT = function () {
         var table = $('#kt_datatable');
 
@@ -18,7 +17,7 @@ var AssetIntialBalance_Module = function () {
                 {
                     extend: 'print',
                     title: function () {
-                        return 'رصيد اول المدة كل للاصول';
+                        return 'رصيد أول المده';
                     },
                     customize: function (win) {
                         $(win.document.body)
@@ -46,9 +45,9 @@ var AssetIntialBalance_Module = function () {
                     }
                 },
                 {
-                    extend: "excelHtml5",
-                    filename: "رصيد اول المدة كل للاصول",
-                    title: "رصيد اول المدة كل للاصول",
+                    "extend": "excelHtml5",
+                    "filename": "رصيد أول المده",
+                    "title": "رصيد أول المده",
                     exportOptions: {
                         columns: ':visible'
                     }
@@ -69,51 +68,67 @@ var AssetIntialBalance_Module = function () {
             },
 
             ajax: {
-                url: '/AssetIntialBalances/GetAll',
+                url: '/AccountTreeIntialBalances/GetAll',
                 type: 'GET',
 
-            },
-            columns: [
-                { data: 'Num', responsivePriority: 0},
-                { data: 'CreatedOn', title: 'التاريخ' },
-                { data: 'Amount', title: 'المبلغ' },
-                { data: 'Notes', title: 'البيان' },
-                { data: 'TransactionId', visible: false },
-                { data: 'Actions', responsivePriority: -1, className: 'actions' },
+                    },
+        columns: [
+            { data: 'Num',responsivePriority:0 },
+            { data: 'AccountTreeName', title: 'اسم الحساب' },
+            { data: 'DebitStatus', title: 'حالة الحساب' },
+            { data: 'Amount', title: 'الرصيد'},
+            { data: 'OperationDate', title: 'التاريخ'},
+            { data: 'Actions', responsivePriority: -1, className: 'actions' },
 
-            ],
+        ],
             columnDefs: [
                 {
                     targets: 0,
                     title: 'م',
                     render: function (data, type, row, meta) {
-                        return meta.row + meta.settings._iDisplayStart + 1;
+                        return  meta.row + meta.settings._iDisplayStart + 1;
                     },
                 },
-                {
-                    targets: -1,
-                    title: 'عمليات',
-                    orderable: false,
-                    render: function (data, type, row, meta) {
+            {
+                targets: -1,
+                title: 'عمليات',
+                orderable: false,
+                render: function (data, type, row, meta) {
+                    if (!row.IsApproval) {
                         return '\
 							<div class="btn-group">\
-							<a href="javascript:;" onclick=AssetIntialBalance_Module.deleteRow(\''+ row.TransactionId + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+							<a href="/AccountTreeIntialBalances/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+                                <a href="javascript:;" onclick=AccountTreeIntialBalance_Module.ApprovalAccountTreeIntialBalance(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
+								<i class="fa fa-unlock-alt"></i>\
+							</a><a href="javascript:;" onclick=AccountTreeIntialBalance_Module.deleteRowAccountTreeIntialBalance(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
-                    },
-                }
+                    } else {
+                        return '\
+							<div class="btn-group">\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=AccountTreeIntialBalance_Module.UnApprovalAccountTreeIntialBalance(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=7" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+								<i class="fa fa-money-bill"></i>\
+							</a>\</div>\
+						';
+                    }
+                               
+},
+                        }
 
             ],
             drawCallback: function () {
                 var html = ' <tr><th colspan ="6" style= "text-align:center" ><div class="row alert-success">الاجمالى : <label>';
                 var api = this.api();
-                var balance = api.column(2).data().sum();
+                var balance = api.column(3).data().sum();
                 $(api.table().footer()).html(html + balance + '</label></div></th>  </tr>');
             },
 
-            "order": [[0, "asc"]]
-            //"order": [[0, "desc"]] 
+"order": [[0, "asc"]]
+//"order": [[0, "desc"]] 
 
         });
         $('#export_print').on('click', function (e) {
@@ -130,7 +145,7 @@ var AssetIntialBalance_Module = function () {
             e.preventDefault();
             $('#kt_datatable').DataTable().button('.buttons-excel').trigger();
         });
-    };
+            };
 
 
     function SubmitForm(btn) {
@@ -147,7 +162,10 @@ var AssetIntialBalance_Module = function () {
                         //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
                         $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
                         toastr.success(res.message, '',)
-                        setTimeout(function () { window.location = "/AssetIntialBalances/CreateEdit" }, 3000);
+                        if (!res.isInsert) {
+                            setTimeout(function () { window.location = "/AccountTreeIntialBalances/Index" }, 3000);
+                        }else
+                            setTimeout(function () { window.location = "/AccountTreeIntialBalances/CreateEdit" } , 3000);
                         //$('#kt_datatableLast').DataTable().ajax.reload();
                     } else {
                         toastr.error(res.message, '');
@@ -179,7 +197,7 @@ var AssetIntialBalance_Module = function () {
             cancelButtonText: 'إلغاء الامر'
         }).then((result) => {
             if (result.value) {
-                var url = '/AssetIntialBalances/Delete';
+                var url = '/AccountTreeIntialBalances/Delete';
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -190,7 +208,7 @@ var AssetIntialBalance_Module = function () {
                     //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
                     success: function (data) {
                         if (data.isValid) {
-                            toastr.success(data.message, '');
+                            toastr.success(data.message,'');
                             $('#kt_datatable').DataTable().ajax.reload();
                         } else {
                             toastr.error(data.message, '');
@@ -203,6 +221,21 @@ var AssetIntialBalance_Module = function () {
             }
         });
     };
+    function ChangePaymentTypeToInstallment(id) {
+        Swal.fire({
+            title: 'تأكيد انشاء اقساط للرصيد',
+            text: 'هل متأكد من تقسيط الرصيد ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                window.location='/SellInvoiceInstallments/RegisterInstallments/?invoGuid=' + id +'&typ=initial';
+            }
+        });
+    };
 
     return {
         //main function to initiate the module
@@ -211,7 +244,7 @@ var AssetIntialBalance_Module = function () {
         },
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
-
+        ChangePaymentTypeToInstallment: ChangePaymentTypeToInstallment,
     };
 
 }();

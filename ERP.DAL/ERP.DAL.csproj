@@ -320,7 +320,12 @@
     <Compile Include="Migrations\202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.designer.cs">
       <DependentUpon>202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212271421022_add_new_TB_AccountTreeIntialBalance.cs" />
+    <Compile Include="Migrations\202212271421022_add_new_TB_AccountTreeIntialBalance.designer.cs">
+      <DependentUpon>202212271421022_add_new_TB_AccountTreeIntialBalance.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\ContractSchedulingProduction.cs" />
     <Compile Include="Models\DamageInvoice.cs" />
@@ -687,6 +692,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.resx">
       <DependentUpon>202212211436379_add_field__voucherNumber_Notes_in_VoucherDetail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212271421022_add_new_TB_AccountTreeIntialBalance.resx">
+      <DependentUpon>202212271421022_add_new_TB_AccountTreeIntialBalance.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

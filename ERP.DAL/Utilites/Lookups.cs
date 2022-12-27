@@ -208,7 +208,7 @@ namespace ERP.Web.Utilites
             InitialBalancePropertyRights, //رصيد اول المدة حقوق ملكية
             StorePermissionReceive, //اذن استلام
             StorePermissionLeave, //اذن صرف
-
+            InitialBalanceAccountTree,//رصيد اول المدة لاي حساب فى الشجرة 
 
         }
         //حالات الفواتير

@@ -13,6 +13,7 @@ using ERP.Web.Identity;
 using BarcodeLib;
 using ERP.Web.DataTablesDS;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography.Xml;
 
 namespace ERP.Web.Controllers
 {
@@ -22,6 +23,7 @@ namespace ERP.Web.Controllers
         // GET: Home
         VTSaleEntities db = new VTSaleEntities();
         VTSAuth auth = new VTSAuth();
+        //VTSAuth auth2 => TempData["userInfo"] as VTSAuth;
 
         #region Index
         public ActionResult Index()
@@ -296,22 +298,41 @@ namespace ERP.Web.Controllers
         #region تحديد نوع الجرد للبرنامج
         public ActionResult CheckInventoryType()
         {
-            return View();
+            var model = db.GeneralSettings.ToList();
+            InventoryTypeVM vm = new InventoryTypeVM();
+            //تاريخ بداية ونهاية السنة المالية
+            vm.FinancialYearStartDate = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue, out var dt) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue) : Utility.GetDateTime();
+            vm.FinancialYearEndDate = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue, out var dt2) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue) : Utility.GetDateTime();
+
+            return View(vm);
         }
 
         [HttpPost]
-        public JsonResult CheckInventoryType(int? InventoryTypeId)
+        public JsonResult CheckInventoryType(InventoryTypeVM vm)
         {
             if (ModelState.IsValid)
             {
-                if (InventoryTypeId == null)
-                    return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
-                var generalSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault();
-                if (generalSetting != null)
-                    generalSetting.SValue = InventoryTypeId.ToString();
-                else
+                if (!auth.LoadDataFromCookies())
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
+                if (string.IsNullOrEmpty(vm.InventoryTypeId))
+                    return Json(new { isValid = false, message = "تأكد من اختيار نوع الجرد" });
+                var generalSetting = db.GeneralSettings.ToList();
+                var inventoryType = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault();
+                if (inventoryType != null)
+                    inventoryType.SValue = vm.InventoryTypeId;
+                else
+                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                if (vm.FinancialYearStartDate>=vm.FinancialYearEndDate)
+                    return Json(new { isValid = false, message = "تأكد من ادخال تواريخ صحيحة" });
+
+                //تاريخ بداية ونهاية السنة المالية
+                var startDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault();
+                    if (startDate!=null)
+                    startDate.SValue = vm.FinancialYearStartDate.Value.ToString("yyyy-MM-dd");
+                var endDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault();
+                if (endDate!=null)
+                    endDate.SValue = vm.FinancialYearEndDate.Value.ToString("yyyy-MM-dd");
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                 {
                     return Json(new { isValid = true, message = "تم الحفظ بنجاح" });

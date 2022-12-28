@@ -7,6 +7,10 @@ namespace ERP.Web.DataTablesDS
 {
     public class PrintInvoiceDto
     {
+        public PrintInvoiceDto()
+        {
+            ItemDetails = new List<ItemDetailsDT>();
+        }
         //بيانات الجهة 
         public string EntityDataName { get; set; }//اسم الجهة
         public string EntityCommercialRegisterNo { get; set; } //رقم السجل التجارى للجهة
@@ -35,7 +39,9 @@ namespace ERP.Web.DataTablesDS
         public double PersonBalance { get; set; } //مديونية العميل/المورد
         public double SalesTax { get; set; } //ضريبة قيمة مضافة بالزيادة على الفاتورة
         public double ProfitTax { get; set; }//ضريبة ارباح تجارية بنقص من الفاتورة 
-
+        public string InvoiceTitle { get; set; }
+        public string PersonTypeName { get; set; }// مسمى العميل او المورد 
+        public string Notes { get; set; }
         //تفاصيل الفاتورة 
         public List<ItemDetailsDT> ItemDetails { get; set; }
         public List<InvoiceExpensesDT> InvoiceExpenses { get; set; }

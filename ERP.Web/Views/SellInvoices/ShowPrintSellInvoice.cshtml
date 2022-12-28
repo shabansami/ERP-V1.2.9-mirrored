@@ -70,36 +70,34 @@
                 <div class="col-12">
                     <div class="row bb pb-3">
                         <div class="col-10">
+                          
+                            <div class="row">
+                                <div class="col-6">
+                                    <p>
+                                        رقم الفاتورة : <span>@(Model.InvoiceNumber)</span>
+                                    </p>
+                                </div>
+                                <div class="col-6">
+                                    <p>
+                                        تاريخ الفاتورة : <span>@(Model.InvoiceDate.ToString("yyyy-MM-dd"))</span>
+                                    </p>
+                                </div>
+                            </div>
                             @*<p>العميل : <span>@(Model.PersonCustomer?.Name)</span></p>*@
                             <p>العميل</p>
                             <h2>@(Model.PersonCustomer?.Name)</h2>
 
-                            <p>رقم الفاتورة : <span>@(Model.InvoiceNumber)</span></p>
-                            <p>تاريخ الفاتورة : <span>@(Model.InvoiceDate.ToString("yyyy-MM-dd"))</span></p>
-                            @*<h2></h2>*@
-                            @*<p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>*@
-                            @*<div class="txn mt-2">TXN: XXXXXXX</div>*@
+                           
                         </div>
                         <div class="col-2">
                             <br />
                             <a href="javascript:void(0);" onclick="window.print();" class="btn btn-success din-bold btnPrint w-100"><i class="fa fa-print"></i>طباعه</a>
                             <a href="javascript:void(0);" onclick="close_window();" class="btn btn-soft-secondary din-bold btnPrint w-100"><i class="fa fa-window-close"></i>اغلاق</a>
 
-                            @*<p>Client,</p>
-                                <h2>Sabur Ali</h2>
-                                <p class="address"> 777 Brockton Avenue, <br> Abington MA 2351, <br>Vestavia Hills AL </p>
-                                <div class="txn mt-2">TXN: XXXXXXX</div>*@
+                            
                         </div>
                     </div>
-                    @*<div class="row extra-info pt-3">
-                            <div class="col-7">
-                                <p>Payment Method: <span>bKash</span></p>
-                                <p>Order Number: <span>#868</span></p>
-                            </div>
-                            <div class="col-5">
-                                <p>Deliver Date: <span>10-04.2021</span></p>
-                            </div>
-                        </div>*@
+                   
                 </div>
             </section>
 
@@ -181,15 +179,27 @@
             <!-- Cart BG -->
             @*<img src="cart.jpg" class="img-fluid cart-bg" alt="">*@
 
-            <footer>
-                <hr>
-                @*<p >
-                        View THis Invoice Online At - <a href="#!"> invoice/saburbd.com/#868 </a>
-                    </p>*@
-                <p>@line1Down</p>
-                <p>@line2Down</p>
+        <footer>
 
-            </footer>
+            @*<p >
+            View THis Invoice Online At - <a href="#!"> invoice/saburbd.com/#868 </a>
+        </p>*@
+            <div class="lineDown">
+                <div class="col-12">
+                        @line1Down
+                </div>        
+                <div class="col-12">
+                    @line2Down
+                </div>
+            </div>
+            @*<p></p>*@
+            <hr>
+
+                <div class="copyright">
+                    تطوير VTS-co.com
+              
+            </div>
+        </footer>
         </div>
     </div>
 

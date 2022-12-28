@@ -101,8 +101,9 @@ var OrderSell_Module = function () {
                     orderable: false,
                     render: function (data, type, row, meta) {
                         var ele = '\
-							<div class="btn-group">\
-							<a href="/OrderSells/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+							<div class="btn-group">\<a href="/PrintInvoices/ShowPrintInvoice/?id='+ row.Id + '&typ=OrderSell" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a>\<a href="/OrderSells/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=OrderSell_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
@@ -111,22 +112,26 @@ var OrderSell_Module = function () {
 								<i class="fa fa-shopping-cart"></i>\
 							</a>\</div>\
 						';
+                        var print = '<a href="/PrintInvoices/ShowPrintInvoice/?id=' + row.Id + '&typ=OrderSell" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a>';
                         if (row.RegSell && row.RegOrderProduction) {
-                            return '<div class="btn-group">div>';
+                            return print+='<div class="btn-group"><div>';
                         }
                         if (row.RegSell) {
-                            return '<div class="btn-group"><a href="/OrderSells/OrderForProduction/?orderId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز إنتاج">\
+                            return print += '<div class="btn-group"><a href="/OrderSells/OrderForProduction/?orderId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز إنتاج">\
 								<i class="fas fa-wrench"></i>\
 							</a>\</div>'
                         }
                         if (row.RegOrderProduction) {
-                           return '<div class="btn-group"><a href="/OrderSells/OrderForSell/?orderId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز بيع">\
+                            return print += '<div class="btn-group"><a href="/OrderSells/OrderForSell/?orderId=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تجهيز بيع">\
 								<i class="fa fa-shopping-cart"></i>\
 							</a>\</div>';
                         }
                         return '\
-							<div class="btn-group">\
-							<a href="/OrderSells/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+							<div class="btn-group">\<a href="/PrintInvoices/ShowPrintInvoice/?id='+ row.Id + '&typ=OrderSell" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a><a href="/OrderSells/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=OrderSell_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\

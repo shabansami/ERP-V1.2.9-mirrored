@@ -103,12 +103,13 @@ var PurchaseBackInvoice_Module = function () {
                 orderable: false,
                 render: function (data, type, row, meta) {
                     var ele = '\
-							<div class="btn-group">\
-							<a href="/PurchaseBackInvoices/ShowPurchaseBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
-								<i class="fa fa-search"></i>\
-							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',null);" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة">\
+							<div class="btn-group">\<a href="/PrintInvoices/ShowPrintInvoice/?id='+ row.Id + '&typ=purchaseBack" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
 								<i class="fa fa-print"></i>\
-							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',\'quantityOnly\');" class="btn btn-sm btn-clean btn-icon" title="طباعه فاتورة كميات">\
+							</a>\<a href="/PurchaseBackInvoices/ShowPurchaseBackInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
+								<i class="fa fa-search"></i>\
+							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',null);" class="btn btn-sm btn-clean btn-icon" title="طباعه كاشير">\
+								<i class="fa fa-print"></i>\
+							</a>\<a href="#" onclick="PrintInvoice_Module.Print(\''+ row.Id + '\',\'purchaseBack\',\'quantityOnly\');" class="btn btn-sm btn-clean btn-icon" title="طباعه كاشير كميات">\
 								<i class="fa fa-print"></i>\
 							</a>\<a href="#" onclick="PrintInvoice_Module.DownloadInvoice(\''+ row.Id + '\',\'purchaseBack\');" class="btn btn-sm btn-clean btn-icon" title="تنزيل فاتورة">\
 								<i class="fa fa-download"></i>\

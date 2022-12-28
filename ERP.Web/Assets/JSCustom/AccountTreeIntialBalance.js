@@ -100,17 +100,17 @@ var AccountTreeIntialBalance_Module = function () {
 							<a href="/AccountTreeIntialBalances/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
-                                <a href="javascript:;" onclick=AccountTreeIntialBalance_Module.ApprovalAccountTreeIntialBalance(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
+                                <a href="javascript:;" onclick=AccountTreeIntialBalance_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-unlock-alt"></i>\
-							</a><a href="javascript:;" onclick=AccountTreeIntialBalance_Module.deleteRowAccountTreeIntialBalance(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+							</a><a href="javascript:;" onclick=AccountTreeIntialBalance_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
                     } else {
                         return '\
 							<div class="btn-group">\
-                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=AccountTreeIntialBalance_Module.UnApprovalAccountTreeIntialBalance(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=7" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=AccountTreeIntialBalance_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=34" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
 								<i class="fa fa-money-bill"></i>\
 							</a>\</div>\
 						';
@@ -221,10 +221,10 @@ var AccountTreeIntialBalance_Module = function () {
             }
         });
     };
-    function ChangePaymentTypeToInstallment(id) {
+    function Approval(id) {
         Swal.fire({
-            title: 'تأكيد انشاء اقساط للرصيد',
-            text: 'هل متأكد من تقسيط الرصيد ؟',
+            title: 'تأكيد الاعتماد',
+            text: 'هل متأكد من الاعتماد ؟',
             icon: 'warning',
             showCancelButton: true,
             animation: true,
@@ -232,7 +232,62 @@ var AccountTreeIntialBalance_Module = function () {
             cancelButtonText: 'إلغاء الامر'
         }).then((result) => {
             if (result.value) {
-                window.location='/SellInvoiceInstallments/RegisterInstallments/?invoGuid=' + id +'&typ=initial';
+                var url = '/AccountTreeIntialBalances/Approval';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+    function UnApproval(id) {
+        Swal.fire({
+            title: 'تأكيد فك الاعتماد',
+            text: 'هل متأكد من فك الاعتماد ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/AccountTreeIntialBalances/UnApproval';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
             }
         });
     };
@@ -244,7 +299,8 @@ var AccountTreeIntialBalance_Module = function () {
         },
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
-        ChangePaymentTypeToInstallment: ChangePaymentTypeToInstallment,
+        Approval: Approval,
+        UnApproval: UnApproval,
     };
 
 }();

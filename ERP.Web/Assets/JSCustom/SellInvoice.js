@@ -108,7 +108,7 @@ var SellInvoice_Module = function () {
                 render: function (data, type, row, meta) {
                     var ele = '\
 							<div class="btn-group">\
-							<a href="/SellInvoices/ShowPrintSellInvoice/?invoGuid='+ row.Id + '" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+							<a href="/PrintInvoices/ShowPrintInvoice/?id='+ row.Id + '&typ=sell" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
 								<i class="fa fa-print"></i>\
 							</a>\<a href="/SellInvoices/ShowSellInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
 								<i class="fa fa-search"></i>\

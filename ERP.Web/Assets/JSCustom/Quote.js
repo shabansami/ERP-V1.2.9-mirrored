@@ -99,8 +99,9 @@ var Quote_Module = function () {
                     orderable: false,
                     render: function (data, type, row, meta) {
                         var ele = '\
-							<div class="btn-group">\
-							<a href="/Quotes/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+							<div class="btn-group">\<a href="/PrintInvoices/ShowPrintInvoice/?id='+ row.Id + '&typ=Quote" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a>\<a href="/Quotes/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=Quote_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\

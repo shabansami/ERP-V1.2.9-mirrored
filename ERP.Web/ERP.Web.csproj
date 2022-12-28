@@ -1811,6 +1811,7 @@
     <Compile Include="Controllers\PeriodicIncomesController.cs" />
     <Compile Include="Controllers\PricesChangesController.cs" />
     <Compile Include="Controllers\PricingPoliciesController.cs" />
+    <Compile Include="Controllers\PrintInvoicesController.cs" />
     <Compile Include="Controllers\ProductionLinesController.cs" />
     <Compile Include="Controllers\ProductionOrderColorsController.cs" />
     <Compile Include="Controllers\ProductionOrderDamagesController.cs" />
@@ -1958,6 +1959,7 @@
     <Compile Include="Services\ItemImportDataZumurada.cs" />
     <Compile Include="Services\ItemService.cs" />
     <Compile Include="Services\PaymentServices.cs" />
+    <Compile Include="Services\PrintInvoiceService.cs" />
     <Compile Include="Services\ProductionOrderService.cs" />
     <Compile Include="Services\ReportsAccountTreeService.cs" />
     <Compile Include="Services\SalaryServices.cs" />
@@ -2366,14 +2368,13 @@
     <Content Include="Views\RptProductionLines\SearchProductionOrderEmployee.cshtml" />
     <Content Include="Views\RptProductionLines\SearchProductionLine.cshtml" />
     <Content Include="Views\ProductionOrders\RegisterOrderComplex.cshtml" />
-    <Content Include="Views\SellInvoices\ShowSellInvoice2.cshtml" />
-    <Content Include="Views\SellInvoices\ViewPrint.cshtml" />
     <Content Include="Views\RptItemBalances\SearchItemBalanceNotMovement.cshtml" />
     <Content Include="Views\SellInvoices\ShowPrintSellInvoice.cshtml" />
     <Content Include="Views\GeneralSettings\CheckInventoryType.cshtml" />
     <Content Include="Views\Home\CheckInventoryType.cshtml" />
     <Content Include="Views\AccountTreeIntialBalances\Index.cshtml" />
     <Content Include="Views\AccountTreeIntialBalances\CreateEdit.cshtml" />
+    <Content Include="Views\PrintInvoices\ShowPrintInvoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

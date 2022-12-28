@@ -72,7 +72,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 d-none">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> شجرة الحسابات</label>
@@ -87,7 +87,7 @@
                     <tbody></tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="4" style="text-align:right">Total:</th>
+                            <th colspan="5" style="text-align:right">Total:</th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -130,7 +130,7 @@
                     if (accounTree.getSelectedIds() != null) {
                         var textSelected = accounTree.getSelectedIds()[0];
                         $('#kt_datatable').DataTable().column(1).search(textSelected).draw();
-
+                        console.log($('#accountTree').val());
                     }
                 }
             });

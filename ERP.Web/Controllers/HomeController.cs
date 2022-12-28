@@ -97,13 +97,13 @@ namespace ERP.Web.Controllers
                 if (purchaseBackApprovalFinal.Any())
                     vm.ApprovalInvoices.Add(new ElementDetails { Name = "فواتير مرتجع توريد تحتاج الى اعتماد نهائى", Count = purchaseBackApprovalFinal.Count(), Url = "/PurchaseBackInvoices/ApprovalFinalInvoice" });
 
-                //اصناف تحتاج الى حد الطلب الامان والخطر 
-                var listSafetly = BalanceService.ItemRequestLimitSafety(null, null, null, null, null, null, null);
-                if(listSafetly.Any())
-                    vm.LimitedItem.Add(new ElementDetails {Name="اصناف بلغت حد الامان",Count= listSafetly.Count,Url= "/RptLimitItems/SearchItemSafety" });
-                var listDanger = BalanceService.ItemRequestLimitSafety(null, null, null, null, null, null, null);
-                if(listDanger.Any())
-                    vm.LimitedItem.Add(new ElementDetails {Name="اصناف بلغت حد الخطر",Count= listDanger.Count,Url= "/RptLimitItems/SearchItemDanger" });
+                //اصناف تحتاج الى حد الطلب الامان والخطر تحتاج الى اعادة refactor 
+                //var listSafetly = BalanceService.ItemRequestLimitSafety(null, null, null, null, null, null, null);
+                //if(listSafetly.Any())
+                //    vm.LimitedItem.Add(new ElementDetails {Name="اصناف بلغت حد الامان",Count= listSafetly.Count,Url= "/RptLimitItems/SearchItemSafety" });
+                //var listDanger = BalanceService.ItemRequestLimitSafety(null, null, null, null, null, null, null);
+                //if(listDanger.Any())
+                //    vm.LimitedItem.Add(new ElementDetails {Name="اصناف بلغت حد الخطر",Count= listDanger.Count,Url= "/RptLimitItems/SearchItemDanger" });
             }
             catch (Exception)
             {

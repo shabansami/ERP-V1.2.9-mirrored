@@ -77,7 +77,7 @@ namespace ERP.Desktop.Views.Items
                 var del = db.Items.Find(id);
                 if (del.InventoryInvoiceDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.ItemProductionDetails.Count(x => !x.IsDeleted) > 0 ||
-                    del.ItemIntialBalances.Count(x => !x.IsDeleted) > 0 ||
+                    del.ItemIntialBalanceDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.ItemProductionDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.MaintenanceDamageDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.MaintenanceDetails.Count(x => !x.IsDeleted) > 0 ||

@@ -727,7 +727,7 @@ else
                                         <div class="col-lg-6">
                                             <div class="form-group row required">
                                                 <label>الفرع</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "PurchaseInvoice_Module.getSafesOnBranchChanged();" })
                                                     @Html.HiddenFor(x => x.Id)
                                                 </div>
@@ -736,7 +736,7 @@ else
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                                 <label>رقم الفاتورة الورقية</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.TextBoxFor(model => model.InvoiceNumPaper, null, htmlAttributes: new { @class = "form-control required" })
                                                     <span class="form-text text-muted">ادخل رقم المستند الورقي ان وجدت</span>
                                                 </div>
@@ -745,7 +745,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row required">
                                                 <label>تاريخ الفاتورة</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.TextBoxFor(model => model.InvoiceDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control", type = "date" })
                                                     <span class="form-text text-muted">ادخل تاريخ الفاتورة </span>
                                                 </div>
@@ -754,7 +754,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row required">
                                                 <label>المورد</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("SupplierId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2", @onchange = "removeClassInValid();" })
                                                     <span class="form-text text-muted">ادخل المورد </span>
                                                 </div>
@@ -763,7 +763,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>مديونية المورد</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.TextBox("PesonBalance", "0", htmlAttributes: new { @readonly = "readonly", @class = "form-control" })
                                                 </div>
                                             </div>
@@ -771,7 +771,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row required">
                                                 <label>طريقة السداد</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  ", @onchange = "PurchaseInvoice_Module.onPaymentTypeChanged();" })
                                                 </div>
                                             </div>
@@ -779,7 +779,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>حساب الدفع</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <div class="radio-inline">
                                                         <div class="col-xl-6">
                                                             <label class="radio">
@@ -800,7 +800,7 @@ else
                                         <div class="col-lg-4" style="display:@safeVisiable;" id="divSafe">
                                             <div class="form-group row">
                                                 <label>خزينة</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                                 </div>
                                             </div>
@@ -808,7 +808,7 @@ else
                                         <div class="col-lg-4" style="display:@accountVisiable;" id="divBank">
                                             <div class="form-group row">
                                                 <label>بنك</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
                                                 </div>
                                             </div>
@@ -824,8 +824,8 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>المجموعة الاساسية</label>
-                                                <div class="col-9">
-                                                    <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
+                                                <div class="col-12">
+                                                    <input name="groupBasic" type="text" class="form-control form-control-solid " id="groupBasic" autocomplete="off" />
                                                     <span class="form-text text-muted">اختر مجموعة</span>
                                                 </div>
                                             </div>
@@ -833,7 +833,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>الصنف</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 w-100", @onchange = "PurchaseInvoice_Module.onItemChange()" })
                                                     <span class="form-text text-muted">اختر الصنف</span>
                                                 </div>
@@ -850,8 +850,8 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>الكمية</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="PurchaseInvoice_Module.onPriceOrQuanKeyUp();" />
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control form-control-solid " name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="PurchaseInvoice_Module.onPriceOrQuanKeyUp();" />
                                                     <span class="form-text text-muted">ادخل كمية الصنف</span>
                                                 </div>
                                             </div>
@@ -859,8 +859,8 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>سعر الشراء</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="Price" id="Price" placeholder="سعر الشراء" value="0" onkeyup="PurchaseInvoice_Module.onPriceOrQuanKeyUp();" />
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control form-control-solid " name="Price" id="Price" placeholder="سعر الشراء" value="0" onkeyup="PurchaseInvoice_Module.onPriceOrQuanKeyUp();" />
                                                     <span class="form-text text-muted">ادخل سعر الشراء</span>
                                                 </div>
                                             </div>
@@ -870,7 +870,7 @@ else
                                         <div class="col-lg-1">
                                             <div class="form-group row">
                                                 <label>.</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <a href="javascript:void(0);" onclick="PurchaseInvoice_Module.showUnitConvert()"><span class="fa fa-exchange-alt la-2x" title="تحويل الصنف"></span></a>
                                                 </div>
                                             </div>
@@ -878,7 +878,7 @@ else
                                         <div class="col-lg-3">
                                             <div class="form-group row">
                                                 <label>اسعار الشراء السابقة</label>
-                                                <div class="col-7">
+                                                <div class="col-12">
                                                     <select id="prevouisPrice" class="form-select w-100" onchange="PurchaseInvoice_Module.ChangeCurrentPice()"></select>
                                                 </div>
                                             </div>
@@ -888,24 +888,24 @@ else
                                                 <div class="col-lg-4">
                                                     <div class="form-group row">
                                                         <label>الوحدة المحول منها</label>
-                                                        <div class="col-9">
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="UnitConvertFromName" id="UnitConvertFromName" readonly />
+                                                        <div class="col-12">
+                                                            <input type="text" class="form-control form-control-solid " name="UnitConvertFromName" id="UnitConvertFromName" readonly />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group row">
                                                         <label>الكمية المسجلة</label>
-                                                        <div class="col-9">
-                                                            <input type="text" class="form-control form-control-solid form-control-lg" name="UnitConvertFromCount" id="UnitConvertFromCount" readonly />
+                                                        <div class="col-12">
+                                                            <input type="text" class="form-control form-control-solid " name="UnitConvertFromCount" id="UnitConvertFromCount" readonly />
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4">
                                                     <div class="form-group row">
                                                         <label>الكمية المستلمة</label>
-                                                        <div class="col-9">
-                                                            <input type="number" class="form-control form-control-solid form-control-lg" value="1" name="UnitCount" id="UnitCount" onkeyup="PurchaseInvoice_Module.updateQuantity()" />
+                                                        <div class="col-12">
+                                                            <input type="number" class="form-control form-control-solid " value="1" name="UnitCount" id="UnitCount" onkeyup="PurchaseInvoice_Module.updateQuantity()" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -914,7 +914,7 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>المخزن</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                                                     <span class="form-text text-muted">اختر المخزن </span>
                                                 </div>
@@ -923,16 +923,16 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>القيمة</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control form-control-solid " name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>قيمة الخصم على الصنف</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control form-control-solid " name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />
                                                 </div>
                                             </div>
                                         </div>
@@ -940,7 +940,7 @@ else
                                         <div class="col-lg-3">
                                             <div class="form-group row">
                                                 <label>الحاوية</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     @Html.DropDownList("ContainerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select din-med" })
                                                     <span class="form-text text-muted">اختر حاوية </span>
                                                 </div>
@@ -949,15 +949,15 @@ else
                                         <div class="col-lg-3">
                                             <div class="form-group row">
                                                 <label>تاريخ دخول الصنف</label>
-                                                <div class="col-9">
-                                                    <input type="date" value="@dtEnterItem" class="form-control form-control-solid form-control-lg" name="ItemEntryDate" id="ItemEntryDate" placeholder="ادخل تاريخ دخول الصنف" />
+                                                <div class="col-12">
+                                                    <input type="date" value="@dtEnterItem" class="form-control form-control-solid " name="ItemEntryDate" id="ItemEntryDate" placeholder="ادخل تاريخ دخول الصنف" />
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>.</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <button type="button" onclick="PurchaseInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15  w-100">اضافة صنف للفاتورة</button>
                                                 </div>
                                             </div>
@@ -999,7 +999,7 @@ else
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                                 <label>المصروف</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <input name="accountTree" placeholder="اختر مسمى المصروف" type="text" class="form-control" id="accountTree" autocomplete="off" />
                                                 </div>
                                             </div>
@@ -1007,8 +1007,8 @@ else
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                                 <label>قيمة المصروف</label>
-                                                <div class="col-9">
-                                                    <input type="number" class="form-control form-control-solid form-control-lg" name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة المصروف" value="0" />
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control form-control-solid " name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة المصروف" value="0" />
                                                     <span class="form-text text-muted">ادخل قيمة المصروف</span>
                                                 </div>
                                             </div>
@@ -1016,7 +1016,7 @@ else
                                         <div class="col-lg-6">
                                             <div class="form-group row">
                                                 <label>.</label>
-                                                <div class="col-9">
+                                                <div class="col-12">
                                                     <button type="button" onclick="PurchaseInvoice_Module.addPurchaseInvoiceExpenses();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة مصروف</button>
                                                 </div>
                                             </div>
@@ -1057,62 +1057,62 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>قيمة الخصم على الفاتورة</label>
-                                                <div class="col-9">
-                                                    @*<input type="number" class="form-control form-control-solid form-control-lg" onkeyup="PurchaseInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />*@
-                                                    @Html.TextBoxFor(model => model.InvoiceDiscount, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @onkeyup = "PurchaseInvoice_Module.onInvoiceDiscountChange();", @type = "number", @placeholder = "ادخل قيمة الخصم على الفاتورة" })
+                                                <div class="col-12">
+                                                    @*<input type="number" class="form-control form-control-solid " onkeyup="PurchaseInvoice_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />*@
+                                                    @Html.TextBoxFor(model => model.InvoiceDiscount, htmlAttributes: new { @class = "form-control form-control-solid ", @onkeyup = "PurchaseInvoice_Module.onInvoiceDiscountChange();", @type = "number", @placeholder = "ادخل قيمة الخصم على الفاتورة" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>ضريبة القيمة المضافة</label>
-                                                <div class="col-9">
-                                                    @*<input type="number" class="form-control form-control-solid form-control-lg" onkeyup="PurchaseInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />*@
-                                                    @Html.TextBoxFor(model => model.SalesTax, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @onkeyup = "PurchaseInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة القيمة المضافة" })
+                                                <div class="col-12">
+                                                    @*<input type="number" class="form-control form-control-solid " onkeyup="PurchaseInvoice_Module.getSafyInvoice();" name="SalesTax" id="SalesTax" placeholder="ادخل قيمة ضريبة القيمة المضافة" value="@Model.SalesTax" />*@
+                                                    @Html.TextBoxFor(model => model.SalesTax, htmlAttributes: new { @class = "form-control form-control-solid ", @onkeyup = "PurchaseInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة القيمة المضافة" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>قيمة ضريبة ارباح تجارية</label>
-                                                <div class="col-9">
-                                                    @*<input type="number" class="form-control form-control-solid form-control-lg" onkeyup="PurchaseInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />*@
-                                                    @Html.TextBoxFor(model => model.ProfitTax, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @onkeyup = "PurchaseInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة ارباح تجارية" })
+                                                <div class="col-12">
+                                                    @*<input type="number" class="form-control form-control-solid " onkeyup="PurchaseInvoice_Module.getSafyInvoice();" name="ProfitTax" id="ProfitTax" placeholder="ادخل قيمة ضريبة ارباح تجارية" value="@Model.ProfitTax" />*@
+                                                    @Html.TextBoxFor(model => model.ProfitTax, htmlAttributes: new { @class = "form-control form-control-solid ", @onkeyup = "PurchaseInvoice_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة ارباح تجارية" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>المبلغ المدفوع</label>
-                                                <div class="col-9">
-                                                    @*<input type="number" class="form-control form-control-solid form-control-lg" onkeyup="PurchaseInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />*@
-                                                    @Html.TextBoxFor(model => model.PayedValue, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @onkeyup = "PurchaseInvoice_Module.onPayedValueChange();", @type = "number", @placeholder = "ادخل المبلغ المدفوع" })
+                                                <div class="col-12">
+                                                    @*<input type="number" class="form-control form-control-solid " onkeyup="PurchaseInvoice_Module.onPayedValueChange();" name="PayedValue" id="PayedValue" placeholder="ادخل المبلغ المدفوع" value="@Model.PayedValue" />*@
+                                                    @Html.TextBoxFor(model => model.PayedValue, htmlAttributes: new { @class = "form-control form-control-solid ", @onkeyup = "PurchaseInvoice_Module.onPayedValueChange();", @type = "number", @placeholder = "ادخل المبلغ المدفوع" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>المبلغ المتبقى</label>
-                                                <div class="col-9">
-                                                    @*<input type="number" class="form-control form-control-solid form-control-lg" name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />*@
-                                                    @Html.TextBoxFor(model => model.RemindValue, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", @type = "number", @readonly = "readonly", @placeholder = " المبلغ المتبقى" })
+                                                <div class="col-12">
+                                                    @*<input type="number" class="form-control form-control-solid " name="RemindValue" id="RemindValue" readonly value="@Model.RemindValue" />*@
+                                                    @Html.TextBoxFor(model => model.RemindValue, htmlAttributes: new { @class = "form-control form-control-solid ", @type = "number", @readonly = "readonly", @placeholder = " المبلغ المتبقى" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
                                                 <label>تاريخ استحقاق الفاتورة</label>
-                                                <div class="col-9">
-                                                    @*<input type="date" class="form-control form-control-solid form-control-lg" name="DueDate" id="DueDate" placeholder="ادخل تاريخ الاستحقاق" value="@Model.DueDate" />*@
-                                                    @Html.TextBoxFor(model => model.DueDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "date" })
+                                                <div class="col-12">
+                                                    @*<input type="date" class="form-control form-control-solid " name="DueDate" id="DueDate" placeholder="ادخل تاريخ الاستحقاق" value="@Model.DueDate" />*@
+                                                    @Html.TextBoxFor(model => model.DueDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid ", type = "date" })
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group row">
                                                 <label>ملاحظات على الفاتورة</label>
-                                                <div class="col-9">
-                                                    @Html.TextAreaFor(x => x.Notes, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                                                <div class="col-12">
+                                                    @Html.TextAreaFor(x => x.Notes, htmlAttributes: new { @class = "form-control form-control-solid " })
                                                 </div>
                                             </div>
                                         </div>

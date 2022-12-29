@@ -370,12 +370,18 @@ var StoresTransfer_Module = function () {
     function getSaleMenFromChanged() {  //
         $.get("/SharedDataSources/GetSaleMenByStore", { id: $("#StoreFromId").val() }, function (data) {
             console.log(data);
-            $("#saleMenFromName").text(data.saleMenName);
+            if (data.saleMenName != '') {
+                $("#saleMenFromName").text(data.saleMenName);
+            }
+            
         });
     };
     function getSaleMenToChanged() {  //
         $.get("/SharedDataSources/GetSaleMenByStore", { id: $("#StoreToId").val() }, function (data) {
-            $("#saleMenToName").text(data.saleMenName);
+            if (data.saleMenName!='') {
+                $("#saleMenToName").text(data.saleMenName);
+            }
+            
         });
     };
     //#endregion ========== end Step 1 ============

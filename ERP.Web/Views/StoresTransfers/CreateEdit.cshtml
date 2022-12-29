@@ -18,301 +18,526 @@
         icon = "fa fa-edit m-1";
         totalQuantity = Model.StoresTransferDetails.Where(x => !x.IsDeleted).Sum(x => (double?)x.Quantity ?? 0);
     }
+    bool shwTab = ViewBag.ShowTab;
 
 }
 
 @section PageTitle1{التحويلات}
 @section PageTitle2{@title }
-@section Button1{ادارة التحويلات المخزنية}
-@section Button1Link{/StoresTransfers/Index}
-@section icon{<i class="fa fa-cog m-1"></i>}
+@{
+    if (shwTab)
+    {
+        @section Button1{عرض الشاشة صفحة واحدة}
+        @section Button1Link{/StoresTransfers/CreateEdit/?shwTab=0}
+        @section icon{<i class="fas fa-redo"></i>}
+    }
+    else
+    {
+        @section Button1{عرض الشاشة كتقسيمات}
+        @section Button1Link{/StoresTransfers/CreateEdit/?shwTab=1}
+        @section icon{<i class="fas fa-redo"></i>}
+    }
+}
+@*@section Button1{ادارة التحويلات المخزنية}
+    @section Button1Link{/StoresTransfers/Index}
+    @section icon{<i class="fa fa-cog m-1"></i>}*@
+@section Button2{<a href="/StoresTransfers/Index" class="btn btn-primary din-bold d-inline" style="margin-right:20px;"><i class="fa fa-cog m-1"></i>ادارة التحويلات المخزنية</a>}
 
 @Html.Hidden("ItemAcceptNoBalance")
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div id="basic-pills-wizard" class="twitter-bs-wizard">
-                <div class="card-header din-bold">
-                    <ul class="twitter-bs-wizard-nav">
-                        <li class="nav-item">
-                            <a href="#window1" class="nav-link mx-40" data-toggle="tab">
-                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="1. البيانات الاساسية لعملية التحويل">
-                                    <i class="bx bx-list-ul"></i>
-                                </div>
-                                <h4 style="margin-top:30px;">1. البيانات الاساسية لعملية التحويل</h4>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#window2" class="nav-link" data-toggle="tab">
-                                <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="2. الاصناف المحولة">
-                                    <i class="bx bxs-bank"></i>
-                                </div>
-                                <h4 style="margin-top:30px;">2. الاصناف المحولة</h4>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="card-body">
+@if (shwTab)
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div id="basic-pills-wizard" class="twitter-bs-wizard">
+                    <div class="card-header din-bold">
+                        <ul class="twitter-bs-wizard-nav">
+                            <li class="nav-item">
+                                <a href="#window1" class="nav-link mx-40" data-toggle="tab">
+                                    <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="1. البيانات الاساسية لعملية التحويل">
+                                        <i class="bx bx-list-ul"></i>
+                                    </div>
+                                    <h4 style="margin-top:30px;">1. البيانات الاساسية لعملية التحويل</h4>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#window2" class="nav-link" data-toggle="tab">
+                                    <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="2. الاصناف المحولة">
+                                        <i class="bx bxs-bank"></i>
+                                    </div>
+                                    <h4 style="margin-top:30px;">2. الاصناف المحولة</h4>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-body">
 
 
-                    @using (Html.BeginForm("CreateEdit", "StoresTransfers", FormMethod.Post, htmlAttributes: new { id = "kt_form" }))
-                    {
-                        <div class="tab-content twitter-bs-wizard-tab-content din-bold">
+                        @using (Html.BeginForm("CreateEdit", "StoresTransfers", FormMethod.Post, htmlAttributes: new { id = "kt_form" }))
+                        {
+                            <div class="tab-content twitter-bs-wizard-tab-content din-bold">
 
-                            <!--begin::Wizard Step 1 البيانات الاساسية-->
-                            <div class="tab-pane" id="window1">
-                                <div class="text-center mb-4">
-                                    <h5>البيانات الاساسية</h5>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group">
-                                            <label>الفرع</label>
-                                            @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
-                                            @Html.HiddenFor(x => x.Id)
-                                        </div>
+                                <!--begin::Wizard Step 1 البيانات الاساسية-->
+                                <div class="tab-pane" id="window1">
+                                    <div class="text-center mb-4">
+                                        <h5>البيانات الاساسية</h5>
                                     </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group">
-                                            <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenFromName">من مخزن</span></label>
-                                            @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenFromChanged();" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group">
-                                            <label>الفرع</label>
-                                            @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
-                                        </div>
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group">
-                                            <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenToName">الى مخزن</span></label>
-                                            @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenToChanged();" })
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>تاريخ التحويل</label>
-                                            @Html.TextBoxFor(model => model.TransferDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "date" })
-                                            <span class="form-text text-muted">اختر تاريخ العملية </span>
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                    @*<div class="col-xl-6">
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
                                             <div class="form-group">
-                                                <label>تحويل من/الى مندوب</label>
-                                                @Html.CheckBoxFor(model => model.ForSaleMen, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg",@onchange= "showSaleMenDiv()" })
+                                                <label>الفرع</label>
+                                                @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+                                                @Html.HiddenFor(x => x.Id)
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenFromName">من مخزن</span></label>
+                                                @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenFromChanged();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label>الفرع</label>
+                                                @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenToName">الى مخزن</span></label>
+                                                @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getSaleMenToChanged();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>تاريخ التحويل</label>
+                                                @Html.TextBoxFor(model => model.TransferDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid form-control-lg", type = "date" })
+                                                <span class="form-text text-muted">اختر تاريخ العملية </span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                        @*<div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>تحويل من/الى مندوب</label>
+                                                    @Html.CheckBoxFor(model => model.ForSaleMen, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg",@onchange= "showSaleMenDiv()" })
+                                                </div>
+                                            </div>*@
+                                    </div>
+                                    @*<div class="row saleMenDiv" style="display:none;">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>من الادارة</label>
+                                                    @Html.DropDownList("DepartmentFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('1')" })
+                                                    <span class="form-text text-muted">اختر الادارة </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>من المندوب</label>
+                                                    @Html.DropDownList("EmployeeFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row saleMenDiv" style="display:none;">
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>الى الادارة</label>
+                                                    @Html.DropDownList("DepartmentToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('2')" })
+                                                    <span class="form-text text-muted">اختر الادارة </span>
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group">
+                                                    <label>الى المندوب</label>
+                                                    @Html.DropDownList("EmployeeToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
+                                                </div>
                                             </div>
                                         </div>*@
-                                </div>
-                                @*<div class="row saleMenDiv" style="display:none;">
-                                        <div class="col-xl-6">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <!--begin::Input-->
                                             <div class="form-group">
-                                                <label>من الادارة</label>
-                                                @Html.DropDownList("DepartmentFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('1')" })
-                                                <span class="form-text text-muted">اختر الادارة </span>
+                                                <label>ملاحظات</label>
+                                                @Html.TextAreaFor(model => model.Notes, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
                                             </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="form-group">
-                                                <label>من المندوب</label>
-                                                @Html.DropDownList("EmployeeFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
-                                            </div>
+                                            <!--end::Input-->
                                         </div>
                                     </div>
-                                    <div class="row saleMenDiv" style="display:none;">
-                                        <div class="col-xl-6">
-                                            <div class="form-group">
-                                                <label>الى الادارة</label>
-                                                @Html.DropDownList("DepartmentToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2", @onchange = "StoresTransfer_Module.getSaleMenDepartmentChange('2')" })
-                                                <span class="form-text text-muted">اختر الادارة </span>
-                                            </div>
-                                        </div>
-                                        <div class="col-xl-6">
-                                            <div class="form-group">
-                                                <label>الى المندوب</label>
-                                                @Html.DropDownList("EmployeeToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med select2" })
-                                            </div>
-                                        </div>
-                                    </div>*@
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>ملاحظات</label>
-                                            @Html.TextAreaFor(model => model.Notes, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
 
-                                <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                    <li class="next">
-                                        <a href="javascript: void(0);" class="btn btn-primary">
-                                            التالي <i class="bx bx-chevron-left ms-1"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <!--end::Wizard Step 1-->
-                            <!--begin::Wizard Step 2 ادخال اصناف الفاتورة-->
-                            <div class="tab-pane" id="window2">
-                                <div class="text-center mb-4 din-bold">
-                                    <h5>اضافة اصناف الفاتورة</h5>
+                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                        <li class="next">
+                                            <a href="javascript: void(0);" class="btn btn-primary">
+                                                التالي <i class="bx bx-chevron-left ms-1"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                @*<div class="row">
-                                        <div class="col-lg-12">
+                                <!--end::Wizard Step 1-->
+                                <!--begin::Wizard Step 2 ادخال اصناف الفاتورة-->
+                                <div class="tab-pane" id="window2">
+                                    <div class="text-center mb-4 din-bold">
+                                        <h5>اضافة اصناف الفاتورة</h5>
+                                    </div>
+                                    @*<div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label>باركود الصنف</label>
+                                                    @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                                                    <span class="form-text text-muted">باركود الصنف</span>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    <div class="row mb-3">
+                                        <label>حالة البيع</label>
+                                        <div class="col-3">
+                                            <div class="form-check form-check-inline ">
+                                                <label class="form-check-label">
+                                                    بيع بكميات
+                                                </label>
+                                                <input class="form-check-input" type="radio" checked name="radios2" id="rdo_barcode" onchange="StoresTransfer_Module.onRdoBarcodeChanged();" />
+                                            </div>
+                                        </div>
+                                        <div class="col-3">
+                                            <div class="form-check form-check-inline">
+                                                <label class="form-check-label">
+                                                    بيع حسب السيريال نمبر
+                                                </label>
+                                                <input class="form-check-input" type="radio" name="radios2" id="rdo_serial" onchange="StoresTransfer_Module.onRdoSerialChanged();" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-lg-12" id="barcodeDiv">
                                             <div class="form-group">
                                                 <label>باركود الصنف</label>
                                                 @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
                                                 <span class="form-text text-muted">باركود الصنف</span>
                                             </div>
                                         </div>
-                                    </div>*@
-                                <div class="row mb-3">
-                                    <label>حالة البيع</label>
-                                    <div class="col-3">
-                                        <div class="form-check form-check-inline ">
-                                            <label class="form-check-label">
-                                                بيع بكميات
-                                            </label>
-                                            <input class="form-check-input" type="radio" checked name="radios2" id="rdo_barcode" onchange="StoresTransfer_Module.onRdoBarcodeChanged();" />
-                                        </div>
-                                    </div>
-                                    <div class="col-3">
-                                        <div class="form-check form-check-inline">
-                                            <label class="form-check-label">
-                                                بيع حسب السيريال نمبر
-                                            </label>
-                                            <input class="form-check-input" type="radio" name="radios2" id="rdo_serial" onchange="StoresTransfer_Module.onRdoSerialChanged();" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-12" id="barcodeDiv">
-                                        <div class="form-group">
-                                            <label>باركود الصنف</label>
-                                            @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
-                                            <span class="form-text text-muted">باركود الصنف</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-12 " style="display:none;" id="serialDiv">
-                                        <div class="form-group">
-                                            <label>سيريال الصنف</label>
-                                            @Html.TextBox("ItemSerial", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
-                                            <span class="form-text text-muted">سيريال الصنف</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="form-group required">
-                                            <label> المجموعة الاساسية</label>
-                                            <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
-                                            <span class="form-text text-muted">اختر مجموعة</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="form-group required">
-                                            <label>الصنف</label>
-                                            @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "StoresTransfer_Module.onItemChange()" })
-                                            <span class="form-text text-muted">اختر الصنف</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-6">
-                                        <!--begin::Select-->
-                                        <div class="form-group required">
-                                            <label>اوامر الانتاج/الرصيد المتاح</label>
-                                            <select class="form-control din-med" id="balanceProductionOrder" onchange="StoresTransfer_Module.onProductionOrderChange()"></select>
-                                            <input type="hidden" id="balanceVal" />
-                                            <input type="hidden" id="serialItemId" />
-                                            <input type="hidden" id="productionOrderId" />
-                                            <input type="hidden" id="isIntial" />
-                                            <span class="form-text text-muted">اختر الرصيد </span>
-                                        </div>
-                                        <!--end::Select-->
-                                    </div>
-                                    <div class="col-xl-6">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>الكمية</label>
-                                            <input type="number" class="form-control form-control-solid form-control-lg" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="StoresTransfer_Module.onPriceOrQuanKeyUp();" />
-                                            <span class="form-text text-muted">ادخل كمية الصنف</span>
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <!--begin::Input-->
-                                        <div class="form-group">
-                                            <label>.</label>
-                                            <button type="button" onclick="StoresTransfer_Module.addItemDetails();" class="btn btn-primary font-weight-bold px-15 w-100">اضافة صنف </button>
-                                        </div>
-                                        <!--end::Input-->
-                                    </div>
-                                </div>
-
-                                <div class="row mt-10">
-
-
-                                    <label>الاصناف المسجلة</label>
-                                    <table style="width:100%!important;" class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
-                                        <thead>
-                                        </thead>
-                                        <tbody></tbody>
-                                        <tfoot></tfoot>
-                                    </table>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xl-12">
-                                        <div class="d-flex justify-content-between flex-column  font-size-lg">
-                                            <div class="d-flex flex-column text-md-center">
-                                                <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
-                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>                                            @*<span>Taxes Included</span>*@
+                                        <div class="col-lg-12 " style="display:none;" id="serialDiv">
+                                            <div class="form-group">
+                                                <label>سيريال الصنف</label>
+                                                @Html.TextBox("ItemSerial", null, htmlAttributes: new { @class = "form-control form-control-solid form-control-lg" })
+                                                <span class="form-text text-muted">سيريال الصنف</span>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label> المجموعة الاساسية</label>
+                                                <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
+                                                <span class="form-text text-muted">اختر مجموعة</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group required">
+                                                <label>الصنف</label>
+                                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "StoresTransfer_Module.onItemChange()" })
+                                                <span class="form-text text-muted">اختر الصنف</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group required">
+                                                <label>اوامر الانتاج/الرصيد المتاح</label>
+                                                <select class="form-control din-med" id="balanceProductionOrder" onchange="StoresTransfer_Module.onProductionOrderChange()"></select>
+                                                <input type="hidden" id="balanceVal" />
+                                                <input type="hidden" id="serialItemId" />
+                                                <input type="hidden" id="productionOrderId" />
+                                                <input type="hidden" id="isIntial" />
+                                                <span class="form-text text-muted">اختر الرصيد </span>
+                                            </div>
+                                            <!--end::Select-->
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>الكمية</label>
+                                                <input type="number" class="form-control form-control-solid form-control-lg" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="StoresTransfer_Module.onPriceOrQuanKeyUp();" />
+                                                <span class="form-text text-muted">ادخل كمية الصنف</span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>.</label>
+                                                <button type="button" onclick="StoresTransfer_Module.addItemDetails();" class="btn btn-primary font-weight-bold px-15 w-100">اضافة صنف </button>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+
+                                    <div class="row mt-10">
 
 
+                                        <label>الاصناف المسجلة</label>
+                                        <table style="width:100%!important;" class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
+                                            <thead>
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                <div class="d-flex flex-column text-md-center">
+                                                    <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
+                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>                                            @*<span>Taxes Included</span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <ul class="pager wizard twitter-bs-wizard-pager-link">
+                                        <li class="previous">
+                                            <a href="javascript: void(0);" class="btn btn-primary">
+                                                <i class="bx bx-chevron-right me-1"></i> السابق
+                                            </a>
+                                        </li>
+                                        <li class="float-end">
+                                            <a href="javascript: void(0);" class="btn btn-primary" data-bs-toggle="modal" onclick="StoresTransfer_Module.SubmitForm(this)"
+                                               data-bs-target=".confirmModal">
+                                                <i class="fa fa-plus-circle"></i>
+                                                حفظ عملية التحويل المخزنى
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
-                                <ul class="pager wizard twitter-bs-wizard-pager-link">
-                                    <li class="previous">
-                                        <a href="javascript: void(0);" class="btn btn-primary">
-                                            <i class="bx bx-chevron-right me-1"></i> السابق
-                                        </a>
-                                    </li>
-                                    <li class="float-end">
-                                        <a href="javascript: void(0);" class="btn btn-primary" data-bs-toggle="modal" onclick="StoresTransfer_Module.SubmitForm(this)"
-                                           data-bs-target=".confirmModal">
-                                            <i class="fa fa-plus-circle"></i>
-                                            حفظ عملية التحويل المخزنى
-                                        </a>
-                                    </li>
-                                </ul>
                             </div>
-                        </div>
 
-                    }
-                    <!--end::Wizard Form-->
+                        }
+                        <!--end::Wizard Form-->
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+}
+else
+{
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-custom card-sticky" id="kt_page_sticky_card">
+                <div class="card-body">
+                    @using (Html.BeginForm("CreateEdit", "StoresTransfers", FormMethod.Post, htmlAttributes: new { id = "kt_form" }))
+                    {
+                        <div class="row">
+                            <div class="col-xl-1"></div>
+                            <div class="col-xl-10">
+                                <div class="my-5 din-med">
+                                    <h3 class="text-dark font-weight-bold mb-10 din-med">البيانات الاساسية </h3>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label>الفرع</label>
+                                                @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+                                                @Html.HiddenFor(x => x.Id)
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenFromName">من مخزن</span></label>
+                                                @Html.DropDownList("StoreFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getSaleMenFromChanged();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label>الفرع</label>
+                                                @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <!--begin::Select-->
+                                            <div class="form-group">
+                                                <label> <span class="badge bg-soft-warning text-black fa-1x" id="saleMenToName">الى مخزن</span></label>
+                                                @Html.DropDownList("StoreToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getSaleMenToChanged();" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>تاريخ التحويل</label>
+                                                @Html.TextBoxFor(model => model.TransferDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control form-control-solid ", type = "date" })
+                                                <span class="form-text text-muted">اختر تاريخ العملية </span>
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <!--begin::Input-->
+                                            <div class="form-group">
+                                                <label>ملاحظات</label>
+                                                @Html.TextAreaFor(model => model.Notes, htmlAttributes: new { @class = "form-control form-control-solid " })
+                                            </div>
+                                            <!--end::Input-->
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="my-5 din-med">
+                                    <h3 class="text-dark font-weight-bold mb-10 din-med">اضافة اصناف الفاتورة </h3>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group row">
+                                                <label>حالة البيع</label>
+                                                <div class="col-9">
+                                                    <div class="radio-inline">
+                                                        <div class="col-xl-6">
+                                                            <label class="radio">
+                                                                <input type="radio" checked name="radios2" id="rdo_barcode" onchange="StoresTransfer_Module.onRdoBarcodeChanged();" />
+                                                                <span></span>بيع بكميات
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <label class="radio">
+                                                                <input type="radio" name="radios2" id="rdo_serial" onchange="StoresTransfer_Module.onRdoSerialChanged();" />
+                                                                <span></span>بيع حسب السيريال نمبر
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" id="barcodeDiv">
+                                            <div class="form-group row">
+                                                <label>باركود الصنف</label>
+                                                <div class="col-12">
+                                                    @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control " })
+                                                    <span class="form-text text-muted">باركود الصنف</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6" style="display:none;" id="serialDiv">
+                                            <div class="form-group row">
+                                                <label>سيريال الصنف</label>
+                                                <div class="col-12">
+                                                    @Html.TextBox("ItemSerial", null, htmlAttributes: new { @class = "form-control " })
+                                                    <span class="form-text text-muted">سيريال الصنف</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group row">
+                                                <label>المجموعة الاساسية</label>
+                                                <div class="col-12">
+                                                    <input name="groupBasic" type="text" class="form-control " id="groupBasic" autocomplete="off" />
+                                                    <span class="form-text text-muted">اختر مجموعة</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="form-group row">
+                                                <label>الصنف</label>
+                                                <div class="col-12">
+                                                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 w-100", @onchange = "StoresTransfer_Module.onItemChange()" })
+                                                    <span class="form-text text-muted">اختر الصنف</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4">
+                                            <div class="form-group row">
+                                                <label>اوامر الانتاج/الرصيد المتاح</label>
+                                                <select class="form-control din-med" id="balanceProductionOrder" onchange="StoresTransfer_Module.onProductionOrderChange()"></select>
+                                                <input type="hidden" id="balanceVal" />
+                                                <input type="hidden" id="serialItemId" />
+                                                <input type="hidden" id="productionOrderId" />
+                                                <input type="hidden" id="isIntial" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group row">
+                                                <label>الكمية</label>
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="StoresTransfer_Module.onPriceOrQuanKeyUp();" />
+                                                    <span class="form-text text-muted">ادخل كمية الصنف</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 mt-3">
+                                            <div class="form-group row">
+                                                <label></label>
+                                                <div class="col-12">
+                                                    <button type="button" onclick="StoresTransfer_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-10">
+                                        <label>الاصناف المسجلة</label>
+                                        <table style="width:100%!important;" class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
+                                            <thead>
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot></tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                <div class="d-flex flex-column text-md-center">
+                                                    <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
+                                                    <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>                                            @*<span>Taxes Included</span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <a href="javascript: void(0);" class="btn btn-primary w-100" data-bs-toggle="modal" onclick="StoresTransfer_Module.SubmitForm(this)"
+                                               data-bs-target=".confirmModal">
+                                                <i class="fa fa-plus-circle"></i>
+                                                حفظ عملية التحويل المخزنى
+                                            </a>
+                                        </div>
+                                </div>
+
+                                    </div>
+                                    <div class="col-xl-1"></div>
+                                </div>
+                            </div>
+
+                                }
+              
+                            </div>
+
+                        </div>
+                    </div>
+    </div>
+
+}
 @section Scripts
 {
     <script src="~/Assets/JSCustom/StoresTransfer.js"></script>
@@ -351,7 +576,7 @@
                             });
                             $("#Quantity").val(1);
                             //if (data[0].Name != null) {
-                            //    SellInvoice_Module.onItemChange();
+                            //    StoresTransfer_Module.onItemChange();
                             //}
                             var currentStore = data[0].CurrentStore;
                             if ($("#StoreFromId option[value=" + currentStore + "]").length > 0) {

@@ -175,13 +175,18 @@ namespace ERP.Web.Controllers
 
         #region تسجيل تحويل مخزنى
         [HttpGet]
-        public ActionResult CreateEdit()
+        public ActionResult CreateEdit(string shwTab)
         {
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             var vm = new StoresTransfer();
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            if (shwTab != null && shwTab == "1")
+                ViewBag.ShowTab = true;
+            else
+                ViewBag.ShowTab = false;
+
             if (TempData["model"] != null) //edit
             {
                 Guid guId;

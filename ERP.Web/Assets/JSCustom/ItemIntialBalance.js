@@ -74,13 +74,10 @@ var ItemIntialBalance_Module = function () {
             },
             columns: [
                 { data: 'Num', responsivePriority: 0 },
-                { data: 'ItemName', title: 'اسم الصنف' },
-                { data: 'Quantity', title: 'الكمية' },
-                { data: 'Price', title: 'السعر' },
-                { data: 'Amount', title: 'الاجمالى' },
+                { data: 'DateIntial', title: 'التاريخ' },
+                { data: 'InvoiceNumber', title: 'رقم العملية' },
+                { data: 'TotalAmount', title: 'اجمالى القيمة' },
                 { data: 'IsApprovalStatus', title: 'حالة الاعتماد' },
-                { data: 'StoreName', title: 'المخزن' },
-                { data: 'CreatedOn', title: 'التاريخ' },
                 { data: 'Actions', responsivePriority: -1 },
 
             ],
@@ -101,12 +98,16 @@ var ItemIntialBalance_Module = function () {
                             return '\
 							<div class="btn-group">\
                             <a href="javascript:;" onclick=ItemIntialBalance_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
-								<i class="fa fa-unlock-alt"></i>\</div>\
+								<i class="fa fa-unlock-alt"></i></a><a href="/ItemIntialBalances/ShowDetails/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
+								<i class="fa fa-search"></i>\
+							</a>\</div>\
 						';
                         } else {
                             return '\
 							<div class="btn-group">\
-							<a href="javascript:;" onclick=ItemIntialBalance_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+							<a href="/ItemIntialBalances/ShowDetails/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\
+								<i class="fa fa-search"></i>\
+							</a><a href="javascript:;" onclick=ItemIntialBalance_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=ItemIntialBalance_Module.approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-unlock-alt"></i>\
@@ -120,7 +121,7 @@ var ItemIntialBalance_Module = function () {
             drawCallback: function () {
                 var html = ' <tr><th colspan ="9" style= "text-align:center" ><div class="row alert-success">الاجمالى : <label>';
                 var api = this.api();
-                var balance = api.column(4).data().sum();
+                var balance = api.column(3).data().sum();
                 $(api.table().footer()).html(html + balance + '</label></div></th>  </tr>');
             },
 
@@ -147,6 +148,8 @@ var ItemIntialBalance_Module = function () {
     function SubmitForm(btn) {
         try {
             var dateIntial = $("#DateIntial").val();
+            var branchId = $("#BranchId").val();
+            var notes = $("#Notes").val();
             if (dateIntial == null) {
                 toastr.error('تأكد من اختيار تاريخ رصيد اول المدة', '');
                 return false;
@@ -161,7 +164,7 @@ var ItemIntialBalance_Module = function () {
             $.ajax({
                 type: 'POST',
                 url: '/ItemIntialBalances/CreateEdit',
-                data: { 'DT_Datasource': DT_Datasource, DateIntial: dateIntial },
+                data: { 'DT_Datasource': DT_Datasource, DateIntial: dateIntial, Notes: notes, BranchId: branchId },
                 success: function (res) {
                     if (res.isValid) {
                         //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 

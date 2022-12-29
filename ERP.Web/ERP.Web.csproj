@@ -2375,6 +2375,7 @@
     <Content Include="Views\AccountTreeIntialBalances\Index.cshtml" />
     <Content Include="Views\AccountTreeIntialBalances\CreateEdit.cshtml" />
     <Content Include="Views\PrintInvoices\ShowPrintInvoice.cshtml" />
+    <Content Include="Views\ItemIntialBalances\ShowDetails.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

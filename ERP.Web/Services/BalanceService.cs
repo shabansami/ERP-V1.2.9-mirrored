@@ -88,15 +88,15 @@ namespace ERP.Web.Services
                 if (dtTo != null)
                     storeTranToBalance = storeTranToBalance.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) <= dtTo);
                 //ارصدة اول المدة
-                var itemIntialBalance = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId && x.IsApproval);
+                var itemIntialBalance = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.ItemIntialBalance.IsApproval);
                 if (storeId != null)
                     itemIntialBalance = itemIntialBalance.Where(x => x.StoreId == storeId);
                 if (branchId != null)
                     itemIntialBalance = itemIntialBalance.Where(x => x.Store.BranchId == branchId);
                 if (dtFrom != null)
-                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.DateIntial) >= dtFrom);
+                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) >= dtFrom);
                 if (dtTo != null)
-                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.DateIntial) <= dtTo);
+                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) <= dtTo);
                 //اوامر الانتاج الخارجة 
                 var productionOrders = db.ProductionOrderDetails.Where(x => !x.IsDeleted&&x.ProductionTypeId==(int)ProductionTypeCl.Out&&x.ItemId==itemId);
                 if (storeId != null)
@@ -289,15 +289,15 @@ namespace ERP.Web.Services
                 if (dtTo != null)
                     storeTranToBalance = storeTranToBalance.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) <= dtTo);
 
-                var itemIntialBalance = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId && x.IsApproval);
+                var itemIntialBalance = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.ItemIntialBalance.IsApproval);
                 if (storeId != null)
                     itemIntialBalance = itemIntialBalance.Where(x => x.StoreId == storeId);
                 if (branchId != null)
                     itemIntialBalance = itemIntialBalance.Where(x => x.Store.BranchId == branchId);
                 if (dtFrom != null)
-                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.DateIntial) >= dtFrom);
+                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) >= dtFrom);
                 if (dtTo != null)
-                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.DateIntial) <= dtTo);
+                    itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) <= dtTo);
 
                 //var productionOrders = db.ProductionOrders.Where(x => !x.IsDeleted /*&& x.FinalItemId == itemId*/);
                 //اوامر الانتاج الخارجة 
@@ -1135,17 +1135,17 @@ namespace ERP.Web.Services
         //رصيد اول
         static List<ItemActionDto> InitialBalances(VTSaleEntities db, Guid? itemId, Guid? storeId, DateTime? dtFrom, DateTime? dtTo)
         {
-            IQueryable<ItemIntialBalance> initialBalanceIQ = null;
-            initialBalanceIQ = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId);
+            IQueryable<ItemIntialBalanceDetail> initialBalanceIQ = null;
+            initialBalanceIQ = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId);
             if (storeId != null)
                 initialBalanceIQ = initialBalanceIQ.Where(x => x.StoreId == storeId);
             if (dtFrom != null && dtTo != null)
-                initialBalanceIQ = initialBalanceIQ.Where(x => DbFunctions.TruncateTime(x.DateIntial) >= dtFrom && DbFunctions.TruncateTime(x.DateIntial) <= dtTo);
+                initialBalanceIQ = initialBalanceIQ.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) >= dtFrom && DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) <= dtTo);
             return initialBalanceIQ
                  .Select(x => new ItemActionDto
                  {
                      ActionType = "رصيد اول",
-                     InvoiceDate = x.DateIntial.ToString(),
+                     InvoiceDate = x.ItemIntialBalance.DateIntial.ToString(),
                      InvoiceNumber = null,
                      PersonName = "رصيد اول",
                      StoreName = x.Store != null ? x.Store.Name : null,
@@ -1466,18 +1466,18 @@ namespace ERP.Web.Services
         //رصيد اول
         static List<ItemMovementdDto> InitialBalancesMovement(VTSaleEntities db, Guid? itemId, Guid? storeId, DateTime? dtFrom, DateTime? dtTo)
         {
-            IQueryable<ItemIntialBalance> initialBalanceIQ = null;
-            initialBalanceIQ = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId);
+            IQueryable<ItemIntialBalanceDetail> initialBalanceIQ = null;
+            initialBalanceIQ = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId);
             if (storeId != null)
                 initialBalanceIQ = initialBalanceIQ.Where(x => x.StoreId == storeId);
             if (dtFrom != null && dtTo != null)
-                initialBalanceIQ = initialBalanceIQ.Where(x => DbFunctions.TruncateTime(x.DateIntial) >= dtFrom && DbFunctions.TruncateTime(x.DateIntial) <= dtTo);
+                initialBalanceIQ = initialBalanceIQ.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) >= dtFrom && DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) <= dtTo);
             return initialBalanceIQ
                  .Select(x => new ItemMovementdDto
                  {
                      ActionType = "رصيد اول",
-                     ActionDate = x.DateIntial.ToString(),
-                    DateReal = x.DateIntial,
+                     ActionDate = x.ItemIntialBalance.DateIntial.ToString(),
+                    DateReal = x.ItemIntialBalance.DateIntial,
                      IncomingQuantity = x.Quantity,
                      IncomingCost = x.Amount,
                  }).ToList();

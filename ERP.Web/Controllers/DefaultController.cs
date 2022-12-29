@@ -38,8 +38,8 @@ namespace ERP.Web.Controllers
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             List<Page> pages = new List<Page>();
-            Guid roleID = new Guid("37AC012B-0C26-4DDA-8A6E-1F4C6E78F78E");
-            Guid userId = new Guid("B4A8212F-CD4C-43A8-AF0D-F5E1248B3CDE");
+            Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
+            Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
             //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -94,6 +94,9 @@ namespace ERP.Web.Controllers
             //db.TransactionsTypes.Add(new TransactionsType
             //{
             //    Name = "رصيد اول المدة" });
+            //db.SaveChanges(userId);
+            //var pag4 = db.Pages.Where(x => x.Id == 44).FirstOrDefault();
+            //pag4.OtherUrls = "/ItemIntialBalances/ShowDetails";
             //db.SaveChanges(userId);
 
             //var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;

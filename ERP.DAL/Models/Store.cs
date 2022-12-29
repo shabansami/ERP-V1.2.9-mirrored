@@ -20,7 +20,7 @@ namespace ERP.DAL
         {
             this.Employees = new HashSet<Employee>();
             this.InventoryInvoices = new HashSet<InventoryInvoice>();
-            this.ItemIntialBalances = new HashSet<ItemIntialBalance>();
+            this.ItemIntialBalanceDetails = new HashSet<ItemIntialBalanceDetail>();
             this.ItemSerials = new HashSet<ItemSerial>();
             this.MaintenanceDamages = new HashSet<MaintenanceDamage>();
             this.MaintenancesStores = new HashSet<Maintenance>();
@@ -58,7 +58,7 @@ namespace ERP.DAL
 
         public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<InventoryInvoice> InventoryInvoices { get; set; }
-        public virtual ICollection<ItemIntialBalance> ItemIntialBalances { get; set; }
+        public virtual ICollection<ItemIntialBalanceDetail> ItemIntialBalanceDetails { get; set; }
         public virtual ICollection<ItemSerial> ItemSerials { get; set; }
         public virtual ICollection<MaintenanceDamage> MaintenanceDamages { get; set; }
 

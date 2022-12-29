@@ -45,6 +45,8 @@ namespace ERP.DAL
             this.EmployeeBranches = new HashSet<EmployeeBranch>();
             this.EmployeeReturnCustodies = new HashSet<EmployeeReturnCustody>();
             this.AccountTreeIntialBalances = new HashSet<AccountTreeIntialBalance>();
+            this.GeneralRecords = new HashSet<GeneralRecord>();
+            this.ItemIntialBalances = new HashSet<ItemIntialBalance>();
         }
 
         public string Name { get; set; }
@@ -83,5 +85,7 @@ namespace ERP.DAL
         public virtual ICollection<EmployeeBranch> EmployeeBranches { get; set; }
         public virtual ICollection<EmployeeReturnCustody> EmployeeReturnCustodies { get; set; }
         public virtual ICollection<AccountTreeIntialBalance> AccountTreeIntialBalances { get; set; }
+        public virtual ICollection<GeneralRecord> GeneralRecords { get; set; }
+        public virtual ICollection<ItemIntialBalance> ItemIntialBalances { get; set; }
     }
 }

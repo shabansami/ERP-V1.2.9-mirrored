@@ -7,7 +7,7 @@
     //if (Model.Id == Guid.Empty)
     //{
     title = "اضافة رصيد أول المدة للأصنــاف";
-    btn = "حفــظ رصيد أول المدة للأصناف المحددة";
+    btn = "حفــظ رصيد أول المدة للأصناف ";
     icon = "fa fa-plus-circle m-1"; @*}
         else
         {
@@ -55,6 +55,12 @@
             <div class="form-group required">
                 <label>تاريخ رصيد اول </label>
                 @Html.TextBox("DateIntial", Utility.GetDateTime(), "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>
+         <div class="col-lg-12">
+            <div class="form-group">
+                <label>ملاحظات </label>
+                @Html.TextArea("Notes",null,  htmlAttributes: new { @class = "form-control din-med" })
             </div>
         </div>
 

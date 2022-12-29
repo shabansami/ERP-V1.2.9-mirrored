@@ -12,24 +12,24 @@ namespace ERP.DAL
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity;
     using ERP.DAL.Models;
 
     public partial class ItemIntialBalance : BaseModel
     {
-        [ForeignKey(nameof(AccountTree))]
-        public Nullable<Guid> AccountTreeId { get; set; }
+        public ItemIntialBalance()
+        {
+            ItemIntialBalanceDetails = new HashSet<ItemIntialBalanceDetail>();
+        }
+        [ForeignKey(nameof(Branch))]
+        public Nullable<Guid> BranchId { get; set; }
         public Nullable<System.DateTime> DateIntial { get; set; }
-        [ForeignKey(nameof(Item))]
-        public Nullable<Guid> ItemId { get; set; }
-        public double Quantity { get; set; }
-        public double Price { get; set; }
-        public double Amount { get; set; }
-        [ForeignKey(nameof(Store))]
-        public Nullable<Guid> StoreId { get; set; }
         public bool IsApproval { get; set; }
-    
-        public virtual AccountsTree AccountTree { get; set; }
-        public virtual Item Item { get; set; }
-        public virtual Store Store { get; set; }
+        public string Notes { get; set; }
+        public string InvoiceNumber { get; set; }
+
+        public virtual Branch Branch { get; set; }
+
+        public virtual ICollection<ItemIntialBalanceDetail> ItemIntialBalanceDetails { get; set; }
     }
 }

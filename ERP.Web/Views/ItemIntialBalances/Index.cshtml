@@ -60,7 +60,7 @@
             </div>
             <div class="card-body">
                 <div class="row ">
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <div class="form-group mb-0 w-100">
                             <div class="input-icon input-icon-right">
                                 <label>بحث</label>
@@ -71,22 +71,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
-                        <div class="form-group mb-0 w-100">
-                            <div>
-                                <label> الصنف</label>
-                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="form-group mb-0 w-100">
-                            <div>
-                                <label> المخزن</label>
-                                @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                            </div>
-                        </div>
-                    </div>
+                    @*<div class="col-lg-4">
+            <div class="form-group mb-0 w-100">
+                <div>
+                    <label> الصنف</label>
+                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group mb-0 w-100">
+                <div>
+                    <label> المخزن</label>
+                    @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                </div>
+            </div>
+        </div>*@
                 </div>
                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
                     <thead>
@@ -94,7 +94,7 @@
                     <tbody></tbody>
                     <tfoot>
                         <tr>
-                            <th colspan="8" style="text-align:right">Total:</th>
+                            <th colspan="5" style="text-align:right">Total:</th>
                             <th></th>
                         </tr>
                     </tfoot>
@@ -113,20 +113,20 @@
             $('#kt_datatable_search_query').on('keyup', function () {
                 $('#kt_datatable').DataTable().search(this.value).draw();
             });
-            $('#ItemId').on('change', function () {
-                var textSelected = $("#ItemId option:selected").text();
-                if ($("#ItemId option:selected").val() === "") {
-                    textSelected = "";
-                }
-                $('#kt_datatable').DataTable().search(textSelected).draw();
-            });
-            $('#StoreId').on('change', function () {
-                var textSelected = $("#StoreId option:selected").text();
-                if ($("#StoreId option:selected").val() === "") {
-                    textSelected = "";
-                }
-                $('#kt_datatable').DataTable().search(textSelected).draw();
-            });
+            //$('#ItemId').on('change', function () {
+            //    var textSelected = $("#ItemId option:selected").text();
+            //    if ($("#ItemId option:selected").val() === "") {
+            //        textSelected = "";
+            //    }
+            //    $('#kt_datatable').DataTable().search(textSelected).draw();
+            //});
+            //$('#StoreId').on('change', function () {
+            //    var textSelected = $("#StoreId option:selected").text();
+            //    if ($("#StoreId option:selected").val() === "") {
+            //        textSelected = "";
+            //    }
+            //    $('#kt_datatable').DataTable().search(textSelected).draw();
+            //});
         });
     </script>
 }

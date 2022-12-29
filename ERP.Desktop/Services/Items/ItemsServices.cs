@@ -193,10 +193,10 @@ namespace ERP.Desktop.Services.Items
                 case (int)ItemCostCalculationCl.AveragePurchasePrice: // متوسط سعر الشراء 
                                                                       //متوسط سعر الشراء =(قيمة الرصيد اول المدة*قيمة المشتريات)/(كمية الرصيد اول المدة+كمية المشتريات+
                     var totalSumOfQuantity = db.PurchaseInvoicesDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Price * x.Quantity).DefaultIfEmpty(0).Sum();
-                    var totalSumOfQuantityFirst = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Price * x.Quantity).DefaultIfEmpty(0).Sum();
+                    var totalSumOfQuantityFirst = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Price * x.Quantity).DefaultIfEmpty(0).Sum();
 
                     var totlaQuantity = db.PurchaseInvoicesDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Quantity).DefaultIfEmpty(0).Sum();
-                    var totlaQuantityFirst = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Quantity).DefaultIfEmpty(0).Sum();
+                    var totlaQuantityFirst = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Quantity).DefaultIfEmpty(0).Sum();
 
                     var totalSum = totalSumOfQuantity + totalSumOfQuantityFirst;
                     var totalQuantity = totlaQuantity + totlaQuantityFirst;

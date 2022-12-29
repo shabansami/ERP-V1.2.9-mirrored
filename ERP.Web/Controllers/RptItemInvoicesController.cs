@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using System.Data.Entity;
+using ERP.DAL.Models;
 
 namespace ERP.Web.Controllers
 {
@@ -50,14 +51,14 @@ namespace ERP.Web.Controllers
         public ActionResult GetIntial(Guid? branchId, Guid? itemId, string dFrom, string dTo)
         {
             DateTime dtFrom, dtTo;
-            IQueryable<ItemIntialBalance> initialBalanceIQ = null;
-            initialBalanceIQ = db.ItemIntialBalances.Where(x => !x.IsDeleted);
+            IQueryable<ItemIntialBalanceDetail> initialBalanceIQ = null;
+            initialBalanceIQ = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted);
             if (branchId != null)
                 initialBalanceIQ = initialBalanceIQ.Where(x => x.Store.BranchId == branchId);
             if (itemId != null)
                 initialBalanceIQ = initialBalanceIQ.Where(x => x.ItemId == itemId);
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
-                initialBalanceIQ = initialBalanceIQ.Where(x => DbFunctions.TruncateTime(x.DateIntial) >= dtFrom && DbFunctions.TruncateTime(x.DateIntial) <= dtTo);
+                initialBalanceIQ = initialBalanceIQ.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) >= dtFrom && DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) <= dtTo);
 
             var initialList = initialBalanceIQ.GroupBy(x => x.ItemId).ToList();
             var data = initialList.Select(x => new RptItemInvoiceDto

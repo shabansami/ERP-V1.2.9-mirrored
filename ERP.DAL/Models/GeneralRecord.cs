@@ -20,12 +20,14 @@ namespace ERP.DAL
         {
             this.GeneralRecordDetails = new HashSet<GeneralRecordDetail>();
         }
+        [ForeignKey(nameof(Branch))]
         public Nullable<Guid> BranchId { get; set; }
         public Nullable<System.DateTime> TransactionDate { get; set; }
         public string Notes { get; set; }
         public bool IsApproval { get; set; }
         public string GeneralRecordNumber { get; set; }
 
+        public virtual Branch Branch { get; set; }
         public virtual ICollection<GeneralRecordDetail> GeneralRecordDetails { get; set; }
     }
 }

@@ -11,6 +11,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.ViewModels;
+using System.Security.Cryptography;
+using ERP.DAL.Models;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Web.Controllers
 {
@@ -48,21 +52,7 @@ namespace ERP.Web.Controllers
         {
             int? n = null;
             // اسماء الاصناف من جدول الاصناف
-            var items = db.ItemIntialBalances.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, IsApproval = x.IsApproval, IsApprovalStatus = x.IsApproval ? "معتمده" : "غير معتمده", ItemName = x.Item.ItemCode + " | " + x.Item.Name, Quantity = x.Quantity, Price = x.Price, Amount = x.Amount, StoreName = x.Store.Name, CreatedOn = x.DateIntial.ToString(), Actions = n, Num = n }).ToList();
-            //الاصناف من جدول القيود اليومية بعد عمل جروبينج بسبب ان لكل صنف عمليتين يتم تسجيلهم فى جدول القيود اليومية
-            //var generalGrouping = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionTypeId == (int)TransactionsTypesCl.BalanceFirstDuration && items.Any(p => p.AccountTreeId == x.TransactionId && !p.IsDeleted)).Select(x => new { TransactionId = x.TransactionId, ItemName = items.Where(p => p.AccountTreeId == x.TransactionId).FirstOrDefault().Item.Name, Quantity= items.Where(p => p.AccountTreeId == x.TransactionId).FirstOrDefault().Quantity,Price= items.Where(p => p.AccountTreeId == x.TransactionId).FirstOrDefault().Price, Amount = x.Credit + x.Debit,StoreName= items.Where(p => p.AccountTreeId == x.TransactionId).FirstOrDefault().Store.Name, CreatedOn = x.CreatedOn.ToString(), Actions = n, Num = n }).GroupBy(x => new { x.TransactionId, x.ItemName,x.Quantity,x.Price,x.StoreName, x.Num, x.Actions, x.Amount, x.CreatedOn }).ToList();
-            //var data = generalGrouping.Select(x => new
-            //{
-            //    TransactionId = x.FirstOrDefault().TransactionId,
-            //    ItemName = x.FirstOrDefault().ItemName,
-            //    Quantity = x.FirstOrDefault().Quantity,
-            //    Price = x.FirstOrDefault().Price,
-            //    Amount = x.FirstOrDefault().Amount,
-            //    StoreName = x.FirstOrDefault().StoreName,
-            //    CreatedOn = x.FirstOrDefault().CreatedOn,
-            //    Actions = n,
-            //    Num = n
-            //}).ToList();
+            var items = db.ItemIntialBalances.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).ToList().Select(x => new { Id = x.Id, IsApproval = x.IsApproval, IsApprovalStatus = x.IsApproval ? "معتمده" : "غير معتمده", InvoiceNumber=x.InvoiceNumber, TotalAmount = x.ItemIntialBalanceDetails.Where(d=>!d.IsDeleted).Sum(d=>(double?)d.Amount??0).ToString(), DateIntial = x.DateIntial.ToString(), Actions = n, Num = n }).ToList();
             return Json(new
             {
                 data = items
@@ -98,6 +88,10 @@ namespace ERP.Web.Controllers
                 if (deDS.Where(x => x.ItemId == vm.ItemId && x.StoreId == vm.StoreId).Count() > 0)
                     return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
                 itemName = db.Items.FirstOrDefault(x=>x.Id==vm.ItemId).Name;
+                //التأكد من عدم ادخال رصيد اول للصنف 
+                    var itemInitBalance = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == vm.ItemId && x.StoreId == vm.StoreId).FirstOrDefault();
+                    if (itemInitBalance != null)
+                    return Json(new { isValid = false, msg = " تم ادخال رصيد اول للصنف مسبقا " }, JsonRequestBehavior.AllowGet);
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
@@ -133,11 +127,14 @@ namespace ERP.Web.Controllers
             //}
         }
         [HttpPost]
-        public JsonResult CreateEdit(string DT_Datasource, string DateIntial)
+        public JsonResult CreateEdit(string DT_Datasource, string DateIntial,string Notes,string BranchId)
         {
             DateTime dateInit;
             if (!DateTime.TryParse(DateIntial, out dateInit))
                 return Json(new { isValid = false, message = "تأكد من اختيار تاريخ رصيد اول المدة" });
+
+            if (!Guid.TryParse(BranchId,out Guid branchId))
+                return Json(new { isValid = false, message = "تأكد من اختيار الفرع" });
 
             dateInit = dateInit.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
             //الاصناف
@@ -152,66 +149,39 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
-            //التأكد من عدم تسجيل مسبق لارصدة اول المدة للاصناف
-            int count = 1;
-            var listMsg = "";
 
-            foreach (var item in itemDetailsDT)
-            {
-                var itemInitBalance = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == item.ItemId && x.StoreId == item.StoreId).FirstOrDefault();
-                if (itemInitBalance != null)
-                {
-                    if (count == 1)
-                    {
-                        listMsg += "تم تسجيل رصيد اول المدة للاصناف :- \r\n";
-                        listMsg += item.ItemName + "\r\n";
-                        count++;
-                    }
-                    else
-                        listMsg += " -- " + item.ItemName + "\r\n";
-                }
-            }
-            if (count > 1)
-                return Json(new { isValid = false, message = listMsg });
-
-            //    //تسجيل القيود
-            // General Dailies
             if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
             {
-                // الحصول على حسابات من الاعدادات
-                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                // التأكد من عدم وجود حساب فرعى من الحساب رأس المال
-                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
-                    return Json(new { isValid = false, message = "حساب رأس المال ليس بحساب فرعى" });
-                //التأكد من عدم وجود حساب فرعى من حساب المخزون
-                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
-                    return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
-
-                foreach (var item in itemDetailsDT)
+                List<ItemIntialBalanceDetail> itemIntialBalanceDetails = new List<ItemIntialBalanceDetail>();
+                itemIntialBalanceDetails = itemDetailsDT.Select(x => new ItemIntialBalanceDetail
                 {
-                    //var itemInitBalance = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == item.ItemId).FirstOrDefault();
-                    //if (itemInitBalance != null)
-                    //    return Json(new { isValid = false, message = $"تم تسجيل رصيد اول المدة للصنف {item.ItemName} من قبل" });
+                    ItemId = x.ItemId,
+                    Price = x.Price,
+                    StoreId = x.StoreId,
+                    Quantity = x.Quantity,
+                    Amount = x.Amount,
+                }).ToList();
+
 
                     // اضافة الصنف فى رصيد اول المدة للاصناف
                     var newItemInitBalance = new ItemIntialBalance
                     {
-                        AccountTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue),
-                        Amount = item.Amount,
-                        ItemId = item.ItemId,
-                        Price = item.Price,
-                        Quantity = item.Quantity,
-                        StoreId = item.StoreId,
-                        DateIntial = dateInit
+                        BranchId = branchId,
+                        Notes = Notes,
+                        DateIntial = dateInit,
+                        ItemIntialBalanceDetails=itemIntialBalanceDetails
                     };
+                    //اضافة رقم الفاتورة
+                    string codePrefix = Properties.Settings.Default.CodePrefix;
+                    newItemInitBalance.InvoiceNumber = codePrefix + (db.ItemIntialBalances.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1);
 
                     db.ItemIntialBalances.Add(newItemInitBalance);
 
-                }
+                
 
                 DS = null;
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                    return Json(new { isValid = true, message = "تم اضافة رصيد المدة للصنف بنجاح" });
+                    return Json(new { isValid = true, message = "تم اضافة رصيد المدة للاصناف بنجاح" });
                 else
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
@@ -241,43 +211,66 @@ namespace ERP.Web.Controllers
                     // التأكد من عدم وجود حساب فرعى من الحساب رأس المال
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
                         return Json(new { isValid = false, message = "حساب رأس المال ليس بحساب فرعى" });
-                    //التأكد من عدم وجود حساب فرعى من حساب المخزون
-                    if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
                     // use Transactions
                     var itemIniatialBalance = db.ItemIntialBalances.Where(x => x.Id == Id).FirstOrDefault();
-                    var branchId = itemIniatialBalance.Store != null ? itemIniatialBalance.Store.BranchId : null;
+                    var itemIntialBalanceDetails = itemIniatialBalance.ItemIntialBalanceDetails.Where(x => !x.IsDeleted).ToList();
+
+                    //نوع الجرد
+                    var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                    if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                    {
+                        //فى حالة الجرد الدورى
+                        if (inventoryTypeVal == 1)
+                        {
+                            //التأكد من عدم وجود حساب فرعى من حساب المخزون
+                            if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
+                                return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
+
+                            var accountTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
+                            foreach (var item in itemIntialBalanceDetails)
+                            {
+                                item.AccountTreeId = accountTreeId;
+                            }
+                        }
+                        //فى حالة الجرد المستمر
+                        if (inventoryTypeVal == 2)
+                        {
+
+                        }
+                    }
+                    else
+                        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد من الاعدادات" });
+
 
                     // حساب المخزون
                     db.GeneralDailies.Add(new GeneralDaily
                     {
                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue),
-                        Debit = itemIniatialBalance.Amount,
-                        Notes = $"رصيد أول المدة للصنف : {itemIniatialBalance.Item.Name}",
+                        Debit = itemIntialBalanceDetails.Sum(x=>x.Amount),
+                        Notes = $"رصيد أول المدة للاصناف ",
                         TransactionDate = itemIniatialBalance.DateIntial,
                         TransactionId = itemIniatialBalance.Id,
-                        BranchId = branchId,
+                        BranchId = itemIniatialBalance.BranchId,
                         TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceItem
                     });
                     //رأس المال 
                     db.GeneralDailies.Add(new GeneralDaily
                     {
                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),
-                        Credit = itemIniatialBalance.Amount,
-                        Notes = $"رصيد أول المدة للصنف : {itemIniatialBalance.Item.Name}",
+                        Credit = itemIntialBalanceDetails.Sum(x => x.Amount),
+                        Notes = $"رصيد أول المدة للاصناف",
                         TransactionDate = itemIniatialBalance.DateIntial,
                         TransactionId = itemIniatialBalance.Id,
-                        BranchId = branchId,
+                        BranchId = itemIniatialBalance.BranchId,
                         TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceItem
                     });
 
                     //تحديث حالة الاعتماد 
                     itemIniatialBalance.IsApproval = true;
-                    db.Entry(itemIniatialBalance).State = EntityState.Modified;
                     DS = null;
 
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                        return Json(new { isValid = true, message = "تم اعتماد الصنف بنجاح" });
+                        return Json(new { isValid = true, message = "تم اعتماد رصيد اول للاصناف بنجاح" });
                     else
                         return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
@@ -304,13 +297,16 @@ namespace ERP.Web.Controllers
                     //    return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
 
                     model.IsDeleted = true;
-                    db.Entry(model).State = EntityState.Modified;
+                    var itemIntialBalanceDetails = model.ItemIntialBalanceDetails.Where(x => !x.IsDeleted).ToList();
+                    foreach (var item in itemIntialBalanceDetails)
+                    {
+                        item.IsDeleted = true;
+                    }
                     //حذف القيود
                     var items = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == Id && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalanceItem).ToList();
                     foreach (var item in items)
                     {
                         item.IsDeleted = true;
-                        db.Entry(item).State = EntityState.Modified;
                     }
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم الحذف بنجاح" });
@@ -333,14 +329,17 @@ namespace ERP.Web.Controllers
                 var model = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    //هل الصنف يسمح بالسحب منه بالسالب
-                    var result = itemService.IsAllowNoBalance(model.ItemId, model.StoreId, model.Quantity);
-                    if (!result.IsValid)
-                        return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
 
+                    var itemIntialBalanceDetails = model.ItemIntialBalanceDetails.Where(x => !x.IsDeleted).ToList();
+                    foreach (var item in itemIntialBalanceDetails)
+                    {
+                        //هل الصنف يسمح بالسحب منه بالسالب
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoreId, item.Quantity);
+                        if (!result.IsValid)
+                            return Json(new { isValid = false, message = $"غير مسموح بالسحب بالسالب من الرصيد للصنف {result.ItemNotAllowed}" });
+                    }
                     //تحديث حالة الاعتماد 
                     model.IsApproval = false;
-                    db.Entry(model).State = EntityState.Modified;
                     //حذف قيود اليومية
                     var generalDailies = db.GeneralDailies.Where(x => x.TransactionId == model.Id && x.TransactionTypeId == (int)TransactionsTypesCl.InitialBalanceItem).ToList();
                     if (generalDailies != null)
@@ -348,7 +347,6 @@ namespace ERP.Web.Controllers
                         foreach (var item in generalDailies)
                         {
                             item.IsDeleted = true;
-                            db.Entry(item).State = EntityState.Modified;
                         }
                     }
 
@@ -364,6 +362,27 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
         }
+        #region عرض بيانات عملية تحويل مخزنى بالتفصيل وطباعتها
+        public ActionResult ShowDetails(string id)
+        {
+
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                var vm = db.ItemIntialBalances.Where(x => x.Id == Id).FirstOrDefault();
+                if (vm != null)
+                    return View(vm);
+                else
+                    return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index");
+
+        }
+
+       
+        #endregion
+
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

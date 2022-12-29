@@ -324,6 +324,10 @@
     <Compile Include="Migrations\202212271421022_add_new_TB_AccountTreeIntialBalance.designer.cs">
       <DependentUpon>202212271421022_add_new_TB_AccountTreeIntialBalance.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202212291619427_add_new_TB_ItemIntialBalanceDetails.cs" />
+    <Compile Include="Migrations\202212291619427_add_new_TB_ItemIntialBalanceDetails.designer.cs">
+      <DependentUpon>202212291619427_add_new_TB_ItemIntialBalanceDetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
@@ -334,6 +338,7 @@
     <Compile Include="Models\EmployeeBranch.cs" />
     <Compile Include="Models\GeneralRecordDetail.cs" />
     <Compile Include="Models\ItemCustomSellPrice.cs" />
+    <Compile Include="Models\ItemIntialBalanceDetail.cs" />
     <Compile Include="Models\Nationality.cs" />
     <Compile Include="Models\NotificationEmployee.cs" />
     <Compile Include="Models\Offer.cs" />
@@ -695,6 +700,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212271421022_add_new_TB_AccountTreeIntialBalance.resx">
       <DependentUpon>202212271421022_add_new_TB_AccountTreeIntialBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202212291619427_add_new_TB_ItemIntialBalanceDetails.resx">
+      <DependentUpon>202212291619427_add_new_TB_ItemIntialBalanceDetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

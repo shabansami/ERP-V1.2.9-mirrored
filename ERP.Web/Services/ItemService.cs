@@ -35,10 +35,10 @@ namespace ERP.Web.Services
                     {
                         //متوسط سعر الشراء =(قيمة الرصيد اول المدة*قيمة المشتريات)/(كمية الرصيد اول المدة+كمية المشتريات+
                         var totalSumOfQuantity = db.PurchaseInvoicesDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Price * x.Quantity).DefaultIfEmpty(0).Sum();
-                        var totalSumOfQuantityFirst = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Price * x.Quantity).DefaultIfEmpty(0).Sum();
+                        var totalSumOfQuantityFirst = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Price * x.Quantity).DefaultIfEmpty(0).Sum();
 
                         var totlaQuantity = db.PurchaseInvoicesDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Quantity).DefaultIfEmpty(0).Sum();
-                        var totlaQuantityFirst = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Quantity).DefaultIfEmpty(0).Sum();
+                        var totlaQuantityFirst = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).Select(x => x.Quantity).DefaultIfEmpty(0).Sum();
 
                         var totalSum = totalSumOfQuantity + totalSumOfQuantityFirst;
                         var totalQuantity = totlaQuantity + totlaQuantityFirst;
@@ -168,15 +168,15 @@ namespace ERP.Web.Services
                 switch (paremeterReport)
                 {
                     case ParemeterReport.Intial:
-                        var itemIntialBalance = db.ItemIntialBalances.Where(x => !x.IsDeleted && x.ItemId == itemId && x.IsApproval);
+                        var itemIntialBalance = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.ItemIntialBalance.IsApproval);
                         if (storeId != null)
                             itemIntialBalance = itemIntialBalance.Where(x => x.StoreId == storeId);
                         if (branchId != null)
                             itemIntialBalance = itemIntialBalance.Where(x => x.Store.BranchId == branchId);
                         if (dtFrom != null)
-                            itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.DateIntial) >= dtFrom);
+                            itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) >= dtFrom);
                         if (dtTo != null)
-                            itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.DateIntial) <= dtTo);
+                            itemIntialBalance = itemIntialBalance.Where(x => DbFunctions.TruncateTime(x.ItemIntialBalance.DateIntial) <= dtTo);
                         return itemIntialBalance.Count() > 0 ? itemIntialBalance.Sum(x => x.Quantity) : 0;
 
                     case ParemeterReport.Purchase: //رصيد الشراء

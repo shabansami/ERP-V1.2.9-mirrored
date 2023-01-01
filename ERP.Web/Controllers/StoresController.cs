@@ -87,6 +87,13 @@ namespace ERP.Web.Controllers
                     model.BranchId = vm.BranchId;
                     model.EmployeeId = vm.EmployeeId;
                     model.Address = vm.Address;
+                    //حذف حساب المخزن من شجرة الحسابات فى حالة الجرد المستمر 
+                    if (model.AccountTreeId != null)
+                    {
+                        var acount = db.AccountsTrees.Where(x => x.Id == model.AccountTreeId).FirstOrDefault();
+                        if (acount != null)
+                            acount.AccountName = vm.Name;
+                    }
 
 
                     db.Entry(model).State = EntityState.Modified;
@@ -97,14 +104,48 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
 
                     isInsert = true;
-                    db.Stores.Add(new Store
+                    //تحديد نوع الجرد
+                    var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                    Guid accountTreeStockAccount;
+                    if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                        accountTreeStockAccount = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
+                    else
+                        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                 
+                    if (inventoryTypeVal==2)   // حالة الجرد المستمر
                     {
-                        Name = vm.Name,
-                        IsDamages=vm.IsDamages,
-                        BranchId = vm.BranchId,
-                        EmployeeId = vm.EmployeeId,
-                        Address = vm.Address
-                    });
+                        long newAccountNum = 0;// new account number 
+
+                        var accountTree = db.AccountsTrees.Find(accountTreeStockAccount);
+                        var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                        if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                            newAccountNum = long.Parse(accountTree.AccountNumber + "000001");
+                        else
+                            newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                        // add new account tree 
+                        var newAccountTree = new AccountsTree
+                        {
+                            AccountLevel = accountTree.AccountLevel + 1,
+                            AccountName = vm.Name,
+                            AccountNumber = newAccountNum,
+                            ParentId = accountTree.Id,
+                            TypeId = (int)AccountTreeSelectorTypesCl.Store,
+                            SelectedTree = false
+                        };
+                        vm.AccountsTree = newAccountTree;
+                    }
+                    //============================================
+                    db.Stores.Add(vm);
+
+                    //db.Stores.Add(new Store
+                    //{
+                    //    Name = vm.Name,
+                    //    IsDamages=vm.IsDamages,
+                    //    BranchId = vm.BranchId,
+                    //    EmployeeId = vm.EmployeeId,
+                    //    Address = vm.Address
+                    //});
                 }
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                 {
@@ -146,6 +187,22 @@ namespace ERP.Web.Controllers
                     var storeExistSetting = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.StoreDefault&&x.SValue==Id.ToString()).Any();
                     if (storeExistSetting)
                         return Json(new { isValid = false, message = "لا يمكن حذف المخزن لارتباطه بعمليات اخرى" });
+                   if(StoreService.InvoicesHasStore(Id,db))
+                        return Json(new { isValid = false, message = "لا يمكن حذف المخزن لارتباطه بعمليات اخرى" });
+
+                    //حذف حساب المخزن من شجرة الحسابات فى حالة الجرد المستمر 
+                    if (model.AccountTreeId != null)
+                    {
+                        var acount = db.AccountsTrees.Where(x => x.Id == model.AccountTreeId).FirstOrDefault();
+                        if (acount != null)
+                            acount.IsDeleted = true;
+                        var geneDays = db.GeneralDailies.Where(x => !x.IsDeleted && x.AccountsTreeId == model.AccountTreeId).ToList();
+                        foreach (var item in geneDays)
+                        {
+                            item.IsDeleted = true;
+                        }
+                    }
+
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;

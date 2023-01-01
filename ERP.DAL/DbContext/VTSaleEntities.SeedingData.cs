@@ -130,6 +130,7 @@ namespace ERP.DAL
                         db.SelectorTypes.Add(new SelectorType { Name = "سلف/قروض" });
                         db.SelectorTypes.Add(new SelectorType { Name = "موظف" });
                         db.SelectorTypes.Add(new SelectorType { Name = "عهد" });
+                        db.SelectorTypes.Add(new SelectorType { Name = "مخزن جرد مستمر" });
                     }
                     //============== end ===============================
 
@@ -797,6 +798,8 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (69,N'سطر الطباعه الثالث اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (70,N'سطر الطباعه الرابع اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (71,N'سطر الطباعه الخامس اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (72,N'حساب تكلفة بضاعه مباعه',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+
 SET IDENTITY_INSERT [{Schema}].[GeneralSettings] OFF;";
 
             if (db.AccountsTrees.Where(x => !x.IsDeleted).Count() == 0)

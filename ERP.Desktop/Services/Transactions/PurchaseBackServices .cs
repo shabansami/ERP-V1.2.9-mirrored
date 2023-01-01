@@ -331,6 +331,8 @@ namespace ERP.Desktop.Services.Transactions
                     }
                     break;
                 case (int)PaymentTypeCl.Partial:
+                case (int)PaymentTypeCl.BankWallet:
+                case (int)PaymentTypeCl.BankCard:
                     if (invoice.PayedValue == 0)
                     {
                         result.Message = "خطأ في المبلغ المدفوع\nيجب دفع جزء من المبلغ او تغير نوع الدفع للأجل";

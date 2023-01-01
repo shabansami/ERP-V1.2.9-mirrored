@@ -28,5 +28,17 @@ namespace ERP.Web.Services
             }else 
                 return null;
         }
+
+        public static bool InvoicesHasStore(Guid storeId,VTSaleEntities db)
+        {
+            var sell=db.SellInvoicesDetails.Where(x=>!x.IsDeleted&&x.StoreId==storeId).Any();
+            var sellBack=db.SellBackInvoicesDetails.Where(x=>!x.IsDeleted&&x.StoreId==storeId).Any();
+            var purchase=db.PurchaseInvoicesDetails.Where(x=>!x.IsDeleted&&x.StoreId==storeId).Any();
+            var purchaseBack=db.PurchaseBackInvoicesDetails.Where(x=>!x.IsDeleted&&x.StoreId==storeId).Any();
+            var itemInit=db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.StoreId == storeId).Any();
+            if (sell || sellBack || purchase || purchaseBack || itemInit)
+                return true;
+            return false;
+        }
     }
 }

@@ -134,7 +134,12 @@ namespace ERP.Web.Utilites
             PrintLine2Up,//السطر الثانى اعلى الصفحة
             PrintLine3Up,//السطر الثالث اعلى الصفحة
             PrintLine1Down,//السطر الاول اسفل الصفحة
-            PrintLine2Down//السطر الثانى اسفل الصفحة
+            PrintLine2Down,//السطر الثانى اسفل الصفحة
+
+          
+            AccountTreeSalesCost,  //حساب تكلفة بضاعه مباعه مع الجرد المستمر 
+
+
         }
 
         public enum GeneralSettingTypeCl // انواع الاعدادات
@@ -160,6 +165,7 @@ namespace ERP.Web.Utilites
             Loan, // سلف/قروض 
             Employee, // موظف 
             Custody, // عهد 
+            Store, // مخزن فى حالة الجرد المستمر 
         }
 
         public enum PaymentTypeCl
@@ -401,7 +407,6 @@ namespace ERP.Web.Utilites
         public static int DepreciationAndConsumption => 332;//حساب الاهلاك والاستهلاك 
         public static int PurchasedMerchandiseSales => 412;//حساب مبيعات بضائع مشتراه 
         public static int FullProductionSales => 411;//حساب مبيعات انتاج تام 
-        public static Guid StockSellCost => Guid.NewGuid();//تكلفة بضاعه مباعه 
 
         #endregion
     }

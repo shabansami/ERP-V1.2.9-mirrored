@@ -30,7 +30,7 @@ namespace ERP.Web.ViewModels
         public Nullable<int> LimitDangerSell { get; set; } //السماح بالبيع عند تخطى الحد الائتمانى للخطر 
         public bool Letters { get; set; }
         public bool Numbers { get; set; }
-
+        public int InventoryType { get; set; } //نوع الجرد 1-جرد دورى   2-جرد مستمر
 
         public EntityData EntityData { get; set; }
         public AccountTreeVM AccountTree { get; set; }
@@ -165,6 +165,10 @@ namespace ERP.Web.ViewModels
         public int? InstallmentsBenefitsAccountSettingId { get; set; }
         public Guid? InstallmentsBenefitsAccountSettingValue { get; set; }
         public string InstallmentsBenefitsAccountName { get; set; }
+        //حساب تكلفة البضاعه المباعه فى حالة الجرد المستمر 
+        public int? SaleCostAccountSettingId { get; set; }
+        public Guid? SaleCostAccountSettingValue { get; set; }
+        public string SaleCostAccountName { get; set; }
 
     }
     public class UploadFileTreeVM

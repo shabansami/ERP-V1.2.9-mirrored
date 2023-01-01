@@ -188,14 +188,24 @@ namespace ERP.Desktop.Views.Transactions.SalesBack
                 return false;
             }
 
+            //تحديد الدفع فى الخزنة او محفظة او بطاقة الكترونية 
+            Guid? safeId = null;
+            Guid? bankId = null;
+            if (paymentTypeID == (int)PaymentTypeCl.Cash || paymentTypeID == (int)PaymentTypeCl.Partial || paymentTypeID == (int)PaymentTypeCl.Installment)
+                safeId = currentPOS.SafeID;
+            if (paymentTypeID == (int)PaymentTypeCl.BankWallet)
+                bankId = currentPOS.DefaultBankWalletId;
+            if (paymentTypeID == (int)PaymentTypeCl.BankCard)
+                bankId = currentPOS.DefaultBankCardId;
+
             var invoice = new SellBackInvoice()
             {
-                //BankAccountId = currentPOS.BankAccountID,
+                BankAccountId = bankId,
                 BranchId = currentBranch.Id,
                 CustomerId = customerID,
                 InvoiceDate = TimeNow,
                 PaymentTypeId = paymentTypeID,
-                SafeId = currentPOS.SafeID,
+                SafeId = safeId,
                 ShiftOfflineID = currentShift.Id
             };
             var result = _services.CreateInvoice(invoice);
@@ -369,16 +379,44 @@ namespace ERP.Desktop.Views.Transactions.SalesBack
                     txtPayed.Text = txtInvoiceSafy.Text;
                     txtInvoiceRemained.Text = "0";
                     currentInvoice.PaymentTypeId = (int)PaymentTypeCl.Cash;
+                    currentInvoice.SafeId = currentPOS.SafeID;
+                    currentInvoice.BankAccountId = null;
                 }
                 else if (cmb_paytype.SelectedIndex == 2)
                 {
                     txtInvoiceRemained.Text = txtInvoiceSafy.Text;
                     txtPayed.Text = "0";
                     currentInvoice.PaymentTypeId = (int)PaymentTypeCl.Deferred;
+                    currentInvoice.SafeId = null;
+                    currentInvoice.BankAccountId = null;
                 }
                 else if (cmb_paytype.SelectedIndex == 3)
                 {
                     currentInvoice.PaymentTypeId = (int)PaymentTypeCl.Partial;
+                    currentInvoice.SafeId = currentPOS.SafeID;
+                    currentInvoice.BankAccountId = null;
+                }
+                else if (cmb_paytype.SelectedIndex == 4)
+                {
+                    currentInvoice.PaymentTypeId = (int)PaymentTypeCl.Installment; //تقسيط
+                    currentInvoice.SafeId = currentPOS.SafeID;
+                    currentInvoice.BankAccountId = null;
+                }
+                else if (cmb_paytype.SelectedIndex == 5)
+                {
+                    txtPayed.Text = txtInvoiceSafy.Text;
+                    txtInvoiceRemained.Text = "0";
+                    currentInvoice.PaymentTypeId = (int)PaymentTypeCl.BankWallet; //محفظة بنكية
+                    currentInvoice.BankAccountId = currentPOS.DefaultBankWalletId;
+                    currentInvoice.SafeId = null;
+                }
+                else if (cmb_paytype.SelectedIndex == 6)
+                {
+                    txtPayed.Text = txtInvoiceSafy.Text;
+                    txtInvoiceRemained.Text = "0";
+                    currentInvoice.PaymentTypeId = (int)PaymentTypeCl.BankCard;//بطاقة بنكية
+                    currentInvoice.BankAccountId = currentPOS.DefaultBankCardId;
+                    currentInvoice.SafeId = null;
                 }
                 SaveInvoiceCalculationChanges();
             }
@@ -913,7 +951,7 @@ namespace ERP.Desktop.Views.Transactions.SalesBack
             txtItemQuantity.Enabled = enabled;
             txtItemName.Enabled = enabled;
             txtPayed.Enabled = enabled;
-            txtPayed.ReadOnly = cmb_paytype.SelectedIndex != 3;
+            txtPayed.ReadOnly = cmb_paytype.SelectedIndex == 2;
             cmbItemPrices.Enabled = enabled;
             btnSaveInvoice.Enabled = enabled;
             txtPrice.Enabled = enabled && currentPOS.CanChangePrice;

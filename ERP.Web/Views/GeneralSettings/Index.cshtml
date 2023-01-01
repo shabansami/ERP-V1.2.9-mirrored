@@ -301,18 +301,18 @@
                                     </div>
                                 </div>
                                 @*<div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label>حساب خدمة الدليفرى</label>
-                                            <div class="input-group">
-                                                @Html.TextBoxFor(m => m.AccountTree.DeliveryAccountName, new { @class = "form-control" })
-                                                @Html.HiddenFor(m => m.AccountTree.DeliveryAccountSettingId)
-                                                @Html.HiddenFor(m => m.AccountTree.DeliveryAccountSettingValue)
+            <div class="form-group">
+                <label>حساب خدمة الدليفرى</label>
+                <div class="input-group">
+                    @Html.TextBoxFor(m => m.AccountTree.DeliveryAccountName, new { @class = "form-control" })
+                    @Html.HiddenFor(m => m.AccountTree.DeliveryAccountSettingId)
+                    @Html.HiddenFor(m => m.AccountTree.DeliveryAccountSettingValue)
 
-                                                    <div class="input-group-text" ><a href="javascript:void(0);" onclick="openModal('AccountTree_DeliveryAccountName',@Model.AccountTree.DeliveryAccountSettingId,@Model.AccountTree.DeliveryAccountSettingValue)"><i title="بحث عن حساب"  class="bx bx-search-alt m-1"></i></a></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
+                        <div class="input-group-text" ><a href="javascript:void(0);" onclick="openModal('AccountTree_DeliveryAccountName',@Model.AccountTree.DeliveryAccountSettingId,@Model.AccountTree.DeliveryAccountSettingValue)"><i title="بحث عن حساب"  class="bx bx-search-alt m-1"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>حساب ضريبة المبيعات</label>
@@ -435,7 +435,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="form-group">
-                                        <label>حساب المخزون (رصيد اول المدة للاصناف)</label>
+                                        <label>حساب المخزون</label>
                                         <div class="input-group">
                                             @Html.TextBoxFor(m => m.AccountTree.StockAccountName, new { @class = "form-control" })
                                             @Html.HiddenFor(m => m.AccountTree.StockAccountSettingId)
@@ -580,6 +580,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if (Model.InventoryType == 2) //الجرد المستمر
+                                {
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label>حساب تكلفة بضاعه مباعه</label>
+                                            <div class="input-group">
+                                                @Html.TextBoxFor(m => m.AccountTree.SaleCostAccountName, new { @class = "form-control" })
+                                                @Html.HiddenFor(m => m.AccountTree.SaleCostAccountSettingId)
+                                                @Html.HiddenFor(m => m.AccountTree.SaleCostAccountSettingValue)
+
+                                                <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_SaleCostAccountName',@Model.AccountTree.SaleCostAccountSettingId,@Model.AccountTree.SaleCostAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <div class="card-footer">

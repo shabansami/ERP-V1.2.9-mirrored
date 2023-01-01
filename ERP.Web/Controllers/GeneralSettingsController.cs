@@ -375,6 +375,25 @@ namespace ERP.Web.Controllers
             }
             vm.AccountTree.InstallmentsBenefitsAccountSettingId = (int)GeneralSettingCl.AccountTreeInstallmentsBenefits;
 
+            //==================== SaleCost حساب تكلفة بضاعه مباعه فى الجرد المستمر=======================
+            //تحديد نوع الجرد
+            var inventoryType = model.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+            if (int.TryParse(inventoryType, out int inventoryTypeVal))
+            {
+                if (inventoryTypeVal == 2)
+                {
+                    if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue != null)
+                    {
+                        vm.AccountTree.SaleCostAccountSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue);
+                        var accountTreeCheck = accountTree.Where(x => x.Id == vm.AccountTree.SaleCostAccountSettingValue).FirstOrDefault();
+                        vm.AccountTree.SaleCostAccountName = accountTreeCheck.AccountName + "..." + accountTreeCheck.AccountNumber;
+                    }
+                    vm.AccountTree.SaleCostAccountSettingId = (int)GeneralSettingCl.AccountTreeSalesCost;
+                    vm.InventoryType = 2;
+                }
+            }
+            else
+                return RedirectToAction("CheckInventoryType", "Home");
 
             #endregion
 

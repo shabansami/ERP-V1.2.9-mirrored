@@ -97,15 +97,17 @@ namespace ERP.Web.Controllers
             //db.SaveChanges(userId);
             //var pag4 = db.Pages.Where(x => x.Id == 44).FirstOrDefault();
             //pag4.OtherUrls = "/ItemIntialBalances/ShowDetails";
+            //db.SelectorTypes.Add(new SelectorType { Name = "مخزن جرد مستمر" });
             //db.SaveChanges(userId);
 
             //var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;
-            //            INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(66, N'لوجو المؤسسة', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(66, N'لوجو المؤسسة', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(67, N'سطر الطباعه الاول اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(68, N'سطر الطباعه الثانى اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(69, N'سطر الطباعه الثالث اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(70, N'سطر الطباعه الرابع اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(71, N'سطر الطباعه الخامس اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(72, N'حساب تكلفة بضاعه مباعه مع الجرد المستمر', NULL, 1, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //SET IDENTITY_INSERT[dbo].[GeneralSettings] OFF; ";
             //db.Database.ExecuteSqlCommand(genralSettings);
 

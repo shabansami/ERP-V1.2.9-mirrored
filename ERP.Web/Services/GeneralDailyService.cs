@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.ViewModels;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Web.Services
 {
@@ -22,8 +23,9 @@ namespace ERP.Web.Services
                 var accountTrees = db.GeneralSettings.Where(x => x.SType == generalSettingTypeCl);
                 if (accountTrees.Count() > 0)
                 {
-                    if (accountTrees.Any(x => x.SValue == null))
+                    if (accountTrees.Any(x => x.SValue == null&& x.Id != (int)GeneralSettingCl.AccountTreeSalesCost))
                         return false;
+                    
                     else
                         return true;
                 }

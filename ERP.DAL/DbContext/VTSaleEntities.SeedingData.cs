@@ -285,7 +285,7 @@ namespace ERP.DAL
                     //طريقة احتساب تكلفة المنتج
                     if (db.ItemCostCalculations.Where(x => !x.IsDeleted).Count() == 0)
                     {
-                        db.ItemCostCalculations.Add(new ItemCostCalculation { Name = "متوسط سعر الشراء" });
+                        db.ItemCostCalculations.Add(new ItemCostCalculation { Name = "المتوسط المرجح" });
                         db.ItemCostCalculations.Add(new ItemCostCalculation { Name = "اخر سعر شراء" });
                         db.ItemCostCalculations.Add(new ItemCostCalculation { Name = "اعلى سعر شراء" });
                         db.ItemCostCalculations.Add(new ItemCostCalculation { Name = "اقل سعر شراء" });
@@ -1285,7 +1285,7 @@ END";
             pages.Add(new Page() { Id = 160, ParentId = 158, Icon = null, IsPage = true, Name = "ادارة فترة ", OrderNum = 0, Url = "/WorkingPeriods/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 161, ParentId = 139, Icon = null, IsPage = false, Name = "تعريف نظام الورديات", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 162, ParentId = 161, Icon = null, IsPage = true, Name = "اضافة نظام وردية", OrderNum = 0, Url = "/Shifts/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 163, ParentId = 161, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة نظام وردية", OrderNum = 0, Url = "/Shifts/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 163, ParentId = 161, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة نظام وردية", OrderNum = 0, Url = "/Shifts/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 164, ParentId = 139, Icon = null, IsPage = false, Name = "تعريف أنواع الإضافات", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 165, ParentId = 164, Icon = null, IsPage = true, Name = "اضافة نوع إضافة جديد", OrderNum = 0, Url = "/SalaryAdditionTypes/CreateEdit", OtherUrls = ",/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 166, ParentId = 164, Icon = null, IsPage = true, Name = "ادارة نوع إضافة ", OrderNum = 0, Url = "/SalaryAdditionTypes/Index", OtherUrls = ",/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });

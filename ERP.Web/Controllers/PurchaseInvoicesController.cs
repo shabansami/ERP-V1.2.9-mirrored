@@ -511,40 +511,76 @@ namespace ERP.Web.Controllers
                                     }
                                     var supplier = context.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault();
 
-                                    //تحديد نوع الجرد
-                                    //var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                                    //Guid accountTreeInventoryType;
-                                    //if (int.TryParse(inventoryType,out int inventoryTypeVal))
-                                    //{
-                                    //    if (inventoryTypeVal==1)//جرد دورى
-                                    //        //حساب المشتريات
-                                    //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue);
-                                    //    else if(inventoryTypeVal==2)//جرد مستمر
-                                    //        //حساب المخزون
-                                    //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
-                                    //    else
-                                    //        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                                    //}
-                                    //else
-                                    //    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
 
                                     // حساب المشتريات
                                     if (model.TotalValue != 0)
                                     {
-                                        //من ح/ المشتريات
-                                        context.GeneralDailies.Add(new GeneralDaily
+                                        //=============================================================
+                                        //تحديد نوع الجرد
+                                        var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                        if (int.TryParse(inventoryType, out int inventoryTypeVal))
                                         {
-                                            AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
-                                            BranchId = model.BranchId,
-                                            Debit = model.TotalValue,
-                                            Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
-                                            PaperNumber = model.InvoiceNumPaper,
-                                            TransactionDate = model.InvoiceDate,
-                                            TransactionId = model.Id,
-                                            TransactionTypeId = (int)TransactionsTypesCl.Purchases
-                                        });
-                                        //context.SaveChanges(auth.CookieValues.UserId);
-                                        debit = debit + model.TotalValue;
+                                            //فى حالة الجرد المستمر
+                                            if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                                            {
+                                                if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                                                {
+
+                                                    //من ح/ المخزون
+                                                    foreach (var item in model.PurchaseInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                                    {
+                                                        var store = context.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                                        if (store != null)
+                                                        {
+                                                            if (store.AccountTreeId != null)
+                                                            {
+                                                                if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                                                    return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
+
+                                                                context.GeneralDailies.Add(new GeneralDaily
+                                                                {
+                                                                    AccountsTreeId = store.AccountTreeId,
+                                                                    BranchId = model.BranchId,
+                                                                    Debit = item.Amount,
+                                                                    Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
+                                                                    TransactionDate = model.InvoiceDate,
+                                                                    TransactionId = model.Id,
+                                                                    TransactionShared = model.Id,
+                                                                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                                });
+                                                            }
+                                                        }
+                                                    }
+
+                                                    debit = debit + model.TotalValue;
+                                                }
+                                                else
+                                                    return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+                                            }
+                                            else
+                                            {
+
+                                                //من ح/ المشتريات
+                                                context.GeneralDailies.Add(new GeneralDaily
+                                                {
+                                                    AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
+                                                    BranchId = model.BranchId,
+                                                    Debit = model.TotalValue,
+                                                    Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
+                                                    PaperNumber = model.InvoiceNumPaper,
+                                                    TransactionDate = model.InvoiceDate,
+                                                    TransactionId = model.Id,
+                                                    TransactionTypeId = (int)TransactionsTypesCl.Purchases
+                                                });
+                                                //context.SaveChanges(auth.CookieValues.UserId);
+                                                debit = debit + model.TotalValue;
+                                            }
+
+                                        }
+                                        else
+                                            return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                        //============================================
+
                                         // حساب المورد
                                         context.GeneralDailies.Add(new GeneralDaily
                                         {
@@ -559,6 +595,7 @@ namespace ERP.Web.Controllers
                                         });
                                         //context.SaveChanges(auth.CookieValues.UserId);
                                         credit = credit + model.Safy;
+
                                     }
 
 
@@ -972,39 +1009,76 @@ namespace ERP.Web.Controllers
                             if (AccountTreeService.CheckAccountTreeIdHasChilds(expenses.FirstOrDefault().ExpenseTypeAccountTreeId))
                                 return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
                         }
-                        //تحديد نوع الجرد
-                        //var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                        //Guid accountTreeInventoryType;
-                        //if (int.TryParse(inventoryType, out int inventoryTypeVal))
-                        //{
-                        //    if (inventoryTypeVal == 1)//جرد دورى
-                        //                              //حساب المشتريات
-                        //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue);
-                        //    else if (inventoryTypeVal == 2)//جرد مستمر
-                        //                                   //حساب المخزون
-                        //        accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
-                        //    else
-                        //        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                        //}
-                        //else
-                        //    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
 
                         // حساب المشتريات
                         if (model.TotalValue != 0)
                         {
-                            //من ح/ المشتريات
-                            db.GeneralDailies.Add(new GeneralDaily
+                            //=============================================================
+                            //تحديد نوع الجرد
+                            var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                            if (int.TryParse(inventoryType, out int inventoryTypeVal))
                             {
-                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
-                                BranchId = model.BranchId,
-                                Debit = model.TotalValue,
-                                Notes = $"فاتورة توريد رقم : {model.InvoiceNumber} من المورد {supplier.Name}",
-                                PaperNumber = model.InvoiceNumPaper,
-                                TransactionDate = model.InvoiceDate,
-                                TransactionId = model.Id,
-                                TransactionTypeId = (int)TransactionsTypesCl.Purchases
-                            });
-                            debit = debit + model.TotalValue;
+                                //فى حالة الجرد المستمر
+                                if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                                {
+                                    if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                                    {
+
+                                        //من ح/ المخزون
+                                        foreach (var item in model.PurchaseInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                        {
+                                            var store = db.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                            if (store != null)
+                                            {
+                                                if (store.AccountTreeId != null)
+                                                {
+                                                    if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                                        return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
+
+                                                    db.GeneralDailies.Add(new GeneralDaily
+                                                    {
+                                                        AccountsTreeId = store.AccountTreeId,
+                                                        BranchId = model.BranchId,
+                                                        Debit = item.Amount,
+                                                        Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
+                                                        TransactionDate = model.InvoiceDate,
+                                                        TransactionId = model.Id,
+                                                        TransactionShared = model.Id,
+                                                        TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                    });
+                                                }
+                                            }
+                                        }
+
+                                        debit = debit + model.TotalValue;
+                                    }
+                                    else
+                                        return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+                                }
+                                else
+                                {
+
+                                    //من ح/ المشتريات
+                                    db.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
+                                        BranchId = model.BranchId,
+                                        Debit = model.TotalValue,
+                                        Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
+                                        PaperNumber = model.InvoiceNumPaper,
+                                        TransactionDate = model.InvoiceDate,
+                                        TransactionId = model.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.Purchases
+                                    });
+                                    //db.SaveChanges(auth.CookieValues.UserId);
+                                    debit = debit + model.TotalValue;
+                                }
+
+                            }
+                            else
+                                return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                            //============================================
+
                             // حساب المورد
                             db.GeneralDailies.Add(new GeneralDaily
                             {
@@ -1017,6 +1091,7 @@ namespace ERP.Web.Controllers
                                 TransactionId = model.Id,
                                 TransactionTypeId = (int)TransactionsTypesCl.Purchases
                             });
+                            //context.SaveChanges(auth.CookieValues.UserId);
                             credit = credit + model.Safy;
                         }
 

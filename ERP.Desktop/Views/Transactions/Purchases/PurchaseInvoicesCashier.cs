@@ -417,12 +417,12 @@ namespace ERP.Desktop.Views.Transactions.Purchases
 
         private void txt_invonet_TextChanged(object sender, EventArgs e)
         {
-            if ((cmb_paytype.SelectedIndex) == 1)
+            if ((cmb_paytype.SelectedIndex) == 1 || cmb_paytype.SelectedIndex == 5 || cmb_paytype.SelectedIndex == 6)
             {
                 txtPayed.Text = txtInvoiceSafy.Text;
                 txtInvoiceRemained.Text = "0";
             }
-            else if (cmb_paytype.SelectedIndex == 2)
+            else if (cmb_paytype.SelectedIndex == 2 || cmb_paytype.SelectedIndex == 4)
             {
                 txtInvoiceRemained.Text = txtInvoiceSafy.Text;
                 txtPayed.Text = "0";

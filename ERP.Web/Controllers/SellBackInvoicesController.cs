@@ -540,66 +540,99 @@ namespace ERP.Web.Controllers
                                                 return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
                                         }
 
-                                        //تحديد نوع الجرد
-                                        //var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                                        //Guid accountTreeInventoryType;
-                                        //if (int.TryParse(inventoryType, out int inventoryTypeVal))
-                                        //{
-                                        //    //فى حالة الجرد المستمر
-                                        //    //من ح/ المخزون
-                                        //    accountTreeInventoryType = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
-                                        //    context.GeneralDailies.Add(new GeneralDaily
-                                        //    {
-                                        //        AccountsTreeId = accountTreeInventoryType,
-                                        //        BranchId = model.BranchId,
-                                        //        Debit = model.TotalValue,
-                                        //        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                        //        TransactionDate = model.InvoiceDate,
-                                        //        TransactionId = model.Id,
-                                        //        TransactionShared = model.Id,
-                                        //        TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                        //    });
-                                        //    // الى ح/  تكلفة بضاعه مباعه
-                                        //    context.GeneralDailies.Add(new GeneralDaily
-                                        //    {
-                                        //        AccountsTreeId = Lookups.StockSellCost,
-                                        //        BranchId = model.BranchId,
-                                        //        Credit = model.TotalValue,
-                                        //        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                        //        TransactionDate = model.InvoiceDate,
-                                        //        TransactionId = model.Id,
-                                        //        TransactionShared = model.Id,
-                                        //        TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                        //    });
-                                        //}
-                                        //else
-                                        //    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                                        ////============================================
+                                        // فى حالة ان الفاتورة كلها عينات وبدون سعر
+                                        if (model.TotalValue != 0)
+                                        {
+                                            //=============================================================
+                                            //تحديد نوع الجرد
+                                            var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                            if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                            {
+                                                //فى حالة الجرد المستمر
+                                                if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                                                {
+                                                    if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                                                    {
+                                                        //من ح/ المخزون
+                                                        foreach (var item in model.SellBackInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                                        {
+                                                            var store = context.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                                            if (store != null)
+                                                            {
+                                                                if (store.AccountTreeId != null)
+                                                                {
+                                                                    if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                                                        return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
 
-                                        // حساب مرتجع المبيعات
-                                        context.GeneralDailies.Add(new GeneralDaily
-                                        {
-                                            AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesReturnAccount).FirstOrDefault().SValue),
-                                            BranchId = model.BranchId,
-                                            Debit = model.TotalValue,
-                                            Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
-                                            TransactionDate = model.InvoiceDate,
-                                            TransactionId = model.Id,
-                                            TransactionTypeId = (int)TransactionsTypesCl.SellReturn
-                                        });
-                                        debit = debit + model.TotalValue;
-                                        // حساب العميل
-                                        context.GeneralDailies.Add(new GeneralDaily
-                                        {
-                                            AccountsTreeId = customer.AccountsTreeCustomerId,
-                                            BranchId = model.BranchId,
-                                            Credit = model.Safy,
-                                            Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
-                                            TransactionDate = model.InvoiceDate,
-                                            TransactionId = model.Id,
-                                            TransactionTypeId = (int)TransactionsTypesCl.SellReturn
-                                        });
-                                        credit = credit + model.Safy;
+                                                                    context.GeneralDailies.Add(new GeneralDaily
+                                                                    {
+                                                                        AccountsTreeId = store.AccountTreeId,
+                                                                        BranchId = model.BranchId,
+                                                                        Debit = item.Amount,
+                                                                        Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                                                        TransactionDate = model.InvoiceDate,
+                                                                        TransactionId = model.Id,
+                                                                        TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                                                    });
+                                                                }
+                                                            }
+                                                        }
+                                                        // الي ح/  تكلفة بضاعه مباعه
+                                                        context.GeneralDailies.Add(new GeneralDaily
+                                                        {
+                                                            AccountsTreeId = accountTreeSalesCost,
+                                                            BranchId = model.BranchId,
+                                                            Credit = model.TotalValue,
+                                                            Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                                            TransactionDate = model.InvoiceDate,
+                                                            TransactionId = model.Id,
+                                                            TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                                        });
+                                          
+
+                                                        debit = debit + model.TotalValue;
+                                                        credit = credit + model.TotalValue;
+                                                    }
+                                                    else
+                                                        return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+                                                }
+                                                else
+                                                {
+
+                                                    // من حساب مرتجع المبيعات
+                                                    context.GeneralDailies.Add(new GeneralDaily
+                                                    {
+                                                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesReturnAccount).FirstOrDefault().SValue),
+                                                        BranchId = model.BranchId,
+                                                        Debit = model.TotalValue,
+                                                        Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                                        TransactionDate = model.InvoiceDate,
+                                                        TransactionId = model.Id,
+                                                        TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                                    });
+                                                    debit = debit + model.TotalValue;
+                                                    // حساب العميل
+                                                    context.GeneralDailies.Add(new GeneralDaily
+                                                    {
+                                                        AccountsTreeId = customer.AccountsTreeCustomerId,
+                                                        BranchId = model.BranchId,
+                                                        Credit = model.Safy,
+                                                        Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                                        TransactionDate = model.InvoiceDate,
+                                                        TransactionId = model.Id,
+                                                        TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                                    });
+                                                    credit = credit + model.Safy;
+                                                }
+
+                                            }
+                                            else
+                                                return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                            //============================================
+
+
+
+                                        }
 
                                         // القيمة المضافة
                                         if (model.SalesTax > 0)
@@ -1014,31 +1047,107 @@ namespace ERP.Web.Controllers
                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(expenses.FirstOrDefault().IncomeTypeAccountTreeId))
                                     return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
                             }
+                            // فى حالة ان الفاتورة كلها عينات وبدون سعر
+                            if (model.TotalValue != 0)
+                            {
+                                //=============================================================
+                                //تحديد نوع الجرد
+                                var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                {
+                                    //فى حالة الجرد المستمر
+                                    if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                                    {
+                                        if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                                        {
+                                            //من ح/ المخزون
+                                            foreach (var item in model.SellBackInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                            {
+                                                var store = db.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                                if (store != null)
+                                                {
+                                                    if (store.AccountTreeId != null)
+                                                    {
+                                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                                            return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
 
-                            // حساب مرتجع المبيعات
-                            db.GeneralDailies.Add(new GeneralDaily
-                            {
-                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesReturnAccount).FirstOrDefault().SValue),
-                                BranchId = model.BranchId,
-                                Debit = model.TotalValue,
-                                Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
-                                TransactionDate = model.InvoiceDate,
-                                TransactionId = model.Id,
-                                TransactionTypeId = (int)TransactionsTypesCl.SellReturn
-                            });
-                            debit = debit + model.TotalValue;
-                            // حساب العميل
-                            db.GeneralDailies.Add(new GeneralDaily
-                            {
-                                AccountsTreeId = customer.AccountsTreeCustomerId,
-                                BranchId = model.BranchId,
-                                Credit = model.Safy,
-                                Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
-                                TransactionDate = model.InvoiceDate,
-                                TransactionId = model.Id,
-                                TransactionTypeId = (int)TransactionsTypesCl.SellReturn
-                            });
-                            credit = credit + model.Safy;
+                                                        db.GeneralDailies.Add(new GeneralDaily
+                                                        {
+                                                            AccountsTreeId = store.AccountTreeId,
+                                                            BranchId = model.BranchId,
+                                                            Debit = item.Amount,
+                                                            Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                                            TransactionDate = model.InvoiceDate,
+                                                            TransactionId = model.Id,
+                                                            TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                                        });
+                                                    }
+                                                }
+                                            }
+                                            // الي ح/  تكلفة بضاعه مباعه
+                                            db.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = accountTreeSalesCost,
+                                                BranchId = model.BranchId,
+                                                Credit = model.TotalValue,
+                                                Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                                TransactionDate = model.InvoiceDate,
+                                                TransactionId = model.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                            });
+
+
+                                            debit = debit + model.TotalValue;
+                                            credit = credit + model.TotalValue;
+                                        }
+                                        else
+                                            return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+                                    }
+                                    else
+                                    {
+
+                                        // حساب مرتجع المبيعات
+                                        db.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesReturnAccount).FirstOrDefault().SValue),
+                                            BranchId = model.BranchId,
+                                            Debit = model.TotalValue,
+                                            Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                        });
+                                        debit = debit + model.TotalValue;
+                                        // حساب العميل
+                                        db.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = customer.AccountsTreeCustomerId,
+                                            BranchId = model.BranchId,
+                                            Credit = model.Safy,
+                                            Notes = $"فاتورة مرتجع بيع رقم : {model.InvoiceNumber} من العميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                        });
+                                        credit = credit + model.Safy;
+                                    }
+
+                                }
+                                else
+                                    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                //============================================
+
+
+
+                            }
+
+
+
+
+
+
+
+
 
                             // القيمة المضافة
                             if (model.SalesTax > 0)

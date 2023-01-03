@@ -487,9 +487,6 @@ namespace ERP.Web.Controllers
                                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue)))
                                         return Json(new { isValid = false, message = "حساب المشتريات ليس بحساب فرعى" });
 
-                                    if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
-                                        return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
-
                                     if (AccountTreeService.CheckAccountTreeIdHasChilds(context.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault().AccountTreeSupplierId))
                                         return Json(new { isValid = false, message = "حساب المورد ليس بحساب فرعى" });
 
@@ -546,7 +543,7 @@ namespace ERP.Web.Controllers
                                                                     TransactionDate = model.InvoiceDate,
                                                                     TransactionId = model.Id,
                                                                     TransactionShared = model.Id,
-                                                                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                                    TransactionTypeId = (int)TransactionsTypesCl.Purchases
                                                                 });
                                                             }
                                                         }
@@ -986,9 +983,6 @@ namespace ERP.Web.Controllers
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue)))
                             return Json(new { isValid = false, message = "حساب المشتريات ليس بحساب فرعى" });
 
-                        if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
-
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(db.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault().AccountTreeSupplierId))
                             return Json(new { isValid = false, message = "حساب المورد ليس بحساب فرعى" });
 
@@ -1044,7 +1038,7 @@ namespace ERP.Web.Controllers
                                                         TransactionDate = model.InvoiceDate,
                                                         TransactionId = model.Id,
                                                         TransactionShared = model.Id,
-                                                        TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                        TransactionTypeId = (int)TransactionsTypesCl.Purchases
                                                     });
                                                 }
                                             }
@@ -1286,9 +1280,6 @@ namespace ERP.Web.Controllers
                 //التأكد من عدم وجود حساب فرعى من الحساب
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue)))
                     return Json(new { isValid = false, message = "حساب المشتريات ليس بحساب فرعى" });
-
-                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
-                    return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
 
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(db.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault().AccountTreeSupplierId))
                     return Json(new { isValid = false, message = "حساب المورد ليس بحساب فرعى" });

@@ -90,9 +90,9 @@ namespace ERP.Web.Services
                     SumFrom = x.ActionsFrom + x.IntialBalanceFrom,//C=A1+A2
                     SumTo = x.ActionsTo + x.IntialBalanceTo,//D=B1+B2
                     //if(C>D)? C-D  :0
-                    ResultFrom = x.ActionsFrom + x.IntialBalanceFrom > x.ActionsTo + x.IntialBalanceTo ? (x.ActionsFrom + x.IntialBalanceFrom) - (x.ActionsTo + x.IntialBalanceTo) : 0,
+                    ResultFrom = (x.ActionsFrom + x.IntialBalanceFrom) > (x.ActionsTo + x.IntialBalanceTo) ? ((x.ActionsFrom + x.IntialBalanceFrom) - (x.ActionsTo + x.IntialBalanceTo)) : 0,
                     //if(D>C)? D-C  :0
-                    ResultTo = x.ActionsTo + x.IntialBalanceTo > x.ActionsFrom + x.IntialBalanceFrom ? (x.ActionsTo + x.IntialBalanceTo) - (x.ActionsFrom + x.IntialBalanceFrom) : 0
+                    ResultTo = (x.ActionsTo + x.IntialBalanceTo) > (x.ActionsFrom + x.IntialBalanceFrom) ? ((x.ActionsTo + x.IntialBalanceTo) - (x.ActionsFrom + x.IntialBalanceFrom)) : 0
 
                 }).ToList();
                 stopwatch.Stop();//231 m
@@ -335,6 +335,15 @@ namespace ERP.Web.Services
             {
                 List<IncomeListDto> incomeLists = new List<IncomeListDto>();
                 var generalSetting = db.GeneralSettings.ToList();
+                //=================================
+                // اى حساب يزيد يكون مع طبيعته
+                //اى حساب يقل يعكس مع طبيعته
+                //كل الأصول(مدين) حساب(1)
+                //كل المصروفات(مدين) حساب(3)
+                //كل الخصوم(دائنة) حساب(2)
+                //كل الإيرادات(دائنة) حساب(4)
+                //=================================
+
                 //مبيعات بضاعه
                 //=================================================
                 //حساب المبيعات من الاعدادات
@@ -342,7 +351,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var saleDetails = db.AccountsTrees.Where(x => x.Id == saleAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountSales = GetAuditBalances(dtFrom, dtTo, saleAccountId)[0].ResultTo;
+                var AmountSale = GetAuditBalances(dtFrom, dtTo, saleAccountId);
+                var AmountSales = AmountSale.ResultFrom+ AmountSale.ResultTo;
+                //var AmountSales = GetAuditBalances(dtFrom, dtTo, saleAccountId).ResultTo;//قديما
                 saleDetails.Partial = Math.Round(AmountSales, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(saleDetails);
@@ -354,7 +365,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var saleReturnDetails = db.AccountsTrees.Where(x => x.Id == saleReturnAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountReturnSales = GetAuditBalances(dtFrom, dtTo, saleReturnAccountId)[0].ResultFrom;
+                var AmountReturnSale = GetAuditBalances(dtFrom, dtTo, saleReturnAccountId);
+                var AmountReturnSales = AmountReturnSale.ResultFrom + AmountReturnSale.ResultTo;
+                //var AmountReturnSales = GetAuditBalances(dtFrom, dtTo, saleReturnAccountId).ResultFrom;//قديما
                 saleReturnDetails.Partial = Math.Round(AmountReturnSales, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(saleReturnDetails);
@@ -376,7 +389,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var premittedDiscountDetails = db.AccountsTrees.Where(x => x.Id == premittedDiscountAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountPremittedDiscounts = GetAuditBalances(dtFrom, dtTo, premittedDiscountAccountId)[0].ResultFrom;
+                var AmountPremittedDiscount = GetAuditBalances(dtFrom, dtTo, premittedDiscountAccountId);
+                var AmountPremittedDiscounts = AmountPremittedDiscount.ResultFrom + AmountPremittedDiscount.ResultTo;
+                //var AmountPremittedDiscounts = GetAuditBalances(dtFrom, dtTo, premittedDiscountAccountId).ResultFrom;//قديما
                 premittedDiscountDetails.Partial = Math.Round(AmountPremittedDiscounts, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(premittedDiscountDetails);
@@ -399,7 +414,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var stockADetails = db.AccountsTrees.Where(x => x.Id == stockAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountStocks = GetAuditBalances(dtFrom, dtTo, stockAccountId)[0].ResultFrom;
+                var AmountStock = GetAuditBalances(dtFrom, dtTo, stockAccountId);
+                var AmountStocks = AmountStock.ResultFrom + AmountStock.ResultTo;
+                //var AmountStocks = GetAuditBalances(dtFrom, dtTo, stockAccountId).ResultFrom;//قديما
                 stockADetails.Partial = Math.Round(AmountStocks, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(stockADetails);
@@ -412,7 +429,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var purchaseDetails = db.AccountsTrees.Where(x => x.Id == purchaseAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountPurchases = GetAuditBalances(dtFrom, dtTo, purchaseAccountId)[0].ResultFrom;
+                var AmountPurchase = GetAuditBalances(dtFrom, dtTo, purchaseAccountId);
+                var AmountPurchases = AmountPurchase.ResultFrom + AmountPurchase.ResultTo;
+                //var AmountPurchases = GetAuditBalances(dtFrom, dtTo, purchaseAccountId).ResultFrom;//قديما
                 purchaseDetails.Partial = Math.Round(AmountPurchases, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(purchaseDetails);
@@ -424,7 +443,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var purchaseReturnDetails = db.AccountsTrees.Where(x => x.Id == purchaseReturnAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountReturnPurchases = GetAuditBalances(dtFrom, dtTo, purchaseReturnAccountId)[0].ResultTo;
+                var AmountReturnPurchase = GetAuditBalances(dtFrom, dtTo, purchaseReturnAccountId);
+                var AmountReturnPurchases = AmountReturnPurchase.ResultFrom + AmountReturnPurchase.ResultTo;
+                //var AmountReturnPurchases = GetAuditBalances(dtFrom, dtTo, purchaseReturnAccountId).ResultTo;//قديما
                 purchaseReturnDetails.Partial = Math.Round(AmountReturnPurchases, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(purchaseReturnDetails);
@@ -446,7 +467,9 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var earnedDiscountDetails = db.AccountsTrees.Where(x => x.Id == earnedDiscountAccountId).Select(x => new IncomeListDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountEarnedDiscounts = GetAuditBalances(dtFrom, dtTo, earnedDiscountAccountId)[0].ResultTo;
+                var AmountEarnedDiscount = GetAuditBalances(dtFrom, dtTo, earnedDiscountAccountId);
+                var AmountEarnedDiscounts = AmountEarnedDiscount.ResultFrom + AmountEarnedDiscount.ResultTo;
+                //var AmountEarnedDiscounts = GetAuditBalances(dtFrom, dtTo, earnedDiscountAccountId).ResultTo;//قديما
                 earnedDiscountDetails.Partial = Math.Round(AmountEarnedDiscounts, 2);
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(earnedDiscountDetails);
@@ -541,7 +564,9 @@ namespace ERP.Web.Services
                 //حساب مجمع الاهلاك من الاعدادات
                 var accountTreeAssetsDepreciationComplex = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeAssetsDepreciationComplex).FirstOrDefault().SValue);
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AssetsDepreciationComplex = GetAuditBalances(dtFrom, dtTo, accountTreeAssetsDepreciationComplex)[0].ResultTo;
+                var AssetsDepreciationComple = GetAuditBalances(dtFrom, dtTo, accountTreeAssetsDepreciationComplex);
+                var AssetsDepreciationComplex = AssetsDepreciationComple.ResultFrom + AssetsDepreciationComple.ResultTo;
+                //var AssetsDepreciationComplex = GetAuditBalances(dtFrom, dtTo, accountTreeAssetsDepreciationComplex).ResultTo;//قديما
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(new IncomeListDto
                 {
@@ -559,7 +584,9 @@ namespace ERP.Web.Services
                 foreach (var item in expenseAccounts)
                 {
                     ////اجمالى الارصدة من ميزان المراجعة 
-                    AmountTotalExpense += GetAuditBalances(dtFrom, dtTo, item.Id)[0].ResultFrom;
+                    var AmountTotalExpensee = GetAuditBalances(dtFrom, dtTo, item.Id);
+                     AmountTotalExpense += (AmountTotalExpensee.ResultFrom + AmountTotalExpensee.ResultTo);
+                    //AmountTotalExpense += GetAuditBalances(dtFrom, dtTo, item.Id).ResultFrom;//قديما
                 }
                 //اضافة حساب مصروفات اخرى بدون مصروف االاهلاك الى جدول قائمة الدخل 
                 incomeLists.Add(new IncomeListDto
@@ -586,16 +613,22 @@ namespace ERP.Web.Services
                 foreach (var income in incomeAccounts)
                 {
                     ////اجمالى الارصدة من ميزان المراجعة 
-                    AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, income.Id)[0].ResultTo;
+                    var incomee = GetAuditBalances(dtFrom, dtTo, income.Id);
+                    AmountTotalIncome += (incomee.ResultFrom + incomee.ResultTo);
+                    //AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, income.Id).ResultTo;//قديما
                 }
                 //الايرادات المتنوعه (الاستقطاعات وخصومات الموظفين
                 var incomeiscellaneousRevenusAccountId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMiscellaneousRevenus).FirstOrDefault().SValue);
                 ////اجمالى الارصدة من ميزان المراجعة 
-                AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, incomeiscellaneousRevenusAccountId)[0].ResultTo;
+                var AmountTotalIncomeee = GetAuditBalances(dtFrom, dtTo, incomeiscellaneousRevenusAccountId);
+                 AmountTotalIncome += (AmountTotalIncomeee.ResultFrom + AmountTotalIncomeee.ResultTo);
+                //AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, incomeiscellaneousRevenusAccountId).ResultTo;//قديما
                 //ايرادات الصيانة 
                 var maintenanceAccountId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue);
                 ////اجمالى الارصدة من ميزان المراجعة 
-                AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, maintenanceAccountId)[0].ResultTo;
+                var AmountTotalIncomee = GetAuditBalances(dtFrom, dtTo, maintenanceAccountId);
+                AmountTotalIncome += (AmountTotalIncomee.ResultFrom + AmountTotalIncomee.ResultTo);
+                //AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, maintenanceAccountId).ResultTo;قديما
 
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(new IncomeListDto
@@ -619,7 +652,7 @@ namespace ERP.Web.Services
         }
 
         //ميزان المراجعة للحساب 
-        public static List<AuditBalanceDto> GetAuditBalances(DateTime? dtFrom, DateTime? dtTo, Guid? accountTreeId)
+        public static AuditBalanceDto GetAuditBalances(DateTime? dtFrom, DateTime? dtTo, Guid? accountTreeId)
         {
 
             using (var db = new VTSaleEntities())
@@ -669,14 +702,14 @@ namespace ERP.Web.Services
                     ActionsTo = x.ActionsTo, //B2
                     SumFrom = x.ActionsFrom + x.IntialBalanceFrom,//C=A1+A2
                     SumTo = x.ActionsTo + x.IntialBalanceTo,//D=B1+B2
-                    //if(C>D)? C-D  :0
-                    ResultFrom = x.ActionsFrom + x.IntialBalanceFrom > x.ActionsTo + x.IntialBalanceTo ? (x.ActionsFrom + x.IntialBalanceFrom) - (x.ActionsTo + x.IntialBalanceTo) : 0,
+                   //if(C>D)? C-D  :0
+                    ResultFrom = (x.ActionsFrom + x.IntialBalanceFrom) > (x.ActionsTo + x.IntialBalanceTo) ? ((x.ActionsFrom + x.IntialBalanceFrom) - (x.ActionsTo + x.IntialBalanceTo)) : 0,
                     //if(D>C)? D-C  :0
-                    ResultTo = x.ActionsTo + x.IntialBalanceTo > x.ActionsFrom + x.IntialBalanceFrom ? (x.ActionsTo + x.IntialBalanceTo) - (x.ActionsFrom + x.IntialBalanceFrom) : 0
+                    ResultTo = (x.ActionsTo + x.IntialBalanceTo) > (x.ActionsFrom + x.IntialBalanceFrom) ? ((x.ActionsTo + x.IntialBalanceTo) - (x.ActionsFrom + x.IntialBalanceFrom)) : 0
 
                 }).ToList();
                 stopwatch.Stop();//231 m
-                return accounts;
+                return accounts.FirstOrDefault();
             }
         }
 
@@ -697,7 +730,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var stockADetails = db.AccountsTrees.Where(x => x.Id == stockAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = "مخزون أول المدة", Order = 1 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountStocks = GetAuditBalances(dtFrom, dtTo, stockAccountId)[0].ResultFrom;
+                var AmountStocks = GetAuditBalances(dtFrom, dtTo, stockAccountId).ResultFrom;
                 stockADetails.Debit = Math.Round(AmountStocks, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(stockADetails);
@@ -709,7 +742,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var purchaseDetails = db.AccountsTrees.Where(x => x.Id == purchaseAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = "المشتريات", Order = 2 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountPurchases = GetAuditBalances(dtFrom, dtTo, purchaseAccountId)[0].ResultFrom;
+                var AmountPurchases = GetAuditBalances(dtFrom, dtTo, purchaseAccountId).ResultFrom;
                 purchaseDetails.Debit = Math.Round(AmountPurchases, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(purchaseDetails);
@@ -732,7 +765,7 @@ namespace ERP.Web.Services
                 foreach (var item in expenseAccounts)
                 {
                     ////اجمالى الارصدة من ميزان المراجعة 
-                    AmountTotalExpense += GetAuditBalances(dtFrom, dtTo, item.Id)[0].ResultFrom;
+                    AmountTotalExpense += GetAuditBalances(dtFrom, dtTo, item.Id).ResultFrom;
                 }
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(new TradingAccountDto
@@ -752,7 +785,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var saleReturnDetails = db.AccountsTrees.Where(x => x.Id == saleReturnAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName, Order = 4 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountReturnSales = GetAuditBalances(dtFrom, dtTo, saleReturnAccountId)[0].ResultFrom;
+                var AmountReturnSales = GetAuditBalances(dtFrom, dtTo, saleReturnAccountId).ResultFrom;
                 saleReturnDetails.Debit = Math.Round(AmountReturnSales, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(saleReturnDetails);
@@ -764,7 +797,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var premittedDiscountDetails = db.AccountsTrees.Where(x => x.Id == premittedDiscountAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName, Order = 5 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountPremittedDiscounts = GetAuditBalances(dtFrom, dtTo, premittedDiscountAccountId)[0].ResultFrom;
+                var AmountPremittedDiscounts = GetAuditBalances(dtFrom, dtTo, premittedDiscountAccountId).ResultFrom;
                 premittedDiscountDetails.Debit = Math.Round(AmountPremittedDiscounts, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(premittedDiscountDetails);
@@ -778,7 +811,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var saleDetails = db.AccountsTrees.Where(x => x.Id == saleAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName, Order = 7 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountSales = GetAuditBalances(dtFrom, dtTo, saleAccountId)[0].ResultTo;
+                var AmountSales = GetAuditBalances(dtFrom, dtTo, saleAccountId).ResultTo;
                 saleDetails.Credit = Math.Round(AmountSales, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(saleDetails);
@@ -801,7 +834,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var purchaseReturnDetails = db.AccountsTrees.Where(x => x.Id == purchaseReturnAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName, Order = 8 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountReturnPurchases = GetAuditBalances(dtFrom, dtTo, purchaseReturnAccountId)[0].ResultTo;
+                var AmountReturnPurchases = GetAuditBalances(dtFrom, dtTo, purchaseReturnAccountId).ResultTo;
                 purchaseReturnDetails.Credit = Math.Round(AmountReturnPurchases, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(purchaseReturnDetails);
@@ -817,7 +850,7 @@ namespace ERP.Web.Services
                 //بيانات وتفاصيل الحساب 
                 var earnedDiscountDetails = db.AccountsTrees.Where(x => x.Id == earnedDiscountAccountId).Select(x => new TradingAccountDto { ParentId = x.ParentId, AccountNumber = x.AccountNumber, AccountName = x.AccountName, Order = 10 }).FirstOrDefault();
                 //اجمالى الارصدة من ميزان المراجعة 
-                var AmountEarnedDiscounts = GetAuditBalances(dtFrom, dtTo, earnedDiscountAccountId)[0].ResultTo;
+                var AmountEarnedDiscounts = GetAuditBalances(dtFrom, dtTo, earnedDiscountAccountId).ResultTo;
                 earnedDiscountDetails.Credit = Math.Round(AmountEarnedDiscounts, 2);
                 //اضافة الحساب الى جدول حساب المتاجرة 
                 tradingAccounts.Add(earnedDiscountDetails);
@@ -917,16 +950,16 @@ namespace ERP.Web.Services
                 foreach (var income in incomeAccounts)
                 {
                     ////اجمالى الارصدة من ميزان المراجعة 
-                    AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, income.Id)[0].ResultTo;
+                    AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, income.Id).ResultTo;
                 }
                 //الايرادات المتنوعه (الاستقطاعات وخصومات الموظفين
                 var incomeiscellaneousRevenusAccountId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMiscellaneousRevenus).FirstOrDefault().SValue);
                 ////اجمالى الارصدة من ميزان المراجعة 
-                AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, incomeiscellaneousRevenusAccountId)[0].ResultTo;
+                AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, incomeiscellaneousRevenusAccountId).ResultTo;
                 //ايرادات الصيانة 
                 var maintenanceAccountId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue);
                 ////اجمالى الارصدة من ميزان المراجعة 
-                AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, maintenanceAccountId)[0].ResultTo;
+                AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, maintenanceAccountId).ResultTo;
                 var amountTotalIncome = Math.Round(AmountTotalIncome, 2);
 
                 var totalIncom = amountTotalIncome - tradingAccount.Where(x => x.Order == 50).FirstOrDefault().Credit;

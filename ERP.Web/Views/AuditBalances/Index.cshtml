@@ -152,7 +152,7 @@
                 <tbody></tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="10" style="text-align:right">الاجمالي:</th>
+                        <th colspan="8" style="text-align:right">الاجمالي:</th>
                         <th></th>
                     </tr>
                 </tfoot>
@@ -246,8 +246,8 @@
                     { data: 'ActionsTo', title: 'حركات الفترة (دائن)' },
                     { data: 'SumFrom', title: 'ميزان المراجعة مجاميع (مدين)' },
                     { data: 'SumTo', title: 'ميزان المراجعة مجاميع (دائن)' },
-                    { data: 'ResultFrom', title: 'ميزان المراجعة بالارصدة (مدين)' },
-                    { data: 'ResultTo', title: 'ميزان المراجعة بالارصدة (دائن)' },
+                    //{ data: 'ResultFrom', title: 'ميزان المراجعة بالارصدة (مدين)' },
+                    //{ data: 'ResultTo', title: 'ميزان المراجعة بالارصدة (دائن)' },
                 ],
                 columnDefs: [
                     {
@@ -269,8 +269,8 @@
                     var actionsTo = api.column(6).data().sum();
                     var sumFrom = api.column(7).data().sum();
                     var sumTo = api.column(8).data().sum();
-                    var resultFrom = api.column(9).data().sum();
-                    var resultTo = api.column(10).data().sum();
+                    //var resultFrom = api.column(9).data().sum();
+                    //var resultTo = api.column(10).data().sum();
 
                     $(api.table().footer()).html(html + intialBalanceFrom + `</label></div></th>
                             <th style="text-align:center" ><div class="row alert-success"><label>اجمالى رصيد أول المدة (دائن) :` + intialBalanceTo + `</label></div></th>
@@ -278,12 +278,12 @@
                             <th style="text-align:center" ><div class="row alert-success"><label>حركات الفترة (دائن) :` + actionsTo + `</label></div></th>
                             <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة مجاميع (مدين) :` + sumFrom + `</label></div></th>
                             <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة مجاميع (دائن) :` + sumTo + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة بالارصدة (مدين) :` + resultFrom + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة بالارصدة (دائن) :` + resultTo + `</label></div></th>
+                            
                             </tr>`);
                 },
                 "order": [[0, "asc"]]
-                //"order": [[0, "desc"]]
+                    //<th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة بالارصدة (مدين) :` + resultFrom + `</label></div></th>
+                    //< th style="text-align:center" > <div class="row alert-success"><label>ميزان المراجعة بالارصدة (دائن) :` + resultTo + `</label></div></th>
             });
             $('#kt_datatable_length').css("text-align", "left");
 

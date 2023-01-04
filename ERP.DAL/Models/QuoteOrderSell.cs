@@ -25,7 +25,7 @@ namespace ERP.DAL
         [ForeignKey(nameof(Branch))]
         public Nullable<Guid> BranchId { get; set; }     
         [ForeignKey(nameof(Quote))]
-        public Nullable<Guid> QuoteId { get; set; }
+        public Nullable<Guid> QuoteId { get; set; } //رقم عرض السعر التابع فى حالة امر البيع 
 
         public System.DateTime InvoiceDate { get; set; }
         public double TotalQuantity { get; set; }

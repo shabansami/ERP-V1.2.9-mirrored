@@ -992,7 +992,7 @@ namespace ERP.Web.Services
             using (var db = new VTSaleEntities())
             {
                 List<IncomeListDto> financialCenter = new List<IncomeListDto>();
-                AuditBalanceDto auditBalance = new AuditBalanceDto();
+                //AuditBalanceDto auditBalance = new AuditBalanceDto();
                 double amount = 0;
                 var generalSetting = db.GeneralSettings.ToList();
                 //الاصول غير المتداولة
@@ -1007,18 +1007,27 @@ namespace ERP.Web.Services
                     AccountName = "الاصول الثابتة",
                     Num = 1
                 });
-                //ميزان المراجعة
-                var auditBalances = AuditBalances(dtFrom, dtTo, null, null);
+                //ميزان المراجعة بالارصدة
+                //var auditBalances = AuditBalances(dtFrom, dtTo, null, null);
 
                 //حسابات الاصول الثابتة
                 var FixedAssets = AccountTreeService.GetFixedAssets();
                 double totalFixedAssets = 0;
                 foreach (var item in FixedAssets)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance!=null)
+                    amount = 0;
+                    var getLast = AccountTreeService.GetAccountTreeLastChild(item.Id);
+                    foreach (var last in getLast)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        var auditBalance01 = GetAuditBalances(dtFrom, dtTo, last.Id);
+                        if (auditBalance01 != null)
+                        {
+                            amount += auditBalance01.ResultFrom + auditBalance01.ResultTo;
+
+                        }
+                    }
+                    //auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
+
                         financialCenter.Add(new IncomeListDto
                         {
                             AccountName = item.AccountName,
@@ -1026,7 +1035,7 @@ namespace ERP.Web.Services
                             Num = 1
                         });
                         totalFixedAssets += amount;
-                    }
+                    
                 }
                 //مجمع اهلاك الاصول الثابتة
                 //var assetsDepreciationComplexAccId = int.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeAssetsDepreciationComplex).FirstOrDefault().SValue);
@@ -1050,13 +1059,12 @@ namespace ERP.Web.Services
                 double totalDestructionAllowances = 0;
                 foreach (var item in destructionAccounts)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance02 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance02 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance02.ResultFrom + auditBalance02.ResultTo;
                         totalDestructionAllowances += amount;
                     }
-
                 }
                 financialCenter.Add(new IncomeListDto
                 {
@@ -1103,10 +1111,10 @@ namespace ERP.Web.Services
                 double totalinvestmentSpendings = 0;
                 foreach (var item in investmentSpendings)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance!=null)
+                    var auditBalance0 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance0 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance0.ResultFrom + auditBalance0.ResultTo;
                         totalinvestmentSpendings += amount;
                     }
                 }
@@ -1154,9 +1162,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdFuelSparePart = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.StorematerialsFuelSparePart).FirstOrDefault().Id;
                 double totalStorematerialsFuelSparePart = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdFuelSparePart).FirstOrDefault();
+                var auditBalance = GetAuditBalances(dtFrom, dtTo, accIdFuelSparePart);
                 if(auditBalance!=null)
-                    totalStorematerialsFuelSparePart = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                    totalStorematerialsFuelSparePart = auditBalance.ResultFrom + auditBalance.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.StorematerialsFuelSparePart,
@@ -1168,9 +1176,9 @@ namespace ERP.Web.Services
                 //=========================
                 var AccIdWarehouseMerchandisePurchasedSale = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
                 double totalWarehouseMerchandisePurchasedSale = 0;
-                auditBalance = auditBalances.Where(x => x.Id == AccIdWarehouseMerchandisePurchasedSale).FirstOrDefault();
-                if (auditBalance != null)
-                    totalWarehouseMerchandisePurchasedSale = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance2 = GetAuditBalances(dtFrom, dtTo, AccIdWarehouseMerchandisePurchasedSale);
+                if (auditBalance2 != null)
+                    totalWarehouseMerchandisePurchasedSale = auditBalance2.ResultFrom + auditBalance2.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = 122,
@@ -1196,10 +1204,10 @@ namespace ERP.Web.Services
                 double totalCustomers = 0;
                 foreach (var item in customerAccounts)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance1 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance1 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance1.ResultFrom + auditBalance1.ResultTo;
                         totalCustomers += amount;
                     }
                 }
@@ -1214,9 +1222,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdNoCollection = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.NoCollection).FirstOrDefault().Id;
                 double totalNoCollection = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdNoCollection).FirstOrDefault();
-                if(auditBalance!=null)
-                  totalNoCollection = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance3 = GetAuditBalances(dtFrom, dtTo, accIdNoCollection);
+                if(auditBalance3!=null)
+                  totalNoCollection = auditBalance3.ResultFrom + auditBalance3.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.NoCollection,
@@ -1240,10 +1248,10 @@ namespace ERP.Web.Services
                 double totalAccountsReceivables = 0;
                 foreach (var item in AccountsReceivableDepartments)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance!=null)
+                    var auditBalance4 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance4!=null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance4.ResultFrom + auditBalance4.ResultTo;
                         totalAccountsReceivables += amount;
                     }
                 }
@@ -1260,10 +1268,10 @@ namespace ERP.Web.Services
                 double totalRevenueReceivables = 0;
                 foreach (var item in AccountsRevenueReceivables)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance!=null)
+                    var auditBalance4 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance4!=null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance4.ResultFrom + auditBalance4.ResultTo ;
                         totalRevenueReceivables += amount;
                     }
                 }
@@ -1281,10 +1289,10 @@ namespace ERP.Web.Services
                 double totalOtherDebitAccounts = 0;
                 foreach (var item in AccountsRevenueReceivables)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if(auditBalance!=null)
+                    var auditBalance4 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if(auditBalance4!=null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance4.ResultFrom + auditBalance4.ResultTo;
                         totalOtherDebitAccounts += amount;
                     }
                 }
@@ -1306,9 +1314,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdAccountsReceivableHolding = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.AccountsReceivableHolding).FirstOrDefault().Id;
                 double totalAccountsReceivableHolding = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdAccountsReceivableHolding).FirstOrDefault();
-                if (auditBalance != null)
-                    totalAccountsReceivableHolding = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance5 = GetAuditBalances(dtFrom, dtTo, accIdAccountsReceivableHolding);
+                if (auditBalance5 != null)
+                    totalAccountsReceivableHolding = auditBalance5.ResultFrom + auditBalance5.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.AccountsReceivableHolding,
@@ -1320,9 +1328,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdAccountsReceivableSubsidiaries = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.AccountsReceivableSubsidiaries).FirstOrDefault().Id;
                 double totalAccountsReceivableSubsidiaries = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdAccountsReceivableSubsidiaries).FirstOrDefault();
-                if (auditBalance != null)
-                    totalAccountsReceivableSubsidiaries = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance6 = GetAuditBalances(dtFrom, dtTo, accIdAccountsReceivableSubsidiaries);
+                if (auditBalance6 != null)
+                    totalAccountsReceivableSubsidiaries = auditBalance6.ResultFrom + auditBalance6.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.AccountsReceivableSubsidiaries,
@@ -1335,9 +1343,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdExpensesPaidAdvance = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.ExpensesPaidAdvance).FirstOrDefault().Id;
                 double totalExpensesPaidAdvance = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdExpensesPaidAdvance).FirstOrDefault();
-                if (auditBalance != null)
-                    totalExpensesPaidAdvance = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance7 = GetAuditBalances(dtFrom, dtTo, accIdExpensesPaidAdvance);
+                if (auditBalance7 != null)
+                    totalExpensesPaidAdvance = auditBalance7.ResultFrom +auditBalance7.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.ExpensesPaidAdvance,
@@ -1360,9 +1368,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdTradedInvestmentSecurities = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.TradedInvestmentSecurities).FirstOrDefault().Id;
                 double totalTradedInvestmentSecurities = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdTradedInvestmentSecurities).FirstOrDefault();
-                if (auditBalance != null)
-                    totalTradedInvestmentSecurities = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance8 = GetAuditBalances(dtFrom, dtTo, accIdTradedInvestmentSecurities);
+                if (auditBalance8 != null)
+                    totalTradedInvestmentSecurities = auditBalance8.ResultFrom + auditBalance8.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.TradedInvestmentSecurities,
@@ -1375,9 +1383,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdBankDepositForTerm = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.BankDepositForTerm).FirstOrDefault().Id;
                 double totalBankDepositForTerm = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdBankDepositForTerm).FirstOrDefault();
-                if (auditBalance != null)
-                    totalBankDepositForTerm = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance9 = GetAuditBalances(dtFrom, dtTo, accIdBankDepositForTerm);
+                if (auditBalance9 != null)
+                    totalBankDepositForTerm = auditBalance9.ResultFrom + auditBalance9.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.BankDepositForTerm,
@@ -1389,9 +1397,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdWarrantyCover = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.WarrantyCover).FirstOrDefault().Id;
                 double totalWarrantyCover = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdAccountsReceivableHolding).FirstOrDefault();
-                if (auditBalance != null)
-                    totalWarrantyCover = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance10 = GetAuditBalances(dtFrom, dtTo, accIdAccountsReceivableHolding);
+                if (auditBalance10 != null)
+                    totalWarrantyCover = auditBalance10.ResultFrom + auditBalance10.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.WarrantyCover,
@@ -1406,10 +1414,10 @@ namespace ERP.Web.Services
                 double totalBankAccounts = 0;
                 foreach (var item in bankAccounts)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance11 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance11 != null)
                     {
-                      amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                      amount = auditBalance11.ResultFrom + auditBalance11.ResultTo ;
                       totalBankAccounts += amount;
                     }
                 }
@@ -1427,10 +1435,10 @@ namespace ERP.Web.Services
                 double totalSafeAccounts = 0;
                 foreach (var item in safeAccounts)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance12 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance12 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance12.ResultFrom + auditBalance12.ResultTo ;
                     totalSafeAccounts += amount;
 
                     }
@@ -1493,10 +1501,10 @@ namespace ERP.Web.Services
                 double totalPaidCapitals = 0;
                 foreach (var item in paidCapitals)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance13 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance13 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance13.ResultFrom + auditBalance13.ResultTo ;
                     totalPaidCapitals += amount;
 
                     }
@@ -1512,9 +1520,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdCapitalReserve = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.CapitalReserve).FirstOrDefault().Id;
                 double totalCapitalReserve = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdCapitalReserve).FirstOrDefault();
-                if (auditBalance != null)
-                    totalCapitalReserve = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance14 = GetAuditBalances(dtFrom, dtTo, accIdCapitalReserve);
+                if (auditBalance14 != null)
+                    totalCapitalReserve = auditBalance14.ResultFrom + auditBalance14.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.CapitalReserve,
@@ -1526,9 +1534,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdOtherReserves = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.OtherReserves).FirstOrDefault().Id;
                 double totalOtherReserves = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdOtherReserves).FirstOrDefault();
-                if (auditBalance != null)
-                    totalOtherReserves = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance15 = GetAuditBalances(dtFrom, dtTo, accIdOtherReserves);
+                if (auditBalance15 != null)
+                    totalOtherReserves = auditBalance15.ResultFrom + auditBalance15.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.OtherReserves,
@@ -1550,9 +1558,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdProfitLossStage = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.ProfitLossStage).FirstOrDefault().Id;
                 double totalProfitLossStages = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdProfitLossStage).FirstOrDefault();
-                if (auditBalance != null)
-                    totalProfitLossStages = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance16 = GetAuditBalances(dtFrom, dtTo, accIdProfitLossStage);
+                if (auditBalance16 != null)
+                    totalProfitLossStages = auditBalance16.ResultFrom + auditBalance16.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.ProfitLossStage,
@@ -1579,9 +1587,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdLongTermCommitment = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.LongTermCommitments).FirstOrDefault().Id;
                 double totalLongTermCommitments = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdLongTermCommitment).FirstOrDefault();
-                if (auditBalance != null)
-                    totalLongTermCommitments = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance17 = GetAuditBalances(dtFrom, dtTo, accIdLongTermCommitment);
+                if (auditBalance17 != null)
+                    totalLongTermCommitments = auditBalance17.ResultFrom + auditBalance17.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.LongTermCommitments,
@@ -1593,9 +1601,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdLongTermLiabilities = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.LongTermLiabilities).FirstOrDefault().Id;
                 double totalLongTermLiabilities = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdLongTermLiabilities).FirstOrDefault();
-                if (auditBalance != null)
-                    totalLongTermLiabilities = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance18 = GetAuditBalances(dtFrom, dtTo, accIdLongTermLiabilities);
+                if (auditBalance18 != null)
+                    totalLongTermLiabilities = auditBalance18.ResultFrom + auditBalance18.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.LongTermLiabilities,
@@ -1607,9 +1615,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdOtherCreditAccounts = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.OtherCreditAccounts).FirstOrDefault().Id;
                 double totalOtherCreditAccounts = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdOtherCreditAccounts).FirstOrDefault();
-                if (auditBalance != null)
-                    totalOtherCreditAccounts = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance19 = GetAuditBalances(dtFrom, dtTo, accIdOtherCreditAccounts);
+                if (auditBalance19 != null)
+                    totalOtherCreditAccounts = auditBalance19.ResultFrom + auditBalance19.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.OtherCreditAccounts,
@@ -1635,9 +1643,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdDisputedTaxCustom = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.DisputedTaxCustom).FirstOrDefault().Id;
                 double totalDisputedTaxCustoms = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdDisputedTaxCustom).FirstOrDefault();
-                if (auditBalance != null)
-                    totalDisputedTaxCustoms = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance20 = GetAuditBalances(dtFrom, dtTo, accIdDisputedTaxCustom);
+                if (auditBalance20 != null)
+                    totalDisputedTaxCustoms = auditBalance20.ResultFrom + auditBalance20.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.DisputedTaxCustom,
@@ -1649,9 +1657,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdProvisionForClaims = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.ProvisionForClaims).FirstOrDefault().Id;
                 double totalProvisionForClaims = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdProvisionForClaims).FirstOrDefault();
-                if (auditBalance != null)
-                    totalProvisionForClaims = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance21 = GetAuditBalances(dtFrom, dtTo, accIdProvisionForClaims);
+                if (auditBalance21 != null)
+                    totalProvisionForClaims = auditBalance21.ResultFrom + auditBalance21.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.ProvisionForClaims,
@@ -1663,9 +1671,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdOtherAllowances = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.OtherAllowances).FirstOrDefault().Id;
                 double totalOtherAllowances = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdOtherAllowances).FirstOrDefault();
-                if (auditBalance != null)
-                    totalOtherAllowances = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance22 = GetAuditBalances(dtFrom, dtTo, accIdOtherAllowances);
+                if (auditBalance22 != null)
+                    totalOtherAllowances = auditBalance22.ResultFrom + auditBalance22.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.OtherAllowances,
@@ -1695,10 +1703,10 @@ namespace ERP.Web.Services
                 double totalSuppliers = 0;
                 foreach (var item in supplierAccounts)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance30 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance30 != null)
                     {
-                       amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                       amount = auditBalance30.ResultFrom + auditBalance30.ResultTo;
                        totalSuppliers += amount;
                     }
                 }
@@ -1715,10 +1723,10 @@ namespace ERP.Web.Services
                 double totalAccountsPayables = 0;
                 foreach (var item in AccountsPayables)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance23 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance23 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance23.ResultFrom + auditBalance23.ResultTo;
                     totalAccountsPayables += amount;
 
                     }
@@ -1736,10 +1744,10 @@ namespace ERP.Web.Services
                 double totalExpenseReceivables = 0;
                 foreach (var item in AccountsExpenseReceivables)
                 {
-                    auditBalance = auditBalances.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (auditBalance != null)
+                    var auditBalance24 = GetAuditBalances(dtFrom, dtTo, item.Id);
+                    if (auditBalance24 != null)
                     {
-                        amount = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                        amount = auditBalance24.ResultFrom + auditBalance24.ResultTo;
                     totalExpenseReceivables += amount;
 
                     }
@@ -1755,9 +1763,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdIncomesPaidAdvance = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.IncomesPaidAdvance).FirstOrDefault().Id;
                 double totalIncomesPaidAdvance = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdIncomesPaidAdvance).FirstOrDefault();
-                if (auditBalance != null)
-                    totalIncomesPaidAdvance = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance25 = GetAuditBalances(dtFrom, dtTo, accIdIncomesPaidAdvance);
+                if (auditBalance25 != null)
+                    totalIncomesPaidAdvance = auditBalance25.ResultFrom + auditBalance25.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.IncomesPaidAdvance,
@@ -1768,9 +1776,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdDeferredInstallmentSalesProfit = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.DeferredInstallmentSalesProfit).FirstOrDefault().Id;
                 double totalDeferredInstallmentSalesProfit = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdDeferredInstallmentSalesProfit).FirstOrDefault();
-                if (auditBalance != null)
-                    totalDeferredInstallmentSalesProfit = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance26 = GetAuditBalances(dtFrom, dtTo, accIdDeferredInstallmentSalesProfit);
+                if (auditBalance26 != null)
+                    totalDeferredInstallmentSalesProfit = auditBalance26.ResultFrom + auditBalance26.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.DeferredInstallmentSalesProfit,
@@ -1781,9 +1789,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdOtherAccountsPayable = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.OtherAccountsPayable).FirstOrDefault().Id;
                 double totalOtherAccountsPayable = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdOtherAccountsPayable).FirstOrDefault();
-                if (auditBalance != null)
-                    totalOtherAccountsPayable = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance27 = GetAuditBalances(dtFrom, dtTo, accIdOtherAccountsPayable);
+                if (auditBalance27 != null)
+                    totalOtherAccountsPayable = auditBalance27.ResultFrom + auditBalance27.ResultTo ;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.OtherAccountsPayable,
@@ -1802,9 +1810,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdAccountsPayableHolding = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.AccountsPayableHolding).FirstOrDefault().Id;
                 double totalAccountsPayableHolding = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdAccountsPayableHolding).FirstOrDefault();
-                if (auditBalance != null)
-                    totalAccountsPayableHolding = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance28 = GetAuditBalances(dtFrom, dtTo, accIdAccountsPayableHolding);
+                if (auditBalance28 != null)
+                    totalAccountsPayableHolding = auditBalance28.ResultFrom + auditBalance28.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.AccountsPayableHolding,
@@ -1816,9 +1824,9 @@ namespace ERP.Web.Services
                 //=========================
                 var accIdAccountsPayableSubsidiaries = db.AccountsTrees.Where(x => x.AccountNumber == Lookups.AccountsPayableSubsidiaries).FirstOrDefault().Id;
                 double totalAccountsPayableSubsidiaries = 0;
-                auditBalance = auditBalances.Where(x => x.Id == accIdAccountsPayableSubsidiaries).FirstOrDefault();
-                if (auditBalance != null)
-                    totalAccountsPayableSubsidiaries = auditBalance.ResultFrom > auditBalance.ResultTo ? auditBalance.ResultFrom : auditBalance.ResultTo;
+                var auditBalance29 = GetAuditBalances(dtFrom, dtTo, accIdAccountsPayableSubsidiaries);
+                if (auditBalance29 != null)
+                    totalAccountsPayableSubsidiaries = auditBalance29.ResultFrom + auditBalance29.ResultTo;
                 financialCenter.Add(new IncomeListDto
                 {
                     AccountNumber = Lookups.AccountsPayableSubsidiaries,

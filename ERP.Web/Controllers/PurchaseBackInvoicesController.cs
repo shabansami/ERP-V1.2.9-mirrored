@@ -553,6 +553,8 @@ namespace ERP.Web.Controllers
                                                                         TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
                                                                     });
                                                                 }
+                                                                else
+                                                                    return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                             }
                                                         }
                                                         credit = credit + model.TotalValue;
@@ -1000,6 +1002,8 @@ namespace ERP.Web.Controllers
                                                             TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
                                                         });
                                                     }
+                                                    else
+                                                        return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                 }
                                             }
                                             credit = credit + model.TotalValue;

@@ -420,7 +420,7 @@ namespace ERP.Web.Controllers
             List<SelectListItem> selectListItem3 = new List<SelectListItem>
             {
                  new SelectListItem { Text = "اظهار", Value = "1" },
-                  new SelectListItem { Text = "اخفاء", Value = "0" }
+                 new SelectListItem { Text = "اخفاء", Value = "0" }
             };
             ViewBag.ItemCostCalculateShowInSellRegId = new SelectList(selectListItem3, "Value", "Text", itemCostCalculateShowInSellReg != null ? itemCostCalculateShowInSellReg : null);
             //السماح بالبيع عند تخطى الحد الائتمانى للخطر
@@ -428,6 +428,10 @@ namespace ERP.Web.Controllers
             ViewBag.LimitDangerSell = new SelectList(selectListItem, "Value", "Text", limitDangerSell != null ? limitDangerSell : null);
             //المدة المسموح بها فى سداد قسط
             vm.PeriodAllowedPayInstallment = int.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.PeriodAllowedPayInstallment).FirstOrDefault().SValue, out var period) ? int.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.PeriodAllowedPayInstallment).FirstOrDefault().SValue) : 5;
+            //نسبة ضريبة القيمة المضافة فى الفواتير
+            vm.TaxPercentage = int.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault().SValue, out var taxPercentage) ? int.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault().SValue) : 14;
+            //نسبة ضريبة ارباح تجارية فى الفواتير
+            vm.TaxProfitPercentage = int.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault().SValue, out var taxProfitPercentage) ? int.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault().SValue) : 1;
             #region Upload Center File
             var uploadCenterTree = db.UploadCenters.Where(x => !x.IsDeleted).ToList();
 
@@ -563,8 +567,8 @@ namespace ERP.Web.Controllers
 
                         // احتساب تكلفة المنتج 
                         // قبول اضافة اصناف بدون رصيد فى فواتير البيع 
-                        var itemCosts = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.Items).ToList();
-                        foreach (var item in itemCosts)
+                        var otherSetting = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.OtherSetting).ToList();
+                        foreach (var item in otherSetting)
                         {
                             // احتساب تكلفة المنتج 
                             if (item.Id == (int)GeneralSettingCl.ItemCostCalculateId)
@@ -592,6 +596,13 @@ namespace ERP.Web.Controllers
                             // السماح بالبيع عند تخطى الحد الائتمانى للخطر                             
                             if (item.Id == (int)GeneralSettingCl.LimitDangerSell)
                                 item.SValue = vm.LimitDangerSell.ToString();
+                            //  نسبة الضريبة القيمة المضافة                              
+                            if (item.Id == (int)GeneralSettingCl.TaxPercentage)
+                                item.SValue = vm.TaxPercentage.ToString();
+
+                            // نسبة الضريبة ارباح تجارية                              
+                            if (item.Id == (int)GeneralSettingCl.TaxProfitPercentage)
+                                item.SValue = vm.TaxProfitPercentage.ToString();
 
                             db.Entry(item).State = EntityState.Modified;
                         }

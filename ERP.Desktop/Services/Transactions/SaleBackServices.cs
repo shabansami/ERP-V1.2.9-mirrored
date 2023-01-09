@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ERP.Web.Utilites.Lookups;
 using System.Data.Entity;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Desktop.Services.Transactions
 {
@@ -447,6 +448,7 @@ namespace ERP.Desktop.Services.Transactions
                         return result;
                     }
                     var expenses = db.SellBackInvoiceIncomes.Where(x => !x.IsDeleted && x.SellBackInvoiceId == invoice.Id);
+                    var customer = db.Persons.Where(x => x.Id == invoice.CustomerId).FirstOrDefault();
 
                     if (expenses.Count() > 0)
                     {
@@ -457,30 +459,109 @@ namespace ERP.Desktop.Services.Transactions
                         }
                     }
 
-                    // حساب مرتجع المبيعات
-                    db.GeneralDailies.Add(new GeneralDaily
+                    //=============================================================
+                    //تحديد نوع الجرد
+                    var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                    if (int.TryParse(inventoryType, out int inventoryTypeVal))
                     {
-                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesReturnAccount).FirstOrDefault().SValue),
-                        BranchId = invoice.BranchId,
-                        Debit = invoice.TotalValue,
-                        Notes = $"فاتورة مرتجع بيع رقم : {invoice.InvoiceNumber}",
-                        TransactionDate = invoice.InvoiceDate,
-                        TransactionId = invoice.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.SellReturn
-                    });
-                    debit = debit + invoice.TotalValue;
-                    // حساب العميل
-                    db.GeneralDailies.Add(new GeneralDaily
+                        //فى حالة الجرد المستمر
+                        if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                        {
+                            if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                            {
+                                //من ح/ المخزون
+                                foreach (var item in invoice.SellBackInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                {
+                                    var store = db.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                    if (store != null)
+                                    {
+                                        if (store.AccountTreeId != null)
+                                        {
+                                            if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                            {
+                                                result.Message = $"حساب المخزن {store.Name} ليس بحساب فرعى";
+                                                return result;
+                                            }
+                                            db.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = store.AccountTreeId,
+                                                BranchId = invoice.BranchId,
+                                                Debit = item.Amount,
+                                                Notes = $"فاتورة مرتجع بيع رقم : {invoice.InvoiceNumber} من العميل {customer.Name}",
+                                                TransactionDate = invoice.InvoiceDate,
+                                                TransactionId = invoice.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                            });
+                                        }
+                                        else
+                                        {
+                                            result.Message = $"حساب المخزون للمخزن {store.Name} غير موجود";
+                                            return result;
+                                        }
+                                    }
+                                }
+                                // الي ح/  تكلفة بضاعه مباعه
+                                db.GeneralDailies.Add(new GeneralDaily
+                                {
+                                    AccountsTreeId = accountTreeSalesCost,
+                                    BranchId = invoice.BranchId,
+                                    Credit = invoice.TotalValue,
+                                    Notes = $"فاتورة مرتجع بيع رقم : {invoice.InvoiceNumber} من العميل {customer.Name}",
+                                    TransactionDate = invoice.InvoiceDate,
+                                    TransactionId = invoice.Id,
+                                    TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                                });
+
+
+                                debit = debit + invoice.TotalValue;
+                                credit = credit + invoice.TotalValue;
+                            }
+                            else
+                            {
+                                result.Message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا";
+                                return result;
+                            }
+                        }
+                        else
+                        {
+
+                            // حساب مرتجع المبيعات
+                            db.GeneralDailies.Add(new GeneralDaily
+                            {
+                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesReturnAccount).FirstOrDefault().SValue),
+                                BranchId = invoice.BranchId,
+                                Debit = invoice.TotalValue,
+                                Notes = $"فاتورة مرتجع بيع رقم : {invoice.InvoiceNumber}",
+                                TransactionDate = invoice.InvoiceDate,
+                                TransactionId = invoice.Id,
+                                TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                            });
+                            debit = debit + invoice.TotalValue;
+                            // حساب العميل
+                            db.GeneralDailies.Add(new GeneralDaily
+                            {
+                                AccountsTreeId = db.Persons.Where(x => x.Id == invoice.CustomerId).FirstOrDefault().AccountsTreeCustomerId,
+                                BranchId = invoice.BranchId,
+                                Credit = invoice.Safy,
+                                Notes = $"فاتورة مرتجع بيع رقم : {invoice.InvoiceNumber}",
+                                TransactionDate = invoice.InvoiceDate,
+                                TransactionId = invoice.Id,
+                                TransactionTypeId = (int)TransactionsTypesCl.SellReturn
+                            });
+                            credit = credit + invoice.Safy;
+                        }
+
+                    }
+                    else
                     {
-                        AccountsTreeId = db.Persons.Where(x => x.Id == invoice.CustomerId).FirstOrDefault().AccountsTreeCustomerId,
-                        BranchId = invoice.BranchId,
-                        Credit = invoice.Safy,
-                        Notes = $"فاتورة مرتجع بيع رقم : {invoice.InvoiceNumber}",
-                        TransactionDate = invoice.InvoiceDate,
-                        TransactionId = invoice.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.SellReturn
-                    });
-                    credit = credit + invoice.Safy;
+                        result.Message = "تأكد من تحديد نوع الجرد اولا";
+                        return result;
+                    }
+                    //============================================
+
+
+
+
 
                     // القيمة المضافة
                     if (invoice.SalesTax > 0)

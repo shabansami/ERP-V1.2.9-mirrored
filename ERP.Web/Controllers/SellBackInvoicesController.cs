@@ -575,6 +575,8 @@ namespace ERP.Web.Controllers
                                                                         TransactionTypeId = (int)TransactionsTypesCl.SellReturn
                                                                     });
                                                                 }
+                                                                else
+                                                                    return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                             }
                                                         }
                                                         // الي ح/  تكلفة بضاعه مباعه
@@ -1082,6 +1084,8 @@ namespace ERP.Web.Controllers
                                                             TransactionTypeId = (int)TransactionsTypesCl.SellReturn
                                                         });
                                                     }
+                                                    else
+                                                        return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                 }
                                             }
                                             // الي ح/  تكلفة بضاعه مباعه

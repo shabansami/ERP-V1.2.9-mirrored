@@ -13,6 +13,7 @@ namespace ERP.Web.DataTablesDS
         public Guid? ContainerId { get; set; }
         public string ItemName { get; set; }
         public double Quantity { get; set; }
+        public string QuantityUnitName { get; set; }//الكمية بالوحدة الكبرى ان وجدت
         public double Price { get; set; }
         public double Amount { get; set; }
         public string StoreName { get; set; }

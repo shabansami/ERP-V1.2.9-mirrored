@@ -493,6 +493,7 @@ var SellInvoice_Module = function () {
                 { data: 'IsIntial', visible: false },
                 { data: 'IsDiscountItemVal', visible: false },
                 { data: 'ItemName', title: 'الصنف' },
+                { data: 'QuantityUnitName', title: 'الكمية بالوحدة' },
                 { data: 'Quantity', title: 'الكمية' },
                 { data: 'Price', title: 'سعر البيع' },
                 { data: 'Amount', title: 'القيمة' },
@@ -845,6 +846,14 @@ var SellInvoice_Module = function () {
         var SalesTax = Number.parseFloat($("#SalesTax").val());
         if (isNaN(SalesTax))
             SalesTax = 0;
+        var SalesTaxPercentage = Number.parseFloat($("#SalesTaxPercentage").val());
+        if (isNaN(SalesTaxPercentage))
+            SalesTaxPercentage = 0;
+        else {
+            SalesTax = (TotalAmount * SalesTaxPercentage) / 100
+            $("#SalesTax").val(SalesTax);
+        }
+        
 
         var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
         if (isNaN(TotalDiscount))
@@ -853,8 +862,15 @@ var SellInvoice_Module = function () {
         var ProfitTax = Number.parseFloat($("#ProfitTax").val());
         if (isNaN(ProfitTax))
             ProfitTax = 0;
+        var ProfitPercentageTax = Number.parseFloat($("#ProfitTaxPercentage").val());
+        if (isNaN(ProfitPercentageTax))
+            ProfitPercentageTax = 0;
+        else {
+            ProfitTax = (TotalAmount * ProfitPercentageTax) / 100
+            $("#ProfitTax").val(ProfitTax)
+        }
 
-        var safy = (TotalAmount + TotalExpenses + SalesTax) - (TotalDiscount + ProfitTax);
+        var safy =((TotalAmount + TotalExpenses + SalesTax) - (TotalDiscount + ProfitTax)).toFixed(2);
         $("#SafyInvoice").text(safy);
 
         if ($("#PaymentTypeId").val() == "2" || $("#PaymentTypeId").val() == "4") {

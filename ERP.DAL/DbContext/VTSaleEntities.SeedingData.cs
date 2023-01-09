@@ -145,7 +145,7 @@ namespace ERP.DAL
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "المخزن الافتراضى" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "تاريخ بداية ونهاية السنة المالية" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "رفع الملفات الى مركز التحميل" });
-                        db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "الاصناف" });
+                        db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "اعدادات اخرى" });
                     }
 
                     //الجنسيات
@@ -799,6 +799,8 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (70,N'سطر الطباعه الرابع اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (71,N'سطر الطباعه الخامس اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (72,N'حساب تكلفة بضاعه مباعه',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (73,N'نسبة ضريبة القيمة المضافة',N'14',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (74,N'نسبة ضريبة ارباح تجارية',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 
 SET IDENTITY_INSERT [{Schema}].[GeneralSettings] OFF;";
 

@@ -546,6 +546,8 @@ namespace ERP.Web.Controllers
                                                                     TransactionTypeId = (int)TransactionsTypesCl.Purchases
                                                                 });
                                                             }
+                                                            else
+                                                                return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                         }
                                                     }
 
@@ -1041,6 +1043,8 @@ namespace ERP.Web.Controllers
                                                         TransactionTypeId = (int)TransactionsTypesCl.Purchases
                                                     });
                                                 }
+                                                else
+                                                    return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                             }
                                         }
 

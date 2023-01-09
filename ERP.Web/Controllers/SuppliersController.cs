@@ -170,6 +170,7 @@ namespace ERP.Web.Controllers
                     model.Notes = vm.Notes;
                     model.PersonCategoryId = vm.PersonCategoryId;
                     model.LocationPath = vm.LocationPath;
+                    model.TaxNumber = vm.TaxNumber;
                     db.Entry(model).State = EntityState.Modified;
                     //remove all old Customer Responsible
                     var oldSupplierResponsible = db.Persons.Where(x => !x.IsDeleted && x.ParentId == vm.Id).ToList();

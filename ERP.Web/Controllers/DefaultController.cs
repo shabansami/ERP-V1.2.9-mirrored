@@ -38,8 +38,8 @@ namespace ERP.Web.Controllers
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             List<Page> pages = new List<Page>();
-            Guid roleID = new Guid("5815E2BB-16C0-4BCD-9DD3-D119399EE760");
-            Guid userId = new Guid("48BF177C-2274-4796-8B76-7A236AE6190D");
+            Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
+            Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
             //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -109,6 +109,8 @@ namespace ERP.Web.Controllers
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(70, N'سطر الطباعه الرابع اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(71, N'سطر الطباعه الخامس اسفل', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(72, N'حساب تكلفة بضاعه مباعه مع الجرد المستمر', NULL, 1, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(73, N'نسبة ضريبة القيمة المضافة', N'14', 7, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(74, N'نسبة ضريبة ارباح تجارية', N'1', 7, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //SET IDENTITY_INSERT[dbo].[GeneralSettings] OFF; ";
             //db.Database.ExecuteSqlCommand(genralSettings);
 

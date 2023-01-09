@@ -32,6 +32,15 @@ namespace ERP.DAL
         public double TotalValue { get; set; }
         public string Notes { get; set; }
         public string InvoiceNumber { get; set; }
+        public double SalesTax { get; set; }
+        public double SalesTaxPercentage { get; set; } //نسبة الضريبة المدخلة
+        public double ProfitTax { get; set; }
+        public double ProfitTaxPercentage { get; set; } //نسبة ضريبة ارباح تجارية المدخلة
+        public double InvoiceDiscount { get; set; }
+        public double DiscountPercentage { get; set; }
+        public double TotalDiscount { get; set; }
+        public double Safy { get; set; }
+
         [ForeignKey(nameof(OrderSellCase))]
         public Nullable<int> OrderSellCaseId { get; set; }//حالات امر البيع (تم البيع /تم الانتاج/ جارى التنفيذ/تم الانتهاء)
         public virtual Branch Branch { get; set; }

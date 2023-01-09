@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static ERP.Web.Utilites.Lookups;
 using System.Data.Entity;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Desktop.Services.Transactions
 {
@@ -422,30 +423,92 @@ namespace ERP.Desktop.Services.Transactions
                             return result;
                         }
                     }
+                    var supplier = db.Persons.Where(x => x.Id == invoice.SupplierId).FirstOrDefault();
 
-                    // حساب المشتريات
-                    //var transactionDate = ;
-                    //var t = db.CasesPurchaseInvoiceHistories.Where(x => x.IsPurchaseInvoice && x.PurchaseInvoiceId == invoice.Id && x.CaseId == (int)CasesCl.InvoiceFinalApproval).Count() > 0;
-                    //if (invoice.CasesPurchaseInvoiceHistories.Any(x => x.CaseId == (int)CasesCl.InvoiceFinalApproval))
-
-                    //من ح/ المشتريات
-                    db.GeneralDailies.Add(new GeneralDaily
+                    //=============================================================
+                    //تحديد نوع الجرد
+                    var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                    if (int.TryParse(inventoryType, out int inventoryTypeVal))
                     {
-                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
-                        BranchId = invoice.BranchId,
-                        Debit = invoice.TotalValue,
-                        Notes = $"فاتورة توريد رقم : {invoice.InvoiceNumber}",
-                        PaperNumber = invoice.InvoiceNumPaper,
-                        TransactionDate = invoice.InvoiceDate,
-                        TransactionId = invoice.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.Purchases
-                    });
-                    //db.SaveChanges(auth.CookieValues.UserId);
-                    debit = debit + invoice.TotalValue;
+                        //فى حالة الجرد المستمر
+                        if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                        {
+                            if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                            {
+
+                                //من ح/ المخزون
+                                foreach (var item in invoice.PurchaseInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                {
+                                    var store = db.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                    if (store != null)
+                                    {
+                                        if (store.AccountTreeId != null)
+                                        {
+                                            if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                            {
+                                                result.Message = $"حساب المخزن {store.Name} ليس بحساب فرعى";
+                                                return result;
+                                            }
+                                            db.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = store.AccountTreeId,
+                                                BranchId = invoice.BranchId,
+                                                Debit = item.Amount,
+                                                Notes = $"فاتورة توريد رقم : {invoice.Id} من المورد {supplier.Name}",
+                                                TransactionDate = invoice.InvoiceDate,
+                                                TransactionId = invoice.Id,
+                                                TransactionShared = invoice.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.Purchases
+                                            });
+                                        }
+                                        else
+                                        {
+                                            result.Message = $"حساب المخزون للمخزن {store.Name} غير موجود";
+                                            return result;
+                                        }
+                                    }
+                                    
+                                }
+
+                                debit = debit + invoice.TotalValue;
+                            }
+                            else
+                            {
+                                result.Message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا";
+                                return result;
+                            }
+                        }
+                        else
+                        {
+
+                            //من ح/ المشتريات
+                            db.GeneralDailies.Add(new GeneralDaily
+                            {
+                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
+                                BranchId = invoice.BranchId,
+                                Debit = invoice.TotalValue,
+                                Notes = $"فاتورة توريد رقم : {invoice.InvoiceNumber} من المورد {supplier.Name}",
+                                PaperNumber = invoice.InvoiceNumPaper,
+                                TransactionDate = invoice.InvoiceDate,
+                                TransactionId = invoice.Id,
+                                TransactionTypeId = (int)TransactionsTypesCl.Purchases
+                            });
+                            //db.SaveChanges(auth.CookieValues.UserId);
+                            debit = debit + invoice.TotalValue;
+                        }
+
+                    }
+                    else
+                    {
+                        result.Message = "تأكد من تحديد نوع الجرد اولا";
+                        return result;
+                    }
+                    //============================================
+
                     // حساب المورد
                     db.GeneralDailies.Add(new GeneralDaily
                     {
-                        AccountsTreeId = db.Persons.Where(x => x.Id == invoice.SupplierId).FirstOrDefault().AccountTreeSupplierId,
+                        AccountsTreeId = supplier.AccountTreeSupplierId,
                         BranchId = invoice.BranchId,
                         Credit = invoice.Safy,
                         Notes = $"فاتورة توريد رقم : {invoice.InvoiceNumber}",

@@ -54,7 +54,9 @@ namespace ERP.DAL
         public double PayedValue { get; set; }
         public double RemindValue { get; set; }
         public double SalesTax { get; set; }
+        public double SalesTaxPercentage { get; set; } //‰”»… «·÷—Ì»… «·„œŒ·…
         public double ProfitTax { get; set; }
+        public double ProfitTaxPercentage { get; set; } //‰”»… ÷—Ì»… «—»«Õ  Ã«—Ì… «·„œŒ·…
         public double InvoiceDiscount { get; set; }
         public double TotalDiscount { get; set; }
         public double Safy { get; set; }

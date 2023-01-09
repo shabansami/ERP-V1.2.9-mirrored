@@ -78,7 +78,7 @@ namespace ERP.DAL
         public string ImageName { get; set; }
         public string Notes { get; set; }
         public string LocationPath { get; set; }
-        public string TaxNumber { get; set; }
+        public string TaxNumber { get; set; }//الرقم الضريبى
         public string CommercialRegistrationNo { get; set; }
         public string WebSite { get; set; }
         public string Job { get; set; }

@@ -135,25 +135,25 @@
                                         @Html.TextBoxFor(m => m.EntityData.TaxCardNo, new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>احتساب تكلفة المنتج</label>
                                         @Html.DropDownList("ItemCostCalculateId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>اظهار تكلفة الصنف فى شاشة البيع</label>
                                         @Html.DropDownList("ItemCostCalculateShowInSellRegId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>اضافة اصناف بدون رصيد</label>
                                         @Html.DropDownList("ItemAcceptNoBalanceId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>قبول صرف نقدية بدون رصيد فى المصروفات وسندات الصرف</label>
                                         @Html.DropDownList("PaidWithBalance", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
@@ -167,35 +167,48 @@
                                 </div>
                                 <div class="col-lg-4">
                                     <div class="form-group ">
+                                        <label>نسبة ضريبة القيمة المضافة للفواتير</label>
+                                        @Html.TextBoxFor(m => m.TaxPercentage, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group ">
+                                        <label>نسبة ضريبة ارباح تجارية للفواتير</label>
+                                        @Html.TextBoxFor(m => m.TaxProfitPercentage, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group ">
                                         <label>المدة المسموح بها فى سداد قسط(بالايام)</label>
                                         @Html.TextBoxFor(m => m.PeriodAllowedPayInstallment, new { @class = "form-control" })
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="form-group ">
                                         <label>السماح البيع للعميل فى حالة تخطى رصيده حد الائتمانى </label>
                                         @Html.DropDownList("LimitDangerSell", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
+
                                 @*<div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>بداية السنة المالية</label>
-                                        @Html.TextBoxFor(m => m.FinancialYearStartDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group ">
-                                        <label>نهاية السنة المالية</label>
-                                        @Html.TextBoxFor(m => m.FinancialYearEndDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
-                                    </div>
-                                </div>*@
+            <div class="form-group">
+                <label>بداية السنة المالية</label>
+                @Html.TextBoxFor(m => m.FinancialYearStartDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group ">
+                <label>نهاية السنة المالية</label>
+                @Html.TextBoxFor(m => m.FinancialYearEndDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+            </div>
+        </div>*@
 
                                 <div class="col-lg-6" style="display:none;">
                                     <div class="form-group ">
                                         <label style="margin-left:10px">طول Serial يحتوى على</label>
                                         @Html.CheckBoxFor(m => m.Letters, new { @style = "width: 25px; height: 25px;", @class = "form-check-input din-med" })
                                         <label style="margin-left:10px">حروف</label>
-                                        @Html.CheckBoxFor(m => m.Numbers, new { @style = "width: 25px; height: 25px;" , @class = "form-check-input din-med" })
+                                        @Html.CheckBoxFor(m => m.Numbers, new { @style = "width: 25px; height: 25px;", @class = "form-check-input din-med" })
 
                                         <label>ارقام</label>
                                     </div>

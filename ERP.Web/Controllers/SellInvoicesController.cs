@@ -119,12 +119,15 @@ namespace ERP.Web.Controllers
                 storeName = db.Stores.FirstOrDefault(x => x.Id == vm.StoreId).Name;
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار المخزن " }, JsonRequestBehavior.AllowGet);
+
+            vm.QuantityUnitName ="0";
             //فى حالة البيع بوحدة 
             if (vm.ItemUnitsId != null && vm.ItemUnitsId != Guid.Empty)
             {
                 var itemUnit = db.ItemUnits.Where(x => x.Id == vm.ItemUnitsId).FirstOrDefault();
                 if (itemUnit != null&&itemUnit.Quantity>0)
                 {
+                    vm.QuantityUnitName = $"{vm.Quantity} {itemUnit.Unit?.Name}";
                     vm.Quantity = vm.Quantity * itemUnit.Quantity;
                     vm.Price = Math.Round(itemUnit.SellPrice / itemUnit.Quantity, 2, MidpointRounding.ToEven);
                 }
@@ -139,7 +142,7 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
 
 
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName=vm.QuantityUnitName, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount, totalQuantity = deDS.Sum(x => x.Quantity) }, JsonRequestBehavior.AllowGet);
@@ -214,6 +217,7 @@ namespace ERP.Web.Controllers
             if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
                 ViewBag.ItemAcceptNoBalance = itemAcceptNoBalance;
 
+
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
 
             if (TempData["model"] != null) //edit
@@ -286,6 +290,15 @@ namespace ERP.Web.Controllers
                 var vm = new SellInvoice();
                 vm.InvoiceDate = Utility.GetDateTime();
                 vm.DueDate = Utility.GetDateTime().AddMonths(1);
+                //ضريبة القيمة المضافة
+                var taxSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault();
+                if (double.TryParse(taxSetting?.SValue, out double TaxSetting))
+                    vm.SalesTaxPercentage = TaxSetting;
+                //ضريبة ارباح تجارية
+                var taxProfitSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault();
+                if (double.TryParse(taxProfitSetting?.SValue, out double TaxProfitSetting))
+                    vm.ProfitTaxPercentage = TaxProfitSetting;
+
                 Guid? customerId = null;
                 if (orderSellId != Guid.Empty&&orderSellId!=null)//امر بيع 
                 {
@@ -738,7 +751,10 @@ namespace ERP.Web.Controllers
                                                                         TransactionTypeId = (int)TransactionsTypesCl.Sell
                                                                     });
                                                                 }
+                                                                else
+                                                                    return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                             }
+
                                                         }
 
                                                         debit = debit + model.TotalValue;
@@ -900,7 +916,7 @@ namespace ERP.Web.Controllers
                                             credit = credit + expense.Amount;
                                         }
                                         //التاكد من توازن المعاملة 
-                                        if (debit == credit)
+                                        if (Math.Round(debit,2,MidpointRounding.ToEven) ==Math.Round(credit,2,MidpointRounding.ToEven))
                                         {
 
                                             //حفظ القيود 
@@ -1392,10 +1408,12 @@ namespace ERP.Web.Controllers
                                                 TransactionTypeId = (int)TransactionsTypesCl.Sell
                                             });
                                         }
-                                    
-                                }
+                                        else
+                                            return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
 
-                            }
+                                    }
+
+                                }
 
                             debit = debit + model.TotalValue;
                                 credit = credit + model.TotalValue;

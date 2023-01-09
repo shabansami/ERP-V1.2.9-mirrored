@@ -138,7 +138,8 @@ namespace ERP.Web.Utilites
 
           
             AccountTreeSalesCost,  //حساب تكلفة بضاعه مباعه مع الجرد المستمر 
-
+            TaxPercentage,//نسبة ضريبة القيمة المضافة
+            TaxProfitPercentage,//نسبة ضريبة ارباح تجارية 
 
         }
 
@@ -150,7 +151,7 @@ namespace ERP.Web.Utilites
             StoreDefault, // مخازن المواد الخام والتصنيع الافتراضيين الافتراضى
             FinancialYearDate,// تاريخ بداية ونهاية السنة المالية
             UploadCenterFiles, // رفع الملفات الى مركز التحميل
-            Items //الاصناف وتكلفتها 
+            OtherSetting //اعدادات اخرى 
         }
         public enum AccountTreeSelectorTypesCl // انواع الحسابات لسهولة فلتره التقارير
         {

@@ -328,6 +328,10 @@
     <Compile Include="Migrations\202212291619427_add_new_TB_ItemIntialBalanceDetails.designer.cs">
       <DependentUpon>202212291619427_add_new_TB_ItemIntialBalanceDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301091412584_addField_SalesTaxPercentage_in_All_Invoices.cs" />
+    <Compile Include="Migrations\202301091412584_addField_SalesTaxPercentage_in_All_Invoices.designer.cs">
+      <DependentUpon>202301091412584_addField_SalesTaxPercentage_in_All_Invoices.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
@@ -703,6 +707,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202212291619427_add_new_TB_ItemIntialBalanceDetails.resx">
       <DependentUpon>202212291619427_add_new_TB_ItemIntialBalanceDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301091412584_addField_SalesTaxPercentage_in_All_Invoices.resx">
+      <DependentUpon>202301091412584_addField_SalesTaxPercentage_in_All_Invoices.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

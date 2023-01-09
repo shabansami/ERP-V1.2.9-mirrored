@@ -28,6 +28,8 @@ namespace ERP.Web.ViewModels
         public Nullable<int> ItemCostCalculateShowInSellRegId { get; set; } //اظهار تكلفة الصنف فى شاشة البيع 
         public Nullable<int> PeriodAllowedPayInstallment { get; set; } //المدة المسموح بها فى سداد قسط 
         public Nullable<int> LimitDangerSell { get; set; } //السماح بالبيع عند تخطى الحد الائتمانى للخطر 
+        public Nullable<int> TaxPercentage { get; set; } //نسبة الضريبة 
+        public Nullable<int> TaxProfitPercentage { get; set; } //نسبة الضريبة ارباح تجارية 
         public bool Letters { get; set; }
         public bool Numbers { get; set; }
         public int InventoryType { get; set; } //نوع الجرد 1-جرد دورى   2-جرد مستمر

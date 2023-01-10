@@ -175,7 +175,7 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                InvoiceTitle = "فاتورة بيع",
+                                InvoiceTitle = "فاتورة مبيعات",
                                 PersonTypeName = "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة
@@ -231,7 +231,7 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                InvoiceTitle = "فاتورة مرتجع بيع",
+                                InvoiceTitle = "فاتورة مرتجع مبيعات",
                                 PersonTypeName = "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة

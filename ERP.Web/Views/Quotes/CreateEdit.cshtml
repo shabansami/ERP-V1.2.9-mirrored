@@ -4,19 +4,30 @@
 
 @{ ViewBag.Title = "CreateEdit";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    double totalValue = 0;   // اجمالى الفاتورة (البيع)
+    double totalQuantity = 0;   // اجمالى العدد (البيع)
+    double totalItemDiscount = 0; // اجمالى الخصومات على الاصناف
+    double totalExpenses = 0; // اجمالى الايرادات
+    double totalDiscount = 0; // اجمالى الخصومات على كل الفاتورة
+    double safy = 0; // صافى الفاتورة
+
+    totalValue = Model.TotalValue;
+    totalQuantity = Model.TotalQuantity;
+    safy = Model.Safy;
+
     string title, btn = string.Empty, icon = string.Empty;
     if (Model.Id == Guid.Empty)
     {
         title = "اضافة عرض سعر لعميل";
         btn = "تسجيل عرض سعر";
-        icon = "fa fa-plus-circle m-1"; 
+        icon = "fa fa-plus-circle m-1";
     }
-        else
-        {
-            title = "تعديل عرض سعر ";
-            btn = "تعديل";
-            icon = "fa fa-edit m-1";
-        } 
+    else
+    {
+        title = "تعديل عرض سعر ";
+        btn = "تعديل";
+        icon = "fa fa-edit m-1";
+    }
     }
 
 
@@ -45,7 +56,7 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "Quote_Module.getStoresOnBranchChanged();" })
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med" })
                                 @Html.HiddenFor(m => m.Id)
                             </div>
                         </div>
@@ -68,65 +79,186 @@
                                 @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <h5 class=" din-bold">اضافة الاصناف</h5>
-                            <hr />
-                        </div>
-
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <label> المجموعة الاساسية</label>
-                                <input style="text-align:right;" name="groupBasic" type="text" class="form-control din-med" id="groupBasic" autocomplete="off" />
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group required">
-                                <label>الصنف</label>
-                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med", onchange = "Quote_Module.onItemChange()" })
-                            </div>
-                        </div>
-
-                        <div class="row col-lg-12">
-                            <div class="col-lg-4">
-                                <div class="form-group required">
-                                    <label>الكمية</label>
-                                    <input type="number" class="form-control din-med" name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="Quote_Module.onPriceOrQuanKeyUp();" />
+                    </div>
+                    <div class="row">
+                        <div class="my-5 din-med">
+                            <h3 class="text-dark font-weight-bold mb-10 din-med">اضافة اصناف الفاتورة : </h3>
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="form-group row">
+                                        <label>حالة البيع</label>
+                                        <div class="col-12">
+                                            <div class="radio-inline">
+                                                <div class="col-xl-6">
+                                                    <label class="radio">
+                                                        <input type="radio" checked name="radios2" id="rdo_barcode" onchange="Quote_Module.onRdoBarcodeChanged();" />
+                                                        <span></span>بيع بكميات
+                                                    </label>
+                                                </div>
+                                                <div class="col-xl-6">
+                                                    <label class="radio">
+                                                        <input type="radio" name="radios2" id="rdo_serial" onchange="Quote_Module.onRdoSerialChanged();" />
+                                                        <span></span>بيع حسب السيريال نمبر
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="form-group required">
-                                    <label>سعر الوحدة </label>
-                                    <input type="number" class="form-control din-med" name="Price" id="Price" placeholder="سعر الشراء" value="0" onkeyup="Quote_Module.onPriceOrQuanKeyUp();" />
+                                <div class="col-lg-6" id="barcodeDiv">
+                                    <div class="form-group row">
+                                        <label>باركود الصنف</label>
+                                        <div class="col-12">
+                                            @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control " })
+                                            <span class="form-text text-muted">باركود الصنف</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-4">
-                                <div class="form-group required">
-                                    <label>القيمة</label>
-                                    <input type="number" class="form-control din-med" name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
+                                <div class="col-lg-6" style="display:none;" id="serialDiv">
+                                    <div class="form-group row">
+                                        <label>سيريال الصنف</label>
+                                        <div class="col-12">
+                                            @Html.TextBox("ItemSerial", null, htmlAttributes: new { @class = "form-control " })
+                                            <span class="form-text text-muted">سيريال الصنف</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>.</label>
-                                <button type="button" onclick="Quote_Module.addItemDetails();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">اضافة الصنف </button>
-                            </div>
-                        </div>
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>الاصناف المسجلة</label>
-                                <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
-                                    <thead>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>المجموعة الاساسية</label>
+                                        <div class="col-12">
+                                            <input name="groupBasic" type="text" class="form-control " id="groupBasic" autocomplete="off" />
+                                            <span class="form-text text-muted">اختر مجموعة</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    <tfoot></tfoot>
-                                </table>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>الصنف</label>
+                                        <div class="col-12">
+                                            @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 w-100", onchange = "Quote_Module.onItemChange()" })
+                                            <span class="form-text text-muted">اختر الصنف</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>اوامر الانتاج/الرصيد المتاح</label>
+                                        <div class="col-12">
+                                            <select class="form-control din-med" id="balanceProductionOrder" onchange="Quote_Module.onProductionOrderChange()"></select>
+                                            <span class="form-text text-muted">اختر الرصيد </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>اسعار البيع السابقة</label>
+                                        <div class="col-12">
+                                            <select id="prevouisPrice" class="form-control din-med w-100" onchange="Quote_Module.ChangeCurrentPice()"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>سياسة الاسعار</label>
+                                        <div class="col-12">
+                                            @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100", onchange = "Quote_Module.onPricingPolicyChange()" })
+                                            <span class="form-text text-muted">اختر الصنف</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>وحدات الصنف</label>
+                                        <div class="col-12">
+                                            @Html.DropDownList("ItemUnitsId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100", onchange = "Quote_Module.onItemUnitChange()" })
+                                            <span class="form-text text-muted">اختر وحدة الصنف</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>الكمية</label>
+                                        <div class="col-12">
+                                            <input type="number" class="form-control " name="Quantity" id="Quantity" placeholder="الكمية" value="0"  onkeyup="Quote_Module.onPriceOrQuanKeyUp();" />
+                                            <span class="form-text text-muted">ادخل كمية الصنف</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>سعر البيع</label>
+                                        <div class="col-12">
+                                            <input type="number" class="form-control " name="Price" id="Price" placeholder="سعر البيع" value="0" onkeyup="Quote_Module.onPriceOrQuanKeyUp();" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label>القيمة</label>
+                                        <div class="col-12">
+                                            <input type="number" class="form-control " name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-8">
+                                    <div class="form-group row">
+                                        <label></label>
+                                        <div class="col-12">
+                                            <button type="button" onclick="Quote_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="col-lg-4">
+                                    <div class="form-group row">
+                                        <label></label>
+                                        <div class="col-12">
+                                            <div class="form-group row">
+                                                <div class="d-flex justify-content-between flex-column  font-size-lg">
+                                                    <div class="d-flex flex-column text-md-center">
+                                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
+                                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="col-lg-2">
+                    <div class="form-group row">
+                        <div class="d-flex justify-content-between flex-column  font-size-lg">
+                            <div class="d-flex flex-column text-md-center">
+                                <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
+                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
                             </div>
                         </div>
+                    </div>
+                </div>*@
+                                <div class="col-lg-12">
+                                    <div class="form-group row">
+                                        <label>الاصناف المسجلة</label>
+                                        <div class="col-12">
+                                            <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
+                                                <thead>
+
+                                                </thead>
+                                                <tbody></tbody>
+                                                <tfoot></tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <div class="card-footer">
@@ -172,6 +304,13 @@
             $("#ItemId").on('select2:select', function () {
                 setTimeout(function () { $("#Quantity").focus().select(); }, 2000)
             })
+            $("#ItemUnitsId").on('change', function () {
+                if ($("#ItemUnitsId").val() != null) {
+                    setTimeout(function () { $("#Quantity").focus().select(); }, 2000)
+
+                }
+            });
+
             //المجموعة الاساسية
             var dsBasic = [];
             $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
@@ -202,7 +341,68 @@
             });
             // ============== نهاية المجموعة الاساسية
 
-        });
+            //عند ادخال الباركود الصنف
+            $("#ItemBarcode").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $.get("/SharedDataSources/ItemsBarcodeEnter", { barcode: $("#ItemBarcode").val() }, function (data) {
+                        $("#ItemId").empty();
+                        $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                        $.each(data, function (index, row) {
+                            $("#ItemId").append("<option value='" + row.Id + "' selected>" + row.Name + "</option>");
+                        });
+                        $("#Price").val(0);
+                        if (data[0].Name != null) {
+                            Quote_Module.onItemChange();
+                        }
+                    });
+                }
+            });
+            //عند ادخال السيريال الصنف
+            $("#ItemSerial").keydown(function (e) {
+                if (e.keyCode == 13) {
+                    e.preventDefault();
+                    $.get("/SharedDataSources/ItemsSerialEnter", { serial: $("#ItemSerial").val(), isReturnBack: false }, function (data) {
+                        if (data.length > 0) {
+                            $("#ItemId").empty();
+                            $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                            $.each(data, function (index, row) {
+                                $("#ItemId").append("<option value='" + row.Id + "' selected>" + row.Name + "</option>");
+                            });
+
+                            $("#Price").val(0);
+                            $("#Quantity").val(1);
+                            //if (data[0].Name != null) {
+                            //    Quote_Module.onItemChange();
+                            //}
+
+                                $("#balanceVal").val(1);
+                                $("#serialItemId").val(data[0].SerialItemId);
+                                $("#productionOrderId").val(data[0].ProductionOrderId);
+                                $("#isIntial").val(data[0].IsIntial);
+                                $("#balanceProductionOrder").empty();
+                                $("#balanceProductionOrder").append("<option value=  selected >" + data[0].CmboBalanceTxt + "</option>");
+
+                            } else {
+                                $("#balanceVal").val(null);
+                                $("#serialItemId").val(null);
+                                $("#productionOrderId").val(null);
+                                $("#isIntial").val(null);
+                                $("#balanceProductionOrder").val(null);
+                                toastr.error('السيريال موجود ولكن المخزن الصحيح للسيريال غير موجود فى قائمة المخازن', '');
+
+                            }
+                        } else {
+                            toastr.error('السيريال غير موجود او تم استخدامه مسبقا فى عملية بيع', '');
+                            return false;
+
+                        }
+                    });
+                }
+            });
+
+    
+
     </script>
 
 }

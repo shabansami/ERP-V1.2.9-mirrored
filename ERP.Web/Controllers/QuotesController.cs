@@ -101,6 +101,10 @@ namespace ERP.Web.Controllers
             QuoteOrderSell vm = new QuoteOrderSell();
             Guid? customerId = null;
             Guid? branchId = null;
+            //ViewBag.ExpenseTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.ItemUnitsId = new SelectList(new List<ItemUnit>(), "Id", "Name");
+
             if (TempData["model"] != null) //edit
             {
                 Guid id;

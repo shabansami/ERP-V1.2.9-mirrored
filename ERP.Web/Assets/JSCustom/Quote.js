@@ -370,6 +370,30 @@ var Quote_Module = function () {
         })
 
     };
+    function onRdoBarcodeChanged() {
+        if ($("#rdo_barcode:checked").val()) {
+            $("#barcodeDiv").show();
+            $('#ItemBarcode').removeAttr('disabled');
+            $('#ItemSerial').attr('disabled', 'disabled');
+            $("#serialDiv").hide();
+
+            $("#serialItemId").val(null);
+            $("#productionOrderId").val(null);
+            $("#isIntial").val(null);
+
+            $("#rdo_barcode:checked").prop('cheched', true);
+
+        }
+    }
+    function onRdoSerialChanged() {
+        if ($("#rdo_serial:checked").val()) {
+            $("#barcodeDiv").hide();
+            $('#ItemSerial').removeAttr('disabled');
+            $('#ItemBarcode').attr('disabled', 'disabled');
+            $("#serialDiv").show();
+
+        }
+    };
 
     //#endregion ========= end Step 2 ==========
 
@@ -383,6 +407,7 @@ var Quote_Module = function () {
         //سياسة اسعار عميل محدد فى فاتورة بيع 
         $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val(), isCustomer: true }, function (data) {
             if (data.customeSell > 0) {
+                $("#PricingPolicyId").val(data.pricingPolicyId);
                 $("#Price").val(data.customeSell);
                 $("#Amount").val(data.customeSell * $("#Quantity").val());
             } else {
@@ -390,6 +415,7 @@ var Quote_Module = function () {
                 //السعر من جدول تحديد اسعار البيع تلقائيا حسب الفرع/الفئة/الصنف
                 $.get("/SharedDataSources/GetItemCustomSellPrice", { itemId: $("#ItemId").val(), branchId: $("#BranchId").val() }, function (data) {
                     newPrice = data.data;
+                    $("#PricingPolicyId").val(null);
                     $("#Price").val(newPrice);
                     $("#Amount").val(newPrice * $("#Quantity").val());
                 });
@@ -397,6 +423,7 @@ var Quote_Module = function () {
                     //سعر بيع الصنف الافتراضى المسجل 
                     $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
                         newPrice = data.data;
+                        $("#PricingPolicyId").val(null);
                         $("#Price").val(newPrice);
                         $("#Amount").val(newPrice * $("#Quantity").val());
                     });
@@ -404,6 +431,23 @@ var Quote_Module = function () {
 
 
             }
+
+        });
+        //اخر اسعار سعر بيع للصنف
+        $.get("/SharedDataSources/GetPreviousPrices/", { itemId: $("#ItemId").val(), isSell: true }, function (data) {
+            $("#prevouisPrice").empty();
+            $("#prevouisPrice").append("<option value='0'>اختر سعر</option>");
+            $.each(data, function (index, row) {
+                $("#prevouisPrice").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            });
+        });
+        //وحدات الصنف 
+        $.get("/SharedDataSources/GeItemUnits", { id: $("#ItemId").val() }, function (data) {
+            $("#ItemUnitsId").empty();
+            $("#ItemUnitsId").append("<option value=>اختر عنصر من القائمة</option>");
+            $.each(data, function (index, row) {
+                $("#ItemUnitsId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            });
 
         });
     };
@@ -421,7 +465,9 @@ var Quote_Module = function () {
         addItemDetails: addItemDetails,
         deleteRowItemDetails: deleteRowItemDetails,
         onPriceOrQuanKeyUp: onPriceOrQuanKeyUp,
-        onItemChange: onItemChange
+        onItemChange: onItemChange,
+        onRdoBarcodeChanged: onRdoBarcodeChanged,
+        onRdoSerialChanged: onRdoSerialChanged,
     };
 
 }();

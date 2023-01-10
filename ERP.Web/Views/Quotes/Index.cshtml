@@ -126,22 +126,24 @@
 
 @section Scripts
 {
+    <script src="~/Assets/libs/@("@ckeditor")/ckeditor5-build-classic/build/ckeditor.js"></script>
+
     <script src="~/Assets/JSCustom/Quote.js"></script>
     <script>
-                function searchData() {
-                    $('#kt_datatable').DataTable().ajax.reload();
-                };
-                $(document).ready(function () {
-                    Quote_Module.init();
-                    $('#kt_datatable_search_query').on('keyup', function () {
-                        $('#kt_datatable').DataTable().search(this.value).draw();
-                    });
-                    //$('#CustomerId').on('change', function () {
-                    //    var textSelected = $("#CustomerId option:selected").text();
-                    //    $('#kt_datatable').DataTable().search(textSelected).draw();
-                    //});
-                   
-                });
+        function searchData() {
+            $('#kt_datatable').DataTable().ajax.reload();
+        };
+        $(document).ready(function () {
+            Quote_Module.init();
+            $('#kt_datatable_search_query').on('keyup', function () {
+                $('#kt_datatable').DataTable().search(this.value).draw();
+            });
+            //$('#CustomerId').on('change', function () {
+            //    var textSelected = $("#CustomerId option:selected").text();
+            //    $('#kt_datatable').DataTable().search(textSelected).draw();
+            //});
+
+        });
     </script>
 }
 

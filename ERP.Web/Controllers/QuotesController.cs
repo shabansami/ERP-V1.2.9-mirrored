@@ -47,7 +47,7 @@ namespace ERP.Web.Controllers
             if(customerId != null)
                 list=list.Where(x => x.CustomerId == customerId);
 
-                var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), TotalValue = x.TotalValue,OrderSellExist=x.QuoteOrderSellsChildren.Where(t=>!t.IsDeleted).Any(), Actions = n, Num = n }).ToList();
+                var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), Safy = x.Safy,OrderSellExist=x.QuoteOrderSellsChildren.Where(t=>!t.IsDeleted).Any(), Actions = n, Num = n }).ToList();
             return Json(new
             {
                 data = items
@@ -86,7 +86,19 @@ namespace ERP.Web.Controllers
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
 
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price };
+            //فى حالة البيع بوحدة 
+            vm.QuantityUnitName = "0";
+            if (vm.ItemUnitsId != null && vm.ItemUnitsId != Guid.Empty)
+            {
+                var itemUnit = db.ItemUnits.Where(x => x.Id == vm.ItemUnitsId).FirstOrDefault();
+                if (itemUnit != null && itemUnit.Quantity > 0)
+                {
+                    vm.QuantityUnitName = $"{vm.Quantity} {itemUnit.Unit?.Name}";
+                    vm.Quantity = vm.Quantity * itemUnit.Quantity;
+                    vm.Price = Math.Round(itemUnit.SellPrice / itemUnit.Quantity, 2, MidpointRounding.ToEven);
+                }
+            }
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName = vm.QuantityUnitName, Price = vm.Price, Amount = vm.Quantity * vm.Price };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount) }, JsonRequestBehavior.AllowGet);
@@ -135,14 +147,18 @@ namespace ERP.Web.Controllers
 
             return View(vm);
         }
+        [ValidateInput((false))]
         [HttpPost]
-        public JsonResult CreateEdit(QuoteOrderSell vm, string DT_Datasource)
+        public JsonResult CreateEdit(QuoteOrderSell vm, string DT_Datasource, bool? isInvoiceDisVal,string editorNotes)
         {
             if (ModelState.IsValid)
             {
                 DateTime invoiceDate;
                 if (vm.InvoiceDate == null || vm.CustomerId == null || vm.BranchId == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                //فى حالة الخصم على الفاتورة نسية /قيمة 
+                if (!bool.TryParse(isInvoiceDisVal.ToString(), out var t))
+                    return Json(new { isValid = false, message = "تأكد من اختيار احتساب الخصم على الفاتورة" });
 
                 invoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                 //الاصناف
@@ -175,9 +191,27 @@ namespace ERP.Web.Controllers
                     model.CustomerId = vm.CustomerId;
                     model.InvoiceDate = invoiceDate;
                     model.BranchId = vm.BranchId;
-                    model.Notes = vm.Notes;
-                    model.TotalQuantity=items.Sum(x=>(double?)x.Quantity??0);
+                    model.Notes = editorNotes;
+                    double invoiceDiscount = 0;
+                    if (isInvoiceDisVal == true)
+                    {
+                        invoiceDiscount = vm.InvoiceDiscount;
+                        model.DiscountPercentage = 0;
+                    }
+                    else if (isInvoiceDisVal == false)
+                    {
+                        invoiceDiscount = (itemDetailsDT.Sum(x => x.Amount) * vm.DiscountPercentage) / 100;
+                        model.DiscountPercentage = vm.DiscountPercentage;
+                    }
+                    model.TotalQuantity = itemDetailsDT.Sum(x => x.Quantity);
+                    model.InvoiceDiscount = invoiceDiscount;//إجمالي خصومات الفاتورة 
+                    model.TotalQuantity = items.Sum(x => (double?)x.Quantity ?? 0);
                     model.TotalValue = items.Sum(x => (double?)x.Amount ?? 0);
+                    model.Safy = (model.TotalValue + vm.SalesTax) - (model.InvoiceDiscount + vm.ProfitTax);
+                    model.ProfitTaxPercentage = vm.ProfitTaxPercentage;
+                    model.ProfitTax = vm.ProfitTax;
+                    model.SalesTaxPercentage=vm.SalesTaxPercentage; 
+                    model.SalesTax = vm.SalesTax;
                     model.QuoteOrderSellDetails = items;
                     //db.Entry(model).State = EntityState.Modified;
                 }
@@ -188,8 +222,21 @@ namespace ERP.Web.Controllers
                     string codePrefix = Properties.Settings.Default.CodePrefix;
                     vm.InvoiceNumber = codePrefix + (db.QuoteOrderSells.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1);
                     vm.InvoiceDate = invoiceDate;
+                    double invoiceDiscount = 0;
+                    if (isInvoiceDisVal == true)
+                    {
+                        invoiceDiscount = vm.InvoiceDiscount;
+                        vm.DiscountPercentage = 0;
+                    }
+                    else if (isInvoiceDisVal == false)
+                        invoiceDiscount = (itemDetailsDT.Sum(x => x.Amount) * vm.DiscountPercentage) / 100;
+                    
+                    vm.TotalQuantity = itemDetailsDT.Sum(x => x.Quantity);
+                    vm.InvoiceDiscount = invoiceDiscount;//إجمالي خصومات الفاتورة 
                     vm.TotalQuantity = items.Sum(x => (double?)x.Quantity ?? 0);
                     vm.TotalValue = items.Sum(x => (double?)x.Amount ?? 0);
+                    vm.Safy = (vm.TotalValue + vm.SalesTax) - (vm.InvoiceDiscount + vm.ProfitTax);
+                    vm.Notes = editorNotes;
                     vm.QuoteOrderSellType = (int)QuoteOrderSellTypeCl.Qoute;
                     vm.QuoteOrderSellDetails = items;
                     db.QuoteOrderSells.Add(vm);

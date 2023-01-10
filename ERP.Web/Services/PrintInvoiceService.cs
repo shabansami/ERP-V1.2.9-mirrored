@@ -261,9 +261,12 @@ namespace ERP.Web.Services
                                 BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
                                 InvoiceDate = x.InvoiceDate.ToString(),
                                 SuppCustomerName = x.Customer.Name,
+                                TotalDiscount = x.InvoiceDiscount,
                                 TotalQuantity = x.TotalQuantity,
                                 TotalValue = x.TotalValue,
-                                Safy = x.TotalValue,
+                                Safy = x.Safy,
+                                SalesTax = x.SalesTax,
+                                ProfitTax = x.ProfitTax,
                                 ItemDetails = x.QuoteOrderSellDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,

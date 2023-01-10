@@ -733,7 +733,7 @@ namespace ERP.Web.Services
             public string Text { get; set; }
             public string Val { get; set; }
         }
-        public static List<SelectedListDropDown> GetBalanceProductionOrder(Guid storeId, Guid itemId)
+        public static List<SelectedListDropDown> GetBalanceProductionOrder(Guid? storeId, Guid itemId)
         {
             List<SelectedListDropDown> list = new List<SelectedListDropDown>();
             using (var db = new VTSaleEntities())

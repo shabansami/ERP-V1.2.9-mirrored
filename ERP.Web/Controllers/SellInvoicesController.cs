@@ -471,7 +471,6 @@ namespace ERP.Web.Controllers
                                     invoiceDiscount = (itemDetailsDT.Sum(x => x.Amount) * vm.DiscountPercentage) / 100;
                                     model.DiscountPercentage = vm.DiscountPercentage;
                                 }
-
                                 model.TotalQuantity = itemDetailsDT.Sum(x => x.Quantity);
                                 model.TotalDiscount = itemDetailsDT.Sum(x => x.ItemDiscount) + invoiceDiscount;//إجمالي خصومات الفاتورة 
                                 model.TotalValue = itemDetailsDT.Sum(x => x.Amount);//إجمالي قيمة المبيعات 
@@ -562,6 +561,8 @@ namespace ERP.Web.Controllers
                                     model.RemindValue = vm.RemindValue;
                                     model.SalesTax = vm.SalesTax;
                                     model.ProfitTax = vm.ProfitTax;
+                                    model.ProfitTaxPercentage = vm.ProfitTaxPercentage;
+                                    model.SalesTaxPercentage = vm.SalesTaxPercentage;
                                     model.InvoiceDiscount = invoiceDiscount;
                                     //model.ShippingAddress = vm.ShippingAddress;
                                     model.DueDate =vm.RemindValue>0? vm.DueDate:null;

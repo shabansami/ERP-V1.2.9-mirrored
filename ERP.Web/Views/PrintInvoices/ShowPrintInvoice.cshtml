@@ -155,7 +155,7 @@
                 <div class="row">
                     <div class="col-8">
                         <p class="m-0 font-weight-bold"> ملاحظة</p>
-                        <p>@Model.Notes</p>
+                        <p>@Html.Raw(Model.Notes)</p>
                     </div>
                     <div class="col-4">
                         <table class="table border-0 table-hover">
@@ -163,11 +163,27 @@
                                 <td>الاجمالى :</td>
                                 <td>@Model.TotalValue</td>
                             </tr>
+                            @if (Model.SalesTax > 0)
+                            {
+                                <tr>
+                                    <td>ضريبة القيمة المضافة :</td>
+                                    <td>@Model.SalesTax</td>
+                                </tr>
+                            }
                             @if (Model.TotalDiscount > 0)
                             {
                                 <tr>
                                     <td>خصم :</td>
                                     <td>@Model.TotalDiscount</td>
+                                </tr>
+                            }
+
+
+                             @if (Model.ProfitTax > 0)
+                            {
+                                <tr>
+                                    <td>ضريبة ارباح تجارية :</td>
+                                    <td>@Model.ProfitTax</td>
                                 </tr>
                             }
 

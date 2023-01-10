@@ -6,7 +6,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     double totalValue = 0;   // اجمالى الفاتورة (البيع)
     double totalQuantity = 0;   // اجمالى العدد (البيع)
-    double totalItemDiscount = 0; // اجمالى الخصومات على الاصناف
     double totalExpenses = 0; // اجمالى الايرادات
     double totalDiscount = 0; // اجمالى الخصومات على كل الفاتورة
     double safy = 0; // صافى الفاتورة
@@ -14,6 +13,10 @@
     totalValue = Model.TotalValue;
     totalQuantity = Model.TotalQuantity;
     safy = Model.Safy;
+    string displayDiscount = "none";
+    string isInvoiceDisVal = "true";
+    string chkValRdo = "checked";
+    string chkPerRdo = "";
 
     string title, btn = string.Empty, icon = string.Empty;
     if (Model.Id == Guid.Empty)
@@ -21,14 +24,24 @@
         title = "اضافة عرض سعر لعميل";
         btn = "تسجيل عرض سعر";
         icon = "fa fa-plus-circle m-1";
+        chkValRdo = "checked";
+        chkPerRdo = "";
     }
     else
     {
         title = "تعديل عرض سعر ";
         btn = "تعديل";
         icon = "fa fa-edit m-1";
+        if (Model.DiscountPercentage > 0)
+        {
+            displayDiscount = "block";
+            isInvoiceDisVal = "false";
+            chkValRdo = "";
+            chkPerRdo = "checked";
+        }
+        totalDiscount = Model.InvoiceDiscount;
     }
-    }
+}
 
 
 @section PageTitle1{عروض اسعار}
@@ -36,6 +49,11 @@
 @section Button1{ادارة عروض الاسعار}
 @section Button1Link{/Quotes/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
+@section Styles
+{
+}
+@*الرصيد*@
+<input type="hidden" id="balanceVal" />
 
 <div class="row">
     <div class="col-12">
@@ -73,12 +91,6 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>ملاحظات </label>
-                                @Html.TextAreaFor(m => m.Notes, htmlAttributes: new { @class = "form-control din-med" })
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="my-5 din-med">
@@ -123,7 +135,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="form-group row">
                                         <label>المجموعة الاساسية</label>
                                         <div class="col-12">
@@ -133,7 +145,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-4">
+                                <div class="col-lg-6">
                                     <div class="form-group row">
                                         <label>الصنف</label>
                                         <div class="col-12">
@@ -142,16 +154,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                
-                                <div class="col-lg-4">
-                                    <div class="form-group row">
-                                        <label>اوامر الانتاج/الرصيد المتاح</label>
-                                        <div class="col-12">
-                                            <select class="form-control din-med" id="balanceProductionOrder" onchange="Quote_Module.onProductionOrderChange()"></select>
-                                            <span class="form-text text-muted">اختر الرصيد </span>
-                                        </div>
-                                    </div>
-                                </div>
+
+
                                 <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label>اسعار البيع السابقة</label>
@@ -182,7 +186,7 @@
                                     <div class="form-group row">
                                         <label>الكمية</label>
                                         <div class="col-12">
-                                            <input type="number" class="form-control " name="Quantity" id="Quantity" placeholder="الكمية" value="0"  onkeyup="Quote_Module.onPriceOrQuanKeyUp();" />
+                                            <input type="number" class="form-control " name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="Quote_Module.onPriceOrQuanKeyUp();" />
                                             <span class="form-text text-muted">ادخل كمية الصنف</span>
                                         </div>
                                     </div>
@@ -212,7 +216,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               
+
                                 <div class="col-lg-4">
                                     <div class="form-group row">
                                         <label></label>
@@ -229,16 +233,6 @@
                                     </div>
                                 </div>
 
-                                @*<div class="col-lg-2">
-                    <div class="form-group row">
-                        <div class="d-flex justify-content-between flex-column  font-size-lg">
-                            <div class="d-flex flex-column text-md-center">
-                                <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
-                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>*@
                                 <div class="col-lg-12">
                                     <div class="form-group row">
                                         <label>الاصناف المسجلة</label>
@@ -255,6 +249,146 @@
                                 </div>
 
 
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="separator separator-dashed my-10"></div>
+                        <div class="my-52   din-med">
+                            <h3 class="text-dark font-weight-bold mb-10">تسجيل الضرائب (ان وجدت):</h3>
+                            <div class="row ">
+                                <div class="col-lg-6">
+                                    <div class="form-group row">
+                                        <label>احتساب الخصم</label>
+                                        <div class="col-12">
+                                            <div class="radio-inline">
+                                                <div class="col-xl-6">
+                                                    <label class="radio">
+                                                        <input type="radio" name="radiosInvoice" id="rdo_valAllInvoice" @chkValRdo onchange="Quote_Module.onRdoInvoiceValChanged();" />
+                                                        <input type="hidden" id="isInvoiceDisVal" name="isInvoiceDisVal" value="@isInvoiceDisVal" />
+                                                        <span></span>قيمة
+                                                    </label>
+                                                </div>
+                                                <div class="col-xl-3">
+                                                    <label class="radio">
+                                                        <input type="radio" name="radiosInvoice" id="rdo_percentageAllInvoice" @chkPerRdo onchange="Quote_Module.onRdoInvoicePercentageChanged();" />
+                                                        <span></span>نسبة
+                                                    </label>
+                                                </div>
+                                                <div class="col-xl-3" id="divDiscountPercentage" style="display:@displayDiscount">
+                                                    <!--begin::Input-->
+                                                    <div class="form-group">
+                                                        <label>النسبة</label>
+                                                        <input type="number" class="form-control " onkeyup="Quote_Module.onInvoiceDiscountChange();" name="DiscountPercentage" id="DiscountPercentage" placeholder="ادخل نسبة الخصم على الفاتورة" value="@Model.DiscountPercentage" />
+                                                    </div>
+                                                    <!--end::Input-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group row">
+                                        <label>قيمة الخصم على الفاتورة</label>
+                                        <div class="col-12">
+                                            @*<input type="number" class="form-control " onkeyup="Quote_Module.onInvoiceDiscountChange();" name="InvoiceDiscount" id="InvoiceDiscount" placeholder="ادخل قيمة الخصم على الفاتورة" value="@Model.InvoiceDiscount" />*@
+                                            @Html.TextBoxFor(model => model.InvoiceDiscount, htmlAttributes: new { @class = "form-control ", @onkeyup = "Quote_Module.onInvoiceDiscountChange();", @type = "number", @placeholder = "ادخل قيمة الخصم على الفاتورة" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-lg-3">
+                                    <!--begin::Input-->
+                                    <div class="form-group row">
+                                        <label> نسبة ضريبة القيمة المضافة</label>
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.SalesTaxPercentage, htmlAttributes: new { @class = "form-control", @onkeyup = "Quote_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل نسبة ضريبة القيمة المضافة" })
+                                        </div>
+                                    </div>
+                                    <!--end::Input-->
+                                </div>
+                                <div class="col-lg-3">
+                                    <!--begin::Input-->
+                                    <div class="form-group row">
+                                        <label> ضريبة القيمة المضافة</label>
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.SalesTax, htmlAttributes: new { @class = "form-control", @type = "number", @placeholder = "ادخل قيمة ضريبة القيمة المضافة", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <!--end::Input-->
+                                </div>
+                                <div class="col-lg-3">
+                                    <!--begin::Input-->
+                                    <div class="form-group row">
+                                        <label>نسبة ضريبة ارباح تجارية</label>
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.ProfitTaxPercentage, htmlAttributes: new { @class = "form-control", @onkeyup = "Quote_Module.getSafyInvoice();", @type = "number", @placeholder = "ادخل قيمة ضريبة ارباح تجارية" })
+                                        </div>
+                                    </div>
+                                    <!--end::Input-->
+                                </div>
+                                <div class="col-lg-3">
+                                    <!--begin::Input-->
+                                    <div class="form-group row">
+                                        <label>قيمة ضريبة ارباح تجارية</label>
+                                        <div class="col-12">
+                                            @Html.TextBoxFor(model => model.ProfitTax, htmlAttributes: new { @class = "form-control", @type = "number", @placeholder = "ادخل قيمة ضريبة ارباح تجارية", @readonly = "readonly" })
+                                        </div>
+                                    </div>
+                                    <!--end::Input-->
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group row">
+                                        <label>ملاحظات على الفاتورة</label>
+                                        <div class="col-12 cke_rtl">
+                                            @Html.TextAreaFor(x => x.Notes, htmlAttributes: new { @class = "form-control " })
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<div class="col-lg-12">
+                                    <div class="form-group row">
+                                        <label>ملاحظات اخرى </label>
+                                        <div class="col-12">-->
+                                @*<div id="ckeditor-classic"></div>*@
+                                <!--</div>
+                                    </div>
+                                </div>-->
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
+                                            <div class="d-flex flex-column mb-10 mb-md-0">
+                                                <div class="font-weight-bolder font-size-h6-lg mb-3">ملخص الفاتورة</div>
+                                                <div class="d-flex justify-content-between mb-3">
+                                                    <span class="mr-15 font-weight-bold">اجمالى الفاتورة:</span>
+                                                    <span class="text-right" id="TotalAmount">@totalValue</span>
+                                                    <span class="text-right d-none" id="TotalAmount2">@totalValue</span>
+                                                </div>
+                                                <div class="d-flex justify-content-between mb-3">
+                                                    <span class="mr-15 font-weight-bold">اجمالى الخصومات:</span>
+                                                    <span class="text-right" id="TotalDiscount">@totalDiscount</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex flex-column text-md-right">
+                                                <span class="font-size-lg font-weight-bolder mb-1">صافى الفاتورة</span>
+                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="SafyInvoice">@safy</span>
+                                                @*<span>Taxes Included</span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        @*<label>ملاحظة هامة</label>*@
+                                        <div class="alert alert-primary" role="alert">
+                                            صافى قيمة الفاتورة= ( إجمالي قيمة الاصناف  + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -279,7 +413,9 @@
 
 @section Scripts
 {
+    <script src="~/Assets/libs/@("@ckeditor")/ckeditor5-build-classic/build/ckeditor.js"></script>
     <script src="~/Assets/JSCustom/Quote.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             Quote_Module.initItemDetails();
@@ -358,6 +494,7 @@
                     });
                 }
             });
+
             //عند ادخال السيريال الصنف
             $("#ItemSerial").keydown(function (e) {
                 if (e.keyCode == 13) {
@@ -372,26 +509,6 @@
 
                             $("#Price").val(0);
                             $("#Quantity").val(1);
-                            //if (data[0].Name != null) {
-                            //    Quote_Module.onItemChange();
-                            //}
-
-                                $("#balanceVal").val(1);
-                                $("#serialItemId").val(data[0].SerialItemId);
-                                $("#productionOrderId").val(data[0].ProductionOrderId);
-                                $("#isIntial").val(data[0].IsIntial);
-                                $("#balanceProductionOrder").empty();
-                                $("#balanceProductionOrder").append("<option value=  selected >" + data[0].CmboBalanceTxt + "</option>");
-
-                            } else {
-                                $("#balanceVal").val(null);
-                                $("#serialItemId").val(null);
-                                $("#productionOrderId").val(null);
-                                $("#isIntial").val(null);
-                                $("#balanceProductionOrder").val(null);
-                                toastr.error('السيريال موجود ولكن المخزن الصحيح للسيريال غير موجود فى قائمة المخازن', '');
-
-                            }
                         } else {
                             toastr.error('السيريال غير موجود او تم استخدامه مسبقا فى عملية بيع', '');
                             return false;
@@ -401,9 +518,20 @@
                 }
             });
 
-    
+
+        });
+
+
 
     </script>
+    @*<script>
+            var elements = document.getElementsByClassName("ckeditor-classic");
+            for (var i = 0; i < elements.length; i++) {
+                ClassicEditor.create(elements[i]).then(function (e) { e.ui.view.editable.element.style.height = "200px" }).catch(function (e) { console.error(e) });
+            }
+        </script>*@
+
+    <!-- init js -->
 
 }
 

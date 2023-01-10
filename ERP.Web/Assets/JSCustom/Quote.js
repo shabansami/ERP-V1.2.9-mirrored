@@ -1,6 +1,8 @@
 ﻿"use strict";
-
+let editor;
 var Quote_Module = function () {
+    ClassicEditor.create(document.querySelector("#Notes"), { language: { ui: 'en', content: 'ar' } }).then(function (e) { e.ui.view.editable.element.style.height = "200px"; editor = e; }).catch(function (e) { console.error(e) });
+
     var initDT = function () {
         var table = $('#kt_datatable');
 
@@ -81,7 +83,7 @@ var Quote_Module = function () {
                 { data: 'InvoiceNumber', title: 'رقم الفاتورة' },
                 { data: 'CustomerName', title: 'العميل' },
                 { data: 'InvoiceDate', title: 'تاريخ العملية' },
-                { data: 'TotalValue', title: 'قيمة الفاتورة' },
+                { data: 'Safy', title: 'قيمة الفاتورة' },
                 { data: 'Actions', responsivePriority: -1 },
 
             ],
@@ -159,6 +161,9 @@ var Quote_Module = function () {
             }
             var formData = new FormData(form);
             formData.append('DT_Datasource', DT_Datasource);
+            var isInvoiceDisVal = document.getElementById("isInvoiceDisVal").value;
+            formData.append("isInvoiceDisVal", isInvoiceDisVal);
+            formData.append("editorNotes", editor.getData())
             $.ajax({
                 type: 'POST',
                 url: form.action,
@@ -229,7 +234,18 @@ var Quote_Module = function () {
             }
         });
     };
-
+    //تغيير سعر البيع حسب اختيار اسعار بيع سابقة
+    function ChangeCurrentPice() {
+        $("#Price").val($("#prevouisPrice option:selected").val());
+        onPriceOrQuanKeyUp();
+    };
+    //تغيير سعر البيع حسب سياسة البيع المحدد
+    function onPricingPolicyChange() {
+        $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), personId: $("#CustomerId").val(), isCustomer: true }, function (data) {
+            $("#Price").val(data.data);
+            onPriceOrQuanKeyUp();
+        });
+    };
     //#region ======== Step 2 تسجيل الاصناف ف الفاتورة=================
     var initDTItemDetails = function () {
         var table = $('#kt_dtItemDetails');
@@ -267,8 +283,9 @@ var Quote_Module = function () {
                 { data: 'Id', title: 'م', visible: false },
                 { data: 'ItemId', visible: false },
                 { data: 'ItemName', title: 'الصنف' },
+                { data: 'QuantityUnitName', title: 'الكمية بالوحدة' },
                 { data: 'Quantity', title: 'الكمية' },
-                { data: 'Price', title: 'سعر الوحدة' },
+                { data: 'Price', title: 'السعر' },
                 { data: 'Amount', title: 'القيمة' },
                 { data: 'Actions', responsivePriority: -1 },
 
@@ -302,6 +319,8 @@ var Quote_Module = function () {
             var price = document.getElementById('Price').value;
             var quantity = document.getElementById('Quantity').value;
             var amount = document.getElementById('Amount').value;
+            var ItemUnitsId = document.getElementById('ItemUnitsId').value;
+
             var formData = new FormData();
             if (itemId === '') {
                 toastr.error('تأكد من اختيار الصنف', '');
@@ -320,6 +339,8 @@ var Quote_Module = function () {
             formData.append('Price', price)
             formData.append('Quantity', quantity)
             formData.append('Amount', amount)
+            formData.append('ItemUnitsId', ItemUnitsId)
+
             var dataSet = $('#kt_dtItemDetails').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
@@ -342,6 +363,12 @@ var Quote_Module = function () {
                         $('#Price').val(0);
                         $('#Quantity').val(0);
                         $('#Amount').val(0);
+                        $('#PricePolicyId').val(null);
+                        $('#ItemBarcode').val(null);
+                        $('#TotalAmount,#TotalAmount2').text(res.totalAmount);
+                        $('#TotalQuantity').text(res.totalQuantity);
+                        $("#TotalDiscount").text(Number.parseFloat($("#TotalDiscount").text()));
+                        getSafyInvoice();
                         toastr.success(res.msg, '');
                         $('#ItemId').select2('open');
                     } else
@@ -394,9 +421,6 @@ var Quote_Module = function () {
 
         }
     };
-
-    //#endregion ========= end Step 2 ==========
-
     function onPriceOrQuanKeyUp() {
         if ($("#Price").val() < 0 || $("#Quantity").val() < 0 || isNaN($("#Price").val()) || isNaN($("#Quantity").val())) {
             toastr.error('تأكد من ادخال ارقام صحيحية للعدد والكمية', '');
@@ -431,7 +455,6 @@ var Quote_Module = function () {
 
 
             }
-
         });
         //اخر اسعار سعر بيع للصنف
         $.get("/SharedDataSources/GetPreviousPrices/", { itemId: $("#ItemId").val(), isSell: true }, function (data) {
@@ -450,7 +473,93 @@ var Quote_Module = function () {
             });
 
         });
+
     };
+    function onItemUnitChange() {
+        if ($("#ItemUnitsId").val() != null) {
+            $.get("/SharedDataSources/GetItemUnitPrice/", { id: $("#ItemUnitsId").val() }, function (data) {
+                $("#Quantity").val(1);
+                $("#Price").val(data);
+                $("#Amount").val(data * 1);
+            });
+        }
+    };
+    //#endregion ========= end Step 2 ==========
+
+    //#region الضرائب والخصومات على الفاتورة
+    //الخصم على قيمة القاتورة كلها 
+    function onRdoInvoiceValChanged() {
+        if ($("#rdo_valAllInvoice:checked").val()) {
+            $("#isInvoiceDisVal").val(true);
+            $("#TotalDiscount").text(Number.parseFloat($("#TotalDiscount").text()) - $("#InvoiceDiscount").val());
+            $("#InvoiceDiscount").val(0);
+            $("#DiscountPercentage").val(0);//edit
+            $("#divDiscountPercentage").hide();//edit
+            getSafyInvoice();
+        }
+    };
+    function onRdoInvoicePercentageChanged() {
+        if ($("#rdo_percentageAllInvoice:checked").val()) {
+            $("#isInvoiceDisVal").val(false);
+            $("#divDiscountPercentage").show();
+            $("#TotalDiscount").text(Number.parseFloat($("#TotalDiscount").text()) - Number.parseFloat($("#InvoiceDiscount").val()));
+            $("#InvoiceDiscount").val(0);
+
+            getSafyInvoice();
+
+        }
+    };
+    function getSafyInvoice() {
+        var TotalAmount = Number.parseFloat($("#TotalAmount").text());
+        if (isNaN(TotalAmount))
+            TotalAmount = 0;
+
+        var SalesTax = Number.parseFloat($("#SalesTax").val());
+        if (isNaN(SalesTax))
+            SalesTax = 0;
+        var SalesTaxPercentage = Number.parseFloat($("#SalesTaxPercentage").val());
+        if (isNaN(SalesTaxPercentage))
+            SalesTaxPercentage = 0;
+        else {
+            SalesTax = (TotalAmount * SalesTaxPercentage) / 100
+            $("#SalesTax").val(SalesTax);
+        }
+
+
+        var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
+        if (isNaN(TotalDiscount))
+            TotalDiscount = 0;
+
+        var ProfitTax = Number.parseFloat($("#ProfitTax").val());
+        if (isNaN(ProfitTax))
+            ProfitTax = 0;
+        var ProfitPercentageTax = Number.parseFloat($("#ProfitTaxPercentage").val());
+        if (isNaN(ProfitPercentageTax))
+            ProfitPercentageTax = 0;
+        else {
+            ProfitTax = (TotalAmount * ProfitPercentageTax) / 100
+            $("#ProfitTax").val(ProfitTax)
+        }
+
+        var safy = ((TotalAmount  + SalesTax) - (TotalDiscount + ProfitTax)).toFixed(2);
+        $("#SafyInvoice").text(safy);
+    };
+
+    function onInvoiceDiscountChange() {
+        if (isNaN(Number.parseFloat($("#InvoiceDiscount").val())) === false) {
+            if ($("#rdo_valAllInvoice:checked").val()) {
+                $("#TotalDiscount").text(Number.parseFloat($("#InvoiceDiscount").val()));
+            } else if ($("#rdo_percentageAllInvoice:checked").val()) {
+                var invoiceDis = (Number.parseFloat($("#TotalAmount").text()) * Number.parseFloat($("#DiscountPercentage").val())) / 100;
+                $("#TotalDiscount").text( invoiceDis);
+                $("#InvoiceDiscount").val(invoiceDis);
+            } else {
+                $("#TotalDiscount").text(Number.parseFloat($("#InvoiceDiscount").val()));
+            }
+            getSafyInvoice();
+        };
+    };
+    //#endregion
 
     return {
         //main function to initiate the module
@@ -468,6 +577,13 @@ var Quote_Module = function () {
         onItemChange: onItemChange,
         onRdoBarcodeChanged: onRdoBarcodeChanged,
         onRdoSerialChanged: onRdoSerialChanged,
+        onRdoInvoiceValChanged: onRdoInvoiceValChanged,
+        onRdoInvoicePercentageChanged: onRdoInvoicePercentageChanged,
+        onInvoiceDiscountChange: onInvoiceDiscountChange,
+        ChangeCurrentPice: ChangeCurrentPice,
+        onPricingPolicyChange: onPricingPolicyChange,
+        onItemUnitChange: onItemUnitChange,
+        getSafyInvoice: getSafyInvoice,
     };
 
 }();

@@ -403,6 +403,8 @@ namespace ERP.Web.Controllers
                                 model.RemindValue = vm.RemindValue;
                                 model.SalesTax = vm.SalesTax;
                                 model.ProfitTax = vm.ProfitTax;
+                                model.ProfitTaxPercentage = vm.ProfitTaxPercentage;
+                                model.SalesTaxPercentage = vm.SalesTaxPercentage;
                                 model.InvoiceDiscount = vm.InvoiceDiscount;
                                 //model.ShippingAddress = vm.ShippingAddress;
                                 model.DueDate = vm.RemindValue > 0 ? vm.DueDate : null;

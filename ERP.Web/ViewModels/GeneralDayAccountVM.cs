@@ -11,6 +11,7 @@ namespace ERP.Web.ViewModels
         public GeneralDayAccountVM()
         {
             GeneralDalies = new List<GeneralDayDto>();
+            GeneralDayMultiAccounts = new List<GeneralDayAccountVM>();
         }
         public List<GeneralDayDto> GeneralDalies { get; set; }
         public double LastBalanceDebit { get; set; } //رصيد سابق مدين
@@ -33,6 +34,10 @@ namespace ERP.Web.ViewModels
         public long AccountNumber { get; set; }
         public string AccountsTreeName { get; set; }
         public int? Num { get; set; }
+
+        //فى حالة كشف حساب المتعدد
+        public List<GeneralDayAccountVM> GeneralDayMultiAccounts { get; set; }
+        public string AccountTreeIds { get; set; }
 
     }
 }

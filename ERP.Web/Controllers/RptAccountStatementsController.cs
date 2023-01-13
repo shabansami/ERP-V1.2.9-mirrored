@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.ViewModels;
+using System.Windows.Documents;
 
 namespace ERP.Web.Controllers
 {
@@ -56,51 +57,88 @@ namespace ERP.Web.Controllers
 
         #endregion
         #region بحث قيود كشف حساب لاكثر من حساب  
-        public ActionResult SearchMultiple()
+        public ActionResult SearchMultiple(GeneralDayAccountVM vm, string accountTreeIds)
         {
-            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+            if (vm.dtFrom == null || vm.dtTo == null)
             {
-                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                ViewBag.FinancialYearStartDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
-                ViewBag.FinancialYearEndDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
-            }
-            else
-                ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-
-            ViewBag.TransactionTypeId = new SelectList(db.TransactionsTypes.Where(x => !x.IsDeleted), "Id", "Name");
-            return View();
-        }
-        public ActionResult SearchMultipleData(string dFrom, string dTo, string accountTreeIds, int isFirstInitPage, string bgColor)
-        {
-            int? n = null;
-            DateTime dtFrom, dtTo;
-            List<GeneralDayDto> list = new List<GeneralDayDto>();
-            bool isFirstInit = false;
-            if (isFirstInitPage == 1)
-                isFirstInit = true;
-            if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
-            {
-                if (string.IsNullOrEmpty(accountTreeIds))
-                    return Json(new
-                    {
-                        data = new { }
-                    }, JsonRequestBehavior.AllowGet);
-
-                var accounts = accountTreeIds.Split(',').Select(Guid.Parse).ToList();
-                foreach (var account in accounts)
+                if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
                 {
-                    list.AddRange(GeneralDailyService.SearchAccountGeneralDailies(dtFrom, dtTo, account).GeneralDalies);
+
+                    var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                    var dFromS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
+                    var dToS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
+                    DateTime dFrom, dTo;
+                    if (DateTime.TryParse(dFromS, out dFrom) && DateTime.TryParse(dToS, out dTo))
+                    {
+                        vm.dtFrom = dFrom;
+                        vm.dtTo = dTo;
+                    }
+                    else
+                        vm.dtFrom = vm.dtTo = Utility.GetDateTime();
+                }
+                else
+                    vm.dtFrom = vm.dtTo = Utility.GetDateTime();
+            }
+            var accounts =accountTreeIds!=null? accountTreeIds.Split(',').Select(Guid.Parse).ToList():new List<Guid>();
+            List<GeneralDayAccountVM> generalDayMultiAccounts = new List<GeneralDayAccountVM>();
+            DateTime dtFrom, dtTo;
+            foreach (var item in accounts)
+            {
+                if (DateTime.TryParse(vm.dtFrom.ToString(), out dtFrom) && DateTime.TryParse(vm.dtTo.ToString(), out dtTo))
+                {
+                    generalDayMultiAccounts.Add(GeneralDailyService.SearchAccountGeneralDailies(dtFrom, dtTo, item, vm.CustomerRelated == true ? 1 : 0, vm.ShowRptEn));
                 }
             }
-            else
-                list = new List<GeneralDayDto> { };
 
-            return Json(new
-            {
-                data = list
-            }, JsonRequestBehavior.AllowGet); ;
-
+            vm.GeneralDayMultiAccounts = generalDayMultiAccounts;
+            return View(vm);
         }
+        //الطريقة القديمة
+        //public ActionResult SearchMultiple()
+        //{
+        //    if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+        //    {
+        //        var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+        //        ViewBag.FinancialYearStartDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
+        //        ViewBag.FinancialYearEndDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
+        //    }
+        //    else
+        //        ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
+
+        //    ViewBag.TransactionTypeId = new SelectList(db.TransactionsTypes.Where(x => !x.IsDeleted), "Id", "Name");
+        //    return View();
+        //}
+        //public ActionResult SearchMultipleData(string dFrom, string dTo, string accountTreeIds, int isFirstInitPage, string bgColor)
+        //{
+        //    int? n = null;
+        //    DateTime dtFrom, dtTo;
+        //    List<GeneralDayDto> list = new List<GeneralDayDto>();
+        //    bool isFirstInit = false;
+        //    if (isFirstInitPage == 1)
+        //        isFirstInit = true;
+        //    if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
+        //    {
+        //        if (string.IsNullOrEmpty(accountTreeIds))
+        //            return Json(new
+        //            {
+        //                data = new { }
+        //            }, JsonRequestBehavior.AllowGet);
+
+        //        var accounts = accountTreeIds.Split(',').Select(Guid.Parse).ToList();
+        //        foreach (var account in accounts)
+        //        {
+        //            list.AddRange(GeneralDailyService.SearchAccountGeneralDailies(dtFrom, dtTo, account).GeneralDalies);
+        //        }
+        //    }
+        //    else
+        //        list = new List<GeneralDayDto> { };
+
+        //    return Json(new
+        //    {
+        //        data = list
+        //    }, JsonRequestBehavior.AllowGet); ;
+
+        //}
         public ActionResult SearchBalanceMultiAccounts(string dFrom, string dTo, string accountTreeIds)
         {
             int? n = null;

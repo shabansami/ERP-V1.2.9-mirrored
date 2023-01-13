@@ -1,19 +1,29 @@
-﻿@using ERP.Web.Utilites
+﻿@model ERP.Web.ViewModels.GeneralDayAccountVM
+@using ERP.Web.Utilites
 @{
     ViewBag.Title = "SearchMultiple";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    DateTime dFrom = Utility.GetDateTime(); DateTime dTo = Utility.GetDateTime();
-    if (!DateTime.TryParse(ViewBag.FinancialYearStartDate, out dFrom) || !DateTime.TryParse(ViewBag.FinancialYearEndDate, out dTo))
+    string AccountActionBalanceBeforPeriod, TotalPeriodSpecified, AccountActionBalanceDuringPeriod, FinalBalanceAccountUntilEndPeriod;
+    string reportTitle;
+    if (!Model.ShowRptEn)
     {
-        <script>
-            $(document).ready(function () {
-                /**/
-                toastr.error('يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات', '')
-                /**/
-            });
-        </script>
+        reportTitle = "كشف حساب";
+        AccountActionBalanceBeforPeriod = "رصيد حركة الحساب قبل الفترة";
+        TotalPeriodSpecified = "اجمالى الفترة المحددة";
+        AccountActionBalanceDuringPeriod = "رصيد حركة الحساب خلال الفترة";
+        FinalBalanceAccountUntilEndPeriod = "الرصيد النهائى للحساب حتى نهاية الفترة";
+
     }
+    else
+    {
+        reportTitle = "Account Statement";
+        AccountActionBalanceBeforPeriod = "Account action balance before the period";
+        TotalPeriodSpecified = "The total period specified";
+        AccountActionBalanceDuringPeriod = "Account action balance during the period";
+        FinalBalanceAccountUntilEndPeriod = "The final balance of the account until the end of the period";
+    }
+
 
 }
 
@@ -31,7 +41,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h4 class=" din-bold">
-                            كشف حساب
+                            كشف حساب متعدد
                         </h4>
                     </div>
                     <div class="col-sm-6">
@@ -74,29 +84,42 @@
                 </div>
             </div>
             <div class="card-body">
+                @using (Html.BeginForm("SearchMultiple", "RptAccountStatements", FormMethod.Get, new { id = "form1" }))
+                {
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
+
                             <div class="input-icon input-icon-right">
                                 <label>بحث</label>
                                 <div class="input-group">
                                     <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
-                                    <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
+                                    <div class="input-group-text">
+                                        <i class="bx bx-search-alt align-middle"></i>
+                                    </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
-                    <div class="col-lg-6">
+                    <div class="col-lg-4">
                         <div class="form-group">
                             <div>
                                 <label> شجرة الحسابات</label>
-                                <input name="accountTree" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
-                                <input type="hidden" id="AccountTreeIds" />
-                                <input type="hidden" id="isFirstInitPage" value="1" />
+                                <input name="accountTree" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" style="text-align:right;" />
+                                @Html.HiddenFor(m=>m.AccountTreeIds)
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <div>
+                                <label>عرض التقرير بالانجليزية</label>
+                                @Html.CheckBoxFor(m => m.ShowRptEn, htmlAttributes: new { @class = "form-check-input din-med" })
+                            </div>
+                        </div>
+                    </div>
+
 
                 </div>
                 <div class="row">
@@ -104,7 +127,7 @@
                         <div class="form-group">
                             <div>
                                 <label> من تاريخ</label>
-                                @Html.TextBox("dtFrom", dFrom, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBoxFor(m => m.dtFrom, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -112,124 +135,298 @@
                         <div class="form-group">
                             <div>
                                 <label> إلي تاريخ</label>
-                                @Html.TextBox("dtTo", dTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBoxFor(m => m.dtTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
+
 
                     <div class="col-lg-4">
                         <div class="form-group">
                             <div>
                                 <label> .</label>
-                                <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بــحث<i class="bx bx-search-alt m-1"></i></a>
+                                <button type="submit" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</button>
+
+                                @*<a href="/RptAccountStatements/Search?AccountTreeId=@Model.AccountTreeId&dtFrom=@Model.dtFrom&dtTo=@Model.dtTo"  class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</a>*@
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
                     <thead>
-                    </thead>
-                    <tbody></tbody>
-                    <tfoot>
+
                         <tr>
-                            <th colspan="7" style="text-align:right">Total:</th>
-                            <th></th>
+                            @*<th style="display:none;">Id</th>
+                                <th style="display:none;">TransactionId</th>
+                                <th style="display:none;">AccountsTreeId</th>
+                                <th style="display:none;">TransactionTypeId</th>*@
+                            @if (!Model.ShowRptEn)
+                                {
+                            <th>تاريخ المعاملة</th>
+                            <th>رقم الحساب</th>
+                            <th>اسم الحساب</th>
+                            <th>مدين</th>
+                            <th>دائن</th>
+                            <th>الرصيد</th>
+                            <th>نوع المعاملة</th>
+                            <th>البيان</th>
+                            <th>عمليات</th>
+                                }
+                                else
+                                {
+                            <th>Transaction Date</th>
+                            <th>Account Number</th>
+                            <th>Account Name</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>Balance</th>
+                            <th>Transaction Type</th>
+                            <th>Notes</th>
+                            <th>Operation</th>
+                                }
                         </tr>
+                    </thead>
+                    <tbody>
+                    @{
+                        var backgTr = false;
+                        foreach (var account in Model.GeneralDayMultiAccounts)
+                        {
+                            if (backgTr)
+                            {
+                                <tr class="bg-primary">
+                                    <td colspan="9"></td>
+                                </tr>
+                            }
+                            backgTr = true;
+                            if (account.GeneralDalies.Count > 0)
+                    {
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td> <label style="color: firebrick">@AccountActionBalanceBeforPeriod </label></td>
+                                <td>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @account.LastBalanceDebit
+                                    </label>
+                                </td>
+                                <td>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @account.LastBalanceCredit
+                                    </label>
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    <label style="color: firebrick">
+                                        @*@AccountActionBalanceBeforPeriod*@
+                                    </label>
+                                </td>
+                                <td></td>
+
+                            </tr>
+
+                    }
+                            foreach (var item in account.GeneralDalies)
+                            {
+                            <tr>
+                                @*<td style="display:none;">@item.Id</td>
+                <td style="display:none;">@item.TransactionId</td>
+                <td style="display:none;">@item.AccountsTreeId</td>
+                <td style="display:none;">@item.TransactionTypeId</td>*@
+                                <td>@item.TransactionDate</td>
+                                <td>@item.AccountNumber</td>
+                                <td>@item.AccountsTreeName</td>
+                                <td>@item.Debit</td>
+                                <td>@item.Credit</td>
+                                <td>@item.Balance</td>
+                                <td>@item.TransactionTypeName</td>
+                                <td>@item.Notes</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a href="javascript:;" onclick=showTransactionPage('@item.TransactionTypeId') class="btn btn-sm btn-clean btn-icUrln" title="شاشة المعاملة">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <a href="/GeneralDailies/Index/?tranId=@item.TransactionId&tranTypeId=@item.TransactionTypeId" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">
+                                            <i class="fa fa-money-bill"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+
+                            if (account.GeneralDalies.Count>0)
+                            {
+                        
+                            <tr>
+                                <th colspan="3">
+                                    <label style="color: firebrick; font-size: 14px;"></label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                    </label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                    </label>
+                                </th>
+                                <th colspan="4">
+                                    <label style="color:firebrick">
+                                    </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">
+                                    <label style="color: firebrick; font-size: 14px;">@TotalPeriodSpecified</label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px; ">
+                                        @account.TotalDebit
+                                    </label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px; ">
+                                        @account.TotalCredit
+                                    </label>
+                                </th>
+                                <th colspan="4">
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @TotalPeriodSpecified
+                                    </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">
+                                    <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceDuringPeriod </label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @account.TotalBalanceDebit
+                                    </label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @account.TotalBalanceCredit
+                                    </label>
+                                </th>
+                                <th colspan="4">
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @AccountActionBalanceDuringPeriod
+                                    </label>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th colspan="3">
+                                    <label style="color: firebrick; font-size: 14px;">@FinalBalanceAccountUntilEndPeriod  </label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @account.SafyBalanceDebit
+                                    </label>
+                                </th>
+                                <th>
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @account.SafyBalanceCredit
+                                    </label>
+                                </th>
+                                <th colspan="4">
+                                    <label style="color: firebrick; font-size: 14px;">
+                                        @FinalBalanceAccountUntilEndPeriod
+                                    </label>
+                                </th>
+                            </tr>
+                            }
+                        }
+                        }
+
+
+                    </tbody>
+                    <tfoot class="footerCl">
+                    <tr>
+                        <th colspan="3">
+                            <label style="color: firebrick; font-size: 14px;"></label>
+                        </th>
+                        <th>
+                            <label style="color: firebrick; font-size: 14px;">
+                            </label>
+                        </th>
+                        <th>
+                            <label style="color: firebrick; font-size: 14px;">
+                            </label>
+                        </th>
+                        <th colspan="4">
+                            <label style="color:firebrick">
+                            </label>
+                        </th>
+                    </tr>
                     </tfoot>
                 </table>
-
-                <div class="row alert alert-primary" id="showBalanceAll" style="display:none">
-                    <div class="col-lg-12">
-                        <div class="form-group">
-                            <div>
-                                <label> .</label>
-                                <a href="javascript:void(0);" onclick="searchDataBalance();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>عرض الارصدة النهائية للحسابات المحددة</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatableBalance">
-                            <thead>
-                                <tr role="row">
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 12px;"></th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="تاريخ المعاملة: activate to sort column ascending" style="width: 201px;"></th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="رقم الحساب: activate to sort column ascending" style="width: 176px;">رقم الحساب</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="اسم الحساب: activate to sort column ascending" style="width: 181px;">اسم الحساب</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="مدين: activate to sort column ascending" style="width: 97px;">مدين</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="دائن: activate to sort column ascending" style="width: 88px;">دائن</th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="نوع المعاملة: activate to sort column ascending" style="width: 185px;"></th>
-                                    <th class="sorting" tabindex="0" aria-controls="kt_datatable" rowspan="1" colspan="1" aria-label="البيان: activate to sort column ascending" style="width: 130px;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @*<tr role="row" class="odd"><td></td><td>Sep 17 2022 12:43PM</td><td>171000003</td><td>عميل تجريبي تاني</td><td>0</td><td>55</td><td>صيانة</td><td>فاتورة صيانة رقم : w3</td></tr>
-                        <tr role="row" class="even"><td></td><td>Sep 17 2022 12:43PM</td><td>171000003</td><td>عميل تجريبي تاني</td><td>55</td><td>0</td><td>صيانة</td><td>فاتورة صيانة (قطع غيار)رقم : w3</td></tr>*@
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th colspan="4" style="text-align:right">Total:</th>
-                                    <th></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-
-                </div>
+                }
             </div>
+
+
         </div>
     </div>
+
 </div>
+
 
 @section Scripts
 {
-    @if (ViewBag.Msg != null)
-    {
-        <script>
-            $(document).ready(function () {
-                toastr.error('@ViewBag.Msg', '')
-            });
-        </script>
-    }
     <script>
-        function searchData() {
-            $("#isFirstInitPage").val('0');
-            $('#kt_datatable').DataTable().ajax.reload();
-
+        function showTransactionPage(trantypId) {
+            if (trantypId === "1") {
+                window.location = "/PurchaseInvoices/Index"; // توريد
+            } else if (trantypId === "2")
+                window.location = "/SellInvoices/Index";//بيع
+            else if (trantypId === "3")
+                window.location = "/PurchaseBackInvoices/Index";//مرتجع توريد
+            else if (trantypId === "4")
+                window.location = "/SellBackInvoices/Index";//مرتجع بيع
+            else if (trantypId === "5")
+                window.location = "/SuppliersPayments/Index";//صرف نقدية
+            else if (trantypId === "6")
+                window.location = "/CustomersPayments/Index";//توريد نقدية
+            else if (trantypId === "7")
+                window.location = "/Expenses/Index";//مصروف
+            else if (trantypId === "21")
+                window.location = "/Incomes/Index";//ايراد
+            else if (trantypId === "9")
+                window.location = "/GeneralRecords/Index";//قيود حرة
+            else if (trantypId === "22")
+                window.location = "/VoucherPayments/Index";//سند صرف
+            else if (trantypId === "23")
+                window.location = "/VoucherReceipts/Index";//سند دفع
+            else if (trantypId === "24")
+                window.location = "/SellInvoiceInstallmentSchedules/Index";//تقسيط
+            else if (trantypId === "25")
+                window.location = "/CustomerIntials/Index";//رصيد اول عملاء
+            else if (trantypId === "26")
+                window.location = "/SupplierIntials/Index";//رصيد اول موردين
         }
-
+    </script>
+    <script>
         var accounTree;
         $(document).ready(function () {
-            // begin first table
-            //jQuery.fn.dataTable.Api.register('sum()', function () {
-            //    return this.flatten().reduce(function (a, b) {
-            //        if (typeof a === 'string') {
-            //            a = a.replace(/[^\d.-]/g, '') * 1;
-            //        }
-            //        if (typeof b === 'string') {
-            //            b = b.replace(/[^\d.-]/g, '') * 1;
-            //        }
-
-            //        return a + b;
-            //    }, 0);
-            //});
+            var ele = '<footer><div class="footer" style="left: 0; bottom:0;width: 100%;background-color: red;color:white;text-align:center;"><h1>qqqqqq</h1></div></footer>';
             $('#kt_datatable').DataTable({
-                // DOM Layout settings
-                "createdRow": function (row, data, dataIndex) {
-                    console.log(data);;
-                    if (data.IsCustRelated == true) {
-                        $(row).addClass('alert alert-warning');
-                    }
-
-                    /*$(row).addClass('red');*/
-                },
+                "ordering": false,
                 dom: "<'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7 dataTables_pager'lp>>",
                 buttons: [
                     {
                         extend: 'print',
+                        //footer: true,
+                        className: 'green glyphicon glyphicon-print',
                         title: function () {
-                            return 'كشف حساب متعدد';
+                            //var tfoo = $("#kt_datatable tfoot").html();
+                            //var ele = "<table><tbody>" + tfoo + "</tbody></table><h1>كشف حساب  </h1>";
+                            return '@reportTitle';
                         },
                         customize: function (win) {
+                 @*$(win.document.body)
+                    .append(
+                        '@include("report/shop/printmemberconsolidate")'
+                    ),*@
                             $(win.document.body)
                                 //.css('font-size', '20pt')
                                 .prepend(
@@ -241,6 +438,15 @@
                                 .css('direction', 'rtl')
                                 .css('text-align', 'right')
                                 .find('.actions').css('display', 'none');
+                                //.append(ele);
+                            //$(win.document.body).find('#kt_datatable tfoot').append(ele);
+                            //var tfoo = $("#kt_datatable tfoot tr:eq(1)").html()
+                            //console.log(tfoo);
+                            //$(win.document.body).find('table tfoot tr:eq(1)').append(tfoo);
+                            //console.log($(win.document.body).find('table tfoot tr:eq(1)'));
+                            //var tfoo = $("#kt_datatable tfoot").html();
+                            //var ele="<table><tbody>"+tfoo+"</tbody></table>";
+                            //$(win.document.body).find('kt_datatable').append(ele);
                             //توسيط عنوان التقرير
                             $(win.document.body).find('h1').css('text-align', 'center');
                         },
@@ -256,8 +462,8 @@
                     },
                     {
                         extend: "excelHtml5",
-                        filename: "كشف حساب متعدد",
-                        title: "كشف حساب متعدد",
+                        filename: '@reportTitle',
+                        title: '@reportTitle',
                         exportOptions: {
                             columns: ':visible'
                         }
@@ -271,95 +477,43 @@
                     zeroRecords: "لا يوجد سجلات لعرضها",
                     infoFiltered: "",
                     infoEmpty: 'لا يوجد سجلات متاحه',
-                },
-
-                ajax: {
-                    url: '/RptAccountStatements/SearchMultipleData',
-                    type: 'GET',
-                    data(d) {
-                        d.accountTreeIds = $("#AccountTreeIds").val();
-                        d.dFrom = $("#dtFrom").val();
-                        d.dTo = $("#dtTo").val();
-                        d.isFirstInitPage = $("#isFirstInitPage").val();
+                    oPaginate: {
+                        sNext: '<span class="pagination-default">التالى</span><span class="pagination-fa"><i class="fa fa-chevron-left" ></i></span>',
+                        sPrevious: '<span class="pagination-default">السابق</span><span class="pagination-fa"><i class="fa fa-chevron-right" ></i></span>'
                     }
 
-
                 },
-                columns: [
-                    { data: 'Num', responsivePriority: 0 },
-                    { data: 'TransactionDate', title: 'تاريخ المعاملة' },
-                    { data: 'AccountsTreeName', title: 'اسم الحساب' },
-                    { data: 'AccountNumber', title: 'رقم الحساب' },
-                    { data: 'Debit', title: 'مدين' },
-                    { data: 'Credit', title: 'دائن' },
-                    { data: 'TransactionTypeName', title: 'نوع المعاملة' },
-                    { data: 'Notes', title: 'البيان' },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
-                        title: 'م',
-                        orderable: false,
-                        render: function (data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        },
-                    },
-
-
-                ],
-                drawCallback: function () {
-                    var html = ' <tr><th colspan ="3" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى المدين : ';
-                    var api = this.api();
-                    var balanceStatusTxt = '';
-                    var debit = api.column(4).data().sum();
-                    var credit = api.column(5).data().sum();
-                    var balance = Number.parseFloat(debit) - Number.parseFloat(credit);
-                    if (balance > 0) {
-                        balanceStatusTxt = 'الرصيد مدين : ' + balance;
-                    } else
-                        if (balance < 0) {
-                            balanceStatusTxt = 'الرصيد دائن : ' + balance;
-                        } else {
-                            balanceStatusTxt = 'الرصيد : 0';
-                        }
-                    $(api.table().footer()).html(html + debit + '</label></div></th> <th colspan ="4" style= "text-align:center" ><div class="row alert alert-success"><label>' + balanceStatusTxt + '</label ></div ></th ><th colspan ="3" style= "text-align:center" ><div class="row alert alert-success"><label>اجمالى الدائن :' + api.column(5, { page: 'current' }).data().sum() + '</label ></div ></th > </tr>');
-                },
-                "order": [[0, "asc"]]
+                //"order": [[4, "asc"]]
                 //"order": [[0, "desc"]]
-
             });
+            $('#kt_datatable_length').css("text-align", "left");
+
             $('#export_print').on('click', function (e) {
                 e.preventDefault();
                 $('#kt_datatable').DataTable().button('.buttons-print').trigger();
             });
-
             $('#export_copy').on('click', function (e) {
                 e.preventDefault();
                 $('#kt_datatable').DataTable().button('.buttons-copy').trigger();
             });
-
             $('#export_excel').on('click', function (e) {
                 e.preventDefault();
                 $('#kt_datatable').DataTable().button('.buttons-excel').trigger();
             });
-
             $('#kt_datatable_search_query').on('keyup', function () {
                 $('#kt_datatable').DataTable().search(this.value).draw();
             });
-
-
             //دليل الحسابات
             var dsTree = [];
-            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, ShowAllLevel: true }, function (data) {
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false,ShowAllLevel:true }, function (data) {
                 accounTree.setSource(data);
             });
-
             accounTree = $('#accountTree').comboTree({
                 source: dsTree,
                 isMultiple: true,
                 collapse: true,
+                selected: ['@Model.AccountTreeIds']
                 //selectableLastNode: true
-
             });
             accounTree.onChange(function () {
                 if (accounTree.getSelectedIds() != null) {
@@ -367,9 +521,12 @@
                 }
             });
             // ============== نهاية شجرة الحسابات
+
         });
     </script>
 }
+
+
 
 
 

@@ -29,6 +29,7 @@ namespace ERP.DAL
         public double ProfitValue { get; set; }
         public double TotalValue { get; set; }
         public double CommissionVal { get; set; }
+        public string OperationNumber { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         [ForeignKey(nameof(CustomerIntialBalance))]
         public Nullable<Guid> IntialCustomerId { get; set; }

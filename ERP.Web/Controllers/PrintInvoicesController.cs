@@ -42,6 +42,21 @@ namespace ERP.Web.Controllers
 
         }
         #endregion
+        #region طباعه السندات وقيود اليومية  
+        public ActionResult PrintGeneralRecord(string id, string typ)
+        {
+            //اسطر الطباعه من الاعدادات 
+            var list = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+            ViewBag.EntityData = list;
+
+            PrintGeneralRecordDto vm = new PrintGeneralRecordDto();
+            if (string.IsNullOrEmpty(id))
+                return View(vm);
+            vm= printInvoiceService.PrintGeneralRecordData(id,typ); 
+            return View(vm);
+
+        }
+        #endregion
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

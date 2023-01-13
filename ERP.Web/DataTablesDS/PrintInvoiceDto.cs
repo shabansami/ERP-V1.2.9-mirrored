@@ -39,7 +39,7 @@ namespace ERP.Web.DataTablesDS
         public double PersonBalance { get; set; } //مديونية العميل/المورد
         public double SalesTax { get; set; } //ضريبة قيمة مضافة بالزيادة على الفاتورة
         public double ProfitTax { get; set; }//ضريبة ارباح تجارية بنقص من الفاتورة 
-        public string InvoiceTitle { get; set; }
+        public string RptTitle { get; set; }
         public string PersonTypeName { get; set; }// مسمى العميل او المورد 
         public string Notes { get; set; }
         //تفاصيل الفاتورة 

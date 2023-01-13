@@ -139,7 +139,8 @@
                 if (uploadCenterFile.getSelectedIds() != null) {
                     var textSelected = $("#uploadCenterFile").val();
                     $('#kt_datatable').DataTable().column(1).search(textSelected).draw();
-                    $('#FolderId').val(uploadCenterFile.getSelectedIds()[0]);
+                    //$('#FolderId').val(uploadCenterFile.getSelectedIds()[0]);
+                    console.log(uploadCenterFile.getSelectedIds()[0]);
                 }
             });
             // ============== نهاية شجرة الملفات

@@ -1,7 +1,8 @@
-﻿@model ERP.Web.DataTablesDS.PrintInvoiceDto
+﻿@model ERP.Web.DataTablesDS.PrintGeneralRecordDto
 @using ERP.DAL
 @using ERP.Web.Utilites
 @using ERP.DAL.Utilites
+@using ERP.Web.DataTablesDS
 
 @{
     VTSAuth auth = new VTSAuth();
@@ -14,7 +15,8 @@
     }
 
     string logo = "~/Files/printLogo.jpg";
-    int counter = 1;
+    int counterTop = 1;
+    int counterBotn = 1;
     var entityData = (List<GeneralSetting>)ViewBag.EntityData;
     var line1Up = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine1Up).FirstOrDefault().SValue;
     var line2Up = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine2Up).FirstOrDefault().SValue;
@@ -83,20 +85,15 @@
                             <div class="row">
                                 <div class="col-6">
                                     <p>
-                                        رقم الفاتورة : <span>@(Model.InvoiceNumber)</span>
+                                        رقم العملية : <span>@(Model.InvoiceNumber)</span>
                                     </p>
                                 </div>
                                 <div class="col-6">
                                     <p>
-                                        تاريخ الفاتورة : <span>@(Model.InvoiceDate)</span>
+                                        تاريخ العملية : <span>@(Model.OperationDate)</span>
                                     </p>
                                 </div>
                             </div>
-                            @*<p>العميل : <span>@(Model.PersonCustomer?.Name)</span></p>*@
-                            <p>@Model.PersonTypeName</p>
-                            <h2>@(Model.SuppCustomerName)</h2>
-
-
                         </div>
                         <div class="col-2">
                             <br />
@@ -109,47 +106,96 @@
 
                 </div>
             </section>
-
+            @{
+                var AccountTopRpt = new List<AccountDetails>();
+                var AccountBotonRpt = new List<AccountDetails>();
+                var AccountNameTypeTop = "";
+                var AccountNameTypeBotton = "";
+                if (Model.IsDebitFirstRpt)
+                {
+                    AccountTopRpt = Model.AccountDebitList;
+                    AccountBotonRpt = Model.AccountCreditList;
+                    AccountNameTypeTop = "الحسابات المدينة";
+                    AccountNameTypeBotton = "الحسابات الدائنة";
+                }
+                else
+                {
+                    AccountTopRpt = Model.AccountCreditList;
+                    AccountBotonRpt = Model.AccountDebitList;
+                    AccountNameTypeTop = "الحسابات الدائنة";
+                    AccountNameTypeBotton = "الحسابات المدينة";
+                }
+            }
             <section class="product-area ">
                 @*mt-4*@
-
+                <p>@AccountNameTypeTop</p>
                 <table class="table table-hover">
                     <thead>
                         <tr>
                             <td>م</td>
-                            <td>الصنف</td>
-                            <td>السعر</td>
-                            <td>الكمية</td>
+                            <td>الحساب</td>
                             <td>القيمة</td>
                         </tr>
                     </thead>
                     <tbody>
                         @{
-                            foreach (var item in Model.ItemDetails)
+                            foreach (var item in AccountTopRpt)
                             {
                                 <tr>
-                                    <td>@counter</td>
+                                    <td>@counterTop</td>
                                     <td>
                                         <div class="media">
                                             <div class="media-body">
-                                                @*<p class="mt-0 title">Media heading</p>*@
-                                                @item.ItemName
+                                                @item.AccountName
                                             </div>
                                         </div>
                                     </td>
-                                    <td>@item.Price</td>
-                                    <td>@item.Quantity</td>
                                     <td>@item.Amount</td>
                                 </tr>
 
-                                counter++;
+                                counterTop++;
                             }
                         }
 
 
                     </tbody>
                 </table>
-            </section>
+            </section>        
+            <section class="product-area ">
+                @*mt-4*@
+                <p>@AccountNameTypeBotton</p>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <td>م</td>
+                            <td>الحساب</td>
+                            <td>القيمة</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (var item in AccountBotonRpt)
+                            {
+                                <tr>
+                                    <td>@counterBotn</td>
+                                    <td>
+                                        <div class="media">
+                                            <div class="media-body">
+                                                @item.AccountName
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>@item.Amount</td>
+                                </tr>
+
+                                counterBotn++;
+                            }
+                        }
+
+
+                    </tbody>
+                </table>
+            </section>        
 
             <section class="balance-info">
                 <div class="row">
@@ -159,39 +205,11 @@
                     </div>
                     <div class="col-4">
                         <table class="table border-0 table-hover">
-                            <tr>
-                                <td>الاجمالى :</td>
-                                <td>@Model.TotalValue</td>
-                            </tr>
-                            @if (Model.SalesTax > 0)
-                            {
-                                <tr>
-                                    <td>ضريبة القيمة المضافة :</td>
-                                    <td>@Model.SalesTax</td>
-                                </tr>
-                            }
-                            @if (Model.TotalDiscount > 0)
-                            {
-                                <tr>
-                                    <td>خصم :</td>
-                                    <td>@Model.TotalDiscount</td>
-                                </tr>
-                            }
-
-
-                             @if (Model.ProfitTax > 0)
-                            {
-                                <tr>
-                                    <td>ضريبة ارباح تجارية :</td>
-                                    <td>@Model.ProfitTax</td>
-                                </tr>
-                            }
-
 
                             <tfoot>
                                 <tr>
-                                    <td>الصافى :</td>
-                                    <td>@Model.Safy</td>
+                                    <td>المبلغ :</td>
+                                    <td>@Model.Amount</td>
                                 </tr>
                             </tfoot>
                         </table>

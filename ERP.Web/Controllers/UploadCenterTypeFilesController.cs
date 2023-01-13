@@ -291,7 +291,7 @@ namespace ERP.Web.Controllers
                             // get defult folder from general setting 
                             var parent = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterInstallment).FirstOrDefault().SValue);
                             //create directory 
-                            var folderName = "فاتورة قسط رقم " + intallment.Id;
+                            var folderName = "فاتورة قسط رقم " + intallment.OperationNumber;
                             var uploadCenter = new UploadCenter
                             {
                                 IsFolder = true,
@@ -325,34 +325,46 @@ namespace ERP.Web.Controllers
                         if (uploadCenterProdOrder == null)
                         {
                             // get defult folder from general setting 
-                            //var parent = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterCustomer).FirstOrDefault().SValue);
+                            var parent = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterProductionOrder).FirstOrDefault().SValue);
                             //create directory 
                             var folderName = "امر انتاج رقم " + prodOrder.OrderNumber;
-                            var uploadCenterParent = new UploadCenter
+                            var uploadCenter = new UploadCenter
                             {
                                 IsFolder = true,
-                                Name = "أوامر الانتاج",
-                                ParentId = null,
-                                ReferenceGuid = null,
-                                UploadCenterTypeId = null
+                                Name = folderName,
+                                ParentId = parent,
+                                ReferenceGuid = referenceGuid,
+                                UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder
                             };
-                            db.UploadCenters.Add(uploadCenterParent);
-                            UploadCenter uploadCenter = new UploadCenter();
-                            if (db.SaveChanges(auth.CookieValues.UserId)>0)
-                            {
-                                uploadCenter = new UploadCenter
-                                {
-                                    IsFolder = true,
-                                    Name = folderName,
-                                    ParentId = uploadCenterParent.Id,
-                                    ReferenceGuid = referenceGuid,
-                                    UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder
-                                };
-                            }
-                            
                             db.UploadCenters.Add(uploadCenter);
+                            int aff = db.SaveChanges(auth.CookieValues.UserId);
+                            //create directory 
+                            //var folderName = "امر انتاج رقم " + prodOrder.OrderNumber;
+                            //var uploadCenterParent = new UploadCenter
+                            //{
+                            //    IsFolder = true,
+                            //    Name = "أوامر الانتاج",
+                            //    ParentId = null,
+                            //    ReferenceGuid = null,
+                            //    UploadCenterTypeId = null
+                            //};
+                            //db.UploadCenters.Add(uploadCenterParent);
+                            //UploadCenter uploadCenter = new UploadCenter();
+                            //if (db.SaveChanges(auth.CookieValues.UserId)>0)
+                            //{
+                            //    uploadCenter = new UploadCenter
+                            //    {
+                            //        IsFolder = true,
+                            //        Name = folderName,
+                            //        ParentId = uploadCenterParent.Id,
+                            //        ReferenceGuid = referenceGuid,
+                            //        UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder
+                            //    };
+                            //}
+
+                            //db.UploadCenters.Add(uploadCenter);
                             //string path = "";
-                            if (db.SaveChanges(auth.CookieValues.UserId) == 0)
+                            if (aff==0)
                             {
                                 ViewBag.redirect = "errorCreateDir";
                                 return View(new UploadCenter());
@@ -363,6 +375,67 @@ namespace ERP.Web.Controllers
                         }
                         else
                             return View(new UploadCenter { ParentId = uploadCenterProdOrder.Id, ReferenceGuid = referenceGuid, UploadCenterTypeId = (int)UploalCenterTypeCl.ProductionOrder, UploadCenterParent = new UploadCenter { Name = uploadCenterProdOrder.Name } });
+                                           
+                    //قيود اليومية 
+                    case (int)UploalCenterTypeCl.GeneralRecord:
+                        ViewBag.TitlePage = "رفع ملفات قيود اليومية";
+                        var uploadCenterGeneralRecord = db.UploadCenters.Where(x => x.ReferenceGuid == referenceGuid && x.IsFolder).FirstOrDefault();
+                        var generalRecord = db.GeneralRecords.Where(x => x.Id == referenceGuid).FirstOrDefault();
+                        // add first file (purchase guid not exsits yet)
+                        if (uploadCenterGeneralRecord == null)
+                        {
+                            // get defult folder from general setting 
+                            var parent = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterGeneralRecord).FirstOrDefault().SValue);
+                            //create directory 
+                            var folderName = "قيد يومية رقم " + generalRecord.GeneralRecordNumber;
+                            var uploadCenter = new UploadCenter
+                            {
+                                IsFolder = true,
+                                Name = folderName,
+                                ParentId = parent,
+                                ReferenceGuid = referenceGuid,
+                                UploadCenterTypeId = (int)UploalCenterTypeCl.GeneralRecord
+                            };
+                            db.UploadCenters.Add(uploadCenter);
+                            int aff = db.SaveChanges(auth.CookieValues.UserId);
+                            
+                            //create directory 
+                                                                                                           //var folderName = "قيد يومية رقم " + generalRecord.GeneralRecordNumber;
+                                                                                                           //var uploadCenterParent = new UploadCenter
+                                                                                                           //{
+                                                                                                           //    IsFolder = true,
+                                                                                                           //    Name = "قيود اليومية",
+                                                                                                           //    ParentId = null,
+                                                                                                           //    ReferenceGuid = null,
+                                                                                                           //    UploadCenterTypeId = null
+                                                                                                           //};
+                                                                                                           //db.UploadCenters.Add(uploadCenterParent);
+                                                                                                           //UploadCenter uploadCenter = new UploadCenter();
+                                                                                                           //if (db.SaveChanges(auth.CookieValues.UserId)>0)
+                                                                                                           //{
+                                                                                                           //    uploadCenter = new UploadCenter
+                                                                                                           //    {
+                                                                                                           //        IsFolder = true,
+                                                                                                           //        Name = folderName,
+                                                                                                           //        ParentId = uploadCenterParent.Id,
+                                                                                                           //        ReferenceGuid = referenceGuid,
+                                                                                                           //        UploadCenterTypeId = (int)UploalCenterTypeCl.GeneralRecord
+                                                                                                           //    };
+                                                                                                           //}
+
+                            //db.UploadCenters.Add(uploadCenter);
+                            //string path = "";
+                            if (aff == 0)
+                            {
+                                ViewBag.redirect = "errorCreateDir";
+                                return View(new UploadCenter());
+                                //path = Server.MapPath($"~/Files/UploadCenter/{ intallment.Id}/");
+                                //Directory.CreateDirectory(path);
+                            }
+                            return View(new UploadCenter { ParentId = uploadCenter.Id, ReferenceGuid = referenceGuid, UploadCenterTypeId = (int)UploalCenterTypeCl.GeneralRecord, UploadCenterParent = new UploadCenter { Name = folderName } });
+                        }
+                        else
+                            return View(new UploadCenter { ParentId = uploadCenterGeneralRecord.Id, ReferenceGuid = referenceGuid, UploadCenterTypeId = (int)UploalCenterTypeCl.GeneralRecord, UploadCenterParent = new UploadCenter { Name = uploadCenterGeneralRecord.Name } });
 
                     default:
                         return View(new UploadCenter());

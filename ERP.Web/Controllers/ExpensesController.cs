@@ -9,6 +9,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.ViewModels;
+using System.Runtime.Remoting.Contexts;
 
 namespace ERP.Web.Controllers
 {
@@ -139,6 +141,9 @@ namespace ERP.Web.Controllers
                         ExpenseIncomeTypeAccountTreeId = vm.ExpenseIncomeTypeAccountTreeId,
                         IsExpense=true,
                     };
+                    //            //اضافة رقم العملية
+                    string codePrefix = Properties.Settings.Default.CodePrefix;
+                    model.OperationNumber = codePrefix + (db.ExpenseIncomes.Count(x => model.OperationNumber.StartsWith(codePrefix)&&x.IsExpense) + 1);
                     db.ExpenseIncomes.Add(model);
 
                 }

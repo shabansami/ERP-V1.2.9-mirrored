@@ -55,7 +55,7 @@ namespace ERP.Web.Controllers
 
             return Json(new
             {
-                data = list.Select(x => new { Id = x.Id, VoucherNumber = x.VoucherNumber,  IsApproval = x.IsApproval, Amount = x.VoucherDetails.Where(v=>!v.IsDeleted).DefaultIfEmpty().Sum(v=>v.Amount), Notes = x.Notes, VoucherDate = x.VoucherDate.ToString(), Actions = n, Num = n }).ToList()
+                data = list.Select(x => new { Id = x.Id, VoucherNumber = x.VoucherNumber,  IsApproval = x.IsApproval, Amount = x.VoucherDetails.Where(v=>!v.IsDeleted).Sum(v=>(double?)v.Amount??0), Notes = x.Notes, VoucherDate = x.VoucherDate.ToString(), Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }

@@ -141,6 +141,9 @@ namespace ERP.Web.Utilites
             TaxPercentage,//نسبة ضريبة القيمة المضافة
             TaxProfitPercentage,//نسبة ضريبة ارباح تجارية 
 
+            UploadCenterProductionOrder, //مجلد اوامر الانتاج 
+            UploadCenterGeneralRecord, //مجلد قيود اليومية 
+
         }
 
         public enum GeneralSettingTypeCl // انواع الاعدادات
@@ -275,6 +278,7 @@ namespace ERP.Web.Utilites
             Customer, //عميل 
             Installment, //قسط 
             ProductionOrder, //اوامر الانتاج 
+            GeneralRecord, //قيود اليومية 
         }
 
         //طريقة احتساب تكلفة المنتج شراء

@@ -113,6 +113,9 @@ namespace ERP.Web.Controllers
                         ExpenseIncomeTypeAccountTreeId = vm.ExpenseIncomeTypeAccountTreeId,
                         IsExpense = false,
                     };
+                    //            //اضافة رقم العملية
+                    string codePrefix = Properties.Settings.Default.CodePrefix;
+                    model.OperationNumber = codePrefix + (db.ExpenseIncomes.Count(x => model.OperationNumber.StartsWith(codePrefix) && !x.IsExpense) + 1);
                     db.ExpenseIncomes.Add(model);
 
                 }

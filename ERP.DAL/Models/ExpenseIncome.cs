@@ -35,6 +35,7 @@ namespace ERP.DAL
         public bool IsApproval { get; set; }
         public string PaidTo { get; set; } //«”„ «·‘Œ’ «·„” ·„ ··„»·€ «Ê «·„” ·„ „‰ «·Œ“‰… «·„’—Ê› 
 
+        public string OperationNumber { get; set; }
         //AccountsTree
         public virtual AccountsTree ExpenseIncomeTypeAccountsTree { get; set; }
         public virtual Branch Branch { get; set; }

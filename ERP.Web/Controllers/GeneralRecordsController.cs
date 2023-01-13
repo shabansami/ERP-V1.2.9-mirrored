@@ -45,7 +45,7 @@ namespace ERP.Web.Controllers
                 list = list.Where(x => x.GeneralRecordDetails.Where(d => !d.IsDeleted && d.AccountTreeId == accountId).Any());
             return Json(new
             {
-                data = list.Select(x => new { Id = x.Id, IsApproval = x.IsApproval, IsApprovalStatus = x.IsApproval ? "معتمده" : "غير معتمده",  TransactionDate = x.TransactionDate.ToString(), Amount = x.GeneralRecordDetails.Where(d => !d.IsDeleted&&d.IsDebit).DefaultIfEmpty().Sum(d => d.Amount), Notes = x.Notes, Actions = n, Num = n }).ToList()
+                data = list.Select(x => new { Id = x.Id, IsApproval = x.IsApproval, IsApprovalStatus = x.IsApproval ? "معتمده" : "غير معتمده",  TransactionDate = x.TransactionDate.ToString(), typ = (int)UploalCenterTypeCl.GeneralRecord, Amount = x.GeneralRecordDetails.Where(d => !d.IsDeleted&&d.IsDebit).DefaultIfEmpty().Sum(d => d.Amount), Notes = x.Notes, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }

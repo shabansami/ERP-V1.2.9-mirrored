@@ -104,22 +104,27 @@ var GeneralRecord_Module = function () {
                         if (row.IsApproval) {
                             return '\
 							<div class="btn-group">\
-                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=GeneralRecord_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="/PrintInvoices/PrintGeneralRecord/?id='+ row.Id + '&typ=generalRecord" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a><a href="javascript:;" onclick=GeneralRecord_Module.Unapproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i></a>\
                                 <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=9" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
 								<i class="fa fa-search"></i>\
-							</a>\</div>\
+							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
+								<i class="fa fa-upload"></i>\
+							</a></div>\
 						';
                         } else {
                             return '\
-							<div class="btn-group">\
-                                <a href="/GeneralRecords/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
+							<div class="btn-group">\<a href="/GeneralRecords/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\
 							<a href="javascript:;" onclick=GeneralRecord_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=GeneralRecord_Module.approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-unlock-alt"></i>\
+							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
+								<i class="fa fa-upload"></i>\
 							</a></div>\
 						';
                         }

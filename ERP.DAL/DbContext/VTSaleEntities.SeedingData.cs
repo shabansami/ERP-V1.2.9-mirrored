@@ -279,6 +279,7 @@ namespace ERP.DAL
                         db.UploadCenterTypes.Add(new UploadCenterType { Name = "عميل" });
                         db.UploadCenterTypes.Add(new UploadCenterType { Name = "قسط" });
                         db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
+                        db.UploadCenterTypes.Add(new UploadCenterType { Name = "قيود يومية" });
                     }
 
 
@@ -474,6 +475,8 @@ INSERT [{Schema}].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFold
 INSERT [{Schema}].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'b6439a80-2b5e-4e25-a361-9c83bed95d1f', NULL, N'الموردين', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{UserID}', NULL, NULL, 0, NULL, NULL)
 INSERT [{Schema}].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'88254c48-2952-45e0-ab3a-c139a4003819', NULL, N'العملاء', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{UserID}', NULL, NULL, 0, NULL, NULL)
 INSERT [{Schema}].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'72739a22-438b-4848-a4fc-9abb9ba32564', NULL, N'الاقساط', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{UserID}', NULL, NULL, 0, NULL, NULL)
+INSERT [{Schema}].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'72739a22-438b-4848-a4fc-9abb9ba32565', NULL, N'اوامر الانتاج', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{UserID}', NULL, NULL, 0, NULL, NULL)
+INSERT [{Schema}].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'72739a22-438b-4848-a4fc-9abb9ba32566', NULL, N'قيود اليومية', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{UserID}', NULL, NULL, 0, NULL, NULL)
 ";
 
             if (db.UploadCenterTypes.Where(x => !x.IsDeleted).Count() == 0)
@@ -801,6 +804,8 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (72,N'حساب تكلفة بضاعه مباعه',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (73,N'نسبة ضريبة القيمة المضافة',N'14',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (74,N'نسبة ضريبة ارباح تجارية',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (75,N'مجلد اوامر الانتاج',N'72739a22-438b-4848-a4fc-9abb9ba32565',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (76,N'مجلد قيود اليومية',N'72739a22-438b-4848-a4fc-9abb9ba32566',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 
 SET IDENTITY_INSERT [{Schema}].[GeneralSettings] OFF;";
 
@@ -1289,8 +1294,8 @@ END";
             pages.Add(new Page() { Id = 162, ParentId = 161, Icon = null, IsPage = true, Name = "اضافة نظام وردية", OrderNum = 0, Url = "/Shifts/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 163, ParentId = 161, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة نظام وردية", OrderNum = 0, Url = "/Shifts/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 164, ParentId = 139, Icon = null, IsPage = false, Name = "تعريف أنواع الإضافات", OrderNum = 0, Url = "", OtherUrls = null });
-            pages.Add(new Page() { Id = 165, ParentId = 164, Icon = null, IsPage = true, Name = "اضافة نوع إضافة جديد", OrderNum = 0, Url = "/SalaryAdditionTypes/CreateEdit", OtherUrls = ",/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 166, ParentId = 164, Icon = null, IsPage = true, Name = "ادارة نوع إضافة ", OrderNum = 0, Url = "/SalaryAdditionTypes/Index", OtherUrls = ",/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 165, ParentId = 164, Icon = null, IsPage = true, Name = "اضافة نوع إضافة جديد", OrderNum = 0, Url = "/SalaryAdditionTypes/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 166, ParentId = 164, Icon = null, IsPage = true, Name = "ادارة نوع إضافة ", OrderNum = 0, Url = "/SalaryAdditionTypes/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 167, ParentId = 139, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "تعريف الإضافات", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 168, ParentId = 167, Icon = null, IsPage = true, Name = "تسجيل إضافة", OrderNum = 0, Url = "/SalaryAdditions/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 169, ParentId = 167, Icon = null, IsPage = true, Name = "ادارة بيانات إضافة", OrderNum = 0, Url = "/SalaryAdditions/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -1327,7 +1332,7 @@ END";
             pages.Add(new Page() { Id = 200, ParentId = 197, Icon = null, IsPage = true, Name = "استعراض شجرة الحسابات", OrderNum = 0, Url = "/AccountsTrees/ShowAccounts", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 201, ParentId = 196, Icon = null, IsPage = false, Name = "القيود اليومية", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 202, ParentId = 201, Icon = null, IsPage = true, Name = "تسجيل قيد يومية", OrderNum = 0, Url = "/GeneralRecords/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 203, ParentId = 201, Icon = null, IsPage = true, Name = "ادارة قيد يومية", OrderNum = 0, Url = "/GeneralRecords/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 203, ParentId = 201, Icon = null, IsPage = true, Name = "ادارة قيد يومية", OrderNum = 0, Url = "/GeneralRecords/Index", OtherUrls = "/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 204, ParentId = null, Icon = "icon-md fas fa-users-cog ylow", IsPage = false, Name = "الصلاحيات والمستخدمين", OrderNum = 17, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 205, ParentId = 204, Icon = null, IsPage = false, Name = "الصلاحيات", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 206, ParentId = 205, Icon = null, IsPage = true, Name = "تسجيل صلاحية جديدة", OrderNum = 0, Url = "/Roles/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });

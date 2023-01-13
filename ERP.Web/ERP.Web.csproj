@@ -1924,6 +1924,7 @@
     <Compile Include="DataTablesDS\ItemProductionDetailsDT.cs" />
     <Compile Include="DataTablesDS\ItemProductionOrderDetailsDT.cs" />
     <Compile Include="DataTablesDS\ItemsMaterialDT.cs" />
+    <Compile Include="DataTablesDS\PrintGeneralRecordDto.cs" />
     <Compile Include="DataTablesDS\ResponsibleDT.cs" />
     <Compile Include="DataTablesDS\ItemUnitDto.cs" />
     <Compile Include="DataTablesDS\PricingPolicyDT.cs" />
@@ -2200,7 +2201,7 @@
     <Content Include="Views\RptAccountStatements\BalanceCustomers.cshtml" />
     <Content Include="Views\RptAccountStatements\BalanceSuppliers.cshtml" />
     <Content Include="Views\RptAccountStatements\Search.cshtml" />
-    <Content Include="Views\RptAccountStatements\SearchMultiple.cshtml" />
+    <Content Include="Views\RptAccountStatements\SearchMultipleOld.cshtml" />
     <Content Include="Views\RptAccountStatements\SearchOld.cshtml" />
     <Content Include="Views\RptCustomerPayments\SearchCheques.cshtml" />
     <Content Include="Views\RptCustomerPayments\SearchPayments.cshtml" />
@@ -2375,6 +2376,8 @@
     <Content Include="Views\AccountTreeIntialBalances\CreateEdit.cshtml" />
     <Content Include="Views\PrintInvoices\ShowPrintInvoice.cshtml" />
     <Content Include="Views\ItemIntialBalances\ShowDetails.cshtml" />
+    <Content Include="Views\PrintInvoices\PrintGeneralRecord.cshtml" />
+    <Content Include="Views\RptAccountStatements\SearchMultiple.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

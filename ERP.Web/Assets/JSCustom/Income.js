@@ -118,7 +118,9 @@ var Income_Module = function () {
                         } else {
                             return '\
 							<div class="btn-group">\
-                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=Income_Module.UnApprovalIncome(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="/PrintInvoices/PrintGeneralRecord/?id='+ row.Id + '&typ=income" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a><a href="javascript:;" onclick=Income_Module.UnApprovalIncome(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=21" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
 								<i class="fa fa-money-bill"></i>\
 							</a>\</div>\

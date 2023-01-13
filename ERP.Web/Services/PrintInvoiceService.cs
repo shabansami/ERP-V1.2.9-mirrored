@@ -1,6 +1,7 @@
 ﻿using ERP.DAL;
 using ERP.Web.DataTablesDS;
 using ERP.Web.Utilites;
+using ERP.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,7 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                InvoiceTitle = "فاتورة توريد",
+                                RptTitle = "فاتورة توريد",
                                 PersonTypeName="المورد",
                                 Notes=x.Notes,
                                 //بيانات الجهة
@@ -115,7 +116,7 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                InvoiceTitle = "فاتورة مرتجع توريد",
+                                RptTitle = "فاتورة مرتجع توريد",
                                 PersonTypeName = "المورد",
                                 Notes = x.Notes,
                                 //بيانات الجهة
@@ -175,7 +176,7 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                InvoiceTitle = "فاتورة مبيعات",
+                                RptTitle = "فاتورة مبيعات",
                                 PersonTypeName = "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة
@@ -231,7 +232,7 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                InvoiceTitle = "فاتورة مرتجع مبيعات",
+                                RptTitle = "فاتورة مرتجع مبيعات",
                                 PersonTypeName = "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة
@@ -274,7 +275,7 @@ namespace ERP.Web.Services
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
                                 }).ToList(),
-                                InvoiceTitle = "عرض سعر",
+                                RptTitle = "عرض سعر",
                                 PersonTypeName = "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة
@@ -314,7 +315,7 @@ namespace ERP.Web.Services
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
                                 }).ToList(),
-                                InvoiceTitle = "امر بيع",
+                                RptTitle = "امر بيع",
                                 PersonTypeName = "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة
@@ -337,6 +338,186 @@ namespace ERP.Web.Services
 
             }
             return invoice;
+
+
+        }
+        public PrintGeneralRecordDto PrintGeneralRecordData(string id, string typ) {
+            PrintGeneralRecordDto voucher = new PrintGeneralRecordDto();
+            // الحصول على بيانات المؤسسة من الاعدادات
+            CustomerService personService = new CustomerService();
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                using (var db = new VTSaleEntities())
+                {
+                    var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+                    if (typ == "voucherPayment")
+                    {
+                        var vouchers = db.Vouchers.Where(x => !x.IsDeleted && x.Id == Id).ToList();
+                        if (vouchers.Count() > 0)
+                        {
+                            voucher = vouchers.Select(x => new PrintGeneralRecordDto
+                            {
+                                InvoiceNumber = x.VoucherNumber,
+                                BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
+                                OperationDate = x.VoucherDate.ToString(),
+                                Amount = x.VoucherDetails.Where(v=>!v.IsDeleted).Sum(v=>(double?)v.Amount??0),
+                                IsDebitFirstRpt = false,
+                                AccountCreditList = new List<AccountDetails>()
+                                {new AccountDetails(){
+                                    AccountName = x.AccountsTree.AccountName,
+                                    Amount = x.VoucherDetails.Where(v => !v.IsDeleted).Sum(v => (double?)v.Amount ?? 0),
+                                }},
+                                AccountDebitList = x.VoucherDetails.Where(i => !i.IsDeleted).Select(i => new AccountDetails()
+                                {
+                                    AccountName = i.AccountsTree.AccountName,
+                                    Amount = i.Amount,
+                                }).ToList(),
+
+                                RptTitle = "سند صرف",
+                                Notes = x.Notes,
+                                //بيانات الجهة
+                                EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
+                                EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
+                                EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
+                            }).FirstOrDefault();
+                            
+                        }
+                    }
+                    else if (typ == "voucherReceipt")
+                    {
+                        var vouchers = db.Vouchers.Where(x => !x.IsDeleted && x.Id == Id).ToList();
+                        if (vouchers.Count() > 0)
+                        {
+                            voucher = vouchers.Select(x => new PrintGeneralRecordDto
+                            {
+                                InvoiceNumber = x.VoucherNumber,
+                                BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
+                                OperationDate = x.VoucherDate.ToString(),
+                                Amount = x.VoucherDetails.Where(v=>!v.IsDeleted).Sum(v=>(double?)v.Amount??0),
+                                IsDebitFirstRpt = true,
+                                AccountDebitList = new List<AccountDetails>()
+                                {new AccountDetails(){
+                                    AccountName = x.AccountsTree.AccountName,
+                                    Amount = x.VoucherDetails.Where(v => !v.IsDeleted).Sum(v => (double?)v.Amount ?? 0),
+                                }},
+                                AccountCreditList = x.VoucherDetails.Where(i => !i.IsDeleted).Select(i => new AccountDetails()
+                                {
+                                    AccountName = i.AccountsTree.AccountName,
+                                    Amount = i.Amount,
+                                }).ToList(),
+
+                                RptTitle = "سند قبض",
+                                Notes = x.Notes,
+                                //بيانات الجهة
+                                EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
+                                EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
+                                EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
+                            }).FirstOrDefault();
+                            
+                        }
+                    }
+                    else if (typ == "generalRecord")
+                    {
+                        var generalRecords = db.GeneralRecords.Where(x => !x.IsDeleted && x.Id == Id).ToList();
+                        if (generalRecords.Count() > 0)
+                        {
+                            voucher = generalRecords.Select(x => new PrintGeneralRecordDto
+                            {
+                                InvoiceNumber = x.GeneralRecordNumber,
+                                BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
+                                OperationDate = x.TransactionDate.ToString(),
+                                Amount = x.GeneralRecordDetails.Where(v=>!v.IsDeleted&&v.IsDebit).Sum(v=>(double?)v.Amount??0),
+                                IsDebitFirstRpt = true,
+                                AccountDebitList = x.GeneralRecordDetails.Where(i => !i.IsDeleted&&i.IsDebit).Select(i => new AccountDetails()
+                                {
+                                    AccountName = i.AccountTree.AccountName,
+                                    Amount = i.Amount,
+                                }).ToList(), 
+                                AccountCreditList = x.GeneralRecordDetails.Where(i => !i.IsDeleted&&!i.IsDebit).Select(i => new AccountDetails()
+                                {
+                                    AccountName = i.AccountTree.AccountName,
+                                    Amount = i.Amount,
+                                }).ToList(),
+                                RptTitle = "قيود يومية",
+                                Notes = x.Notes,
+                                //بيانات الجهة
+                                EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
+                                EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
+                                EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
+                            }).FirstOrDefault();
+                            
+                        }
+                    }
+                    else if (typ == "expense")
+                    {
+                        var expenses = db.ExpenseIncomes.Where(x => !x.IsDeleted && x.Id == Id).ToList();
+                        if (expenses.Count() > 0)
+                        {
+                            voucher = expenses.Select(x => new PrintGeneralRecordDto
+                            {
+                                InvoiceNumber = x.OperationNumber,
+                                BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
+                                OperationDate = x.PaymentDate.ToString(),
+                                Amount = x.Amount,
+                                IsDebitFirstRpt = true,
+                                AccountDebitList =new List<AccountDetails>(){new AccountDetails()
+                                {
+                                    AccountName = x.ExpenseIncomeTypeAccountsTree.AccountName,
+                                    Amount = x.Amount
+                                }},                             
+                                AccountCreditList = new List<AccountDetails>(){new AccountDetails()
+                                {
+                                    AccountName = x.Safe.Name,
+                                    Amount = x.Amount
+                                }},
+                                RptTitle = "مصروف",
+                                Notes = x.Notes,
+                                //بيانات الجهة
+                                EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
+                                EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
+                                EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
+                            }).FirstOrDefault();
+                            
+                        }
+                    }
+                    else if (typ == "income")
+                    {
+                        var expenses = db.ExpenseIncomes.Where(x => !x.IsDeleted && x.Id == Id).ToList();
+                        if (expenses.Count() > 0)
+                        {
+                            voucher = expenses.Select(x => new PrintGeneralRecordDto
+                            {
+                                InvoiceNumber = x.OperationNumber,
+                                BranchName = x.Branch != null ? x.Branch.Name : string.Empty,
+                                OperationDate = x.PaymentDate.ToString(),
+                                Amount = x.Amount,
+                                IsDebitFirstRpt = false,
+                                AccountCreditList = new List<AccountDetails>(){new AccountDetails()
+                                {
+                                    AccountName = x.ExpenseIncomeTypeAccountsTree.AccountName,
+                                    Amount = x.Amount
+                                }},                             
+                                AccountDebitList = new List<AccountDetails>(){new AccountDetails()
+                                {
+                                    AccountName = x.Safe.Name,
+                                    Amount = x.Amount
+                                }},
+                                RptTitle = "ايراد",
+                                Notes = x.Notes,
+                                //بيانات الجهة
+                                EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
+                                EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
+                                EntityDataTaxCardNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue : string.Empty,
+                            }).FirstOrDefault();
+                            
+                        }
+                    }
+                }
+                
+
+            }
+            return voucher;
 
 
         }

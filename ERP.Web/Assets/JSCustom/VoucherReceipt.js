@@ -103,7 +103,9 @@ var VoucherReceipt_Module = function () {
                         if (row.IsApproval) {
                             return '\
 							<div class="btn-group">\
-                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=VoucherReceipt_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="/PrintInvoices/PrintGeneralRecord/?id='+ row.Id + '&typ=voucherReceipt" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a><a href="javascript:;" onclick=VoucherReceipt_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i></a>\
                                 <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=23" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
 								<i class="fa fa-search"></i>\
@@ -111,11 +113,9 @@ var VoucherReceipt_Module = function () {
 						';
                         } else {
                             return '\
-							<div class="btn-group">\
-                                <a href="/VoucherReceipts/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
+							<div class="btn-group">\<a href="/VoucherReceipts/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
 								<i class="fa fa-edit"></i>\
-							</a>\
-							<a href="javascript:;" onclick=VoucherReceipt_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+							</a>\<a href="javascript:;" onclick=VoucherReceipt_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=VoucherReceipt_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-unlock-alt"></i>\

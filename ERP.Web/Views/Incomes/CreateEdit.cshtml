@@ -73,15 +73,15 @@
                             </div>
                         </div>  
                         <div class="col-lg-4">
-                            <div class="form-group ">
-                                <label>اسم المسدد الى الخزنة</label>
-                                @Html.TextBoxFor(m => m.PaidTo, new { @class = "form-control" })
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>خزينة</label>
                                 @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label>اسم المسدد الى الخزنة</label>
+                                @Html.TextBoxFor(m => m.PaidTo, new { @class = "form-control" })
                             </div>
                         </div>
                         <div class="col-lg-12">

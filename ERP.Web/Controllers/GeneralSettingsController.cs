@@ -507,6 +507,22 @@ namespace ERP.Web.Controllers
                 vm.UploadFileTree.UploadCenterInstallmentName = uploadCenterInstallment.Name;
             }
             vm.UploadFileTree.UploadCenterInstallmentSettingId = (int)GeneralSettingCl.UploadCenterInstallment;
+            //==================== ProductionOrder =======================
+            if (model.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterProductionOrder).FirstOrDefault().SValue != null)
+            {
+                vm.UploadFileTree.UploadCenterProductionOrderSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterProductionOrder).FirstOrDefault().SValue);
+                var uploadCenterProductionOrder = uploadCenterTree.Where(x => x.Id == vm.UploadFileTree.UploadCenterProductionOrderSettingValue).FirstOrDefault();
+                vm.UploadFileTree.UploadCenterProductionOrderName = uploadCenterProductionOrder.Name;
+            }
+            vm.UploadFileTree.UploadCenterProductionOrderSettingId = (int)GeneralSettingCl.UploadCenterProductionOrder;
+            //==================== GeneralRecord =======================
+            if (model.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterGeneralRecord).FirstOrDefault().SValue != null)
+            {
+                vm.UploadFileTree.UploadCenterGeneralRecordSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.UploadCenterGeneralRecord).FirstOrDefault().SValue);
+                var uploadCenterGeneralRecord = uploadCenterTree.Where(x => x.Id == vm.UploadFileTree.UploadCenterGeneralRecordSettingValue).FirstOrDefault();
+                vm.UploadFileTree.UploadCenterGeneralRecordName = uploadCenterGeneralRecord.Name;
+            }
+            vm.UploadFileTree.UploadCenterGeneralRecordSettingId = (int)GeneralSettingCl.UploadCenterGeneralRecord;
             #endregion
 
             #region PrintSetting

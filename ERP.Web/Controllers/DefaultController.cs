@@ -90,7 +90,14 @@ namespace ERP.Web.Controllers
             //int[] nums = { 75, 83, 113, 106, 405, 408 };
             //var pag3 = db.Pages.Where(x => nums.Contains(x.Id)).ToList();
             //pag3.ForEach(x => x.OtherUrls += ",/PrintInvoices/ShowPrintInvoice");
-            ////db.SaveChanges(userId);
+            //int[] nums2 = { 343, 346, 203 };
+            //var pag4 = db.Pages.Where(x => nums2.Contains(x.Id)).ToList();
+            //pag4.ForEach(x => x.OtherUrls += ",/PrintInvoices/PrintGeneralRecord");
+            //db.SaveChanges(userId);
+            //var pag5 = db.Pages.Where(x => x.Id == 203).FirstOrDefault();
+            //pag5.OtherUrls += ",/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete";
+            //db.SaveChanges(userId);
+
             //db.TransactionsTypes.Add(new TransactionsType
             //{
             //    Name = "رصيد اول المدة"
@@ -111,9 +118,15 @@ namespace ERP.Web.Controllers
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(72, N'حساب تكلفة بضاعه مباعه مع الجرد المستمر', NULL, 1, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(73, N'نسبة ضريبة القيمة المضافة', N'14', 7, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(74, N'نسبة ضريبة ارباح تجارية', N'1', 7, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(75, N'مجلد اوامر الانتاج', N'72739a22-438b-4848-a4fc-9abb9ba32565', 6, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(76, N'مجلد قيود اليومية', N'72739a22-438b-4848-a4fc-9abb9ba32566', 6, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //SET IDENTITY_INSERT[dbo].[GeneralSettings] OFF; ";
             //db.Database.ExecuteSqlCommand(genralSettings);
-
+            //var uploadCenters = $@"
+            //        INSERT [dbo].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'72739a22-438b-4848-a4fc-9abb9ba32565', NULL, N'اوامر الانتاج', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+            //        INSERT [dbo].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'72739a22-438b-4848-a4fc-9abb9ba32566', NULL, N'قيود اليومية', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+            //        ";
+            //db.Database.ExecuteSqlCommand(uploadCenters);
 
 
 

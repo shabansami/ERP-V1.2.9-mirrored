@@ -211,6 +211,13 @@ namespace ERP.Web.ViewModels
         public Guid? UploadCenterInstallmentSettingValue { get; set; }
         public string UploadCenterInstallmentName { get; set; }
 
+        public int? UploadCenterProductionOrderSettingId { get; set; }
+        public Guid? UploadCenterProductionOrderSettingValue { get; set; }
+        public string UploadCenterProductionOrderName { get; set; }
+        public int? UploadCenterGeneralRecordSettingId { get; set; }
+        public Guid? UploadCenterGeneralRecordSettingValue { get; set; }
+        public string UploadCenterGeneralRecordName { get; set; }
+
     }
     public class PrintSetting
     {

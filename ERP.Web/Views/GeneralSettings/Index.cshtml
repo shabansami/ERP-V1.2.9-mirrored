@@ -736,6 +736,30 @@
                                             <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterInstallmentName',@Model.UploadFileTree.UploadCenterInstallmentSettingId,'@Model.UploadFileTree.UploadCenterInstallmentSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
                                         </div>
                                     </div>
+                                </div>                
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد اوامر الانتاج</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterProductionOrderName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterProductionOrderSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterProductionOrderSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterProductionOrderName',@Model.UploadFileTree.UploadCenterProductionOrderSettingId,'@Model.UploadFileTree.UploadCenterProductionOrderSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>مجلد قيود اليومية</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.UploadFileTree.UploadCenterGeneralRecordName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterGeneralRecordSettingId)
+                                            @Html.HiddenFor(m => m.UploadFileTree.UploadCenterGeneralRecordSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModalUpload('UploadFileTree_UploadCenterGeneralRecordName',@Model.UploadFileTree.UploadCenterGeneralRecordSettingId,'@Model.UploadFileTree.UploadCenterGeneralRecordSettingValue')"><i title="بحث عن مجلد" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

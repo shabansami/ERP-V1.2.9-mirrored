@@ -329,6 +329,9 @@ namespace ERP.Web.Controllers
                             TotalValue = vm.FinalSafy,
                             InstallmentSchedules = installmentSchedules,
                         };
+                        //            //اضافة رقم العملية
+                        string codePrefix = Properties.Settings.Default.CodePrefix;
+                        installment.OperationNumber = codePrefix + (db.Installments.Count(x => installment.OperationNumber.StartsWith(codePrefix)) + 1);
                         context.Installments.Add(installment);
 
                         //اضافة الاشعارات 

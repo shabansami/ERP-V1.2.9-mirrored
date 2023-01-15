@@ -96,11 +96,19 @@
                     </div>
                 </div>
                 <div class="row">
+                    @{
+                        DateTime startDt = new DateTime();
+                        DateTime endDt = new DateTime();
+                        if (ViewBag.StartDateSearch != null)
+                        { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+                        if (ViewBag.EndDateSearch != null)
+                        { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+                    }
                     <div class="col-lg-5">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> من تاريخ</label>
-                                @Html.TextBox("dtFrom", Utility.GetDateTime().AddMonths(-1), "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -108,7 +116,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> إلي تاريخ</label>
-                                @Html.TextBox("dtTo", Utility.GetDateTime(), "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>

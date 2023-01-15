@@ -143,7 +143,7 @@ namespace ERP.DAL
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "بيانات الجهة" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "طول الباركود" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "المخزن الافتراضى" });
-                        db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "تاريخ بداية ونهاية السنة المالية" });
+                        db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "التواريخ بداية ونهاية " });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "رفع الملفات الى مركز التحميل" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "اعدادات اخرى" });
                     }
@@ -806,6 +806,8 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (74,N'نسبة ضريبة ارباح تجارية',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (75,N'مجلد اوامر الانتاج',N'72739a22-438b-4848-a4fc-9abb9ba32565',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (76,N'مجلد قيود اليومية',N'72739a22-438b-4848-a4fc-9abb9ba32566',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (77,N'تاريخ بداية البحث',N'2023-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (78,N'تاريخ نهاية البحث',N'2023-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 
 SET IDENTITY_INSERT [{Schema}].[GeneralSettings] OFF;";
 

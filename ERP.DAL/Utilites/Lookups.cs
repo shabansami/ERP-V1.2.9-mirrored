@@ -143,6 +143,8 @@ namespace ERP.Web.Utilites
 
             UploadCenterProductionOrder, //مجلد اوامر الانتاج 
             UploadCenterGeneralRecord, //مجلد قيود اليومية 
+            StartDateSearch, //بداية تاريخ البحث فى الموقع 
+            EndDateSearch, //نهاية تاريخ البحث فى الموقع 
 
         }
 

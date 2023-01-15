@@ -135,6 +135,18 @@
                                         @Html.TextBoxFor(m => m.EntityData.TaxCardNo, new { @class = "form-control" })
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>بداية تاريخ البحث </label>
+                                        @Html.TextBoxFor(m => m.StartDateSearch,"{0:yyyy-MM-dd}", new { @class = "form-control",@type="date" })
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group ">
+                                        <label>نهاية تاريخ البحث </label>
+                                        @Html.TextBoxFor(m => m.EndDateSearch, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                    </div>
+                                </div>
                                 <div class="col-lg-4">
                                     <div class="form-group  mb-0 w-100 ">
                                         <label>احتساب تكلفة المنتج</label>

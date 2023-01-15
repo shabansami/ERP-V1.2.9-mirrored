@@ -30,6 +30,8 @@ namespace ERP.Web.ViewModels
         public Nullable<int> LimitDangerSell { get; set; } //السماح بالبيع عند تخطى الحد الائتمانى للخطر 
         public Nullable<int> TaxPercentage { get; set; } //نسبة الضريبة 
         public Nullable<int> TaxProfitPercentage { get; set; } //نسبة الضريبة ارباح تجارية 
+        public Nullable<DateTime> StartDateSearch { get; set; }// بداية تاريخ البحث فى الموقع 
+        public Nullable<DateTime> EndDateSearch { get; set; }// نهاية تاريخ البحث فى الموقع 
         public bool Letters { get; set; }
         public bool Numbers { get; set; }
         public int InventoryType { get; set; } //نوع الجرد 1-جرد دورى   2-جرد مستمر

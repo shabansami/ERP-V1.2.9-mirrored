@@ -432,6 +432,10 @@ namespace ERP.Web.Controllers
             vm.TaxPercentage = int.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault().SValue, out var taxPercentage) ? int.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault().SValue) : 14;
             //نسبة ضريبة ارباح تجارية فى الفواتير
             vm.TaxProfitPercentage = int.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault().SValue, out var taxProfitPercentage) ? int.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault().SValue) : 1;
+            //بداية تاريخ البحث فى شاشات الموقع
+            vm.StartDateSearch = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue, out var startDateSearch) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue) : new DateTime(Utility.GetDateTime().Year,Utility.GetDateTime().Month,1);
+            //نهاية تاريخ البحث فى شاشات الموقع
+            vm.EndDateSearch = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue, out var endDateSearch) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue) : new DateTime(Utility.GetDateTime().Year,Utility.GetDateTime().Month,1).AddMonths(12);
             #region Upload Center File
             var uploadCenterTree = db.UploadCenters.Where(x => !x.IsDeleted).ToList();
 
@@ -579,6 +583,15 @@ namespace ERP.Web.Controllers
                                 item.SValue = vm.Numbers.ToString();
 
                             db.Entry(item).State = EntityState.Modified;
+                        }          
+                        // تاريخ البداية والنهاية فى البحث
+                        var modelStartEnd = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                        foreach (var item in modelStartEnd)
+                        {
+                            if (item.Id == (int)GeneralSettingCl.StartDateSearch)
+                                item.SValue = vm.StartDateSearch.Value.ToString("yyyy-MM-dd");
+                            if (item.Id == (int)GeneralSettingCl.EndDateSearch)
+                                item.SValue = vm.EndDateSearch.Value.ToString("yyyy-MM-dd");
                         }
 
                         // احتساب تكلفة المنتج 

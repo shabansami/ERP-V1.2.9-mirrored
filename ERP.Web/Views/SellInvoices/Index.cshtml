@@ -6,6 +6,14 @@
 @section Button1{تسجيل فاتورة بيع}
 @section Button1Link{/SellInvoices/CreateEdit}
 @section icon{<i class="fa fa-plus-circle m-1"></i>}
+@{ 
+    DateTime startDt=new DateTime();
+    DateTime endDt=new DateTime();
+    if (ViewBag.StartDateSearch != null)
+    { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+    if (ViewBag.EndDateSearch != null)
+    { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+}
 <div class="row">
     <div class="col-12">
         <div class="card din-bold">
@@ -111,14 +119,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    @{ 
-                        DateTime startDt=new DateTime();
-                        DateTime endDt=new DateTime();
-                        if (ViewBag.StartDateSearch != null)
-                        { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
-                        if (ViewBag.EndDateSearch != null)
-                        { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
-                    }
+                   
                     <div class="col-lg-3">
                         <div class="form-group mb-0 w-100">
                             <div>

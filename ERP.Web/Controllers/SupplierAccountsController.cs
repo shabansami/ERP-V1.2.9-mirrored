@@ -28,6 +28,18 @@ namespace ERP.Web.Controllers
             Guid? suppId = null;
             suppId = vm.SupplierId;
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name", suppId);
+            #region تاريخ البداية والنهاية فى البحث
+
+            if (string.IsNullOrEmpty(vm.DtFrom)||string.IsNullOrEmpty(vm.DtTo))
+            {
+                if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+                {
+                    var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                    vm.DtFrom = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                    vm.DtTo = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+                }
+            }
+            #endregion
 
             DateTime dtFrom, dtTo;
             if (DateTime.TryParse(vm.DtFrom, out dtFrom) && DateTime.TryParse(vm.DtTo, out dtTo))

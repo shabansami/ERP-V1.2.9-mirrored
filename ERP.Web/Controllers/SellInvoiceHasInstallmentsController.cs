@@ -25,8 +25,14 @@ namespace ERP.Web.Controllers
         SellInvoiceInstallmentService installmentService = new SellInvoiceInstallmentService();
         public ActionResult Index()
         {
-            //ViewBag.StartDate = Utility.GetDateTime().Date;
-            //ViewBag.EndDate = Utility.GetDateTime().AddMonths(1).Date;
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
 
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             return View();

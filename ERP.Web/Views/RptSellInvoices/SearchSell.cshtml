@@ -3,18 +3,6 @@
     ViewBag.Title = "SearchSell";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    DateTime dFrom = Utility.GetDateTime(); DateTime dTo = Utility.GetDateTime();
-    if (!DateTime.TryParse(ViewBag.FinancialYearStartDate, out dFrom) || !DateTime.TryParse(ViewBag.FinancialYearEndDate, out dTo))
-    {
-        <script>
-            $(document).ready(function () {
-                /**/
-                toastr.error('يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات', '')
-                /**/
-            });
-        </script>
-    }
-
 }
 
 @section PageTitle1{بحث فواتير المبيعات}
@@ -22,6 +10,14 @@
 @section Button1{@null}
 @section Button1Link{@null}
 @section icon{@null}
+@{
+    DateTime startDt = new DateTime();
+    DateTime endDt = new DateTime();
+    if (ViewBag.StartDateSearch != null)
+    { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+    if (ViewBag.EndDateSearch != null)
+    { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+}
 <div class="row">
     <div class="col-12">
         <div class="card din-bold">
@@ -67,173 +63,173 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> الفرع</label>
-                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> فئات العملاء</label>
-                                    @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptSellInvoice_Module.getCustomerOnCategoryChange();" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> العميل</label>
-                                    @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label>  الفواتير المعتمدة فقط</label>
-                                 <div>   @Html.CheckBox("IsFinalApproval", false, htmlAttributes: new { @style = "width: 25px; height: 25px;" })</div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> الادارة</label>
-                                    @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med select2", @onchange = "RptSellInvoice_Module.getSaleMenDepartmentChange()" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> المندوب</label>
-                                    @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med select2" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> نوع الصنف</label>
-                                    @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptSellInvoice_Module.onItemTypeChange()" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label>الصنف</label>
-                                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> الفرع</label>
+                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> من تاريخ</label>
-                                    @Html.TextBox("dtFrom", dFrom, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> إلي تاريخ</label>
-                                    @Html.TextBox("dtTo", dTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="form-group">
-                                <div>
-                                    <label>طريقة السداد</label>
-                                    @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="form-group">
-                                <div>
-                                    <label>بخصم على الفاتورة</label>
-                                  <div>  @Html.CheckBox("IsDiscount", false, htmlAttributes: new { @style = "width: 25px; height: 25px;" })</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="form-group">
-                                <div>
-                                    <label>سعر البيع</label>
-                                    @Html.TextBox("SellAmount", null, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="form-group mb-0 w-100">
-                                <div class="input-icon input-icon-right">
-                                    <label>بحث</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
-                                        <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="form-group">
-                                <div>
-                                    <label> .</label>
-                                    <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بحث<i class="bx bx-search-alt m-1"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-1">
-                            <div class="form-group">
-                                <div>
-                                    <label>تفريغ الحقول </label>
-                                    <a href="javascript:void(0);" onclick="refreshControls();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="fas fa-redo"></i></a>
-                                </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> فئات العملاء</label>
+                                @Html.DropDownList("PersonCategoryId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptSellInvoice_Module.getCustomerOnCategoryChange();" })
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatableSell">
-                                <thead>
-
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="9" style="text-align:center"></th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> العميل</label>
+                                @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label>  الفواتير المعتمدة فقط</label>
+                                <div>   @Html.CheckBox("IsFinalApproval", false, htmlAttributes: new { @style = "width: 25px; height: 25px;" })</div>
+                            </div>
                         </div>
                     </div>
 
                 </div>
+                <div class="row">
+
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> الادارة</label>
+                                @Html.DropDownList("DepartmentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med select2", @onchange = "RptSellInvoice_Module.getSaleMenDepartmentChange()" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> المندوب</label>
+                                @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med select2" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> نوع الصنف</label>
+                                @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "RptSellInvoice_Module.onItemTypeChange()" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label>الصنف</label>
+                                @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> من تاريخ</label>
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> إلي تاريخ</label>
+                                @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <div>
+                                <label>طريقة السداد</label>
+                                @Html.DropDownList("PaymentTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <div>
+                                <label>بخصم على الفاتورة</label>
+                                <div>  @Html.CheckBox("IsDiscount", false, htmlAttributes: new { @style = "width: 25px; height: 25px;" })</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="form-group">
+                            <div>
+                                <label>سعر البيع</label>
+                                @Html.TextBox("SellAmount", null, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="form-group mb-0 w-100">
+                            <div class="input-icon input-icon-right">
+                                <label>بحث</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
+                                    <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <div>
+                                <label> .</label>
+                                <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بحث<i class="bx bx-search-alt m-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1">
+                        <div class="form-group">
+                            <div>
+                                <label>تفريغ الحقول </label>
+                                <a href="javascript:void(0);" onclick="refreshControls();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="fas fa-redo"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatableSell">
+                            <thead>
+
+                            </thead>
+                            <tbody>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="9" style="text-align:center"></th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+</div>
 @section Scripts
 {
     <script src="~/Assets/JSCustom/RptSellInvoice.js"></script>

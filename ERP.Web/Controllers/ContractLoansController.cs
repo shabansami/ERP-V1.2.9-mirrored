@@ -24,6 +24,15 @@ namespace ERP.Web.Controllers
         
         public ActionResult Index()
         {
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
+
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
             return View();

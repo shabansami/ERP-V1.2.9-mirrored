@@ -66,9 +66,13 @@ namespace ERP.Web.Controllers
 
             if (vm.dtFrom == null || vm.dtTo == null)
             {
-                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                var dFromS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
-                var dToS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
+                #region تاريخ البداية والنهاية فى البحث
+                    var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                    var dFromS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                    var dToS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+                
+                #endregion
+
                 DateTime dFrom, dTo;
                 if (DateTime.TryParse(dFromS, out dFrom) && DateTime.TryParse(dToS, out dTo))
                 {

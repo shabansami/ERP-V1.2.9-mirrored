@@ -9,7 +9,14 @@
 @section Button1{}
 @section Button1Link{}
 @section icon{<i class="fa fa-plus-circle m-1"></i>}
-
+@{
+    DateTime startDt = new DateTime();
+    DateTime endDt = new DateTime();
+    if (ViewBag.StartDateSearch != null)
+    { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+    if (ViewBag.EndDateSearch != null)
+    { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+}
 
 <div class="row">
     <div class="col-12">
@@ -76,7 +83,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> من تاريخ</label>
-                                @Html.TextBox("dtFrom", Utility.GetDateTime().AddMonths(-1), "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -84,7 +91,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> إلي تاريخ</label>
-                                @Html.TextBox("dtTo", Utility.GetDateTime(), "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -113,7 +120,7 @@
                     </thead>
                     <tbody></tbody>
                     <tfoot>
-                        
+
                     </tfoot>
                 </table>
             </div>
@@ -125,20 +132,20 @@
 {
     <script src="~/Assets/JSCustom/OrderSell.js"></script>
     <script>
-                function searchData() {
-                    $('#kt_datatable').DataTable().ajax.reload();
-                };
-                $(document).ready(function () {
-                    OrderSell_Module.init();
-                    $('#kt_datatable_search_query').on('keyup', function () {
-                        $('#kt_datatable').DataTable().search(this.value).draw();
-                    });
-                    //$('#CustomerId').on('change', function () {
-                    //    var textSelected = $("#CustomerId option:selected").text();
-                    //    $('#kt_datatable').DataTable().search(textSelected).draw();
-                    //});
+        function searchData() {
+            $('#kt_datatable').DataTable().ajax.reload();
+        };
+        $(document).ready(function () {
+            OrderSell_Module.init();
+            $('#kt_datatable_search_query').on('keyup', function () {
+                $('#kt_datatable').DataTable().search(this.value).draw();
+            });
+            //$('#CustomerId').on('change', function () {
+            //    var textSelected = $("#CustomerId option:selected").text();
+            //    $('#kt_datatable').DataTable().search(textSelected).draw();
+            //});
 
-                });
+        });
     </script>
 }
 

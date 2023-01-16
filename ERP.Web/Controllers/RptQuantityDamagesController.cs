@@ -21,14 +21,15 @@ namespace ERP.Web.Controllers
 
         public ActionResult Index()
         {
-            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
             {
                 var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                ViewBag.FinancialYearStartDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
-                ViewBag.FinancialYearEndDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
             }
-            else
-                ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
+            #endregion
+
             ViewBag.ProductionOrderId = new SelectList(db.ProductionOrders.Where(x => !x.IsDeleted).Select(x=>new {Id=x.Id,Name="أمر الانتاج رقم ("+x.OrderNumber+")" }), "Id", "Name");
 
             return View();

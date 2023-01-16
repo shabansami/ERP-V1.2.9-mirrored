@@ -32,6 +32,15 @@ namespace ERP.Web.Controllers
         #region عرض القيود الحرة المسجلة سابقا
         public ActionResult Index()
         {
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
+
             return View();
         }
         public ActionResult GetAll(string dFrom, string dTo,Guid? accountId)
@@ -433,15 +442,15 @@ namespace ERP.Web.Controllers
         #region بحث القيود 
         public ActionResult Search()
         {
-            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
             {
                 var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                ViewBag.FinancialYearStartDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
-                ViewBag.FinancialYearEndDate = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
             }
-            else
-                ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
-            
+            #endregion
+
             ViewBag.TransactionTypeId = new SelectList(db.TransactionsTypes.Where(x => !x.IsDeleted), "Id", "Name");
             return View();
         }

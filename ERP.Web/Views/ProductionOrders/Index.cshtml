@@ -9,7 +9,14 @@
 @section Button1{تسجيل أمر إنتاج}
 @section Button1Link{/ProductionOrders/RegisterOrder}
 @section icon{<i class="fa fa-plus-circle m-1"></i>}
-
+@{
+    DateTime startDt = new DateTime();
+    DateTime endDt = new DateTime();
+    if (ViewBag.StartDateSearch != null)
+    { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+    if (ViewBag.EndDateSearch != null)
+    { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+}
 
 <div class="row">
     <div class="col-12">
@@ -60,7 +67,32 @@
             </div>
             <div class="card-body">
                 <div class="row ">
-                    <div class="col-lg-3">
+
+                    <div class="col-lg-4">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label> من تاريخ</label>
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label> إلي تاريخ</label>
+                                @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label> .</label>
+                                <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بحث<i class="bx bx-search-alt m-1"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
                         <div class="form-group mb-0 w-100">
                             <div class="input-icon input-icon-right">
                                 <label>بحث</label>
@@ -72,33 +104,33 @@
                         </div>
                     </div>
                     @*<div class="col-lg-3">
-                        <div class="form-group mb-0 w-100">
-                            <div>
-                                <label> حالة التسليم الى مخازن المنتج التام</label>
-                                <select class="form-control din-med" id="cmbo_approval" name="cmbo_approval">
-                                    <option value=>اختر عنصر من القائمة</option>
-                                    <option value="1">تم التسليم</option>
-                                    <option value="2">لم يتم التسليم بعد</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group mb-0 w-100">
-                            <div>
-                                <label> المجموعة الاساسية</label>
-                                <input name="groupBasic" placeholder="اختر عنصر من القائمة" type="text" class="form-control form-control-solid " id="groupBasic" autocomplete="off" style="text-align:right" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="form-group mb-0 w-100">
-                            <div>
-                                <label>المنتج النهائى</label>
-                                @Html.DropDownList("FinalItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100" })
-                            </div>
-                        </div>
-                    </div>*@
+            <div class="form-group mb-0 w-100">
+                <div>
+                    <label> حالة التسليم الى مخازن المنتج التام</label>
+                    <select class="form-control din-med" id="cmbo_approval" name="cmbo_approval">
+                        <option value=>اختر عنصر من القائمة</option>
+                        <option value="1">تم التسليم</option>
+                        <option value="2">لم يتم التسليم بعد</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group mb-0 w-100">
+                <div>
+                    <label> المجموعة الاساسية</label>
+                    <input name="groupBasic" placeholder="اختر عنصر من القائمة" type="text" class="form-control form-control-solid " id="groupBasic" autocomplete="off" style="text-align:right" />
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group mb-0 w-100">
+                <div>
+                    <label>المنتج النهائى</label>
+                    @Html.DropDownList("FinalItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100" })
+                </div>
+            </div>
+        </div>*@
                 </div>
                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
                     <thead>
@@ -114,6 +146,9 @@
 {
     <script src="~/Assets/JSCustom/ProductionOrder.js"></script>
     <script>
+        function searchData() {
+            $('#kt_datatable').DataTable().ajax.reload();
+        }
         $(document).ready(function () {
             ProductionOrder_Module.init();
             $('#kt_datatable_search_query').on('keyup', function () {
@@ -131,6 +166,7 @@
             //    $('#kt_datatable').DataTable().column(4).search(textSelected).draw();
             //});
         });
+    
     </script>
 
     <script>

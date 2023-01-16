@@ -29,7 +29,14 @@ namespace ERP.Web.Controllers
         }
         public ActionResult Index()
         {
-            //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name");
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
             return View();
         }
         public ActionResult GetAll(string incomeTypeId, string isApprovalStatus, string dFrom, string dTo)

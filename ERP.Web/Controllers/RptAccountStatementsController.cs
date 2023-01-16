@@ -173,23 +173,15 @@ namespace ERP.Web.Controllers
             ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.CityId = new SelectList(new List<City>(), "Id", "Name");
             ViewBag.AreaId = new SelectList(new List<Area>(), "Id", "Name");
-            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
             {
-
                 var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                var dFromS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
-                var dToS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
-                DateTime dFrom, dTo;
-                if (DateTime.TryParse(dFromS, out dFrom) && DateTime.TryParse(dToS, out dTo))
-                {
-                    ViewBag.dtFrom = dFrom;
-                    ViewBag.dtTo = dTo;
-                }
-                else
-                    ViewBag.dtFrom = ViewBag.dtTo = Utility.GetDateTime();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
             }
-            else
-                ViewBag.dtFrom = ViewBag.dtTo = Utility.GetDateTime();
+            #endregion
+
             return View();
         }
         public ActionResult SearchBalancePersons(string DrpPersonId, string CountryId, string CityId, string AreaId, string dtFrom, string dtTo, int isFirstInitPage, bool isCustomer)
@@ -219,23 +211,15 @@ namespace ERP.Web.Controllers
             ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.CityId = new SelectList(new List<City>(), "Id", "Name");
             ViewBag.AreaId = new SelectList(new List<Area>(), "Id", "Name");
-            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
             {
-
                 var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
-                var dFromS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
-                var dToS = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
-                DateTime dFrom, dTo;
-                if (DateTime.TryParse(dFromS, out dFrom) && DateTime.TryParse(dToS, out dTo))
-                {
-                    ViewBag.dtFrom = dFrom;
-                    ViewBag.dtTo = dTo;
-                }
-                else
-                    ViewBag.dtFrom = ViewBag.dtTo = Utility.GetDateTime();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
             }
-            else
-                ViewBag.dtFrom = ViewBag.dtTo = Utility.GetDateTime();
+            #endregion
+
             return View();
         }
 

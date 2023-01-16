@@ -72,7 +72,10 @@ var ProductionOrder_Module = function () {
             ajax: {
                 url: '/ProductionOrders/GetAll',
                 type: 'GET',
-
+                data(d) {
+                    d.dFrom = $("#dtFrom").val();
+                    d.dTo = $("#dtTo").val();
+                }
             },
             columns: [
                 { data: 'Num', responsivePriority: 0 },

@@ -1,14 +1,21 @@
 ﻿@using ERP.Web.Utilites
 @{ ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    DateTime dFrom = Utility.GetDateTime().AddMonths(-1).Date;
-    DateTime dTo = Utility.GetDateTime().AddMonths(1).Date; }
+}
 
 @section PageTitle1{تحصيل أقساط}
 @section PageTitle2{كل الفواتير}
 @section Button1{@null}
 @section Button1Link{@null}
 @section icon{@null}
+@{
+    DateTime startDt = new DateTime();
+    DateTime endDt = new DateTime();
+    if (ViewBag.StartDateSearch != null)
+    { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+    if (ViewBag.EndDateSearch != null)
+    { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+}
 <div class="row">
     <div class="col-12">
         <div class="card din-bold">
@@ -57,7 +64,7 @@
                             <div class="form-group mb-0 w-100">
                                 <div>
                                     <label> من تاريخ</label>
-                                    @Html.TextBox("dtFrom", dFrom, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                    @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                                 </div>
                             </div>
                         </div>
@@ -65,7 +72,7 @@
                             <div class="form-group mb-0 w-100">
                                 <div>
                                     <label> إلي تاريخ</label>
-                                    @Html.TextBox("dtTo", dTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                    @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                                 </div>
                             </div>
                         </div>
@@ -89,7 +96,7 @@
                 </div>
             </div>
         </div>
-        </div>
+    </div>
     <div class="col-12">
         <div class="card din-bold">
             <div class="card-header">
@@ -133,26 +140,26 @@
                         </div>
                     </div>
                 </div>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatableNotPaid">
-                                <thead>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="7" style="text-align:right">الاجمالى:</th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatableNotPaid">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="7" style="text-align:right">الاجمالى:</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     <div class="col-12">
         <div class="card din-bold">
             <div class="card-header">

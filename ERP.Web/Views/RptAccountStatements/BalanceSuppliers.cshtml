@@ -23,7 +23,14 @@
 @section Button1Link{@null}
 @section icon{@null}
 
-
+@{
+    DateTime startDt = new DateTime();
+    DateTime endDt = new DateTime();
+    if (ViewBag.StartDateSearch != null)
+    { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+    if (ViewBag.EndDateSearch != null)
+    { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+}
 <div class="row">
     <div class="col-12">
         <div class="card din-bold">
@@ -110,7 +117,7 @@
                         <div class="form-group">
                             <div>
                                 <label> من تاريخ</label>
-                                @Html.TextBox("dtFrom", (DateTime)ViewBag.dtFrom, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -118,7 +125,7 @@
                         <div class="form-group">
                             <div>
                                 <label> إلي تاريخ</label>
-                                @Html.TextBox("dtTo", (DateTime)ViewBag.dtTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -155,9 +162,9 @@
                 </table>
             </div>
         </div>
-        </div>
     </div>
-   
+</div>
+
 @section Scripts{
     <script src="~/Assets/JSCustom/BalanceSupplier.js"></script>
     <script>

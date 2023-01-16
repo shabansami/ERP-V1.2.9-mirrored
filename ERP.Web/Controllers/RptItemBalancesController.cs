@@ -73,7 +73,14 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
-
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
             return View();
         }
         public ActionResult GetItemMovement(string itemCode, string barCode, Guid? itemId, int? actionTypeId, Guid? storeId, int isFirstInitPage, DateTime? dtFrom, DateTime? dtTo)
@@ -116,7 +123,14 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
-
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
             return View();
         }
         public ActionResult GetItemNotMovement(string itemCode, string barCode, Guid? itemId, int? actionTypeId, Guid? storeId, int isFirstInitPage, DateTime? dtFrom, DateTime? dtTo)
@@ -172,7 +186,14 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
-
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
             return View();
         }
         public ActionResult GetItemAction(string itemCode, string barCode, Guid? itemId, int? actionTypeId, Guid? storeId, int isFirstInitPage, DateTime? dtFrom, DateTime? dtTo)

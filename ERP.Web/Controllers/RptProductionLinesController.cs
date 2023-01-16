@@ -28,7 +28,16 @@ namespace ERP.Web.Controllers
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
-            ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name"); return View();
+            ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
+            return View();
         }
         public ActionResult GetProductionEmp(Guid? branchId, Guid? employeeId, DateTime? dtFrom, DateTime? dtTo)
         {
@@ -48,6 +57,14 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult SearchProductionLine()
         {
+            #region تاريخ البداية والنهاية فى البحث
+            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.FinancialYearDate))
+            {
+                var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
+                ViewBag.StartDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue;
+                ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
+            }
+            #endregion
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x => !x.IsDeleted), "Id", "Name");

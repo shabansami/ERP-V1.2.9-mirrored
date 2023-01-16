@@ -3,18 +3,13 @@
     ViewBag.Title = "MaintenanceProblemStatistics";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    DateTime dFrom = Utility.GetDateTime(); DateTime dTo = Utility.GetDateTime();
-    if (!DateTime.TryParse(ViewBag.FinancialYearStartDate, out dFrom) || !DateTime.TryParse(ViewBag.FinancialYearEndDate, out dTo))
-    {
-        <script>
-            $(document).ready(function () {
-                /**/
-                toastr.error('يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات', '')
-                /**/
-            });
-        </script>
-    }
-
+        DateTime startDt = new DateTime();
+        DateTime endDt = new DateTime();
+        if (ViewBag.StartDateSearch != null)
+        { DateTime.TryParse(ViewBag.StartDateSearch, out startDt); }
+        if (ViewBag.EndDateSearch != null)
+        { DateTime.TryParse(ViewBag.EndDateSearch, out endDt); }
+    
 }
 @section Styles{
     <style>
@@ -148,7 +143,7 @@
                         <div class="form-group">
                             <div>
                                 <label> من تاريخ</label>
-                                @Html.TextBox("dtFrom", dFrom, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>
@@ -156,7 +151,7 @@
                         <div class="form-group">
                             <div>
                                 <label> إلي تاريخ</label>
-                                @Html.TextBox("dtTo", dTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtTo", endDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>

@@ -340,6 +340,10 @@
     <Compile Include="Migrations\202301131524106_add_field_OperationNumber_in_ExpenseIncome.designer.cs">
       <DependentUpon>202301131524106_add_field_OperationNumber_in_ExpenseIncome.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202301171512188_add_field_IsApproval_in_PersonIntialBalance.cs" />
+    <Compile Include="Migrations\202301171512188_add_field_IsApproval_in_PersonIntialBalance.designer.cs">
+      <DependentUpon>202301171512188_add_field_IsApproval_in_PersonIntialBalance.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
@@ -724,6 +728,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301131524106_add_field_OperationNumber_in_ExpenseIncome.resx">
       <DependentUpon>202301131524106_add_field_OperationNumber_in_ExpenseIncome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202301171512188_add_field_IsApproval_in_PersonIntialBalance.resx">
+      <DependentUpon>202301171512188_add_field_IsApproval_in_PersonIntialBalance.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

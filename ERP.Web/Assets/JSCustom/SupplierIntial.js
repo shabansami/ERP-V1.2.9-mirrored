@@ -93,12 +93,27 @@ var SupplierIntial_Module = function () {
                 title: 'عمليات',
                 orderable: false,
                 render: function (data, type, row, meta) {
-                                return '\
+                    if (!row.IsApproval) {
+                        return '\
 							<div class="btn-group">\
-							<a href="javascript:;" onclick=SupplierIntial_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
+							<a href="/SupplierIntials/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
+								<i class="fa fa-edit"></i>\
+							</a>\
+                                <a href="javascript:;" onclick=SupplierIntial_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
+								<i class="fa fa-unlock-alt"></i>\
+							</a><a href="javascript:;" onclick=SupplierIntial_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a></div>\
 						';
+                    } else {
+                        return '\
+							<div class="btn-group">\
+                            <span class="label label-lg font-weight-bold label-light-success label-inline">تم اعتمادها</span><a href="javascript:;" onclick=SupplierIntial_Module.UnApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
+								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=26" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
+								<i class="fa fa-money-bill"></i>\
+							</a>\</div>\
+						';
+                    }
 },
                         }
 
@@ -204,6 +219,76 @@ var SupplierIntial_Module = function () {
             }
         });
     };
+    function Approval(id) {
+        Swal.fire({
+            title: 'تأكيد الاعتماد',
+            text: 'هل متأكد من الاعتماد ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/SupplierIntials/Approval';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+    function UnApproval(id) {
+        Swal.fire({
+            title: 'تأكيد فك الاعتماد',
+            text: 'هل متأكد من فك الاعتماد ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/SupplierIntials/UnApproval';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "id": id
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
 
     return {
         //main function to initiate the module
@@ -211,7 +296,9 @@ var SupplierIntial_Module = function () {
             initDT();
         },
         SubmitForm: SubmitForm,
-        deleteRow: deleteRow
+        deleteRow: deleteRow,
+        Approval: Approval,
+        UnApproval: UnApproval,
     };
 
 }();

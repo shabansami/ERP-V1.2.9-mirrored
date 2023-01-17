@@ -2,19 +2,21 @@
 @model ERP.Web.ViewModels.IntialBalanceVM
 @{ ViewBag.Title = "CreateEdit";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    string title, btn = string.Empty, icon = string.Empty;
-    //if (Model.Id == Guid.Empty)
-    //{
-    title = "اضافة رصيد أول المدة للعملاء";
-    btn = "اضافة";
-    icon = "fa fa-plus-circle m-1"; @*}
+    string title, btn = string.Empty, icon, icon2 = string.Empty;
+    if (Model.Id == Guid.Empty)
+    {
+        title = "اضافة رصيد أول المدة للعملاء";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1"; 
+    }
         else
         {
-            title = "تعديل رصيد أو المدة ";
+            title = "تعديل رصيد أول المدة لعميل ";
             btn = "تعديل";
              icon = "fa fa-edit m-1";
         icon2 = "fa-solid fa-caret-left m-1";
-        }*@ }
+        } 
+    }
 @section PageTitle1{رصيد أول المدة}
 @section PageTitle2{@title }
 @section Button1{ادارة الأرصدة}
@@ -44,7 +46,7 @@
                             <div class="form-group required">
                                 <label>العميــل</label>
                                 @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                                @*@Html.HiddenFor(model => model.Id)*@
+                                @Html.HiddenFor(model => model.Id)
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -65,6 +67,12 @@
                                 @Html.DropDownList("DebitCredit", null, htmlAttributes: new { @class = "form-control din-med" })
                             </div>
                         </div>
+                        <div class="col-lg-6">
+                            <div class="form-group ">
+                                <label>ملاحظات</label>
+                                @Html.TextBoxFor(m => m.Notes, new { @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -72,10 +80,10 @@
                         <div class="col-12" style="text-align:left;">
                             @*<input type="button" onclick="CustomerIntial_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
                             <a href="javascript:void(0);" onclick="CustomerIntial_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
-                            @*@if (Model.Id != Guid.Empty)
+                            @if (Model.Id != Guid.Empty)
                                 {
                                     <a href="/CustomerIntials/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>
-                                }*@
+                                }
                         </div>
                     </div>
                 </div>}

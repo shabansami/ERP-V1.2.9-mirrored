@@ -21,6 +21,7 @@ using PersonCategory = ERP.DAL.PersonCategory;
 using Person = ERP.DAL.Person;
 using PersonIntialBalance = ERP.DAL.PersonIntialBalance;
 using ERP.Web.ViewModels;
+using System.Data.SqlClient;
 
 namespace ERP.Web.Services
 {
@@ -397,33 +398,46 @@ namespace ERP.Web.Services
 
         public void UpdateData()
         {
+            //بيانات القيود والسندات القديمة 
+            DataTable dtGeneralRecord = new DataTable();
+            DataTable dtVouchers = new DataTable();
+
+            using (SqlConnection cn = new SqlConnection("Server=DESKTOP-GOIJQN1\\SQLEXPRESS;Database=sg_erp_dbOld;Trusted_Connection=True;"))
+            {
+                using (SqlCommand cmd= new SqlCommand("",cn))
+                {
+                    cn.Open();
+                    cmd.CommandText = "select * from GeneralRecords";
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    dtGeneralRecord.Load(dr);
+                    cmd.CommandText = "select * from Vouchers";
+                    SqlDataReader dr2 = cmd.ExecuteReader();
+                    dtVouchers.Load(dr2);
+
+                }
+            }
             using (var db=new VTSaleEntities())
             {
-                //قيود اليومية
-                //var generals = db.GeneralRecords.Where(x=>!x.IsDeleted).ToList();
-                //foreach (var item in generals)
-                //{
-                //   item.IsDeleted=true;
-                //    var generalDay = db.GeneralDailies.Where(x => x.TransactionId == item.Id&& !x.IsDeleted).ToList();
-                //    foreach (var gDay in generalDay)
-                //    {
-                //        gDay.IsDeleted = true;
-                //    }
-                //}
-                //db.SaveChanges(new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C"));
-                
-                //سندات الصرف والقبض
-                var vouchers = db.Vouchers.Where(x=>!x.IsDeleted).ToList();
-                foreach (var item in vouchers)
+                //حذف اي بيانات حالية 
+                string queryStr = $"delete from GeneralRecords;delete from Vouchers";
+                db.Database.ExecuteSqlCommand(queryStr);
+                db.SaveChanges();
+
+                //قيود اليومية 
+                foreach (DataRow itemGeneral in dtGeneralRecord.Rows)
                 {
-                   item.IsDeleted=true;
-                    var generalDay = db.GeneralDailies.Where(x => x.TransactionId == item.Id&& !x.IsDeleted).ToList();
-                    foreach (var gDay in generalDay)
+                    var general = new GeneralRecord
                     {
-                        gDay.IsDeleted = true;
-                    }
+                        BranchId = Guid.Parse(itemGeneral["BranchId"].ToString()),
+                        TransactionDate=DateTime.Parse(itemGeneral["BranchId"].ToString()),
+                        Notes= itemGeneral["BranchId"].ToString(),
+                        GeneralRecordDetails=new List<GeneralRecordDetail> {new GeneralRecordDetail
+                        {
+
+                        } }
+                    };
                 }
-                db.SaveChanges(new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C"));
+
             }
         }
         #endregion

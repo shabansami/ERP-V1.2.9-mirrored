@@ -24,6 +24,7 @@ namespace ERP.DAL
         public double Amount { get; set; }
         public Nullable<System.DateTime> OperationDate { get; set; }
         public string Notes { get; set; }
+        public bool IsApproval { get; set; }
 
         public virtual Branch Branch { get; set; }
         public virtual Person Person { get; set; }

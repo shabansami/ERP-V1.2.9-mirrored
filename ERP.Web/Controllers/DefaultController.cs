@@ -38,8 +38,8 @@ namespace ERP.Web.Controllers
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             List<Page> pages = new List<Page>();
-            Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
-            Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
+            Guid roleID = new Guid("67D48413-BFD4-4689-A083-CC8397F2C783");
+            Guid userId = new Guid("DD6C5502-E9A2-453B-8D4E-391D2FB176D1");
             //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -81,34 +81,35 @@ namespace ERP.Web.Controllers
             //db.SaveChanges(userId);
             //db.UploadCenterTypes.Add(new UploadCenterType { Name = "امر انتاج" });
             //db.ContractSalaryTypes.Add(new ContractSalaryType { Name = "بالانتاج" });
-            //db.SaveChanges(userId);
+            ////db.SaveChanges(userId);
             //var pag = db.Pages.Where(x => x.Id == 412).FirstOrDefault();
             //pag.OtherUrls = "/ProductionLines/ShowDetails";
             //var pag2 = db.Pages.Where(x => x.Id == 334).FirstOrDefault();
             //pag2.IsDeleted = true;
-            //db.SaveChanges(userId);
+            ////db.SaveChanges(userId);
             //int[] nums = { 75, 83, 113, 106, 405, 408 };
             //var pag3 = db.Pages.Where(x => nums.Contains(x.Id)).ToList();
             //pag3.ForEach(x => x.OtherUrls += ",/PrintInvoices/ShowPrintInvoice");
             //int[] nums2 = { 343, 346, 203 };
             //var pag4 = db.Pages.Where(x => nums2.Contains(x.Id)).ToList();
             //pag4.ForEach(x => x.OtherUrls += ",/PrintInvoices/PrintGeneralRecord");
-            //db.SaveChanges(userId);
+            ////db.SaveChanges(userId);
             //var pag5 = db.Pages.Where(x => x.Id == 203).FirstOrDefault();
             //pag5.OtherUrls += ",/UploadCenterTypeFiles/Index,/UploadCenterTypeFiles/GetByInvoGuid,/UploadCenterTypeFiles/Delete";
-            //db.SaveChanges(userId);
+            ////db.SaveChanges(userId);
 
             //db.TransactionsTypes.Add(new TransactionsType
             //{
             //    Name = "رصيد اول المدة"
             //});
             ////db.SaveChanges(userId);
-            //var pag4 = db.Pages.Where(x => x.Id == 44).FirstOrDefault();
-            //pag4.OtherUrls = "/ItemIntialBalances/ShowDetails";
+            //var pag6 = db.Pages.Where(x => x.Id == 44).FirstOrDefault();
+            //pag6.OtherUrls = "/ItemIntialBalances/ShowDetails";
             //db.SelectorTypes.Add(new SelectorType { Name = "مخزن جرد مستمر" });
             //db.SaveChanges(userId);
 
             //var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;
+            //INSERT [dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (65,N'نوع الجرد',N'1',7,N'{userId}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(66, N'لوجو المؤسسة', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(67, N'سطر الطباعه الاول اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(68, N'سطر الطباعه الثانى اعلى', NULL, 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)

@@ -42,10 +42,14 @@ namespace ERP.Web.DataTablesDS
         public string RptTitle { get; set; }
         public string PersonTypeName { get; set; }// مسمى العميل او المورد 
         public string Notes { get; set; }
+        public string CustmerTaxNumber { get; set; }//الرقم الضريبى للعميل
+        public string CustomerCommercialRegistrationNo { get; set; }//رقم السجل التجارى للعميل
         //تفاصيل الفاتورة 
         public List<ItemDetailsDT> ItemDetails { get; set; }
         public List<InvoiceExpensesDT> InvoiceExpenses { get; set; }
 
+        public string LanguagePage { get; set; } //لغة التقرير (عربى//انجليزى)
+        public string ToggleUrl { get; set; }//رابط التغيير بين اللغة العربية والانجليزية 
     }
     public class PrintPaymentDto
     {

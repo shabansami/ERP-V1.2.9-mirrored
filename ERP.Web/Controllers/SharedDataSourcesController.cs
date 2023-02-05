@@ -843,7 +843,7 @@ namespace ERP.Web.Controllers
             if (Guid.TryParse(id, out Id))
             {
                 PrintInvoiceService printInvoiceService = new PrintInvoiceService();
-                var invoice= printInvoiceService.GetInvoiceData(id, typ);                
+                var invoice= printInvoiceService.GetInvoiceData(id, typ,null);                
                                 
                 return Json(new { invoice }, JsonRequestBehavior.AllowGet);
             }

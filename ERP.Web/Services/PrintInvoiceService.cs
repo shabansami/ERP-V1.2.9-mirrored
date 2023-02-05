@@ -12,7 +12,7 @@ namespace ERP.Web.Services
 {
     public class PrintInvoiceService
     {
-        public PrintInvoiceDto  GetInvoiceData(string id, string typ) {
+        public PrintInvoiceDto  GetInvoiceData(string id, string typ,string lang) {
             PrintInvoiceDto invoice = new PrintInvoiceDto();
             // الحصول على بيانات المؤسسة من الاعدادات
             CustomerService personService = new CustomerService();
@@ -176,9 +176,11 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                RptTitle = "فاتورة مبيعات",
-                                PersonTypeName = "العميل",
+                                RptTitle =lang=="en"?"Sell Invoice":"فاتورة مبيعات",
+                                PersonTypeName =lang=="en"?"customer Name":"العميل",
                                 Notes = x.Notes,
+                                CustmerTaxNumber=x.PersonCustomer.TaxNumber,
+                                CustomerCommercialRegistrationNo=x.PersonCustomer.CommercialRegistrationNo,
                                 //بيانات الجهة
                                 EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
                                 EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
@@ -232,9 +234,11 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount
 
                                 }).ToList(),
-                                RptTitle = "فاتورة مرتجع مبيعات",
-                                PersonTypeName = "العميل",
+                                RptTitle =lang=="en"?"Sell Back Invoice":"فاتورة مرتجع مبيعات",
+                                PersonTypeName = lang == "en" ?"customer Name"  : "العميل",
                                 Notes = x.Notes,
+                                CustmerTaxNumber = x.PersonCustomer.TaxNumber,
+                                CustomerCommercialRegistrationNo = x.PersonCustomer.CommercialRegistrationNo,
                                 //بيانات الجهة
                                 EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
                                 EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
@@ -275,9 +279,11 @@ namespace ERP.Web.Services
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
                                 }).ToList(),
-                                RptTitle = "عرض سعر",
-                                PersonTypeName = "العميل",
+                                RptTitle = lang == "en" ? "Quotation" : "عرض سعر",
+                                PersonTypeName = lang == "en" ? "customer Name" : "العميل",
                                 Notes = x.Notes,
+                                CustmerTaxNumber = x.Customer.TaxNumber,
+                                CustomerCommercialRegistrationNo = x.Customer.CommercialRegistrationNo,
                                 //بيانات الجهة
                                 EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
                                 EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,
@@ -315,8 +321,8 @@ namespace ERP.Web.Services
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
                                 }).ToList(),
-                                RptTitle = "امر بيع",
-                                PersonTypeName = "العميل",
+                                RptTitle = lang == "en" ? "Sell Order" : "امر بيع",
+                                PersonTypeName = lang == "en" ? "customer Name" : "العميل",
                                 Notes = x.Notes,
                                 //بيانات الجهة
                                 EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,

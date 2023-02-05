@@ -22,6 +22,60 @@
     var line1Down = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine1Down).FirstOrDefault().SValue;
     var line2Down = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine2Down).FirstOrDefault().SValue;
 
+    var pageDir = "rtl";
+    string title_invoNumber, title_invoDate, title_taxNum, title_RegNum, btn_switch_title, btn_print_title, btn_close_title;
+    string title_itemNum, title_itemName, title_itemPrice, title_itemQuantity, title_itemAmount;
+    string title_totalAmount, title_salesTax, title_discount, title_profitTax, title_safy, title_notes, title_signature;
+    if (Model.LanguagePage == "en")
+    {
+        pageDir = "ltr";
+        title_invoNumber = "invoice number";
+        title_invoDate = "invoice date";
+        title_taxNum = "tax number";
+        title_RegNum = "Commercial Registration Number";
+        btn_switch_title = "عربى";
+        btn_print_title = "Print";
+        btn_close_title = "Close";
+
+        title_itemNum = "M";
+        title_itemName = "Item";
+        title_itemPrice = "Price";
+        title_itemQuantity = "Quantity";
+        title_itemAmount = "Amount";
+        title_totalAmount = "Total";
+        title_salesTax = "Sales tax";
+        title_discount = "Discount";
+        title_profitTax = "Profit tax";
+        title_safy = "Net total";
+        title_notes = "Notes";
+        title_signature = "Signature";
+
+    }
+    else
+    {
+        title_invoNumber = "رقم الفاتورة";
+        title_invoDate= "تاريخ الفاتورة";
+        title_taxNum = "الرقم الضريبي";
+        title_RegNum = "رقم السجل التجاري";
+        btn_switch_title = "English";
+        btn_print_title = "طباعه";
+        btn_close_title = "اغلاق";
+
+        title_itemNum = "م";
+        title_itemName = "الصنف";
+        title_itemPrice = "السعر";
+        title_itemQuantity = "الكمية";
+        title_itemAmount = "القيمة";
+        title_totalAmount = "الاجمالى";
+        title_salesTax = "ضريبة القيمة المضافة";
+        title_profitTax = "ضريبة ارباح تجارية";
+        title_safy = "الاجمالى بعد الضريبة";
+        title_notes = "ملاحظات";
+        title_signature = "التوقيع";
+        title_discount = "الخصم";
+
+    }
+
 }
 
 <!DOCTYPE html>
@@ -46,7 +100,7 @@
     <title>Invoice..!</title>
 </head>
 
-<body dir="rtl" class="din-med">
+<body dir="@pageDir" class="din-med">
     <div class="my-5 page" size="A4">
         <div class="p-5">
             <section class="top-content bb d-flex justify-content-between">
@@ -83,25 +137,41 @@
                             <div class="row">
                                 <div class="col-6">
                                     <p>
-                                        رقم الفاتورة : <span>@(Model.InvoiceNumber)</span>
+                                        @title_invoNumber : <span>@(Model.InvoiceNumber)</span>
                                     </p>
                                 </div>
                                 <div class="col-6">
                                     <p>
-                                        تاريخ الفاتورة : <span>@(Model.InvoiceDate)</span>
+                                        @title_invoDate : <span>@(Model.InvoiceDate)</span>
                                     </p>
                                 </div>
                             </div>
+
                             @*<p>العميل : <span>@(Model.PersonCustomer?.Name)</span></p>*@
                             <p>@Model.PersonTypeName</p>
                             <h2>@(Model.SuppCustomerName)</h2>
 
-
+                            @if (!string.IsNullOrEmpty(Model.CustomerCommercialRegistrationNo) || !string.IsNullOrEmpty(Model.CustmerTaxNumber))
+                            {
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p>
+                                           @title_taxNum  : <span>@(Model.CustmerTaxNumber)</span>
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <p>
+                                            @title_RegNum : <span>@(Model.CustomerCommercialRegistrationNo)</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <div class="col-2">
                             <br />
-                            <a href="javascript:void(0);" onclick="window.print();" class="btn btn-success din-bold btnPrint w-100"><i class="fa fa-print"></i>طباعه</a>
-                            <a href="javascript:void(0);" onclick="close_window();" class="btn btn-soft-secondary din-bold btnPrint w-100"><i class="fa fa-window-close"></i>اغلاق</a>
+                            <a href="javascript:void(0);" onclick="window.print();" class="btn btn-success din-bold btnPrint w-100"><i class="fa fa-print"></i>@btn_print_title</a>
+                            <a href="@Model.ToggleUrl"  class="btn btn-secondary din-bold btnPrint w-100"><i class="fa fa-toggle-on"></i>@btn_switch_title</a>
+                            <a href="javascript:void(0);" onclick="close_window();" class="btn btn-soft-secondary din-bold btnPrint w-100"><i class="fa fa-window-close"></i>@btn_close_title</a>
 
 
                         </div>
@@ -116,11 +186,11 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <td>م</td>
-                            <td>الصنف</td>
-                            <td>السعر</td>
-                            <td>الكمية</td>
-                            <td>القيمة</td>
+                            <td>@title_itemNum</td>
+                            <td>@title_itemName</td>
+                            <td>@title_itemPrice</td>
+                            <td>@title_itemQuantity</td>
+                            <td>@title_itemAmount</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -154,35 +224,35 @@
             <section class="balance-info">
                 <div class="row">
                     <div class="col-8">
-                        <p class="m-0 font-weight-bold"> ملاحظة</p>
+                        <p class="m-0 font-weight-bold"> @title_notes</p>
                         <p>@Html.Raw(Model.Notes)</p>
                     </div>
                     <div class="col-4">
                         <table class="table border-0 table-hover">
                             <tr>
-                                <td>الاجمالى :</td>
+                                <td>@title_totalAmount :</td>
                                 <td>@Model.TotalValue</td>
                             </tr>
                             @if (Model.SalesTax > 0)
                             {
                                 <tr>
-                                    <td>ضريبة القيمة المضافة :</td>
+                                    <td>@title_salesTax :</td>
                                     <td>@Model.SalesTax</td>
                                 </tr>
                             }
                             @if (Model.TotalDiscount > 0)
                             {
                                 <tr>
-                                    <td>خصم :</td>
+                                    <td>@title_discount :</td>
                                     <td>@Model.TotalDiscount</td>
                                 </tr>
                             }
 
 
-                             @if (Model.ProfitTax > 0)
+                            @if (Model.ProfitTax > 0)
                             {
                                 <tr>
-                                    <td>ضريبة ارباح تجارية :</td>
+                                    <td>@title_profitTax :</td>
                                     <td>@Model.ProfitTax</td>
                                 </tr>
                             }
@@ -190,7 +260,7 @@
 
                             <tfoot>
                                 <tr>
-                                    <td>الصافى :</td>
+                                    <td>@title_safy :</td>
                                     <td>@Model.Safy</td>
                                 </tr>
                             </tfoot>
@@ -199,7 +269,7 @@
                         <!-- Signature -->
                         <div class="col-12">
                             <img src="signature.png" class="img-fluid" alt="">
-                            <p class="text-center m-0"> التوقيع </p>
+                            <p class="text-center m-0"> @title_signature </p>
                         </div>
                     </div>
                 </div>

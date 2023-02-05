@@ -28,7 +28,7 @@ namespace ERP.Web.Controllers
         // GET: PrintInvoices
 
         #region طباعه وعرض فاتورة  
-        public ActionResult ShowPrintInvoice(string id, string typ)
+        public ActionResult ShowPrintInvoice(string id, string typ,string lang)
         {
             //اسطر الطباعه من الاعدادات 
             var list = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
@@ -37,7 +37,17 @@ namespace ERP.Web.Controllers
             PrintInvoiceDto vm = new PrintInvoiceDto();
             if (string.IsNullOrEmpty(id))
                 return View(vm);
-            vm= printInvoiceService.GetInvoiceData(id,typ); 
+            vm= printInvoiceService.GetInvoiceData(id,typ,lang);
+            if (lang == "en")
+            {
+                vm.LanguagePage = "en";
+                vm.ToggleUrl = $"/PrintInvoices/ShowPrintInvoice/?id={id}&typ={typ}&lang=ar";
+            }
+            else
+            {
+                vm.LanguagePage = "ar";
+                vm.ToggleUrl = $"/PrintInvoices/ShowPrintInvoice/?id={id}&typ={typ}&lang=en";
+            }
             return View(vm);
 
         }

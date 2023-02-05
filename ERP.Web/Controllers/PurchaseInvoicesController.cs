@@ -118,6 +118,8 @@ namespace ERP.Web.Controllers
                 storeName = db.Stores.FirstOrDefault(x => x.Id == vm.StoreId).Name;
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار المخزن " }, JsonRequestBehavior.AllowGet);
+            if (vm.Quantity <= 0)
+                return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للكمية " }, JsonRequestBehavior.AllowGet);
 
             if (vm.ContainerId != null)
                 containerName = db.Containers.FirstOrDefault(x => x.Id == vm.ContainerId).Name;

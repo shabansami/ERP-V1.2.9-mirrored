@@ -94,6 +94,8 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
+            if (vm.Quantity <= 0)
+                return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للكمية " }, JsonRequestBehavior.AllowGet);
 
             //فى حالة البيع بوحدة 
             vm.QuantityUnitName = "0";

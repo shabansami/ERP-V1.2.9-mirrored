@@ -122,6 +122,8 @@ namespace ERP.Web.Controllers
                 if (vm.Quantity > 1)
                     return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من 1 " }, JsonRequestBehavior.AllowGet);
             }
+            if (vm.Quantity<=0)
+                return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للكمية " }, JsonRequestBehavior.AllowGet);
 
             if (vm.StoreId != null)
                 storeName = db.Stores.FirstOrDefault(x => x.Id == vm.StoreId).Name;

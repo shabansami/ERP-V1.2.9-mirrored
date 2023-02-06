@@ -230,5 +230,7 @@ namespace ERP.Web.ViewModels
         public string Line3Up { get; set; }//سطر ثالث اعلى الصفحة
         public string Line1Down { get; set; }//سطر اول اسفل الصفحة
         public string Line2Down { get; set; }//سطر اول اسفل الصفحة
+        public string QuotationNote { get; set; }//ملاحظة عروض الاسعار فى الطباعه
+
     }
 }

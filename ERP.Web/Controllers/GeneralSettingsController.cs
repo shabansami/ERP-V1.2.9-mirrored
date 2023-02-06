@@ -535,12 +535,15 @@ namespace ERP.Web.Controllers
             vm.PrintSetting.Line3Up = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine3Up).FirstOrDefault().SValue;
             vm.PrintSetting.Line1Down = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine1Down).FirstOrDefault().SValue;
             vm.PrintSetting.Line2Down = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine2Down).FirstOrDefault().SValue;
+            vm.PrintSetting.QuotationNote = model.Where(x => x.Id == (int)GeneralSettingCl.QuotationNote).FirstOrDefault().SValue;
 
             #endregion
             return View(vm);
         }
+
+        [ValidateInput((false))]
         [HttpPost]
-        public JsonResult CreateEdit(GeneralSettingVM vm, int tabNum)
+        public JsonResult CreateEdit(GeneralSettingVM vm, int tabNum, string editorNotes)
         {
             if (ModelState.IsValid)
             {
@@ -692,6 +695,9 @@ namespace ERP.Web.Controllers
                             //السطر الثانى اسفل الصفحة
                             if (item.Id == (int)GeneralSettingCl.PrintLine2Down)
                                 item.SValue = vm.PrintSetting.Line2Down;
+                            //ملاحظة عروض الاسعار الطباعه فى التقارير
+                            if (item.Id == (int)GeneralSettingCl.QuotationNote)
+                                item.SValue = editorNotes;
                             db.Entry(item).State = EntityState.Modified;
 
                         };

@@ -1,6 +1,8 @@
 ﻿"use strict";
-
 var GeneralSetting_Module = function () {
+    let editor;
+
+    ClassicEditor.create(document.querySelector("#PrintSetting_QuotationNote"), { language: { ui: 'en', content: 'ar' } }).then(function (e) { e.ui.view.editable.element.style.height = "200px"; editor = e; }).catch(function (e) { console.error(e) });
 
     //#region الاعدادات العامة
     function SubmitForm(btn, formId, tab) {
@@ -8,6 +10,7 @@ var GeneralSetting_Module = function () {
             var form = document.getElementById(formId);
             var formData = new FormData(form);
             formData.append("tabNum", tab);
+            formData.append("editorNotes", editor.getData())
             $.ajax({
                 type: 'POST',
                 url: form.action,

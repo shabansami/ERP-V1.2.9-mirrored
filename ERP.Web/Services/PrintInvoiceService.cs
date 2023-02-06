@@ -256,6 +256,7 @@ namespace ERP.Web.Services
                     }       
                     else if (typ == "Quote")
                     {
+                        var generalNote=db.GeneralSettings.Where(x=>x.Id==(int)GeneralSettingCl.QuotationNote).FirstOrDefault()?.SValue;
                         var quote = db.QuoteOrderSells.Where(x => !x.IsDeleted && x.Id == Id&&x.QuoteOrderSellType==(int)QuoteOrderSellTypeCl.Qoute).ToList();
                         if (quote.Count() > 0)
                         {
@@ -281,7 +282,7 @@ namespace ERP.Web.Services
                                 }).ToList(),
                                 RptTitle = lang == "en" ? "Quotation" : "عرض سعر",
                                 PersonTypeName = lang == "en" ? "customer Name" : "العميل",
-                                Notes = x.Notes,
+                                Notes = !string.IsNullOrEmpty(x.Notes)?x.Notes: generalNote,
                                 CustmerTaxNumber = x.Customer.TaxNumber,
                                 CustomerCommercialRegistrationNo = x.Customer.CommercialRegistrationNo,
                                 //بيانات الجهة

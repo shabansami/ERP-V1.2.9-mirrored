@@ -145,6 +145,7 @@ namespace ERP.Web.Utilites
             UploadCenterGeneralRecord, //مجلد قيود اليومية 
             StartDateSearch, //بداية تاريخ البحث فى الموقع 
             EndDateSearch, //نهاية تاريخ البحث فى الموقع 
+            QuotationNote, //ملاحظة عروض الاسعار فى الطباعه 
 
         }
 

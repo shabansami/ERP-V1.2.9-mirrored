@@ -18,10 +18,9 @@ namespace ERP.DAL
         //admin:1 MyomSG2prP7o/pLAjDi8Hg==
 
         static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
-        //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=demo_accounting;user id=demo_accounting;password=m8_kK06y2;Persist Security Info=True;";
+        //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=demo_erp_db;user id=demo_erp_db;password=@T8p1k97n;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=speedaddress;user id=speedaddress;password=m4_E1w13x;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sg_erp_db;user id=sg_erp_db;password=x_04p70aM;Persist Security Info=True;";
-        //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sg_erp_db2;user id=sg_erp_db2;password=hn386o8?K;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sg_erp_db_2023;user id=sg_erp_db_2023;password=n1Ts8z#13;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=zumurut;user id=zumurut;password=Tw8z6!12c;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=pekar-eg;user id=pekar-eg;password=Lbk@j9088;Persist Security Info=True;";

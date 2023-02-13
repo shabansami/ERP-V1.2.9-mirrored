@@ -34,6 +34,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SellInvoicesCashier));
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_rePrint = new FontAwesome.Sharp.IconButton();
             this.label5 = new System.Windows.Forms.Label();
             this.txtInvoiceOffersDiscount = new System.Windows.Forms.TextBox();
             this.lbl_printCount = new System.Windows.Forms.Label();
@@ -158,6 +159,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             // 
             this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.btn_rePrint);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.txtInvoiceOffersDiscount);
             this.groupBox3.Controls.Add(this.lbl_printCount);
@@ -172,6 +174,28 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "حسابات الفاتورة";
+            // 
+            // btn_rePrint
+            // 
+            this.btn_rePrint.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.btn_rePrint.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveBorder;
+            this.btn_rePrint.FlatAppearance.BorderSize = 0;
+            this.btn_rePrint.ForeColor = System.Drawing.Color.Black;
+            this.btn_rePrint.IconChar = FontAwesome.Sharp.IconChar.Print;
+            this.btn_rePrint.IconColor = System.Drawing.Color.Black;
+            this.btn_rePrint.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            this.btn_rePrint.IconSize = 15;
+            this.btn_rePrint.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btn_rePrint.Location = new System.Drawing.Point(25, 102);
+            this.btn_rePrint.Name = "btn_rePrint";
+            this.btn_rePrint.Padding = new System.Windows.Forms.Padding(3);
+            this.btn_rePrint.Size = new System.Drawing.Size(129, 30);
+            this.btn_rePrint.TabIndex = 126;
+            this.btn_rePrint.Text = "طباعة الفاتورة";
+            this.btn_rePrint.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btn_rePrint.UseVisualStyleBackColor = false;
+            this.btn_rePrint.Visible = false;
+            this.btn_rePrint.Click += new System.EventHandler(this.btn_rePrint_Click);
             // 
             // label5
             // 
@@ -1387,7 +1411,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.cmbo_offer});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1008, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1008, 31);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1398,7 +1422,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.iconMenuIItemProduction.IconColor = System.Drawing.Color.Black;
             this.iconMenuIItemProduction.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconMenuIItemProduction.Name = "iconMenuIItemProduction";
-            this.iconMenuIItemProduction.Size = new System.Drawing.Size(111, 25);
+            this.iconMenuIItemProduction.Size = new System.Drawing.Size(111, 27);
             this.iconMenuIItemProduction.Text = "اضافة تركيبة";
             this.iconMenuIItemProduction.Click += new System.EventHandler(this.iconMenuIItemProduction_Click);
             // 
@@ -1409,7 +1433,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.btnAllIncoives.IconColor = System.Drawing.Color.Black;
             this.btnAllIncoives.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnAllIncoives.Name = "btnAllIncoives";
-            this.btnAllIncoives.Size = new System.Drawing.Size(123, 25);
+            this.btnAllIncoives.Size = new System.Drawing.Size(123, 27);
             this.btnAllIncoives.Text = "فواتير الوردية";
             this.btnAllIncoives.Click += new System.EventHandler(this.btnAllIncoives_Click);
             // 
@@ -1420,20 +1444,20 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.btnExpenes.IconColor = System.Drawing.Color.Black;
             this.btnExpenes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExpenes.Name = "btnExpenes";
-            this.btnExpenes.Size = new System.Drawing.Size(127, 25);
+            this.btnExpenes.Size = new System.Drawing.Size(127, 27);
             this.btnExpenes.Text = "ايرادات الفاتورة";
             this.btnExpenes.Click += new System.EventHandler(this.btnExpenes_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(40, 25);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(40, 27);
             this.toolStripMenuItem2.Text = "       ";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 25);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 27);
             this.toolStripMenuItem1.Text = "       ";
             // 
             // العروضToolStripMenuItem
@@ -1655,5 +1679,6 @@ namespace ERP.Desktop.Views.Transactions.Sales
         private System.Windows.Forms.DataGridViewTextBoxColumn Item_ID;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtInvoiceOffersDiscount;
+        private FontAwesome.Sharp.IconButton btn_rePrint;
     }
 }

@@ -1,16 +1,17 @@
-﻿using Newtonsoft.Json;
-using ERP.Web.DataTablesDS;
-using ERP.Web.Identity;
+﻿using ERP.DAL.Utilites;
 using ERP.DAL;
+using ERP.Web.DataTablesDS;
 using ERP.Web.Services;
 using ERP.Web.Utilites;
-using System;using ERP.DAL.Utilites;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Identity;
 
 namespace ERP.Web.Controllers
 {
@@ -19,7 +20,10 @@ namespace ERP.Web.Controllers
     public class InventoryInvoicesController : Controller
     {
         // GET: InventoryInvoices
+        // GET: InventoryInvoices
         VTSaleEntities db;
+        public static string DS { get; set; }
+
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
         public InventoryInvoicesController()
@@ -38,7 +42,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.InventoryInvoices.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id,  InvoiceDate = x.InvoiceDate.ToString(), BranchName = x.Branch.Name, StoreName = x.Store.Name, TotalDifferenceAmount = x.TotalDifferenceAmount, Actions = n, Num = n }).ToList()
+                data = db.InventoryInvoices.Where(x => !x.IsDeleted).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceDate = x.InvoiceDate.ToString(), BranchName = x.Branch.Name, StoreName = x.Store.Name, TotalDifferenceAmount = x.TotalDifferenceAmount, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
@@ -48,38 +52,95 @@ namespace ERP.Web.Controllers
             ViewBag.GroupBasicId = new SelectList(db.Groups.Where(x => !x.IsDeleted && x.GroupTypeId == (int)GroupTypeCl.Basic), "Id", "Name"); // item groups (مواد خام - كشافات ...)
             ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
-            ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
+            //تحميل كل الاصناف فى اول تحميل للصفحة 
+            var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
+            ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
             //احتساب تكلفة المنتج 
             var model = db.GeneralSettings.ToList();
             var itemCost = model.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue;
-            ViewBag.ItemCostCalculateId = new SelectList(db.ItemCostCalculations.Where(x => !x.IsDeleted), "Id", "Name", itemCost != null ? itemCost : null);
+            ViewBag.ItemCostCalculateId = itemCost;
 
             return View();
         }
-        public ActionResult SearchItemBalances(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, int isFirstInitPage)
+        //public ActionResult SearchItemBalances(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, int isFirstInitPage)
+        //{
+        //    int? n = null;
+        //    List<ItemBalanceDto> list;
+        //    if (isFirstInitPage == 1)
+        //        return Json(new
+        //        {
+        //            data = new { }
+        //        }, JsonRequestBehavior.AllowGet);
+        //    else
+        //    {
+        //        list = BalanceService.SearchItemBalanceInventory(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId);
+        //        return Json(new
+        //        {
+        //            data = list
+        //        }, JsonRequestBehavior.AllowGet); ;
+
+        //    }
+
+        //}
+        #region  اضافة اصناف الفاتورة
+        public ActionResult GetDSItemDetails()
         {
             int? n = null;
-            List<ItemBalanceDto> list;
-            if (isFirstInitPage == 1)
+            if (DS == null)
                 return Json(new
                 {
-                    data = new { }
-                }, JsonRequestBehavior.AllowGet); 
+                    data = new ItemBalanceDto()
+                }, JsonRequestBehavior.AllowGet);
             else
-            {
-            list = BalanceService.SearchItemBalanceInventory(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId);
-            return Json(new
-            {
-                data = list
-            }, JsonRequestBehavior.AllowGet); ;
-
-            }
-
+                return Json(new
+                {
+                    data = JsonConvert.DeserializeObject<List<ItemBalanceDto>>(DS)
+                }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult AddItemDetails(ItemBalanceDto vm)
+        {
+            List<ItemBalanceDto> deDS = new List<ItemBalanceDto>();
+            string itemName = "";
+            string groupName = "";
+            string storeName = "";
+            if (vm.DT_Datasource != null)
+                deDS = JsonConvert.DeserializeObject<List<ItemBalanceDto>>(vm.DT_Datasource);
+
+            if (vm.Id != null)
+            {
+                if (deDS.Where(x => x.Id == vm.Id ).Count() > 0)
+                    return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+                if (deDS.Where(x => x.StoreId != vm.StoreId ).Count() > 0)
+                    return Json(new { isValid = false, msg = "لا يمكن اختيار اكثر من مخزن للفاتورة الواحدة " }, JsonRequestBehavior.AllowGet);
+
+                var item = db.Items.FirstOrDefault(x => x.Id == vm.Id);
+                itemName = item.Name;
+                groupName = item.GroupBasic?.Name;
+            }
+            else
+                return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
+
+            if (vm.BalanceReal <= 0)
+                return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للرصيد " }, JsonRequestBehavior.AllowGet);
+
+            if (vm.StoreId != null)
+                storeName = db.Stores.FirstOrDefault(x => x.Id == vm.StoreId).Name;
+            else
+                return Json(new { isValid = false, msg = "تأكد من اختيار المخزن " }, JsonRequestBehavior.AllowGet);
+
+
+            var newItemDetails = new ItemBalanceDto { Id = vm.Id,Balance=vm.Balance,BalanceReal=vm.BalanceReal, GroupName= groupName,  ItemName= itemName, StoreId=vm.StoreId,StoreName=storeName};
+            deDS.Add(newItemDetails);
+            DS = JsonConvert.SerializeObject(deDS);
+            return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح " }, JsonRequestBehavior.AllowGet);
+        }
+
+        #endregion
+
         //حفظ الفاتورة
-        public ActionResult SaveInvoice(string InvoiceDate, Guid? BranchId, Guid? StoreId,int? ItemCostCalculateId,string Notes, string data)
+        public ActionResult SaveInvoice(string InvoiceDate, Guid? BranchId, Guid? StoreId, int? ItemCostCalculateId, string Notes, string data)
         {
             List<ItemBalanceDto> itemBalanceDtos = new List<ItemBalanceDto>();
             if (data != null)
@@ -90,37 +151,34 @@ namespace ERP.Web.Controllers
 
             foreach (var item in itemBalanceDtos)
             {
-                if (!double.TryParse(item.BalanceReal.ToString(),out var balancRel))
+                if (!double.TryParse(item.BalanceReal.ToString(), out var balancRel))
                     return Json(new { isValid = false, message = "تأكد من ادخال الكميات بشكل صحيح" });
             }
             int itemCost;
             if (ItemCostCalculateId == null)
             {
                 //احتساب تكلفة المنتج 
-                var generals = db.GeneralSettings.ToList();
-                var itemCot = generals.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue;
-                if (!int.TryParse(itemCot, out itemCost))
-                    return Json(new { isValid = false, message = "تأكد من اختيار طريقة الاحتساب" });
+                    return Json(new { isValid = false, message = "تأكد من اختيار طريقة احتساب تكلفة المنتج من الاعدادت العامة" });
             }
             else
-                itemCost = ItemCostCalculateId??1;
+                itemCost = ItemCostCalculateId ?? 1;
 
             //الاصناف
             List<InventoryInvoiceDetail> items = new List<InventoryInvoiceDetail>();
-                if (itemBalanceDtos.Count() == 0)
-                    return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
-                else
-                {
-                    items = itemBalanceDtos.Select(x =>
-                      new InventoryInvoiceDetail
-                      {
-                          ItemId = x.Id,
-                          Balance = x.Balance,
-                          BalanceReal = x.BalanceReal,
-                          DifferenceCount = x.BalanceReal - x.Balance,
-                          DifferenceAmount = (x.BalanceReal - x.Balance) * _itemService.GetItemCostCalculation(itemCost, x.Id)
-                      }).ToList();
-                }
+            if (itemBalanceDtos.Count() == 0)
+                return Json(new { isValid = false, message = "تأكد من وجود صنف واحد على الاقل" });
+            else
+            {
+                items = itemBalanceDtos.Select(x =>
+                  new InventoryInvoiceDetail
+                  {
+                      ItemId = x.Id,
+                      Balance = x.Balance,
+                      BalanceReal = x.BalanceReal,
+                      DifferenceCount = x.BalanceReal - x.Balance,
+                      DifferenceAmount = (x.BalanceReal - x.Balance) * _itemService.GetItemCostCalculation(itemCost, x.Id)
+                  }).ToList();
+            }
 
             InventoryInvoice model = new InventoryInvoice();
             DateTime invoiceDate;
@@ -131,7 +189,7 @@ namespace ERP.Web.Controllers
 
             model.BranchId = BranchId;
             model.StoreId = StoreId;
-            model.TotalDifferenceAmount = items.Sum(x => x.DifferenceAmount); 
+            model.TotalDifferenceAmount = items.Sum(x => x.DifferenceAmount);
             model.ItemCostCalculateId = itemCost;
             model.Notes = Notes;
             model.InventoryInvoiceDetails = items;
@@ -139,7 +197,7 @@ namespace ERP.Web.Controllers
             db.InventoryInvoices.Add(model);
 
             if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                    return Json(new { isValid = true, message = "تم الاضافة بنجاح" });
+                return Json(new { isValid = true, message = "تم الاضافة بنجاح" });
             else
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 

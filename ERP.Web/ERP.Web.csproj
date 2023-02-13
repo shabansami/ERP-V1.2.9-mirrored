@@ -2118,7 +2118,6 @@
     <Content Include="Views\IncomeTypes\CreateEdit.cshtml" />
     <Content Include="Views\IncomeTypes\Index.cshtml" />
     <Content Include="Views\InventoryInvoices\Index.cshtml" />
-    <Content Include="Views\InventoryInvoices\NewInventoryInvoice.cshtml" />
     <Content Include="Views\InventoryInvoices\ShowInventoryInvoice.cshtml" />
     <Content Include="Views\ItemCustomSellPrices\CreateEdit.cshtml" />
     <Content Include="Views\ItemCustomSellPrices\Index.cshtml" />
@@ -2378,6 +2377,7 @@
     <Content Include="Views\ItemIntialBalances\ShowDetails.cshtml" />
     <Content Include="Views\PrintInvoices\PrintGeneralRecord.cshtml" />
     <Content Include="Views\RptAccountStatements\SearchMultiple.cshtml" />
+    <Content Include="Views\InventoryInvoices\NewInventoryInvoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -10,172 +10,198 @@
 @section Button1Link{/InventoryInvoices/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 
+@if (ViewBag.ItemCostCalculateId == null || ViewBag.ItemCostCalculateId == "")
+{
 
-<div class="row">
-    <div class="col-12">
-        <div class="card din-bold">
-            <div class="card-header">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <h4 class=" din-bold">
-                            فواتير الجرد
-                        </h4>
-                    </div>
-                    <div class="card-toolbar">
 
-                    </div>
-                </div>
-                <div class="card-body">
+    <div class="row">
+        <div class="col-12 alert alert-danger">
+          <h1>لابد من تحديد نوع احتساب تكلفة المنتج من شاشة الاعدادت العامة</h1>  
+
+        </div>
+    </div>
+}
+else
+{
+    <div class="row">
+        <div class="col-12">
+            <div class="card din-bold">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-lg-4">
-                            <div class="form-group mb-0 w-100">
-                                <div class="input-icon input-icon-right">
-                                    <label>بحث</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
-                                        <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
+                        <div class="col-sm-6">
+                            <h4 class=" din-bold">
+                                فواتير الجرد
+                            </h4>
+                        </div>
+                        <div class="card-toolbar">
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> الفرع</label>
+                                        @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onBranchChange();" })
+                                        @Html.Hidden("ItemCostCalculateId")
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <div>
+                                        <label>المخزن <span class="alert-info bg-info">لايمكن اختيار اكتر من مخزن للفاتورة الواحدة</span> </label>
+                                        @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "InventoryInvoice_Module.onItemChange()" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label>تاريخ الجرد</label>
+                                        @Html.TextBox("InvoiceDate", DateTime.Now, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div>
+                                        <label>ملاحظات</label>
+                                        @Html.TextArea("Notes", htmlAttributes: new { @class = "form-control din-med" })
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-lg-4">
+                                    <div class="form-group">
+                                        <div>
+                                            <label>احتساب تكلفة المنتج</label>
+                                            @Html.DropDownList("ItemCostCalculateId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                                        </div>
+                                    </div>
+                                </div>*@
+
+
+
+                        </div>
+
+                        <div class="row">
+
+                            @*<div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> كود الصنف</label>
+                                        @Html.TextBox("ItemCode", null, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;" })
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> باركود الصنف</label>
+                                        @Html.TextBox("BarCode", null, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> المجموعة الاساسية</label>
+                                        <input name="groupBasic" type="text" class="form-control" id="groupBasic" autocomplete="off" style="text-align:right;" />
+                                        <input type="hidden" id="groupId" />
+                                        <input type="hidden" id="isFirstInitPage" value="1" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> نوع المجموعة</label>
+                                        @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onItemTypeChange()" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> الصنف</label>
+                                        @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select select2 din-med", @onchange = "InventoryInvoice_Module.onItemChange()" })
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> الرصيد </label>
+                                        @Html.TextBox("Balance", null, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;", @readonly = "readonly" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <div>
+                                        <label> الرصيد الحالى </label>
+                                        @Html.TextBox("BalanceReal", null, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div>
+                                        <label> .</label>
+                                        @*<a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بحث<i class="bx bx-search-alt m-1"></i></a>*@
+                                        <button type="button" onclick="InventoryInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col-lg-12">
+                            <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
+                                <thead>
+
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot></tfoot>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <div>
+                                        <label> .</label>
+                                        <a href="javascript:void(0);" onclick="InventoryInvoice_Module.SaveInvoice();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>حفظ</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label> كود الصنف</label>
-                                    @Html.TextBox("ItemCode", null, htmlAttributes: new { @class = "form-control din-med" ,@style= "text-align:right;" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label> باركود الصنف</label>
-                                    @Html.TextBox("BarCode", null, htmlAttributes: new { @class = "form-control din-med", @style = "text-align:right;" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label> المجموعة الاساسية</label>
-                                    <input name="groupBasic" type="text" class="form-control" id="groupBasic" autocomplete="off"  style="text-align:right;" />
-                                    <input type="hidden" id="groupId" />
-                                    <input type="hidden" id="isFirstInitPage" value="1" />
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label> نوع المجموعة</label>
-                                    @Html.DropDownList("ItemtypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onItemTypeChange()" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label> الصنف</label>
-                                    @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <div>
-                                    <label> الفرع</label>
-                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onBranchChange();" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="form-group required">
-                                <div>
-                                    <label> المخزن</label>
-                                    @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <div>
-                                    <label> .</label>
-                                    <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100">بحث<i class="bx bx-search-alt m-1"></i></a>
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <div class="col-lg-12">
-                        <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtItemDetails">
-                            <thead>
-
-                            </thead>
-                            <tbody>
-                            </tbody>
-                            <tfoot></tfoot>
-                        </table>
-                    </div>
-                    <div class="row">
-
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <div>
-                                    <label>ملاحظات</label>
-                                    @Html.TextArea("Notes", htmlAttributes: new { @class = "form-control din-med" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label>احتساب تكلفة المنتج</label>
-                                    @Html.DropDownList("ItemCostCalculateId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label>تاريخ الجرد</label>
-                                    @Html.TextBox("InvoiceDate", DateTime.Now, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="form-group">
-                                <div>
-                                    <label> .</label>
-                                    <a href="javascript:void(0);" onclick="InventoryInvoice_Module.SaveInvoice();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>حفظ</a>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
+        <!--end::Container-->
     </div>
-    <!--end::Container-->
-</div>
+
+}
 
 
 @section Scripts
 {
     <script src="~/Assets/JSCustom/InventoryInvoice.js"></script>
     <script>
-        function searchData() {
+function searchData() {
             $("#isFirstInitPage").val('0');
             $('#kt_dtItemDetails').DataTable().ajax.reload();
-        };
+};
 
-        function onItemTypeChange() {
+function onItemTypeChange() {
             $.get("/SharedDataSources/OnItemTypeChange", { id: $("#ItemtypeId").val() }, function (data) {
                 $("#ItemId").empty();
                 $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
@@ -184,8 +210,8 @@
                 });
                 $("#groupBasic").val(null);
             });
-        };
-        function onBranchChange() {
+};
+function onBranchChange() {
             $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
                 $("#StoreId").empty();
                 $("#StoreId").append("<option value=>اختر عنصر من القائمة</option>");
@@ -193,8 +219,8 @@
                     $("#StoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
                 });
             });
-        };
-        $(document).ready(function () {
+};
+$(document).ready(function () {
             // begin first table
             InventoryInvoice_Module.initItemDetails();
             //عند ادخال الباركود الصنف
@@ -207,18 +233,22 @@
                         $.each(data, function (index, row) {
                             $("#ItemId").append("<option value='" + row.Id + "' selected>" + row.Name + "</option>");
                         });
+
+                        if (data.length==1) {
+                            InventoryInvoice_Module.onItemChange();
+                        }
                     });
                 }
             });
 
 
 
-        });
+});
 
     </script>
     <script>
-        var treeBasic;
-        $(document).ready(function () {
+var treeBasic;
+$(document).ready(function () {
             //المجموعة الاساسية
             var dsBasic = [];
             $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {
@@ -249,7 +279,7 @@
             // ============== نهاية المجموعة الاساسية
 
 
-        })
+})
     </script>
 
 }

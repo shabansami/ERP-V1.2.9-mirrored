@@ -76,6 +76,7 @@ var SellInvoice_Module = function () {
                 data(d) {
                     d.dFrom = $("#dtFrom").val();
                     d.dTo = $("#dtTo").val();
+                    d.brnchId = $("#BranchId").val();
                 }
                     },
         columns: [

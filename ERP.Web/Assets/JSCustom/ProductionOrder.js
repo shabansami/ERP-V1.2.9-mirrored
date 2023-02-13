@@ -760,11 +760,11 @@ var ProductionOrder_Module = function () {
             toastr.error('تأكد من ادخال الكمية ', '');
             return false;
         }
-        if ($("#Quantity").val() > parseFloat($("#balanceCurrentStore").text()) ) {
-            toastr.error('رصيد المخزن لا يسمح بالكمية المدخلة ', '');
-            return false;
-        }
-        addOtherItemIn();
+        //if ($("#Quantity").val() > parseFloat($("#balanceCurrentStore").text()) ) {
+        //    toastr.error('رصيد المخزن لا يسمح بالكمية المدخلة ', '');
+        //    return false;
+        //}
+        //addOtherItemIn();
     };
 
     //function getPriceOnItemCostCalculateChange() { // تكلفة المنتج بدلالة (متوسط سعر الشراء - اخر سعر شراء - اعلى او اقل سعر شراء )

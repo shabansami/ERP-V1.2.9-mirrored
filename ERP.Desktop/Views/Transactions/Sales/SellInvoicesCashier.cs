@@ -1434,6 +1434,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             if (form.ReturnedInvoice != null)
             {
                 LoadInvoice(form.ReturnedInvoice);
+                btn_rePrint.Visible = true;
             }
         }
         #endregion
@@ -1641,6 +1642,13 @@ namespace ERP.Desktop.Views.Transactions.Sales
                 lbl_printCount.Visible = txt_printCount.Visible = true;
             else
                 lbl_printCount.Visible = txt_printCount.Visible = false;
+        }
+
+        private void btn_rePrint_Click(object sender, EventArgs e)
+        {
+            if (!int.TryParse(txt_printCount.Text, out int txtPrintCount))
+                txtPrintCount = 1;
+            PrintReport("فاتورة مبيعات", txtPrintCount);
         }
 
 

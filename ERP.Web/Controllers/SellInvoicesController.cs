@@ -48,12 +48,17 @@ namespace ERP.Web.Controllers
                 ViewBag.EndDateSearch = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue;
             }
             #endregion
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var defaultStore = storeService.GetDefaultStore(db);
+            var branchId = defaultStore != null ? defaultStore.BranchId : null;
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+
             ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes, "Id", "Name");
 
             return View();
         }
 
-        public ActionResult GetAll(string dFrom, string dTo)
+        public ActionResult GetAll(string dFrom, string dTo,string brnchId)
         {
             int? n = null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
@@ -71,10 +76,21 @@ namespace ERP.Web.Controllers
             {
                 DateTime dtFrom, dtTo;
                 var list = db.SellInvoices.Where(x => !x.IsDeleted);
+                bool selectBranch=false;
+                if (Guid.TryParse(brnchId, out Guid branchId))
+                {
+                    list = list.Where(x => x.BranchId == branchId);
+                    selectBranch=true;
+                }
                 if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                     list = list.Where(x => DbFunctions.TruncateTime(x.InvoiceDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.InvoiceDate) <= dtTo.Date);
 
-                var branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
+                List<SellInvoice> branchesList = new List<SellInvoice>();
+                if(selectBranch)
+                    branchesList= list.ToList();
+                else
+                    branchesList=list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
+
                     return Json(new
                     {
                         data = branchesList.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper,  InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()

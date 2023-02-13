@@ -14,8 +14,11 @@ namespace ERP.Web.DataTablesDS
         public string ItemTypeName { get; set; }
         public string GroupName { get; set; }
         public double Balance { get; set; }
+        public Nullable<Guid> StoreId { get; set; }
         public string StoreName { get; set; }
+        public string DT_Datasource { get; set; }
         public int? Num { get; set; }
+        public int? Actions { get; set; }
 
         //مع تقارير حد الطلب 
         public double Limit { get; set; }//حد الطلب الامن/الخطر

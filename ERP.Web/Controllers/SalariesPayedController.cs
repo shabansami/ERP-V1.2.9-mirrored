@@ -199,7 +199,7 @@ namespace ERP.Web.Controllers
                             //AccountsTreeId = int.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
                             AccountsTreeId = EmpAccountTreeId,
                             BranchId = branchId,
-                            Debit = loanVal,
+                            Credit = loanVal,
                             //Notes = $"استقطاع سلفة من شهر : {month} لسنه : {year}",
                             Notes = $"استقطاع سلفة {note}",
                             TransactionDate = dt,

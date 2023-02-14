@@ -385,6 +385,8 @@ namespace ERP.Desktop.Views.Transactions.Purchases
                 }
                 else if (cmb_paytype.SelectedIndex == 3)
                 {
+                    txtPayed.Text = txtInvoiceSafy.Text;
+                    txtInvoiceRemained.Text = "0";
                     currentInvoice.PaymentTypeId = (int)PaymentTypeCl.Partial;
                     currentInvoice.SafeId = currentPOS.SafeID;
                     currentInvoice.BankAccountId = null;

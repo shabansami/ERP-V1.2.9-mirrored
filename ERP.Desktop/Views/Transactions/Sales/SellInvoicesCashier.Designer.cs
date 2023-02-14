@@ -1411,7 +1411,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.cmbo_offer});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1008, 31);
+            this.menuStrip1.Size = new System.Drawing.Size(1008, 29);
             this.menuStrip1.TabIndex = 12;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -1422,7 +1422,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.iconMenuIItemProduction.IconColor = System.Drawing.Color.Black;
             this.iconMenuIItemProduction.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.iconMenuIItemProduction.Name = "iconMenuIItemProduction";
-            this.iconMenuIItemProduction.Size = new System.Drawing.Size(111, 27);
+            this.iconMenuIItemProduction.Size = new System.Drawing.Size(111, 25);
             this.iconMenuIItemProduction.Text = "اضافة تركيبة";
             this.iconMenuIItemProduction.Click += new System.EventHandler(this.iconMenuIItemProduction_Click);
             // 
@@ -1433,7 +1433,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.btnAllIncoives.IconColor = System.Drawing.Color.Black;
             this.btnAllIncoives.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnAllIncoives.Name = "btnAllIncoives";
-            this.btnAllIncoives.Size = new System.Drawing.Size(123, 27);
+            this.btnAllIncoives.Size = new System.Drawing.Size(123, 25);
             this.btnAllIncoives.Text = "فواتير الوردية";
             this.btnAllIncoives.Click += new System.EventHandler(this.btnAllIncoives_Click);
             // 
@@ -1444,20 +1444,20 @@ namespace ERP.Desktop.Views.Transactions.Sales
             this.btnExpenes.IconColor = System.Drawing.Color.Black;
             this.btnExpenes.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnExpenes.Name = "btnExpenes";
-            this.btnExpenes.Size = new System.Drawing.Size(127, 27);
+            this.btnExpenes.Size = new System.Drawing.Size(127, 25);
             this.btnExpenes.Text = "ايرادات الفاتورة";
             this.btnExpenes.Click += new System.EventHandler(this.btnExpenes_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(40, 27);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(40, 25);
             this.toolStripMenuItem2.Text = "       ";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 27);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(40, 25);
             this.toolStripMenuItem1.Text = "       ";
             // 
             // العروضToolStripMenuItem

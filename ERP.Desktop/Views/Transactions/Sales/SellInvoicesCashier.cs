@@ -459,12 +459,12 @@ namespace ERP.Desktop.Views.Transactions.Sales
 
         private void txt_invonet_TextChanged(object sender, EventArgs e)
         {
-            if ((cmb_paytype.SelectedIndex)==1|| cmb_paytype.SelectedIndex==5|| cmb_paytype.SelectedIndex==6)
+            if ((cmb_paytype.SelectedIndex) == 1 || cmb_paytype.SelectedIndex == 5 || cmb_paytype.SelectedIndex == 6)
             {
                 txtPayed.Text = txtInvoiceSafy.Text;
                 txtInvoiceRemained.Text = "0";
             }
-            else if (cmb_paytype.SelectedIndex == 2|| cmb_paytype.SelectedIndex==4)
+            else if (cmb_paytype.SelectedIndex == 2 || cmb_paytype.SelectedIndex == 4)
             {
                 txtInvoiceRemained.Text = txtInvoiceSafy.Text;
                 txtPayed.Text = "0";
@@ -534,7 +534,7 @@ namespace ERP.Desktop.Views.Transactions.Sales
                 MessageBox.Show("تم حفظ الفاتورة بنجاح", "حفظ الفاتورة", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ClearForm();
                 btnSaveInvoice.Enabled = true;
-
+                btn_rePrint.Visible = false;
             }
             else
                 btnSaveInvoice.Enabled = true;
@@ -1434,7 +1434,10 @@ namespace ERP.Desktop.Views.Transactions.Sales
             if (form.ReturnedInvoice != null)
             {
                 LoadInvoice(form.ReturnedInvoice);
-                btn_rePrint.Visible = true;
+                if (form.ReturnedInvoice.IsFinalApproval)
+                    btn_rePrint.Visible = true;
+                else
+                    btn_rePrint.Visible = false;
             }
         }
         #endregion

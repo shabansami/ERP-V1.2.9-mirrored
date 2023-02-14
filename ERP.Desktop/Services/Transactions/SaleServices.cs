@@ -327,10 +327,16 @@ namespace ERP.Desktop.Services.Transactions
 
 
             //فى حالة السداد نقدى ولم يتم دفع كامل المبلغ
-            if (invoice.PaymentTypeId == (int)PaymentTypeCl.Cash)
+            if (invoice.PaymentTypeId == (int)PaymentTypeCl.Cash||invoice.PaymentTypeId == (int)PaymentTypeCl.Partial||invoice.PaymentTypeId == (int)PaymentTypeCl.BankWallet||invoice.PaymentTypeId == (int)PaymentTypeCl.BankCard)
             {
                 invoice.PayedValue = invoice.Safy;
                 invoice.RemindValue = 0;
+            }           
+            //فى حالة السداد اجل
+            if (invoice.PaymentTypeId == (int)PaymentTypeCl.Deferred||invoice.PaymentTypeId == (int)PaymentTypeCl.Installment)
+            {
+                invoice.PayedValue = 0;
+                invoice.RemindValue = invoice.Safy;
             }
 
             db.SaveChanges(UserServices.UserInfo.UserId);

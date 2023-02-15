@@ -21,7 +21,7 @@ namespace ERP.DAL
                     {
                         IsActive = true,
                         IsAdmin = true,
-                        Pass = VTSAuth.Encrypt("1"),//p@ssw0rd
+                        Pass = VTSAuth.Encrypt("P@ssw0rd"),//P@ssw0rd
                         UserName = "admin"
                     };
                     // add user
@@ -762,8 +762,8 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (30,N'مخزن التصنيع الافتراضى',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (31,N'المخزن الافتراضى لفواتير البيع والشراء',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (32,N'مخزن تحت التصنيع الافتراضى',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (33,N'تاريخ بداية السنة المالية',N'2022-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (34,N'تاريخ نهاية السنة المالية',N'2022-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (33,N'تاريخ بداية السنة المالية',N'2023-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (34,N'تاريخ نهاية السنة المالية',N'2023-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (35,N'مجلد فواتير التوريد',N'CB9A06E2-E19F-4AF1-9691-A80A74883134',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (36,N'مجلد فواتير مرتجع التوريد',N'BD58FB03-5F2E-4A7C-BE30-C6397C25255E',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (37,N'مجلد فواتير البيع',N'BBF4A785-0EEA-48D5-85BA-7B0BE50BF3A2',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)

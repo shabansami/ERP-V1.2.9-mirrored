@@ -72,9 +72,21 @@
                                             <td>@(item.StoresTransfer?.StoreFrom?.Name)</td>
                                         </tr>
                                     }
-                                </tbody>
-                                <tfoot></tfoot>
-                            </table>
+                                    @for (int i = 0; i < Model.StoresTransferDetails.Where(x => !x.IsDeleted).Count(); i++)
+                                    {
+                                        @Html.HiddenFor(m => m.StoresTransferDetails.Where(x => !x.IsDeleted).ToList()[i].Id)
+                                        @Html.HiddenFor(m => m.StoresTransferDetails.Where(x => !x.IsDeleted).ToList()[i].ItemId)
+                                <tr>
+                                    <td>@Model.StoresTransferDetails.Where(x => !x.IsDeleted).ToList()[i].Item.Name</td>
+                                    <td>@Model.StoresTransferDetails.Where(x => !x.IsDeleted).ToList()[i].Quantity</td>
+                                    <td>@Html.TextBoxFor(m=>m.StoresTransferDetails.Where(x => !x.IsDeleted).ToList()[i].QuantityReal,new {@class="form-control" })</td>
+
+                                    <td>@(Model.StoresTransferDetails.Where(x => !x.IsDeleted).ToList()[i].StoresTransfer?.StoreFrom?.Name)</td>
+                                </tr>
+                                }
+                                    </tbody>
+                                    <tfoot></tfoot>
+                                </table>
                         </div>
                     </div>
                 </div>

@@ -70,7 +70,7 @@ namespace ERP.Web.Controllers
         }
 
         //اعتماد الفاتور مخزنيا
-        public ActionResult ApprovalInvoice(string invoGuid, string data)
+        public ActionResult ApprovalI nvoice(string invoGuid, string data)
         {
             List<ItemDetailsStor> itemDetailsStor = new List<ItemDetailsStor>();
             if (data != null)

@@ -164,14 +164,13 @@ var StoresTransferApproval_Module = function () {
     function ApprovalInvoice() { // اعتماد فاتورة
 
         //var data = $('#kt_dtItemDetails').DataTable().rows().data().toArray();
-        //var values = new Array();
-        //$.each($(".selectedDay"), function () {
-        //    var data = $(this).parents('tr:eq(0)');
-        //    values.push({ 'Id': $(data).find('td:eq(0)').text(), 'ItemId': $(data).find('td:eq(1)').text(), 'ItemName': $(data).find('td:eq(2)').text(), 'Quantity': $(data).find('td:eq(3)').text(), 'QuantityReal': $(data).find('td:eq(4) input[type="text"]').val() });
-        //});
-        //console.log(values);
-        //console.log(values.length);
-        var form = document.getElementById('form1');
+        var values = new Array();
+        $.each($(".selectedDay"), function () {
+            var data = $(this).parents('tr:eq(0)');
+            values.push({ 'Id': $(data).find('td:eq(0)').text(), 'ItemId': $(data).find('td:eq(1)').text(), 'ItemName': $(data).find('td:eq(2)').text(), 'Quantity': $(data).find('td:eq(3)').text(), 'QuantityReal': $(data).find('td:eq(4) input[type="text"]').val() });
+        });
+        console.log(values);
+        console.log(values.length);
 
         Swal.fire({
             title: 'تأكيد الاعتماد',
@@ -196,7 +195,7 @@ var StoresTransferApproval_Module = function () {
                     url: url,
                     data: {
                         "invoGuid": queryString,
-                        "data": new FormData(form),
+                        "data": JSON.stringify(values)
                     },
                     //async: true,
                     //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },

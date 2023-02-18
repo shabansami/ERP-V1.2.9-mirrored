@@ -21,10 +21,15 @@ namespace ERP.Web.Controllers
     public class SaleMenSellInvoicesController : Controller
     {
         // GET: SaleMenSellInvoices
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        ItemService itemService;
         public static string DS { get; set; }
-
+        public SaleMenSellInvoicesController()
+        {
+            db = new VTSaleEntities();
+            itemService = new ItemService();
+        }
         #region ادارة فواتير التوريد
         public ActionResult Index()
         {
@@ -33,11 +38,6 @@ namespace ERP.Web.Controllers
 
         public ActionResult GetAll()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             int? n = null;
             return Json(new
             {
@@ -72,15 +72,23 @@ namespace ERP.Web.Controllers
                 deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
             if (!bool.TryParse(vm.IsDiscountItemVal.ToString(), out var tt))
                 return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
-
-            if (vm.ItemId != null)
+            var item = db.Items.Where(x => x.Id == vm.ItemId).FirstOrDefault();
+            if (item != null)
             {
                 if (deDS.Where(x => x.ItemId == vm.ItemId && vm.ProductionOrderId == x.ProductionOrderId && vm.IsIntial == x.IsIntial && vm.SerialItemId == x.SerialItemId).Count() > 0)
                     return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-                itemName = db.Items.FirstOrDefault(x => x.Id == vm.ItemId).Name;
+                itemName = item.Name;
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
+            if (vm.Price <= 0)
+            {
+                //سعر البيع يقبل صفر (الهدايا
+                var sellPriceZeroSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.SellPriceZero).FirstOrDefault().SValue;
+                if (sellPriceZeroSett == "0")//رفض البيع بصفر 
+                    return Json(new { isValid = false, msg = "تأكد من ادخال سعر البيع بشكل صحيح" }, JsonRequestBehavior.AllowGet);
+            }
+
             if (vm.SerialItemId != null && vm.SerialItemId != Guid.Empty)
             {
                 if (vm.Quantity > 1)
@@ -98,7 +106,26 @@ namespace ERP.Web.Controllers
                 itemDiscount = ((vm.Price * vm.Quantity) * vm.ItemDiscount) / 100;
             else
                 return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
-
+            //التأكد من السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته
+            var acceptItemCostSellDownSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
+            if (acceptItemCostSellDownSett == "0")//منع البيع بسعر بيع اقل من التكلفة 
+            {
+                int.TryParse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue, out int itemCostCalculateId);
+                var itemCost = itemService.GetItemCostCalculation(itemCostCalculateId, vm.ItemId ?? Guid.Empty);
+                if (itemCost > vm.Price)
+                    return Json(new { isValid = false, msg = "سعر بيع الصنف اقل من تكلفته" }, JsonRequestBehavior.AllowGet);
+            }
+            //التأكد من وقوع سعر البيع ضمن ماتم تحديده عند اضافة الصنف (اعلى / اقل سعر بيع 
+            if (item.MinPrice != null && item.MinPrice > 0)
+            {
+                if (vm.Price < item.MinPrice)
+                    return Json(new { isValid = false, msg = "سعر البيع اقل من السعر الادنى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
+            }
+            if (item.MaxPrice != null && item.MaxPrice > 0)
+            {
+                if (vm.Price > item.MaxPrice)
+                    return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
+            }
             var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price, ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
@@ -116,10 +143,6 @@ namespace ERP.Web.Controllers
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             if (auth.CookieValues.StoreId == null) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
@@ -273,11 +296,6 @@ namespace ERP.Web.Controllers
 
 
                     var isInsert = false;
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     SellInvoice model = null;
                     if (vm.Id != Guid.Empty)
                     {
@@ -466,11 +484,6 @@ namespace ERP.Web.Controllers
                 var model = db.SellInvoices.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     model.CaseId = (int)CasesCl.InvoiceDeleted;
                     db.Entry(model).State = EntityState.Modified;

@@ -235,6 +235,9 @@ var SellInvoice_Module = function () {
                             if (isSaveByParam === 'installment') { //فى حالةالضغط على حفظ وانشاء اقساط
                                 setTimeout(function () { window.location = "/SellInvoiceInstallments/RegisterInstallments/?invoGuid=" + res.refGid+"&typ=sell" }, 3000);
                         }else
+                            if (isSaveByParam === 'print') { //فى حالةالضغط على حفظ وطباعه
+                                setTimeout(function () { window.location = "/PrintInvoices/ShowPrintInvoice/?id="+ res.refGid + "&typ=sell" }, 3000);
+                        }else
                         if (!res.isInsert) {
                             setTimeout(function () { window.location = "/SellInvoices/Index" }, 3000);
                         } else {

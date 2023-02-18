@@ -397,13 +397,15 @@
                 </div>
                 <div class="card-footer">
                     <div class="row">
-                        <div class="col-12" style="text-align:left;">
+                        <div class="col-12" style="text-align:center;">
                             @*<input type="button" onclick="Quote_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
-                            <a href="javascript:void(0);" onclick="Quote_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold w-100"><i class="@icon"></i>@btn</a>
+                            <a href="javascript:void(0);" onclick="Quote_Module.SubmitForm(this);" class="btn btn-primary font-weight-bold w-25"><i class="@icon"></i>@btn</a>
+                            <a href="javascript:void(0);" onclick="Quote_Module.SubmitForm(this,'print');" class="btn btn-primary font-weight-bold w-25"><i class="fa fa-print m-1"></i>حفظ عرض السعر وطباعه</a>
+
                             @*@if (Model.Id != Guid.Empty)
-                                {
-                                    <a href="/Quotes/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
-                                }*@
+        {
+            <a href="/Quotes/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
+        }*@
                         </div>
                     </div>
                 </div>}

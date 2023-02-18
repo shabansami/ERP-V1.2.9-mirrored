@@ -24,11 +24,14 @@ namespace ERP.Web.Controllers
         // GET: Quotes
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        ItemService itemService;
         StoreService storeService;
         public QuotesController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
+            itemService = new ItemService();
+
         }
         public static string DS { get; set; }
 
@@ -94,6 +97,14 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
+            if (vm.Price <= 0)
+            {
+                //سعر البيع يقبل صفر (الهدايا
+                var sellPriceZeroSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.SellPriceZero).FirstOrDefault().SValue;
+                if (sellPriceZeroSett == "0")//رفض البيع بصفر 
+                    return Json(new { isValid = false, msg = "تأكد من ادخال سعر البيع بشكل صحيح" }, JsonRequestBehavior.AllowGet);
+            }
+
             if (vm.Quantity <= 0)
                 return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للكمية " }, JsonRequestBehavior.AllowGet);
 
@@ -109,6 +120,16 @@ namespace ERP.Web.Controllers
                     vm.Price = Math.Round(itemUnit.SellPrice / itemUnit.Quantity, 2, MidpointRounding.ToEven);
                 }
             }
+            //التأكد من السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته
+            var acceptItemCostSellDownSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
+            if (acceptItemCostSellDownSett == "0")//منع البيع بسعر بيع اقل من التكلفة 
+            {
+                int.TryParse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue, out int itemCostCalculateId);
+                var itemCost = itemService.GetItemCostCalculation(itemCostCalculateId, vm.ItemId ?? Guid.Empty);
+                if (itemCost > vm.Price)
+                    return Json(new { isValid = false, msg = "سعر بيع الصنف اقل من تكلفته" }, JsonRequestBehavior.AllowGet);
+            }
+
             var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName = vm.QuantityUnitName, Price = vm.Price, Amount = vm.Quantity * vm.Price };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
@@ -148,6 +169,16 @@ namespace ERP.Web.Controllers
                 var defaultStore = storeService.GetDefaultStore(db);
                  branchId = defaultStore != null ? defaultStore.BranchId : null;
                 vm.InvoiceDate = Utility.GetDateTime();
+                //ضريبة القيمة المضافة
+                var taxSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault();
+                if (double.TryParse(taxSetting?.SValue, out double TaxSetting))
+                    vm.SalesTaxPercentage = TaxSetting;
+                //ضريبة ارباح تجارية
+                var taxProfitSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault();
+                if (double.TryParse(taxProfitSetting?.SValue, out double TaxProfitSetting))
+                    vm.ProfitTaxPercentage = TaxProfitSetting;
+
+
             }
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
@@ -257,9 +288,9 @@ namespace ERP.Web.Controllers
                 {
                     DS = null;
                     if (isInsert)
-                        return Json(new { isValid = true, isInsert, message = "تم الاضافة بنجاح" });
+                        return Json(new { isValid = true, refGid = vm.Id, isInsert, message = "تم الاضافة بنجاح" });
                     else
-                        return Json(new { isValid = true, isInsert, message = "تم التعديل بنجاح" });
+                        return Json(new { isValid = true, refGid = vm.Id, isInsert, message = "تم التعديل بنجاح" });
 
                 }
                 else

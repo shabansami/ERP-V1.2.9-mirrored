@@ -1,8 +1,10 @@
 ﻿"use strict";
 var GeneralSetting_Module = function () {
-    let editor;
+    let editorAr;
+    let editorEn;
 
-    ClassicEditor.create(document.querySelector("#PrintSetting_QuotationNote"), { language: { ui: 'en', content: 'ar' } }).then(function (e) { e.ui.view.editable.element.style.height = "200px"; editor = e; }).catch(function (e) { console.error(e) });
+    ClassicEditor.create(document.querySelector("#PrintSetting_QuotationNoteAr"), { language: { ui: 'en', content: 'ar' } }).then(function (e) { e.ui.view.editable.element.style.height = "200px"; editorAr = e; }).catch(function (e) { console.error(e) });
+    ClassicEditor.create(document.querySelector("#PrintSetting_QuotationNoteEn"), { language: { ui: 'en', content: 'en' } }).then(function (e) { e.ui.view.editable.element.style.height = "200px"; editorEn = e; }).catch(function (e) { console.error(e) });
 
     //#region الاعدادات العامة
     function SubmitForm(btn, formId, tab) {
@@ -10,7 +12,8 @@ var GeneralSetting_Module = function () {
             var form = document.getElementById(formId);
             var formData = new FormData(form);
             formData.append("tabNum", tab);
-            formData.append("editorNotes", editor.getData())
+            formData.append("editorNotesAr", editorAr.getData())
+            formData.append("editorNotesEn", editorEn.getData())
             $.ajax({
                 type: 'POST',
                 url: form.action,

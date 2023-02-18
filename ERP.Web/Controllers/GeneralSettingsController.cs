@@ -395,6 +395,16 @@ namespace ERP.Web.Controllers
             else
                 return RedirectToAction("CheckInventoryType", "Home");
 
+            //==================== حساب انحراف التشغيل فى حالة جرد المخزن=======================
+            if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeInventoryOperatingDeviation).FirstOrDefault().SValue != null)
+            {
+                vm.AccountTree.InventoryOperatingDeviationAccountSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeInventoryOperatingDeviation).FirstOrDefault().SValue);
+                var accountTreeCheck = accountTree.Where(x => x.Id == vm.AccountTree.InventoryOperatingDeviationAccountSettingValue).FirstOrDefault();
+                vm.AccountTree.InventoryOperatingDeviationAccountName = accountTreeCheck.AccountName + "..." + accountTreeCheck.AccountNumber;
+            }
+            vm.AccountTree.InventoryOperatingDeviationAccountSettingId = (int)GeneralSettingCl.AccountTreeInventoryOperatingDeviation;
+
+
             #endregion
 
 
@@ -436,6 +446,13 @@ namespace ERP.Web.Controllers
             vm.StartDateSearch = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue, out var startDateSearch) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.StartDateSearch).FirstOrDefault().SValue) : new DateTime(Utility.GetDateTime().Year,Utility.GetDateTime().Month,1);
             //نهاية تاريخ البحث فى شاشات الموقع
             vm.EndDateSearch = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue, out var endDateSearch) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.EndDateSearch).FirstOrDefault().SValue) : new DateTime(Utility.GetDateTime().Year,Utility.GetDateTime().Month,1).AddMonths(12);
+            //سعر البيع يقبل صفر (الهدايا)
+            var sellPriceZero = model.Where(x => x.Id == (int)GeneralSettingCl.SellPriceZero).FirstOrDefault().SValue;
+            ViewBag.SellPriceZero = new SelectList(selectListItem, "Value", "Text", sellPriceZero != null ? sellPriceZero : null);
+            //السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته
+            var acceptItemCostSellDown = model.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
+            ViewBag.AcceptItemCostSellDown = new SelectList(selectListItem, "Value", "Text", acceptItemCostSellDown != null ? acceptItemCostSellDown : null);
+
             #region Upload Center File
             var uploadCenterTree = db.UploadCenters.Where(x => !x.IsDeleted).ToList();
 
@@ -535,7 +552,8 @@ namespace ERP.Web.Controllers
             vm.PrintSetting.Line3Up = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine3Up).FirstOrDefault().SValue;
             vm.PrintSetting.Line1Down = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine1Down).FirstOrDefault().SValue;
             vm.PrintSetting.Line2Down = model.Where(x => x.Id == (int)GeneralSettingCl.PrintLine2Down).FirstOrDefault().SValue;
-            vm.PrintSetting.QuotationNote = model.Where(x => x.Id == (int)GeneralSettingCl.QuotationNote).FirstOrDefault().SValue;
+            vm.PrintSetting.QuotationNoteAr = model.Where(x => x.Id == (int)GeneralSettingCl.QuotationNoteAr).FirstOrDefault().SValue;
+            vm.PrintSetting.QuotationNoteEn = model.Where(x => x.Id == (int)GeneralSettingCl.QuotationNoteEn).FirstOrDefault().SValue;
 
             #endregion
             return View(vm);
@@ -543,7 +561,7 @@ namespace ERP.Web.Controllers
 
         [ValidateInput((false))]
         [HttpPost]
-        public JsonResult CreateEdit(GeneralSettingVM vm, int tabNum, string editorNotes)
+        public JsonResult CreateEdit(GeneralSettingVM vm, int tabNum, string editorNotesAr, string editorNotesEn)
         {
             if (ModelState.IsValid)
             {
@@ -635,6 +653,12 @@ namespace ERP.Web.Controllers
                             // نسبة الضريبة ارباح تجارية                              
                             if (item.Id == (int)GeneralSettingCl.TaxProfitPercentage)
                                 item.SValue = vm.TaxProfitPercentage.ToString();
+                            // سعر البيع يقبل صفر (الهدايا)                             
+                            if (item.Id == (int)GeneralSettingCl.SellPriceZero)
+                                item.SValue = vm.SellPriceZero.ToString();
+                            // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته                            
+                            if (item.Id == (int)GeneralSettingCl.AcceptItemCostSellDown)
+                                item.SValue = vm.AcceptItemCostSellDown.ToString();
 
                             db.Entry(item).State = EntityState.Modified;
                         }
@@ -696,8 +720,11 @@ namespace ERP.Web.Controllers
                             if (item.Id == (int)GeneralSettingCl.PrintLine2Down)
                                 item.SValue = vm.PrintSetting.Line2Down;
                             //ملاحظة عروض الاسعار الطباعه فى التقارير
-                            if (item.Id == (int)GeneralSettingCl.QuotationNote)
-                                item.SValue = editorNotes;
+                            if (item.Id == (int)GeneralSettingCl.QuotationNoteAr)
+                                item.SValue = editorNotesAr;   
+                            //ملاحظة عروض الاسعار الطباعه فى التقارير
+                            if (item.Id == (int)GeneralSettingCl.QuotationNoteEn)
+                                item.SValue = editorNotesEn;
                             db.Entry(item).State = EntityState.Modified;
 
                         };

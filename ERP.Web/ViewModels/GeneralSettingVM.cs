@@ -30,6 +30,8 @@ namespace ERP.Web.ViewModels
         public Nullable<int> LimitDangerSell { get; set; } //السماح بالبيع عند تخطى الحد الائتمانى للخطر 
         public Nullable<int> TaxPercentage { get; set; } //نسبة الضريبة 
         public Nullable<int> TaxProfitPercentage { get; set; } //نسبة الضريبة ارباح تجارية 
+        public Nullable<int> SellPriceZero { get; set; } //سعر البيع يقبل صفر (الهدايا)   
+        public Nullable<int> AcceptItemCostSellDown { get; set; } //السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته   
         public Nullable<DateTime> StartDateSearch { get; set; }// بداية تاريخ البحث فى الموقع 
         public Nullable<DateTime> EndDateSearch { get; set; }// نهاية تاريخ البحث فى الموقع 
         public bool Letters { get; set; }
@@ -173,6 +175,10 @@ namespace ERP.Web.ViewModels
         public int? SaleCostAccountSettingId { get; set; }
         public Guid? SaleCostAccountSettingValue { get; set; }
         public string SaleCostAccountName { get; set; }
+        //حساب انحراف التشغيل فى حالة جرد المخزن 
+        public int? InventoryOperatingDeviationAccountSettingId { get; set; }
+        public Guid? InventoryOperatingDeviationAccountSettingValue { get; set; }
+        public string InventoryOperatingDeviationAccountName { get; set; }
 
     }
     public class UploadFileTreeVM
@@ -230,7 +236,8 @@ namespace ERP.Web.ViewModels
         public string Line3Up { get; set; }//سطر ثالث اعلى الصفحة
         public string Line1Down { get; set; }//سطر اول اسفل الصفحة
         public string Line2Down { get; set; }//سطر اول اسفل الصفحة
-        public string QuotationNote { get; set; }//ملاحظة عروض الاسعار فى الطباعه
+        public string QuotationNoteAr { get; set; }//ملاحظة عروض الاسعار فى الطباعة بالعربية
+        public string QuotationNoteEn { get; set; }//ملاحظة عروض الاسعار فى الطباعة بالانجليزية
 
     }
 }

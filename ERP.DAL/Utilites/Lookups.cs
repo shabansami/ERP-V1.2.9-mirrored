@@ -145,7 +145,11 @@ namespace ERP.Web.Utilites
             UploadCenterGeneralRecord, //مجلد قيود اليومية 
             StartDateSearch, //بداية تاريخ البحث فى الموقع 
             EndDateSearch, //نهاية تاريخ البحث فى الموقع 
-            QuotationNote, //ملاحظة عروض الاسعار فى الطباعه 
+            QuotationNoteAr, //ملاحظة عروض الاسعار فى الطباعة بالعربية 
+            QuotationNoteEn, //ملاحظة عروض الاسعار فى الطباعة بالانجليزية 
+            AccountTreeInventoryOperatingDeviation, //حساب انحراف التشغيل فى حالة جرد المخزن  
+            SellPriceZero, //سعر البيع يقبل صفر (الهدايا)  
+            AcceptItemCostSellDown, // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته  
 
         }
 

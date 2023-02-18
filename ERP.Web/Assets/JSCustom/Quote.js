@@ -149,7 +149,7 @@ var Quote_Module = function () {
         });
     };
 
-    function SubmitForm(btn) {
+    function SubmitForm(btn, isSaveByParam) {
         try {
             var form = document.getElementById('form1');
             var DT_Datasource;
@@ -175,6 +175,9 @@ var Quote_Module = function () {
                         //$(btn).attr('disabled', 'disabled'); // disabled button after one clicke 
                         $(btn).css('pointer-events', 'none'); // disabled a link after one clicke 
                         toastr.success(res.message, '',)
+                        if (isSaveByParam === 'print') { //فى حالةالضغط على حفظ وطباعه
+                            setTimeout(function () { window.location = "/PrintInvoices/ShowPrintInvoice/?id=" + res.refGid + "&typ=Quote" }, 3000);
+                        }else
                         if (!res.isInsert) {
                             setTimeout(function () { window.location = "/Quotes/Index" }, 3000);
                         } else

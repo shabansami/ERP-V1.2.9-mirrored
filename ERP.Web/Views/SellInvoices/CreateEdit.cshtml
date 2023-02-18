@@ -807,7 +807,9 @@
                                                 <button type="button" class="btn btn-success px-9" onclick="SellInvoice_Module.SubmitForm(this,'upload')" data-wizard-type="action-submit">
                                                     <span><i class="fa fa-plus m-1"></i></span>حفظ الفاتورة ورفع ملفات
                                                 </button>
-
+                                                <button type="button" class="btn btn-success px-9" onclick="SellInvoice_Module.SubmitForm(this,'print')" data-wizard-type="action-submit">
+                                                    <span><i class="fa fa-print"></i></span>حفظ الفاتورة وطباعه
+                                                </button>
 
                                             </li>
                                         </ul>
@@ -1444,6 +1446,7 @@ else
                                                 @*<button type="button" class="btn btn-success font-weight-bold text-uppercase px-9 py-4" onclick="SellInvoice_Module.SubmitForm(this,'payment')" id="btnPayment" name="btnPayment" style="display:none;" data-wizard-type="action-submit"><span><i class="flaticon-add"></i></span>حفظ الفاتورة وانشاء دفعات</button>*@
                                                 <button type="button" class="btn btn-success font-weight-bold text-uppercase px-9 " onclick="SellInvoice_Module.SubmitForm(this,'installment')" id="btnInstallment" style="display:none;" data-wizard-type="action-submit"><span><i class="flaticon-add"></i></span>حفظ الفاتورة وتقسيط</button>
                                                 <button type="button" class="btn btn-success font-weight-bold text-uppercase px-9 " onclick="SellInvoice_Module.SubmitForm(this,'upload')" data-wizard-type="action-submit"><span><i class="flaticon-add"></i></span>حفظ الفاتورة ورفع ملفات</button>
+                                                <button type="button" class="btn btn-success font-weight-bold text-uppercase px-9 " onclick="SellInvoice_Module.SubmitForm(this,'print')" data-wizard-type="action-submit"><span><i class="flaticon-add"></i></span>حفظ الفاتورة وطباعه</button>
                                             </div>
                                         </div>
                                     </div>
@@ -1653,8 +1656,11 @@ else
                     $.get("/SharedDataSources/ItemsSellOnGroupChanged", { id: currentSelected }, function (data) {
                         $("#ItemId").empty();
                         $("#ItemId").append("<option value=>اختر عنصر من القائمة</option>");
+                        console.log(currentSelected);
                         $.each(data, function (index, row) {
                             $("#ItemId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+                            console.log(row.Id);
+
                         });
                     });
 

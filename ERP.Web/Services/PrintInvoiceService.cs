@@ -256,7 +256,7 @@ namespace ERP.Web.Services
                     }       
                     else if (typ == "Quote")
                     {
-                        var generalNote=db.GeneralSettings.Where(x=>x.Id==(int)GeneralSettingCl.QuotationNote).FirstOrDefault()?.SValue;
+                        var generalNote=db.GeneralSettings.Where(x=>x.Id==(int)GeneralSettingCl.QuotationNoteAr).FirstOrDefault()?.SValue;
                         var quote = db.QuoteOrderSells.Where(x => !x.IsDeleted && x.Id == Id&&x.QuoteOrderSellType==(int)QuoteOrderSellTypeCl.Qoute).ToList();
                         if (quote.Count() > 0)
                         {

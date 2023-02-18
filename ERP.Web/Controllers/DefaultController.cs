@@ -124,6 +124,10 @@ namespace ERP.Web.Controllers
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(77, N'تاريخ بداية البحث', N'2023-01-01', 5, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(78, N'تاريخ نهاية البحث', N'2023-12-31', 5, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(79, N'ملاحظه عروض الاسعار', N'', 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(80, N'ملاحظه عروض الاسعار بالانجليزية', N'', 2, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(81, N'حساب انحراف التشغيل فى حالة جرد المخزن', N'00000178-1234-1234-1234-012345678910', 1, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(82, N'سعر البيع يقبل صفر (الهدايا)', N'1', 7, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
+            //INSERT[dbo].[GeneralSettings]([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES(83, N'منع بيع الصنف فى حالة سعر البيع اقل من تكلفته', N'1', 7, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), 0)
             //SET IDENTITY_INSERT[dbo].[GeneralSettings] OFF; ";
             //db.Database.ExecuteSqlCommand(genralSettings);
             //var uploadCenters = $@"

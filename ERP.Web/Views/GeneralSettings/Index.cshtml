@@ -201,6 +201,18 @@
                                         @Html.DropDownList("LimitDangerSell", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                                     </div>
                                 </div>
+                                 <div class="col-lg-4">
+                                    <div class="form-group ">
+                                        <label>سعر البيع يقبل صفر (الهدايا)</label>
+                                        @Html.DropDownList("SellPriceZero", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                                    </div>
+                                </div>
+                                 <div class="col-lg-4">
+                                    <div class="form-group ">
+                                        <label>السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته</label>
+                                        @Html.DropDownList("AcceptItemCostSellDown", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                                    </div>
+                                </div>
 
                                 @*<div class="col-lg-6">
                                         <div class="form-group">
@@ -604,6 +616,18 @@
                                             <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_AssetsDepreciationComplexAccountName',@Model.AccountTree.AssetsDepreciationComplexAccountSettingId,@Model.AccountTree.AssetsDepreciationComplexAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
                                         </div>
                                     </div>
+                                </div> 
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب انحراف التشغيل فى حالة جرد المخزن</label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.InventoryOperatingDeviationAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.InventoryOperatingDeviationAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.InventoryOperatingDeviationAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_InventoryOperatingDeviationAccountName',@Model.AccountTree.InventoryOperatingDeviationAccountSettingId,@Model.AccountTree.InventoryOperatingDeviationAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
                                 </div>
                                 @if (Model.InventoryType == 2) //الجرد المستمر
                                 {
@@ -935,8 +959,14 @@
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-group  ">
-                                        <label>ملاحظة طباعه فواتير عروض الاسعار</label>
-                                        @Html.TextAreaFor(m => m.PrintSetting.QuotationNote, new { @class = "form-control" })
+                                        <label>ملاحظة طباعه فواتير عروض الاسعار بالعربية</label>
+                                        @Html.TextAreaFor(m => m.PrintSetting.QuotationNoteAr, new { @class = "form-control" })
+                                    </div>
+                                </div> 
+                                <div class="col-lg-12">
+                                    <div class="form-group  ">
+                                        <label>ملاحظة طباعه فواتير عروض الاسعار بالانجليزية</label>
+                                        @Html.TextAreaFor(m => m.PrintSetting.QuotationNoteEn, new { @class = "form-control" })
                                     </div>
                                 </div>
                             </div>

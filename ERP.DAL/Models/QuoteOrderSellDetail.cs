@@ -20,11 +20,14 @@ namespace ERP.DAL
         public Nullable<int> OrderSellItemType { get; set; }//نوع اصناف امر البيع (اصناف للبيع/اصناف للانتاج
         [ForeignKey(nameof(Store))]
         public Nullable<Guid> StoreId { get; set; }//المخزن المحدد فى حالة تجهيز لفاتورة بيع 
+        [ForeignKey(nameof(Unit))]
+        public Nullable<Guid> UnitId { get; set; }
 
         /// <summary>
         /// الكمية
         /// </summary>
         public double Quantity { get; set; }
+        public double QuantityUnit { get; set; }
         /// <summary>
         /// سعر الصنف
         /// </summary>
@@ -39,6 +42,7 @@ namespace ERP.DAL
         public virtual QuoteOrderSell QuoteOrderSell { get; set; }
         public virtual ItemProduction ItemProduction { get; set; }//التوليفة المحددة فى حالة تجهيز لانتاج مجمع 
         public virtual Store Store { get; set; } //المخزن المحدد فى حالة تجهيز لفاتورة بيع 
+        public virtual Unit Unit { get; set; }
 
     }
 }

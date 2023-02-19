@@ -26,12 +26,15 @@ namespace ERP.DAL
         public Nullable<Guid> ProductionOrderId { get; set; }
         [ForeignKey(nameof(ItemSerial))]
         public Nullable<Guid> ItemSerialId { get; set; }
+        [ForeignKey(nameof(Unit))]
+        public Nullable<Guid> UnitId { get; set; }
 
         /// <summary>
         /// «·ﬂ„Ì…
         /// </summary>
         public double Quantity { get; set; }
         public double QuantityReal { get; set; }
+        public double QuantityUnit { get; set; }
         /// <summary>
         /// ”⁄— «·’‰›
         /// </summary>
@@ -48,5 +51,6 @@ namespace ERP.DAL
         public virtual ProductionOrder ProductionOrder { get; set; }
         public virtual SellInvoice SellInvoice { get; set; }
         public virtual Store Store { get; set; }
+        public virtual Unit Unit { get; set; }
     }
 }

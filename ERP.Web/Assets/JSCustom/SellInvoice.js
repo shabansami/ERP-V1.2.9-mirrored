@@ -846,6 +846,9 @@ var SellInvoice_Module = function () {
         var TotalExpenses = Number.parseFloat($("#TotalExpenses").text());
         if (isNaN(TotalExpenses))
             TotalExpenses = 0;
+        var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
+        if (isNaN(TotalDiscount))
+            TotalDiscount = 0;
 
         var SalesTax = Number.parseFloat($("#SalesTax").val());
         if (isNaN(SalesTax))
@@ -854,15 +857,10 @@ var SellInvoice_Module = function () {
         if (isNaN(SalesTaxPercentage))
             SalesTaxPercentage = 0;
         else {
-            SalesTax = (TotalAmount * SalesTaxPercentage) / 100
+            SalesTax = ((TotalAmount - TotalDiscount) * SalesTaxPercentage) / 100
             $("#SalesTax").val(SalesTax);
         }
         
-
-        var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
-        if (isNaN(TotalDiscount))
-            TotalDiscount = 0;
-
         var ProfitTax = Number.parseFloat($("#ProfitTax").val());
         if (isNaN(ProfitTax))
             ProfitTax = 0;
@@ -870,7 +868,7 @@ var SellInvoice_Module = function () {
         if (isNaN(ProfitPercentageTax))
             ProfitPercentageTax = 0;
         else {
-            ProfitTax = (TotalAmount * ProfitPercentageTax) / 100
+            ProfitTax = ((TotalAmount - TotalDiscount) * ProfitPercentageTax) / 100
             $("#ProfitTax").val(ProfitTax)
         }
 

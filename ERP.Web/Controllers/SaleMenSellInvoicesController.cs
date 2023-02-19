@@ -243,6 +243,15 @@ namespace ERP.Web.Controllers
 
                 var vm = new SaleMenSellInvoiceVM();
                 vm.InvoiceDate = Utility.GetDateTime();
+                //ضريبة القيمة المضافة
+                var taxSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.TaxPercentage).FirstOrDefault();
+                if (double.TryParse(taxSetting?.SValue, out double TaxSetting))
+                    vm.SalesTaxPercentage = TaxSetting;
+                //ضريبة ارباح تجارية
+                var taxProfitSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.TaxProfitPercentage).FirstOrDefault();
+                if (double.TryParse(taxProfitSetting?.SValue, out double TaxProfitSetting))
+                    vm.ProfitTaxPercentage = TaxProfitSetting;
+
                 vm.BranchId = auth.CookieValues.BranchId;
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
                 vm.SaleMenStoreId = auth.CookieValues.StoreId;
@@ -325,6 +334,8 @@ namespace ERP.Web.Controllers
                             RemindValue = vm.RemindValue,
                             Safy = vm.Safy,
                             SalesTax = vm.SalesTax,
+                            ProfitTaxPercentage = vm.ProfitTaxPercentage,
+                            SalesTaxPercentage = vm.SalesTaxPercentage,
                             TotalDiscount = vm.TotalDiscount,
                             TotalQuantity = vm.TotalQuantity,
                             TotalValue = vm.TotalValue

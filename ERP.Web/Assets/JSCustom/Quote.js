@@ -396,7 +396,12 @@ var Quote_Module = function () {
 
     function deleteRowItemDetails(id) {
         $('#kt_dtItemDetails tbody').on('click', 'a.deleteIcon', function () {
+            var amountRemoved = $('#kt_dtItemDetails').DataTable().row($(this).closest('tr')).data()['Amount'];
+            var quantityRemoved = $('#kt_dtItemDetails').DataTable().row($(this).closest('tr')).data()['Quantity'];
             $('#kt_dtItemDetails').DataTable().row($(this).parents('tr')).remove().draw();
+            $("#TotalAmount,#TotalAmount2").text(Number.parseFloat($("#TotalAmount").text()) - amountRemoved);
+            $("#TotalQuantity").text(Number.parseFloat($("#TotalQuantity").text()) - quantityRemoved);
+            getSafyInvoice();
         })
 
     };
@@ -517,6 +522,10 @@ var Quote_Module = function () {
         if (isNaN(TotalAmount))
             TotalAmount = 0;
 
+        var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
+        if (isNaN(TotalDiscount))
+            TotalDiscount = 0;
+
         var SalesTax = Number.parseFloat($("#SalesTax").val());
         if (isNaN(SalesTax))
             SalesTax = 0;
@@ -524,14 +533,10 @@ var Quote_Module = function () {
         if (isNaN(SalesTaxPercentage))
             SalesTaxPercentage = 0;
         else {
-            SalesTax = (TotalAmount * SalesTaxPercentage) / 100
+            SalesTax = ((TotalAmount - TotalDiscount) * SalesTaxPercentage) / 100
             $("#SalesTax").val(SalesTax);
         }
 
-
-        var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
-        if (isNaN(TotalDiscount))
-            TotalDiscount = 0;
 
         var ProfitTax = Number.parseFloat($("#ProfitTax").val());
         if (isNaN(ProfitTax))
@@ -540,7 +545,7 @@ var Quote_Module = function () {
         if (isNaN(ProfitPercentageTax))
             ProfitPercentageTax = 0;
         else {
-            ProfitTax = (TotalAmount * ProfitPercentageTax) / 100
+            ProfitTax = ((TotalAmount - TotalDiscount) * ProfitPercentageTax) / 100
             $("#ProfitTax").val(ProfitTax)
         }
 

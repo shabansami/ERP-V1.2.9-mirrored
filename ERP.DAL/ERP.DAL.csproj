@@ -344,6 +344,10 @@
     <Compile Include="Migrations\202301171512188_add_field_IsApproval_in_PersonIntialBalance.designer.cs">
       <DependentUpon>202301171512188_add_field_IsApproval_in_PersonIntialBalance.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202302191639097_add_new_field_UnitId.cs" />
+    <Compile Include="Migrations\202302191639097_add_new_field_UnitId.designer.cs">
+      <DependentUpon>202302191639097_add_new_field_UnitId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
@@ -731,6 +735,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202301171512188_add_field_IsApproval_in_PersonIntialBalance.resx">
       <DependentUpon>202301171512188_add_field_IsApproval_in_PersonIntialBalance.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302191639097_add_new_field_UnitId.resx">
+      <DependentUpon>202302191639097_add_new_field_UnitId.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

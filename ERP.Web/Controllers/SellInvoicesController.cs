@@ -161,6 +161,8 @@ namespace ERP.Web.Controllers
                 var itemUnit = db.ItemUnits.Where(x => x.Id == vm.ItemUnitsId).FirstOrDefault();
                 if (itemUnit != null&&itemUnit.Quantity>0)
                 {
+                    vm.UnitId = itemUnit.UnitId;
+                    vm.QuantityUnit = vm.Quantity;
                     vm.QuantityUnitName = $"{vm.Quantity} {itemUnit.Unit?.Name}";
                     vm.Quantity = vm.Quantity * itemUnit.Quantity;
                     vm.Price = Math.Round(itemUnit.SellPrice / itemUnit.Quantity, 2, MidpointRounding.ToEven);
@@ -195,7 +197,7 @@ namespace ERP.Web.Controllers
                 if(vm.Price>item.MaxPrice)
                     return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
             }
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName=vm.QuantityUnitName, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName=vm.QuantityUnitName, QuantityUnit=vm.QuantityUnit, UnitId=vm.UnitId, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount, totalQuantity = deDS.Sum(x => x.Quantity) }, JsonRequestBehavior.AllowGet);
@@ -294,7 +296,9 @@ namespace ERP.Web.Controllers
                         StoreName = item.Store.Name,
                         IsIntial = item.IsItemIntial ? 1 : 0,
                         ProductionOrderId = item.ProductionOrderId,
-                        SerialItemId = item.ItemSerialId
+                        SerialItemId = item.ItemSerialId,
+                        UnitId=item.UnitId,
+                        QuantityUnit=item.QuantityUnit,
                     }).ToList();
                     DS = JsonConvert.SerializeObject(items);
                     var expenses = db.SellInvoiceIncomes.Where(x => !x.IsDeleted && x.SellInvoiceId == vm.Id).Select(expense => new
@@ -367,6 +371,8 @@ namespace ERP.Web.Controllers
                         StoreId = item.StoreId,
                         StoreName = item.Store.Name,
                         IsIntial = 0,
+                        UnitId = item.UnitId,
+                        QuantityUnit = item.QuantityUnit,
                     }).ToList();
                     DS = JsonConvert.SerializeObject(items);
                     var orderSell = quoteOrderSellDetails.FirstOrDefault().QuoteOrderSell;
@@ -466,7 +472,9 @@ namespace ERP.Web.Controllers
                                   ItemDiscount = x.ItemDiscount,
                                   ItemSerialId = x.SerialItemId,
                                   ProductionOrderId = x.ProductionOrderId,
-                                  IsItemIntial = x.IsIntial == 1 ? true : false
+                                  IsItemIntial = x.IsIntial == 1 ? true : false,
+                                  UnitId=x.UnitId,
+                                  QuantityUnit=x.QuantityUnit,
                               }).ToList();
                         }
                     }

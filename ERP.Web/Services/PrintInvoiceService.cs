@@ -173,7 +173,10 @@ namespace ERP.Web.Services
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
-                                    ItemDiscount = i.ItemDiscount
+                                    ItemDiscount = i.ItemDiscount,
+                                    UnitId= i.UnitId,
+                                    QuantityUnit= i.QuantityUnit,
+                                    QuantityUnitName=i.UnitId!=null? $"{i.QuantityUnit}{i.Unit?.Name}":null
 
                                 }).ToList(),
                                 RptTitle =lang=="en"?"Sell Invoice":"فاتورة مبيعات",
@@ -256,7 +259,8 @@ namespace ERP.Web.Services
                     }       
                     else if (typ == "Quote")
                     {
-                        var generalNote=db.GeneralSettings.Where(x=>x.Id==(int)GeneralSettingCl.QuotationNoteAr).FirstOrDefault()?.SValue;
+                        var generalNoteAr=db.GeneralSettings.Where(x=>x.Id==(int)GeneralSettingCl.QuotationNoteAr).FirstOrDefault()?.SValue;
+                        var generalNoteEn=db.GeneralSettings.Where(x=>x.Id==(int)GeneralSettingCl.QuotationNoteEn).FirstOrDefault()?.SValue;
                         var quote = db.QuoteOrderSells.Where(x => !x.IsDeleted && x.Id == Id&&x.QuoteOrderSellType==(int)QuoteOrderSellTypeCl.Qoute).ToList();
                         if (quote.Count() > 0)
                         {
@@ -279,10 +283,13 @@ namespace ERP.Web.Services
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
+                                    UnitId = i.UnitId,
+                                    QuantityUnit = i.QuantityUnit,
+                                    QuantityUnitName = i.UnitId != null ? $"{i.QuantityUnit}{i.Unit?.Name}" : null
                                 }).ToList(),
                                 RptTitle = lang == "en" ? "Quotation" : "عرض سعر",
                                 PersonTypeName = lang == "en" ? "customer Name" : "العميل",
-                                Notes = !string.IsNullOrEmpty(x.Notes)?x.Notes: generalNote,
+                                Notes = lang == "en"?!string.IsNullOrEmpty(x.Notes)?x.Notes: generalNoteEn: !string.IsNullOrEmpty(x.Notes) ? x.Notes : generalNoteAr,
                                 CustmerTaxNumber = x.Customer.TaxNumber,
                                 CustomerCommercialRegistrationNo = x.Customer.CommercialRegistrationNo,
                                 //بيانات الجهة

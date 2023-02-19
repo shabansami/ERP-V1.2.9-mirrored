@@ -12,7 +12,7 @@
         auth.LoadDataFromCookies();
         entityName = auth.CookieValues.EntityName;
     }
-
+    bool isUnitQuantity = Model.ItemDetails.Any(x => !string.IsNullOrEmpty(x.QuantityUnitName));
     string logo = "~/Files/printLogo.jpg";
     int counter = 1;
     var entityData = (List<GeneralSetting>)ViewBag.EntityData;
@@ -24,7 +24,7 @@
 
     var pageDir = "rtl";
     string title_invoNumber, title_invoDate, title_taxNum, title_RegNum, btn_switch_title, btn_print_title, btn_close_title;
-    string title_itemNum, title_itemName, title_itemPrice, title_itemQuantity, title_itemAmount;
+    string title_itemNum, title_itemName, title_itemPrice, title_itemQuantity, title_itemUnitName, title_itemAmount;
     string title_totalAmount, title_salesTax, title_discount, title_profitTax, title_safy, title_notes, title_signature;
     if (Model.LanguagePage == "en")
     {
@@ -41,6 +41,7 @@
         title_itemName = "Item";
         title_itemPrice = "Price";
         title_itemQuantity = "Quantity";
+        title_itemUnitName = "Unit Name";
         title_itemAmount = "Amount";
         title_totalAmount = "Total";
         title_salesTax = "Sales tax";
@@ -65,6 +66,7 @@
         title_itemName = "الصنف";
         title_itemPrice = "السعر";
         title_itemQuantity = "الكمية";
+        title_itemUnitName = "الكمية بالوحدة";
         title_itemAmount = "القيمة";
         title_totalAmount = "الاجمالى";
         title_salesTax = "ضريبة القيمة المضافة";
@@ -188,6 +190,10 @@
                         <tr>
                             <td>@title_itemNum</td>
                             <td>@title_itemName</td>
+                            @if (isUnitQuantity)
+                            {
+                                <td>@title_itemUnitName</td>
+                            }
                             <td>@title_itemPrice</td>
                             <td>@title_itemQuantity</td>
                             <td>@title_itemAmount</td>
@@ -197,20 +203,24 @@
                         @{
                             foreach (var item in Model.ItemDetails)
                             {
-                                <tr>
-                                    <td>@counter</td>
-                                    <td>
-                                        <div class="media">
-                                            <div class="media-body">
-                                                @*<p class="mt-0 title">Media heading</p>*@
-                                                @item.ItemName
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>@item.Price</td>
-                                    <td>@item.Quantity</td>
-                                    <td>@item.Amount</td>
-                                </tr>
+                                                <tr>
+                                                    <td>@counter</td>
+                                                    <td>
+                                                        <div class="media">
+                                                            <div class="media-body">
+                                                                @*<p class="mt-0 title">Media heading</p>*@
+                                                                @item.ItemName
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    @if (isUnitQuantity)
+                                                    {
+                                                        <td>@item.QuantityUnitName</td>
+                                                    }
+                                                    <td>@item.Price</td>
+                                                    <td>@item.Quantity</td>
+                                                    <td>@item.Amount</td>
+                                                </tr>
 
                                 counter++;
                             }

@@ -14,6 +14,7 @@ namespace ERP.Web.DataTablesDS
         public string ItemName { get; set; }
         public double Quantity { get; set; }
         public string QuantityUnitName { get; set; }//الكمية بالوحدة الكبرى ان وجدت
+        public double QuantityUnit { get; set; }
         public double Price { get; set; }
         public double Amount { get; set; }
         public string StoreName { get; set; }
@@ -36,6 +37,7 @@ namespace ERP.Web.DataTablesDS
         public double Safy => Amount - ItemDiscount;
 
         public string ItemCode { get; set; }
-        public Guid? ItemUnitsId { get; set; }//وحدة الصنف (عند البيع بوحدة 
+        public Guid? ItemUnitsId { get; set; }//وحدة الصنف فى جدول ItemUnit (عند البيع بوحدة 
+        public Guid? UnitId { get; set; }//وحدة الصنف Unit (عند البيع بوحدة 
     }
 }

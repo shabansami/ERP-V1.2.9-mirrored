@@ -524,18 +524,32 @@ var SaleMenSellInvoice_Module = function () {
         //var TotalExpenses = Number.parseFloat($("#TotalExpenses").text());
         //if (isNaN(TotalExpenses))
         //    TotalExpenses = 0;
-
-        var SalesTax = Number.parseFloat($("#SalesTax").val());
-        if (isNaN(SalesTax))
-            SalesTax = 0;
-
         var TotalDiscount = Number.parseFloat($("#TotalDiscount").text());
         if (isNaN(TotalDiscount))
             TotalDiscount = 0;
+        var SalesTax = Number.parseFloat($("#SalesTax").val());
+        if (isNaN(SalesTax))
+            SalesTax = 0;
+        var SalesTaxPercentage = Number.parseFloat($("#SalesTaxPercentage").val());
+        if (isNaN(SalesTaxPercentage))
+            SalesTaxPercentage = 0;
+        else {
+            SalesTax = ((TotalAmount - TotalDiscount) * SalesTaxPercentage) / 100
+            $("#SalesTax").val(SalesTax);
+        }
+
+
 
         var ProfitTax = Number.parseFloat($("#ProfitTax").val());
         if (isNaN(ProfitTax))
             ProfitTax = 0;
+        var ProfitPercentageTax = Number.parseFloat($("#ProfitTaxPercentage").val());
+        if (isNaN(ProfitPercentageTax))
+            ProfitPercentageTax = 0;
+        else {
+            ProfitTax = ((TotalAmount - TotalDiscount) * ProfitPercentageTax) / 100
+            $("#ProfitTax").val(ProfitTax)
+        }
 
         var safy = (TotalAmount  + SalesTax) - (TotalDiscount + ProfitTax);
         $("#SafyInvoice").text(safy);

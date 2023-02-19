@@ -59,7 +59,7 @@ namespace ERP.Web.Controllers
             if(customerId != null)
                 list=list.Where(x => x.CustomerId == customerId);
 
-                var items = list.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), Safy = x.Safy,OrderSellExist=x.QuoteOrderSellsChildren.Where(t=>!t.IsDeleted).Any(), Actions = n, Num = n }).ToList();
+                var items = list.OrderByDescending(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, CustomerName = x.Customer.Name, InvoiceDate = x.InvoiceDate.ToString(), Safy = x.Safy,OrderSellExist=x.QuoteOrderSellsChildren.Where(t=>!t.IsDeleted).Any(), Actions = n, Num = n }).ToList();
             return Json(new
             {
                 data = items
@@ -115,6 +115,8 @@ namespace ERP.Web.Controllers
                 var itemUnit = db.ItemUnits.Where(x => x.Id == vm.ItemUnitsId).FirstOrDefault();
                 if (itemUnit != null && itemUnit.Quantity > 0)
                 {
+                    vm.UnitId = itemUnit.UnitId;
+                    vm.QuantityUnit = vm.Quantity;
                     vm.QuantityUnitName = $"{vm.Quantity} {itemUnit.Unit?.Name}";
                     vm.Quantity = vm.Quantity * itemUnit.Quantity;
                     vm.Price = Math.Round(itemUnit.SellPrice / itemUnit.Quantity, 2, MidpointRounding.ToEven);
@@ -130,10 +132,10 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, msg = "سعر بيع الصنف اقل من تكلفته" }, JsonRequestBehavior.AllowGet);
             }
 
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName = vm.QuantityUnitName, Price = vm.Price, Amount = vm.Quantity * vm.Price };
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName = vm.QuantityUnitName, QuantityUnit=vm.QuantityUnit, Price = vm.Price, UnitId = vm.UnitId, Amount = vm.Quantity * vm.Price };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
-            return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount) }, JsonRequestBehavior.AllowGet);
+            return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), totalQuantity = deDS.Sum(x => x.Quantity) }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -157,7 +159,15 @@ namespace ERP.Web.Controllers
                     var model = db.QuoteOrderSells.FirstOrDefault(x => x.Id == id);
                     customerId=model?.CustomerId;
                     branchId=model?.BranchId;
-                    var itemDetails = model.QuoteOrderSellDetails.Where(x=>!x.IsDeleted).Select(x=> new ItemDetailsDT { ItemId = x.ItemId, ItemName =x.Item.Name, Quantity = x.Quantity, Price = x.Price, Amount = x.Quantity * x.Price }).ToList();
+                    var itemDetails = model.QuoteOrderSellDetails.Where(x=>!x.IsDeleted).Select(x=> new ItemDetailsDT 
+                    { ItemId = x.ItemId,
+                        ItemName =x.Item.Name,
+                        Quantity = x.Quantity, 
+                        Price = x.Price,
+                        UnitId = x.UnitId,
+                        QuantityUnit = x.QuantityUnit,
+                        Amount = x.Quantity * x.Price
+                    }).ToList();
                     DS = JsonConvert.SerializeObject(itemDetails);
                     vm = model;
                 }
@@ -213,7 +223,13 @@ namespace ERP.Web.Controllers
                     if (itemDetailsDT.Count() == 0)
                         return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
                     else
-                        items = itemDetailsDT.Select(x => new QuoteOrderSellDetail { ItemId = x.ItemId, Amount = x.Amount, Quantity = x.Quantity, Price = x.Price }).ToList();
+                        items = itemDetailsDT.Select(x => new QuoteOrderSellDetail { 
+                            ItemId = x.ItemId,
+                            Amount = x.Amount, 
+                            Quantity = x.Quantity,
+                            Price = x.Price ,
+                            QuantityUnit=x.QuantityUnit,
+                            UnitId=x.UnitId}).ToList();
                 }
                 else
                     return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });

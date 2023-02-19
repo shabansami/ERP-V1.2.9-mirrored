@@ -22,7 +22,9 @@ namespace ERP.Web.ViewModels
         public double PayedValue { get; set; }
         public double RemindValue { get; set; }
         public double SalesTax { get; set; }
+        public double SalesTaxPercentage { get; set; } //نسبة الضريبة المدخلة
         public double ProfitTax { get; set; }
+        public double ProfitTaxPercentage { get; set; } //نسبة ضريبة ارباح تجارية المدخلة
         public double InvoiceDiscount { get; set; }
         public double DiscountPercentage { get; set; }
         public double TotalItemDiscount { get; set; }

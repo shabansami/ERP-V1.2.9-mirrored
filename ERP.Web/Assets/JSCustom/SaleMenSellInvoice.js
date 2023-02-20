@@ -399,11 +399,11 @@ var SaleMenSellInvoice_Module = function () {
                 $("#Quantity").focus().select();
                 return false;
             };
-            if (quantity > parseFloat(balanceVal)) {
-                toastr.error('الكمية المدخلة اكبر من الرصيد المتاح', '');
-                $("#Quantity").focus().select();
-                return false;
-            };
+            //if (quantity > parseFloat(balanceVal)) {
+            //    toastr.error('الكمية المدخلة اكبر من الرصيد المتاح', '');
+            //    $("#Quantity").focus().select();
+            //    return false;
+            //};
             if (storeId === '') {
                 toastr.error('تأكد من اختيار المخزن', '');
                 $("#StoreId").select2('open');
@@ -429,6 +429,7 @@ var SaleMenSellInvoice_Module = function () {
             formData.append('ProductionOrderId', productionOrderId)
             formData.append('IsIntial', isIntial)
             formData.append('IsDiscountItemVal', isDiscountItemVal)
+            formData.append('CurrentBalanceVal', balanceVal)
             var dataSet = $('#kt_dtItemDetails').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
@@ -632,8 +633,14 @@ var SaleMenSellInvoice_Module = function () {
             //};
             var count = 1;
             $.each(data, function (index, data) {
-                if (count === 1)
+                if (count === 1) {
                     $("#balanceProductionOrder").append("<option value='" + data.Val + "' selected>" + data.Text + "</option>");
+                    $.get("/SharedDataSources/GetBalanceNotApproval/", { itemId: $("#ItemId").val(), storeId: $("#SaleMenStoreId").val() }, function (data) {
+                        console.log(data.balance);
+                        $("#balanceNotApproval").val(data.balance);
+                    });
+
+                }
                 else
                     $("#balanceProductionOrder").append("<option value='" + data.Val + "'>" + data.Text + "</option>");
                 count++;

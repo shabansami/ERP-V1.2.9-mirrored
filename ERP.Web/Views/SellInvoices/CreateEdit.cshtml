@@ -91,7 +91,6 @@
 @section Button2{<a href="/SellInvoices/Index" class="btn btn-primary din-bold d-inline" style="margin-right:20px;"><i class="fa fa-cog m-1"></i>ادارة فواتير البيع</a>}
 
 
-@Html.Hidden("ItemAcceptNoBalance")
 @Html.Hidden("ItemCostCalculateShowInSellRegId")
 @Html.Hidden("ItemCostCalculateId")
 @*الرصيد*@
@@ -396,7 +395,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-4">
+                                        <div class="col-xl-2">
                                             <!--begin::Select-->
                                             <div class="form-group required">
                                                 <label>الرصيد المتاح</label>
@@ -404,6 +403,12 @@
                                                 <span class="form-text text-muted">اختر الرصيد </span>
                                             </div>
                                             <!--end::Select-->
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <div class="form-group">
+                                                <label>الرصيد المحجوز (الغير معتمدة بعد)</label>
+                                                    <input type="number" class="form-control form-control-lg" name="balanceNotApproval" id="balanceNotApproval" value="0" readonly />
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -989,7 +994,7 @@ else
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group row">
-                                              <label>حالة البيع</label>
+                                                <label>حالة البيع</label>
                                                 <div class="col-12">
                                                     <div class="radio-inline">
                                                         <div class="col-xl-6">
@@ -1010,7 +1015,7 @@ else
                                         </div>
                                         <div class="col-lg-6" id="barcodeDiv">
                                             <div class="form-group row">
-                                              <label>باركود الصنف</label>
+                                                <label>باركود الصنف</label>
                                                 <div class="col-12">
                                                     @Html.TextBox("ItemBarcode", null, htmlAttributes: new { @class = "form-control " })
                                                     <span class="form-text text-muted">باركود الصنف</span>
@@ -1019,7 +1024,7 @@ else
                                         </div>
                                         <div class="col-lg-6" style="display:none;" id="serialDiv">
                                             <div class="form-group row">
-                                              <label>سيريال الصنف</label>
+                                                <label>سيريال الصنف</label>
                                                 <div class="col-12">
                                                     @Html.TextBox("ItemSerial", null, htmlAttributes: new { @class = "form-control " })
                                                     <span class="form-text text-muted">سيريال الصنف</span>
@@ -1028,7 +1033,7 @@ else
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="form-group row">
-                                              <label>المجموعة الاساسية</label>
+                                                <label>المجموعة الاساسية</label>
                                                 <div class="col-12">
                                                     <input name="groupBasic" type="text" class="form-control " id="groupBasic" autocomplete="off" />
                                                     <span class="form-text text-muted">اختر مجموعة</span>
@@ -1038,25 +1043,25 @@ else
 
                                         <div class="col-lg-6">
                                             <div class="form-group row">
-                                              <label>الصنف</label>
+                                                <label>الصنف</label>
                                                 <div class="col-12">
                                                     @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 w-100", @onchange = "SellInvoice_Module.onItemChange()" })
                                                     <span class="form-text text-muted">اختر الصنف</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>المخزن</label>
+                                                <label>المخزن</label>
                                                 <div class="col-12">
                                                     @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "SellInvoice_Module.getProductionOrdersOnStoreChange();" })
                                                     <span class="form-text text-muted">اختر المخزن </span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>اوامر الانتاج/الرصيد المتاح</label>
+                                                <label>اوامر الانتاج/الرصيد المتاح</label>
                                                 <div class="col-12">
                                                     <select class="form-control din-med" id="balanceProductionOrder" onchange="SellInvoice_Module.onProductionOrderChange()"></select>
                                                     <span class="form-text text-muted">اختر الرصيد </span>
@@ -1065,7 +1070,15 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>اسعار البيع السابقة</label>
+                                                <label>الرصيد المحجوز (الغير معتمدة بعد)</label>
+                                                <div class="col-12">
+                                                    <input type="number" class="form-control " name="balanceNotApproval" id="balanceNotApproval" value="0" readonly />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group row">
+                                                <label>اسعار البيع السابقة</label>
                                                 <div class="col-12">
                                                     <select id="prevouisPrice" class="form-control din-med w-100" onchange="SellInvoice_Module.ChangeCurrentPice()"></select>
                                                 </div>
@@ -1073,7 +1086,7 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>سياسة الاسعار</label>
+                                                <label>سياسة الاسعار</label>
                                                 <div class="col-12">
                                                     @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100", onchange = "SellInvoice_Module.onPricingPolicyChange()" })
                                                     <span class="form-text text-muted">اختر الصنف</span>
@@ -1082,7 +1095,7 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>وحدات الصنف</label>
+                                                <label>وحدات الصنف</label>
                                                 <div class="col-12">
                                                     @Html.DropDownList("ItemUnitsId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control din-med w-100", onchange = "SellInvoice_Module.onItemUnitChange()" })
                                                     <span class="form-text text-muted">اختر وحدة الصنف</span>
@@ -1091,7 +1104,7 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>الكمية</label>
+                                                <label>الكمية</label>
                                                 <div class="col-12">
                                                     <input type="number" class="form-control " name="Quantity" id="Quantity" placeholder="الكمية" value="0" onkeyup="SellInvoice_Module.onPriceOrQuanKeyUp();" />
                                                     <span class="form-text text-muted">ادخل كمية الصنف</span>
@@ -1100,7 +1113,7 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>سعر البيع</label>
+                                                <label>سعر البيع</label>
                                                 <div class="col-12">
                                                     <input type="number" class="form-control " name="Price" id="Price" placeholder="سعر البيع" value="0" onkeyup="SellInvoice_Module.onPriceOrQuanKeyUp();" />
                                                 </div>
@@ -1109,7 +1122,7 @@ else
 
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>القيمة</label>
+                                                <label>القيمة</label>
                                                 <div class="col-12">
                                                     <input type="number" class="form-control " name="Amount" id="Amount" placeholder="القيمة" value="0" readonly />
                                                 </div>
@@ -1117,7 +1130,7 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>تكلفة الصنف</label>
+                                                <label>تكلفة الصنف</label>
                                                 <div class="col-12">
                                                     <input type="number" class="form-control " name="ItemCost" id="ItemCost" readonly value="0" />
                                                 </div>
@@ -1127,7 +1140,7 @@ else
 
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>احتساب الخصم</label>
+                                                <label>احتساب الخصم</label>
                                                 <div class="col-12">
                                                     <div class="radio-inline">
                                                         <div class="col-xl-6">
@@ -1149,7 +1162,7 @@ else
                                         </div>
                                         <div class="col-lg-4">
                                             <div class="form-group row">
-                                              <label>الخصم على الصنف</label>
+                                                <label>الخصم على الصنف</label>
                                                 <div class="col-12">
                                                     <input type="number" class="form-control " name="ItemDiscount" id="ItemDiscount" placeholder="ادخل قيمة الخصم على الصنف" value="0" />
                                                 </div>
@@ -1157,7 +1170,7 @@ else
                                         </div>
                                         <div class="col-lg-6 mt-3">
                                             <div class="form-group row">
-                                              <label></label>
+                                                <label></label>
                                                 <div class="col-12">
                                                     <button type="button" onclick="SellInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 w-100">اضافة صنف للفاتورة</button>
                                                 </div>
@@ -1165,7 +1178,7 @@ else
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="form-group row">
-                                              <label></label>
+                                                <label></label>
                                                 <div class="col-12">
                                                     <div class="form-group row">
                                                         <div class="d-flex justify-content-between flex-column  font-size-lg">
@@ -1181,7 +1194,7 @@ else
                                         </div>
                                         <div class="col-lg-2">
                                             <div class="form-group row">
-                                              <label></label>
+                                                <label></label>
                                                 <div class="col-12">
                                                     <div class="form-group row">
                                                         <div class="d-flex justify-content-between flex-column  font-size-lg">
@@ -1196,15 +1209,15 @@ else
                                         </div>
 
                                         @*<div class="col-lg-2">
-                                            <div class="form-group row">
-                                                <div class="d-flex justify-content-between flex-column  font-size-lg">
-                                                    <div class="d-flex flex-column text-md-center">
-                                                        <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
-                                                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>*@
+            <div class="form-group row">
+                <div class="d-flex justify-content-between flex-column  font-size-lg">
+                    <div class="d-flex flex-column text-md-center">
+                        <span class="font-size-lg font-weight-bolder mb-1">اجمالي العدد</span>
+                        <span class="font-size-h2 font-weight-boldest text-danger mb-1" id="TotalQuantity">@totalQuantity</span>
+                    </div>
+                </div>
+            </div>
+        </div>*@
                                         <div class="col-lg-12">
                                             <div class="form-group row">
                                                 <label>الاصناف المسجلة</label>

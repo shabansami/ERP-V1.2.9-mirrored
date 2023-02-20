@@ -1289,7 +1289,40 @@ namespace ERP.Web.Services
         }
         #endregion
 
+        #region رصيد الصنف المحجوز الغير معتمدة بعد 
+        public static double GetBalanceNotApproval(Guid? itemId, Guid? storeId, Guid? branchId = null, DateTime? dtFrom = null, DateTime? dtTo = null)
+        {
+            if (itemId == null)
+                return 0;
+            using(var db =new VTSaleEntities())
+            {
+                //البيع
+                var sellBalance = db.SellInvoicesDetails.Where(x => !x.IsDeleted && !x.SellInvoice.IsFinalApproval && x.ItemId == itemId);
+                if (storeId != null)
+                    sellBalance = sellBalance.Where(x => x.StoreId == storeId);
+                if (branchId != null)
+                    sellBalance = sellBalance.Where(x => x.SellInvoice.BranchId == branchId);
+                if (dtFrom != null)
+                    sellBalance = sellBalance.Where(x => DbFunctions.TruncateTime(x.SellInvoice.InvoiceDate) >= dtFrom);
+                if (dtTo != null)
+                    sellBalance = sellBalance.Where(x => DbFunctions.TruncateTime(x.SellInvoice.InvoiceDate) <= dtTo);
+                //تحويل مخزنى من
+                var storeTranFromBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && !x.StoresTransfer.IsFinalApproval);
+                if (storeId != null)
+                    storeTranFromBalance = storeTranFromBalance.Where(x => x.StoresTransfer.StoreFromId == storeId);
+                if (branchId != null)
+                    storeTranFromBalance = storeTranFromBalance.Where(x => x.StoresTransfer.StoreFrom.BranchId == branchId);
+                if (dtFrom != null)
+                    storeTranFromBalance = storeTranFromBalance.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) >= dtFrom);
+                if (dtTo != null)
+                    storeTranFromBalance = storeTranFromBalance.Where(x => DbFunctions.TruncateTime(x.StoresTransfer.TransferDate) <= dtTo);
+                var sellBalanceQuantity = sellBalance.Count() > 0 ? sellBalance.Sum(x => (double?)x.Quantity) : 0;
+                var storeTranFromBalanceQuantity = (storeId == null && branchId == null) ? 0 : storeTranFromBalance.Count() > 0 ? storeTranFromBalance.Sum(x => (double?)x.Quantity) : 0;
 
+                return sellBalanceQuantity + storeTranFromBalanceQuantity??0;
+            }
+        }
+        #endregion
 
 
 

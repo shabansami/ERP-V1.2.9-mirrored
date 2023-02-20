@@ -197,7 +197,27 @@ namespace ERP.Web.Controllers
                 if(vm.Price>item.MaxPrice)
                     return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
             }
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName=vm.QuantityUnitName, QuantityUnit=vm.QuantityUnit, UnitId=vm.UnitId, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+            //كمية الصنف لاتكفى بسبب الرصيد الغير معتمد 
+            //قبول اضافة صنف بدون رصيد
+            int itemAcceptNoBalance = 0;
+            var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+            if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+            {
+                if (itemAcceptNoBalance==0)
+                {
+                    //الكمية اكبر من الرصيد المتوفر 
+                    if (vm.Quantity > vm.CurrentBalanceVal)
+                        return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح" }, JsonRequestBehavior.AllowGet);
+                    //الرصيد لايكفى بعد احتساب الرصيد المحجوز (الغير معتمد)
+                    var finalBalance = vm.CurrentBalanceVal - BalanceService.GetBalanceNotApproval(vm.ItemId, vm.StoreId);
+                    if (vm.Quantity> finalBalance)
+                        return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح والرصيد المحجوز" }, JsonRequestBehavior.AllowGet);
+                }
+
+            }else
+                return Json(new { isValid = false, msg = "تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات" }, JsonRequestBehavior.AllowGet);
+
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId,CurrentBalanceVal=vm.CurrentBalanceVal, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName=vm.QuantityUnitName, QuantityUnit=vm.QuantityUnit, UnitId=vm.UnitId, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount, totalQuantity = deDS.Sum(x => x.Quantity) }, JsonRequestBehavior.AllowGet);
@@ -265,13 +285,6 @@ namespace ERP.Web.Controllers
                 ViewBag.ShowTab = true;
             else
                 ViewBag.ShowTab = false;
-
-            //قبول اضافة صنف بدون رصيد
-            int itemAcceptNoBalance = 0;
-            var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
-            if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
-                ViewBag.ItemAcceptNoBalance = itemAcceptNoBalance;
-
 
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
 

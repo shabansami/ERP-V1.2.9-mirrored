@@ -126,7 +126,18 @@ namespace ERP.Web.Controllers
                 if (vm.Price > item.MaxPrice)
                     return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
             }
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price, ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+            //كمية الصنف لاتكفى بسبب الرصيد الغير معتمد 
+                    //الكمية اكبر من الرصيد المتوفر 
+                    if (vm.Quantity > vm.CurrentBalanceVal)
+                        return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح" }, JsonRequestBehavior.AllowGet);
+                    //الرصيد لايكفى بعد احتساب الرصيد المحجوز (الغير معتمد)
+                    var finalBalance = vm.CurrentBalanceVal - BalanceService.GetBalanceNotApproval(vm.ItemId, vm.StoreId);
+                    if (vm.Quantity > finalBalance)
+                        return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح والرصيد المحجوز" }, JsonRequestBehavior.AllowGet);
+                
+
+
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, CurrentBalanceVal = vm.CurrentBalanceVal, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price, ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount }, JsonRequestBehavior.AllowGet);

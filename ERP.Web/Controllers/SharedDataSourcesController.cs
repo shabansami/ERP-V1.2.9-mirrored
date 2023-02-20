@@ -535,6 +535,18 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { balance = 0 }, JsonRequestBehavior.AllowGet);
+        }     
+        // محجوز غير معتمد بعد رصيد صنف
+        public JsonResult GetBalanceNotApproval(string itemId, string storeId)
+        {
+            if (Guid.TryParse(itemId, out var itmId))
+            {
+                Guid.TryParse(storeId, out var stId);
+                var data = BalanceService.GetBalanceNotApproval(itmId, stId);
+                return Json(new { balance = data }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { balance = 0 }, JsonRequestBehavior.AllowGet);
         }
         // تكلفة المنتج بدلالة (متوسط سعر الشراء - اخر سعر شراء - اعلى او اقل سعر شراء )
         public JsonResult GetPriceOnItemCostCalculateChange(string itemCostCalcId, string itemId)

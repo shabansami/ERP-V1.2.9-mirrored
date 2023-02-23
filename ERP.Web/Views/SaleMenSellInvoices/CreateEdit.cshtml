@@ -248,7 +248,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-4">
                                         <!--begin::Select-->
                                         <div class="form-group required">
                                             <label>اوامر الانتاج/الرصيد المتاح</label>
@@ -261,7 +261,13 @@
                                         </div>
                                         <!--end::Select-->
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
+                                        <div class="form-group">
+                                            <label>الرصيد المحجوز (الغير معتمدة بعد)</label>
+                                            <input type="number" class="form-control form-control-lg" name="balanceNotApproval" id="balanceNotApproval" value="0" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
                                         <div class="form-group">
                                             <label>سياسة الاسعار </label>
                                             @Html.DropDownList("PricingPolicyId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med w-100", onchange = "SaleMenSellInvoice_Module.onPricingPolicyChange()" })

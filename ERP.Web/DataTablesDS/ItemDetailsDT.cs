@@ -39,5 +39,6 @@ namespace ERP.Web.DataTablesDS
         public string ItemCode { get; set; }
         public Guid? ItemUnitsId { get; set; }//وحدة الصنف فى جدول ItemUnit (عند البيع بوحدة 
         public Guid? UnitId { get; set; }//وحدة الصنف Unit (عند البيع بوحدة 
+        public double CurrentBalanceVal { get; set; }//رصيد الصنف الحالى
     }
 }

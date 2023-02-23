@@ -568,17 +568,17 @@ var SellInvoice_Module = function () {
                 $("#Quantity").focus().select();
                 return false;
             };
-            if (quantity > parseFloat(balanceVal)) {
-                if ($('#ItemAcceptNoBalance').val() === null || $('#ItemAcceptNoBalance').val() === '' || $('#ItemAcceptNoBalance').val() === 'undefined') {
-                    toastr.error('تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات', '');
-                    $("#Quantity").focus().select();
-                    return false;
-                } else if ($('#ItemAcceptNoBalance').val() === "0") {
-                    toastr.error('الكمية المدخلة اكبر من الرصيد المتاح', '');
-                    $("#Quantity").focus().select();
-                    return false;
-                }
-            };
+            //if (quantity > parseFloat(balanceVal)) {
+            //    if ($('#ItemAcceptNoBalance').val() === null || $('#ItemAcceptNoBalance').val() === '' || $('#ItemAcceptNoBalance').val() === 'undefined') {
+            //        toastr.error('تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات', '');
+            //        $("#Quantity").focus().select();
+            //        return false;
+            //    } else if ($('#ItemAcceptNoBalance').val() === "0") {
+            //        toastr.error('الكمية المدخلة اكبر من الرصيد المتاح', '');
+            //        $("#Quantity").focus().select();
+            //        return false;
+            //    }
+            //};
 
             if (storeId === '') {
                 toastr.error('تأكد من اختيار المخزن', '');
@@ -606,6 +606,7 @@ var SellInvoice_Module = function () {
             formData.append('IsIntial', isIntial)
             formData.append('IsDiscountItemVal', isDiscountItemVal)
             formData.append('ItemUnitsId', ItemUnitsId)
+            formData.append('CurrentBalanceVal', balanceVal)
             var dataSet = $('#kt_dtItemDetails').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
@@ -933,8 +934,13 @@ var SellInvoice_Module = function () {
                 //};
                 var count = 1;
                 $.each(data, function (index, data) {
-                    if(count===1)
+                    if (count === 1) {
                         $("#balanceProductionOrder").append("<option value='" + data.Val + "' selected>" + data.Text + "</option>");
+                        $.get("/SharedDataSources/GetBalanceNotApproval/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
+                            console.log(data.balance);
+                            $("#balanceNotApproval").val(data.balance);
+                        });
+                    }
                     else
                         $("#balanceProductionOrder").append("<option value='" + data.Val + "'>" + data.Text + "</option>");
                     count++;

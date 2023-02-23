@@ -43,7 +43,7 @@
                 <div class="card-body">
 
                     <div class="row">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label>نوع الحساب</label>
                                 @Html.DropDownList("TypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
@@ -51,13 +51,20 @@
                                 @Html.HiddenFor(model => model.ParentId)
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
+                            <div class="form-group">
+                                <label>نوع التوجيه</label>
+                                @Html.DropDownList("OrientationTypes_Id", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
+                               
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
                             <div class="form-group required">
                                 <label>رقم الحساب</label>
                                 @Html.TextBoxFor(m => m.AccountNumber, new { @class = "form-control", @type = "number", @step = "0" })
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group">
                                 <label> الحساب الرئيسي <i style="color: green;font-size:10px;">تترك فارغة فى حالة ادخال الحسابات الاولية للشجرة</i></label>
                                 <input name="parent" type="text" class="form-control" id="parent" autocomplete="off" />

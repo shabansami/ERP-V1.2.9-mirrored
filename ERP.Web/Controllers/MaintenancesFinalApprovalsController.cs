@@ -72,8 +72,8 @@ namespace ERP.Web.Controllers
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(customer.AccountsTreeCustomerId))
                             return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
 
-                        if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب ايرادات الصيانة ليس بحساب فرعى" });
+                        //if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue)))
+                        //    return Json(new { isValid = false, message = "حساب ايرادات الصيانة ليس بحساب فرعى" });
 
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue)))
                             return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب فرعى" });
@@ -160,20 +160,20 @@ namespace ERP.Web.Controllers
                         var maintenanceDetails = model.MaintenanceDetails.Where(x => !x.IsDeleted).ToList();
                         foreach (var items in maintenanceDetails)
                         {
-                            foreach (var item in items.MaintenanceIncomes.Where(x => !x.IsDeleted))
-                            {
-                                db.GeneralDailies.Add(new GeneralDaily
-                                {
-                                    AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue),
-                                    BranchId = model.BranchId,
-                                    Credit = item.Amount,
-                                    Notes = $"فاتورة صيانة رقم : {model.InvoiceNumber}",
-                                    TransactionDate = model.InvoiceDate,
-                                    TransactionId = model.Id,
-                                    TransactionTypeId = (int)TransactionsTypesCl.Maintenance
-                                });
-                                credit = credit + item.Amount;
-                            }
+                            //foreach (var item in items.MaintenanceIncomes.Where(x => !x.IsDeleted))
+                            //{
+                            //    db.GeneralDailies.Add(new GeneralDaily
+                            //    {
+                            //        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue),
+                            //        BranchId = model.BranchId,
+                            //        Credit = item.Amount,
+                            //        Notes = $"فاتورة صيانة رقم : {model.InvoiceNumber}",
+                            //        TransactionDate = model.InvoiceDate,
+                            //        TransactionId = model.Id,
+                            //        TransactionTypeId = (int)TransactionsTypesCl.Maintenance
+                            //    });
+                            //    credit = credit + item.Amount;
+                            //}
 
                             if (items.ItemSerialId != null && items.ItemSerialId != null && items.ItemSerialId != Guid.Empty)
                             {

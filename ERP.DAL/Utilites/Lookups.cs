@@ -57,20 +57,14 @@ namespace ERP.Web.Utilites
             AccountTreeCustomerAccount, //حساب العملاء
             AccountTreeSalesReturnAccount, // حساب مرددوات المبيعات
             AccountTreePurchaseReturnAccount, // حساب مرددوات المشتريات
-            AccountTreeDeliveryAccount, // حساب خدمة الدليفرى
-            AccountTreeSalesTaxAccount, // حساب ضريبة المبيعات
             AccountTreeAddedTaxAccount, //حساب الضريبة المضافة
             AccountTreePremittedDiscountAccount, //حساب الخصم المسموح به
             AccountTreeEarnedDiscount, //حساب الخصم المكتسب
             AccountTreeSafeAccount, //حساب الخزينة
-            AccountTreeGeneralRevenus, //حساب انواع لايرادات 
             AccountTreeBankAccount, //حساب البنك
-            AccountTreeExpensesAccount, //حساب انواع المصروفات
-            AccountTreeCommercialTax, //حساب ضريبة ارباح تجارية
             AccountTreeShareCapitalAccount, //حساب رأس المال
             AccountTreeStockAccount, //حساب المخزون
             AccountTreeCheckUnderCollectionReceipts, //حساب شيكات تحت التحصيل اوراق قبض
-
             EntityDataEntityDataName, //اسم الجهة
             EntityDataAbbreviationName,//الاسم المختصر للجهة
             EntityDataTel1,//رقم تلفون الجهة 1
@@ -79,42 +73,29 @@ namespace ERP.Web.Utilites
             EntityDataAddress,//عنوان الجهة
             EntityDataCommercialRegisterNo,//رقم السجل التجارى للجهة
             EntityDataTaxCardNo,//رقم السجل الضريبى للجهة
-
             BarCodeDataLetter, //الباركود يحتوى على حروف
             BarCodeDataNumber, //الباركود يحتوى على ارقام
-
             StoreProductionInternalId, //مخزن التصنيع الداخلى الافتراضى للجهة
             StoreDefaultlId, //المخزن الافتراضى فى فواتير البيع والشراء 
             StoreUnderProductionId, //مخزن تحت التصنيع الافتراضى للجهة
-
-
             FinancialYearStartDate, // تاريخ بداية السنة المالية
             FinancialYearEndDate, // تاريخ نهاية السنة المالية
-
             UploadCenterPurchaseInvoice, //  رفع ملفات فاتورة التوريد
             UploadCenterPurchaseBackInvoice,//رفع ملفات  فاتورة مرتجع توريد 
             UploadCenterSellInvoice, //رفع ملفات  فاتورة بيع
             UploadCenterSellBackInvoice, //رفع ملفات  فاتورة مرتجع بيع
             UploadCenterEmployee, //رفع ملفات  موظف  
             UploadCenterCheque, //رفع ملفات شيك بنكى 
-
             ItemCostCalculateId,   // طريقة احتساب تكلفة المنتج (متوسك سعر الشراء-اخر سعر شراء - اعلى سعر شراء ...
-
-            AccountTreeLoans, //حساب السلف والقروض
             AccountTreeSalaries, //حساب الرواتب والاجور
             AccountTreeEmployeeAccount, //حساب ذمم الموظفين /اجور مستحقة للعاملين
             AccountTreeMiscellaneousRevenus, //حساب الايرادات مستحقة التحصيل (استقطاعات وخصومات الموظفين
             AccountTreeCustodyAccount, //حساب عهد الموظفين/سلفة مؤقتة
-            AccountTreeMaintenance, //حساب ايرادات الصيانة
-
             StoreMaintenance, //مخزن الصيانة
             StoreMaintenanceDamage, //مخزن توالف الصيانة
-
             EntityDataSchema, //اسم الاسكيما الخاص بالمؤسسة
             EntityDataSecurity, //رقم الحماية فى حالة التشغيل الاوفلاين
             AccountTreeDestructionAllowance, //حساب مخصص اهلاك الاصول الثابتة 
-            AccountTreeAssetsDepreciationComplex, //حساب مجمع اهلاك الاصول الثابتة 
-
             ItemAcceptNoBalance, //قبول اضافة اصناف بدون رصيد فى فواتير البيع
             InvoicesApprovalAfterSave, //الاعتماد المباشر بعد حفظ فواتير البيع والتوريد
             ItemCostCalculateShowInSellReg, //اظهار تكلفة الصنف فى شاشة البيع 
@@ -122,25 +103,19 @@ namespace ERP.Web.Utilites
             UploadCenterSupplier, //مجلد الموردين 
             UploadCenterCustomer, //مجلد العملاء 
             UploadCenterInstallment, //مجلد الاقساط 
-            AccountTreeInstallmentsBenefits, //حساب فوائد الاقساط 
             AccountTreeCheckUnderCollectionPayments, //حساب شيكات برسم السداد اوراق دفع
             PaidWithBalance, //قبول/رفض صرف نقدية بدون رصيد
             LimitDangerSell, //السماح بالبيع عند تخطى الحد الائتمانى للخطر
             InventoryType, //نوع الجرد (دورى/مستمر)
-
-            //اعدادات الطباعه
             LogoEntity, //لوجو المؤسسة
             PrintLine1Up,//السطر الاول اعلى الصفحة
             PrintLine2Up,//السطر الثانى اعلى الصفحة
             PrintLine3Up,//السطر الثالث اعلى الصفحة
             PrintLine1Down,//السطر الاول اسفل الصفحة
             PrintLine2Down,//السطر الثانى اسفل الصفحة
-
-          
             AccountTreeSalesCost,  //حساب تكلفة بضاعه مباعه مع الجرد المستمر 
             TaxPercentage,//نسبة ضريبة القيمة المضافة
             TaxProfitPercentage,//نسبة ضريبة ارباح تجارية 
-
             UploadCenterProductionOrder, //مجلد اوامر الانتاج 
             UploadCenterGeneralRecord, //مجلد قيود اليومية 
             StartDateSearch, //بداية تاريخ البحث فى الموقع 
@@ -165,18 +140,15 @@ namespace ERP.Web.Utilites
         }
         public enum AccountTreeSelectorTypesCl // انواع الحسابات لسهولة فلتره التقارير
         {
-            Supplier = 1, //مورد
-            Customer,   // عميل
-            SupplierAndCustomer, // مورد وعميل
-            Expense, // مصروف
-            Revenuse, // ايراد
-            Safe, // الخزينة
-            FixedAssets, // اصول ثابتة
-            Bank, // بنك
-            Loan, // سلف/قروض 
-            Employee, // موظف 
-            Custody, // عهد 
-            Store, // مخزن فى حالة الجرد المستمر 
+            Main = 1, //رئيسي
+            Sub,   // فرعي
+            Operational, // تشغيلي 
+     
+        }
+        public enum AccountTreeOrientationTypes // انواع توجية الحسابات
+        {
+            financialcenter = 1, //مركز مالي
+            incomestatement   //قائمة دخل
         }
 
         public enum PaymentTypeCl

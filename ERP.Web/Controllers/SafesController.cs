@@ -121,7 +121,7 @@ namespace ERP.Web.Controllers
                         AccountName = vm.Name,
                         AccountNumber = newAccountNum,
                         ParentId = accountTree.Id,
-                        TypeId = (int)AccountTreeSelectorTypesCl.Safe,
+                        TypeId = (int)AccountTreeSelectorTypesCl.Operational,
                         SelectedTree = false
                     };
                     vm.AccountsTree = newAccountTree;

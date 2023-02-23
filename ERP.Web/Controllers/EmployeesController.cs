@@ -231,7 +231,7 @@ namespace ERP.Web.Controllers
 
                     isInsert = true;
                     //add as customer in account tree
-                    var accountTreeEmp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeEmployeeAccount, vm.Person.Name, AccountTreeSelectorTypesCl.Employee);
+                    var accountTreeEmp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeEmployeeAccount, vm.Person.Name, AccountTreeSelectorTypesCl.Operational);
                     db.AccountsTrees.Add(accountTreeEmp);
                     //var accountTreeCustody = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustodyAccount, $"عهدة الموظف : "+ vm.Person.Name,  AccountTreeSelectorTypesCl.Custody );
                     //db.AccountsTrees.Add(accountTreeCustody);

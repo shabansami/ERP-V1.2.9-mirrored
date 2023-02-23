@@ -8,7 +8,7 @@ namespace ERP.DAL
 {
     partial class VTSaleEntities
     {
-        //static string connectionString { get; set; } = @"Data Source=.;Initial Catalog=sysCloudsDbZumurda;integrated security=True;";
+        static string connectionString { get; set; } = @"Data Source=.\SQLEXPRESS;Initial Catalog=erp;integrated security=True;";
         //static string connStr { get; set; } = @"data source=68.71.130.74,1533;initial catalog=sysCloudsDb;user id=syscloudsu;password=9B8gw0hX2_s;Persist Security Info=True;";
         //static string connStr { get; set; } = @"data source=68.71.130.74,1533;initial catalog=pekar_DB;user id=pekar_DB;password=_h914Yci;Persist Security Info=True;";
 
@@ -17,7 +17,7 @@ namespace ERP.DAL
 
         //admin:1 MyomSG2prP7o/pLAjDi8Hg==
 
-        static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
+        //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=demo_erp_db;user id=demo_erp_db;password=@T8p1k97n;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=speedaddress;user id=speedaddress;password=m4_E1w13x;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sg_erp_db;user id=sg_erp_db;password=x_04p70aM;Persist Security Info=True;";

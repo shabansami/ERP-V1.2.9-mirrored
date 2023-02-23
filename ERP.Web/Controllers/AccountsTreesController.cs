@@ -48,6 +48,8 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.AccountsTrees.FirstOrDefault(x=>x.Id==id);
                     ViewBag.TypeId = new SelectList(db.SelectorTypes.Where(x => !x.IsDeleted), "Id", "Name", model.TypeId);
+                    ViewBag.OrientationTypes_Id = new SelectList(db.OrientationTypes.Where(x => !x.IsDeleted), "Id", "Name",model.OrientationTypes.Id);
+
                     return View(model);
                 }
                 else
@@ -56,6 +58,8 @@ namespace ERP.Web.Controllers
             else
             {
                 ViewBag.TypeId = new SelectList(db.SelectorTypes.Where(x => !x.IsDeleted), "Id", "Name");
+                ViewBag.OrientationTypes_Id = new SelectList(db.OrientationTypes.Where(x => !x.IsDeleted), "Id", "Name");
+
                 ViewBag.LastRow = db.AccountsTrees.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new AccountsTree());
             }

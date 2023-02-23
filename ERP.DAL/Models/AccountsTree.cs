@@ -65,6 +65,7 @@ namespace ERP.DAL
         public virtual AccountsTree AccountsTreeParent { get; set; }
 
         public virtual SelectorType SelectorType { get; set; }
+        public virtual OrientationTypes OrientationTypes { get; set; }
 
 
         [InverseProperty(nameof(Asset.AccountsTree))]

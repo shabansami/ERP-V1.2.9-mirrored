@@ -245,15 +245,17 @@ namespace ERP.Web.Controllers
                     if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
                     {
                         //add as customer in account tree
-                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.SupplierAndCustomer);
+                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.SupplierAndCustomer);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeSupp);
 
                         //add person in personTable
                         vm.AccountsTreeCustomer = accountTreeCust;
                         vm.AccountsTreeSupplier = accountTreeSupp;
+                        vm.IsActive = true;
+
                         db.Persons.Add(vm);
                         if (CustomerResponsible.Count > 0)
                         {
@@ -270,7 +272,7 @@ namespace ERP.Web.Controllers
                     else
                     {
                         //add as customer in account tree
-                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer ? AccountTreeSelectorTypesCl.SupplierAndCustomer : AccountTreeSelectorTypesCl.Customer);
+                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer ? AccountTreeSelectorTypesCl.Operational : AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add person in personTable
                         vm.AccountsTreeCustomer = accountTreeCust;

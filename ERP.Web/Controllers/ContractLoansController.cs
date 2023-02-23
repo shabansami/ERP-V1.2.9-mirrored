@@ -275,7 +275,7 @@ namespace ERP.Web.Controllers
                                         //تحديث بيانات الموظف فى جدول بيرسون
                                         var person = context.Persons.FirstOrDefault(x => x.Id == employee.PersonId);
                                         //add as loan employee in account tree
-                                        accountTreeLoanEmp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeLoans, "قروض وسلف الموظف : " + employee.Person.Name, AccountTreeSelectorTypesCl.Loan);
+                                        accountTreeLoanEmp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeLoans, "قروض وسلف الموظف : " + employee.Person.Name, AccountTreeSelectorTypesCl.Sub);
                                         context.AccountsTrees.Add(accountTreeLoanEmp);
                                         context.SaveChanges(auth.CookieValues.UserId);
                                         accountTreeLoanEmpId = accountTreeLoanEmp.Id;

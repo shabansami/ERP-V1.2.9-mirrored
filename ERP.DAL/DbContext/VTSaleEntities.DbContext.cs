@@ -124,6 +124,8 @@ namespace ERP.DAL
         public virtual DbSet<SaleMenCustomer> SaleMenCustomers { get; set; }
         public virtual DbSet<SaleMenStoreHistory> SaleMenStoreHistories { get; set; }
         public virtual DbSet<SelectorType> SelectorTypes { get; set; }
+        public virtual DbSet<OrientationTypes> OrientationTypes { get; set; }
+
         public virtual DbSet<SellBackInvoiceIncome> SellBackInvoiceIncomes { get; set; }
         public virtual DbSet<SellBackInvoice> SellBackInvoices { get; set; }
         public virtual DbSet<SellBackInvoicesDetail> SellBackInvoicesDetails { get; set; }

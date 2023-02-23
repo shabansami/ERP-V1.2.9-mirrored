@@ -578,7 +578,7 @@ namespace ERP.Web.Services
                         AccountName = person.Name,
                         AccountNumber = newAccountNum,
                         ParentId = accountTree.Id,
-                        TypeId = (int)AccountTreeSelectorTypesCl.Customer,
+                        TypeId = (int)AccountTreeSelectorTypesCl.Operational,
                         SelectedTree = false
                     };
                     db.AccountsTrees.Add(accountTreeCust);
@@ -732,7 +732,7 @@ namespace ERP.Web.Services
                         AccountName = cust["nam"].ToString().Trim(),
                         AccountNumber = newAccountNum,
                         ParentId = accountTree.Id,
-                        TypeId = (int)AccountTreeSelectorTypesCl.Customer,
+                        TypeId = (int)AccountTreeSelectorTypesCl.Operational,
                         SelectedTree = false
                     };
                     db.AccountsTrees.Add(accountTreeCust);
@@ -778,7 +778,7 @@ namespace ERP.Web.Services
                         AccountName = cust["nam"].ToString().Trim(),
                         AccountNumber = newAccountNum,
                         ParentId = accountTree.Id,
-                        TypeId = (int)AccountTreeSelectorTypesCl.Supplier,
+                        TypeId = (int)AccountTreeSelectorTypesCl.Operational,
                         SelectedTree = false
                     };
                     db.AccountsTrees.Add(accountTreeSupp);

@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static ERP.Web.Utilites.Lookups;
 
 namespace ERP.Web.Controllers
 {
@@ -81,6 +82,7 @@ namespace ERP.Web.Controllers
                         IsCustomer=true,
                         Name = vm.Name
                     });
+                 
                 }
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                 {

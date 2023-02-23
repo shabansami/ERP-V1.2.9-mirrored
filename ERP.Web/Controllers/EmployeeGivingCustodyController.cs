@@ -162,7 +162,7 @@ namespace ERP.Web.Controllers
                                         //تحديث بيانات الموظف فى جدول بيرسون
                                         var person = context.Persons.FirstOrDefault(x=>x.Id==employee.PersonId);
                                         //add as loan employee in account tree
-                                        accountTreeCustodyEmp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustodyAccount, "عهدة الموظف : " + employee.Person.Name, AccountTreeSelectorTypesCl.Custody);
+                                        accountTreeCustodyEmp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustodyAccount, "عهدة الموظف : " + employee.Person.Name, AccountTreeSelectorTypesCl.Operational);
                                         context.AccountsTrees.Add(accountTreeCustodyEmp);
                                         context.SaveChanges(auth.CookieValues.UserId);
                                         accountTreeCustodyEmpId = accountTreeCustodyEmp.Id;

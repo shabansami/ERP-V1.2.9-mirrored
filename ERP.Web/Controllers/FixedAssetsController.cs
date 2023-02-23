@@ -179,7 +179,7 @@ namespace ERP.Web.Controllers
                             AccountName = model.Name,
                             AccountNumber = newAccountNum,
                             ParentId = accountTree.Id,
-                            TypeId = (int)AccountTreeSelectorTypesCl.FixedAssets,
+                            TypeId = (int)AccountTreeSelectorTypesCl.Operational,
                             SelectedTree = false
                         };
                         context.AccountsTrees.Add(newAccountTree);
@@ -222,7 +222,7 @@ namespace ERP.Web.Controllers
                                 AccountName = $"مصروف : {model.Name}",
                                 AccountNumber = newAccountExpenceCarNum,
                                 ParentId = accountTreeExpense.Id,
-                                TypeId = (int)AccountTreeSelectorTypesCl.Expense,
+                                TypeId = (int)AccountTreeSelectorTypesCl.Operational,
                                 SelectedTree = false
                             };
                             context.AccountsTrees.Add(newExpenseAccountTree);

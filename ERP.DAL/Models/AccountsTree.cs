@@ -28,10 +28,9 @@ namespace ERP.DAL
             this.BankAccounts = new HashSet<BankAccount>();
             this.EmployeeReturnCustodies = new HashSet<EmployeeReturnCustody>();
             this.ExpenseIncomes = new HashSet<ExpenseIncome>();
-            this.ExpenseTypes = new HashSet<ExpenseType>();
+            this.PersonCategories = new HashSet<PersonCategory>();
             this.GeneralDailies = new HashSet<GeneralDaily>();
             this.GeneralRecordDetails = new HashSet<GeneralRecordDetail>();
-            this.IncomeTypes = new HashSet<IncomeType>();
             this.PersonsCustomers = new HashSet<Person>();
             this.PersonsSuppliers = new HashSet<Person>();
             this.PersonsCustomersEmps = new HashSet<Person>();
@@ -88,15 +87,13 @@ namespace ERP.DAL
         
         public virtual ICollection<ExpenseIncome> ExpenseIncomes { get; set; }
         
-        public virtual ICollection<ExpenseType> ExpenseTypes { get; set; }
+        public virtual ICollection<PersonCategory> PersonCategories { get; set; }
         
         public virtual ICollection<GeneralDaily> GeneralDailies { get; set; }
 
         [InverseProperty(nameof(GeneralRecordDetail.AccountTree))]
         public virtual ICollection<GeneralRecordDetail> GeneralRecordDetails { get; set; }
         
-        public virtual ICollection<IncomeType> IncomeTypes { get; set; }
-
         //Persons
         [InverseProperty(nameof(Person.AccountsTreeCustomer))]
         public virtual ICollection<Person> PersonsCustomers { get; set; }

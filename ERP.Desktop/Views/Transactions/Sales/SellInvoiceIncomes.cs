@@ -4,6 +4,8 @@ using ERP.Desktop.Utilities;
 using ERP.Desktop.ViewModels;
 using ERP.Desktop.Views._Main;
 using ERP.Desktop.Views.Definations;
+using ERP.Web.Services;
+using ERP.Web.Utilites;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,7 +37,12 @@ namespace ERP.Desktop.Views.Transactions.Sales
 
         private void FillIncomeTypes()
         {
-            CommonMethods.FillComboBox(cmb_expenses, db.IncomeTypes.Where(x => !x.IsDeleted).ToList(), "Name", "AccountsTreeId");
+            //حساب الايرادات من الاعدادات
+            var incomeAccountId = db.AccountsTrees.Where(x => !x.IsDeleted && x.AccountNumber == Lookups.GeneralIncomes).FirstOrDefault().Id;
+            ////حسابات الايرادات التشغيلية 
+            var incomeAccounts = AccountTreeService.GetAccountTreeLastChild(incomeAccountId);
+
+            CommonMethods.FillComboBox(cmb_expenses, incomeAccounts.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.AccountName }).ToList(), "Name", "ID");
         }
 
         private void txt_value_KeyPress(object sender, KeyPressEventArgs e)
@@ -162,11 +169,6 @@ namespace ERP.Desktop.Views.Transactions.Sales
 
 
 
-        private void btn_addexpenses_Click(object sender, EventArgs e)
-        {
-            Incomes exp = new Incomes();
-            exp.ShowDialog();
-            FillIncomeTypes();
-        }
+       
     }
 }

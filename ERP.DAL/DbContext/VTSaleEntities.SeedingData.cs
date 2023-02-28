@@ -56,22 +56,6 @@ namespace ERP.DAL
                     // =========================
                     //                  
 
-
-                    //اضافة صفحات الادمن 
-                    //if (db.PagesRoles.Where(x => !x.IsDeleted).Count() == 0)
-                    //{
-                    //    var pages = db.Pages.Where(x => !x.IsDeleted && x.IsPage);
-                    //    foreach (var item in pages)
-                    //    {
-                    //        db.PagesRoles.Add(new PagesRole
-                    //        {
-                    //            Page = item,
-                    //            Role = role
-                    //        });
-
-                    //    }
-                    //}
-
                     //add Week Day 
                     if (db.WeekDays.Where(x => !x.IsDeleted).Count() == 0)
                     {
@@ -82,12 +66,6 @@ namespace ERP.DAL
                         db.WeekDays.Add(new WeekDay { Name = "الجمعة", Arrange = 7 });
                         db.WeekDays.Add(new WeekDay { Name = "السبت", Arrange = 1 });
                         db.WeekDays.Add(new WeekDay { Name = "الاحد", Arrange = 2 });
-                    }
-                    //add Gender
-                    if (db.Genders.Where(x => !x.IsDeleted).Count() == 0)
-                    {
-                        db.Genders.Add(new Gender { Name = "ذكر" });
-                        db.Genders.Add(new Gender { Name = "انثى" });
                     }
 
                     // add Person types انواع الاشخاص (مورد عميل - مود وعميل - موظف
@@ -144,7 +122,6 @@ namespace ERP.DAL
                     {
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "شجرة الحسابات" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "بيانات الجهة" });
-                        db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "طول الباركود" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "المخزن الافتراضى" });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "التواريخ بداية ونهاية " });
                         db.GeneralSettingTypes.Add(new GeneralSettingType { Name = "رفع الملفات الى مركز التحميل" });
@@ -714,74 +691,80 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (4,N'حساب العملاء',N'00000020-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (5,N'حساب مردودات المبيعات',N'00000075-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (6,N'حساب مردودات المشتريات',N'00000128-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (7,N'حساب الضريبة المضافة',N'00000040-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (7,N'حساب ضريبة المبيعات',N'00000040-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (8,N'حساب الخصم المسموح به',N'00000072-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (9,N'حساب الخصم المكتسب',N'00000124-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (10,N'حساب الخزينة',N'00000017-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (11,N'حساب البنك',N'00000018-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (12,N'حساب رأس المال',N'00000054-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (13,N'حساب المخزون',N'00000019-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (14,N'حساب شيكات تحت التحصيل (اوراق قبض)',N'00000021-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (15,N'اسم الجهة',N'في تي اس للحلول البرمجية ',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (16,N'الاسم المختصر للجهة',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (17,N'رقم التلفون 1',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (18,N'رقم التلفون 2',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (19,N'منطقة الجهة',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (20,N'العنوان',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (21,N'رقم السجل التجارى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (22,N'رقم السجل الضريبى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (23,N'الباركود يحتوى على حروف',N'False',3,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (24,N'الباركود يحتوى على ارقام',N'False',3,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (25,N'مخزن التصنيع الافتراضى',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (26,N'المخزن الافتراضى لفواتير البيع والشراء',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (27,N'مخزن تحت التصنيع الافتراضى',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (28,N'تاريخ بداية السنة المالية',N'2023-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (29,N'تاريخ نهاية السنة المالية',N'2023-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (30,N'مجلد فواتير التوريد',N'CB9A06E2-E19F-4AF1-9691-A80A74883134',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (31,N'مجلد فواتير مرتجع التوريد',N'BD58FB03-5F2E-4A7C-BE30-C6397C25255E',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (32,N'مجلد فواتير البيع',N'BBF4A785-0EEA-48D5-85BA-7B0BE50BF3A2',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (33,N'مجلد فواتير مرتجع البيع',N'A4EB5645-4D8E-4DF0-BD9F-031F4A0796A5',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (34,N'مجلد الموظفين',N'0609F08A-55A0-427A-AE51-54F1AB286D1C',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (35,N'مجلد شيك بنكى',N'BB9F6E06-31DC-494E-901C-7AA7E92CF830',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (36,N'احتساب تكلفة المنتج',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (37,N'حساب الرواتب والاجور',N'00000077-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (38,N'حساب ذمم الموظفين',N'00000046-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (39,N'حساب الايرادات المتنوعه -استقطاعات الموظفين',N'00000131-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (40,N'عٌهد الموظفين',N'00000024-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (41,N'مخزن الصيانة',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (42,N'مخزن توالف الصيانة',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (43,N'مسمى الاسكيما',N'{Schema}',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (44,N'رقم الحماية الافلاين',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (45,N'حساب مخصصات بخلاف الاهلاك   ',N'00000060-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (46,N'قبول اضافة اصناف بدون رصيد فى فواتير البيع',N'0',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (47,N'الاعتماد المباشر بعد حفظ فواتير البيع والتوريد',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (48,N'اظهار تكلفة الصنف فى شاشة البيع',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (49,N'المدة المسموح بها فى سداد قسط',N'5',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (50,N'مجلد الموردين',N'B6439A80-2B5E-4E25-A361-9C83BED95D1F',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (51,N'مجلد العملاء',N'88254C48-2952-45E0-AB3A-C139A4003819',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (52,N'مجلد الاقساط',N'72739A22-438B-4848-A4FC-9ABB9BA32564',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (53,N'حساب شيكات تحت التحصيل برسم السداد (اوراق دفع)',N'00000037-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (54,N'قبول/رفض صرف نقدية بدون رصيد',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (55,N'السماح بالبيع عند تخطى الحد الائتمانى للخطر',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (56,N'نوع الجرد',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (57,N'لوجو المؤسسة',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (58,N'سطر الطباعه الاول اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (59,N'سطر الطباعه الثانى اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (60,N'سطر الطباعه الثالث اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (61,N'سطر الطباعه الرابع اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (62,N'سطر الطباعه الخامس اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (63,N'حساب تكلفة بضاعه مباعه',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (64,N'نسبة ضريبة القيمة المضافة',N'14',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (65,N'نسبة ضريبة ارباح تجارية',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (66,N'مجلد اوامر الانتاج',N'72739a22-438b-4848-a4fc-9abb9ba32565',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (67,N'مجلد قيود اليومية',N'72739a22-438b-4848-a4fc-9abb9ba32566',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (68,N'تاريخ بداية البحث',N'2023-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (69,N'تاريخ نهاية البحث',N'2023-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (70,N'ملاحظه عروض الاسعار بالعربية',N'',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (71,N'ملاحظه عروض الاسعار بالانجليزية',N'',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (72,N'حساب انحراف التشغيل فى حالة جرد المخزن',N'00000119-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (73,N'سعر البيع يقبل صفر (الهدايا)',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
-INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (74,N'السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (12,N'حساب ضريبة ارباح تجارية',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (13,N'حساب رأس المال',N'00000054-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (14,N'حساب المخزون',N'00000019-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (15,N'حساب شيكات تحت التحصيل (اوراق قبض)',N'00000021-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (16,N'حساب السلف والقروض',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (17,N'حساب الرواتب والاجور',N'00000077-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (18,N'حساب ذمم الموظفين',N'00000046-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (19,N'حساب الايرادات المتنوعه -استقطاعات الموظفين',N'00000131-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (20,N'عٌهد الموظفين',N'00000024-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (21,N'حساب ايرادات الصيانة',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (22,N'حساب مخصص اهلاك الاصول الثابتة',N'00000058-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (23,N'حساب مجمع اهلاك الاصول الثابتة',N'00000095-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (24,N'حساب فوائد الاقساط',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (25,N'حساب شيكات تحت التحصيل برسم السداد (اوراق دفع)',N'00000037-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (26,N'حساب تكلفة بضاعه مباعه',NULL,1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (27,N'حساب انحراف التشغيل فى حالة جرد المخزن',N'00000119-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (28,N'اسم الجهة',N'في تي اس للحلول البرمجية ',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (29,N'الاسم المختصر للجهة',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (30,N'رقم التلفون 1',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (31,N'رقم التلفون 2',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (32,N'منطقة الجهة',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (33,N'العنوان',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (34,N'رقم السجل التجارى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (35,N'رقم السجل الضريبى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (36,N'مخزن التصنيع الافتراضى',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (37,N'المخزن الافتراضى لفواتير البيع والشراء',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (38,N'مخزن تحت التصنيع الافتراضى',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (39,N'مخزن الصيانة',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (40,N'مخزن توالف الصيانة',NULL,4,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (41,N'تاريخ بداية السنة المالية',N'2023-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (42,N'تاريخ نهاية السنة المالية',N'2023-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (43,N'مجلد فواتير التوريد',N'CB9A06E2-E19F-4AF1-9691-A80A74883134',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (44,N'مجلد فواتير مرتجع التوريد',N'BD58FB03-5F2E-4A7C-BE30-C6397C25255E',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (45,N'مجلد فواتير البيع',N'BBF4A785-0EEA-48D5-85BA-7B0BE50BF3A2',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (46,N'مجلد فواتير مرتجع البيع',N'A4EB5645-4D8E-4DF0-BD9F-031F4A0796A5',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (47,N'مجلد الموظفين',N'0609F08A-55A0-427A-AE51-54F1AB286D1C',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (48,N'مجلد شيك بنكى',N'BB9F6E06-31DC-494E-901C-7AA7E92CF830',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (49,N'مجلد الموردين',N'B6439A80-2B5E-4E25-A361-9C83BED95D1F',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (50,N'مجلد العملاء',N'88254C48-2952-45E0-AB3A-C139A4003819',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (51,N'مجلد الاقساط',N'72739A22-438B-4848-A4FC-9ABB9BA32564',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (52,N'مجلد اوامر الانتاج',N'72739a22-438b-4848-a4fc-9abb9ba32565',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (53,N'مجلد قيود اليومية',N'72739a22-438b-4848-a4fc-9abb9ba32566',6,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (54,N'احتساب تكلفة المنتج',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (55,N'مسمى الاسكيما',N'{Schema}',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (56,N'رقم الحماية الافلاين',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (57,N'قبول اضافة اصناف بدون رصيد فى فواتير البيع',N'0',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (58,N'الاعتماد المباشر بعد حفظ فواتير البيع والتوريد',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (59,N'اظهار تكلفة الصنف فى شاشة البيع',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (60,N'المدة المسموح بها فى سداد قسط',N'5',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (61,N'قبول/رفض صرف نقدية بدون رصيد',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (62,N'السماح بالبيع عند تخطى الحد الائتمانى للخطر',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (63,N'نوع الجرد',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (64,N'لوجو المؤسسة',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (65,N'سطر الطباعه الاول اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (66,N'سطر الطباعه الثانى اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (67,N'سطر الطباعه الثالث اعلى',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (68,N'سطر الطباعه الرابع اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (69,N'سطر الطباعه الخامس اسفل',NULL,2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (70,N'نسبة ضريبة القيمة المضافة',N'14',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (71,N'نسبة ضريبة ارباح تجارية',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (72,N'تاريخ بداية البحث',N'2023-01-01',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (73,N'تاريخ نهاية البحث',N'2023-12-31',5,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (74,N'ملاحظه عروض الاسعار بالعربية',N'',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (75,N'ملاحظه عروض الاسعار بالانجليزية',N'',2,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (76,N'سعر البيع يقبل صفر (الهدايا)',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (77,N'السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 
 
 
@@ -818,291 +801,6 @@ SET IDENTITY_INSERT [{Schema}].[GeneralSettings] OFF;";
                 db.Database.ExecuteSqlCommand(query);
             }
 
-        }
-        #endregion
-        #region Balance Functions
-        public static void AddingFunctionsToDataBase(VTSaleEntities db)
-        {
-            var f1 = $@"
-CREATE FUNCTION [{Schema}].[GetBalance]
-(
-	-- Add the parameters for the function here
-	@ItemId uniqueIdentifier,
-	@StoreId uniqueIdentifier
-)
-RETURNS float
-AS
-BEGIN
-declare @countSupply float -- اجمال عدد الصنف فى التوريد 
-declare @countSell float -- اجمال عدد الصنف المباع
-declare @countBackSupply  float -- اجمالى الصنف المرتجع للمورد
-declare @countBackSell float -- اجمالى الصنف المرتجع من العميل
-declare @countStoreTranFrom float --اجمالى الصنف الخارج من المخزن
-declare @countStoreTranTo float --اجمالى الصنف الداخل الى المخزن
-declare @countItemIntialBalance float --اجمالى الصنف فى رصيد اول المدة
-
-declare @countProductionOrders float --اجمالى الصنف فى اوامر الانتاج
-declare @countProductionOrderDetails float --اجمالى الصنف فى تصنيع اوامر الانتاج
-declare @countProductionOrderReceipts float --اجمالى الصنف المنتج عند تسليمه الى مخزن الانتاج التام
-
-declare @countMaintenances int --اجمالى الصنف فى مخازن الصيانة فواتير الصيانة
-declare @countMaintenanceReceipts int --اجمالى الصنف التى تم استلامها ودخولها المخزن بعد الصيانة
-declare @countSpareParts float -- اجمال عدد الصنف المباعه كقطع غيار 
-
-declare @countInventory float -- اجمالى الصنف فى الجرد  
-
-declare @count float
-
-select @countSupply=sum(pd.Quantity) from [{Schema}].PurchaseInvoicesDetails pd INNER JOIN [{Schema}].PurchaseInvoices p ON p.Id=pd.PurchaseInvoiceId  where p.IsFinalApproval=1 AND p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId and  pd.storeId=@storeId -- التوريد
-select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId  where  s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and sd.storeId=@storeId -- المباع
-select @countBackSupply=sum(pd.Quantity) from [{Schema}].PurchaseBackInvoicesDetails pd INNER JOIN [{Schema}].PurchaseBackInvoices p ON p.Id=pd.PurchaseBackInvoiceId  where  p.IsFinalApproval=1  AND p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId and  pd.storeId=@storeId -- مرتجع للمورد
-select @countBackSell=sum(sd.Quantity) from [{Schema}].SellBackInvoicesDetails sd INNER JOIN [{Schema}].SellBackInvoices s ON s.Id=sd.SellBackInvoiceId  where s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and sd.storeId=@storeId -- مرتجع منن العميل
-select @countStoreTranFrom=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND StoresTransfers.StoreFromId=@storeId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1 --)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countStoreTranTo=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND StoresTransfers.StoreToId=@storeId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1 --)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countItemIntialBalance=sum(i.Quantity) from [{Schema}].ItemIntialBalances i where i.IsDeleted=0 AND i.StoreId=@storeId and i.ItemId=@itemId AND i.IsApproval=1
-
-select @countProductionOrders=ISNULL(sum(p.OrderQuantity),0)-ISNULL(sum(pr.ReceiptQuantity),0) from [{Schema}].ProductionOrders p LEFT JOIN [{Schema}].ProductionOrderReceipts pr On pr.ProductionOrderId=p.Id where p.IsDeleted=0 AND p.ProductionStoreId=@StoreId and p.FinalItemId=@itemId
-select @countProductionOrderDetails=sum(pd.Quantity+pd.Quantitydamage) from [{Schema}].ProductionOrders p inner join  [{Schema}].ProductionOrderDetails pd on p.Id=pd.ProductionOrderId where p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.StoreId=@StoreId and pd.ItemId=@itemId
-select @countProductionOrderReceipts=sum(p.ReceiptQuantity) from [{Schema}].ProductionOrderReceipts p INNER JOIN [{Schema}].ProductionOrders po ON p.ProductionOrderId=po.Id where p.IsDeleted=0 AND p.FinalItemStoreId=@StoreId and po.FinalItemId=@itemId 
-
-select @countMaintenances=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 AND m.StoreId=@storeId and ds.ItemId=@itemId  AND m.StoreReceiptId is not null
-select @countMaintenanceReceipts=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 AND m.StoreReceiptId=@storeId and ds.ItemId=@itemId  
-select @countSpareParts=sum(s.Quantity) from [{Schema}].Maintenances m INNER JOIN [{Schema}].MaintenanceDetails md ON m.Id=md.MaintenanceId INNER JOIN [{Schema}].MaintenanceSpareParts s ON md.Id=s.MaintenanceDetailId  where  m.IsFinalApproval=1 AND s.IsDeleted=0 AND md.IsDeleted=0 AND s.IsDeleted=0 AND s.ItemId=@itemId and s.storeId=@storeId -- قطع الغيار
-
-select @countInventory=sum(pd.DifferenceCount) from [{Schema}].InventoryInvoiceDetails pd INNER JOIN [{Schema}].InventoryInvoices p ON p.Id=pd.InventoryInvoiceId  where p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId and  p.storeId=@storeId -- الجرد
-
-set @count =(ISNULL(@countSupply,0)+ISNULL(@countBackSell,0)+ISNULL(@countStoreTranTo,0)+ISNULL(@countItemIntialBalance,0)+ISNULL(@countProductionOrders,0)+ISNULL(@countProductionOrderReceipts,0)+ISNULL(@countMaintenances,0))-(ISNULL(@countSell,0)+ISNULL(@countBackSupply,0)+ISNULL(@countStoreTranFrom,0)+ISNULL(@countProductionOrderDetails,0)+ISNULL(@countMaintenanceReceipts,0)+ISNULL(@countSpareParts,0))+ISNULL(@countInventory,0)
-	RETURN @count
-
-
-END";
-            var f2 = $@"
-CREATE FUNCTION [{Schema}].[GetBalanceByBranchAllStores]
-(
-	-- Add the parameters for the function here
-	@ItemId uniqueIdentifier,
-	@BranchId uniqueIdentifier
-)
-RETURNS float
-AS
-BEGIN
-declare @countSupply float -- اجمال عدد الصنف فى التوريد 
-declare @countSell float -- اجمال عدد الصنف المباع
-declare @countBackSupply  float -- اجمالى الصنف المرتجع للمورد
-declare @countBackSell float -- اجمالى الصنف المرتجع من العميل
-declare @countStoreTranFrom float --اجمالى الصنف الخارج من المخزن
-declare @countStoreTranTo float --اجمالى الصنف الداخل الى المخزن
-declare @countItemIntialBalance float --اجمالى الصنف فى رصيد اول المدة
-
-declare @countProductionOrders float --اجمالى الصنف فى اوامر الانتاج
-declare @countProductionOrderDetails float --اجمالى الصنف فى تصنيع اوامر الانتاج
-declare @countProductionOrderReceipts float --اجمالى الصنف المنتج عند تسليمه الى مخزن الانتاج التام
-
-declare @countMaintenances int --اجمالى الصنف فى مخازن الصيانة فواتير الصيانة
-declare @countMaintenanceReceipts int --اجمالى الصنف التى تم استلامها ودخولها المخزن بعد الصيانة
-declare @countSpareParts float -- اجمال عدد الصنف المباعه كقطع غيار 
-
-declare @countInventory float -- اجمالى الصنف فى الجرد  
-
-declare @count float
-
-select @countSupply=sum(pd.Quantity) from [{Schema}].PurchaseInvoicesDetails pd INNER JOIN [{Schema}].PurchaseInvoices p ON p.Id=pd.PurchaseInvoiceId  where  p.IsFinalApproval=1 AND p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId AND p.BranchId=@BranchId-- التوريد
-select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId  where s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId AND s.BranchId=@BranchId -- المباع
-select @countBackSupply=sum(pd.Quantity) from [{Schema}].PurchaseBackInvoicesDetails pd INNER JOIN [{Schema}].PurchaseBackInvoices p ON p.Id=pd.PurchaseBackInvoiceId  where p.IsFinalApproval=1 AND p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId AND p.BranchId=@BranchId  -- مرتجع للمورد
-select @countBackSell=sum(sd.Quantity) from [{Schema}].SellBackInvoicesDetails sd INNER JOIN [{Schema}].SellBackInvoices s ON s.Id=sd.SellBackInvoiceId  where s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and s.BranchId=@BranchId -- مرتجع منن العميل
-select @countStoreTranFrom=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId INNER JOIN [{Schema}].Stores s ON s.Id=StoresTransfers.StoreFromId where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND s.BranchId=@BranchId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1 --)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countStoreTranTo=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId INNER JOIN [{Schema}].Stores s ON s.Id=StoresTransfers.StoreToId where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND s.BranchId=@BranchId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1 --)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countItemIntialBalance=sum(i.Quantity) from [{Schema}].ItemIntialBalances i where i.IsDeleted=0  and i.ItemId=@itemId AND i.IsApproval=1
-
-select @countProductionOrders=ISNULL(sum(p.OrderQuantity),0)-ISNULL(sum(pr.ReceiptQuantity),0) from [{Schema}].ProductionOrders p LEFT JOIN [{Schema}].ProductionOrderReceipts pr On pr.ProductionOrderId=p.Id where p.IsDeleted=0 AND p.BranchId=@BranchId and p.FinalItemId=@itemId 
-select @countProductionOrderDetails=sum(pd.Quantity+pd.Quantitydamage) from [{Schema}].ProductionOrders p inner join  [{Schema}].ProductionOrderDetails pd on p.Id=pd.ProductionOrderId where p.IsDeleted=0 AND pd.IsDeleted=0 AND p.BranchId=@BranchId and pd.ItemId=@itemId
-select @countProductionOrderReceipts=sum(p.ReceiptQuantity) from [{Schema}].ProductionOrderReceipts p INNER JOIN [{Schema}].ProductionOrders po ON p.ProductionOrderId=po.Id INNER JOIN [{Schema}].Stores s ON s.Id=p.FinalItemStoreId where p.IsDeleted=0 AND s.BranchId=@BranchId and po.FinalItemId=@itemId 
-
-select @countMaintenances=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 AND m.BranchId=@BranchId and ds.ItemId=@itemId   AND m.StoreReceiptId is not null
-select @countMaintenanceReceipts=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId where  m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 AND m.BranchId=@BranchId and ds.ItemId=@itemId  
-select @countSpareParts=sum(s.Quantity) from [{Schema}].Maintenances m INNER JOIN [{Schema}].MaintenanceDetails md ON m.Id=md.MaintenanceId INNER JOIN [{Schema}].MaintenanceSpareParts s ON md.Id=s.MaintenanceDetailId  where m.IsFinalApproval=1 AND s.IsDeleted=0 AND md.IsDeleted=0 AND s.IsDeleted=0 AND s.ItemId=@itemId and m.BranchId=@BranchId -- قطع الغيار
-
-select @countInventory=sum(pd.DifferenceCount) from [{Schema}].InventoryInvoiceDetails pd INNER JOIN [{Schema}].InventoryInvoices p ON p.Id=pd.InventoryInvoiceId  where p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId and p.BranchId=@BranchId -- الجرد
-
-set @count =(ISNULL(@countSupply,0)+ISNULL(@countBackSell,0)+ISNULL(@countStoreTranTo,0)+ISNULL(@countItemIntialBalance,0)+ISNULL(@countProductionOrders,0)+ISNULL(@countProductionOrderReceipts,0)+ISNULL(@countMaintenances,0))-(ISNULL(@countSell,0)+ISNULL(@countBackSupply,0)+ISNULL(@countStoreTranFrom,0)+ISNULL(@countProductionOrderDetails,0)+ISNULL(@countMaintenanceReceipts,0)+ISNULL(@countSpareParts,0))+ISNULL(@countInventory,0)
-	RETURN @count
-
-
-END
-";
-            var f3 = $@"
-CREATE FUNCTION [{Schema}].[GetBalanceByItemAllStores]
-(
-	-- Add the parameters for the function here
-	@ItemId uniqueIdentifier
-)
-RETURNS float
-AS
-BEGIN
-declare @countSupply int -- اجمال عدد الصنف فى التوريد 
-declare @countSell int -- اجمال عدد الصنف المباع
-declare @countBackSupply  int -- اجمالى الصنف المرتجع للمورد
-declare @countBackSell int -- اجمالى الصنف المرتجع من العميل
---declare @countStoreTranFrom int --اجمالى الصنف الخارج من المخزن
---declare @countStoreTranTo int --اجمالى الصنف الداخل الى المخزن
-declare @countItemIntialBalance int --اجمالى الصنف فى رصيد اول المدة
-
-declare @countProductionOrders int --اجمالى الصنف فى اوامر الانتاج
-declare @countProductionOrderDetails int --اجمالى الصنف فى تصنيع اوامر الانتاج
-declare @countProductionOrderReceipts int --اجمالى الصنف المنتج عند تسليمه الى مخزن الانتاج التام
-
-declare @countMaintenances int --اجمالى الصنف فى مخازن الصيانة فواتير الصيانة
-declare @countMaintenanceReceipts int --اجمالى الصنف التى تم استلامها ودخولها المخزن بعد الصيانة
-declare @countSpareParts int -- اجمال عدد الصنف المباعه كقطع غيار 
-
-declare @countInventory int -- اجمالى الصنف فى الجرد  
-
-declare @count int
-
-select @countSupply=sum(pd.Quantity) from [{Schema}].PurchaseInvoicesDetails pd INNER JOIN [{Schema}].PurchaseInvoices p ON p.Id=pd.PurchaseInvoiceId  where p.IsApprovalAccountant=1 AND p.IsApprovalStore=1 AND p.IsFinalApproval=1 AND p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId -- التوريد
-select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId  where s.IsApprovalAccountant=1 AND s.IsApprovalStore=1 AND s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId  -- المباع
-select @countBackSupply=sum(pd.Quantity) from [{Schema}].PurchaseBackInvoicesDetails pd INNER JOIN [{Schema}].PurchaseBackInvoices p ON p.Id=pd.PurchaseBackInvoiceId  where p.IsApprovalAccountant=1 AND p.IsApprovalStore=1 AND p.IsDeleted=0 AND p.IsFinalApproval=1 AND pd.IsDeleted=0 AND pd.ItemId=@itemId   -- مرتجع للمورد
-select @countBackSell=sum(sd.Quantity) from [{Schema}].SellBackInvoicesDetails sd INNER JOIN [{Schema}].SellBackInvoices s ON s.Id=sd.SellBackInvoiceId  where s.IsApprovalAccountant=1 AND s.IsApprovalStore=1 AND s.IsDeleted=0 AND s.IsFinalApproval=1 AND sd.IsDeleted=0 AND sd.ItemId=@itemId -- مرتجع منن العميل
---select @countStoreTranFrom=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId INNER JOIN [{Schema}].Stores s ON s.Id=StoresTransfers.StoreFromId where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1--)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
---select @countStoreTranTo=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId INNER JOIN [{Schema}].Stores s ON s.Id=StoresTransfers.StoreToId where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND  StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1--)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countItemIntialBalance=sum(i.Quantity) from [{Schema}].ItemIntialBalances i where i.IsDeleted=0  and i.ItemId=@itemId AND i.IsApproval=1
-
-select @countProductionOrders=ISNULL(sum(p.OrderQuantity),0)-ISNULL(sum(pr.ReceiptQuantity),0) from [{Schema}].ProductionOrders p LEFT JOIN [{Schema}].ProductionOrderReceipts pr On pr.ProductionOrderId=p.Id where p.IsDeleted=0 AND  p.FinalItemId=@itemId 
-select @countProductionOrderDetails=sum(pd.Quantity+pd.Quantitydamage) from [{Schema}].ProductionOrders p inner join  [{Schema}].ProductionOrderDetails pd on p.Id=pd.ProductionOrderId where p.IsDeleted=0 AND pd.IsDeleted=0 AND  pd.ItemId=@itemId
-select @countProductionOrderReceipts=sum(p.ReceiptQuantity) from [{Schema}].ProductionOrderReceipts p INNER JOIN [{Schema}].ProductionOrders po ON p.ProductionOrderId=po.Id  where p.IsDeleted=0 AND po.FinalItemId=@itemId 
-
-select @countMaintenances=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0  and ds.ItemId=@itemId  AND m.StoreReceiptId is not null
-select @countMaintenanceReceipts=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 and ds.ItemId=@itemId  
-select @countSpareParts=sum(s.Quantity) from [{Schema}].Maintenances m INNER JOIN [{Schema}].MaintenanceDetails md ON m.Id=md.MaintenanceId INNER JOIN [{Schema}].MaintenanceSpareParts s ON md.Id=s.MaintenanceDetailId  where  m.IsFinalApproval=1 AND s.IsDeleted=0 AND md.IsDeleted=0 AND s.IsDeleted=0 AND s.ItemId=@itemId -- قطع الغيار
-
-select @countInventory=sum(pd.DifferenceCount) from [{Schema}].InventoryInvoiceDetails pd INNER JOIN [{Schema}].InventoryInvoices p ON p.Id=pd.InventoryInvoiceId  where p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.ItemId=@itemId -- الجرد
-
-set @count =(ISNULL(@countSupply,0)+ISNULL(@countBackSell,0)+ISNULL(@countItemIntialBalance,0)+ISNULL(@countProductionOrders,0)+ISNULL(@countProductionOrderReceipts,0)+ISNULL(@countMaintenances,0))-(ISNULL(@countSell,0)+ISNULL(@countBackSupply,0)+ISNULL(@countProductionOrderDetails,0)+ISNULL(@countMaintenanceReceipts,0)+ISNULL(@countSpareParts,0))+ISNULL(@countInventory,0)
-
-	RETURN @count
-
-
-END";
-            var f4 = $@"
-CREATE FUNCTION [{Schema}].[GetBalanceByProductionOrder]
-(
-	-- Add the parameters for the function here
-	@ItemId uniqueIdentifier,
-	@StoreId uniqueIdentifier,
-	@ProductionOrderId uniqueIdentifier
-)
-RETURNS float
-AS
-BEGIN
-declare @countSell float -- اجمال عدد الصنف المباع
-declare @countBackSell float -- اجمالى الصنف المرتجع من العميل
-declare @countStoreTranFrom float --اجمالى الصنف الخارج من المخزن
-declare @countStoreTranTo float --اجمالى الصنف الداخل الى المخزن
-
-declare @countProductionOrders float --اجمالى الصنف فى اوامر الانتاج
-declare @countProductionOrderDetails float --اجمالى الصنف فى تصنيع اوامر الانتاج
-declare @countProductionOrderReceipts float --اجمالى الصنف المنتج عند تسليمه الى مخزن الانتاج التام
-
-declare @countMaintenances int --اجمالى الصنف فى مخازن الصيانة فواتير الصيانة
-declare @countMaintenanceReceipts int --اجمالى الصنف التى تم استلامها ودخولها المخزن بعد الصيانة
-declare @countSpareParts float -- اجمال عدد الصنف المباعه كقطع غيار 
-
-
-declare @count float
-
---select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId INNER JOIN [{Schema}].ItemSerials it ON it.ProductionOrderId=@ProductionOrderId  where s.IsApprovalAccountant=1 AND s.IsApprovalStore=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and sd.storeId=@storeId AND s.Id in (select h.ReferrenceId from CasesItemSerialHistories h) -- المباع
-
-select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId INNER JOIN  [{Schema}].ItemSerials ser ON ser.Id=sd.ItemSerialId  where s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and sd.storeId=@storeId AND ser.ProductionOrderId=@ProductionOrderId -- المباع
-select @countBackSell=sum(sd.Quantity) from [{Schema}].SellBackInvoicesDetails sd INNER JOIN [{Schema}].SellBackInvoices s ON s.Id=sd.SellBackInvoiceId INNER JOIN [{Schema}].ItemSerials ser ON ser.Id=sd.ItemSerialId  where s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and sd.storeId=@storeId AND ser.ProductionOrderId=@ProductionOrderId-- مرتجع منن العميل
-select @countStoreTranFrom=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId  where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.ProductionOrderId=@ProductionOrderId  AND StoresTransferDetails.IsDeleted=0 AND StoresTransfers.StoreFromId=@storeId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1--)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countStoreTranTo=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId  where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.ProductionOrderId=@ProductionOrderId AND StoresTransferDetails.IsDeleted=0 AND StoresTransfers.StoreToId=@storeId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1--)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-
-select @countProductionOrders=ISNULL(sum(p.OrderQuantity),0)-ISNULL(sum(pr.ReceiptQuantity),0) from [{Schema}].ProductionOrders p LEFT JOIN [{Schema}].ProductionOrderReceipts pr On pr.ProductionOrderId=p.Id where p.IsDeleted=0 AND p.ProductionStoreId=@StoreId and p.FinalItemId=@itemId AND p.Id=@ProductionOrderId
-select @countProductionOrderDetails=sum(pd.Quantity+pd.Quantitydamage) from [{Schema}].ProductionOrders p inner join  [{Schema}].ProductionOrderDetails pd on p.Id=pd.ProductionOrderId where p.IsDeleted=0 AND pd.IsDeleted=0 AND pd.StoreId=@StoreId and pd.ItemId=@itemId AND p.Id=@ProductionOrderId
-select @countProductionOrderReceipts=sum(p.ReceiptQuantity) from [{Schema}].ProductionOrderReceipts p INNER JOIN [{Schema}].ProductionOrders po ON p.ProductionOrderId=po.Id where p.IsDeleted=0 AND p.FinalItemStoreId=@StoreId and po.FinalItemId=@itemId AND p.ProductionOrderId=@ProductionOrderId
-
-select @countMaintenances=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId INNER JOIN [{Schema}].ItemSerials ser ON ds.ItemSerialId=ser.Id where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 AND ser.ProductionOrderId=@ProductionOrderId and m.StoreId=@storeId  and ds.ItemId=@itemId   AND m.StoreReceiptId is not null
-select @countMaintenanceReceipts=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId INNER JOIN [{Schema}].ItemSerials ser ON ds.ItemSerialId=ser.Id where m.IsFinalApproval=1 AND m.IsDeleted=0  AND ser.ProductionOrderId=@ProductionOrderId AND ds.IsDeleted=0 AND m.StoreReceiptId=@storeId and ds.ItemId=@itemId  
-select @countSpareParts=sum(s.Quantity) from [{Schema}].Maintenances m INNER JOIN [{Schema}].MaintenanceDetails md ON m.Id=md.MaintenanceId INNER JOIN [{Schema}].MaintenanceSpareParts s ON md.Id=s.MaintenanceDetailId  where  m.IsFinalApproval=1 AND s.IsDeleted=0 AND md.IsDeleted=0 AND s.IsDeleted=0 AND s.ProductionOrderId=@ProductionOrderId AND s.ItemId=@itemId and s.storeId=@storeId -- قطع الغيار
-
-set @count =(ISNULL(@countBackSell,0)+ISNULL(@countStoreTranTo,0)+ISNULL(@countProductionOrders,0)+ISNULL(@countProductionOrderReceipts,0)+ISNULL(@countMaintenances,0))-(ISNULL(@countSell,0)+ISNULL(@countStoreTranFrom,0)+ISNULL(@countProductionOrderDetails,0)+ISNULL(@countMaintenanceReceipts,0)+ISNULL(@countSpareParts,0))
-
-	RETURN @count
-
-
-END
-";
-            var f5 = $@"
-CREATE FUNCTION [{Schema}].[GetBalanceItemIntial]
-(
-	-- Add the parameters for the function here
-	@ItemId uniqueIdentifier,
-	@StoreId uniqueIdentifier
-	)
-RETURNS float
-AS
-BEGIN
-declare @countSell float -- اجمال عدد الصنف المباع
-declare @countBackSell float -- اجمالى الصنف المرتجع من العميل
-declare @countStoreTranFrom float --اجمالى الصنف الخارج من المخزن
-declare @countStoreTranTo float --اجمالى الصنف الداخل الى المخزن
-declare @countItemIntialBalance float --اجمالى الصنف فى رصيد اول المدة
-
-declare @countMaintenances int --اجمالى الصنف فى مخازن الصيانة فواتير الصيانة
-declare @countMaintenanceReceipts int --اجمالى الصنف التى تم استلامها ودخولها المخزن بعد الصيانة
-declare @countSpareParts float -- اجمال عدد الصنف المباعه كقطع غيار 
-
-declare @count float
-
---select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId INNER JOIN [{Schema}].ItemSerials it ON it.IsItemIntial=1  where s.IsApprovalAccountant=1 AND s.IsApprovalStore=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND s.Id in (select h.ReferrenceId from CasesItemSerialHistories h) AND sd.ItemId=@itemId and sd.storeId=@storeId -- المباع 
-
-select @countSell=sum(sd.Quantity) from [{Schema}].SellInvoicesDetails sd INNER JOIN [{Schema}].SellInvoices s ON s.Id=sd.SellInvoiceId  INNER JOIN  [{Schema}].ItemSerials ser ON ser.Id=sd.ItemSerialId  where  s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND ser.IsItemIntial=1 AND sd.ItemId=@itemId and sd.storeId=@storeId -- المباع 
-select @countBackSell=sum(sd.Quantity) from [{Schema}].SellBackInvoicesDetails sd INNER JOIN [{Schema}].SellBackInvoices s ON s.Id=sd.SellBackInvoiceId INNER JOIN [{Schema}].ItemSerials ser ON ser.Id=sd.ItemSerialId where s.IsFinalApproval=1 AND s.IsDeleted=0 AND sd.IsDeleted=0 AND sd.ItemId=@itemId and sd.storeId=@storeId AND ser.IsItemIntial=1 -- مرتجع منن العميل
-select @countStoreTranFrom=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId AND StoresTransferDetails.IsItemIntial=1  where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND StoresTransfers.StoreFromId=@storeId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1--)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countStoreTranTo=sum(StoresTransferDetails.Quantity) from [{Schema}].StoresTransfers inner join  [{Schema}].StoresTransferDetails on StoresTransfers.Id=StoresTransferDetails.StoresTransferId AND StoresTransferDetails.IsItemIntial=1 where StoresTransfers.IsDeleted=0 AND StoresTransferDetails.IsDeleted=0 AND StoresTransfers.StoreToId=@storeId and StoresTransferDetails.ItemId=@itemId AND StoresTransfers.SaleMenStatus=1 AND StoresTransfers.SaleMenIsApproval=1--)OR(StoresTransfers.SaleMenStatus=0 AND StoresTransfers.SaleMenIsApproval=0)) -- عدم احتساب اى كميات لم يعتمدها المندوب محوله إليه
-select @countItemIntialBalance=sum(i.Quantity) from [{Schema}].ItemIntialBalances i where i.IsDeleted=0 AND i.StoreId=@storeId and i.ItemId=@itemId AND i.IsApproval=1
-
-select @countMaintenances=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId INNER JOIN [{Schema}].ItemSerials ser ON ds.ItemSerialId=ser.Id where m.IsFinalApproval=1 AND m.IsDeleted=0 AND ds.IsDeleted=0 AND ser.IsItemIntial=1 and m.StoreId=@storeId  and ds.ItemId=@itemId AND m.StoreReceiptId is not null  
-select @countMaintenanceReceipts=count(ds.Id) from [{Schema}].Maintenances m inner join  [{Schema}].MaintenanceDetails ds on m.Id=ds.MaintenanceId INNER JOIN [{Schema}].ItemSerials ser ON ds.ItemSerialId=ser.Id where m.IsFinalApproval=1 AND m.IsDeleted=0  AND ser.IsItemIntial=1 AND ds.IsDeleted=0 AND m.StoreReceiptId=@storeId and ds.ItemId=@itemId  
-select @countSpareParts=sum(s.Quantity) from [{Schema}].Maintenances m INNER JOIN [{Schema}].MaintenanceDetails md ON m.Id=md.MaintenanceId INNER JOIN [{Schema}].MaintenanceSpareParts s ON md.Id=s.MaintenanceDetailId  where  m.IsFinalApproval=1 AND s.IsDeleted=0 AND md.IsDeleted=0 AND s.IsDeleted=0 AND s.IsItemIntial=1 AND s.ItemId=@itemId and s.storeId=@storeId -- قطع الغيار
-
-set @count =(ISNULL(@countBackSell,0)+ISNULL(@countStoreTranTo,0)+ISNULL(@countItemIntialBalance,0)+ISNULL(@countMaintenances,0))-(ISNULL(@countSell,0)+ISNULL(@countStoreTranFrom,0)+ISNULL(@countMaintenanceReceipts,0)+ISNULL(@countSpareParts,0))
-
-	RETURN @count
-
-
-END";
-
-
-            string functionName = "GetBalanceItemIntial";
-            bool result = CheckFunctionExist(db, Schema, functionName);
-
-            if (!result)
-            {
-                Console.WriteLine("Balance Functions not found!\nAdding Balance Functions.....");
-                db.Database.ExecuteSqlCommand(f1);
-                Console.WriteLine("Function 1 added..");
-                db.Database.ExecuteSqlCommand(f2);
-                Console.WriteLine("Function 2 added..");
-                db.Database.ExecuteSqlCommand(f3);
-                Console.WriteLine("Function 3 added..");
-                db.Database.ExecuteSqlCommand(f4);
-                Console.WriteLine("Function 4 added..");
-                db.Database.ExecuteSqlCommand(f5);
-                Console.WriteLine("Function 5 added..");
-                Console.WriteLine("Adding Balance Functions Conpleted!");
-            }
-        }
-
-        private static bool CheckFunctionExist(VTSaleEntities db, string schema, string functionName)
-        {
-            return db.Database.SqlQuery<int>($@"IF EXISTS (SELECT *
-           FROM   sys.objects
-           WHERE  object_id = OBJECT_ID(N'[{schema}].[{functionName}]')
-                  AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' ))
-				  select 1
-				  else 
-				  select 0").FirstOrDefault() == 1;
         }
         #endregion
 
@@ -1340,12 +1038,12 @@ END";
             pages.Add(new Page() { Id = 234, ParentId = 233, Icon = null, IsPage = true, Name = "تسجيل نظام التأخير والغياب", OrderNum = 0, Url = "/DelayAbsenceSystems/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 235, ParentId = 233, Icon = null, IsPage = true, Name = "ادارة نظام التأخير والغياب", OrderNum = 0, Url = "/DelayAbsenceSystems/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 236, ParentId = null, Icon = "icon-md fas fa-coins ylow", IsPage = false, Name = "المصروفات والايرادات", OrderNum = 14, Url = "", OtherUrls = null });
-            pages.Add(new Page() { Id = 237, ParentId = 236, Icon = null, IsPage = false, Name = "تعريف انواع المصروفات", OrderNum = 0, Url = "", OtherUrls = null });
-            pages.Add(new Page() { Id = 238, ParentId = 237, Icon = null, IsPage = true, Name = "اضافة نوع مصروف", OrderNum = 0, Url = "/ExpenseTypes/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 239, ParentId = 237, Icon = null, IsPage = true, Name = "ادارة نوع مصروف ", OrderNum = 0, Url = "/ExpenseTypes/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 240, ParentId = 236, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "تعريف انواع الايرادات", OrderNum = 0, Url = "", OtherUrls = null });
-            pages.Add(new Page() { Id = 241, ParentId = 240, Icon = null, IsPage = true, Name = "اضافه نوع ايراد", OrderNum = 0, Url = "/IncomeTypes/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-            pages.Add(new Page() { Id = 242, ParentId = 240, Icon = null, IsPage = true, Name = "ادارة نوع ايراد", OrderNum = 0, Url = "/IncomeTypes/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 237, ParentId = 236, Icon = null, IsPage = false, Name = "تعريف انواع المصروفات", OrderNum = 0, Url = "", OtherUrls = null,IsDeleted=true });
+            pages.Add(new Page() { Id = 238, ParentId = 237, Icon = null, IsPage = true, Name = "اضافة نوع مصروف", OrderNum = 0, Url = "/ExpenseTypes/CreateEdit", IsDeleted = true, OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 239, ParentId = 237, Icon = null, IsPage = true, Name = "ادارة نوع مصروف ", OrderNum = 0, Url = "/ExpenseTypes/Index", IsDeleted = true, OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 240, ParentId = 236, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "تعريف انواع الايرادات", IsDeleted = true, OrderNum = 0, Url = "", OtherUrls = null });
+            pages.Add(new Page() { Id = 241, ParentId = 240, Icon = null, IsPage = true, Name = "اضافه نوع ايراد", OrderNum = 0, Url = "/IncomeTypes/CreateEdit", IsDeleted = true, OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
+            pages.Add(new Page() { Id = 242, ParentId = 240, Icon = null, IsPage = true, Name = "ادارة نوع ايراد", OrderNum = 0, Url = "/IncomeTypes/Index", IsDeleted = true, OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 243, ParentId = 196, Icon = null, IsPage = false, Name = "تعريف الأصول الثابتة", OrderNum = 0, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 244, ParentId = 243, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة أصل ثابت", OrderNum = 0, Url = "/FixedAssets/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 245, ParentId = 243, Icon = null, IsPage = true, Name = "ادارة بيانات أصل", OrderNum = 0, Url = "/FixedAssets/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -1522,16 +1220,6 @@ END";
             pages.Add(new Page() { Id = 417, ParentId = 48, Icon = "menu-bullet menu-bullet-line", IsPage = false, Name = "رصيد اول المدة", OrderNum = 1, Url = "", OtherUrls = null });
             pages.Add(new Page() { Id = 418, ParentId = 417, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "اضافة رصيد اول المدة", OrderNum = 1, Url = "/AccountTreeIntialBalances/CreateEdit", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             pages.Add(new Page() { Id = 419, ParentId = 417, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "ادارة رصيد اول المدة", OrderNum = 1, Url = "/AccountTreeIntialBalances/Index", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
-
-
-
-            //INSERT[dbo].[Pages]([Id], [ParentId], [Name], [Url], [OtherUrls], [Icon], [IsPage], [OrderNum], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [DeletedBy], [DeletedOn], [IsDeleted]) VALUES(387, 49, N'تسجيل العروض', N'', NULL, NULL, 0, 0, NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), 1)
-            //INSERT[dbo].[Pages]([Id], [ParentId], [Name], [Url], [OtherUrls], [Icon], [IsPage], [OrderNum], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [DeletedBy], [DeletedOn], [IsDeleted]) VALUES(388, 387, N'اضافة عرض', N'/Offers/CreateEdit', NULL, NULL, 1, 0, NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), 1)
-            //INSERT[dbo].[Pages]([Id], [ParentId], [Name], [Url], [OtherUrls], [Icon], [IsPage], [OrderNum], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [DeletedBy], [DeletedOn], [IsDeleted]) VALUES(389, 387, N'ادارة بيانات عرض', N'/Offers/Index', NULL, NULL, 1, 0, NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), NULL, CAST(N'2021-11-27T09:21:29.837' AS DateTime), 1)
-
-            //INSERT[dbo].[PagesRoles]([Id], [RoleId], [PageId], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [DeletedBy], [DeletedOn], [IsDeleted]) VALUES('ABBA0D73-9081-4843-8B0A-FFB2FEB54307', 'B55F8D95-96DC-47A1-AD3A-98EB6CBFC8B1', 388, NULL, CAST(N'2022-04-18T03:16:15.153' AS DateTime), NULL, NULL, NULL, NULL, 0)
-            //INSERT[dbo].[PagesRoles]([Id], [RoleId], [PageId], [CreatedBy], [CreatedOn], [ModifiedBy], [ModifiedOn], [DeletedBy], [DeletedOn], [IsDeleted]) VALUES('ABBA0D73-9081-4843-8B0A-FFB2FEB54317', 'B55F8D95-96DC-47A1-AD3A-98EB6CBFC8B1', 389, NULL, CAST(N'2022-04-18T03:16:15.153' AS DateTime), NULL, NULL, NULL, NULL, 0)
-            //UPDATE [dbo].[Pages] SET [Name]=N'كارت صنف بالتكلفة' WHERE Id=382
 
             #endregion
             db.Pages.AddRange(pages);

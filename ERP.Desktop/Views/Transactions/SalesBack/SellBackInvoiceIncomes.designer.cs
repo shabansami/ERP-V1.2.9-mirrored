@@ -95,7 +95,6 @@ namespace ERP.Desktop.Views.Transactions.SalesBack
             this.btn_addexpenses.Size = new System.Drawing.Size(30, 24);
             this.btn_addexpenses.TabIndex = 79;
             this.btn_addexpenses.UseVisualStyleBackColor = false;
-            this.btn_addexpenses.Click += new System.EventHandler(this.btn_addexpenses_Click);
             // 
             // btn_cancel
             // 

@@ -58,7 +58,6 @@ namespace ERP.DAL
         public virtual DbSet<EmployeeReturnCustody> EmployeeReturnCustodies { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<ExpenseIncome> ExpenseIncomes { get; set; }
-        public virtual DbSet<ExpenseType> ExpenseTypes { get; set; }
         public virtual DbSet<Gender> Genders { get; set; }
         public virtual DbSet<GeneralDaily> GeneralDailies { get; set; }
         public virtual DbSet<GeneralRecord> GeneralRecords { get; set; }
@@ -66,7 +65,6 @@ namespace ERP.DAL
         public virtual DbSet<GeneralSettingType> GeneralSettingTypes { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<GroupType> GroupTypes { get; set; }
-        public virtual DbSet<IncomeType> IncomeTypes { get; set; }
         public virtual DbSet<Installment> Installments { get; set; }
         public virtual DbSet<InstallmentSchedule> InstallmentSchedules { get; set; }
         public virtual DbSet<InventoryInvoiceDetail> InventoryInvoiceDetails { get; set; }

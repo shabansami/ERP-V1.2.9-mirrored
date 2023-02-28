@@ -227,16 +227,7 @@
                                         </div>
                                     </div>*@
 
-                                <div class="col-lg-6" style="display:none;">
-                                    <div class="form-group ">
-                                        <label style="margin-left:10px">طول Serial يحتوى على</label>
-                                        @Html.CheckBoxFor(m => m.Letters, new { @style = "width: 25px; height: 25px;", @class = "form-check-input din-med" })
-                                        <label style="margin-left:10px">حروف</label>
-                                        @Html.CheckBoxFor(m => m.Numbers, new { @style = "width: 25px; height: 25px;", @class = "form-check-input din-med" })
-
-                                        <label>ارقام</label>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                         <div class="card-footer">
@@ -362,18 +353,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>حساب الضريبة المضافة</label>
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.AccountTree.AddedTaxAccountName, new { @class = "form-control" })
-                                            @Html.HiddenFor(m => m.AccountTree.AddedTaxAccountSettingId)
-                                            @Html.HiddenFor(m => m.AccountTree.AddedTaxAccountSettingValue)
-
-                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_AddedTaxAccountName',@Model.AccountTree.AddedTaxAccountSettingId,@Model.AccountTree.AddedTaxAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>حساب الخصم المسموح به</label>
@@ -410,18 +390,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>حساب انواع الايرادات المخصصة</label>
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.AccountTree.GeneralRevenusName, new { @class = "form-control" })
-                                            @Html.HiddenFor(m => m.AccountTree.GeneralRevenusSettingId)
-                                            @Html.HiddenFor(m => m.AccountTree.GeneralRevenusSettingValue)
-
-                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_GeneralRevenusName',@Model.AccountTree.GeneralRevenusSettingId,@Model.AccountTree.GeneralRevenusSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>حساب البنك</label>
@@ -434,18 +403,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <label>حساب انواع المصروفات المخصصة</label>
-                                        <div class="input-group">
-                                            @Html.TextBoxFor(m => m.AccountTree.ExpensesAccountName, new { @class = "form-control" })
-                                            @Html.HiddenFor(m => m.AccountTree.ExpensesAccountSettingId)
-                                            @Html.HiddenFor(m => m.AccountTree.ExpensesAccountSettingValue)
-
-                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_ExpensesAccountName',@Model.AccountTree.ExpensesAccountSettingId,@Model.AccountTree.ExpensesAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
-                                        </div>
-                                    </div>
-                                </div>
+                               
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label>حساب ضريبة ارباح تجارية</label>

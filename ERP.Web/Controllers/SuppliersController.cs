@@ -129,6 +129,15 @@ namespace ERP.Web.Controllers
             {
                 if (string.IsNullOrEmpty(vm.Name) || vm.AreaId == null || vm.PersonCategoryId == null || string.IsNullOrEmpty(vm.Mob1))
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                //التأكد من انشاء حساب للفئة فى الدليل المحاسبى
+                var personCategory = db.PersonCategories.Where(x => x.Id == vm.PersonCategoryId).FirstOrDefault();
+                if (personCategory != null)
+                {
+                    if (personCategory.AccountTreeId == null)
+                        return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
+                }
+                else
+                    return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
 
                 var isInsert = false;
                 bool? isSaved = false;
@@ -171,6 +180,7 @@ namespace ERP.Web.Controllers
                     model.PersonCategoryId = vm.PersonCategoryId;
                     model.LocationPath = vm.LocationPath;
                     model.TaxNumber = vm.TaxNumber;
+                    model.IsActive = true;
                     db.Entry(model).State = EntityState.Modified;
                     //remove all old Customer Responsible
                     var oldSupplierResponsible = db.Persons.Where(x => !x.IsDeleted && x.ParentId == vm.Id).ToList();
@@ -213,6 +223,7 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
 
                     isInsert = true;
+                    vm.IsActive=true;
                     //فى حالة ان الشخص مورد وعميل يتم اضافة فى حساب العميل
                     if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
                     {

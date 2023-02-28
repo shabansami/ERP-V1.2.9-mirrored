@@ -52,10 +52,6 @@ namespace ERP.Web.Controllers
             vm.EntityData.AbbreviationName = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataAbbreviationName).FirstOrDefault().SValue;
             vm.EntityData.Address = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataAddress).FirstOrDefault().SValue;
             vm.EntityData.CommercialRegisterNo = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue;
-            if (model.Where(x => x.Id == (int)GeneralSettingCl.BarCodeDataLetter).FirstOrDefault().SValue != null)
-                vm.Letters = bool.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.BarCodeDataLetter).FirstOrDefault().SValue);
-            if (model.Where(x => x.Id == (int)GeneralSettingCl.BarCodeDataNumber).FirstOrDefault().SValue != null)
-                vm.Numbers = bool.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.BarCodeDataNumber).FirstOrDefault().SValue);
             vm.EntityData.TaxCardNo = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataTaxCardNo).FirstOrDefault().SValue;
             vm.EntityData.Tel1 = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataTel1).FirstOrDefault().SValue;
             vm.EntityData.Tel2 = model.Where(x => x.Id == (int)GeneralSettingCl.EntityDataTel2).FirstOrDefault().SValue;
@@ -120,15 +116,6 @@ namespace ERP.Web.Controllers
             #region Account Tree
             var accountTree = db.AccountsTrees.Where(x => !x.IsDeleted).ToList();
 
-            //==================== Added Tax Account =======================
-            if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeAddedTaxAccount).FirstOrDefault().SValue != null)
-            {
-                vm.AccountTree.AddedTaxAccountSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeAddedTaxAccount).FirstOrDefault().SValue);
-                var accountTreeAddedTaxAccount = accountTree.Where(x => x.Id == vm.AccountTree.AddedTaxAccountSettingValue).FirstOrDefault();
-                vm.AccountTree.AddedTaxAccountName = accountTreeAddedTaxAccount.AccountName + "..." + accountTreeAddedTaxAccount.AccountNumber;
-            }
-            vm.AccountTree.AddedTaxAccountSettingId = (int)GeneralSettingCl.AccountTreeAddedTaxAccount;
-
             //==================== Bank Account =======================
             if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeBankAccount).FirstOrDefault().SValue != null)
             {
@@ -182,24 +169,6 @@ namespace ERP.Web.Controllers
                 vm.AccountTree.EarnedDiscountName = accountTreeEarnedDiscount.AccountName + "..." + accountTreeEarnedDiscount.AccountNumber;
             }
             vm.AccountTree.EarnedDiscountSettingId = (int)GeneralSettingCl.AccountTreeEarnedDiscount;
-
-            //==================== Expenses Account =======================
-            if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeExpensesAccount).FirstOrDefault().SValue != null)
-            {
-                vm.AccountTree.ExpensesAccountSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeExpensesAccount).FirstOrDefault().SValue);
-                var accountTreeExpensesAccount = accountTree.Where(x => x.Id == vm.AccountTree.ExpensesAccountSettingValue).FirstOrDefault();
-                vm.AccountTree.ExpensesAccountName = accountTreeExpensesAccount.AccountName + "..." + accountTreeExpensesAccount.AccountNumber;
-            }
-            vm.AccountTree.ExpensesAccountSettingId = (int)GeneralSettingCl.AccountTreeExpensesAccount;
-
-            //==================== General Revenus =======================
-            if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeGeneralRevenus).FirstOrDefault().SValue != null)
-            {
-                vm.AccountTree.GeneralRevenusSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeGeneralRevenus).FirstOrDefault().SValue);
-                var accountTreeGeneralRevenus = accountTree.Where(x => x.Id == vm.AccountTree.GeneralRevenusSettingValue).FirstOrDefault();
-                vm.AccountTree.GeneralRevenusName = accountTreeGeneralRevenus.AccountName + "..." + accountTreeGeneralRevenus.AccountNumber;
-            }
-            vm.AccountTree.GeneralRevenusSettingId = (int)GeneralSettingCl.AccountTreeGeneralRevenus;
 
             //==================== Premitted Discount Account =======================
             if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePremittedDiscountAccount).FirstOrDefault().SValue != null)
@@ -587,24 +556,9 @@ namespace ERP.Web.Controllers
                                 item.SValue = vm.EntityData.Tel1;
                             if (item.Id == (int)GeneralSettingCl.EntityDataTel2)
                                 item.SValue = vm.EntityData.Tel2;
-                            if (item.Id == (int)GeneralSettingCl.BarCodeDataLetter)
-                                item.SValue = vm.Letters.ToString();
-                            if (item.Id == (int)GeneralSettingCl.BarCodeDataNumber)
-                                item.SValue = vm.Numbers.ToString();
 
                             db.Entry(item).State = EntityState.Modified;
                         }
-                        // طول الباركود
-                        var modelBarCode = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.BarCodeData).ToList();
-                        foreach (var item in modelBarCode)
-                        {
-                            if (item.Id == (int)GeneralSettingCl.BarCodeDataLetter)
-                                item.SValue = vm.Letters.ToString();
-                            if (item.Id == (int)GeneralSettingCl.BarCodeDataNumber)
-                                item.SValue = vm.Numbers.ToString();
-
-                            db.Entry(item).State = EntityState.Modified;
-                        }          
                         // تاريخ البداية والنهاية فى البحث
                         var modelStartEnd = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
                         foreach (var item in modelStartEnd)

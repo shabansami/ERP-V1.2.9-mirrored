@@ -84,6 +84,35 @@ namespace ERP.Web.Utilites
 
             }
         }
+        public static AccountsTree ReturnAccountTreeByCategory(Guid? categoryAccpuntTreeId, string accountName, AccountTreeSelectorTypesCl selectorTypeId)
+        {
+
+            //get account id from general setting 
+            using (var db = new VTSaleEntities())
+            {
+                long newAccountNum = 0;// new account number 
+                if (categoryAccpuntTreeId == null)
+                    return null;
+                var accountTree = db.AccountsTrees.Find(categoryAccpuntTreeId);
+                var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                    newAccountNum = long.Parse(accountTree.AccountNumber + "000001");
+                else
+                    newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                // add new account tree 
+                return new AccountsTree
+                {
+                    AccountLevel = accountTree.AccountLevel + 1,
+                    AccountName = accountName,
+                    AccountNumber = newAccountNum,
+                    ParentId = accountTree.Id,
+                    TypeId = (int)selectorTypeId,
+                    SelectedTree = false
+                };
+
+            }
+        }
 
         //add account tree only
         public static bool? AddAccountTree(GeneralSettingCl generalSettingId, string accountName, AccountTreeSelectorTypesCl selectorTypeId, Guid userId)

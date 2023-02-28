@@ -137,16 +137,6 @@ namespace ERP.Desktop.Views._Base.Main
             var form = FormManager.Show<PointOfSales>();
         }
 
-        private void ادارةنوعمصرفToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = FormManager.Show<Definations.Expenses>();
-        }
-
-        private void ادارةنوعايرادToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            var form = FormManager.Show<Definations.Incomes>();
-        }
-
         private void btnSystemSettings_Click(object sender, EventArgs e)
         {
             var form = FormManager.Show<GeneralSettings>();

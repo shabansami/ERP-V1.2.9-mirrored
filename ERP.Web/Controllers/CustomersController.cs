@@ -151,8 +151,17 @@ namespace ERP.Web.Controllers
             if (ModelState.IsValid)
             {
                 if (string.IsNullOrEmpty(vm.Name) || vm.AreaId == null || vm.PersonCategoryId == null || string.IsNullOrEmpty(vm.Mob1))
-
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+
+                //التأكد من انشاء حساب للفئة فى الدليل المحاسبى
+                var personCategory = db.PersonCategories.Where(x=>x.Id==vm.PersonCategoryId).FirstOrDefault();
+                if (personCategory != null)
+                {
+                    if(personCategory.AccountTreeId==null)
+                        return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
+                }
+                else
+                    return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
 
                 var isInsert = false;
                 bool? isSaved = false;
@@ -198,6 +207,7 @@ namespace ERP.Web.Controllers
                     model.CommercialRegistrationNo = vm.CommercialRegistrationNo;
                     model.LimitDangerSell = vm.LimitDangerSell;
                     model.DistrictId = vm.DistrictId;
+                    model.IsActive = true;
                     db.Entry(model).State = EntityState.Modified;
                     //remove all old Customer Responsible
                     var oldCustomerResponsible = db.Persons.Where(x => !x.IsDeleted && x.ParentId == vm.Id).ToList();
@@ -241,14 +251,15 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
 
                     isInsert = true;
+                    vm.IsActive=true;
                     //فى حالة ان الشخص مورد وعميل يتم اضافة فى حساب المورد
                     if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
                     {
                         //add as customer in account tree
-                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeSupp);
 
                         //add person in personTable

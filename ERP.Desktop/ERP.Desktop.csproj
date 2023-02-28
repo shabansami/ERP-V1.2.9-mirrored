@@ -194,18 +194,6 @@
     <Compile Include="Views\Definations\PointOfSales.Designer.cs">
       <DependentUpon>PointOfSales.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Definations\Incomes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Definations\Incomes.Designer.cs">
-      <DependentUpon>Incomes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Definations\Expenses.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Views\Definations\Expenses.Designer.cs">
-      <DependentUpon>Expenses.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\Items\ItemAddEdit.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -486,12 +474,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Definations\PointOfSales.resx">
       <DependentUpon>PointOfSales.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Definations\Incomes.resx">
-      <DependentUpon>Incomes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Views\Definations\Expenses.resx">
-      <DependentUpon>Expenses.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Views\Items\ItemAddEdit.resx">
       <DependentUpon>ItemAddEdit.cs</DependentUpon>

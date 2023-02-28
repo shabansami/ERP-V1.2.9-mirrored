@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ERP.DAL
 {
     using System;
@@ -22,7 +24,10 @@ namespace ERP.DAL
     
         public bool IsCustomer { get; set; }
         public string Name { get; set; }
-    
+        [ForeignKey(nameof(AccountTree))]
+        public Nullable<Guid> AccountTreeId { get; set; }   
         public virtual ICollection<Person> Persons { get; set; }
+
+        public AccountsTree AccountTree { get; set; }
     }
 }

@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ERP.Web.Identity;
+using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -15,9 +17,12 @@ namespace ERP.Web.Controllers
     public class SupplierCategoriesController : Controller
     {
         // GET: SupplierCategories
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
-
+        VTSaleEntities db;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        public SupplierCategoriesController()
+        {
+            db = new VTSaleEntities();
+        }
         public ActionResult Index()
         {
             return View();
@@ -62,11 +67,6 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer && x.Name == vm.Name && x.Id != vm.Id).Count() > 0)
@@ -74,7 +74,9 @@ namespace ERP.Web.Controllers
 
                     var model = db.PersonCategories.FirstOrDefault(x => x.Id == vm.Id);
                     model.Name = vm.Name;
-                    db.Entry(model).State = EntityState.Modified;
+                    //update account tree
+                    var accountTree = db.AccountsTrees.FirstOrDefault(x => x.Id == model.AccountTreeId);
+                    accountTree.AccountName = vm.Name;
                 }
                 else
                 {
@@ -82,11 +84,33 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
 
                     isInsert = true;
-                    db.PersonCategories.Add(new PersonCategory
+                    //========================اضافة حساب الفئة فى الدليل المحاسبى
+                    long newAccountNum = 0;// new account number 
+                    var val = db.GeneralSettings.Find((int)GeneralSettingCl.AccountTreeSupplierAccount).SValue;
+                    if (val == null)
+                        return Json(new { isValid = false, isInsert, message = "تأكد من تعريف الأكواد الحسابية فى شاشة الاعدادات" });
+
+                    var accountTree = db.AccountsTrees.Find(Guid.Parse(val));
+                    var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                    if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                        newAccountNum = long.Parse(accountTree.AccountNumber + "000001");
+                    else
+                        newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                    // add new account tree 
+                    var newAccountTree = new AccountsTree
                     {
-                        IsCustomer = false,
-                        Name = vm.Name
-                    });
+                        AccountLevel = accountTree.AccountLevel + 1,
+                        AccountName = vm.Name,
+                        AccountNumber = newAccountNum,
+                        ParentId = accountTree.Id,
+                        TypeId = (int)AccountTreeSelectorTypesCl.Sub,
+                        SelectedTree = false
+                    };
+                    vm.AccountTree = newAccountTree;
+                    vm.IsCustomer = false;
+
+                    db.PersonCategories.Add(vm);
                 }
                 if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                 {
@@ -124,13 +148,15 @@ namespace ERP.Web.Controllers
                 var model = db.PersonCategories.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                    var accountTree = db.AccountsTrees.FirstOrDefault(x => x.Id == model.AccountTreeId);
+                    if (accountTree.AccountsTreesChildren.Where(x=>!x.IsDeleted).Any())
+                        return Json(new { isValid = false, message = "لا يمكن حذف الفئة لارتباط موردين بها فى الدليل المحاسبى" });
+                    accountTree.IsDeleted = true;
 
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
+
+
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم الحذف بنجاح" });
                     else

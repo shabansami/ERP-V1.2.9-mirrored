@@ -16,6 +16,9 @@ using ERP.Desktop.Utilities;
 using ERP.Desktop.ViewModels;
 using PrintEngine.HTMLPrint;
 using ERP.Desktop.Services.Employees;
+using ERP.Web.Services;
+using ERP.Web.Utilites;
+using EmployeeService = ERP.Desktop.Services.Employees.EmployeeService;
 
 namespace ERP.Desktop.Views.Transactions.Incoming
 {
@@ -61,7 +64,11 @@ namespace ERP.Desktop.Views.Transactions.Incoming
         private void FillCombos()
         {
             var pos = db.PointOfSales.FirstOrDefault(x => x.Id == Properties.Settings.Default.PointOfSale);
-            var incomeTypes = db.IncomeTypes.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.AccountsTreeId ?? Guid.Empty, Name = x.Name }).ToList();
+            //حساب الايرادات من الاعدادات
+            var incomeAccountId = db.AccountsTrees.Where(x => !x.IsDeleted && x.AccountNumber == Lookups.GeneralIncomes).FirstOrDefault().Id;
+            ////حسابات الايرادات التشغيلية 
+            var incomeAccounts = AccountTreeService.GetAccountTreeLastChild(incomeAccountId);
+            var incomeTypes = incomeAccounts.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id , Name = x.AccountName }).ToList();
             FillComboBox(cmbIncomeTypes, incomeTypes, "Name", "ID");
 
             //var branches = db.Branches.Where(x => !x.IsDeleted).Select(x => new IDNameVM { ID = x.Id, Name = x.Name }).ToList();

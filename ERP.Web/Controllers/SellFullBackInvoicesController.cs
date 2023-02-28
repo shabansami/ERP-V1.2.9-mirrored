@@ -225,7 +225,7 @@ namespace ERP.Web.Controllers
             {
                 if (deDS.Where(x => x.ExpenseTypeId == vm.ExpenseTypeId).Count() > 0)
                     return Json(new { isValid = false, msg = "المصروف المحدد موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-                expenseTypeName = db.ExpenseTypes.FirstOrDefault(x=>x.Id==vm.ExpenseTypeId).Name;
+                //expenseTypeName = db.ExpenseTypes.FirstOrDefault(x=>x.Id==vm.ExpenseTypeId).Name;
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار مصروف " }, JsonRequestBehavior.AllowGet);
@@ -250,7 +250,7 @@ namespace ERP.Web.Controllers
             //ViewBag.ContainerId = new SelectList(db.Containers.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
             //ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
-            ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
+            //ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
 
             var vm = db.SellInvoices.Where(x => x.Id == guId).FirstOrDefault();
             if (vm.IsFullReturned == true)

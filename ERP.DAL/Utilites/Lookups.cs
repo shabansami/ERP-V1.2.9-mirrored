@@ -57,14 +57,28 @@ namespace ERP.Web.Utilites
             AccountTreeCustomerAccount, //حساب العملاء
             AccountTreeSalesReturnAccount, // حساب مرددوات المبيعات
             AccountTreePurchaseReturnAccount, // حساب مرددوات المشتريات
-            AccountTreeAddedTaxAccount, //حساب الضريبة المضافة
+            AccountTreeSalesTaxAccount, // حساب ضريبة المبيعات
             AccountTreePremittedDiscountAccount, //حساب الخصم المسموح به
             AccountTreeEarnedDiscount, //حساب الخصم المكتسب
             AccountTreeSafeAccount, //حساب الخزينة
             AccountTreeBankAccount, //حساب البنك
+            AccountTreeCommercialTax, //حساب ضريبة ارباح تجارية
             AccountTreeShareCapitalAccount, //حساب رأس المال
             AccountTreeStockAccount, //حساب المخزون
             AccountTreeCheckUnderCollectionReceipts, //حساب شيكات تحت التحصيل اوراق قبض
+            AccountTreeLoans, //حساب السلف والقروض
+            AccountTreeSalaries, //حساب الرواتب والاجور
+            AccountTreeEmployeeAccount, //حساب ذمم الموظفين /اجور مستحقة للعاملين
+            AccountTreeMiscellaneousRevenus, //حساب الايرادات مستحقة التحصيل (استقطاعات وخصومات الموظفين
+            AccountTreeCustodyAccount, //حساب عهد الموظفين/سلفة مؤقتة
+            AccountTreeMaintenance, //حساب ايرادات الصيانة
+            AccountTreeDestructionAllowance, //حساب مخصص اهلاك الاصول الثابتة 
+            AccountTreeAssetsDepreciationComplex, //حساب مجمع اهلاك الاصول الثابتة 
+            AccountTreeInstallmentsBenefits, //حساب فوائد الاقساط 
+            AccountTreeCheckUnderCollectionPayments, //حساب شيكات برسم السداد اوراق دفع
+            AccountTreeSalesCost,  //حساب تكلفة بضاعه مباعه مع الجرد المستمر 
+            AccountTreeInventoryOperatingDeviation, //حساب انحراف التشغيل فى حالة جرد المخزن  
+
             EntityDataEntityDataName, //اسم الجهة
             EntityDataAbbreviationName,//الاسم المختصر للجهة
             EntityDataTel1,//رقم تلفون الجهة 1
@@ -73,56 +87,58 @@ namespace ERP.Web.Utilites
             EntityDataAddress,//عنوان الجهة
             EntityDataCommercialRegisterNo,//رقم السجل التجارى للجهة
             EntityDataTaxCardNo,//رقم السجل الضريبى للجهة
-            BarCodeDataLetter, //الباركود يحتوى على حروف
-            BarCodeDataNumber, //الباركود يحتوى على ارقام
+
             StoreProductionInternalId, //مخزن التصنيع الداخلى الافتراضى للجهة
             StoreDefaultlId, //المخزن الافتراضى فى فواتير البيع والشراء 
             StoreUnderProductionId, //مخزن تحت التصنيع الافتراضى للجهة
+            StoreMaintenance, //مخزن الصيانة
+            StoreMaintenanceDamage, //مخزن توالف الصيانة
+
             FinancialYearStartDate, // تاريخ بداية السنة المالية
             FinancialYearEndDate, // تاريخ نهاية السنة المالية
+
             UploadCenterPurchaseInvoice, //  رفع ملفات فاتورة التوريد
             UploadCenterPurchaseBackInvoice,//رفع ملفات  فاتورة مرتجع توريد 
             UploadCenterSellInvoice, //رفع ملفات  فاتورة بيع
             UploadCenterSellBackInvoice, //رفع ملفات  فاتورة مرتجع بيع
             UploadCenterEmployee, //رفع ملفات  موظف  
             UploadCenterCheque, //رفع ملفات شيك بنكى 
+            UploadCenterSupplier, //مجلد الموردين 
+            UploadCenterCustomer, //مجلد العملاء 
+            UploadCenterInstallment, //مجلد الاقساط 
+            UploadCenterProductionOrder, //مجلد اوامر الانتاج 
+            UploadCenterGeneralRecord, //مجلد قيود اليومية 
+
             ItemCostCalculateId,   // طريقة احتساب تكلفة المنتج (متوسك سعر الشراء-اخر سعر شراء - اعلى سعر شراء ...
-            AccountTreeSalaries, //حساب الرواتب والاجور
-            AccountTreeEmployeeAccount, //حساب ذمم الموظفين /اجور مستحقة للعاملين
-            AccountTreeMiscellaneousRevenus, //حساب الايرادات مستحقة التحصيل (استقطاعات وخصومات الموظفين
-            AccountTreeCustodyAccount, //حساب عهد الموظفين/سلفة مؤقتة
-            StoreMaintenance, //مخزن الصيانة
-            StoreMaintenanceDamage, //مخزن توالف الصيانة
+
             EntityDataSchema, //اسم الاسكيما الخاص بالمؤسسة
             EntityDataSecurity, //رقم الحماية فى حالة التشغيل الاوفلاين
-            AccountTreeDestructionAllowance, //حساب مخصص اهلاك الاصول الثابتة 
+
             ItemAcceptNoBalance, //قبول اضافة اصناف بدون رصيد فى فواتير البيع
             InvoicesApprovalAfterSave, //الاعتماد المباشر بعد حفظ فواتير البيع والتوريد
             ItemCostCalculateShowInSellReg, //اظهار تكلفة الصنف فى شاشة البيع 
             PeriodAllowedPayInstallment, //المدة المسموح بها فى سداد قسط 
-            UploadCenterSupplier, //مجلد الموردين 
-            UploadCenterCustomer, //مجلد العملاء 
-            UploadCenterInstallment, //مجلد الاقساط 
-            AccountTreeCheckUnderCollectionPayments, //حساب شيكات برسم السداد اوراق دفع
+
+
             PaidWithBalance, //قبول/رفض صرف نقدية بدون رصيد
             LimitDangerSell, //السماح بالبيع عند تخطى الحد الائتمانى للخطر
             InventoryType, //نوع الجرد (دورى/مستمر)
+
+            //اعدادات الطباعه
             LogoEntity, //لوجو المؤسسة
             PrintLine1Up,//السطر الاول اعلى الصفحة
             PrintLine2Up,//السطر الثانى اعلى الصفحة
             PrintLine3Up,//السطر الثالث اعلى الصفحة
             PrintLine1Down,//السطر الاول اسفل الصفحة
             PrintLine2Down,//السطر الثانى اسفل الصفحة
-            AccountTreeSalesCost,  //حساب تكلفة بضاعه مباعه مع الجرد المستمر 
+
+
             TaxPercentage,//نسبة ضريبة القيمة المضافة
             TaxProfitPercentage,//نسبة ضريبة ارباح تجارية 
-            UploadCenterProductionOrder, //مجلد اوامر الانتاج 
-            UploadCenterGeneralRecord, //مجلد قيود اليومية 
             StartDateSearch, //بداية تاريخ البحث فى الموقع 
             EndDateSearch, //نهاية تاريخ البحث فى الموقع 
             QuotationNoteAr, //ملاحظة عروض الاسعار فى الطباعة بالعربية 
             QuotationNoteEn, //ملاحظة عروض الاسعار فى الطباعة بالانجليزية 
-            AccountTreeInventoryOperatingDeviation, //حساب انحراف التشغيل فى حالة جرد المخزن  
             SellPriceZero, //سعر البيع يقبل صفر (الهدايا)  
             AcceptItemCostSellDown, // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته  
 

@@ -202,7 +202,6 @@ namespace ERP.Desktop.Views._Base.Main
             this.ادارةنوعمصرفToolStripMenuItem.Name = "ادارةنوعمصرفToolStripMenuItem";
             this.ادارةنوعمصرفToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.ادارةنوعمصرفToolStripMenuItem.Text = "ادارة نوع مصرف";
-            this.ادارةنوعمصرفToolStripMenuItem.Click += new System.EventHandler(this.ادارةنوعمصرفToolStripMenuItem_Click);
             // 
             // ادارةنوعايرادToolStripMenuItem
             // 
@@ -212,7 +211,6 @@ namespace ERP.Desktop.Views._Base.Main
             this.ادارةنوعايرادToolStripMenuItem.Name = "ادارةنوعايرادToolStripMenuItem";
             this.ادارةنوعايرادToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
             this.ادارةنوعايرادToolStripMenuItem.Text = "ادارة نوع ايراد";
-            this.ادارةنوعايرادToolStripMenuItem.Click += new System.EventHandler(this.ادارةنوعايرادToolStripMenuItem_Click);
             // 
             // btnSystemSettings
             // 

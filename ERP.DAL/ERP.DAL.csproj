@@ -352,6 +352,10 @@
     <Compile Include="Migrations\202302221417521_AddOrientaionType.designer.cs">
       <DependentUpon>202302221417521_AddOrientaionType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202302282213484_remove_ExpenseType_IncomeType.cs" />
+    <Compile Include="Migrations\202302282213484_remove_ExpenseType_IncomeType.designer.cs">
+      <DependentUpon>202302282213484_remove_ExpenseType_IncomeType.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
@@ -421,7 +425,6 @@
     <Compile Include="Models\EmployeeReturnCashCustody.cs" />
     <Compile Include="Models\EmployeeReturnCustody.cs" />
     <Compile Include="Models\ExpenseIncome.cs" />
-    <Compile Include="Models\ExpenseType.cs" />
     <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\GeneralDaily.cs" />
     <Compile Include="Models\GeneralRecord.cs" />
@@ -429,7 +432,6 @@
     <Compile Include="Models\GeneralSettingType.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupType.cs" />
-    <Compile Include="Models\IncomeType.cs" />
     <Compile Include="Models\Installment.cs" />
     <Compile Include="Models\InstallmentSchedule.cs" />
     <Compile Include="Models\InventoryInvoice.cs" />
@@ -746,6 +748,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202302221417521_AddOrientaionType.resx">
       <DependentUpon>202302221417521_AddOrientaionType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202302282213484_remove_ExpenseType_IncomeType.resx">
+      <DependentUpon>202302282213484_remove_ExpenseType_IncomeType.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

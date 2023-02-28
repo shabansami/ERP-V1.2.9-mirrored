@@ -34,8 +34,6 @@ namespace ERP.Web.ViewModels
         public Nullable<int> AcceptItemCostSellDown { get; set; } //السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته   
         public Nullable<DateTime> StartDateSearch { get; set; }// بداية تاريخ البحث فى الموقع 
         public Nullable<DateTime> EndDateSearch { get; set; }// نهاية تاريخ البحث فى الموقع 
-        public bool Letters { get; set; }
-        public bool Numbers { get; set; }
         public int InventoryType { get; set; } //نوع الجرد 1-جرد دورى   2-جرد مستمر
 
         public EntityData EntityData { get; set; }
@@ -89,10 +87,6 @@ namespace ERP.Web.ViewModels
         public Guid? SalesTaxAccountSettingValue { get; set; }
         public string SalesTaxAccountName { get; set; }
 
-        public int? AddedTaxAccountSettingId { get; set; }
-        public Guid? AddedTaxAccountSettingValue { get; set; }
-        public string AddedTaxAccountName { get; set; }
-
         public int? PremittedDiscountAccountSettingId { get; set; }
         public Guid? PremittedDiscountAccountSettingValue { get; set; }
         public string PremittedDiscountAccountName { get; set; }
@@ -105,17 +99,9 @@ namespace ERP.Web.ViewModels
         public Guid? SafeAccountSettingValue { get; set; }
         public string SafeAccountName { get; set; }
 
-        public int? GeneralRevenusSettingId { get; set; }
-        public Guid? GeneralRevenusSettingValue { get; set; }
-        public string GeneralRevenusName { get; set; }
-
         public int? BankAccountSettingId { get; set; }
         public Guid? BankAccountSettingValue { get; set; }
         public string BankAccountName { get; set; }
-
-        public int? ExpensesAccountSettingId { get; set; }
-        public Guid? ExpensesAccountSettingValue { get; set; }
-        public string ExpensesAccountName { get; set; }
 
         public int? CommercialTaxSettingId { get; set; }
         public Guid? CommercialTaxSettingValue { get; set; }

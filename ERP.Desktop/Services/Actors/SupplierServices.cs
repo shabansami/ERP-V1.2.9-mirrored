@@ -41,10 +41,10 @@ namespace ERP.Desktop.Services.Actors
             if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
             {
                 //add as customer in account tree
-                var accountTreeCust = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.SupplierAndCustomer);
+                var accountTreeCust = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                 db.AccountsTrees.Add(accountTreeCust);
                 //add as supplier in account tree
-                var accountTreeSupp = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.SupplierAndCustomer);
+                var accountTreeSupp = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                 db.AccountsTrees.Add(accountTreeSupp);
 
                 //add person in personTable
@@ -54,7 +54,7 @@ namespace ERP.Desktop.Services.Actors
             else
             {
                 //add as supplier in account tree
-                var accountTreeSupp = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Supplier);
+                var accountTreeSupp = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                 db.AccountsTrees.Add(accountTreeSupp);
                 //add person in personTable
                 vm.AccountsTreeSupplier = accountTreeSupp;
@@ -107,7 +107,7 @@ namespace ERP.Desktop.Services.Actors
                     else if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
                     {
                         //add as customer in account tree
-                        accountTreeCust = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.SupplierAndCustomer);
+                        accountTreeCust = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         model.AccountsTreeCustomer = accountTreeCust;
                     }
@@ -126,7 +126,7 @@ namespace ERP.Desktop.Services.Actors
                     else
                     {
                         //add as customer in account tree
-                        accountTreeCust = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.SupplierAndCustomer);
+                        accountTreeCust = AccountServices<Person>.GetAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         model.AccountsTreeCustomer = accountTreeCust;
                     }

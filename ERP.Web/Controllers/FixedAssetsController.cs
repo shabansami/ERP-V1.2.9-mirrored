@@ -99,7 +99,7 @@ namespace ERP.Web.Controllers
                     if (vm.DestructionAmount==0||vm.UsefulLife==0)
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات الاهلاك بشكل صحيح" });
 
-                bool? isSaved = false;
+                MessageReturn messageReturn = new MessageReturn();
 
                 if (db.Assets.Where(x => !x.IsDeleted && x.Name == vm.Name).Count() > 0)
                     return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
@@ -133,26 +133,23 @@ namespace ERP.Web.Controllers
                             return Json(new { isValid = false, message = "حساب مجمع الاهلاك للاصل ليس بحساب فرعى" });
                     }
 
-                    isSaved = AddAccountTree(vm, generalSetting, safeAccountTreeId, bankAccountTreeId);
+                    messageReturn = AddAccountTree(vm, generalSetting, safeAccountTreeId, bankAccountTreeId);
 
                 }
                 else
                     return Json(new { isValid = false, message = "يجب تعريف حسابات الاصول فى شاشة الاعدادات" });
 
 
-                if (isSaved == true)
-                    return Json(new { isValid = true, message = "تم الاضافة بنجاح" });
-
-                else if (isSaved == null)
-                    return Json(new { isValid = false, message = "تأكد من اختيار الحساب الرئيسى" });
+                if (messageReturn.IsValid)
+                    return Json(new { isValid = true, message = messageReturn.Message });
                 else
-                    return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+                    return Json(new { isValid = false, message = messageReturn.Message });
             }
             else
                 return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
         }
 
-        public bool? AddAccountTree(Asset model, List<GeneralSetting> generalSetting, Guid? safeAccountTreeId, Guid? bankAccountTreeId)
+        public MessageReturn AddAccountTree(Asset model, List<GeneralSetting> generalSetting, Guid? safeAccountTreeId, Guid? bankAccountTreeId)
         {
             //get account id from general setting 
             using (var context = new VTSaleEntities())
@@ -164,7 +161,7 @@ namespace ERP.Web.Controllers
                         //اضافة حساب الاصل 
                         long newAccountNum = 0;// new account number 
                         if (model.AccountTreeParentId == null)
-                            return null;
+                            return new MessageReturn { Message = "تأكد من اختيار الحساب الرئيسى", IsValid = false };
 
                         var accountTree = context.AccountsTrees.FirstOrDefault(x=>x.Id==model.AccountTreeParentId);
                         if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
@@ -200,42 +197,44 @@ namespace ERP.Web.Controllers
                                     BranchId = model.BranchId,
                                     Name = $"مخزن : {model.Name}"
                                 };
+
+                                //تحديد نوع الجرد
+                                var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                Guid accountTreeStockAccount;
+                                if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                    accountTreeStockAccount = Guid.Parse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
+                                else
+                                    return new MessageReturn { Message = "تأكد من تحديد نوع الجرد اولا", IsValid = false };
+
+                                if (inventoryTypeVal == 2)   // حالة الجرد المستمر
+                                {
+                                    long newAccountNumStor = 0;// new account number 
+
+                                    var accountTreeStor = db.AccountsTrees.Find(accountTreeStockAccount);
+                                    var count = accountTreeStor.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                                    if (accountTreeStor.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                                        newAccountNumStor = long.Parse(accountTreeStor.AccountNumber + "000001");
+                                    else
+                                        newAccountNumStor = accountTreeStor.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                                    // add new account tree 
+                                    var newAccountTreeStor = new AccountsTree
+                                    {
+                                        AccountLevel = accountTreeStor.AccountLevel + 1,
+                                        AccountName = $"مخزن : {model.Name}",
+                                        AccountNumber = newAccountNumStor,
+                                        ParentId = accountTreeStor.Id,
+                                        TypeId = (int)AccountTreeSelectorTypesCl.Operational,
+                                        SelectedTree = false
+                                    };
+                                    store.AccountsTree = newAccountTreeStor;
+                                }
                                 context.Stores.Add(store);
                                 context.SaveChanges(auth.CookieValues.UserId);
                             }
-                            //اضافة حساب مصروف جديد باسم السيارة 
-                            long newAccountExpenceCarNum = 0;// new account number 
-                            var val = generalSetting.Where(x=>x.Id==(int)GeneralSettingCl.AccountTreeExpensesAccount).FirstOrDefault().SValue;
-                            if (val == null)
-                                return null;
 
-                            var generalId = Guid.Parse(val);
-                            var accountTreeExpense = context.AccountsTrees.FirstOrDefault(x => x.Id == generalId);
-                            if (accountTreeExpense.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
-                                newAccountExpenceCarNum = long.Parse(accountTreeExpense.AccountNumber + "000001");
-                            else
-                                newAccountExpenceCarNum = accountTreeExpense.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
-
-                            newExpenseAccountTree = new AccountsTree
-                            {
-                                AccountLevel = accountTreeExpense.AccountLevel + 1,
-                                AccountName = $"مصروف : {model.Name}",
-                                AccountNumber = newAccountExpenceCarNum,
-                                ParentId = accountTreeExpense.Id,
-                                TypeId = (int)AccountTreeSelectorTypesCl.Operational,
-                                SelectedTree = false
-                            };
-                            context.AccountsTrees.Add(newExpenseAccountTree);
-                            context.SaveChanges(auth.CookieValues.UserId);
-
-                            //اضافة مصروف السيارة ضمن انواع المصروفات
-                            context.ExpenseTypes.Add(new ExpenseType
-                            {
-                                AccountsTree = newExpenseAccountTree,
-                                Name = $"مصروف : {model.Name}"
-                            });
-                            context.SaveChanges(auth.CookieValues.UserId);
                         }
+
 
                         AccountsTree newDestructionAccountTree = null;
                         if (model.IsDestruction)//الاصل قابل للاهلاك
@@ -244,7 +243,7 @@ namespace ERP.Web.Controllers
                             var startYear = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue;
                             var endYear = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue;
                             if (!DateTime.TryParse(endYear, out DateTime financialYearEnd))
-                                return null;
+                                return new MessageReturn { Message = "تأكد من تحديد تاريخ السنة المالية", IsValid = false };
                             var diffMonths = ((financialYearEnd.Month+1) + financialYearEnd.Year * 12) - (model.OperationDate.Value.Month + model.OperationDate.Value.Year * 12);
                             var destruForMonth = Math.Round(model.DestructionAmount / 12, 2, MidpointRounding.ToEven);
                             model.DestructionAmountCurrent = diffMonths==12? model.DestructionAmount:destruForMonth * diffMonths;
@@ -253,7 +252,7 @@ namespace ERP.Web.Controllers
 
                             var val = generalSetting.Where(x=>x.Id==(int)GeneralSettingCl.AccountTreeDestructionAllowance).FirstOrDefault().SValue;
                             if (val == null)
-                                return null;
+                                return new MessageReturn { Message = "تأكد من تحديد حساب مجمع الاهلاك من الاعدادات العامة", IsValid = false };
 
                             var generalId = Guid.Parse(val);
                             var accountTreeDestruction = context.AccountsTrees.FirstOrDefault(x=>x.Id==generalId);
@@ -334,13 +333,13 @@ namespace ERP.Web.Controllers
                         context.SaveChanges(auth.CookieValues.UserId);
 
                         dbTran.Commit();
-                        return true;
+                        return new MessageReturn { Message = "تم الاضافة بنجاح", IsValid = true };
 
                     }
                     catch (DbEntityValidationException ex)
                     {
                         dbTran.Rollback();
-                        return false;
+                        return new MessageReturn { Message = "حدث خطأ اثناء تنفيذ العملية", IsValid = false };
                         throw;
                     }
                 }

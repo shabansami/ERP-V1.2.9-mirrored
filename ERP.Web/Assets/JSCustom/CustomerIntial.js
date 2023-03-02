@@ -100,7 +100,7 @@ var CustomerIntial_Module = function () {
 								<i class="fa fa-edit"></i>\
 							</a>\
                                 <a href="javascript:;" onclick=CustomerIntial_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fa fa-check"></i>\
 							</a><a href="javascript:;" onclick=CustomerIntial_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a></div>\

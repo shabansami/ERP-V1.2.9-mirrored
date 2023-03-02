@@ -99,7 +99,7 @@ var SaleMenStoreTransfer_Module = function () {
                             return '\
 							<div class="btn-group">\
                                 <a href="javascript:;" onclick=SaleMenStoreTransfer_Module.Approval("'+ row.Id + '","1") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد وقبول">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fa fa-check"></i>\
 							</a><a href="javascript:;" onclick=SaleMenStoreTransfer_Module.Approval("'+ row.Id + '","2") class="btn btn-sm btn-clean btn-icUrln" title="رفض التحويل">\
 								<i class="fa fa-ban"></i>\
 							</a>\<a href="/SaleMenStoreTransfers/Show/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض تفاصيل العملية">\

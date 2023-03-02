@@ -93,7 +93,7 @@ namespace ERP.Web.Controllers
                     var accountTree = db.AccountsTrees.Find(Guid.Parse(val));
                     var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
                     if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
-                        newAccountNum = long.Parse(accountTree.AccountNumber + "000001");
+                        newAccountNum = long.Parse(accountTree.AccountNumber + "1");
                     else
                         newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
 

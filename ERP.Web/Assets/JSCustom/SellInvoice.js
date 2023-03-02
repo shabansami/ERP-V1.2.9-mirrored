@@ -984,7 +984,9 @@ var SellInvoice_Module = function () {
 
         //سياسة اسعار عميل محدد فى فاتورة بيع 
         $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val(), isCustomer: true }, function (data) {
-            if (data.customeSell > 0 ) {
+            if (data.customeSell > 0) {
+                console.log('GetItemPriceByCustomer');
+
                 $("#PricingPolicyId").val(data.pricingPolicyId);
                 $("#Price").val(data.customeSell);
                 $("#Amount").val(data.customeSell * $("#Quantity").val());
@@ -993,20 +995,28 @@ var SellInvoice_Module = function () {
                 //السعر من جدول تحديد اسعار البيع تلقائيا حسب الفرع/الفئة/الصنف
                 $.get("/SharedDataSources/GetItemCustomSellPrice", { itemId: $("#ItemId").val(), branchId: $("#BranchId").val() }, function (data) {
                     newPrice = data.data;
-                    $("#PricingPolicyId").val(null);
-                    $("#Price").val(newPrice);
-                    $("#Amount").val(newPrice * $("#Quantity").val());
-                });
-                if (newPrice === 0) {
-                    //سعر بيع الصنف الافتراضى المسجل 
-                    $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
-                        console.log(data);
-                        newPrice = data.data;
+                    console.log('GetItemCustomSellPrice');
+                    if (newPrice == 0) {
+                        //سعر بيع الصنف الافتراضى المسجل 
+                        $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
+                            console.log(data);
+                            newPrice = data.data;
+                            $("#PricingPolicyId").val(null);
+                            console.log('GetDefaultSellPrice');
+
+                            $("#Price").val(newPrice);
+                            $("#Amount").val(newPrice * $("#Quantity").val());
+                        });
+                    } else {
                         $("#PricingPolicyId").val(null);
+                        console.log('GetDefaultSellPrice');
+
                         $("#Price").val(newPrice);
                         $("#Amount").val(newPrice * $("#Quantity").val());
-                    });
-                }
+                    }
+
+                });
+                
 
                
             }
@@ -1039,7 +1049,7 @@ var SellInvoice_Module = function () {
     };
     //تغيير سعر البيع حسب اختيار اسعار بيع سابقة
     function ChangeCurrentPice() {
-        console.log(1);
+        console.log('ChangeCurrentPice');
         $("#Price").val($("#prevouisPrice option:selected").val());
         onPriceOrQuanKeyUp();
       };
@@ -1048,6 +1058,8 @@ var SellInvoice_Module = function () {
         console.log(11);
 
         $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), personId: $("#CustomerId").val(),isCustomer:true }, function (data) {
+            console.log('GetPricePolicySellPrice');
+
             $("#Price").val(data.data);
             onPriceOrQuanKeyUp();
         });
@@ -1084,6 +1096,7 @@ var SellInvoice_Module = function () {
     function onItemUnitChange() {
         if ($("#ItemUnitsId").val()!=null) {
             $.get("/SharedDataSources/GetItemUnitPrice/", { id: $("#ItemUnitsId").val() }, function (data) {
+                alert('GetItemUnitPrice');
                 $("#Quantity").val(1);
                 $("#Price").val(data);
                 $("#Amount").val(data * 1);

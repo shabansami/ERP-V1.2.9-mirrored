@@ -523,8 +523,8 @@ namespace ERP.Web.Controllers
 
 
                                     // حساب المشتريات
-                                    if (model.TotalValue != 0)
-                                    {
+                                    //if (model.TotalValue != 0)
+                                    //{
                                         //=============================================================
                                         //تحديد نوع الجرد
                                         var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -608,7 +608,7 @@ namespace ERP.Web.Controllers
                                         //context.SaveChanges(auth.CookieValues.UserId);
                                         credit = credit + model.Safy;
 
-                                    }
+                                    
 
 
                                     // القيمة المضافة
@@ -1338,8 +1338,8 @@ namespace ERP.Web.Controllers
                 //var transactionDate = ;
                 //var t = db.CasesPurchaseInvoiceHistories.Where(x => x.IsPurchaseInvoice && x.PurchaseInvoiceId == model.Id && x.CaseId == (int)CasesCl.InvoiceFinalApproval).Count() > 0;
                 //if (model.CasesPurchaseInvoiceHistories.Any(x => x.CaseId == (int)CasesCl.InvoiceFinalApproval))
-                if (model.TotalValue != 0)
-                {
+                //if (model.TotalValue != 0)
+                //{
                     //من ح/ المشتريات
                     db.GeneralDailies.Add(new GeneralDaily
                     {
@@ -1366,7 +1366,7 @@ namespace ERP.Web.Controllers
                         TransactionTypeId = (int)TransactionsTypesCl.Purchases
                     });
                     credit = credit + model.Safy;
-                }
+                
 
 
                 // القيمة المضافة

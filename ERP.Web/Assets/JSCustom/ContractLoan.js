@@ -103,7 +103,7 @@ var ContractLoan_Module = function () {
 							<a href="javascript:;" onclick=ContractLoan_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=ContractLoan_Module.ApprovalContractLoan(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد السلفة">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fa fa-check"></i>\
 							</a></div>\
 						';
                     } else {

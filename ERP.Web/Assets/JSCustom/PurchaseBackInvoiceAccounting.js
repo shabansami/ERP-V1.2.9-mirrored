@@ -115,7 +115,7 @@ var PurchaseBackInvoiceAccounting_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
 						<a href="javascript:;" onclick=PurchaseBackInvoiceAccounting_Module.ApprovalInvoice(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة محاسبيا">\
-							<i class="fa fa-unlock-alt"></i>\
+							<i class="fa fa-check"></i>\
 							</a></div>\
 						';
                     }

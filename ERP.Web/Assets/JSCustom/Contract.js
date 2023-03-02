@@ -103,7 +103,7 @@ var Contract_Module = function () {
 							<div class="btn-group">\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.EmpGuid + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات العقد">\
 								<i class="fa fa-upload"></i>\
-							</a><a href = "javascript:;" onclick = Contract_Module.UnApprovalContract("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title = "الغاء الاعتماد" >\
+							</a><a href = "javascript:;" onclick = Contract_Module.UnApprovalContract("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title = "فك الاعتماد" >\
                             <i class="fa fa-unlock-alt"></i>\
                             </div >\
 ';

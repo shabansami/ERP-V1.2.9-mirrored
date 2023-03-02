@@ -489,15 +489,15 @@ namespace ERP.Web.Controllers
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             var data = new List<TreeViewDraw>();
-            if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
-            {
+            //if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+            //{
                 var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.FinancialYearDate).ToList();
                 DateTime dtFrome = DateTime.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue);
                 DateTime dtTo = DateTime.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue);
                 data = AccountTreeService.GetAccountTreeView(dtFrome, dtTo);
-            }
-            else
-                ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
+            //}
+            //else
+            //    ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
 
             stopwatch.Stop();
             return Json(data, JsonRequestBehavior.AllowGet);

@@ -113,7 +113,7 @@ var PurchaseInvoiceStore_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="/PurchaseInvoiceStores/ApprovalStore/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="اعتماد مخزنى">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fa fa-check"></i>\
 							</a></div>\
 						';
                     }

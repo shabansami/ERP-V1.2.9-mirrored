@@ -114,7 +114,7 @@ var StoresTransferApproval_Module = function () {
                        return '\
 							<div class="btn-group">\
 							\<a href="/StoresTransferApprovals/ApprovalStore/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="اعتماد مخزنى">\
-								<i class="fa fa-unlock-alt"></i>\
+								<i class="fa fa-check"></i>\
 							</a><a href="javascript:;" onclick=StoresTransferApproval_Module.Refused(\''+ row.Id + '\')  class="btn btn-sm btn-clean btn-icUrln" title="رفض عملية تحويل مخزنى">\
 								<i class="fas fa-times-circle"></i>\
 							</a></div>\

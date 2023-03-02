@@ -58,7 +58,7 @@
                                     <label> الحالة</label>
                                     @if (Model.Id == Guid.Empty)
                                     {
-                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med" })
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med", @onchange = "Supplier_Module.onPersonTypeChange()" })
                                     }
                                     else
                                     {
@@ -68,14 +68,25 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="col-lg-6">
-                                <div class="form-group mb-0 w-100">
+                        @if (Model.Id == Guid.Empty)
+                        {
+                            <div class="col-lg-6" id="customerCategory" style="display:none;">
+                                <div class="form-group mb-0 w-100 required">
                                     <div>
-                                        <label> النوع</label>
-                                        @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                                        <label> فئات العملاء</label>
+                                        @Html.DropDownList("PersonCategoryCustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med" })
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
+                        }
+                        @*<div class="col-lg-6">
+            <div class="form-group mb-0 w-100">
+                <div>
+                    <label> النوع</label>
+                    @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                </div>
+            </div>
+        </div>*@
 
                         <div class="col-lg-6">
                             <div class="form-group mb-0 w-100">
@@ -126,7 +137,7 @@
                                 <label>رقم التليفون ٢</label>
                                 @Html.TextBoxFor(m => m.Mob2, new { @class = "form-control" })
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-lg-4">
                             <div class="form-group ">
                                 <label>رقم السجل الضريبى</label>

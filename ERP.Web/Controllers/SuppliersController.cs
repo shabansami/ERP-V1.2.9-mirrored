@@ -19,7 +19,7 @@ namespace ERP.Web.Controllers
     {
         // GET: Suppliers
         VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public ActionResult Index()
         {
             ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name");
@@ -86,6 +86,7 @@ namespace ERP.Web.Controllers
                 ViewBag.AreaId = new SelectList(new List<Area>(), "Id", "Name");
                 ViewBag.GenderId = new SelectList(db.Genders.Where(x => !x.IsDeleted), "Id", "Name", 1);
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name");
+                ViewBag.PersonCategoryCustomerId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
                 ViewBag.PersonTypeId = new SelectList(db.PersonTypes.Where(x => !x.IsDeleted && (x.Id == (int)PersonTypeCl.Supplier) || x.Id == (int)PersonTypeCl.SupplierAndCustomer), "Id", "Name", 1);
                 ViewBag.LastRow = db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Supplier || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new Person());
@@ -123,7 +124,7 @@ namespace ERP.Web.Controllers
             return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult CreateEdit(Person vm, string DT_Datasource)
+        public JsonResult CreateEdit(Person vm, string DT_Datasource, string PersonCategoryCustomerId)
         {
             if (ModelState.IsValid)
             {
@@ -142,10 +143,6 @@ namespace ERP.Web.Controllers
                 var isInsert = false;
                 bool? isSaved = false;
 
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                 List<ResponsibleDT> deDS = new List<ResponsibleDT>();
                 List<Person> SupplierResponsible = new List<Person>();
 
@@ -221,6 +218,25 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                     if (db.Persons.Where(x => !x.IsDeleted && x.Name == vm.Name && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Supplier || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).Count() > 0) ///??
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
+                    //فى حالة مورد وعميل
+                    PersonCategory personCategoryCust = new PersonCategory();
+                    if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
+                    {
+                        if (Guid.TryParse(PersonCategoryCustomerId, out Guid personCategoryCustomerId))
+                        {
+                            personCategoryCust = db.PersonCategories.Where(x => x.Id == personCategoryCustomerId).FirstOrDefault();
+                            if (personCategoryCust != null)
+                            {
+                                if (personCategoryCust.AccountTreeId == null)
+                                    return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
+                            }
+                            else
+                                return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
+
+                        }
+                        else
+                            return Json(new { isValid = false, message = "تأكد من تحديد فئة العملاء" });
+                    }
 
                     isInsert = true;
                     vm.IsActive=true;
@@ -228,10 +244,10 @@ namespace ERP.Web.Controllers
                     if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
                     {
                         //add as customer in account tree
-                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategoryCust.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeSupp);
 
                         //add person in personTable
@@ -253,7 +269,7 @@ namespace ERP.Web.Controllers
                     else
                     {
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeSupp);
                         //add person in personTable
                         vm.AccountsTreeSupplier = accountTreeSupp;
@@ -308,11 +324,6 @@ namespace ERP.Web.Controllers
                 var model = db.Persons.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     var isExistGenerarDays = db.GeneralDailies.Where(x => !x.IsDeleted && (x.AccountsTreeId == model.AccountsTreeCustomerId || x.AccountsTreeId == model.AccountTreeSupplierId || x.AccountsTreeId == model.AccountTreeEmpCustodyId)).Any();
                     if (isExistGenerarDays)
                         return Json(new { isValid = false, message = "لا يمكن الحذف لارتباط الحساب بمعاملات مسجله مسبقا" });
@@ -360,10 +371,6 @@ namespace ERP.Web.Controllers
                 var model = db.Persons.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     model.IsActive = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
@@ -390,10 +397,6 @@ namespace ERP.Web.Controllers
                 var model = db.Persons.FirstOrDefault(x => x.Id == Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
                     model.IsActive = false;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

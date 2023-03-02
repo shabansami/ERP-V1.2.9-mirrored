@@ -549,7 +549,7 @@ namespace ERP.Web.Controllers
                                 model.TotalDiscount = itemDetailsDT.Sum(x => x.ItemDiscount) + invoiceDiscount;//إجمالي خصومات الفاتورة 
                                 model.TotalValue = itemDetailsDT.Sum(x => x.Amount);//إجمالي قيمة المبيعات 
                                 model.TotalExpenses = invoiceExpensesDT.Sum(x => x.ExpenseAmount);//إجمالي قيمة الايرادادت
-                                model.Safy = (model.TotalValue + model.TotalExpenses + vm.SalesTax) - (model.TotalDiscount + vm.ProfitTax);
+                                model.Safy = Math.Round((model.TotalValue + model.TotalExpenses + vm.SalesTax) - (model.TotalDiscount + vm.ProfitTax),2,MidpointRounding.AwayFromZero);
                                 model.InvoiceNumPaper = vm.InvoiceNumPaper;
 
                                 //فى حالة السداد نقدى ولم يتم دفع كامل المبلغ
@@ -778,8 +778,6 @@ namespace ERP.Web.Controllers
                                                 return Json(new { isValid = false, message = "تأكد من تحديد طريقة السداد (خزينة/بنكى)للفاتورة" });
                                         }
                                         // فى حالة ان الفاتورة كلها عينات وبدون سعر
-                                        if (model.TotalValue != 0)
-                                        {
                                             //=============================================================
                                             //تحديد نوع الجرد
                                             var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -873,7 +871,7 @@ namespace ERP.Web.Controllers
                                             debit = debit + model.Safy;
                                             credit = credit + model.TotalValue;
 
-                                        }
+                                        
 
 
                                         // القيمة المضافة
@@ -1435,8 +1433,8 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "تأكد من تحديد طريقة السداد (خزينة/بنكى)للفاتورة" });
                 }
                 // فى حالة ان الفاتورة كلها عينات وبدون سعر
-                if (model.TotalValue != 0)
-                {
+                //if (model.TotalValue != 0)
+                //{
                     //=============================================================
                     //تحديد نوع الجرد
                     var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -1531,7 +1529,7 @@ namespace ERP.Web.Controllers
                     debit = debit + model.Safy;
 
                     credit = credit + model.TotalValue;
-                }
+                
 
 
                 // القيمة المضافة

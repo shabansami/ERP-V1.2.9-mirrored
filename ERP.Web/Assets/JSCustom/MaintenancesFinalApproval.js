@@ -112,7 +112,7 @@ var MaintenancesFinalApproval_Module = function () {
                             return '\
 							<div class="btn-group">\
 							<a href="javascript:;" onclick=MaintenancesFinalApproval_Module.ApprovalInvoice("'+ row.InvoiceGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة بشكل نهائى">\
-							<i class="fa fa-unlock-alt"></i>\
+							<i class="fa fa-check"></i>\
 							</a>\<a href="/Maintenances/ShowMaintenance/?invoGuid='+ row.InvoiceGuid + '" class="btn btn-sm btn-clean btn-icon" title="استعراض بيانات الفاتورة">\
 								<i class="fa fa-search"></i>\
 							</a>\

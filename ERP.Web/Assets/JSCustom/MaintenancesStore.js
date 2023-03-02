@@ -114,7 +114,7 @@ var MaintenancesStore_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\
 							<a href="javascript:;" onclick=MaintenancesStore_Module.ApprovalInvoice("'+ row.InvoiceGuid + '") class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة مخزنيا">\
-							<i class="fa fa-unlock-alt"></i>\
+							<i class="fa fa-check"></i>\
 							</a></div>\
 						';
                         }

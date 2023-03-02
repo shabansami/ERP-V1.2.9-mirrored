@@ -477,7 +477,13 @@ var Supplier_Module = function () {
 
     };
     //#endregion
-
+    function onPersonTypeChange() {
+        if ($("#PersonTypeId").val() == '3') {
+            $("#customerCategory").show();
+        } else {
+            $("#customerCategory").hide();
+        }
+    };
     return {
         //main function to initiate the module
         init: function () {
@@ -493,7 +499,8 @@ var Supplier_Module = function () {
         onCityChange: onCityChange,
         deleteRowSupplierResponsible: deleteRowSupplierResponsible,
         ActivePerson: ActivePerson,
-        UnActivePerson: UnActivePerson
+        UnActivePerson: UnActivePerson,
+        onPersonTypeChange: onPersonTypeChange,
 
     };
 

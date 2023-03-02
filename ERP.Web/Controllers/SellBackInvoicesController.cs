@@ -555,8 +555,8 @@ namespace ERP.Web.Controllers
                                         }
 
                                         // فى حالة ان الفاتورة كلها عينات وبدون سعر
-                                        if (model.TotalValue != 0)
-                                        {
+                                        //if (model.TotalValue != 0)
+                                        //{
                                             //=============================================================
                                             //تحديد نوع الجرد
                                             var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -648,7 +648,7 @@ namespace ERP.Web.Controllers
 
 
 
-                                        }
+                                        
 
                                         // القيمة المضافة
                                         if (model.SalesTax > 0)
@@ -1064,8 +1064,8 @@ namespace ERP.Web.Controllers
                                     return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
                             }
                             // فى حالة ان الفاتورة كلها عينات وبدون سعر
-                            if (model.TotalValue != 0)
-                            {
+                            //if (model.TotalValue != 0)
+                            //{
                                 //=============================================================
                                 //تحديد نوع الجرد
                                 var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -1157,7 +1157,7 @@ namespace ERP.Web.Controllers
 
 
 
-                            }
+                            
 
 
 

@@ -531,8 +531,8 @@ namespace ERP.Web.Controllers
                                         }
 
                                         // حساب مرتجع مشتريات
-                                        if (model.TotalValue != 0)
-                                        {
+                                        //if (model.TotalValue != 0)
+                                        //{
                                             //=============================================================
                                             //تحديد نوع الجرد
                                             var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -609,7 +609,7 @@ namespace ERP.Web.Controllers
                                                 TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
                                             });
                                             debit = debit + model.Safy;
-                                        }                                      
+                                                                             
 
                                         // القيمة المضافة
                                         if (model.SalesTax > 0)
@@ -980,8 +980,8 @@ namespace ERP.Web.Controllers
                             }
 
                             // حساب مرتجع مشتريات
-                            if (model.TotalValue != 0)
-                            {
+                            //if (model.TotalValue != 0)
+                            //{
                                 //=============================================================
                                 //تحديد نوع الجرد
                                 var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
@@ -1058,7 +1058,7 @@ namespace ERP.Web.Controllers
                                     TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
                                 });
                                 debit = debit + model.Safy;
-                            }
+                            
 
 
 

@@ -505,6 +505,14 @@ var Customer_Module = function () {
 
         })
     };
+    function onPersonTypeChange() {
+        console.log($("#PersonTypeId").val());
+        if ($("#PersonTypeId").val() == '3') {
+            $("#supplierCategory").show();
+        } else {
+            $("#supplierCategory").hide();
+        }
+    };
     return {
         //main function to initiate the module
         init: function () {
@@ -522,7 +530,8 @@ var Customer_Module = function () {
         onRegionChange: onRegionChange,
         deleteRowCustomerResponsible: deleteRowCustomerResponsible,
         ActivePerson: ActivePerson,
-        UnActivePerson: UnActivePerson
+        UnActivePerson: UnActivePerson,
+        onPersonTypeChange: onPersonTypeChange
     };
 
 }();

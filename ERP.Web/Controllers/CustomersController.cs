@@ -110,6 +110,7 @@ namespace ERP.Web.Controllers
                 ViewBag.ParentId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
                 ViewBag.PersonTypeId = new SelectList(db.PersonTypes.Where(x => !x.IsDeleted && (x.Id == (int)PersonTypeCl.Customer) || x.Id == (int)PersonTypeCl.SupplierAndCustomer), "Id", "Name", 2);
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
+                ViewBag.PersonCategorySupplierId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name");
                 ViewBag.LastRow = db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new Person());
             }
@@ -146,7 +147,7 @@ namespace ERP.Web.Controllers
             return Json(new { isValid = true }, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
-        public JsonResult CreateEdit(Person vm, string DT_Datasource)
+        public JsonResult CreateEdit(Person vm, string DT_Datasource,string PersonCategorySupplierId)
         {
             if (ModelState.IsValid)
             {
@@ -249,6 +250,25 @@ namespace ERP.Web.Controllers
 
                     if (db.Persons.Where(x => !x.IsDeleted && x.Name == vm.Name && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)).Count() > 0) ///??
                         return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
+                    //فى حالة مورد وعميل
+                    PersonCategory personCategorySupp = new PersonCategory();
+                    if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
+                    {
+                        if (Guid.TryParse(PersonCategorySupplierId, out Guid personCategorySupplierId))
+                        {
+                            personCategorySupp = db.PersonCategories.Where(x => x.Id == personCategorySupplierId).FirstOrDefault();
+                            if (personCategorySupp != null)
+                            {
+                                if (personCategorySupp.AccountTreeId == null)
+                                    return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
+                            }
+                            else
+                                return Json(new { isValid = false, message = "تأكد من انشاء حساب للفئة فى الدليل المحاسبى" });
+
+                        }
+                        else
+                            return Json(new { isValid = false, message = "تأكد من تحديد فئة الموردين" });
+                    }
 
                     isInsert = true;
                     vm.IsActive=true;
@@ -259,7 +279,7 @@ namespace ERP.Web.Controllers
                         var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(GeneralSettingCl.AccountTreeSupplierAccount, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategorySupp.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeSupp);
 
                         //add person in personTable
@@ -283,7 +303,7 @@ namespace ERP.Web.Controllers
                     else
                     {
                         //add as customer in account tree
-                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTree(GeneralSettingCl.AccountTreeCustomerAccount, vm.Name, vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer ? AccountTreeSelectorTypesCl.Operational : AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add person in personTable
                         vm.AccountsTreeCustomer = accountTreeCust;

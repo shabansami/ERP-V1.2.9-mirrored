@@ -101,8 +101,8 @@ namespace ERP.Web.Controllers
             if (AccountTreeService.CheckAccountTreeIdHasChilds(accountTreeId))
                 return Json(new { isValid = false, message = "تأكد اختيار حساب فرعى صحيح.. الحساب المختار ليس بحساب فرعى)" });
             //التأكد من عدم تكرار الحساب
-            if (deDS.Any(x => x.AccountTreeIdDT == accountTreeId))
-                return Json(new { isValid = false, message = "تم ادخال الحساب مسبقا" });
+            //if (deDS.Any(x => x.AccountTreeIdDT == accountTreeId))
+            //    return Json(new { isValid = false, message = "تم ادخال الحساب مسبقا" });
 
             var accountTree = db.AccountsTrees.Where(x => x.Id == accountTreeId).FirstOrDefault();
             var newVoucher = new VoucherDetailDT

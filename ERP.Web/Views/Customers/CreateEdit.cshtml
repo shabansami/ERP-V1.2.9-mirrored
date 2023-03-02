@@ -66,8 +66,9 @@
 
                         <div class="col-lg-6">
                             <div class="form-group ">
-                                <label>هل يتبع عميل اخر ؟  
-                                <input @isHasParent type="checkbox" id="YES" name="YES" value="YES" style="margin-right: 20px; width: 20px; height: 20px; margin-top:3px;" />
+                                <label>
+                                    هل يتبع عميل اخر ؟
+                                    <input @isHasParent type="checkbox" id="YES" name="YES" value="YES" style="margin-right: 20px; width: 20px; height: 20px; margin-top:3px;" />
                                 </label>
                                 <div id="Person" style="visibility:@ShowClass">
                                     @Html.DropDownList("ParentId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med DropList" })
@@ -88,7 +89,7 @@
                                     <label> الحالة</label>
                                     @if (Model.Id == Guid.Empty)
                                     {
-                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med" })
+                                        @Html.DropDownList("PersonTypeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med", @onchange = "Customer_Module.onPersonTypeChange()" })
                                     }
                                     else
                                     {
@@ -99,15 +100,27 @@
                                 </div>
                             </div>
                         </div>
-                        @*<div class="col-lg-6">
-                                <div class="form-group mb-0 w-100">
-
+                        @if (Model.Id == Guid.Empty)
+                        {
+                            <div class="col-lg-6"id="supplierCategory" style="display:none;">
+                                <div class="form-group mb-0 w-100 required">
                                     <div>
-                                        <label> النوع</label>
-                                        @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                                        <label> فئات الموردين</label>
+                                        @Html.DropDownList("PersonCategorySupplierId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select     din-med" })
                                     </div>
                                 </div>
-                            </div>*@
+                            </div>
+                        }
+
+                        @*<div class="col-lg-6">
+            <div class="form-group mb-0 w-100">
+
+                <div>
+                    <label> النوع</label>
+                    @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                </div>
+            </div>
+        </div>*@
                         <div class="col-lg-6">
                             <div class="form-group mb-0 w-100">
 

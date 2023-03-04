@@ -1953,6 +1953,7 @@
     <Compile Include="Services\ExpenseIncomeService.cs" />
     <Compile Include="Services\GeneralDailyService.cs" />
     <Compile Include="Services\GroupService.cs" />
+    <Compile Include="Services\ImportDataFromOtherSystems.cs" />
     <Compile Include="Services\ItemImportDataZumurada.cs" />
     <Compile Include="Services\ItemService.cs" />
     <Compile Include="Services\PaymentServices.cs" />

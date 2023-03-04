@@ -34,6 +34,8 @@ namespace ERP.Web.Controllers
         #region Login
         public ActionResult Login(int? MsgBadLogin,string ErroeMsg)
         {
+            //ImportDataFromOtherSystems.ExcuteStores();
+            //ImportDataFromOtherSystems.ExcuteItems();
             //Lookups.ExcuteFirstInit();
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages

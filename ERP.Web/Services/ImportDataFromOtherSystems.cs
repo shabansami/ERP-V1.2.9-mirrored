@@ -19,9 +19,11 @@ namespace ERP.Web.Services
     public static class ImportDataFromOtherSystems
     {
         #region import data old system abdulahhusien
+       static Guid userId = new Guid("160D1229-E649-4A5F-A5F2-A7720DB4AD73");
+       static Guid branchId = new Guid("6E4C4F69-3082-475B-BDC0-9BDBF31C51AC");
+
         public static bool ExcuteStores()
         {
-            var branchId = new Guid("C4934360-3D2A-4C5E-B38D-E9C24E0E4645");
             using (var context = new VTSaleEntities())
             {
                 using (DbContextTransaction transaction = context.Database.BeginTransaction())
@@ -62,18 +64,18 @@ namespace ERP.Web.Services
                         //    Name = "بالقطعة"
                         //});
 
-                        var query = $@"INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'575f3361-c07d-4f0f-811d-1349b72d4709', NULL,{branchId}, NULL, 0, N'مخزن خط المنيا', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'b7c97e9e-f786-4dcf-86e2-1690f68d1ce9', NULL,{branchId}, NULL, 0, N'مخزن المحل', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'ca6be5b6-3a1b-49a2-a396-1faffb72fef0', NULL,{branchId}, NULL, 0, N'مخزن خط ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'6c5bee64-17f1-47a0-a2fd-4d3450dbd3b2', NULL,{branchId}, NULL, 0, N'مخزن الرفايع', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'21a37820-319e-4a87-ba17-8e6afc583900', NULL,{branchId}, NULL, 0, N'مخزن دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'a4ef50d4-30d2-44f6-84f3-9484d8511b04', NULL,{branchId}, NULL, 0, N'مخزن مرتجع دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'dc5fddd2-0baf-44b1-9116-a5d3b6f3f4d0', NULL,{branchId}, NULL, 0, N'مخزن خط الصعيد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'4cf0e6d1-ff63-40a6-a8ba-a60384f98b85', NULL,{branchId}, NULL, 0, N'مخزن مرتجع المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'0cc85fcd-65a9-43df-b0ee-bcf20722eab6', NULL,{branchId}, NULL, 0, N'مخزن المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'd235cd5b-050d-4c5b-8be1-e9a076e391c1', NULL,{branchId}, NULL, 0, N'مخزن ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'6ed61abb-a982-4594-b10c-f51997e6f7aa', NULL,{branchId}, NULL, 0, N'مخزن خط بريفكس', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL, NULL);
-INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'52442eeb-32d1-49a7-bd54-48dcb844e9b9', N'بالقطعة', CAST(N'2023-03-04T15:20:57.770' AS DateTime), N'43e6bd4c-bdfb-4d4c-aa35-853c7446edff', NULL, NULL, 0, NULL, NULL);
+                        var query = $@"INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'575f3361-c07d-4f0f-811d-1349b72d4709', NULL,N'{branchId}', NULL, 0, N'مخزن خط المنيا', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'b7c97e9e-f786-4dcf-86e2-1690f68d1ce9', NULL,N'{branchId}', NULL, 0, N'مخزن المحل', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'ca6be5b6-3a1b-49a2-a396-1faffb72fef0', NULL,N'{branchId}', NULL, 0, N'مخزن خط ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'6c5bee64-17f1-47a0-a2fd-4d3450dbd3b2', NULL,N'{branchId}', NULL, 0, N'مخزن الرفايع', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'21a37820-319e-4a87-ba17-8e6afc583900', NULL,N'{branchId}', NULL, 0, N'مخزن دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'a4ef50d4-30d2-44f6-84f3-9484d8511b04', NULL,N'{branchId}', NULL, 0, N'مخزن مرتجع دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'dc5fddd2-0baf-44b1-9116-a5d3b6f3f4d0', NULL,N'{branchId}', NULL, 0, N'مخزن خط الصعيد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'4cf0e6d1-ff63-40a6-a8ba-a60384f98b85', NULL,N'{branchId}', NULL, 0, N'مخزن مرتجع المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'0cc85fcd-65a9-43df-b0ee-bcf20722eab6', NULL,N'{branchId}', NULL, 0, N'مخزن المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'd235cd5b-050d-4c5b-8be1-e9a076e391c1', NULL,N'{branchId}', NULL, 0, N'مخزن ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'6ed61abb-a982-4594-b10c-f51997e6f7aa', NULL,N'{branchId}', NULL, 0, N'مخزن خط بريفكس', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'52442eeb-32d1-49a7-bd54-48dcb844e9b9', N'بالقطعة', CAST(N'2023-03-04T15:20:57.770' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
 ";
                         context.Database.ExecuteSqlCommand(query);
                         //context.SaveChanges(new Guid("43E6BD4C-BDFB-4D4C-AA35-853C7446EDFF"));
@@ -89,16 +91,9 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
             }
         }
 
-        public class StoreDto
-        {
-            public Guid StoreId { get; set; }
-            public string StoreName { get; set; }
-        }
         public static bool ExcuteItems()
         {
             List<Item> items = new List<Item>();
-            Guid userId = new Guid("43E6BD4C-BDFB-4D4C-AA35-853C7446EDFF");
-            var branchId = new Guid("C4934360-3D2A-4C5E-B38D-E9C24E0E4645");
 
             using (var context = new VTSaleEntities())
             {
@@ -113,11 +108,9 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                             using (OleDbCommand cmd =new OleDbCommand("",cn))
                             {
                                 OleDbDataReader dr;
-                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=d:\\storee.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\نقل البيانات الافتتاحية لمشروع عبدالله حسين\\suppliers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
                                 cn.Open();
-
                                 cmd.CommandText = "select * from [Sheet1$]";
-
                                 dr = cmd.ExecuteReader();
                                 dtItems.Load(dr);
                                 dr.Close();
@@ -126,7 +119,6 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                         }
 
                         //
-
                         Guid unitId =context.Units.FirstOrDefault().Id;
                         List<ItemIntialBalanceDetail> itemIntialBalanceDetails = new List<ItemIntialBalanceDetail>();
 
@@ -256,7 +248,6 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 Amount = buyPrice * meniLineBalance,
                             });
                             //مخزن خط ترومان
-                            //مخزن خط المنيا
                             if(double.TryParse(item["trumanLine"].ToString(), out double trumanLineBalance) && trumanLineBalance > 0)
                             itemIntialBalanceDetails.Add(new ItemIntialBalanceDetail
                             {
@@ -385,6 +376,406 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 
                                 
                                 catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
+        public static bool ExcuteSuppliers()
+        {
+            using (var context = new VTSaleEntities())
+            {
+                using (DbContextTransaction transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                       
+                        DataTable dtSuppliers = new DataTable();
+                        using (OleDbConnection cn = new OleDbConnection())
+                        {
+                            using (OleDbCommand cmd =new OleDbCommand("",cn))
+                            {
+                                OleDbDataReader dr;
+                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\نقل البيانات الافتتاحية لمشروع عبدالله حسين\\suppliers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+                                cn.Open();
+
+                                cmd.CommandText = "select * from [Sheet1$]";
+
+                                dr = cmd.ExecuteReader();
+                                dtSuppliers.Load(dr);
+                                dr.Close();
+                                cn.Close();
+                            }
+                        }
+                        //add supplier category
+                        PersonCategory personCategory = new PersonCategory
+                        {
+                            IsCustomer = false,
+                            Name = "موردين",
+                        };
+
+                        //========================اضافة حساب الفئة فى الدليل المحاسبى
+                        long newAccountNum = 0;// new account number 
+                        var val = context.GeneralSettings.Find((int)GeneralSettingCl.AccountTreeSupplierAccount).SValue;
+                        if (val == null)
+                            return false;
+
+                        var accountTree = context.AccountsTrees.Find(Guid.Parse(val));
+                        var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                        if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                            newAccountNum = long.Parse(accountTree.AccountNumber + "1");
+                        else
+                            newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                        // add new account tree 
+                        var newAccountTree = new AccountsTree
+                        {
+                            AccountLevel = accountTree.AccountLevel + 1,
+                            AccountName = personCategory.Name,
+                            AccountNumber = newAccountNum,
+                            ParentId = accountTree.Id,
+                            TypeId = (int)AccountTreeSelectorTypesCl.Sub,
+                            SelectedTree = false
+                        };
+                        personCategory.AccountTree = newAccountTree;
+                        personCategory.IsCustomer = false;
+                        context.PersonCategories.Add(personCategory);
+                        context.SaveChanges(userId);
+
+                        foreach (DataRow item in dtSuppliers.Rows)
+                        {
+                            
+                            //add supplier
+                            var areaId = context.Areas.FirstOrDefault().Id;
+                            Person supplier = new Person
+                            {
+                                Name = item["nam"].ToString(),
+                                PersonTypeId = (int)PersonTypeCl.Supplier,
+                                AreaId = areaId,
+                                Mob1 = "01021",
+                                PersonCategoryId = personCategory.Id,
+                                IsActive = true
+                            };
+                        //add as supplier in account tree
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, personCategory.Name, AccountTreeSelectorTypesCl.Operational);
+                        context.AccountsTrees.Add(accountTreeSupp);
+                            //add person in personTable
+                            supplier.AccountsTreeSupplier = accountTreeSupp;
+                            context.Persons.Add(supplier);
+                            context.SaveChanges(userId);
+
+                            //add supplier initial
+                           if(double.TryParse(item["balance"].ToString(),out double balance)&& balance != 0)
+                            {
+                                bool IsDebit = false;
+                                if (balance > 0)
+                                    IsDebit = true;
+
+                               var supplierInital = new PersonIntialBalance
+                                {
+                                    PersonId = supplier.Id,
+                                    BranchId = branchId,
+                                    Amount =Math.Abs(balance) ,
+                                    OperationDate = Utility.GetDateTime(),
+                                    IsCustomer = false,
+                                    IsDebit = IsDebit,
+                                };
+                                context.PersonIntialBalances.Add(supplierInital);
+
+                                // الحصول على حسابات من الاعدادات
+                                var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
+                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
+                                    return false;
+                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                if (AccountTreeService.CheckAccountTreeIdHasChilds(supplier.AccountTreeSupplierId))
+                                    return false;
+
+                                if (supplierInital.IsDebit) // الرصيد مدين
+                                {
+                                    // حساب المورد
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = supplier.AccountTreeSupplierId,
+                                        Debit = supplierInital.Amount,
+                                        Notes = $"رصيد أول المدة للمورد : {supplier.Name} , {supplierInital.Notes}",
+                                        BranchId = supplierInital.BranchId,
+                                        TransactionDate = supplierInital.OperationDate,
+                                        TransactionId = supplierInital.Id,
+                                        TransactionShared = supplierInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceSupplier
+                                    });
+                                    //رأس المال 
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),
+                                        Credit = supplierInital.Amount,
+                                        BranchId = supplierInital.BranchId,
+                                        Notes = $"رصيد أول المدة للمورد : {supplier.Name} , {supplierInital.Notes}",
+                                        TransactionDate = supplierInital.OperationDate,
+                                        TransactionId = supplierInital.Id,
+                                        TransactionShared = supplierInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceSupplier
+                                    });
+                                }
+                                else if (!supplierInital.IsDebit) //الرصيد دائن
+                                {
+                                    // حساب المورد
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = supplier.AccountTreeSupplierId,
+                                        Credit = supplierInital.Amount,
+                                        Notes = $"رصيد أول المدة للمورد : {supplier.Name} , {supplierInital.Notes}",
+                                        BranchId = supplierInital.BranchId,
+                                        TransactionDate = supplierInital.OperationDate,
+                                        TransactionId = supplierInital.Id,
+                                        TransactionShared = supplierInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceSupplier
+                                    });
+                                    //رأس المال 
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),
+                                        Debit = supplierInital.Amount,
+                                        BranchId = supplierInital.BranchId,
+                                        Notes = $"رصيد أول المدة للمورد : {supplier.Name} , {supplierInital.Notes}",
+                                        TransactionDate = supplierInital.OperationDate,
+                                        TransactionId = supplierInital.Id,
+                                        TransactionShared = supplierInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceSupplier
+                                    });
+                                }
+
+
+                                //تحديث حالة الاعتماد 
+                                supplierInital.IsApproval = true;
+                                context.SaveChanges(userId);
+                            }
+
+                    }
+                        //
+
+
+                        transaction.Commit();
+                        return true;
+                    }
+         
+                                
+                                
+                                catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        return false;
+                    }
+                }
+            }
+        }
+        public static bool ExcuteCustomers()
+        {
+            using (var context = new VTSaleEntities())
+            {
+                using (DbContextTransaction transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+
+                        DataTable dtCustomers = new DataTable();
+                        using (OleDbConnection cn = new OleDbConnection())
+                        {
+                            using (OleDbCommand cmd = new OleDbCommand("", cn))
+                            {
+                                OleDbDataReader dr;
+                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\نقل البيانات الافتتاحية لمشروع عبدالله حسين\\customers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+                                cn.Open();
+
+                                cmd.CommandText = "select * from [Sheet1$]";
+
+                                dr = cmd.ExecuteReader();
+                                dtCustomers.Load(dr);
+                                dr.Close();
+                                cn.Close();
+                            }
+                        }
+                        foreach (DataRow item in dtCustomers.Rows)
+                        {
+                            //add customer category
+                            PersonCategory personCategory = new PersonCategory();
+                            var catSheet = item["category"].ToString().Trim();
+                            var catDb = context.PersonCategories.Where(x => x.Name.Trim() == catSheet).FirstOrDefault();
+                            if (catDb == null)
+                            {
+                                var catNew = new PersonCategory
+                                {
+                                    Name = catSheet,
+                                    IsCustomer = true,
+                                };
+
+                                //========================اضافة حساب الفئة فى الدليل المحاسبى
+                                long newAccountNum = 0;// new account number 
+                                var val = context.GeneralSettings.Find((int)GeneralSettingCl.AccountTreeCustomerAccount).SValue;
+                                if (val == null)
+                                    return false;
+
+                                var accountTree = context.AccountsTrees.Find(Guid.Parse(val));
+                                var count = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count();
+                                if (accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Count() == 0)
+                                    newAccountNum = long.Parse(accountTree.AccountNumber + "1");
+                                else
+                                    newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
+
+                                // add new account tree 
+                                var newAccountTree = new AccountsTree
+                                {
+                                    AccountLevel = accountTree.AccountLevel + 1,
+                                    AccountName = personCategory.Name,
+                                    AccountNumber = newAccountNum,
+                                    ParentId = accountTree.Id,
+                                    TypeId = (int)AccountTreeSelectorTypesCl.Sub,
+                                    SelectedTree = false
+                                };
+                                catNew.AccountTree = newAccountTree;
+                                context.PersonCategories.Add(catNew);
+                                context.SaveChanges(userId);
+                                personCategory = catNew;
+                            }
+                            else
+                                personCategory = catDb;
+
+
+
+                            //add Customer
+                            var areaId = context.Areas.FirstOrDefault().Id;
+                            Person customer = new Person
+                            {
+                                Name = item["nam"].ToString(),
+                                PersonTypeId = (int)PersonTypeCl.Customer,
+                                AreaId = areaId,
+                                Mob1 = "01021",
+                                PersonCategoryId = personCategory.Id,
+                                IsActive = true
+                            };
+                            //add as customer in account tree
+                            var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, personCategory.Name, AccountTreeSelectorTypesCl.Operational);
+                            context.AccountsTrees.Add(accountTreeCust);
+                            //add person in personTable
+                            customer.AccountsTreeCustomer = accountTreeCust;
+                            context.Persons.Add(customer);
+                            context.SaveChanges(userId);
+
+                            //add customer initial
+                            if (double.TryParse(item["balance"].ToString(), out double balance) && balance != 0)
+                            {
+                                bool IsDebit = false;
+                                if (balance > 0)
+                                    IsDebit = true;
+
+                                var customerInital = new PersonIntialBalance
+                                {
+                                    PersonId = customer.Id,
+                                    BranchId = branchId,
+                                    Amount = Math.Abs(balance),
+                                    OperationDate = Utility.GetDateTime(),
+                                    IsCustomer = true,
+                                    IsDebit = IsDebit,
+                                };
+                                context.PersonIntialBalances.Add(customerInital);
+
+                                // الحصول على حسابات من الاعدادات
+                                var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
+                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
+                                    return false;
+                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                if (AccountTreeService.CheckAccountTreeIdHasChilds(customer.AccountsTreeCustomerId))
+                                    return false;
+
+
+                                if (customerInital.IsDebit) // الرصيد مدين
+                                {
+                                    // حساب العميل
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = customer.AccountsTreeCustomerId,
+                                        Debit = customerInital.Amount,
+                                        Notes = $"رصيد أول المدة للعميل : {customer.Name} , {customerInital.Notes}",
+                                        BranchId = customerInital.BranchId,
+                                        TransactionDate = customerInital.OperationDate,
+                                        TransactionId = customerInital.Id,
+                                        TransactionShared = customerInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceCustomer
+                                    });
+                                    //رأس المال 
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),
+                                        Credit = customerInital.Amount,
+                                        BranchId = customerInital.BranchId,
+                                        Notes = $"رصيد أول المدة للعميل : {customer.Name} , {customerInital.Notes}",
+                                        TransactionDate = customerInital.OperationDate,
+                                        TransactionId = customerInital.Id,
+                                        TransactionShared = customerInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceCustomer
+                                    });
+                                }
+                                else if (!customerInital.IsDebit) //الرصيد دائن
+                                {
+                                    // حساب العميل
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = customer.AccountsTreeCustomerId,
+                                        Credit = customerInital.Amount,
+                                        Notes = $"رصيد أول المدة للعميل : {customer.Name} , {customerInital.Notes}",
+                                        BranchId = customerInital.BranchId,
+                                        TransactionDate = customerInital.OperationDate,
+                                        TransactionId = customerInital.Id,
+                                        TransactionShared = customerInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceCustomer
+                                    });
+                                    //رأس المال 
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),
+                                        Debit = customerInital.Amount,
+                                        BranchId = customerInital.BranchId,
+                                        Notes = $"رصيد أول المدة للعميل : {customer.Name} , {customerInital.Notes}",
+                                        TransactionDate = customerInital.OperationDate,
+                                        TransactionId = customerInital.Id,
+                                        TransactionShared = customerInital.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceCustomer
+                                    });
+                                }
+                                //تحديث حالة الاعتماد 
+                                customerInital.IsApproval = true;
+                                context.SaveChanges(userId);
+                            }
+
+                            //تسجيل عملاء مندوب
+                            var employee = item["employee"].ToString().Trim();
+                            var employeeDb = context.Employees.Where(x => x.Person.Name.Trim() == employee).FirstOrDefault();
+                            if (employeeDb == null)
+                                return false;
+
+                            var saleMenCustomer = new SaleMenCustomer
+                            {
+                                EmployeeId = employeeDb.Id,
+                                CustomerId = customer.Id
+                            };
+                            context.SaleMenCustomers.Add(saleMenCustomer);
+                            context.SaveChanges();
+
+                        }
+                        //
+
+
+                        transaction.Commit();
+                        return true;
+                    }
+
+
+
+                    catch (Exception ex)
                     {
                         transaction.Rollback();
                         return false;

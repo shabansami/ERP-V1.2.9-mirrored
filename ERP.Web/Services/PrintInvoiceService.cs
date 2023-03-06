@@ -51,14 +51,14 @@ namespace ERP.Web.Services
                                     ExpenseTypeName = e.ExpenseTypeAccountTree.AccountName,
                                     ExpenseAmount = e.Amount
                                 }).ToList(),
-                                ItemDetails = x.PurchaseInvoicesDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
+                                ItemDetails = x.PurchaseInvoicesDetails.Where(i => !i.IsDeleted).OrderBy(i=>i.CreatedOn).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
                                     ItemDiscount = i.ItemDiscount
-
+                                    
                                 }).ToList(),
                                 RptTitle = "فاتورة توريد",
                                 PersonTypeName="المورد",
@@ -107,7 +107,7 @@ namespace ERP.Web.Services
                                     ExpenseTypeName = e.ExpenseTypeAccountsTree.AccountName,
                                     ExpenseAmount = e.Amount
                                 }).ToList(),
-                                ItemDetails = x.PurchaseBackInvoicesDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
+                                ItemDetails = x.PurchaseBackInvoicesDetails.Where(i => !i.IsDeleted).OrderBy(i => i.CreatedOn).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,
                                     Price = i.Price,
@@ -167,7 +167,7 @@ namespace ERP.Web.Services
                                     ExpenseTypeName = e.IncomeTypeAccountTree.AccountName,
                                     ExpenseAmount = e.Amount
                                 }).ToList(),
-                                ItemDetails = x.SellInvoicesDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
+                                ItemDetails = x.SellInvoicesDetails.Where(i => !i.IsDeleted).OrderBy(i=>i.CreatedOn).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,
                                     Price = i.Price,
@@ -228,7 +228,7 @@ namespace ERP.Web.Services
                                     ExpenseTypeName = e.IncomeTypeAccountTree.AccountName,
                                     ExpenseAmount = e.Amount
                                 }).ToList(),
-                                ItemDetails = x.SellBackInvoicesDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
+                                ItemDetails = x.SellBackInvoicesDetails.Where(i => !i.IsDeleted).OrderBy(i => i.CreatedOn).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,
                                     Price = i.Price,
@@ -277,7 +277,7 @@ namespace ERP.Web.Services
                                 Safy = x.Safy,
                                 SalesTax = x.SalesTax,
                                 ProfitTax = x.ProfitTax,
-                                ItemDetails = x.QuoteOrderSellDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
+                                ItemDetails = x.QuoteOrderSellDetails.Where(i => !i.IsDeleted).OrderBy(i => i.CreatedOn).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,
                                     Price = i.Price,
@@ -322,7 +322,7 @@ namespace ERP.Web.Services
                                 TotalQuantity = x.TotalQuantity,
                                 TotalValue = x.TotalValue,
                                 Safy = x.TotalValue,
-                                ItemDetails = x.QuoteOrderSellDetails.Where(i => !i.IsDeleted).Select(i => new ItemDetailsDT
+                                ItemDetails = x.QuoteOrderSellDetails.Where(i => !i.IsDeleted).OrderBy(i => i.CreatedOn).Select(i => new ItemDetailsDT
                                 {
                                     ItemName = i.Item.Name,
                                     Price = i.Price,

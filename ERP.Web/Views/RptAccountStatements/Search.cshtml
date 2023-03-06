@@ -211,12 +211,29 @@
                                     <td>  <label style="color:firebrick">@AccountActionBalanceBeforPeriod </label></td>
                                     <td>
                                         <label style="color: firebrick; font-size: 14px;">
-                                            @Model.LastBalanceDebit
+                                            @if (Model.LastBalanceDebit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.LastBalanceDebit)<b>)</b>
+                                            }
+                                            else
+                                            {
+                                                @Model.LastBalanceDebit
+                                            }
+
                                         </label>
                                     </td>
                                     <td>
                                         <label style="color: firebrick; font-size: 14px;">
-                                            @Model.LastBalanceCredit
+                                            @if (Model.LastBalanceCredit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.LastBalanceDebit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.LastBalanceCredit
+
+                                            }
                                         </label>
                                     </td>
                                     <td></td>
@@ -258,8 +275,29 @@
                                     <td>@item.TransactionDate</td>
                                     @*<td>@item.AccountNumber</td>
                                     <td>@item.AccountsTreeName</td>*@
-                                    <td>@item.Debit</td>
-                                    <td>@item.Credit</td>
+                                <td>
+                                    @if (item.Debit < 0)
+                                    {
+                                        <b>(</b> @Math.Abs(item.Debit)<b>)</b>
+
+                                    }
+                                    else
+                                    {
+                                        @item.Debit
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Credit < 0)
+                                    {
+                                        <b>(</b> @Math.Abs(item.Credit)<b>)</b>
+
+                                    }
+                                    else
+                                    {
+                                        @item.Credit
+
+                                    }
+                                </td>
                                     <td>@item.Balance</td>
                                     <td>@item.TransactionTypeName</td>
                                     <td>@item.Notes</td>
@@ -323,16 +361,37 @@
                                     </th>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px; ">
-                                            @Model.TotalDebit
+                                            @if (Model.TotalDebit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.TotalDebit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.TotalDebit
+
+                                            }
+                                            
                                         </label>
                                     </th>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px; ">
-                                            @Model.TotalCredit
+                                            @if (Model.TotalCredit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.TotalCredit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.TotalCredit
+
+                                            }
+                                          
                                         </label>
                                     </th>
                                     <th colspan="4">
                                         <label style="color: firebrick; font-size: 14px;">
+
                                             @TotalPeriodSpecified
                                         </label>
                                     </th>
@@ -343,12 +402,32 @@
                                     </th>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px;">
-                                            @Model.TotalBalanceDebit
+                                            @if (Model.TotalBalanceDebit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.TotalBalanceDebit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.TotalBalanceDebit
+
+                                            }
+                                          
                                         </label>
                                     </th>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px;">
-                                            @Model.TotalBalanceCredit
+                                            @if (Model.TotalBalanceCredit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.TotalBalanceCredit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.TotalBalanceCredit
+
+                                            }
+                                          
                                         </label>
                                     </th>
                                     <th colspan="4">
@@ -363,12 +442,32 @@
                                     </th>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px;">
-                                            @Model.SafyBalanceDebit
+                                            @if (Model.SafyBalanceDebit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.SafyBalanceDebit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.SafyBalanceDebit
+
+                                            }
+                                         
                                         </label>
                                     </th>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px;">
-                                            @Model.SafyBalanceCredit
+                                            @if (Model.SafyBalanceCredit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.SafyBalanceCredit)<b>)</b>
+
+                                            }
+                                            else
+                                            {
+                                                @Model.SafyBalanceCredit
+
+                                            }
+                                           
                                         </label>
                                     </th>
                                     <th colspan="4">
@@ -426,8 +525,11 @@
         }
     </script>
     <script>
+   
         var accounTree;
         $(document).ready(function () {
+
+      
             var ele = '<footer><div class="footer" style="left: 0; bottom:0;width: 100%;background-color: red;color:white;text-align:center;"><h1>qqqqqq</h1></div></footer>';
             $('#kt_datatable').DataTable({
                 "ordering": false,
@@ -521,7 +623,10 @@
                 $('#kt_datatable').DataTable().button('.buttons-excel').trigger();
             });
             $('#kt_datatable_search_query').on('keyup', function () {
+               
+
                 $('#kt_datatable').DataTable().search(this.value).draw();
+                
             });
             //دليل الحسابات
             var dsTree = [];

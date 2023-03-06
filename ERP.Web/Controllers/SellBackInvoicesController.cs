@@ -192,7 +192,7 @@ namespace ERP.Web.Controllers
                     var vm = db.SellBackInvoices.Where(x => x.Id == guId).FirstOrDefault();
 
                     List<ItemDetailsDT> itemDetailsDTs = new List<ItemDetailsDT>();
-                    var items = db.SellBackInvoicesDetails.Where(x => !x.IsDeleted && x.SellBackInvoiceId == vm.Id).Select(item => new
+                    var items = db.SellBackInvoicesDetails.Where(x => !x.IsDeleted && x.SellBackInvoiceId == vm.Id).OrderBy(x=>x.CreatedOn).Select(item => new
                                   ItemDetailsDT
                     {
                         Amount = item.Amount,

@@ -240,7 +240,7 @@
                     { data: 'Num', responsivePriority: 0 },
                     { data: 'AccountName', title: 'اسم الحساب' },
                     { data: 'AccountNumber', title: 'رقم الحساب' },
-                    { data: 'IntialBalanceFrom', title: 'رصيد أول المدة (مدين)' },
+                    { data: 'IntialBalanceFrom', title: 'رصيد أول المدة (مدين)'},
                     { data: 'IntialBalanceTo', title: 'رصيد أول المدة (دائن)' },
                     { data: 'ActionsFrom', title: 'حركات الفترة (مدين)' },
                     { data: 'ActionsTo', title: 'حركات الفترة (دائن)' },
@@ -272,12 +272,12 @@
                     //var resultFrom = api.column(9).data().sum();
                     //var resultTo = api.column(10).data().sum();
 
-                    $(api.table().footer()).html(html + intialBalanceFrom + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>اجمالى رصيد أول المدة (دائن) :` + intialBalanceTo + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>حركات الفترة (مدين) :` + actionsFrom + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>حركات الفترة (دائن) :` + actionsTo + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة مجاميع (مدين) :` + sumFrom + `</label></div></th>
-                            <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة مجاميع (دائن) :` + sumTo + `</label></div></th>
+                    $(api.table().footer()).html(html + parseFloat(intialBalanceFrom.toFixed(2)).toLocaleString('en') + `</label></div></th>
+                            <th style="text-align:center" ><div class="row alert-success"><label>اجمالى رصيد أول المدة (دائن) :` + parseFloat(intialBalanceTo.toFixed(2)).toLocaleString('en') + `</label></div></th>
+                            <th style="text-align:center" ><div class="row alert-success"><label>حركات الفترة (مدين) :` + parseFloat(actionsFrom.toFixed(2)).toLocaleString('en')+ `</label></div></th>
+                            <th style="text-align:center" ><div class="row alert-success"><label>حركات الفترة (دائن) :` + parseFloat(actionsTo.toFixed(2)).toLocaleString('en') + `</label></div></th>
+                            <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة مجاميع (مدين) :` + parseFloat(sumFrom.toFixed(2)).toLocaleString('en') + `</label></div></th>
+                            <th style="text-align:center" ><div class="row alert-success"><label>ميزان المراجعة مجاميع (دائن) :` + parseFloat(sumTo.toFixed(2)).toLocaleString('en') + `</label></div></th>
                             
                             </tr>`);
                 },

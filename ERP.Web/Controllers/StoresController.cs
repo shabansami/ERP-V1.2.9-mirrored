@@ -34,7 +34,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.Stores.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, Name = x.Name, EmployeeName = x.Employee!=null?x.Employee.Person.Name:null,IsDamages=x.IsDamages?"مخزن توالف":null, Actions = n, Num = n }).ToList()
+                data = db.Stores.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, Name = x.Name, /*EmployeeName = x.Employee!=null?x.Employee.Person.Name:null,*/IsDamages=x.IsDamages?"مخزن توالف":null, Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
 
         }
@@ -48,7 +48,7 @@ namespace ERP.Web.Controllers
                 if (Guid.TryParse(TempData["model"].ToString(), out id))
                 {
                     var model = db.Stores.Where(x => x.Id == id).FirstOrDefault();
-                    ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",model.EmployeeId);
+                    //ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",model.EmployeeId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name",model.BranchId);
 
                     return View(model);
@@ -61,7 +61,7 @@ namespace ERP.Web.Controllers
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
 
-                ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
+                //ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name");
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
                 ViewBag.LastRow = db.Stores.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new Store());
@@ -85,7 +85,7 @@ namespace ERP.Web.Controllers
                     model.Name = vm.Name;
                     model.IsDamages = vm.IsDamages;
                     model.BranchId = vm.BranchId;
-                    model.EmployeeId = vm.EmployeeId;
+                    //model.EmployeeId = vm.EmployeeId;
                     model.Address = vm.Address;
                     //حذف حساب المخزن من شجرة الحسابات فى حالة الجرد المستمر 
                     if (model.AccountTreeId != null)

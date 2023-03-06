@@ -40,20 +40,20 @@
             {
 <div class="card-body">
     <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="form-group required">
                 <label>اسم الفرع</label>
                 @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select    din-med" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
-        <div class="col-lg-4">
+        @*<div class="col-lg-4">
             <div class="form-group">
                 <label>اسم الموظف المسئول</label>
                 @Html.DropDownList("EmployeeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
             </div>
-        </div>
-        <div class="col-lg-4">
+        </div>*@
+        <div class="col-lg-6">
             <div class="form-group">
                 <label>مخزن توالف</label>
               <div> @Html.CheckBoxFor(m => m.IsDamages, htmlAttributes: new { @style = "width: 25px; height: 25px;", @class = "form-check-input" })</div>

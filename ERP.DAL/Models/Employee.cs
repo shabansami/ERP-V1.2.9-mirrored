@@ -32,20 +32,21 @@ namespace ERP.DAL
             this.SellInvoices = new HashSet<SellInvoice>();
             this.Shifts = new HashSet<Shift>();
             this.ShiftsOfflines = new HashSet<ShiftsOffline>();
-            this.Stores = new HashSet<Store>();
             this.StoresTransfersFrom = new HashSet<StoresTransfer>();
             this.StoresTransfersTo = new HashSet<StoresTransfer>();
             this.VacationDays = new HashSet<VacationDay>();
             this.NotificationEmployees = new HashSet<NotificationEmployee>();
+            this.EmployeeBranches = new HashSet<EmployeeBranch>();
             //this.EmployeeProductions = new HashSet<ProductionOrder>();
             //this.EmployeeOperations = new HashSet<ProductionOrder>();
             this.ProductionLineEmployees = new HashSet<ProductionLineEmployee>();
+            this.EmployeeStores = new HashSet<EmployeeStore>();
+            this.EmployeeSafes = new HashSet<EmployeeSafe>();
+
         }
 
         [ForeignKey(nameof(Person))]
         public Nullable<Guid> PersonId { get; set; }
-        [ForeignKey(nameof(Store))]
-        public Nullable<Guid> StoreId { get; set; }
         [ForeignKey(nameof(Department))]
         public Nullable<Guid> DepartmentId { get; set; }
         [ForeignKey(nameof(Job))]
@@ -77,7 +78,6 @@ namespace ERP.DAL
         public double SocialSecurityCurrentBalance { get; set; } //«·—’Ìœ «·Õ«·Ï «· «„Ì‰«  «·«Ã „«⁄Ì…
 
         public virtual Person Person { get; set; }
-        public virtual Store Store { get; set; }
         public virtual Department Department { get; set; }
         public virtual Job Job { get; set; }
         public virtual SocialStatus SocialStatus { get; set; }
@@ -101,7 +101,6 @@ namespace ERP.DAL
         public virtual ICollection<SellInvoice> SellInvoices { get; set; }
         public virtual ICollection<Shift> Shifts { get; set; }
         public virtual ICollection<ShiftsOffline> ShiftsOfflines { get; set; }
-        public virtual ICollection<Store> Stores { get; set; }
         [InverseProperty(nameof(StoresTransfer.EmployeeFrom))]
         public virtual ICollection<StoresTransfer> StoresTransfersFrom { get; set; }
         [InverseProperty(nameof(StoresTransfer.EmployeeTo))]
@@ -112,6 +111,8 @@ namespace ERP.DAL
         //public virtual ICollection<ProductionOrder> EmployeeProductions { get; set; }
         //public virtual ICollection<ProductionOrder> EmployeeOperations { get; set; }
         public virtual ICollection<ProductionLineEmployee> ProductionLineEmployees { get; set; }
+        public virtual ICollection<EmployeeStore> EmployeeStores { get; set; }
+        public virtual ICollection<EmployeeSafe> EmployeeSafes { get; set; }
 
     }
 }

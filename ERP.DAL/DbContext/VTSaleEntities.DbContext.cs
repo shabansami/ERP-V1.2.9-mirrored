@@ -177,5 +177,7 @@ namespace ERP.DAL
         public virtual DbSet<VoucherDetail> VoucherDetails { get; set; }
         public virtual DbSet<AccountTreeIntialBalance> AccountTreeIntialBalances { get; set; }
         public virtual DbSet<ItemIntialBalanceDetail> ItemIntialBalanceDetails { get; set; }
+        public virtual DbSet<EmployeeStore> EmployeeStores { get; set; }
+        public virtual DbSet<EmployeeSafe> EmployeeSafes { get; set; }
     }
 }

@@ -33,7 +33,6 @@ namespace ERP.DAL
             this.PriceInvoices = new HashSet<PriceInvoice>();
             this.PurchaseBackInvoices = new HashSet<PurchaseBackInvoice>();
             this.PurchaseInvoices = new HashSet<PurchaseInvoice>();
-            this.Safes = new HashSet<Safe>();
             this.SaleMenAreas = new HashSet<SaleMenArea>();
             this.SaleMenCustomers = new HashSet<SaleMenCustomer>();
             this.SellBackInvoices = new HashSet<SellBackInvoice>();
@@ -135,7 +134,6 @@ namespace ERP.DAL
         public virtual ICollection<PriceInvoice> PriceInvoices { get; set; }
         public virtual ICollection<PurchaseBackInvoice> PurchaseBackInvoices { get; set; }
         public virtual ICollection<PurchaseInvoice> PurchaseInvoices { get; set; }
-        public virtual ICollection<Safe> Safes { get; set; }
         public virtual ICollection<SaleMenArea> SaleMenAreas { get; set; }
         public virtual ICollection<SaleMenCustomer> SaleMenCustomers { get; set; }
         public virtual ICollection<SellBackInvoice> SellBackInvoices { get; set; }

@@ -76,7 +76,7 @@ var Store_Module = function () {
             columns: [
                 { data: 'Num', responsivePriority: 0 },
                 { data: 'Name', title: 'اسم المخزن' },
-                { data: 'EmployeeName', title: 'اسم الموظف' },
+                //{ data: 'EmployeeName', title: 'اسم الموظف' },
                 { data: 'IsDamages', title: 'نوع المخزن' },
                 { data: 'Actions', responsivePriority: -1, className: 'actions' },
 

@@ -27,7 +27,7 @@ namespace ERP.Web.Controllers
         {
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
-            ViewBag.ResoponsibleId = new SelectList(new List<Person>(), "Id", "Name");
+            //ViewBag.ResoponsibleId = new SelectList(new List<Person>(), "Id", "Name");
             return View();
         }
         public ActionResult GetAll()
@@ -35,7 +35,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.Safes.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn = x.CreatedOn, BranchName = x.Branch.Name, Name = x.Name, ResponsableName=x.ResoponsiblePerson.Name, Actions = n, Num = n }).ToList()
+                data = db.Safes.Where(x => !x.IsDeleted).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id, CreatedOn = x.CreatedOn, BranchName = x.Branch.Name, Name = x.Name,/* ResponsableName=x.ResoponsiblePerson.Name,*/ Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
 
         }
@@ -50,7 +50,7 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.Safes.FirstOrDefault(x=>x.Id==id);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.ResoponsibleId = new SelectList(db.Persons.Where(x => !x.IsDeleted), "Id", "Name", model.ResoponsiblePersonId);
+                    //ViewBag.ResoponsibleId = new SelectList(db.Persons.Where(x => !x.IsDeleted), "Id", "Name", model.ResoponsiblePersonId);
 
                     return View(model);
                 }
@@ -60,7 +60,7 @@ namespace ERP.Web.Controllers
             else
             {                   // add
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name",1);
-                ViewBag.ResoponsibleId = new SelectList(new List<Person>(), "Id", "Name");
+                //ViewBag.ResoponsibleId = new SelectList(new List<Person>(), "Id", "Name");
                 ViewBag.LastRow = db.Safes.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
                 return View(new Safe());
             }
@@ -88,7 +88,7 @@ namespace ERP.Web.Controllers
                     var model = db.Safes.FirstOrDefault(x=>x.Id==vm.Id);
                     model.Name = vm.Name;
                     model.BranchId = vm.BranchId;
-                    model.ResoponsiblePersonId = vm.ResoponsiblePersonId;
+                    //model.ResoponsiblePersonId = vm.ResoponsiblePersonId;
                     db.Entry(model).State = EntityState.Modified;
                     //update account tree
                     var accountTree =db.AccountsTrees.FirstOrDefault(x=>x.Id==model.AccountsTreeId) ;

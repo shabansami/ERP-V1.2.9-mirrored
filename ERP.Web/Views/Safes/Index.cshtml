@@ -53,7 +53,7 @@
             </div>
             <div class="card-body">
                 <div class="row ">
-                    <div class="col-lg-4">
+                    <div class="col-lg-8">
                         <div class="form-group mb-0 w-100">
                             <div class="input-icon input-icon-right">
                                 <label>بحث</label>
@@ -72,14 +72,14 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    @*<div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> المسئول</label>
                                 @Html.DropDownList("ResoponsibleId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                             </div>
                         </div>
-                    </div>
+                    </div>*@
                 </div>
                 <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
                     <thead>
@@ -111,10 +111,10 @@
                 }
                 $('#kt_datatable').DataTable().search(textSelected).draw();
             });
-            $('#ResoponsibleId').on('change', function () {
-                var textSelected = $("#ResoponsibleId option:selected").text();
-                $('#kt_datatable').DataTable().search(textSelected).draw();
-            });
+            //$('#ResoponsibleId').on('change', function () {
+            //    var textSelected = $("#ResoponsibleId option:selected").text();
+            //    $('#kt_datatable').DataTable().search(textSelected).draw();
+            //});
         });
     </script>
 }

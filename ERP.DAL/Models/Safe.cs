@@ -32,14 +32,15 @@ namespace ERP.DAL
             this.SellBackInvoices = new HashSet<SellBackInvoice>();
             this.SellInvoices = new HashSet<SellInvoice>();
             this.SupplierPayments = new HashSet<SupplierPayment>();
+            this.EmployeeSafes = new HashSet<EmployeeSafe>();
         }
 
         [ForeignKey(nameof(AccountsTree))]
         public Nullable<Guid> AccountsTreeId { get; set; }
 
         //ResoponsibleId
-        [ForeignKey(nameof(ResoponsiblePerson)),ReNamed("ResoponsibleId")]
-        public Nullable<Guid> ResoponsiblePersonId { get; set; }
+        //[ForeignKey(nameof(ResoponsiblePerson)),ReNamed("ResoponsibleId")]
+        //public Nullable<Guid> ResoponsiblePersonId { get; set; }
 
         [ForeignKey(nameof(Branch))]
         public Nullable<Guid> BranchId { get; set; }
@@ -48,8 +49,8 @@ namespace ERP.DAL
 
     
         public virtual AccountsTree AccountsTree { get; set; }
-        //Person
-        public virtual Person ResoponsiblePerson { get; set; }
+        ////Person
+        //public virtual Person ResoponsiblePerson { get; set; }
         public virtual Branch Branch { get; set; }
 
 
@@ -66,5 +67,6 @@ namespace ERP.DAL
         public virtual ICollection<SellBackInvoice> SellBackInvoices { get; set; }
         public virtual ICollection<SellInvoice> SellInvoices { get; set; }
         public virtual ICollection<SupplierPayment> SupplierPayments { get; set; }
+        public virtual ICollection<EmployeeSafe> EmployeeSafes { get; set; }
     }
 }

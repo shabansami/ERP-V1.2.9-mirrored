@@ -104,18 +104,18 @@ namespace ERP.Web.Controllers
             var selectList = new SelectList(list, "Id", "Name");
             return Json(list, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult onBranchChange(string id)
-        {
-            Guid Id;
-            if (Guid.TryParse(id, out Id))
-            {
-                var list = db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId == (int)PersonTypeCl.Employee && x.Employees.Any(e => !e.IsDeleted && (e.EmployeeBranches.Where(n=>!n.IsDeleted).FirstOrDefault().BranchId == Id || e.EmployeeBranches.Where(n => !n.IsDeleted).FirstOrDefault().BranchId == null))).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
-                var selectList = new SelectList(list, "Id", "Name");
-                return Json(selectList.Items, JsonRequestBehavior.AllowGet);
-            }
-            else
-                return Json(null, JsonRequestBehavior.AllowGet);
-        }
+        //public JsonResult onBranchChange(string id)
+        //{
+        //    Guid Id;
+        //    if (Guid.TryParse(id, out Id))
+        //    {
+        //        var list = db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId == (int)PersonTypeCl.Employee && x.Employees.Any(e => !e.IsDeleted && (e.EmployeeBranches.Where(n=>!n.IsDeleted).FirstOrDefault().BranchId == Id || e.EmployeeBranches.Where(n => !n.IsDeleted).FirstOrDefault().BranchId == null))).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+        //        var selectList = new SelectList(list, "Id", "Name");
+        //        return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+        //    }
+        //    else
+        //        return Json(null, JsonRequestBehavior.AllowGet);
+        //}
         public JsonResult getSafesOnBranchChanged(string id) // تحميل الخزن بدلالة رقم الفرع 
         {
             Guid Id;
@@ -136,6 +136,22 @@ namespace ERP.Web.Controllers
                 var list = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
                 var selectList = new SelectList(list, "Id", "Name");
                 return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
+        //تحميل المخازن والخزن عند اضافة موظف 
+        public JsonResult getStoresOnMultiplBranchesChanged(string id) //  تحميل المخازن بدون مخازن التوالف بدلالة رقم الفرع 
+        {
+            var idString= id.Split(',').ToList();
+            List<Guid> Ids=idString.Select(Guid.Parse).ToList();
+            if (Ids.Count() > 0 && Ids != null)
+            {
+                var listStores = db.Stores.Where(x => !x.IsDeleted && Ids.Any(b => b == x.BranchId) && !x.IsDamages).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                var selectListStore = new SelectList(listStores, "Id", "Name");
+                var listSafes = db.Safes.Where(x => !x.IsDeleted && Ids.Any(b => b == x.BranchId)).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                var selectListSafe = new SelectList(listSafes, "Id", "Name");
+                return Json(new { selectListStore=selectListStore.Items, selectListSafe = selectListSafe.Items }, JsonRequestBehavior.AllowGet);
             }
             else
                 return Json(new { }, JsonRequestBehavior.AllowGet);

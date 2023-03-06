@@ -77,7 +77,7 @@ var SaleMenStore_Module = function () {
             { data: 'Num',responsivePriority:0 },
             { data: 'DepartmentName', title: 'الادارة' },
             { data: 'EmployeeName', title: 'المندوب'},
-            { data: 'StoreName', title: 'المخزن'},
+            //{ data: 'StoreName', title: 'المخزن'},
             { data: 'Actions', responsivePriority: -1, className: 'actions' },
 
         ],

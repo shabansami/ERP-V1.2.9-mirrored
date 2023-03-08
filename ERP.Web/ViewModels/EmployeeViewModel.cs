@@ -15,6 +15,8 @@ namespace ERP.Web.ViewModels
         public Guid Id { get; set; }
         public Nullable<Guid> PersonHidId { get; set; }
         public List<Guid> BranchIds { get; set; }
+        public List<Guid> StoreIds { get; set; }
+        public List<Guid> SafeIds { get; set; }
         public Nullable<Guid> JobId { get; set; }
         public Nullable<Guid> DepartmentId { get; set; }
         public string NationalID { get; set; }

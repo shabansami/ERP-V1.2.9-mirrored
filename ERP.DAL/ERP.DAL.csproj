@@ -356,6 +356,14 @@
     <Compile Include="Migrations\202302282213484_remove_ExpenseType_IncomeType.designer.cs">
       <DependentUpon>202302282213484_remove_ExpenseType_IncomeType.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303062055160_UpdateRelateEmployeeStoresAndSafes.cs" />
+    <Compile Include="Migrations\202303062055160_UpdateRelateEmployeeStoresAndSafes.designer.cs">
+      <DependentUpon>202303062055160_UpdateRelateEmployeeStoresAndSafes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202303062132300_removeFieldResoponsiblePersonInSafe.cs" />
+    <Compile Include="Migrations\202303062132300_removeFieldResoponsiblePersonInSafe.designer.cs">
+      <DependentUpon>202303062132300_removeFieldResoponsiblePersonInSafe.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
@@ -364,6 +372,9 @@
     <Compile Include="Models\DamageInvoiceDetail.cs" />
     <Compile Include="Models\District.cs" />
     <Compile Include="Models\EmployeeBranch.cs" />
+    <Compile Include="Models\EmployeeSafe.cs" />
+    <Compile Include="Models\EmployeeStore.cs" />
+    <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\GeneralRecordDetail.cs" />
     <Compile Include="Models\ItemCustomSellPrice.cs" />
     <Compile Include="Models\ItemIntialBalanceDetail.cs" />
@@ -425,7 +436,6 @@
     <Compile Include="Models\EmployeeReturnCashCustody.cs" />
     <Compile Include="Models\EmployeeReturnCustody.cs" />
     <Compile Include="Models\ExpenseIncome.cs" />
-    <Compile Include="Models\Gender.cs" />
     <Compile Include="Models\GeneralDaily.cs" />
     <Compile Include="Models\GeneralRecord.cs" />
     <Compile Include="Models\GeneralSetting.cs" />
@@ -751,6 +761,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202302282213484_remove_ExpenseType_IncomeType.resx">
       <DependentUpon>202302282213484_remove_ExpenseType_IncomeType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303062055160_UpdateRelateEmployeeStoresAndSafes.resx">
+      <DependentUpon>202303062055160_UpdateRelateEmployeeStoresAndSafes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303062132300_removeFieldResoponsiblePersonInSafe.resx">
+      <DependentUpon>202303062132300_removeFieldResoponsiblePersonInSafe.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

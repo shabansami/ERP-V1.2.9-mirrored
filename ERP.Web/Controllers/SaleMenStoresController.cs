@@ -32,7 +32,7 @@ namespace ERP.Web.Controllers
             employees = db.Employees.Where(x => !x.IsDeleted && x.IsSaleMen&& contracts.Any(c => c.EmployeeId == x.Id));
             return Json(new
             {
-                data = employees.Select(x => new { Id = x.Id, EmpGuid=x.Id, DepartmentName = x.Department.Name, EmployeeName = x.Person.Name, StoreName = x.Store!=null?x.Store.Name:null, Actions = n, Num = n }).ToList()
+                data = employees.Select(x => new { Id = x.Id, EmpGuid=x.Id, DepartmentName = x.Department.Name, EmployeeName = x.Person.Name,/* StoreName = x.Store!=null?x.Store.Name:null,*/ Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
 
         }
@@ -51,13 +51,13 @@ namespace ERP.Web.Controllers
                     ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", model.DepartmentId);
                     ViewBag.EmployeeId = new SelectList(EmployeeService.GetSaleMens(model.DepartmentId), "Id", "Name", model.Id);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", defaultBranchId);
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == model.EmployeeBranches.Where(n => !n.IsDeleted).FirstOrDefault().BranchId && !x.IsDamages), "Id", "Name", model.StoreId);
+                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == model.EmployeeBranches.Where(n => !n.IsDeleted).FirstOrDefault().BranchId && !x.IsDamages), "Id", "Name"/*, model.StoreId*/);
 
                     SaleMenStoreVM vm = new SaleMenStoreVM
                     {
                         Id = model.Id,
                         EmployeeId = model.Id,
-                        StoreId = model.StoreId
+                        //StoreId = model.StoreId
                     };
                     return View(vm);
                 }
@@ -78,9 +78,9 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.Employees.FirstOrDefault(x=>x.Id==vm.Id);
                     //تسجيل حركة تغيير المخزن للمندوب 
-                    if (vm.StoreId != model.StoreId)
+                    if (true/*vm.StoreId != model.StoreId*/)
                     {
-                        model.StoreId = vm.StoreId;
+                        //model.StoreId = vm.StoreId;
                         db.Entry(model).State = EntityState.Modified;
 
                         db.SaleMenStoreHistories.Add(new SaleMenStoreHistory
@@ -129,7 +129,7 @@ namespace ERP.Web.Controllers
                 var model = db.Employees.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    model.StoreId = null;
+                    //model.StoreId = null;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم حذف ارتباط المندوب بالمخزن" });

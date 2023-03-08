@@ -237,11 +237,16 @@ var Employee_Module = function () {
     //    })
     //};
     function getStoresInBranchChanged() {  // get  stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchIds").val().toString() }, function (data) {
-            $("#StoreId").empty();
-            $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
-            $.each(data, function (index, row) {
-                $("#StoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+        $.get("/SharedDataSources/getStoresOnMultiplBranchesChanged", { id:$("#BranchIds").val().toString() }, function (data) {
+            $("#StoreIds").empty();
+            $("#StoreIds").append("<option value=>اختر عنصر من القائمة </option>");
+            $.each(data.selectListStore, function (index, row) {
+                $("#StoreIds").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            })
+            $("#SafeIds").empty();
+            $("#SafeIds").append("<option value=>اختر عنصر من القائمة </option>");
+            $.each(data.selectListSafe, function (index, row) {
+                $("#SafeIds").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
             })
         });
     };

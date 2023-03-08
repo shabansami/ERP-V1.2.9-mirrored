@@ -7,6 +7,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -23,7 +24,9 @@ namespace ERP.Web.Controllers
                 auth = TempData["userInfo"] as VTSAuth;
             else
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-            if (auth.CookieValues.StoreId == null) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
+            //مخازن المندوب
+            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
                 return View();
@@ -37,9 +40,12 @@ namespace ERP.Web.Controllers
             else
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             int? n = null;
-            return Json(new
+            //مخازن المندوب
+            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+
+                return Json(new
             {
-                data = db.StoresTransfers.Where(x => !x.IsDeleted&&x.StoreToId==auth.CookieValues.StoreId).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id,  SaleMenIsApproval = x.IsApprovalStore,  StoreFromName = x.StoreFrom.Name, TransferDate = x.TransferDate.ToString(), Notes = x.Notes,Status=(!x.IsApprovalStore&&!x.IsRefusStore)?"فى الانتظار":x.IsApprovalStore?"تم الاعتماد":"تم الرفض", Actions = n, Num = n }).ToList()
+                data = db.StoresTransfers.Where(x => !x.IsDeleted&& stores.Any(s=>s.Id==x.StoreToId)).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id,  SaleMenIsApproval = x.IsApprovalStore,  StoreFromName = x.StoreFrom.Name, TransferDate = x.TransferDate.ToString(), Notes = x.Notes,Status=(!x.IsApprovalStore&&!x.IsRefusStore)?"فى الانتظار":x.IsApprovalStore?"تم الاعتماد":"تم الرفض", Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;
 
         }

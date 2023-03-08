@@ -10,6 +10,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Utilites;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -34,8 +36,10 @@ namespace ERP.Web.Controllers
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             int? n = null;
             var sroresTran = db.StoresTransfers.Where(x => !x.IsDeleted);
-            if (auth.CookieValues.StoreId != null)
-                sroresTran = sroresTran.Where(x => x.StoreToId == auth.CookieValues.StoreId);
+            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+
+            if (stores.Count()>0)
+                sroresTran = sroresTran.Where(x => stores.Any(s => s.Id == x.StoreToId));
             var list = sroresTran.OrderBy(x => x.CreatedOn)
                 .Select(x => new
                 {

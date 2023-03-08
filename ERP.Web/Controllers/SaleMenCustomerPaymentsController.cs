@@ -50,7 +50,9 @@ namespace ERP.Web.Controllers
                 auth = TempData["userInfo"] as VTSAuth;
             else
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-            if (auth.CookieValues.StoreId == null) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
+            //مخازن المندوب
+            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBagBase();
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";

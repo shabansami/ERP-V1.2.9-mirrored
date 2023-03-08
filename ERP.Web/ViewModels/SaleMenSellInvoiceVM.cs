@@ -11,7 +11,7 @@ namespace ERP.Web.ViewModels
         public System.Guid InvoiceGuid { get; set; }
         public bool BySaleMen { get; set; }
         public Nullable<Guid> SaleMenEmployeeId { get; set; }
-        public Nullable<Guid> SaleMenStoreId { get; set; }
+        //public Nullable<Guid> SaleMenStoreId { get; set; }
         public System.DateTime InvoiceDate { get; set; }
         public Nullable<Guid> PersonCategoryId { get; set; }
         public Nullable<Guid> CustomerId { get; set; }

@@ -18,7 +18,6 @@ namespace ERP.DAL
     {
         public Store()
         {
-            this.Employees = new HashSet<Employee>();
             this.InventoryInvoices = new HashSet<InventoryInvoice>();
             this.ItemIntialBalanceDetails = new HashSet<ItemIntialBalanceDetail>();
             this.ItemSerials = new HashSet<ItemSerial>();
@@ -40,23 +39,20 @@ namespace ERP.DAL
             this.StoresTransfersTo = new HashSet<StoresTransfer>();
             this.DamageInvoices = new HashSet<DamageInvoice>();
             this.QuoteOrderSellDetails = new HashSet<QuoteOrderSellDetail>();
+            this.EmployeeStores = new HashSet<EmployeeStore>();
         }
 
         [ForeignKey(nameof(AccountsTree))]
         public Nullable<Guid> AccountTreeId { get; set; }
         [ForeignKey(nameof(Branch))]
         public Nullable<Guid> BranchId { get; set; }
-        [ForeignKey(nameof(Employee))]
-        public Nullable<Guid> EmployeeId { get; set; }
         public bool IsDamages { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
 
         public virtual AccountsTree AccountsTree { get; set; }
         public virtual Branch Branch { get; set; }
-        public virtual Employee Employee { get; set; }
 
-        public virtual ICollection<Employee> Employees { get; set; }
         public virtual ICollection<InventoryInvoice> InventoryInvoices { get; set; }
         public virtual ICollection<ItemIntialBalanceDetail> ItemIntialBalanceDetails { get; set; }
         public virtual ICollection<ItemSerial> ItemSerials { get; set; }
@@ -93,5 +89,6 @@ namespace ERP.DAL
         public virtual ICollection<PointOfSale> PointOfSales { get; set; }
         public virtual ICollection<DamageInvoice> DamageInvoices { get; set; }
         public virtual ICollection<QuoteOrderSellDetail> QuoteOrderSellDetails { get; set; }
+        public virtual ICollection<EmployeeStore> EmployeeStores { get; set; }
     }
 }

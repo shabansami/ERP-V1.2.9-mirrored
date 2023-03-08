@@ -54,7 +54,8 @@ namespace ERP.Web.Services
             {
                 var contracts = db.Contracts.Where(x => !x.IsDeleted && x.IsActive && x.IsApproval);
                 IQueryable<Employee> employees = null;
-                employees = db.Employees.Where(x => !x.IsDeleted && x.IsSaleMen && x.StoreId == storeId);
+                employees = db.Employees.Where(x => !x.IsDeleted && x.IsSaleMen );
+                employees=employees.Where(x=>x.EmployeeStores.Any(s => s.StoreId == storeId));
                 employees = employees.Where(e => contracts.Any(c => c.EmployeeId == e.Id));
                 var t = employees.ToList();
                 //الحصول على اخر مندوب تم تحديده للمخزن من جدول حركات تحديد مخازن المناديب 

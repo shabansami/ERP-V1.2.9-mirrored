@@ -10,6 +10,8 @@ using System.Web.Mvc;
 using ERP.Web.ViewModels;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.Services;
+using ERP.Web.DataTablesDS;
+using ERP.DAL.Models;
 
 namespace ERP.Web.Controllers
 {
@@ -92,11 +94,22 @@ namespace ERP.Web.Controllers
                         SocialSecurityNumber = model.SocialSecurityNumber,
                     };
 
-                    var defaultBranchIdss = model?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
-
+                    //فروع الموظف
+                    //var defaultBranchIdss = model?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;
                     var empbranchIds = model.EmployeeBranches.Where(b => !b.IsDeleted);
-                    var defaultBranchId = empbranchIds.FirstOrDefault()?.BranchId;
+                    //var defaultBranchId = empbranchIds.FirstOrDefault()?.BranchId;
                     employee.BranchIds = empbranchIds.Select(x => x.BranchId).ToList();
+                    //مخازن الموظف
+                    //var defaultStores = model?.EmployeeStores.Where(x => !x.IsDeleted).FirstOrDefault()?.StoreId;
+                    var empStoreIds = model.EmployeeStores.Where(b => !b.IsDeleted).Select(x => new { Id = x.StoreId, Name = x.Store.Name });
+                    //var defaultStoreId = empStoreIds.FirstOrDefault()?.StoreId;
+                    employee.StoreIds = empStoreIds.Select(x => x.Id).ToList();
+                    //خزن الموظف
+                    //var defaultSafes = model?.EmployeeSafes.Where(x => !x.IsDeleted).FirstOrDefault()?.SafeId;
+                    var empSafeIds = model.EmployeeSafes.Where(b => !b.IsDeleted).Select(x => new { Id = x.SafeId, Name = x.Safe.Name });
+                    //var defaultSafeId = empSafeIds.FirstOrDefault()?.SafeId;
+                    employee.SafeIds = empSafeIds.Select(x => x.Id).ToList();
+
                     ViewBag.NationalityId = new SelectList(db.Nationalities.Where(x => !x.IsDeleted), "Id", "Name", model.NationalID);
                     ViewBag.CountryId = new SelectList(db.Countries.Where(x => !x.IsDeleted), "Id", "Name", model.Person.Area?.City.Country.Id);
                     ViewBag.CityId = new SelectList(db.Cities.Where(x => !x.IsDeleted), "Id", "Name", model.Person.Area?.City.Id);
@@ -105,7 +118,9 @@ namespace ERP.Web.Controllers
                     ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", model.DepartmentId);
                     ViewBag.JobId = new SelectList(db.Jobs.Where(x => !x.IsDeleted), "Id", "Name", model.JobId);
                     ViewBag.BranchIds = new SelectList(branches, "Id", "Name", employee.BranchIds);
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == defaultBranchId && !x.IsDamages), "Id", "Name", model.StoreId);
+                    ViewBag.StoreIds = new SelectList(empStoreIds, "Id", "Name", employee.StoreIds);
+                    ViewBag.SafeIds = new SelectList(empSafeIds, "Id", "Name", employee.SafeIds);
+                    //ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == defaultBranchId && !x.IsDamages), "Id", "Name", model.StoreId);
                     ViewBag.SocialStatusId = new SelectList(db.SocialStatuses.Where(x => !x.IsDeleted), "Id", "Name", model.SocialStatusId);
                     return View(employee);
                 }
@@ -122,10 +137,12 @@ namespace ERP.Web.Controllers
                 ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.JobId = new SelectList(db.Jobs.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.BranchIds = new SelectList(branches, "Id", "Name");
-                ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages).GroupBy(x => x.BranchId).FirstOrDefault().ToList(), "Id", "Name");
+                ViewBag.StoreIds = new SelectList(new List<DropDownList>(), "Id", "Name");
+                ViewBag.SafeIds = new SelectList(new List<DropDownList>(), "Id", "Name");
+                //ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages).GroupBy(x => x.BranchId).FirstOrDefault().ToList(), "Id", "Name");
                 ViewBag.SocialStatusId = new SelectList(db.SocialStatuses.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.LastRow = db.Employees.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();
-                return View(new EmployeeViewModel() { Person = new Person(), Is100Percentage = true, BranchIds = new List<Guid> { new Guid("A563B457-F143-4CEF-BB94-36197778422B") } });
+                return View(new EmployeeViewModel() { Person = new Person(), Is100Percentage = true, BranchIds = new List<Guid>() /*{ new Guid("A563B457-F143-4CEF-BB94-36197778422B") }*/ });
             }
 
 
@@ -153,28 +170,41 @@ namespace ERP.Web.Controllers
 
                     var model = db.Employees.FirstOrDefault(x=>x.Id==vm.Id);
                     //تسجيل حركة تغيير المخزن للمندوب 
-                    if (vm.IsSaleMen && vm.StoreId != null && vm.StoreId != model.StoreId)
-                    {
-                        db.SaleMenStoreHistories.Add(new SaleMenStoreHistory
-                        {
-                            StoreId = vm.StoreId,
-                            EmployeeId = model.Id,
-                            TransferDate = Utility.GetDateTime()
+                    //if (vm.IsSaleMen && vm.StoreId != null && vm.StoreId != model.StoreId)
+                    //{
+                    //    db.SaleMenStoreHistories.Add(new SaleMenStoreHistory
+                    //    {
+                    //        StoreId = vm.StoreId,
+                    //        EmployeeId = model.Id,
+                    //        TransferDate = Utility.GetDateTime()
 
-                        });
-                    }
+                    //    });
+                    //}
 
                     //حذف اى فروع مسجلة للموظف سابقا
                     var prviousBranches = db.EmployeeBranches.Where(x => !x.IsDeleted && x.EmployeeId == model.Id).ToList();
                     foreach (var item in prviousBranches)
                     {
                         item.IsDeleted = true;
-                        db.Entry(model).State = EntityState.Modified;
-
+                    }
+                    //حذف اى مخازن مسجلة للموظف سابقا
+                    var prviousStores = db.EmployeeStores.Where(x => !x.IsDeleted && x.EmployeeId == model.Id).ToList();
+                    foreach (var item in prviousStores)
+                    {
+                        item.IsDeleted = true;
+                    }                   
+                    //حذف اى مخازن مسجلة للموظف سابقا
+                    var prviousSafes = db.EmployeeSafes.Where(x => !x.IsDeleted && x.EmployeeId == model.Id).ToList();
+                    foreach (var item in prviousSafes)
+                    {
+                        item.IsDeleted = true;
                     }
                     var empBranches = vm.BranchIds.Select(x => new EmployeeBranch { BranchId = x,EmployeeId=model.Id }).ToList();
-                    //model.EmployeeBranches = empBranches;
                     db.EmployeeBranches.AddRange(empBranches);
+                    var empStores = vm.StoreIds.Select(x => new EmployeeStore { StoreId = x, EmployeeId = model.Id }).ToList();
+                    db.EmployeeStores.AddRange(empStores);
+                    var empSafes = vm.SafeIds.Select(x => new EmployeeSafe { SafeId = x, EmployeeId = model.Id }).ToList();
+                    db.EmployeeSafes.AddRange(empSafes);
 
                     model.JobId = vm.JobId;
                     model.DepartmentId = vm.DepartmentId;
@@ -186,7 +216,7 @@ namespace ERP.Web.Controllers
                     model.HasRole = vm.HasRole;
                     //model.Salary = vm.Salary;
                     model.SocialStatusId = vm.SocialStatusId;
-                    model.StoreId = vm.StoreId;
+                    //model.StoreId = vm.StoreId;
                     model.CommissionPercentage = vm.CommissionPercentage;
                     model.Is100Percentage = vm.Is100Percentage;
                     model.PassportExpirationDate= vm.PassportExpirationDate;    
@@ -253,6 +283,8 @@ namespace ERP.Web.Controllers
                     };
                     db.Persons.Add(person);
                     var empBranches = vm.BranchIds.Select(x => new EmployeeBranch { BranchId = x }).ToList();
+                    var empStores = vm.StoreIds.Select(x => new EmployeeStore { StoreId = x }).ToList();
+                    var empSafes = vm.SafeIds.Select(x => new EmployeeSafe { SafeId = x }).ToList();
                     //model.EmployeeBranches = empBranches;
 
                     var employee = new Employee
@@ -267,7 +299,9 @@ namespace ERP.Web.Controllers
                         DateOfHiring = vm.DateOfHiring,
                         HasRole = vm.HasRole,
                         EmployeeBranches = empBranches,
-                        StoreId = vm.StoreId,
+                        EmployeeStores = empStores,
+                        EmployeeSafes = empSafes,
+                        //StoreId = vm.StoreId,
                         CommissionPercentage = vm.CommissionPercentage,
                         Is100Percentage = vm.Is100Percentage,
                         PassportExpirationDate = vm.PassportExpirationDate,

@@ -77,7 +77,7 @@ var Safe_Module = function () {
                 { data: 'Num', responsivePriority: 0 },
                 { data: 'BranchName', title: 'الفرع' },
                 { data: 'Name', title: 'الخزينة' },
-                { data: 'ResponsableName', title: 'المسئول' },
+                //{ data: 'ResponsableName', title: 'المسئول' },
                 { data: 'Actions', responsivePriority: -1, className: 'actions' },
 
             ],
@@ -202,16 +202,16 @@ var Safe_Module = function () {
             }
         });
     };
-    function onBranchChange() {
-        $.get("/SharedDataSources/onBranchChange", { id: $("#BranchId").val() }, function (data) {
-            $("#ResoponsibleId").empty();
-            $("#ResoponsibleId").append("<option value=>اختر عنصر من القائمة</option>");
-            $.each(data, function (index, row) {
-                $("#ResoponsibleId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
-            });
+    //function onBranchChange() {
+    //    $.get("/SharedDataSources/onBranchChange", { id: $("#BranchId").val() }, function (data) {
+    //        $("#ResoponsibleId").empty();
+    //        $("#ResoponsibleId").append("<option value=>اختر عنصر من القائمة</option>");
+    //        $.each(data, function (index, row) {
+    //            $("#ResoponsibleId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+    //        });
 
-        })
-    };
+    //    })
+    //};
     return {
         //main function to initiate the module
         init: function () {
@@ -219,7 +219,7 @@ var Safe_Module = function () {
         },
         SubmitForm: SubmitForm,
         deleteRow: deleteRow,
-        onBranchChange: onBranchChange
+        //onBranchChange: onBranchChange
     };
 
 }();

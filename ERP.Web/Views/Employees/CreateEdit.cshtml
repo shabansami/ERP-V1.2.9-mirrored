@@ -46,7 +46,7 @@
                             @Html.HiddenFor(m => m.Person.PersonTypeId)
                         </div>
                     </div>
-                 <div class="col-lg-3">
+                    <div class="col-lg-3">
                         <div class="form-group ">
                             <label style="margin-left:10px"> رجل مبيعات ؟</label>
                             <div> @Html.CheckBox("IsSaleMen", new { @style = "width: 25px; height: 25px;" })</div>
@@ -103,30 +103,40 @@
                     <div class="col-lg-6">
                         <div class="form-group ">
                             <label>المدينة</label>
-                            @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med"@*, @onchange = "Employee_Module.onAreaChange()"*@ })
+                            @Html.DropDownList("AreaId", null, "اختر عنصر من القائمة", htmlAttributes: new
+                            {
+                                @class = "form-select   select2 din-med"@*, @onchange = "Employee_Module.onAreaChange()"*@})
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="form-group required">
                             <label>فرع/اكثر</label>
                             @*@Html.DropDownList("BranchIds", (SelectList)ViewBag.BranchIds, "اختر عنصر من القائمة", htmlAttributes: new { @multiple = "multiple",@placeholder="اختر عنصر من القائمة", @class = "form-control  select2 din-med", @onchange = "Employee_Module.getStoresInBranchChanged();" })*@
-                            @Html.ListBox("BranchIds", (SelectList)ViewBag.BranchIds,  htmlAttributes: new { @multiple = "multiple", @class = "form-control  select2 din-med", @onchange = "Employee_Module.getStoresInBranchChanged();" })
+                            @Html.ListBox("BranchIds", (SelectList)ViewBag.BranchIds, htmlAttributes: new { @multiple = "multiple", @class = "form-control  select2 din-med", @onchange = "Employee_Module.getStoresInBranchChanged();" })
                             @*@Html.DropDownList("BranchId", (SelectList)ViewBag.BranchId, htmlAttributes: new { @multiple = "multiple", @class = "form-control select2 din-med" })*@
 
                         </div>
                     </div>
                     <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>مخزن/اكثر</label>
+                            @Html.ListBox("StoreIds", (SelectList)ViewBag.StoreIds, htmlAttributes: new { @multiple = "multiple", @class = "form-control  select2 din-med" })
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group required">
+                            <label>خزنة/اكثر</label>
+                            @Html.ListBox("SafeIds", (SelectList)ViewBag.SafeIds, htmlAttributes: new { @multiple = "multiple", @class = "form-control  select2 din-med" })
+                        </div>
+                    </div>
+                    @*<div class="col-lg-6">
                         <div class="form-group ">
                             <label>المخزن(سيارة المندوب)ان وجدت</label>
                             @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="form-group ">
-                            <label>النوع</label>
-                            @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                        </div>
-                    </div>
+                    </div>*@
+
                     <div class="col-lg-6">
                         <div class="form-group required">
                             <label>الادارة</label>
@@ -143,6 +153,12 @@
                         <div class="form-group required">
                             <label>الرقم القومى</label>
                             @Html.TextBoxFor(m => m.NationalID, new { @class = "form-control", @style = "text-align:right;" })
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="form-group ">
+                            <label>النوع</label>
+                            @Html.DropDownList("GenderId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                         </div>
                     </div>
                     <div class="col-lg-6">
@@ -170,7 +186,7 @@
                             @Html.TextBoxFor(m => m.DateOfHiring, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
                         </div>
                     </div>
-                   
+
                     <div class="col-lg-6">
                         <div class="form-group ">
                             <label style="margin-left:10px">نسبة العمولة فى المائة ؟ <span class="text-warning">فى حالة عدم الاختيار يكون التحصيل فى الالف</span></label>

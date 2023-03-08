@@ -193,6 +193,7 @@ namespace ERP.Web.Controllers
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",customerId);
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.Branchcount = branches.Count();
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");

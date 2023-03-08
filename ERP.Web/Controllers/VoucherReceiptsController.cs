@@ -158,6 +158,8 @@ namespace ERP.Web.Controllers
                 vm = new VoucherVM { VoucherDate = Utility.GetDateTime() };
 
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+
+            ViewBag.Branchcount = branches.Count();
             ViewBag.AccountTreeId = new SelectList(AccountTreeService.GetVouchers(db, false), "Id", "Name", accountTreeToId);
             return View(vm);
             //}

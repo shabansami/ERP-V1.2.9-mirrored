@@ -70,6 +70,7 @@ namespace ERP.Web.Controllers
                 vm.DateIntial = Utility.GetDateTime();
             }
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
+            ViewBag.Branchcount = branches.Count();
             var debitCreditList = new List<DropDownListInt> { new DropDownListInt { Id = 1, Name = "مدين" }, new DropDownListInt { Id = 2, Name = "دائن" } };
             ViewBag.DebitCredit = new SelectList(debitCreditList, "Id", "Name", vm.DebitCredit);
             //ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };

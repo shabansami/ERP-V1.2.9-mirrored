@@ -75,6 +75,7 @@ namespace ERP.Web.Controllers
                 //var defaultStore = storeService.GetDefaultStore(db);
                 //var branchId = defaultStore != null ? defaultStore.BranchId : null;
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+                ViewBag.Branchcount = branches.Count();
                 ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 //ViewBag.ExpenseTypeId = new SelectList(db.ExpenseTypes.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.LastRow = db.ExpenseIncomes.Where(x => !x.IsDeleted && x.IsExpense).OrderByDescending(x => x.CreatedOn).FirstOrDefault();

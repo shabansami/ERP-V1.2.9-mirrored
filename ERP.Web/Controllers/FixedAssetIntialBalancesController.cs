@@ -57,6 +57,7 @@ namespace ERP.Web.Controllers
                     ViewBag.ShowMode = true;
                     ViewBag.AccountTreeParentId = new SelectList(AccountTreeService.GetFixedAssets(), "Id", "AccountName",model.AccountTreeParentId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
+                    ViewBag.Branchcount = branches.Count();
                     ViewBag.LastRow = db.Assets.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();
 
                     return View(model);

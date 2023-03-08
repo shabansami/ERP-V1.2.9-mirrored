@@ -44,7 +44,16 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StorePermissionsLeave_Module.getStoresOnBranchChanged();" })
+                                @if (ViewBag.Branchcount == 1)
+                                {
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StorePermissionsLeave_Module.getStoresOnBranchChanged();" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StorePermissionsLeave_Module.getStoresOnBranchChanged();" })
+
+                                }
                             </div>
                         </div>
                         <div class="col-lg-4">
@@ -183,6 +192,7 @@
     <script src="~/Assets/JSCustom/SotrePermissionsLeave.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            StorePermissionsLeave_Module.getStoresOnBranchChanged();
             StorePermissionsLeave_Module.initItemDetails();
         });
     </script>

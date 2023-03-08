@@ -151,6 +151,7 @@ namespace ERP.Web.Controllers
 
 
             ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
+            ViewBag.Branchcount = branches.Count();
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
 
             return View(vm);

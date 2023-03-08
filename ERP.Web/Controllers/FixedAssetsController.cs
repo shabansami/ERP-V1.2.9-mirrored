@@ -57,6 +57,7 @@ namespace ERP.Web.Controllers
                     ViewBag.ShowMode = true;
                     ViewBag.AccountTreeParentId = new SelectList(AccountTreeService.GetFixedAssets(), "Id", "AccountName", model.AccountTreeParentId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
+                    ViewBag.Branchcount = branches.Count();
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName",model.BankAccountId);
 
@@ -75,6 +76,7 @@ namespace ERP.Web.Controllers
                 //var defaultStore = storeService.GetDefaultStore(db);
                 //var branchId = defaultStore != null ? defaultStore.BranchId : null;
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name");
+                ViewBag.Branchcount = branches.Count();
                 ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");
                 ViewBag.LastRow = db.Assets.Where(x => !x.IsDeleted).OrderByDescending(x => x.CreatedOn).FirstOrDefault();

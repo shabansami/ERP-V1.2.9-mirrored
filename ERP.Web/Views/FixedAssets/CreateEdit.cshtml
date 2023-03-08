@@ -47,7 +47,16 @@
                         <div class="col-lg-6">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Asset_Module.getSafesOnBranchChanged()" })
+                                @if (ViewBag.Branchcount == 1)
+                                {
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   din-med", @onchange = "Asset_Module.getSafesOnBranchChanged()" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Asset_Module.getSafesOnBranchChanged()" })
+
+                                }
                                 @Html.HiddenFor(model => model.Id)
                             </div>
                         </div>
@@ -88,107 +97,107 @@
                                 @Html.CheckBoxFor(m => m.IsNotCarStore, new { @style = "width: 25px; height: 25px;", @class = "form-check-input", @onchange = "Asset_Module.onIsNotCarStoreChange()" })
                             </div>
                         </div>
-                        </div>
-<div class="row">
-                            <div class="col-lg-6">
-                                <!--begin::Select-->
-                                <div class="form-group">
-                                    <label>حساب الدفع</label>
-                                    <div class="radio-inline">
-                                        <div class="col-lg-6">
-                                            <label class="radio">
-                                                <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="Asset_Module.onRdoSafeChanged();" />
-                                                <span></span>خزينة
-                                            </label>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <label class="radio">
-                                                <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="Asset_Module.onRdoBankChanged();" />
-                                                <span></span>بنك
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--end::Select-->
-                            </div>
-                            <div class="col-lg-6" style="display:@safeVisiable;" id="divSafe">
-                                <!--begin::Select-->
-                                <div class="form-group">
-                                    <label>خزينة</label>
-                                    @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                                <!--end::Select-->
-                            </div>
-                            <div class="col-lg-6" style="display:@accountVisiable;" id="divBank">
-                                <!--begin::Select-->
-                                <div class="form-group">
-                                    <label>بنك</label>
-                                    @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
-                                </div>
-                                <!--end::Select-->
-                            </div>
-
-                        </div>
-                        <div class="col-lg-4">
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
                             <!--begin::Select-->
                             <div class="form-group">
-                                <label>قابل للاهلاك <span class="badge badge-soft-warning fa-1x">يتم احتساب الاهلاك بالقيمة الثابتة</span></label>
-                                @Html.CheckBoxFor(m => m.IsDestruction, new { @style = "width: 25px; height: 25px;", @class = "form-check-input", @onchange = "Asset_Module.onIsDestructionChange()" })
+                                <label>حساب الدفع</label>
+                                <div class="radio-inline">
+                                    <div class="col-lg-6">
+                                        <label class="radio">
+                                            <input type="radio" name="radios2" id="rdo_safe" @checkedAttrSafe onchange="Asset_Module.onRdoSafeChanged();" />
+                                            <span></span>خزينة
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label class="radio">
+                                            <input type="radio" name="radios2" id="rdo_bank" @checkedAttrAccount onchange="Asset_Module.onRdoBankChanged();" />
+                                            <span></span>بنك
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--end::Select-->
+                        </div>
+                        <div class="col-lg-6" style="display:@safeVisiable;" id="divSafe">
+                            <!--begin::Select-->
+                            <div class="form-group">
+                                <label>خزينة</label>
+                                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                            </div>
+                            <!--end::Select-->
+                        </div>
+                        <div class="col-lg-6" style="display:@accountVisiable;" id="divBank">
+                            <!--begin::Select-->
+                            <div class="form-group">
+                                <label>بنك</label>
+                                @Html.DropDownList("BankAccountId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
                             </div>
                             <!--end::Select-->
                         </div>
 
-                        <div class="col-lg-8" style="display:none;" id="divDestruction">
-                            <div class="row">
-                                <div class="col-lg-3">
-                                    <!--begin::Select-->
-                                    <div class="form-group">
-                                        <label>تاريخ التشغيل</label>
-                                        @Html.TextBoxFor(m => m.OperationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
-                                    </div>
-                                    <!--end::Select-->
-                                </div>
-                                <div class="col-lg-3">
-                                    <!--begin::Select-->
-                                    <div class="form-group">
-                                        <label>القيمة التخريدية</label>
-                                        @Html.TextBoxFor(m => m.ScrapValue, new { @class = "form-control", @type = "number", @onkeyup = "Asset_Module.destructionClc()" })
-                                    </div>
-                                    <!--end::Select-->
-                                </div>
-
-                                <div class="col-lg-3">
-                                    <!--begin::Select-->
-                                    <div class="form-group">
-                                        <label>العمرالانتاجى <span class="badge badge-soft-warning fa-1x">عدد السنوات</span></label>
-                                        @Html.TextBoxFor(m => m.UsefulLife, new { @class = "form-control", @type = "number", @onkeyup = "Asset_Module.destructionClc()" })
-                                    </div>
-                                    <!--end::Select-->
-                                </div>
-                                <div class="col-lg-3">
-                                    <!--begin::Select-->
-                                    <div class="form-group">
-                                        <label>قيمة الاهلاك</label>
-                                        @Html.TextBoxFor(m => m.DestructionAmount, new { @class = "form-control", @type = "number", @readonly = "readonly" })
-                                    </div>
-                                    <!--end::Select-->
-                                </div>
-
-
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="col-lg-12">
-                            <div class="form-group">
-                                <label>ملاحظات</label>
-                                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
-                            </div>
-                        </div>
-
                     </div>
+                    <div class="col-lg-4">
+                        <!--begin::Select-->
+                        <div class="form-group">
+                            <label>قابل للاهلاك <span class="badge badge-soft-warning fa-1x">يتم احتساب الاهلاك بالقيمة الثابتة</span></label>
+                            @Html.CheckBoxFor(m => m.IsDestruction, new { @style = "width: 25px; height: 25px;", @class = "form-check-input", @onchange = "Asset_Module.onIsDestructionChange()" })
+                        </div>
+                        <!--end::Select-->
+                    </div>
+
+                    <div class="col-lg-8" style="display:none;" id="divDestruction">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>تاريخ التشغيل</label>
+                                    @Html.TextBoxFor(m => m.OperationDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                </div>
+                                <!--end::Select-->
+                            </div>
+                            <div class="col-lg-3">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>القيمة التخريدية</label>
+                                    @Html.TextBoxFor(m => m.ScrapValue, new { @class = "form-control", @type = "number", @onkeyup = "Asset_Module.destructionClc()" })
+                                </div>
+                                <!--end::Select-->
+                            </div>
+
+                            <div class="col-lg-3">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>العمرالانتاجى <span class="badge badge-soft-warning fa-1x">عدد السنوات</span></label>
+                                    @Html.TextBoxFor(m => m.UsefulLife, new { @class = "form-control", @type = "number", @onkeyup = "Asset_Module.destructionClc()" })
+                                </div>
+                                <!--end::Select-->
+                            </div>
+                            <div class="col-lg-3">
+                                <!--begin::Select-->
+                                <div class="form-group">
+                                    <label>قيمة الاهلاك</label>
+                                    @Html.TextBoxFor(m => m.DestructionAmount, new { @class = "form-control", @type = "number", @readonly = "readonly" })
+                                </div>
+                                <!--end::Select-->
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="col-lg-12">
+                        <div class="form-group">
+                            <label>ملاحظات</label>
+                            @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                </div>
                 <div class="card-footer">
                     @if (!showMode)
                     {
@@ -271,6 +280,11 @@
             });
         </script>
     }
+    <script>
+        $(document).ready(function () {
+            Asset_Module.getSafesOnBranchChanged()
+        });
+    </script>
 }
 
 

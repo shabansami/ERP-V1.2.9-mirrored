@@ -121,6 +121,8 @@ namespace ERP.Web.Controllers
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.Branchcount = branches.Count();
+
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");

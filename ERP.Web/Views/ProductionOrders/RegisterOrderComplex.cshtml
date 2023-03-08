@@ -39,7 +39,16 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @onchange = "ProductionOrder_Module.getStoresBranchChanged()" })
+                                @if (ViewBag.Branchcount == 1)
+                                {
+                                    @Html.DropDownList("BranchId", null,  htmlAttributes: new { @class = "form-select  din-med", @onchange = "ProductionOrder_Module.getStoresBranchChanged()" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  din-med", @onchange = "ProductionOrder_Module.getStoresBranchChanged()" })
+
+                                }
                                 @Html.HiddenFor(m => m.Id)
                                 @Html.HiddenFor(m => m.BranchId)
                             </div>
@@ -505,6 +514,7 @@
         var accounTree;
 
         $(document).ready(function () {
+            ProductionOrder_Module.getStoresBranchChanged();
             //دليل الحسابات
             var dsTree = [];
             $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount }, function (data) {

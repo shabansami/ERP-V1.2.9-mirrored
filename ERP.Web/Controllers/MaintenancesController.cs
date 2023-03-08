@@ -119,6 +119,7 @@ namespace ERP.Web.Controllers
                 ViewBag.Msg = "تأكد من اختيار مخزن الصيانة من شاشة الاعدادات العامة";
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.Branchcount = branches.Count();
             ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", maintenanceStoreId);
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");

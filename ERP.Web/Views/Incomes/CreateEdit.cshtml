@@ -69,7 +69,16 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Income_Module.getSafesOnBranchChanged();" })
+                                @if (ViewBag.Branchcount == 1)
+                                {
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   din-med", @onchange = "Income_Module.getSafesOnBranchChanged();" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Income_Module.getSafesOnBranchChanged();" })
+
+                                }
                             </div>
                         </div>  
                         <div class="col-lg-4">
@@ -149,6 +158,7 @@
     <script>
         var accounTree;
         $(document).ready(function () {
+            Income_Module.getSafesOnBranchChanged();
             //دليل الحسابات
             var dsTree = [];
             $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount, accountsexption:JSON.stringify(@accountsexption) }, function (data) {

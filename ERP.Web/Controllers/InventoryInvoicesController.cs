@@ -56,6 +56,7 @@ namespace ERP.Web.Controllers
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
+            ViewBag.Branchcount = branches.Count();
             //احتساب تكلفة المنتج 
             var model = db.GeneralSettings.ToList();
             var itemCost = model.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue;

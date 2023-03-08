@@ -4,7 +4,8 @@ using ERP.Web.Identity;
 using ERP.DAL;
 using ERP.Web.Services;
 using ERP.Web.Utilites;
-using System;using ERP.DAL.Utilites;
+using System;
+using ERP.DAL.Utilites;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -12,6 +13,7 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using System.Runtime.Remoting.Contexts;
+using System.Diagnostics;
 
 namespace ERP.Web.Controllers
 {
@@ -53,17 +55,17 @@ namespace ERP.Web.Controllers
             return View();
         }
 
-        public ActionResult GetAll(string storeFromId, string storeToId, string dtFrom, string dtTo,string cmbo_approvalStore,string cmbo_forSaleMen)
+        public ActionResult GetAll(string storeFromId, string storeToId, string dtFrom, string dtTo, string cmbo_approvalStore, string cmbo_forSaleMen)
         {
             int? n = null;
-            Guid storeFrmId ;
-            Guid storeTId ;
+            Guid storeFrmId;
+            Guid storeTId;
             Guid.TryParse(storeFromId, out storeFrmId);
             Guid.TryParse(storeToId, out storeTId);
 
             DateTime dateFrom, dateTo;
             var storesTrans = db.StoresTransfers.Where(x => !x.IsDeleted);
-            if (storeFrmId !=Guid.Empty)
+            if (storeFrmId != Guid.Empty)
                 storesTrans = storesTrans.Where(x => x.StoreFromId == storeFrmId);
             if (storeTId != Guid.Empty)
                 storesTrans = storesTrans.Where(x => x.StoreToId == storeTId);
@@ -73,7 +75,7 @@ namespace ERP.Web.Controllers
                 storesTrans = storesTrans.Where(x => DbFunctions.TruncateTime(x.TransferDate) >= dateFrom);
             else if (DateTime.TryParse(dtTo, out dateTo))
                 storesTrans = storesTrans.Where(x => DbFunctions.TruncateTime(x.TransferDate) <= dateTo);
-            if(!string.IsNullOrEmpty(cmbo_approvalStore))
+            if (!string.IsNullOrEmpty(cmbo_approvalStore))
             {
                 if (cmbo_approvalStore == "1") //حالة التحويل فى  الانتظار 
                     storesTrans = storesTrans.Where(x => !x.IsApprovalStore && !x.IsRefusStore);
@@ -81,29 +83,32 @@ namespace ERP.Web.Controllers
                     storesTrans = storesTrans.Where(x => x.IsApprovalStore);
                 else if (cmbo_approvalStore == "3")//حالة التحويل تم الرفض المخزنى 
                     storesTrans = storesTrans.Where(x => x.IsRefusStore);
-            }      
-            if(!string.IsNullOrEmpty(cmbo_forSaleMen))//التحويلات من والى مناديب
+            }
+            if (!string.IsNullOrEmpty(cmbo_forSaleMen))//التحويلات من والى مناديب
             {
                 if (cmbo_forSaleMen == "1") //مندوب 
-                    storesTrans = storesTrans.Where(x => x.EmployeeFromId!=null||x.EmployeeToId!=null);
+                    storesTrans = storesTrans.Where(x => x.EmployeeFromId != null || x.EmployeeToId != null);
                 else if (cmbo_forSaleMen == "2")//لغير المناديب 
                     storesTrans = storesTrans.Where(x => x.EmployeeFromId == null && x.EmployeeToId == null);
             }
-            var data = storesTrans.OrderBy(x=>x.CreatedOn)
-                .Select(x => new { 
+            var data = storesTrans.OrderBy(x => x.CreatedOn)
+                .Select(x => new
+                {
                     Id = x.Id,
-                    StoreTransferNumber=x.StoreTransferNumber,
+                    StoreTransferNumber = x.StoreTransferNumber,
                     ApprovalStore = (!x.IsApprovalStore && !x.IsRefusStore) ? "فى الانتظار" : x.IsApprovalStore ? "تم الاعتماد" : "تم الرفض",
-                    CaseName=x.StoresTransferCase.Name,
-                    IsFinalApproval=x.IsFinalApproval,
-                    IsRefusStore=x.IsRefusStore,
-                    BranchFromName = x.StoreFrom.Branch.Name, 
-                    StoreFromName = x.StoreFrom.Name, 
-                    BranchToName = x.StoreTo.Branch.Name, 
-                    StoreToName = x.StoreTo.Name, 
-                    TransferDate = x.TransferDate.ToString(), 
-                    EmployeeFromName = x.EmployeeFromId != null ? x.EmployeeFrom.Person.Name : null, 
-                    EmployeeToName = x.EmployeeToId != null ? x.EmployeeTo.Person.Name : null, Actions = n , Num = n 
+                    CaseName = x.StoresTransferCase.Name,
+                    IsFinalApproval = x.IsFinalApproval,
+                    IsRefusStore = x.IsRefusStore,
+                    BranchFromName = x.StoreFrom.Branch.Name,
+                    StoreFromName = x.StoreFrom.Name,
+                    BranchToName = x.StoreTo.Branch.Name,
+                    StoreToName = x.StoreTo.Name,
+                    TransferDate = x.TransferDate.ToString(),
+                    EmployeeFromName = x.EmployeeFromId != null ? x.EmployeeFrom.Person.Name : null,
+                    EmployeeToName = x.EmployeeToId != null ? x.EmployeeTo.Person.Name : null,
+                    Actions = n,
+                    Num = n
                 }).ToList();
             //var data = db.StoresTransfers.Where(x => !x.IsDeleted || (DbFunctions.TruncateTime(x.TransferDate) >= dateFrom && DbFunctions.TruncateTime(x.TransferDate) <= dateTo) || x.StoreFromId == storeFrmId || x.StoreToId == storeTId).Select(x => new { Id = x.Id, BranchFromName = x.Store.Branch.Name, StoreFromName = x.Store.Name, BranchToName = x.Store1.Branch.Name, StoreToName = x.Store1.Name, TransferDate = x.TransferDate.ToString(), Actions = n }).ToList();
             //var t = data.ToList();
@@ -164,7 +169,7 @@ namespace ERP.Web.Controllers
             {
                 if (deDS.Where(x => x.ItemId == vm.ItemId && vm.ProductionOrderId == x.ProductionOrderId && vm.IsIntial == x.IsIntial && vm.SerialItemId == x.SerialItemId).Count() > 0)
                     return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-                itemName = db.Items.FirstOrDefault(x=>x.Id==vm.ItemId).Name;
+                itemName = db.Items.FirstOrDefault(x => x.Id == vm.ItemId).Name;
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
@@ -217,8 +222,8 @@ namespace ERP.Web.Controllers
                     }).ToList();
                     DS = JsonConvert.SerializeObject(items);
 
-                    ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted  && !x.IsDamages), "Id", "Name", vm.StoreFromId);
-                    ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted  && !x.IsDamages), "Id", "Name", vm.StoreToId);
+                    ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", vm.StoreFromId);
+                    ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", vm.StoreToId);
                     ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", vm.StoreFrom.BranchId);
                     ViewBag.BranchToId = new SelectList(branches, "Id", "Name", vm.StoreTo.BranchId);
                     //ViewBag.DepartmentFromId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -237,10 +242,11 @@ namespace ERP.Web.Controllers
                 var defaultStore = storeService.GetDefaultStore(db);
                 var branchId = defaultStore != null ? defaultStore.BranchId : null;
 
-                ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted &&  !x.IsDamages), "Id", "Name", defaultStore?.Id);
-                ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted &&  !x.IsDamages), "Id", "Name", defaultStore?.Id);
+                ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", defaultStore?.Id);
+                ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.BranchToId = new SelectList(branches, "Id", "Name", branchId);
+                
                 //ViewBag.DepartmentFromId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
                 //ViewBag.EmployeeFromId = new SelectList(new List<Employee>(), "Id", "Name");
                 //ViewBag.DepartmentToId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -254,7 +260,7 @@ namespace ERP.Web.Controllers
             var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
             if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
                 ViewBag.ItemAcceptNoBalance = itemAcceptNoBalance;
-
+            ViewBag.Branchcount = branches.Count();
             return View(vm);
         }
         [HttpPost]
@@ -305,10 +311,11 @@ namespace ERP.Web.Controllers
                                 // لا يوجد حذف لعملية تحويل مخزنى بسبب احتمال اجراء عمليه بيع او مرتجع بناءا على التحويل
                                 //==================
                                 StoresTransfer model = new StoresTransfer();
+                                var StoretransferapprovalAfterSave = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreTransferApprovalAfterSave).FirstOrDefault().SValue;
 
-                                if (vm.Id!=Guid.Empty)
+                                if (vm.Id != Guid.Empty)
                                 {
-                                    model = context.StoresTransfers.FirstOrDefault(x=>x.Id==vm.Id);
+                                    model = context.StoresTransfers.FirstOrDefault(x => x.Id == vm.Id);
                                     if (model.TransferDate.ToShortDateString() != vm.TransferDate.ToShortDateString())
                                         model.TransferDate = vm.TransferDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
 
@@ -337,7 +344,13 @@ namespace ERP.Web.Controllers
                                     model = vm;
                                     model.TransferDate = vm.TransferDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                                 }
-
+                                if (StoretransferapprovalAfterSave == "1")
+                                {
+                                    foreach (var item in items)
+                                    {
+                                        item.QuantityReal = item.Quantity;
+                                    }
+                                }
                                 model.StoresTransferDetails = items;
                                 model.Notes = vm.Notes;
                                 model.StoreFromId = vm.StoreFromId;
@@ -355,7 +368,7 @@ namespace ERP.Web.Controllers
                                 //model.ForSaleMen = vm.ForSaleMen;
                                 model.EmployeeFromId = empFromId;
                                 model.EmployeeToId = empToId;
-                                if (model.Id !=Guid.Empty)
+                                if (model.Id != Guid.Empty)
                                 {
                                     model.StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferUpdated;
                                     //اضافة الحالة 
@@ -406,6 +419,42 @@ namespace ERP.Web.Controllers
                                         }
                                     }
                                 }
+
+
+                                //فى حالة اختيار الاعتماد مباشرا بعد الحفظ من الاعدادات العامة 
+                                Stopwatch stopwatch = new Stopwatch();
+                                Stopwatch stopwatch1 = new Stopwatch();
+                                if (StoretransferapprovalAfterSave == "1")
+                                {
+
+                                    var casesStoretranHistory = new StoresTransferHistory
+                                    {
+                                        StoresTransfer = model,
+                                    };
+
+                                    model.StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferStoreApproval;
+                                    model.IsApprovalStore = true;
+                                    casesStoretranHistory.StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferStoreApproval;
+                                    context.StoresTransferHistories.Add(casesStoretranHistory);
+                                    context.SaveChanges(auth.CookieValues.UserId);
+
+
+                                    model.IsFinalApproval = true;
+                                    model.StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferFinalApproval;
+
+                                    //اضافة الحالة 
+                                    context.StoresTransferHistories.Add(new StoresTransferHistory
+                                    {
+                                        StoresTransfer = model,
+                                        StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferFinalApproval
+                                    });
+                                    context.SaveChanges(auth.CookieValues.UserId);
+
+                                }
+                                context.SaveChanges(auth.CookieValues.UserId);
+
+
+
                                 transaction.Commit();
                                 if (isInsert)
                                     return Json(new { isValid = true, isInsert, message = "تم التحويل المخزنى بنجاح" });
@@ -473,7 +522,7 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
 
 
-        }        
+        }
         public ActionResult Edit(string id)
         {
             Guid Id;
@@ -499,7 +548,7 @@ namespace ERP.Web.Controllers
                     //هل الصنف يسمح بالسحب منه بالسالب
                     foreach (var item in model.StoresTransferDetails.Where(x => !x.IsDeleted))
                     {
-                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoresTransfer.StoreFromId,item.Quantity);
+                        var result = itemService.IsAllowNoBalance(item.ItemId, item.StoresTransfer.StoreFromId, item.Quantity);
                         if (!result.IsValid)
                             return Json(new { isValid = false, message = $"غير مسموع بفك الاعتماد لوجود صنف/اكثر رصيده بالسالب {result.ItemNotAllowed}" });
                     }
@@ -536,20 +585,20 @@ namespace ERP.Web.Controllers
         public ActionResult ShowDetails(string id)
         {
 
-                Guid Id;
-                if (Guid.TryParse(id, out Id))
+            Guid Id;
+            if (Guid.TryParse(id, out Id))
+            {
+                var vm = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
+                if (vm != null)
                 {
-                    var vm = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
-                    if (vm != null)
-                    {
-                        vm.StoresTransferDetails = vm.StoresTransferDetails.Where(x => !x.IsDeleted).ToList();
-                        return View(vm);
-                    }
-                    else
-                        return RedirectToAction("Index");
+                    vm.StoresTransferDetails = vm.StoresTransferDetails.Where(x => !x.IsDeleted).ToList();
+                    return View(vm);
                 }
                 else
                     return RedirectToAction("Index");
+            }
+            else
+                return RedirectToAction("Index");
 
         }
 
@@ -569,7 +618,7 @@ namespace ERP.Web.Controllers
             int? n = null;
             return Json(new
             {
-                data = db.StoresTransfers.Where(x => !x.IsDeleted && x.IsApprovalStore).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoType = x.EmployeeTo!=null ? "مندوب" : "بدون مناديب", EmployeeName=x.EmployeeTo!=null?x.EmployeeTo.Person.Name:null, InvoiceNum = x.StoreTransferNumber, InvoiceDate = x.TransferDate.ToString(),  CaseId = x.StoresTransferCaseId, CaseName = x.StoresTransferCase != null ? x.StoresTransferCase.Name : "", IsFinalApproval = x.IsFinalApproval, FinalApproval = x.IsFinalApproval ? "معتمده نهائيا" : "غير معتمده", Actions = n, Num = n }).ToList()
+                data = db.StoresTransfers.Where(x => !x.IsDeleted && x.IsApprovalStore).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoType = x.EmployeeTo != null ? "مندوب" : "بدون مناديب", EmployeeName = x.EmployeeTo != null ? x.EmployeeTo.Person.Name : null, InvoiceNum = x.StoreTransferNumber, InvoiceDate = x.TransferDate.ToString(), CaseId = x.StoresTransferCaseId, CaseName = x.StoresTransferCase != null ? x.StoresTransferCase.Name : "", IsFinalApproval = x.IsFinalApproval, FinalApproval = x.IsFinalApproval ? "معتمده نهائيا" : "غير معتمده", Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
@@ -600,7 +649,7 @@ namespace ERP.Web.Controllers
                         StoresTransferCaseId = (int)StoresTransferCaseCl.StoreTransferFinalApproval
                     });
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                            return Json(new { isValid = true, message = "تم الاعتماد بنجاح" });
+                        return Json(new { isValid = true, message = "تم الاعتماد بنجاح" });
                     else
                         return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
                 }

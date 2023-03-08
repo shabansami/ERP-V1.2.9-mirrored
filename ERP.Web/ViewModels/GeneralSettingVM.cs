@@ -25,6 +25,8 @@ namespace ERP.Web.ViewModels
         public Nullable<int> ItemAcceptNoBalanceId { get; set; } //قبول اضافة اصناف بدون رصيد فى فواتير البيع 
         public Nullable<int> PaidWithBalance { get; set; } //قبول/رفض صرف نقدية بدون رصيد 
         public Nullable<int> InvoicesApprovalAfterSaveId { get; set; } //الاعتماد المباشر بعد حفظ فواتير البيع والتوريد 
+        public Nullable<int> StoreTransferApprovalAfterSaveId { get; set; } //الاعتماد المباشر بعد حفظ تحويلات المخازن 
+
         public Nullable<int> ItemCostCalculateShowInSellRegId { get; set; } //اظهار تكلفة الصنف فى شاشة البيع 
         public Nullable<int> PeriodAllowedPayInstallment { get; set; } //المدة المسموح بها فى سداد قسط 
         public Nullable<int> LimitDangerSell { get; set; } //السماح بالبيع عند تخطى الحد الائتمانى للخطر 

@@ -83,6 +83,7 @@ namespace ERP.Web.Controllers
                 // add
                 var defaultStore = storeService.GetDefaultStore(db);
                 vm.BranchId = defaultStore != null ? defaultStore.BranchId : null;
+                ViewBag.Branchcount = branches.Count();
                 vm.DateIntial = Utility.GetDateTime();
                 vm.DebitCredit = 1;
             }
@@ -332,6 +333,7 @@ namespace ERP.Web.Controllers
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.Branchcount = branches.Count();
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
             var personIntialBalance = db.PersonIntialBalances.Where(x => !x.IsDeleted && x.IsCustomer);
             IntialBalanceListVM intialBalanceVM = new IntialBalanceListVM();

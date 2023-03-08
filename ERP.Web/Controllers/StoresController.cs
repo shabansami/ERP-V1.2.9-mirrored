@@ -50,7 +50,7 @@ namespace ERP.Web.Controllers
                     var model = db.Stores.Where(x => x.Id == id).FirstOrDefault();
                     ViewBag.EmployeeId = new SelectList(EmployeeService.GetEmployees(), "Id", "Name",model.EmployeeId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name",model.BranchId);
-
+                    ViewBag.Branchcount = branches.Count();
                     return View(model);
                 }
                 else

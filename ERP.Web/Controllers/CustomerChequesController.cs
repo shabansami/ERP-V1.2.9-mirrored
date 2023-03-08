@@ -61,7 +61,7 @@ namespace ERP.Web.Controllers
             var defaultStore = storeService.GetDefaultStore(db);
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-
+            ViewBag.Branchcount = branches.Count();
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Customer || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             ViewBag.BranchId = new SelectList(branches, "Id", "Name",branchId);
             ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName");

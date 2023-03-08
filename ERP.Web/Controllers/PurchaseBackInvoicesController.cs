@@ -224,6 +224,7 @@ namespace ERP.Web.Controllers
                     ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
                     ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer) || x.Id == vm.SupplierId), "Id", "Name", vm.SupplierId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
+                    ViewBag.Branchcount = branches.Count();
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
@@ -253,6 +254,7 @@ namespace ERP.Web.Controllers
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && (x.BranchId == branchId) && !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+                ViewBag.Branchcount = branches.Count();
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", bankAccountId);

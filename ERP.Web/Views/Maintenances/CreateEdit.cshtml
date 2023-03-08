@@ -74,7 +74,16 @@
                                         <!--begin::Select-->
                                         <div class="form-group">
                                             <label>الفرع</label>
-                                            @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSafesOnBranchChanged();" })
+                                            @if (ViewBag.Branchcount == 1)
+                                            {
+                                                @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSafesOnBranchChanged();" })
+
+                                            }
+                                            else
+                                            {
+                                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "Maintenance_Module.getSafesOnBranchChanged();" })
+
+                                            }
                                             @Html.HiddenFor(x => x.Id)
                                             @Html.HiddenFor(x => x.InvoiceNumber)
                                             <span class="form-text text-muted">اختر الفرع </span>
@@ -468,7 +477,8 @@
     {
 
         <script type="text/javascript">
-    $(document).ready(function () {
+            $(document).ready(function () {
+                Maintenance_Module.getSafesOnBranchChanged();
           // رسالة خطأ عند عدم تحديد المخزن الصيانة من شاشة الاعدادات العامة
         toastr.error('@ViewBag.Msg', '');
             });

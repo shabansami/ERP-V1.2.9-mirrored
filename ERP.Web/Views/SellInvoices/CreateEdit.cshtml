@@ -176,7 +176,16 @@
                                             <!--begin::Select-->
                                             <div class="form-group">
                                                 <label>الفرع</label>
-                                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-lg din-med", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
+                                                @if (ViewBag.Branchcount == 1)
+                                                {
+                                                    @Html.DropDownList("BranchId", null,  htmlAttributes: new { @class = "form-control form-control-lg din-med", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control form-control-lg din-med", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
+
+                                                }
                                                 @Html.HiddenFor(x => x.Id)
                                                 @Html.HiddenFor(x => x.OrderSellId)
                                             </div>
@@ -852,11 +861,20 @@ else
                                         <div class="col-lg-4">
                                             <div class="form-group required">
                                               <label>الفرع</label>
-                                                <div class="col-12">
-                                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
-                                                    @Html.HiddenFor(x => x.Id)
-                                                    @Html.HiddenFor(x => x.OrderSellId)
-                                                </div>
+                                              <div class="col-12">
+                                                  @if (ViewBag.Branchcount == 1)
+                                                  {
+                                                      @Html.DropDownList("BranchId", null,  htmlAttributes: new { @class = "form-select", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
+
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select", @onchange = "SellInvoice_Module.getSafesOnBranchChanged();" })
+
+                                                  }
+                                                  @Html.HiddenFor(x => x.Id)
+                                                  @Html.HiddenFor(x => x.OrderSellId)
+                                              </div>
                                             </div>
                                         </div>
 
@@ -1486,6 +1504,7 @@ else
     <!--end::Page Scripts-->
     <script type="text/javascript">
         $(document).ready(function () {
+            SellInvoice_Module.getSafesOnBranchChanged();
             SellInvoice_Module.initItemDetails();
             SellInvoice_Module.initSellInvoiceExpenses();
             //$("#rdo_safe,#rdo_bank").attr("disabled", true);

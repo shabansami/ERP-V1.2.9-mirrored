@@ -70,7 +70,7 @@ namespace ERP.Web.Controllers
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
-
+            ViewBag.Branchcount = branches.Count();
             return View(new IntialBalanceVM() { DateIntial = Utility.GetDateTime() });
             //}
         }

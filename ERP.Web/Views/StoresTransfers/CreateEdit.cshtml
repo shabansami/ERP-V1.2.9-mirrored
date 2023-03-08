@@ -87,7 +87,16 @@
                                             <!--begin::Select-->
                                             <div class="form-group">
                                                 <label>الفرع</label>
-                                                @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+                                                @if (ViewBag.Branchcount == 1)
+                                                {
+                                                    @Html.DropDownList("BranchFromId", null, htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+
+                                                }
                                                 @Html.HiddenFor(x => x.Id)
                                             </div>
                                         </div>
@@ -104,7 +113,16 @@
                                             <!--begin::Select-->
                                             <div class="form-group">
                                                 <label>الفرع</label>
-                                                @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+                                                @if (ViewBag.Branchcount == 1)
+                                                {
+                                                    @Html.DropDownList("BranchToId", null,  htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid form-control-lg din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+
+                                                }
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
@@ -351,7 +369,16 @@ else
                                             <!--begin::Select-->
                                             <div class="form-group">
                                                 <label>الفرع</label>
-                                                @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+                                                @if (ViewBag.Branchcount == 1)
+                                                {
+                                                    @Html.DropDownList("BranchFromId", null, htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("BranchFromId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchFromChanged();" })
+
+                                                }
                                                 @Html.HiddenFor(x => x.Id)
                                             </div>
                                         </div>
@@ -368,7 +395,16 @@ else
                                             <!--begin::Select-->
                                             <div class="form-group">
                                                 <label>الفرع</label>
-                                                @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+                                                @if (ViewBag.Branchcount == 1)
+                                                {
+                                                    @Html.DropDownList("BranchToId", null,htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+
+                                                }
+                                                else
+                                                {
+                                                    @Html.DropDownList("BranchToId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   form-control-solid  din-med", @onchange = "StoresTransfer_Module.getStoresOnBranchToChanged();" })
+
+                                                }
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
@@ -545,7 +581,8 @@ else
     <script type="text/javascript">
         $(document).ready(function () {
             StoresTransfer_Module.initItemDetails();
-
+            StoresTransfer_Module.getStoresOnBranchFromChanged();
+            StoresTransfer_Module.getStoresOnBranchToChanged();
             //عند ادخال الباركود الصنف
             $("#ItemBarcode").keydown(function (e) {
                 if (e.keyCode == 13) {

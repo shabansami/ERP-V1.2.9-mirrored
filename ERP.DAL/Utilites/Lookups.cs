@@ -141,6 +141,7 @@ namespace ERP.Web.Utilites
             QuotationNoteEn, //ملاحظة عروض الاسعار فى الطباعة بالانجليزية 
             SellPriceZero, //سعر البيع يقبل صفر (الهدايا)  
             AcceptItemCostSellDown, // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته  
+            StoreTransferApprovalAfterSave=82,//الاعتماد المباشر بعد حفظ تحويلات المخازن
 
         }
 

@@ -87,6 +87,7 @@ namespace ERP.Web.Controllers
             vm.DebitCredit = 2;
             }
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
+            ViewBag.Branchcount = branches.Count();
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name",vm.SupplierId);
             ViewBag.DebitCredit = new SelectList(debitCreditList, "Id", "Name", vm.DebitCredit);
             return View(vm);
@@ -330,6 +331,7 @@ namespace ERP.Web.Controllers
             var branchId = defaultStore != null ? defaultStore.BranchId : null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.Branchcount = branches.Count();
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1" }, new SelectListItem { Text = "دائن", Value = "2", Selected = true } };
             var personIntialBalance = db.PersonIntialBalances.Where(x => !x.IsDeleted && !x.IsCustomer);
             IntialBalanceListVM intialBalanceVM = new IntialBalanceListVM();

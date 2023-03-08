@@ -1086,6 +1086,7 @@ namespace ERP.Web.Controllers
 
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+            ViewBag.Branchcount = branches.Count();
             ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.ItemProductionId = new SelectList(db.ItemProductions.Where(x => !x.IsDeleted), "Id", "Name");
             vm.BranchId = branchId;

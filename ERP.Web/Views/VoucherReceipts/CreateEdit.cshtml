@@ -41,7 +41,16 @@
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
+                                @if (ViewBag.Branchcount > 1)
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select  " })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select  " })
+
+                                }
                                 @Html.HiddenFor(model => model.Id)
                             </div>
                         </div>

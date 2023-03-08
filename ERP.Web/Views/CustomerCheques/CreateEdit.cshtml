@@ -56,7 +56,17 @@
         <div class="col-lg-6">
             <div class="form-group required">
                 <label>الفرع</label>
-                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                @if (ViewBag.Branchcount > 1)
+                {
+                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+
+                }
+                else
+                {
+                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   din-med" })
+
+                }
+
             </div>
         </div>
         <div class="col-lg-6">

@@ -69,12 +69,22 @@
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>الفرع</label>
-                                @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Expense_Module.getSafesOnBranchChanged();" })
+                                @if (ViewBag.Branchcount > 1)
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Expense_Module.getSafesOnBranchChanged();" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   din-med", @onchange = "Expense_Module.getSafesOnBranchChanged();" })
+
+                                }
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="form-group required">
                                 <label>خزينة</label>
+
                                 @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Expense_Module.getBalanceAccountChanged();" })
                             </div>
                         </div>
@@ -108,7 +118,7 @@
                                 <a href="/Expenses/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
                         </div>
                     </div>
-                </div>            }
+                </div>}
 
         </div>
 
@@ -149,8 +159,8 @@
                     <!--end::Example-->
                 </div>
             </div>
-        </div>     
-        }
+        </div>
+    }
 </div>
 
 @section Scripts
@@ -159,8 +169,11 @@
     <script>
         var accounTree;
         $(document).ready(function () {
-            //دليل الحسابات
-            var dsTree = [];
+
+          Expense_Module.getSafesOnBranchChanged();
+
+               //دليل الحسابات
+               var dsTree = [];
             $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount, accountsexption:JSON.stringify(@accountsexption) }, function (data) {
                 accounTree.setSource(data);
             });

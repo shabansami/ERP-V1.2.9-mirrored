@@ -325,6 +325,7 @@ namespace ERP.Web.Controllers
 
                     ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
+                    ViewBag.Branchcount = branches.Count();
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
                     ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     //ViewBag.SaleMenId = new SelectList(db.Employees.Where(x => !x.IsDeleted&&x.IsSaleMen&&x.PersonId==vm.SaleMenId).Select(x=>new {Id=x.PersonId,Name=x.Person.Name }), "Id", "Name", vm.SaleMenId);
@@ -412,6 +413,8 @@ namespace ERP.Web.Controllers
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
                 ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",customerId);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
+                ViewBag.Branchcount = branches.Count();
+
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.SafeId = new SelectList(db.Safes.Where(x=>!x.IsDeleted&&x.BranchId==branchId), "Id", "Name");

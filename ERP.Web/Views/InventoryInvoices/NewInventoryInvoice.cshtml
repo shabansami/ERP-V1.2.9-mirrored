@@ -43,7 +43,16 @@ else
                                 <div class="form-group">
                                     <div>
                                         <label> الفرع</label>
-                                        @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onBranchChange();" })
+                                        @if (ViewBag.Branchcount == 1)
+                                        {
+                                            @Html.DropDownList("BranchId", null,  htmlAttributes: new { @class = "form-select   din-med", @onchange = "onBranchChange();" })
+
+                                        }
+                                        else
+                                        {
+                                            @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onBranchChange();" })
+
+                                        }
                                         @Html.Hidden("ItemCostCalculateId")
                                     </div>
                                 </div>
@@ -248,7 +257,8 @@ $(document).ready(function () {
     </script>
     <script>
 var treeBasic;
-$(document).ready(function () {
+        $(document).ready(function () {
+            onBranchChange();
             //المجموعة الاساسية
             var dsBasic = [];
             $.get("/SharedDataSources/onGroupTypeChange", { id: 1 }, function (data) {

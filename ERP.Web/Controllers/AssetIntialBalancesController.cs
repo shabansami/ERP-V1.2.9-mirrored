@@ -53,7 +53,7 @@ namespace ERP.Web.Controllers
             ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
-
+            ViewBag.Branchcount = branches.Count();
             return View(new IntialBalanceVM() {DateIntial=Utility.GetDateTime() });
             //}
         }

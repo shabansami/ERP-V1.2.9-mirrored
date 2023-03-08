@@ -16,6 +16,7 @@ namespace ERP.Web.ViewModels
         public Nullable<Guid> PersonCategoryId { get; set; }
         public Nullable<Guid> CustomerId { get; set; }
         public Nullable<Guid> BranchId { get; set; }
+        public Nullable<Guid> SafeId { get; set; }
         public Nullable<int> PaymentTypeId { get; set; }
         public double TotalQuantity { get; set; }
         public double TotalValue { get; set; }

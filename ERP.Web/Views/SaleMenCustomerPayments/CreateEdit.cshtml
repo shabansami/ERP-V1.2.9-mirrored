@@ -63,25 +63,34 @@
                         @Html.HiddenFor(model => model.Id)
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="form-group required">
                         <label>تاريخ العملية </label>
                         @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                         <input type="hidden" id="SaleMenEmployeeId" name="SaleMenEmployeeId" value="@ViewBag.SaleMenEmployeeId" />
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="form-group">
-                        <label>رقم فاتورة البيع </label>
-                        @Html.TextBoxFor(m => m.SellInvoiceId, htmlAttributes: new { @class = "form-control din-med", @type = "number" })
-                    </div>
-                </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="form-group required">
                         <label>المبلغ</label>
                         @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @type = "number" })
                     </div>
                 </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>خزينة</label>
+                        <div class="col-12">
+                            @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <label>رقم فاتورة البيع <span class="badge badge-soft-warning fa-1x">ضرورة تسجيله لتأثر تقرير المتأخرات  به</span></label>
+                        @Html.TextBox("InvoiceNumber", (string)ViewBag.InvoiceNumber, htmlAttributes: new { @class = "form-control din-med" })
+                    </div>
+                </div>
+
 
                 <div class="col-lg-12">
                     <div class="form-group ">

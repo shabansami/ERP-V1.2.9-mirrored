@@ -43,6 +43,7 @@ namespace ERP.Web.Services
                 return true;
             return false;
         }
+        //مخازن المندوب
         public static List<DropDownList> GetStoreSaleMenByBranchId(Guid? employeeId)
         {
             if(employeeId == null||employeeId==Guid.Empty) return new List<DropDownList>(); 
@@ -55,7 +56,20 @@ namespace ERP.Web.Services
                 else
                     return new List<DropDownList>();
             }
-
+        }
+        //خزن المندوب
+        public static List<DropDownList> GetSafeSaleMenByBranchId(Guid? employeeId)
+        {
+            if(employeeId == null||employeeId==Guid.Empty) return new List<DropDownList>(); 
+            IQueryable<EmployeeSafe> employeeSafes = null;
+            using (var db = new VTSaleEntities())
+            {
+                employeeSafes = db.EmployeeSafes.Where(x => !x.IsDeleted&&x.EmployeeId== employeeId);
+                if (employeeSafes.Any())
+                    return employeeSafes.Select(x => new DropDownList { Id = x.SafeId, Name = x.Safe.Name }).ToList();
+                else
+                    return new List<DropDownList>();
+            }
         }
     }
 }

@@ -34,14 +34,14 @@
     <div class="row">
 
         <div class="col-lg-6">
-            <div class="form-group required" style="margin-top:27px;">
+            <div class="form-group required" >
                 <label>اسم العميل</label>
                 @Html.DropDownList("CustomerId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
                 @Html.HiddenFor(model => model.Id)
             </div>
         </div>
         <div class="col-lg-3">
-            <div class="form-group required"  style="margin-top:27px;">
+            <div class="form-group required" >
                 <label>المبلغ</label>
                 @Html.TextBoxFor(m => m.Amount, new { @class = "form-control" , @style = "text-align:right;" })
             </div>

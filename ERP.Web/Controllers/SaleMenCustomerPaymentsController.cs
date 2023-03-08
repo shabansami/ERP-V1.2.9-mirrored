@@ -8,6 +8,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Security.Cryptography;
 
 namespace ERP.Web.Controllers
 {
@@ -52,6 +53,9 @@ namespace ERP.Web.Controllers
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             //مخازن المندوب
             var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            //خزن المندوب
+            var safes = StoreService.GetSafeSaleMenByBranchId(auth.CookieValues.EmployeeId);
+
             if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBagBase();
@@ -74,6 +78,8 @@ namespace ERP.Web.Controllers
                     var model = db.CustomerPayments.FirstOrDefault(x=>x.Id==id);
                     ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name", model.PersonCustomer.PersonCategoryId);
                     ViewBag.CustomerId = new SelectList(EmployeeService.GetCustomerByCategory(model.PersonCustomer.PersonCategoryId, auth.CookieValues.EmployeeId,null), "Id", "Name", model.CustomerId);
+                    ViewBag.InvoiceNumber = model.SellInvoice?.InvoiceNumber;
+                    ViewBag.SafeId = new SelectList(safes, "Id", "Name",model.SafeId);
 
 
                     return View(model);
@@ -84,6 +90,7 @@ namespace ERP.Web.Controllers
             else
             {                   // add
                 ViewBagBase();
+                ViewBag.SafeId = new SelectList(safes, "Id", "Name");
                 return View(new CustomerPayment() { PaymentDate = Utility.GetDateTime() });
             }
         }
@@ -92,10 +99,11 @@ namespace ERP.Web.Controllers
         {
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(new List<Person>(), "Id", "Name");
+
         }
 
         [HttpPost]
-        public JsonResult CreateEdit(CustomerPayment vm, Guid? SaleMenEmployeeId)
+        public JsonResult CreateEdit(CustomerPayment vm, Guid? SaleMenEmployeeId, string invoiceNumber)
         {
             if (ModelState.IsValid)
             {
@@ -108,18 +116,24 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                 if (SaleMenEmployeeId == null)
                     return Json(new { isValid = false, message = "خطأ فى بيانات المندوب ..لا يمكن عرض هذه الشاشة"});
-                //فى حالة ادخال رقم فاتورة توريد يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير التوريد 
-                if (vm.SellInvoiceId != null)
+                //فى حالة ادخال رقم فاتورة بيع يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير البيع 
+                if (!string.IsNullOrEmpty(invoiceNumber))
                 {
-                    if (int.TryParse(vm.SellInvoiceId.ToString(), out var id))
+                    var sellInvoice = db.SellInvoices.Where(x => !x.IsDeleted && x.InvoiceNumber == invoiceNumber.Trim()).FirstOrDefault();
+                    if (sellInvoice != null)
                     {
-                        var sellIsExists = db.SellInvoices.Where(x => !x.IsDeleted && x.Id == vm.SellInvoiceId).Count();
-                        if (sellIsExists == 0)
-                            return Json(new { isValid = false, message = "خطأ .... رقم الفاتورة غير موجود فى فواتير البيع" });
+                        vm.SellInvoiceId = sellInvoice.Id;
+
+                        var prevousPaymenys = sellInvoice.CustomerPayments.Where(x => !x.IsDeleted).Sum(x => (double?)x.Amount ?? 0);
+                        //التأكد من ان المبلغ المسدد يساوى او اقل من المتبقى
+                        if ((prevousPaymenys + vm.Amount) > sellInvoice.RemindValue)
+                            return Json(new { isValid = false, message = "خطأ .... المبالغ المسددة اكبر المتبقى للفاتورة " });
+
                     }
                     else
-                        return Json(new { isValid = false, message = "تأكد من ادخال رقم فاتورة البيع بشكل صحيح " });
-
+                        return Json(new { isValid = false, message = "خطأ .... رقم الفاتورة غير موجود فى فواتير البيع" });
+                    //else
+                    //    return Json(new { isValid = false, message = "تأكد من ادخال رقم فاتورة البيع بشكل صحيح " });
                 }
                 var isInsert = false;
 
@@ -130,6 +144,7 @@ namespace ERP.Web.Controllers
 
                     var model = db.CustomerPayments.FirstOrDefault(x=>x.Id==vm.Id);
                     model.CustomerId = vm.CustomerId;
+                    model.SafeId= vm.SafeId;
                     model.Amount = vm.Amount;
                     model.Notes = vm.Notes;
                     model.BySaleMen =true;
@@ -145,7 +160,6 @@ namespace ERP.Web.Controllers
                     isInsert = true;
                     var model = new CustomerPayment
                     {
-                        BranchId = auth.CookieValues.BranchId,
                         SafeId = vm.SafeId,
                         CustomerId = vm.CustomerId,
                         Amount = vm.Amount,
@@ -154,8 +168,10 @@ namespace ERP.Web.Controllers
                         SellInvoiceId = vm.SellInvoiceId,
                         BySaleMen = true
                     };
+                    var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                    model.BranchId = branches.FirstOrDefault()?.Id;
                     //فى حالة ان البيع من خلال مندوب
-                     model.EmployeeId = SaleMenEmployeeId;
+                    model.EmployeeId = SaleMenEmployeeId;
                     db.CustomerPayments.Add(model);
 
                 }

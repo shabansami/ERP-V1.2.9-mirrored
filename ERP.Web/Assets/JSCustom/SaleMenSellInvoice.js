@@ -330,6 +330,7 @@ var SaleMenSellInvoice_Module = function () {
                 { data: 'IsIntial', visible: false },
                 { data: 'IsDiscountItemVal', visible: false },
                 { data: 'ItemName', title: 'الصنف' },
+                { data: 'QuantityUnitName', title: 'الكمية بالوحدة' },
                 { data: 'Quantity', title: 'الكمية' },
                 { data: 'Price', title: 'سعر البيع' },
                 { data: 'Amount', title: 'القيمة' },
@@ -383,6 +384,7 @@ var SaleMenSellInvoice_Module = function () {
             var productionOrderId = document.getElementById('productionOrderId').value;
             var isIntial = document.getElementById('isIntial').value;
             var isDiscountItemVal = document.getElementById('IsDiscountItemVal').value;
+            var ItemUnitsId = document.getElementById('ItemUnitsId').value;
             var formData = new FormData();
             if (itemId === '') {
                 toastr.error('تأكد من اختيار الصنف', '');
@@ -430,6 +432,7 @@ var SaleMenSellInvoice_Module = function () {
             formData.append('IsIntial', isIntial)
             formData.append('IsDiscountItemVal', isDiscountItemVal)
             formData.append('CurrentBalanceVal', balanceVal)
+            formData.append('ItemUnitsId', ItemUnitsId)
             var dataSet = $('#kt_dtItemDetails').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
@@ -602,53 +605,6 @@ var SaleMenSellInvoice_Module = function () {
         $("#productionOrderId").val(productionOrderId);
         $("#isIntial").val(isIntial);
     };
-    function onItemChange() {
-        //$("#StoreId").val(null);
-        //$("#balanceVal").val(null);
-        //$("#productionOrderId").val(null);
-        //$("#isIntial").val(null);
-        //$("#balanceProductionOrder").val(null);
-        //سعر بيع الصنف الافتراضى المسجل 
-        $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
-            $("#Price").val(data.data);
-        });
-        $.get("/SharedDataSources/GetProductionOrdersOnStoreChange/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
-            var isSelected = "";
-            $("#balanceProductionOrder").empty();
-            var t = data[0].Val
-            var obj2 = JSON.parse(JSON.stringify(t));
-            var obj = JSON.parse(obj2);
-            var balance = obj.balance;
-            var serialItemId = obj.serialItemId;
-            var productionOrderId = obj.productOrder;
-            var isIntial = obj.isIntial;
-            $("#balanceVal").val(balance);
-            $("#productionOrderId").val(productionOrderId);
-            $("#isIntial").val(isIntial);
-            $("#serialItemId").val(serialItemId);
-            //if (data.length == 1) {
-            //    isSelected = "selected";
-            //} else {
-            //    $("#balanceProductionOrder").append("<option value=>اختر عنصر من القائمة</option>");
-            //};
-            var count = 1;
-            $.each(data, function (index, data) {
-                if (count === 1) {
-                    $("#balanceProductionOrder").append("<option value='" + data.Val + "' selected>" + data.Text + "</option>");
-                    $.get("/SharedDataSources/GetBalanceNotApproval/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
-                        console.log(data.balance);
-                        $("#balanceNotApproval").val(data.balance);
-                    });
-
-                }
-                else
-                    $("#balanceProductionOrder").append("<option value='" + data.Val + "'>" + data.Text + "</option>");
-                count++;
-            });
-
-
-        });
-    };
     //تغيير سعر البيع حسب سياسة البيع المحدد
     function onPricingPolicyChange() {
         $.get("/SharedDataSources/GetPricePolicySellPrice/", { itemId: $("#ItemId").val(), pricePolicyId: $("#PricingPolicyId").val(), personId: $("#CustomerId").val(), isCustomer: true }, function (data) {
@@ -671,7 +627,137 @@ var SaleMenSellInvoice_Module = function () {
             });
         });
     };
-   
+    function onItemChange() {
+        if ($('#StoreId').val() != null) {
+            getProductionOrdersOnStoreChange();
+        } else {
+            $('#StoreId').val(null);
+            $('#StoreId').select2({
+                placeholder: "اختر عنصر من القائمة"
+            });
+        }
+        $("#balanceVal").val(null);
+        $("#serialItemId").val(null);
+        $("#productionOrderId").val(null);
+        $("#isIntial").val(null);
+        $("#balanceProductionOrder").val(null);
+
+        //سياسة اسعار عميل محدد فى فاتورة بيع 
+        $.get("/SharedDataSources/GetItemPriceByCustomer", { id: $("#CustomerId").val(), itemId: $("#ItemId").val(), isCustomer: true }, function (data) {
+            if (data.customeSell > 0) {
+                console.log('GetItemPriceByCustomer');
+
+                $("#PricingPolicyId").val(data.pricingPolicyId);
+                $("#Price").val(data.customeSell);
+                $("#Amount").val(data.customeSell * $("#Quantity").val());
+            } else {
+                var newPrice = 0;
+                //السعر من جدول تحديد اسعار البيع تلقائيا حسب الفرع/الفئة/الصنف
+                $.get("/SharedDataSources/GetItemCustomSellPrice", { itemId: $("#ItemId").val(), branchId: $("#BranchId").val() }, function (data) {
+                    newPrice = data.data;
+                    console.log('GetItemCustomSellPrice');
+                    if (newPrice == 0) {
+                        //سعر بيع الصنف الافتراضى المسجل 
+                        $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
+                            console.log(data);
+                            newPrice = data.data;
+                            $("#PricingPolicyId").val(null);
+                            console.log('GetDefaultSellPrice');
+
+                            $("#Price").val(newPrice);
+                            $("#Amount").val(newPrice * $("#Quantity").val());
+                        });
+                    } else {
+                        $("#PricingPolicyId").val(null);
+                        console.log('GetDefaultSellPrice');
+
+                        $("#Price").val(newPrice);
+                        $("#Amount").val(newPrice * $("#Quantity").val());
+                    }
+
+                });
+
+
+
+            }
+
+        });
+        //اخر اسعار سعر بيع للصنف
+        $.get("/SharedDataSources/GetPreviousPrices/", { itemId: $("#ItemId").val(), isSell: true }, function (data) {
+            $("#prevouisPrice").empty();
+            $("#prevouisPrice").append("<option value='0'>اختر سعر</option>");
+            $.each(data, function (index, row) {
+                $("#prevouisPrice").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            });
+        });
+        //وحدات الصنف 
+        $.get("/SharedDataSources/GeItemUnits", { id: $("#ItemId").val() }, function (data) {
+            $("#ItemUnitsId").empty();
+            $("#ItemUnitsId").append("<option value=>اختر عنصر من القائمة</option>");
+            $.each(data, function (index, row) {
+                $("#ItemUnitsId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+            });
+
+        });
+    };
+    //تغيير سعر البيع حسب اختيار اسعار بيع سابقة
+    function ChangeCurrentPice() {
+        console.log('ChangeCurrentPice');
+        $("#Price").val($("#prevouisPrice option:selected").val());
+        onPriceOrQuanKeyUp();
+    };
+    function getProductionOrdersOnStoreChange() {
+        $.get("/SharedDataSources/GetProductionOrdersOnStoreChange/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
+            //var isSelected = "";
+            $("#balanceProductionOrder").empty();
+            if (data.length > 0) {
+                var t = data[0].Val
+                var obj2 = JSON.parse(JSON.stringify(t));
+                var obj = JSON.parse(obj2);
+                var balance = obj.balance;
+                var serialItemId = obj.serialItemId;
+                var productionOrderId = obj.productOrder;
+                var isIntial = obj.isIntial;
+                $("#balanceVal").val(balance);
+                $("#productionOrderId").val(productionOrderId);
+                $("#isIntial").val(isIntial);
+                $("#serialItemId").val(serialItemId);
+                //if (data.length == 1) {
+                //    isSelected = "selected";
+                //} else {
+                //    $("#balanceProductionOrder").append("<option value=>اختر عنصر من القائمة</option>");
+                //};
+                var count = 1;
+                $.each(data, function (index, data) {
+                    if (count === 1) {
+                        $("#balanceProductionOrder").append("<option value='" + data.Val + "' selected>" + data.Text + "</option>");
+                        $.get("/SharedDataSources/GetBalanceNotApproval/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
+                            console.log(data.balance);
+                            $("#balanceNotApproval").val(data.balance);
+                        });
+                    }
+                    else
+                        $("#balanceProductionOrder").append("<option value='" + data.Val + "'>" + data.Text + "</option>");
+                    count++;
+                });
+
+            }
+
+
+        });
+        //to prevent default form submit event
+        return false;
+
+    };
+    function onItemUnitChange() {
+        if ($("#ItemUnitsId").val() != null) {
+            $.get("/SharedDataSources/GetItemUnitPrice/", { id: $("#ItemUnitsId").val() }, function (data) {
+                $("#Quantity").val(1);
+                $("#Price").val(data);
+                $("#Amount").val(data * 1);
+            });
+        }
+    };
     return {
         //main function to initiate the module
         init: function () {
@@ -701,6 +787,9 @@ var SaleMenSellInvoice_Module = function () {
         onRdoInvoicePercentageChanged: onRdoInvoicePercentageChanged,
         onRdoSerialChanged: onRdoSerialChanged,
         onRdoBarcodeChanged: onRdoBarcodeChanged,
+        getProductionOrdersOnStoreChange: getProductionOrdersOnStoreChange,
+        ChangeCurrentPice: ChangeCurrentPice,
+        onItemUnitChange: onItemUnitChange,
     };
 
 }();

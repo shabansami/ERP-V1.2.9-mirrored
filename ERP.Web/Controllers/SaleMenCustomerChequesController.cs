@@ -142,9 +142,9 @@ namespace ERP.Web.Controllers
                     //if (db.Cheques.Where(x => !x.IsDeleted && x.SupplierId == vm.SupplierId).Count() > 0) ///??
                     //    return Json(new { isValid = false, message = "الاسم موجود مسبقا" });
                     isInsert = true;
+
                     var model = new Cheque
                     {
-                        BranchId = auth.CookieValues.BranchId,
                         CustomerId = vm.CustomerId,
                         Amount = vm.Amount,
                         Notes = vm.Notes,
@@ -153,6 +153,9 @@ namespace ERP.Web.Controllers
                         InvoiceId = vm.InvoiceId,
                         BySaleMen = true
                     };
+                    var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                    model.BranchId = branches.FirstOrDefault()?.Id;
+
                     //فى حالة ان البيع من خلال مندوب
                     model.EmployeeId = SaleMenEmployeeId;
                     db.Cheques.Add(model);

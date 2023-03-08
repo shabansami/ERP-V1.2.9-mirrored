@@ -197,7 +197,7 @@ namespace ERP.Web.Services
                         IsActive = x.IsActive,
                         UserName = x.UserName,
                         EmployeeId = x.Person.Employees.Where(e => !e.IsDeleted /*&& e.PersonId == x.PersonId*/).FirstOrDefault().Id,
-                        //BranchId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().BranchId,
+                        //BranchId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().EmployeeBranches.Where(b=>!b.IsDeleted).OrderByDescending(b=>b.CreatedOn).FirstOrDefault().BranchId,
                         //StoreId  = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().EmployeeStores.FirstOrDefault().StoreId,
                         //MyPages=x.PagesRoles.Where(e=>!e.IsDeleted).Select(p=>p.PageId).ToList()
                     })

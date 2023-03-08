@@ -63,6 +63,85 @@ namespace ERP.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
         }
 
+        //public ActionResult AddItemDetails(ItemDetailsDT vm)
+        //{
+        //    List<ItemDetailsDT> deDS = new List<ItemDetailsDT>();
+        //    string itemName = "";
+        //    string storeName = "";
+        //    if (vm.DT_Datasource != null)
+        //        deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
+        //    if (!bool.TryParse(vm.IsDiscountItemVal.ToString(), out var tt))
+        //        return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
+        //    var item = db.Items.Where(x => x.Id == vm.ItemId).FirstOrDefault();
+        //    if (item != null)
+        //    {
+        //        if (deDS.Where(x => x.ItemId == vm.ItemId && vm.ProductionOrderId == x.ProductionOrderId && vm.IsIntial == x.IsIntial && vm.SerialItemId == x.SerialItemId).Count() > 0)
+        //            return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+        //        itemName = item.Name;
+        //    }
+        //    else
+        //        return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
+        //    if (vm.Price <= 0)
+        //    {
+        //        //سعر البيع يقبل صفر (الهدايا
+        //        var sellPriceZeroSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.SellPriceZero).FirstOrDefault().SValue;
+        //        if (sellPriceZeroSett == "0")//رفض البيع بصفر 
+        //            return Json(new { isValid = false, msg = "تأكد من ادخال سعر البيع بشكل صحيح" }, JsonRequestBehavior.AllowGet);
+        //    }
+
+        //    if (vm.SerialItemId != null && vm.SerialItemId != Guid.Empty)
+        //    {
+        //        if (vm.Quantity > 1)
+        //            return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من 1 " }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    if (vm.StoreId != null)
+        //        storeName = db.Stores.FirstOrDefault(x => x.Id == vm.StoreId).Name;
+        //    else
+        //        return Json(new { isValid = false, msg = "تأكد من اختيار مخزن للمندوب " }, JsonRequestBehavior.AllowGet);
+        //    //احتساب طريقة الخصم على الصنف (قيمة/نسبة)
+        //    double itemDiscount = 0;
+        //    if (vm.IsDiscountItemVal == true)
+        //        itemDiscount = vm.ItemDiscount;
+        //    else if (vm.IsDiscountItemVal == false)
+        //        itemDiscount = ((vm.Price * vm.Quantity) * vm.ItemDiscount) / 100;
+        //    else
+        //        return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
+        //    //التأكد من السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته
+        //    var acceptItemCostSellDownSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
+        //    if (acceptItemCostSellDownSett == "0")//منع البيع بسعر بيع اقل من التكلفة 
+        //    {
+        //        int.TryParse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue, out int itemCostCalculateId);
+        //        var itemCost = itemService.GetItemCostCalculation(itemCostCalculateId, vm.ItemId ?? Guid.Empty);
+        //        if (itemCost > vm.Price)
+        //            return Json(new { isValid = false, msg = "سعر بيع الصنف اقل من تكلفته" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //التأكد من وقوع سعر البيع ضمن ماتم تحديده عند اضافة الصنف (اعلى / اقل سعر بيع 
+        //    if (item.MinPrice != null && item.MinPrice > 0)
+        //    {
+        //        if (vm.Price < item.MinPrice)
+        //            return Json(new { isValid = false, msg = "سعر البيع اقل من السعر الادنى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    if (item.MaxPrice != null && item.MaxPrice > 0)
+        //    {
+        //        if (vm.Price > item.MaxPrice)
+        //            return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
+        //    }
+        //    //كمية الصنف لاتكفى بسبب الرصيد الغير معتمد 
+        //            //الكمية اكبر من الرصيد المتوفر 
+        //            if (vm.Quantity > vm.CurrentBalanceVal)
+        //                return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح" }, JsonRequestBehavior.AllowGet);
+        //            //الرصيد لايكفى بعد احتساب الرصيد المحجوز (الغير معتمد)
+        //            var finalBalance = vm.CurrentBalanceVal - BalanceService.GetBalanceNotApproval(vm.ItemId, vm.StoreId);
+        //            if (vm.Quantity > finalBalance)
+        //                return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح والرصيد المحجوز" }, JsonRequestBehavior.AllowGet);
+
+
+
+        //    var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, CurrentBalanceVal = vm.CurrentBalanceVal, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price, ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+        //    deDS.Add(newItemDetails);
+        //    DS = JsonConvert.SerializeObject(deDS);
+        //    return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount }, JsonRequestBehavior.AllowGet);
+        //}
         public ActionResult AddItemDetails(ItemDetailsDT vm)
         {
             List<ItemDetailsDT> deDS = new List<ItemDetailsDT>();
@@ -72,11 +151,12 @@ namespace ERP.Web.Controllers
                 deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
             if (!bool.TryParse(vm.IsDiscountItemVal.ToString(), out var tt))
                 return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
+
             var item = db.Items.Where(x => x.Id == vm.ItemId).FirstOrDefault();
             if (item != null)
             {
-                if (deDS.Where(x => x.ItemId == vm.ItemId && vm.ProductionOrderId == x.ProductionOrderId && vm.IsIntial == x.IsIntial && vm.SerialItemId == x.SerialItemId).Count() > 0)
-                    return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+                //if (deDS.Where(x => x.ItemId == vm.ItemId&&x.Price==vm.Price&&vm.ProductionOrderId==x.ProductionOrderId&&vm.IsIntial==x.IsIntial && vm.SerialItemId == x.SerialItemId).Count() > 0)
+                //    return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
                 itemName = item.Name;
             }
             else
@@ -88,16 +168,33 @@ namespace ERP.Web.Controllers
                 if (sellPriceZeroSett == "0")//رفض البيع بصفر 
                     return Json(new { isValid = false, msg = "تأكد من ادخال سعر البيع بشكل صحيح" }, JsonRequestBehavior.AllowGet);
             }
-
             if (vm.SerialItemId != null && vm.SerialItemId != Guid.Empty)
             {
                 if (vm.Quantity > 1)
                     return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من 1 " }, JsonRequestBehavior.AllowGet);
             }
+            if (vm.Quantity <= 0)
+                return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للكمية " }, JsonRequestBehavior.AllowGet);
+
             if (vm.StoreId != null)
                 storeName = db.Stores.FirstOrDefault(x => x.Id == vm.StoreId).Name;
             else
-                return Json(new { isValid = false, msg = "تأكد من اختيار مخزن للمندوب " }, JsonRequestBehavior.AllowGet);
+                return Json(new { isValid = false, msg = "تأكد من اختيار المخزن " }, JsonRequestBehavior.AllowGet);
+
+            vm.QuantityUnitName = "0";
+            //فى حالة البيع بوحدة 
+            if (vm.ItemUnitsId != null && vm.ItemUnitsId != Guid.Empty)
+            {
+                var itemUnit = db.ItemUnits.Where(x => x.Id == vm.ItemUnitsId).FirstOrDefault();
+                if (itemUnit != null && itemUnit.Quantity > 0)
+                {
+                    vm.UnitId = itemUnit.UnitId;
+                    vm.QuantityUnit = vm.Quantity;
+                    vm.QuantityUnitName = $"{vm.Quantity} {itemUnit.Unit?.Name}";
+                    vm.Quantity = vm.Quantity * itemUnit.Quantity;
+                    vm.Price = Math.Round(itemUnit.SellPrice / itemUnit.Quantity, 2, MidpointRounding.ToEven);
+                }
+            }
             //احتساب طريقة الخصم على الصنف (قيمة/نسبة)
             double itemDiscount = 0;
             if (vm.IsDiscountItemVal == true)
@@ -106,6 +203,7 @@ namespace ERP.Web.Controllers
                 itemDiscount = ((vm.Price * vm.Quantity) * vm.ItemDiscount) / 100;
             else
                 return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
+
             //التأكد من السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته
             var acceptItemCostSellDownSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
             if (acceptItemCostSellDownSett == "0")//منع البيع بسعر بيع اقل من التكلفة 
@@ -127,6 +225,13 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
             }
             //كمية الصنف لاتكفى بسبب الرصيد الغير معتمد 
+            //قبول اضافة صنف بدون رصيد
+            int itemAcceptNoBalance = 0;
+            var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
+            if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
+            {
+                if (itemAcceptNoBalance == 0)
+                {
                     //الكمية اكبر من الرصيد المتوفر 
                     if (vm.Quantity > vm.CurrentBalanceVal)
                         return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح" }, JsonRequestBehavior.AllowGet);
@@ -134,13 +239,16 @@ namespace ERP.Web.Controllers
                     var finalBalance = vm.CurrentBalanceVal - BalanceService.GetBalanceNotApproval(vm.ItemId, vm.StoreId);
                     if (vm.Quantity > finalBalance)
                         return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح والرصيد المحجوز" }, JsonRequestBehavior.AllowGet);
-                
+                }
 
+            }
+            else
+                return Json(new { isValid = false, msg = "تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات" }, JsonRequestBehavior.AllowGet);
 
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemName = itemName, CurrentBalanceVal = vm.CurrentBalanceVal, Quantity = vm.Quantity, Price = vm.Price, Amount = vm.Quantity * vm.Price, ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, CurrentBalanceVal = vm.CurrentBalanceVal, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName = vm.QuantityUnitName, QuantityUnit = vm.QuantityUnit, UnitId = vm.UnitId, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
-            return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount }, JsonRequestBehavior.AllowGet);
+            return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount, totalQuantity = deDS.Sum(x => x.Quantity) }, JsonRequestBehavior.AllowGet);
         }
 
         #endregion
@@ -154,15 +262,19 @@ namespace ERP.Web.Controllers
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.ItemUnitsId = new SelectList(new List<ItemUnit>(), "Id", "Name");
+
             //مخازن المندوب
             var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            //خزن المندوب
+            var safes = StoreService.GetSafeSaleMenByBranchId(auth.CookieValues.EmployeeId);
+
             if (stores == null||stores.Count()==0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
                 return View(new SaleMenSellInvoiceVM());
             }
             ViewBag.StoreId = new SelectList(stores, "Id", "Name");
-
             if (TempData["model"] != null) //edit
             {
                 Guid guId;
@@ -174,7 +286,7 @@ namespace ERP.Web.Controllers
                             Id = x.Id,
                             BranchId = x.BranchId,
                             BySaleMen = x.BySaleMen,
-                            //SaleMenStoreId = auth.CookieValues.StoreId,
+                            SafeId=x.SafeId,
                             CustomerId = x.CustomerId,
                             DiscountPercentage = x.DiscountPercentage,
                             DueDate = x.DueDate,
@@ -217,6 +329,7 @@ namespace ERP.Web.Controllers
 
                     //ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.BranchId);
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
+                    ViewBag.SafeId = new SelectList(safes, "Id", "Name",vm.SafeId);
 
                     //int? departmentId = null;
                     //int? empId = null;
@@ -249,6 +362,7 @@ namespace ERP.Web.Controllers
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
                 ViewBag.CustomerId = new SelectList(new List<Person>(), "Id", "Name");
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
+                ViewBag.SafeId = new SelectList(safes, "Id", "Name");
                 Random random = new Random();
 
                 //ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -265,7 +379,8 @@ namespace ERP.Web.Controllers
                 if (double.TryParse(taxProfitSetting?.SValue, out double TaxProfitSetting))
                     vm.ProfitTaxPercentage = TaxProfitSetting;
 
-                vm.BranchId = auth.CookieValues.BranchId;
+                var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                vm.BranchId = branches.FirstOrDefault()?.Id;
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
                 //vm.SaleMenStoreId = auth.CookieValues.StoreId;
                 return View(vm);
@@ -316,6 +431,10 @@ namespace ERP.Web.Controllers
                     else
                         return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
 
+                    //التأكد من اختيار نوع الدفع نقدى او جزئى فى حالة تحديد خزنة
+                    if (!(vm.PaymentTypeId==(int)PaymentTypeCl.Cash||vm.PaymentTypeId==(int)PaymentTypeCl.Partial)&&vm.SafeId!=null)
+                        return Json(new { isValid = false, message = "تأكد من اختيار نوع الدفع نقدى او جزئى" });
+
 
                     var isInsert = false;
                     SellInvoice model = null;
@@ -331,6 +450,7 @@ namespace ERP.Web.Controllers
                         model = new SellInvoice()
                         {
                             Id = vm.Id,
+                            SafeId=vm.SafeId,
                             InvoiceNumber = codePrefix + (db.SellInvoices.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1),
                             BranchId = vm.BranchId,
                             CustomerId = vm.CustomerId,
@@ -422,6 +542,7 @@ namespace ERP.Web.Controllers
                         model.CustomerId = vm.CustomerId;
                         model.BranchId = vm.BranchId;
                         model.PaymentTypeId = vm.PaymentTypeId;
+                        model.SafeId=vm.SafeId;
                         model.PayedValue = vm.PayedValue;
                         model.RemindValue = vm.RemindValue;
                         model.SalesTax = vm.SalesTax;

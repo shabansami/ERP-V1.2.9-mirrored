@@ -197,7 +197,9 @@ namespace ERP.Web.Controllers
 
                 var vm = new SaleMenSellInvoiceVM();
                 vm.InvoiceDate = Utility.GetDateTime();
-                vm.BranchId = auth.CookieValues.BranchId;
+                var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                vm.BranchId = branches.FirstOrDefault()?.Id;
+
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
                 //vm.SaleMenStoreId = auth.CookieValues.StoreId;
 

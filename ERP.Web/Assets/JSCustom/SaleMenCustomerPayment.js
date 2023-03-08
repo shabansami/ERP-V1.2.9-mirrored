@@ -141,10 +141,12 @@ var SaleMenCustomerPayment_Module = function () {
     function SubmitForm(btn) {
         try {
             var form = document.getElementById('form1');
+            var formData = new FormData(form);
+            formData.append("invoiceNumber", $("#InvoiceNumber").val());
             $.ajax({
                 type: 'POST',
                 url: form.action,
-                data: new FormData(form),
+                data: formData,
                 contentType: false,
                 processData: false,
                 success: function (res) {

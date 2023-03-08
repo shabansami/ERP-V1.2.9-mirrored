@@ -1096,7 +1096,6 @@ var SellInvoice_Module = function () {
     function onItemUnitChange() {
         if ($("#ItemUnitsId").val()!=null) {
             $.get("/SharedDataSources/GetItemUnitPrice/", { id: $("#ItemUnitsId").val() }, function (data) {
-                alert('GetItemUnitPrice');
                 $("#Quantity").val(1);
                 $("#Price").val(data);
                 $("#Amount").val(data * 1);

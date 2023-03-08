@@ -154,11 +154,14 @@ namespace ERP.Web.Controllers
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
-            if (auth.CookieValues.StoreId == null) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
+            //مخازن المندوب
+            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            if (stores == null||stores.Count()==0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
                 return View(new SaleMenSellInvoiceVM());
             }
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name");
 
             if (TempData["model"] != null) //edit
             {
@@ -171,7 +174,7 @@ namespace ERP.Web.Controllers
                             Id = x.Id,
                             BranchId = x.BranchId,
                             BySaleMen = x.BySaleMen,
-                            SaleMenStoreId = auth.CookieValues.StoreId,
+                            //SaleMenStoreId = auth.CookieValues.StoreId,
                             CustomerId = x.CustomerId,
                             DiscountPercentage = x.DiscountPercentage,
                             DueDate = x.DueDate,
@@ -212,7 +215,6 @@ namespace ERP.Web.Controllers
                     DS = JsonConvert.SerializeObject(items);
 
 
-                    //ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId), "Id", "Name");
                     //ViewBag.BranchId = new SelectList(db.Branches.Where(x => !x.IsDeleted), "Id", "Name", vm.BranchId);
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
 
@@ -265,7 +267,7 @@ namespace ERP.Web.Controllers
 
                 vm.BranchId = auth.CookieValues.BranchId;
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
-                vm.SaleMenStoreId = auth.CookieValues.StoreId;
+                //vm.SaleMenStoreId = auth.CookieValues.StoreId;
                 return View(vm);
             }
         }

@@ -99,7 +99,9 @@ namespace ERP.Web.Controllers
                 auth = TempData["userInfo"] as VTSAuth;
             else
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-            if (auth.CookieValues.StoreId == null) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
+            //مخازن المندوب
+            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
                 return View(new SaleMenSellInvoiceVM());
@@ -116,7 +118,7 @@ namespace ERP.Web.Controllers
                            Id = x.Id,
                            BranchId = x.BranchId,
                            BySaleMen = x.BySaleMen,
-                           SaleMenStoreId = auth.CookieValues.StoreId,
+                           //SaleMenStoreId = auth.CookieValues.StoreId,
                            CustomerId = x.CustomerId,
                            DiscountPercentage = x.DiscountPercentage,
                            DueDate = x.DueDate,
@@ -197,7 +199,7 @@ namespace ERP.Web.Controllers
                 vm.InvoiceDate = Utility.GetDateTime();
                 vm.BranchId = auth.CookieValues.BranchId;
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
-                vm.SaleMenStoreId = auth.CookieValues.StoreId;
+                //vm.SaleMenStoreId = auth.CookieValues.StoreId;
 
                 return View(vm);
             }

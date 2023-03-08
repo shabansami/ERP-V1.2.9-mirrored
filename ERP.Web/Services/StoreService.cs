@@ -1,4 +1,7 @@
 ﻿using ERP.DAL;
+using ERP.DAL.Dtos;
+using ERP.DAL.Models;
+using ERP.Web.DataTablesDS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +42,20 @@ namespace ERP.Web.Services
             if (sell || sellBack || purchase || purchaseBack || itemInit)
                 return true;
             return false;
+        }
+        public static List<DropDownList> GetStoreSaleMenByBranchId(Guid? employeeId)
+        {
+            if(employeeId == null||employeeId==Guid.Empty) return new List<DropDownList>(); 
+            IQueryable<EmployeeStore> employeeStores = null;
+            using (var db = new VTSaleEntities())
+            {
+                employeeStores = db.EmployeeStores.Where(x => !x.IsDeleted&&x.EmployeeId== employeeId);
+                if (employeeStores.Any())
+                    return employeeStores.Select(x => new DropDownList { Id = x.StoreId, Name = x.Store.Name }).ToList();
+                else
+                    return new List<DropDownList>();
+            }
+
         }
     }
 }

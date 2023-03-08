@@ -222,10 +222,10 @@ var SaleMenSellInvoice_Module = function () {
     //#region ========== Step 1 البيانات الاساسية===============
 
     //$.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
-    //    $("#SaleMenStoreId").empty();
-    //    $("#SaleMenStoreId").append("<option value=>اختر عنصر من القائمة </option>");
+    //    $("#StoreId").empty();
+    //    $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
     //    $.each(data, function (index, row) {
-    //        $("#SaleMenStoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
+    //        $("#StoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
     //    })
     //});
 
@@ -377,7 +377,7 @@ var SaleMenSellInvoice_Module = function () {
             var quantity = document.getElementById('Quantity').value;
             var amount = document.getElementById('Amount').value;
             var itemDiscount = document.getElementById('ItemDiscount').value;
-            var storeId = document.getElementById('SaleMenStoreId').value;
+            var storeId = document.getElementById('StoreId').value;
             var serialItemId = document.getElementById('serialItemId').value;
             var balanceVal = document.getElementById('balanceVal').value;
             var productionOrderId = document.getElementById('productionOrderId').value;
@@ -603,7 +603,7 @@ var SaleMenSellInvoice_Module = function () {
         $("#isIntial").val(isIntial);
     };
     function onItemChange() {
-        //$("#SaleMenStoreId").val(null);
+        //$("#StoreId").val(null);
         //$("#balanceVal").val(null);
         //$("#productionOrderId").val(null);
         //$("#isIntial").val(null);
@@ -612,7 +612,7 @@ var SaleMenSellInvoice_Module = function () {
         $.get("/SharedDataSources/GetDefaultSellPrice/", { itemId: $("#ItemId").val() }, function (data) {
             $("#Price").val(data.data);
         });
-        $.get("/SharedDataSources/GetProductionOrdersOnStoreChange/", { itemId: $("#ItemId").val(), storeId: $("#SaleMenStoreId").val() }, function (data) {
+        $.get("/SharedDataSources/GetProductionOrdersOnStoreChange/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
             var isSelected = "";
             $("#balanceProductionOrder").empty();
             var t = data[0].Val
@@ -635,7 +635,7 @@ var SaleMenSellInvoice_Module = function () {
             $.each(data, function (index, data) {
                 if (count === 1) {
                     $("#balanceProductionOrder").append("<option value='" + data.Val + "' selected>" + data.Text + "</option>");
-                    $.get("/SharedDataSources/GetBalanceNotApproval/", { itemId: $("#ItemId").val(), storeId: $("#SaleMenStoreId").val() }, function (data) {
+                    $.get("/SharedDataSources/GetBalanceNotApproval/", { itemId: $("#ItemId").val(), storeId: $("#StoreId").val() }, function (data) {
                         console.log(data.balance);
                         $("#balanceNotApproval").val(data.balance);
                     });

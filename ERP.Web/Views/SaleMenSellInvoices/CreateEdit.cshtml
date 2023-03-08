@@ -15,15 +15,15 @@
     string checkedAttrSafe = "";
     string checkedAttrAccount = "";
     string showDiv = "none";
-    int? StoreId = null;
+    //int? StoreId = null;
     string displayDiscount = "none";
     string isInvoiceDisVal = "true";
     string chkValRdo = "checked";
     string chkPerRdo = "";
-    if (ViewBag.StoreId != null)
-    {
-        StoreId = (int)ViewBag.StoreId;
-    }
+    //if (ViewBag.StoreId != null)
+    //{
+    //    StoreId = (int)ViewBag.StoreId;
+    //}
     if (Model.Id == Guid.Empty)
     {
         title = "تسجبل فاتورة بيع";
@@ -83,7 +83,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="#seller-details2" class="nav-link" data-toggle="tab">
-                                        <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                        <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details2">
                                             <i class="bx bx-list-ul"></i>
                                         </div>
                                         <h4 style="margin-top:30px;">
@@ -93,7 +93,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a href="#seller-details3" class="nav-link" data-toggle="tab">
-                                        <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details">
+                                        <div class="step-icon" data-bs-toggle="tooltip" data-bs-placement="top" title="Seller Details3">
                                             <i class="bx bx-list-ul"></i>
                                         </div>
                                         <h4 style="margin-top:30px;">
@@ -117,7 +117,7 @@
                                     @Html.HiddenFor(x => x.InvoiceGuid)
                                     @Html.HiddenFor(x => x.SaleMenEmployeeId)
                                     @Html.HiddenFor(x => x.BranchId)
-                                    @Html.HiddenFor(x => x.SaleMenStoreId)
+                                    @*@Html.HiddenFor(x => x.SaleMenStoreId)*@
                                     @*@Html.Hidden("SaleMenStoreId",Model. SaleMenStoreId)*@
                                     @*<div class="col-xl-4">
                     <div class="form-group">
@@ -232,21 +232,32 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group required">
                                             <label> المجموعة الاساسية</label>
                                             <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
                                             <span class="form-text text-muted">اختر مجموعة</span>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-4">
                                         <div class="form-group required">
                                             <label>الصنف</label>
                                             @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "SaleMenSellInvoice_Module.onItemChange()" })
                                             <span class="form-text text-muted">اختر الصنف</span>
                                         </div>
                                     </div>
+                                    <div class="col-xl-4">
+                                        <!--begin::Select-->
+                                        <div class="form-group required">
+                                            <label>المخزن</label>
+                                            @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med", @onchange = "SaleMenSellInvoice_Module.onItemChange();" })
+                                            <span class="form-text text-muted">اختر المخزن </span>
+                                        </div>
+                                        <!--end::Select-->
+                                    </div>
+
                                 </div>
+                               
                                 <div class="row">
                                     <div class="col-xl-4">
                                         <!--begin::Select-->
@@ -600,9 +611,7 @@
         </script>
     }
     <script src="~/Assets/JSCustom/SaleMenSellInvoice.js"></script>
-    <!--begin::Page Scripts(used by this page)-->
-    <script src="~/Assets/JSCustom/JSMetronic/wizard-SaleMenSellInvoice.js"></script>
-    <!--end::Page Scripts-->
+
     <script type="text/javascript">
         $(document).ready(function () {
             SaleMenSellInvoice_Module.initItemDetails();
@@ -650,7 +659,7 @@
                             $("#Price").val(0);
                             $("#Quantity").val(1);
                             var currentStore = data[0].CurrentStore;
-                            if ($("#SaleMenStoreId").val() === currentStore) {
+                            if ($("#StoreId").val() === currentStore) {
                                 SaleMenSellInvoice_Module.onItemChange();
 
                                 $("#balanceVal").val(1);

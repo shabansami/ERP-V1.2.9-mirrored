@@ -36,6 +36,8 @@ namespace ERP.Web.Controllers
         {
             //ImportDataFromOtherSystems.ExcuteStores();
             //ImportDataFromOtherSystems.ExcuteItems();
+            //ImportDataFromOtherSystems.ExcuteSuppliers();
+            //ImportDataFromOtherSystems.ExcuteCustomers();
             //Lookups.ExcuteFirstInit();
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages

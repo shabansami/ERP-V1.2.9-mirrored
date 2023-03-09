@@ -244,10 +244,10 @@ namespace ERP.Web.Controllers
                     if (vm.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
                     {
                         //add as customer in account tree
-                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategoryCust.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategoryCust.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational, db);
                         db.AccountsTrees.Add(accountTreeCust);
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational, db);
                         db.AccountsTrees.Add(accountTreeSupp);
 
                         //add person in personTable
@@ -269,7 +269,7 @@ namespace ERP.Web.Controllers
                     else
                     {
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, vm.Name, AccountTreeSelectorTypesCl.Operational, db);
                         db.AccountsTrees.Add(accountTreeSupp);
                         //add person in personTable
                         vm.AccountsTreeSupplier = accountTreeSupp;

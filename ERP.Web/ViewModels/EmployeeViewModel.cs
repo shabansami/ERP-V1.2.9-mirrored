@@ -11,6 +11,8 @@ namespace ERP.Web.ViewModels
         public EmployeeViewModel()
         {
             this.BranchIds = new List<Guid>();
+            this.StoreIds = new List<Guid>();
+            this.SafeIds = new List<Guid>();
         }
         public Guid Id { get; set; }
         public Nullable<Guid> PersonHidId { get; set; }

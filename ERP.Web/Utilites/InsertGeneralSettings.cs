@@ -84,12 +84,10 @@ namespace ERP.Web.Utilites
 
             }
         }
-        public static AccountsTree ReturnAccountTreeByCategory(Guid? categoryAccpuntTreeId, string accountName, AccountTreeSelectorTypesCl selectorTypeId)
+        public static AccountsTree ReturnAccountTreeByCategory(Guid? categoryAccpuntTreeId, string accountName, AccountTreeSelectorTypesCl selectorTypeId, VTSaleEntities db)
         {
 
             //get account id from general setting 
-            using (var db = new VTSaleEntities())
-            {
                 long newAccountNum = 0;// new account number 
                 if (categoryAccpuntTreeId == null)
                     return null;
@@ -111,7 +109,7 @@ namespace ERP.Web.Utilites
                     SelectedTree = false
                 };
 
-            }
+            
         }
 
         //add account tree only

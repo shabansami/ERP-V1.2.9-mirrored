@@ -19,8 +19,6 @@ namespace ERP.Web.Services
     public static class ImportDataFromOtherSystems
     {
         #region import data old system abdulahhusien
-       static Guid userId = new Guid("160D1229-E649-4A5F-A5F2-A7720DB4AD73");
-       static Guid branchId = new Guid("6E4C4F69-3082-475B-BDC0-9BDBF31C51AC");
 
         public static bool ExcuteStores()
         {
@@ -30,6 +28,9 @@ namespace ERP.Web.Services
                 {
                     try
                     {
+                         Guid userId = context.Users.FirstOrDefault().Id;
+                         Guid branchId = context.Branches.FirstOrDefault().Id;
+
                         //مخزن ترومان
                         //مخزن دار رماد
                         //مخزن المسجد المعلق
@@ -64,17 +65,17 @@ namespace ERP.Web.Services
                         //    Name = "بالقطعة"
                         //});
 
-                        var query = $@"INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'575f3361-c07d-4f0f-811d-1349b72d4709', NULL,N'{branchId}', NULL, 0, N'مخزن خط المنيا', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'b7c97e9e-f786-4dcf-86e2-1690f68d1ce9', NULL,N'{branchId}', NULL, 0, N'مخزن المحل', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'ca6be5b6-3a1b-49a2-a396-1faffb72fef0', NULL,N'{branchId}', NULL, 0, N'مخزن خط ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'6c5bee64-17f1-47a0-a2fd-4d3450dbd3b2', NULL,N'{branchId}', NULL, 0, N'مخزن الرفايع', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'21a37820-319e-4a87-ba17-8e6afc583900', NULL,N'{branchId}', NULL, 0, N'مخزن دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'a4ef50d4-30d2-44f6-84f3-9484d8511b04', NULL,N'{branchId}', NULL, 0, N'مخزن مرتجع دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'dc5fddd2-0baf-44b1-9116-a5d3b6f3f4d0', NULL,N'{branchId}', NULL, 0, N'مخزن خط الصعيد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'4cf0e6d1-ff63-40a6-a8ba-a60384f98b85', NULL,N'{branchId}', NULL, 0, N'مخزن مرتجع المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'0cc85fcd-65a9-43df-b0ee-bcf20722eab6', NULL,N'{branchId}', NULL, 0, N'مخزن المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'd235cd5b-050d-4c5b-8be1-e9a076e391c1', NULL,N'{branchId}', NULL, 0, N'مخزن ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
-INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId], [EmployeeId], [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy], [Employee_Id]) VALUES (N'6ed61abb-a982-4594-b10c-f51997e6f7aa', NULL,N'{branchId}', NULL, 0, N'مخزن خط بريفكس', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL, NULL)
+                        var query = $@"INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'575f3361-c07d-4f0f-811d-1349b72d4709', NULL,N'{branchId}', 0, N'مخزن خط المنيا', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'b7c97e9e-f786-4dcf-86e2-1690f68d1ce9', NULL,N'{branchId}', 0, N'مخزن المحل', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'ca6be5b6-3a1b-49a2-a396-1faffb72fef0', NULL,N'{branchId}', 0, N'مخزن خط ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'6c5bee64-17f1-47a0-a2fd-4d3450dbd3b2', NULL,N'{branchId}', 0, N'مخزن الرفايع', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'21a37820-319e-4a87-ba17-8e6afc583900', NULL,N'{branchId}', 0, N'مخزن دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'a4ef50d4-30d2-44f6-84f3-9484d8511b04', NULL,N'{branchId}', 0, N'مخزن مرتجع دار رماد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'dc5fddd2-0baf-44b1-9116-a5d3b6f3f4d0', NULL,N'{branchId}', 0, N'مخزن خط الصعيد', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'4cf0e6d1-ff63-40a6-a8ba-a60384f98b85', NULL,N'{branchId}', 0, N'مخزن مرتجع المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'0cc85fcd-65a9-43df-b0ee-bcf20722eab6', NULL,N'{branchId}', 0, N'مخزن المسجد المعلق', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'd235cd5b-050d-4c5b-8be1-e9a076e391c1', NULL,N'{branchId}', 0, N'مخزن ترومان', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
+INSERT [dbo].[Stores] ([Id], [AccountTreeId], [BranchId],  [IsDamages], [Name], [Address], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'6ed61abb-a982-4594-b10c-f51997e6f7aa', NULL,N'{branchId}', 0, N'مخزن خط بريفكس', NULL, CAST(N'2023-03-04T14:07:12.233' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
 INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'52442eeb-32d1-49a7-bd54-48dcb844e9b9', N'بالقطعة', CAST(N'2023-03-04T15:20:57.770' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
 ";
                         context.Database.ExecuteSqlCommand(query);
@@ -101,14 +102,16 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                 {
                     try
                     {
-                       
+                        Guid userId = context.Users.FirstOrDefault().Id;
+                        Guid branchId = context.Branches.FirstOrDefault().Id;
+
                         DataTable dtItems = new DataTable();
                         using (OleDbConnection cn = new OleDbConnection())
                         {
                             using (OleDbCommand cmd =new OleDbCommand("",cn))
                             {
                                 OleDbDataReader dr;
-                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\نقل البيانات الافتتاحية لمشروع عبدالله حسين\\suppliers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\storee.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
                                 cn.Open();
                                 cmd.CommandText = "select * from [Sheet1$]";
                                 dr = cmd.ExecuteReader();
@@ -332,7 +335,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                             // الحصول على حسابات من الاعدادات
                             var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
                             // التأكد من عدم وجود حساب فرعى من الحساب رأس المال
-                            if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
+                            if (CheckAccountTreeIdHasChilds22(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),context))
                                 return false;
                             // use Transactions
 
@@ -383,6 +386,15 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                 }
             }
         }
+
+        public static bool CheckAccountTreeIdHasChilds22(Guid? accountTreeId, VTSaleEntities db)
+        {
+            //فى ان الحساب رئيسيى وتم ادخاله من الاعدادات isAccountSetting=true
+            //فى حالة التأكد من ان الحساب ليس له ابناء isAccountSetting=false
+                var accountTree = db.AccountsTrees.Where(x => !x.IsDeleted && x.Id == accountTreeId).FirstOrDefault();
+                return accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Any();
+            
+        }
         public static bool ExcuteSuppliers()
         {
             using (var context = new VTSaleEntities())
@@ -391,14 +403,16 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                 {
                     try
                     {
-                       
+                        Guid userId = context.Users.FirstOrDefault().Id;
+                        Guid branchId = context.Branches.FirstOrDefault().Id;
+
                         DataTable dtSuppliers = new DataTable();
                         using (OleDbConnection cn = new OleDbConnection())
                         {
                             using (OleDbCommand cmd =new OleDbCommand("",cn))
                             {
                                 OleDbDataReader dr;
-                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\نقل البيانات الافتتاحية لمشروع عبدالله حسين\\suppliers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\suppliers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
                                 cn.Open();
 
                                 cmd.CommandText = "select * from [Sheet1$]";
@@ -459,7 +473,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 IsActive = true
                             };
                         //add as supplier in account tree
-                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, personCategory.Name, AccountTreeSelectorTypesCl.Operational);
+                        var accountTreeSupp = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, supplier.Name, AccountTreeSelectorTypesCl.Operational,context);
                         context.AccountsTrees.Add(accountTreeSupp);
                             //add person in personTable
                             supplier.AccountsTreeSupplier = accountTreeSupp;
@@ -487,10 +501,10 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 // الحصول على حسابات من الاعدادات
                                 var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
                                 //التأكد من عدم وجود حساب فرعى من الحساب
-                                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
+                                if (CheckAccountTreeIdHasChilds22(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),context))
                                     return false;
                                 //التأكد من عدم وجود حساب فرعى من الحساب
-                                if (AccountTreeService.CheckAccountTreeIdHasChilds(supplier.AccountTreeSupplierId))
+                                if (CheckAccountTreeIdHasChilds22(supplier.AccountTreeSupplierId,context))
                                     return false;
 
                                 if (supplierInital.IsDebit) // الرصيد مدين
@@ -580,6 +594,8 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                 {
                     try
                     {
+                        Guid userId = context.Users.FirstOrDefault().Id;
+                        Guid branchId = context.Branches.FirstOrDefault().Id;
 
                         DataTable dtCustomers = new DataTable();
                         using (OleDbConnection cn = new OleDbConnection())
@@ -587,7 +603,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                             using (OleDbCommand cmd = new OleDbCommand("", cn))
                             {
                                 OleDbDataReader dr;
-                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\نقل البيانات الافتتاحية لمشروع عبدالله حسين\\customers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+                                cn.ConnectionString = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=D:\\customers.xlsx;Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
                                 cn.Open();
 
                                 cmd.CommandText = "select * from [Sheet1$]";
@@ -624,7 +640,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                     newAccountNum = long.Parse(accountTree.AccountNumber + "1");
                                 else
                                     newAccountNum = accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).OrderByDescending(x => x.AccountNumber).FirstOrDefault().AccountNumber + 1;
-
+                                personCategory = catNew;
                                 // add new account tree 
                                 var newAccountTree = new AccountsTree
                                 {
@@ -638,7 +654,6 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 catNew.AccountTree = newAccountTree;
                                 context.PersonCategories.Add(catNew);
                                 context.SaveChanges(userId);
-                                personCategory = catNew;
                             }
                             else
                                 personCategory = catDb;
@@ -657,7 +672,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 IsActive = true
                             };
                             //add as customer in account tree
-                            var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, personCategory.Name, AccountTreeSelectorTypesCl.Operational);
+                            var accountTreeCust = InsertGeneralSettings<Person>.ReturnAccountTreeByCategory(personCategory.AccountTreeId, customer.Name, AccountTreeSelectorTypesCl.Operational,context);
                             context.AccountsTrees.Add(accountTreeCust);
                             //add person in personTable
                             customer.AccountsTreeCustomer = accountTreeCust;
@@ -679,16 +694,18 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                     OperationDate = Utility.GetDateTime(),
                                     IsCustomer = true,
                                     IsDebit = IsDebit,
+                                    IsApproval= true
                                 };
                                 context.PersonIntialBalances.Add(customerInital);
+                                context.SaveChanges(userId);
 
                                 // الحصول على حسابات من الاعدادات
                                 var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
                                 //التأكد من عدم وجود حساب فرعى من الحساب
-                                if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
+                                if (CheckAccountTreeIdHasChilds22(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue), context))
                                     return false;
                                 //التأكد من عدم وجود حساب فرعى من الحساب
-                                if (AccountTreeService.CheckAccountTreeIdHasChilds(customer.AccountsTreeCustomerId))
+                                if (CheckAccountTreeIdHasChilds22(customer.AccountsTreeCustomerId, context))
                                     return false;
 
 
@@ -746,8 +763,6 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                         TransactionTypeId = (int)TransactionsTypesCl.InitialBalanceCustomer
                                     });
                                 }
-                                //تحديث حالة الاعتماد 
-                                customerInital.IsApproval = true;
                                 context.SaveChanges(userId);
                             }
 
@@ -763,7 +778,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                                 CustomerId = customer.Id
                             };
                             context.SaleMenCustomers.Add(saleMenCustomer);
-                            context.SaveChanges();
+                            context.SaveChanges(userId);
 
                         }
                         //

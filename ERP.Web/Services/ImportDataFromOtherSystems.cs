@@ -682,6 +682,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                             //add customer initial
                             if (double.TryParse(item["balance"].ToString(), out double balance) && balance != 0)
                             {
+                                balance=Math.Round(balance,0,MidpointRounding.ToEven);
                                 bool IsDebit = false;
                                 if (balance > 0)
                                     IsDebit = true;

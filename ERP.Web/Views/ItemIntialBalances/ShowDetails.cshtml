@@ -70,7 +70,9 @@
                         <thead>
                             <tr>
                                 <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">الصنف</th>
+                                <th class="pl-0 font-weight-bold text-muted text-uppercase din-bold">المخزن</th>
                                 <th class="text-right font-weight-bold text-muted text-uppercase din-bold">الكمية</th>
+                                <th class="text-right font-weight-bold text-muted text-uppercase din-bold">السعر</th>
                                 <th class="text-right font-weight-bold text-muted text-uppercase din-bold">القيمة</th>
                             </tr>
                         </thead>
@@ -79,7 +81,9 @@
                             {
                                 <tr class="font-weight-boldest font-size-lg">
                                     <td class="pl-0 pt-7 din-bold">@item.Item.Name</td>
+                                    <td class="pl-0 pt-7 din-bold">@item.Store.Name</td>
                                     <td class="text-right pt-7 din-bold">@item.Quantity</td>
+                                    <td class="text-right pt-7 din-bold">@item.Price</td>
                                     <td class="text-danger pr-0 pt-7 text-right din-bold">@item.Amount</td>
                                 </tr>
                             }

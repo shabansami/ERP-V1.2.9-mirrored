@@ -100,7 +100,9 @@ var SaleMenSellInvoice_Module = function () {
                     render: function (data, type, row, meta) {
                         return '\
 							<div class="btn-group">\
-							<a href="/SaleMenSellInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+							<a href="/PrintInvoices/ShowPrintInvoice/?id='+ row.Id + '&typ=sell" target="_blank" class="btn btn-sm btn-clean btn-icon" title="عرض وطباعة">\
+								<i class="fa fa-print"></i>\
+							</a><a href="/SaleMenSellInvoices/Edit/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\<a href="/SaleMenSellInvoices/ShowSaleMenSellInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض فاتورة">\
 								<i class="fa fa-search"></i>\

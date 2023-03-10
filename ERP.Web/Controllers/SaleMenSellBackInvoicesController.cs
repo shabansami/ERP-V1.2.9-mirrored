@@ -106,6 +106,7 @@ namespace ERP.Web.Controllers
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
                 return View(new SaleMenSellInvoiceVM());
             }
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name");
 
             if (TempData["model"] != null) //edit
             {

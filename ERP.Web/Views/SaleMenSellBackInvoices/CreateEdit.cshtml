@@ -219,30 +219,31 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group required">
                                                 <label> المجموعة الاساسية</label>
                                                 <input name="groupBasic" type="text" class="form-control form-control-solid form-control-lg" id="groupBasic" autocomplete="off" />
                                                 <span class="form-text text-muted">اختر مجموعة</span>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group required">
                                                 <label>الصنف</label>
                                                 @Html.DropDownList("ItemId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med w-100", onchange = "SaleMenSellBackInvoice_Module.onItemChange()" })
                                                 <span class="form-text text-muted">اختر الصنف</span>
                                             </div>
                                         </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group row">
+                                                <label>المخزن</label>
+                                                <div class="col-12">
+                                                    @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-control select2 din-med" })
+                                                    <span class="form-text text-muted">اختر المخزن </span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="row">
-                                        @*<div class="col-xl-6">
-                    <div class="form-group required">
-                        <label>المخزن</label>
-                        @Html.DropDownList("StoreId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   select2 din-med" })
-                        <span class="form-text text-muted">اختر المخزن </span>
-                    </div>
-                </div>*@
-                                    </div>
+                                   
                                     <div class="row">
                                         <div class="col-xl-4">
                                             <!--begin::Input-->
@@ -283,7 +284,7 @@
                                             <!--begin::Input-->
                                             <div class="form-group">
                                                 <label>.</label>
-                                                <button type="button" onclick="SaleMenSellBackInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  px-15 py-4 w-100">اضافة صنف للفاتورة</button>
+                                                <button type="button" onclick="SaleMenSellBackInvoice_Module.addItemDetails();" class="btn btn-primary font-weight-bold  w-100">اضافة صنف للفاتورة</button>
                                             </div>
                                             <!--end::Input-->
                                         </div>

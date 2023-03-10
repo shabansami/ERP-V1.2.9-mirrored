@@ -5,6 +5,7 @@
     string imagePerson = string.Empty;
     string userName = string.Empty;
     string entityName = string.Empty;
+    Guid? EmployeeId = null;
     imagePerson = "../../Files/Users/defaultImage.jpg";
 
     if (auth.CheckCookies())
@@ -12,6 +13,11 @@
         auth.LoadDataFromCookies();
         userName = auth.CookieValues.UserName;
         entityName = auth.CookieValues.EntityName;
+        //رقم الموظف فى حالة تحديد مخازن وحزن الموظف المحددة له
+        if(auth.CookieValues.EmployeeId!=null)
+        {
+            EmployeeId = auth.CookieValues.EmployeeId;
+        }
         if (auth.CookieValues.Image != null)
         {
             imagePerson = "../../Files/Users/" + auth.CookieValues.Image;
@@ -95,6 +101,7 @@
 </head>
 
 <body class="din-bold">
+    @Html.Hidden("Hdf_EmployeeId", EmployeeId)
 
     <!-- <body data-layout="horizontal"> -->
     <!-- Begin page -->
@@ -236,7 +243,8 @@
     <!-- end main content-->
     <!-- END layout-wrapper -->
     <!-- Right Sidebar -->
-    <div class="right-bar d-none"> @*لاخفاء رسالة الخطأ فى الكونسول app.js*@
+    <div class="right-bar d-none">
+        @*لاخفاء رسالة الخطأ فى الكونسول app.js*@
         <div data-simplebar class="h-100">
             <div class="rightbar-title d-flex align-items-center p-3">
 

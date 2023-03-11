@@ -203,11 +203,9 @@
                             {
                                 <tr>
                                     @*<td style="display:none;"></td>
-                                    <td style="display:none;"></td>
-                                    <td style="display:none;"></td>
-                                    <td style="display:none;"></td>*@
-                                    <td></td>
-                                    <td></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>
+        <td style="display:none;"></td>*@
                                     <td>  <label style="color:firebrick">@AccountActionBalanceBeforPeriod </label></td>
                                     <td>
                                         <label style="color: firebrick; font-size: 14px;">
@@ -238,30 +236,31 @@
                                     </td>
                                     <td></td>
                                     <td></td>
+
+                                    <td></td>
                                     <td>
                                         <label style="color:firebrick">
                                             @*@AccountActionBalanceBeforPeriod*@
                                         </label>
                                     </td>
-                                    <td></td>
                                     @*<th colspan="3">
-                                            <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceBeforPeriod </label>
-                                        </th>
-                                        <th>
-                                            <label style="color: firebrick; font-size: 14px;">
-                                                @Model.LastBalanceDebit
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label style="color: firebrick; font-size: 14px;">
-                                                @Model.LastBalanceCredit
-                                            </label>
-                                        </th>
-                                        <th colspan="3">
-                                            <label style="color:firebrick">
-                                                @AccountActionBalanceBeforPeriod
-                                            </label>
-                                        </th>*@
+            <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceBeforPeriod </label>
+        </th>
+        <th>
+            <label style="color: firebrick; font-size: 14px;">
+                @Model.LastBalanceDebit
+            </label>
+        </th>
+        <th>
+            <label style="color: firebrick; font-size: 14px;">
+                @Model.LastBalanceCredit
+            </label>
+        </th>
+        <th colspan="3">
+            <label style="color:firebrick">
+                @AccountActionBalanceBeforPeriod
+            </label>
+        </th>*@
                                 </tr>
 
                             }
@@ -339,7 +338,7 @@
                                         </th>
                                     </tr>*@
                                 <tr>
-                                    <th colspan="3">
+                                    <th>
                                         <label style="color: firebrick; font-size: 14px;"></label>
                                     </th>
                                     <th>
@@ -350,13 +349,25 @@
                                         <label style="color: firebrick; font-size: 14px;">
                                         </label>
                                     </th>
-                                    <th colspan="4">
+                                    <th>
+                                        <label style="color:firebrick">
+                                        </label>
+                                    </th>                    
+                                    <th>
+                                        <label style="color:firebrick">
+                                        </label>
+                                    </th>        
+                                    <th>
+                                        <label style="color:firebrick">
+                                        </label>
+                                    </th>                      
+                                    <th>
                                         <label style="color:firebrick">
                                         </label>
                                     </th>
                                 </tr>
                                 <tr>
-                                    <th colspan="3">
+                                    <th>
                                         <label style="color: firebrick; font-size: 14px;">@TotalPeriodSpecified</label>
                                     </th>
                                     <th>
@@ -397,7 +408,7 @@
                                     </th>
                                 </tr>
                                 <tr >
-                                    <th colspan="3">
+                                    <th>
                                         <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceDuringPeriod </label>
                                     </th>
                                     <th>
@@ -437,7 +448,7 @@
                                     </th>
                                 </tr>
                                 <tr >
-                                    <th colspan="3">
+                                    <th>
                                         <label style="color: firebrick; font-size: 14px;">@FinalBalanceAccountUntilEndPeriod  </label>
                                     </th>
                                     <th>

@@ -184,6 +184,8 @@ namespace ERP.Web.Services
                                 Notes = x.Notes,
                                 CustmerTaxNumber=x.PersonCustomer.TaxNumber,
                                 CustomerCommercialRegistrationNo=x.PersonCustomer.CommercialRegistrationNo,
+                                ApprovalAccounting=x.IsApprovalAccountant?"معتمدة محاسبيا":"غير معتمدة بعد",
+                                SaleMenName=x.Employee!=null?x.Employee?.Person.Name:null,
                                 //بيانات الجهة
                                 EntityDataName = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataEntityDataName).FirstOrDefault().SValue : string.Empty,
                                 EntityCommercialRegisterNo = generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue != null ? generalSetting.Where(g => g.Id == (int)GeneralSettingCl.EntityDataCommercialRegisterNo).FirstOrDefault().SValue : string.Empty,

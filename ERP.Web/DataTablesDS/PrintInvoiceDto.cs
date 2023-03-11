@@ -44,6 +44,8 @@ namespace ERP.Web.DataTablesDS
         public string Notes { get; set; }
         public string CustmerTaxNumber { get; set; }//الرقم الضريبى للعميل
         public string CustomerCommercialRegistrationNo { get; set; }//رقم السجل التجارى للعميل
+        public string ApprovalAccounting { get; set; }//الاعتماد/التصديق المحاسبى
+        public string SaleMenName { get; set; }//مسئول البيع/المندوب
         //تفاصيل الفاتورة 
         public List<ItemDetailsDT> ItemDetails { get; set; }
         public List<InvoiceExpensesDT> InvoiceExpenses { get; set; }

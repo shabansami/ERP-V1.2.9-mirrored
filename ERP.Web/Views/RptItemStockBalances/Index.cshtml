@@ -175,7 +175,7 @@
                         <thead>
                             <tr>
 
-                                <th style="display:none;">ItemId</th>
+                                @*<th style="display:none;">ItemId</th>*@
                                 <th>اسم الصنف</th>
                                 <th>المخزن</th>
                                 <th>الوحدة</th>
@@ -217,7 +217,7 @@
                         @foreach (var item in Model.ItemStocks)
                         {
                             <tr>
-                                <td style="display:none;">@item.ItemId</td>
+                                @*<td style="display:none;">@item.ItemId</td>*@
                                 <td>@item.ItemName</td>
                                 <td>@item.StoreName</td>
                                 <td>@item.ItemUnit</td>

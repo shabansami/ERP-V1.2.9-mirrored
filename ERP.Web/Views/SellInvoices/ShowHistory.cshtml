@@ -42,18 +42,19 @@
                         <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtCases">
                             <thead>
                                 <tr>
-                                    <th style="display:none;">Id</th>
                                     <th>الحالة</th>
                                     <th>التاريخ</th>
+                                    <th>اسم المستخدم</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var status in Model.CasesSellInvoiceHistories)
                                 {
                     <tr>
-                        <td class="selectedDay" style="display:none;">@status.Id</td>
+                        @*<td class="selectedDay" style="display:none;">@status.Id</td>*@
                         <td>@status.Case.Name</td>
                         <td>@status.CreatedOn</td>
+                        <td>@(status.UserCreater?.UserName)</td>
                     </tr>}
                             </tbody>
                             <tfoot></tfoot>
@@ -91,7 +92,7 @@
                 info: false,
                 search: false,
                 searching: false,
-                "order": [[0, "asc"]]
+                "order": [[1, "asc"]]
                 //"order": [[0, "desc"]]
 
             });

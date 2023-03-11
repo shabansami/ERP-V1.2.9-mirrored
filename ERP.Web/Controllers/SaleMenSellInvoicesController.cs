@@ -446,12 +446,10 @@ namespace ERP.Web.Controllers
                     }
                     else
                     {
-                        string codePrefix = Properties.Settings.Default.CodePrefix;
                         model = new SellInvoice()
                         {
                             Id = vm.Id,
                             SafeId=vm.SafeId,
-                            InvoiceNumber = codePrefix + (db.SellInvoices.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1),
                             BranchId = vm.BranchId,
                             CustomerId = vm.CustomerId,
                             BySaleMen = true,

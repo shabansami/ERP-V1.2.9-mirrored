@@ -1523,7 +1523,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue),
                         BranchId = model.BranchId,
                         Credit = model.TotalValue,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                         TransactionDate = model.InvoiceDate,
                         TransactionId = model.Id,
                         TransactionShared = model.Id,
@@ -1543,7 +1543,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesTaxAccount).FirstOrDefault().SValue),
                         BranchId = model.BranchId,
                         Credit = model.SalesTax,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                         TransactionDate = model.InvoiceDate,
                         TransactionId = model.Id,
                         TransactionShared = model.Id,
@@ -1559,7 +1559,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePremittedDiscountAccount).FirstOrDefault().SValue),
                         BranchId = model.BranchId,
                         Debit = model.TotalDiscount,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                         TransactionDate = model.InvoiceDate,
                         TransactionId = model.Id,
                         TransactionShared = model.Id,
@@ -1576,7 +1576,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCommercialTax).FirstOrDefault().SValue),
                         BranchId = model.BranchId,
                         Debit = model.ProfitTax,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                         TransactionDate = model.InvoiceDate,
                         TransactionId = model.Id,
                         TransactionShared = model.Id,
@@ -1602,7 +1602,7 @@ namespace ERP.Web.Controllers
                             AccountsTreeId = safeAccouyBank,
                             BranchId = model.BranchId,
                             Debit = model.PayedValue,
-                            Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                             TransactionDate = model.InvoiceDate,
                             TransactionId = model.Id,
                             TransactionTypeId = (int)TransactionsTypesCl.Sell
@@ -1618,7 +1618,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = customer.AccountsTreeCustomerId,
                         BranchId = model.BranchId,
                         Credit = model.PayedValue,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                         TransactionDate = model.InvoiceDate,
                         TransactionId = model.Id,
                         TransactionTypeId = (int)TransactionsTypesCl.Sell
@@ -1637,7 +1637,7 @@ namespace ERP.Web.Controllers
                         AccountsTreeId = expense.IncomeTypeAccountTreeId,
                         BranchId = model.BranchId,
                         Credit = expense.Amount,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                         TransactionDate = model.InvoiceDate,
                         TransactionId = model.Id,
                         TransactionTypeId = (int)TransactionsTypesCl.Sell
@@ -1672,7 +1672,7 @@ namespace ERP.Web.Controllers
                         }
                         db.Notifications.Add(new Notification
                         {
-                            Name = $"استحقاق فاتورة بيع رقم: {model.Id} على العميل: {customer.Name}",
+                            Name = $"استحقاق فاتورة بيع رقم: {model.InvoiceNumber} على العميل: {customer.Name}",
                             DueDate = model.DueDate,
                             RefNumber = model.Id,
                             NotificationTypeId = (int)NotificationTypeCl.SellInvoiceDueDateClient,

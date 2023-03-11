@@ -26,6 +26,7 @@
     string title_invoNumber, title_invoDate, title_taxNum, title_RegNum, btn_switch_title, btn_print_title, btn_close_title;
     string title_itemNum, title_itemName, title_itemPrice, title_itemQuantity, title_itemUnitName, title_itemAmount;
     string title_totalAmount, title_salesTax, title_discount, title_profitTax, title_safy, title_notes, title_signature;
+    string title_AprrovAccount, title_saleMen;
     if (Model.LanguagePage == "en")
     {
         pageDir = "ltr";
@@ -50,7 +51,8 @@
         title_safy = "Net total";
         title_notes = "Notes";
         title_signature = "Signature";
-
+        title_AprrovAccount = "Approval Accounting";
+        title_saleMen = "SaleMen";
     }
     else
     {
@@ -75,7 +77,8 @@
         title_notes = "ملاحظات";
         title_signature = "التوقيع";
         title_discount = "الخصم";
-
+        title_AprrovAccount = "التصديق/الاعتماد المحاسبى";
+        title_saleMen = "مسئول البيع(المندوب)";
     }
 
 }
@@ -167,7 +170,25 @@
                                         </p>
                                     </div>
                                 </div>
+                            }                
+
+                        <div class="row">
+                            <div class="col-6">
+                                <p>
+                                    @title_AprrovAccount  : <span>@(Model.ApprovalAccounting)</span>
+                                </p>
+                            </div>
+                            @if (!string.IsNullOrEmpty(Model.SaleMenName))
+                            {
+                                <div class="col-6">
+                                    <p>
+                                        @title_saleMen : <span>@(Model.SaleMenName)</span>
+                                    </p>
+                                </div>
                             }
+
+                        </div>
+                            
                         </div>
                         <div class="col-2">
                             <br />

@@ -621,7 +621,7 @@ namespace ERP.Web.Controllers
             ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name", vm.SupplierId);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
             ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
-            ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
+            ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(vm.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
             ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
             //ViewBag.InvoiceNum = vm.InvoiceNum;
             return View(vm);

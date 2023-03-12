@@ -25,7 +25,9 @@ namespace ERP.Web.Controllers
             else
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             //مخازن المندوب
-            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
             if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
@@ -41,9 +43,11 @@ namespace ERP.Web.Controllers
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             int? n = null;
             //مخازن المندوب
-            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
 
-                return Json(new
+            return Json(new
             {
                 data = db.StoresTransfers.Where(x => !x.IsDeleted&& stores.Any(s=>s.Id==x.StoreToId)).OrderBy(x=>x.CreatedOn).Select(x => new { Id = x.Id,  SaleMenIsApproval = x.IsApprovalStore,  StoreFromName = x.StoreFrom.Name, TransferDate = x.TransferDate.ToString(), Notes = x.Notes,Status=(!x.IsApprovalStore&&!x.IsRefusStore)?"فى الانتظار":x.IsApprovalStore?"تم الاعتماد":"تم الرفض", Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet); ;

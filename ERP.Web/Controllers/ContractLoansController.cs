@@ -75,7 +75,7 @@ namespace ERP.Web.Controllers
                     ViewBag.ContractSchedulingId = new SelectList(EmployeeService.GetContractSchedulingEmployee(model.ContractScheduling.Contract.EmployeeId.ToString()), "Id", "Name", model.ContractSchedulingId);
 
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
+                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(model.BranchId.ToString(),auth.CookieValues.UserId.ToString()), "Id", "Name", model.SafeId);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", model.BankAccountId);
 
                     return View(model);

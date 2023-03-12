@@ -5,7 +5,7 @@
     string imagePerson = string.Empty;
     string userName = string.Empty;
     string entityName = string.Empty;
-    Guid? EmployeeId = null;
+    Guid? userId = null;
     imagePerson = "../../Files/Users/defaultImage.jpg";
 
     if (auth.CheckCookies())
@@ -13,10 +13,10 @@
         auth.LoadDataFromCookies();
         userName = auth.CookieValues.UserName;
         entityName = auth.CookieValues.EntityName;
-        //رقم الموظف فى حالة تحديد مخازن وحزن الموظف المحددة له
-        if(auth.CookieValues.EmployeeId!=null)
+        //رقم المستخدم فى حالة تحديد مخازن وخزن الموظف المحددة له
+        if(auth.CookieValues.UserId!=null)
         {
-            EmployeeId = auth.CookieValues.EmployeeId;
+            userId = auth.CookieValues.UserId;
         }
         if (auth.CookieValues.Image != null)
         {
@@ -101,7 +101,7 @@
 </head>
 
 <body class="din-bold">
-    @Html.Hidden("Hdf_EmployeeId", EmployeeId)
+    @Html.Hidden("Hdf_userId", userId)
 
     <!-- <body data-layout="horizontal"> -->
     <!-- Begin page -->

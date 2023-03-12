@@ -68,7 +68,7 @@ var GeneralSetting_Module = function () {
         })
     };
     function getStoresBranchChanged(branchId, storeId) {  // تحديد محزن الصيانة
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $(branchId).val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $(branchId).val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             var store = $('#' + storeId);
             $(store).empty();
             $(store).append("<option value=>اختر عنصر من القائمة </option>");
@@ -78,7 +78,7 @@ var GeneralSetting_Module = function () {
         });
     };
     function getStoreDamagesBranchChanged() {  // تحديد محزن التوالف
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $('#BranchMaintenanceDamageId').val(), isDamage: true }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $('#BranchMaintenanceDamageId').val(), isDamage: true, userId: $("#Hdf_userId").val() }, function (data) {
             $('#MaintenanceDamageStoreId').empty();
             $('#MaintenanceDamageStoreId').append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {

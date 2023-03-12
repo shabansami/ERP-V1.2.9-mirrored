@@ -36,7 +36,10 @@ namespace ERP.Web.Controllers
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             int? n = null;
             var sroresTran = db.StoresTransfers.Where(x => !x.IsDeleted);
-            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
 
             if (stores.Count()>0)
                 sroresTran = sroresTran.Where(x => stores.Any(s => s.Id == x.StoreToId));

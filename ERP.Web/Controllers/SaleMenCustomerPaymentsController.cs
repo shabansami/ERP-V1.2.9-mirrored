@@ -17,15 +17,14 @@ namespace ERP.Web.Controllers
     public class SaleMenCustomerPaymentsController : Controller
     {
         // GET: SaleMenCustomerPayments
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        public SaleMenCustomerPaymentsController()
+        {
+            db = new VTSaleEntities();
+        }
         public ActionResult Index()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             ViewBag.EmployeeId = auth.CookieValues.EmployeeId;
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(new List<Person>(), "Id", "Name");
@@ -33,10 +32,6 @@ namespace ERP.Web.Controllers
         }
         public ActionResult GetAll()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             int? n = null;
             return Json(new
             {
@@ -47,14 +42,12 @@ namespace ERP.Web.Controllers
         [HttpGet]
         public ActionResult CreateEdit()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             //مخازن المندوب
-            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
             //خزن المندوب
-            var safes = StoreService.GetSafeSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            var safes = EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
 
             if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
@@ -107,11 +100,6 @@ namespace ERP.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (TempData["userInfo"] != null)
-                    auth = TempData["userInfo"] as VTSAuth;
-                else
-                    RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                 if (vm.CustomerId == null || vm.Amount == 0 || vm.PaymentDate == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                 if (SaleMenEmployeeId == null)
@@ -210,11 +198,6 @@ namespace ERP.Web.Controllers
                 var model = db.CustomerPayments.FirstOrDefault(x=>x.Id==Id);
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

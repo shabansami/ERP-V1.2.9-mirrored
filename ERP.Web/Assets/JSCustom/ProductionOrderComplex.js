@@ -41,7 +41,7 @@ var ProductionOrderComplex_Module = function () {
     };
 
     function getStoresBranchChanged() {  // تحديد محزن الصيانة
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             $("#ProductionUnderStoreId").empty();
             $("#ProductionStoreId").empty();
             $("#ProductionUnderStoreId").append("<option value=>اختر عنصر من القائمة </option>");

@@ -287,6 +287,11 @@ namespace ERP.Web.Controllers
                 ViewBag.ShowTab = false;
 
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            //مخازن المستخدم
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            //خزن المستخدم
+            var safes = EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
 
             if (TempData["model"] != null) //edit
             {
@@ -327,7 +332,7 @@ namespace ERP.Web.Controllers
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
                     ViewBag.Branchcount = branches.Count();
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
+                    ViewBag.SafeId = new SelectList(safes, "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     //ViewBag.SaleMenId = new SelectList(db.Employees.Where(x => !x.IsDeleted&&x.IsSaleMen&&x.PersonId==vm.SaleMenId).Select(x=>new {Id=x.PersonId,Name=x.Person.Name }), "Id", "Name", vm.SaleMenId);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
 
@@ -406,7 +411,7 @@ namespace ERP.Web.Controllers
 
 
                 var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
+                 branchId = defaultStore != null ? defaultStore.BranchId : null;
                 //var safeId = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId)?.FirstOrDefault().Id;
                 var bankAccountId = db.BankAccounts.Where(x => !x.IsDeleted)?.FirstOrDefault().Id;
 
@@ -417,7 +422,7 @@ namespace ERP.Web.Controllers
 
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.SafeId = new SelectList(db.Safes.Where(x=>!x.IsDeleted&&x.BranchId==branchId), "Id", "Name");
+                ViewBag.SafeId = new SelectList(safes, "Id", "Name");
                 //ViewBag.SaleMenId = new SelectList(new List<Person>(), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", bankAccountId);
                 Random random = new Random();

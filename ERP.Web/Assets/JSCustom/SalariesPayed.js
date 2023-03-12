@@ -87,7 +87,7 @@ var SalariesPayed_Module = function () {
         $('#remindId' + id).val(Math.round(safy - payed,2));
     };
     function getSafesOnBranchChanged() {  // get safes and stores by branchId
-        $.get("/SharedDataSources/getSafesOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getSafesOnBranchChanged", { id: $("#BranchId").val(), userId: $("#Hdf_userId").val() }, function (data) {
             $("#SafeId").empty();
             $("#SafeId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {

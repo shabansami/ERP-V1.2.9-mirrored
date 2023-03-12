@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using static ERP.Web.Utilites.Lookups;
 using ERP.DAL.Dtos;
+using System.Web.Mvc;
 
 namespace ERP.Web.Services
 {
@@ -213,6 +214,109 @@ namespace ERP.Web.Services
                 return branches.Select(x=>new DropDownList { Id=x.Id,Name=x.Name}).ToList();
             }
             
+        }
+        #endregion
+        #region خزن اليوزر المسموحة له
+        public static List<DropDownList> GetSafesByUser(string branchId, string userId)
+        {
+            if (userId == null)
+                return new List<DropDownList>();
+
+            using (var db = new VTSaleEntities())
+            {
+                Guid Id;
+                if (Guid.TryParse(branchId, out Id))
+                {
+                    if (Guid.TryParse(userId, out Guid usrId))
+                    {
+                        var user = db.Users.Where(x => x.Id == usrId).FirstOrDefault();
+                        if (user != null)
+                        {
+                            //فى حالة اليوزر ادمن 
+                            IQueryable<Safe> safes = null;
+                            if (user.IsAdmin)
+                                safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == Id);
+                            else
+                            {
+                                var employee = user?.Person?.Employees.Where(x => !x.IsDeleted).FirstOrDefault();
+                                var empSafes = db.EmployeeSafes.Where(x => !x.IsDeleted);
+                                safes = empSafes.Where(x => x.EmployeeId == employee.Id).Select(x => x.Safe);
+                                safes = safes.Where(x => !x.IsDeleted && x.BranchId == Id);
+                            }
+                            if (safes != null)
+                                return safes.Select(x => new DropDownList { Id = x.Id, Name = x.Name }).ToList();
+                            else
+                                return new List<DropDownList>();
+
+                        }
+                        else
+                            return new List<DropDownList>();
+
+
+                    }
+                    else
+                        return new List<DropDownList>();
+
+                    //var list = db.Safes.Where(x => !x.IsDeleted && x.BranchId == Id).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                    //var selectList = new SelectList(list, "Id", "Name");
+                    //return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return new List<DropDownList>();
+
+            }
+
+        }
+        #endregion     
+        #region مخازن اليوزر المسموحة له
+        public static List<DropDownList> GetStoresByUser(string branchId, string userId,bool isDamage=false)
+        {
+            if (userId == null)
+                return new List<DropDownList>();
+
+            using (var db = new VTSaleEntities())
+            {
+                Guid Id;
+                if (Guid.TryParse(branchId, out Id))
+                {
+                    if (Guid.TryParse(userId, out Guid usrId))
+                    {
+                        var user = db.Users.Where(x => x.Id == usrId).FirstOrDefault();
+                        if (user != null)
+                        {
+                            //فى حالة اليوزر ادمن 
+                            IQueryable<Store> stores = null;
+                            if (user.IsAdmin)
+                                stores = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage);
+                            else
+                            {
+                                var employee = user?.Person?.Employees.Where(x => !x.IsDeleted).FirstOrDefault();
+                                var empStores = db.EmployeeStores.Where(x => !x.IsDeleted);
+                                stores = empStores.Where(x => x.EmployeeId == employee.Id).Select(x => x.Store);
+                                stores = stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage);
+                            }
+                            if (stores != null)
+                                return stores.Select(x => new DropDownList { Id = x.Id, Name = x.Name }).ToList();
+                            else
+                                return new List<DropDownList>();
+                        }
+                        else
+                            return new List<DropDownList>();
+
+
+                    }
+                    else
+                        return new List<DropDownList>();
+
+                    //var list = db.Safes.Where(x => !x.IsDeleted && x.BranchId == Id).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                    //var selectList = new SelectList(list, "Id", "Name");
+                    //return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return new List<DropDownList>();
+
+            }
+
         }
         #endregion
         //public static IQueryable<Employee> GetEmployees(VTSaleEntities db, int? departmentId = null)

@@ -268,7 +268,7 @@ var Maintenance_Module = function () {
 
 
     function getSafesOnBranchChanged() { // get safes and stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             $("#StoreId").empty();
             $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {

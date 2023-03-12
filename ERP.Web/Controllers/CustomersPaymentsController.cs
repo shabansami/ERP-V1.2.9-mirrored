@@ -100,7 +100,7 @@ namespace ERP.Web.Controllers
                     ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name", model.PersonCustomer.PersonCategoryId);
                     ViewBag.CustomerId = new SelectList(EmployeeService.GetCustomerByCategory(model.PersonCustomer.PersonCategoryId, null,null), "Id", "Name", model.CustomerId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
+                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(model.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", model.SafeId);
                     ViewBag.InvoiceNumber = model.SellInvoice?.InvoiceNumber;
                     return View(model);
                 }

@@ -229,7 +229,7 @@ namespace ERP.Web.Controllers
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
                     ViewBag.Branchcount = branches.Count();
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
+                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(vm.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
                     ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name", vm.PersonSupplier.PersonCategoryId);
                     return View(vm);
@@ -252,7 +252,7 @@ namespace ERP.Web.Controllers
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.Branchcount = branches.Count();
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name");
+                ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", bankAccountId);
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && !x.IsCustomer), "Id", "Name");
                 Random random = new Random();

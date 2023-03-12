@@ -223,7 +223,7 @@ namespace ERP.Web.Controllers
                     ViewBag.Branchcount = branches.Count();
 
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
+                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(vm.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     //ViewBag.SaleMenId = new SelectList(db.Employees.Where(x => !x.IsDeleted && x.IsSaleMen && x.PersonId == vm.SaleMenId).Select(x => new { Id = x.PersonId, Name = x.Person.Name }), "Id", "Name", vm.SaleMenId);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
                     //ViewBag.InvoiceNum = vm.InvoiceNum;
@@ -268,7 +268,7 @@ namespace ERP.Web.Controllers
 
                 ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
-                ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId), "Id", "Name");
+                ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name");
                 //ViewBag.SaleMenId = new SelectList(new List<Person>(), "Id", "Name");
                 ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", bankAccountId);
                 Random random = new Random();

@@ -264,10 +264,12 @@ namespace ERP.Web.Controllers
             ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
             ViewBag.ItemUnitsId = new SelectList(new List<ItemUnit>(), "Id", "Name");
 
-            //مخازن المندوب
-            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
-            //خزن المندوب
-            var safes = StoreService.GetSafeSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            //مخازن المستخدم
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            //خزن المستخدم
+            var safes = EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
 
             if (stores == null||stores.Count()==0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
@@ -379,8 +381,8 @@ namespace ERP.Web.Controllers
                 if (double.TryParse(taxProfitSetting?.SValue, out double TaxProfitSetting))
                     vm.ProfitTaxPercentage = TaxProfitSetting;
 
-                var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-                vm.BranchId = branches.FirstOrDefault()?.Id;
+                
+                vm.BranchId = branchId;
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
                 //vm.SaleMenStoreId = auth.CookieValues.StoreId;
                 return View(vm);

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -47,7 +48,7 @@ namespace ERP.Web.Controllers
                 if (vm != null)
                 {
                     //ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
+                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(vm.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
                     ViewBag.StoreReceiptId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
                     vm.ReceiptDate = Utility.GetDateTime();

@@ -253,7 +253,7 @@ var ProductionOrder_Module = function () {
         });
     };
     function getStoresBranchChanged() {  // تحديد محزن الصيانة
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             $("#ProductionUnderStoreId").empty();
             $("#ProductionStoreId").empty();
             $("#ProductionUnderStoreId").append("<option value=>اختر عنصر من القائمة </option>");
@@ -731,7 +731,7 @@ var ProductionOrder_Module = function () {
 
     //remove notes 18-10-2021
     //function getStoresOnBranchChanged() {  // get safes and stores by branchId
-    //    $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+    //    $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
     //        $("#StoreId").empty();
     //        $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
     //        $.each(data, function (index, row) {

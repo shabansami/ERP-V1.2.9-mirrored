@@ -58,7 +58,7 @@ namespace ERP.Web.Controllers
                 {
                     var model = db.ExpenseIncomes.FirstOrDefault(x=>x.Id==guid);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.SafeId = new SelectList(db.Safes.Where(x => !x.IsDeleted && x.BranchId == model.BranchId), "Id", "Name", model.SafeId);
+                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(model.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", model.SafeId);
                     //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name", model.IncomeTypeId);
                     return View(model);
                 }

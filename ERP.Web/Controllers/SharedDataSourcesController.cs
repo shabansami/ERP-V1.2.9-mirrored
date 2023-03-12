@@ -116,29 +116,110 @@ namespace ERP.Web.Controllers
         //    else
         //        return Json(null, JsonRequestBehavior.AllowGet);
         //}
-        public JsonResult getSafesOnBranchChanged(string id) // تحميل الخزن بدلالة رقم الفرع 
+        public JsonResult getSafesOnBranchChanged(string id,string userId) // تحميل الخزن بدلالة رقم الفرع 
         {
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var list = db.Safes.Where(x => !x.IsDeleted && x.BranchId == Id).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
-                var selectList = new SelectList(list, "Id", "Name");
-                return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+                var list =EmployeeService.GetSafesByUser(id, userId);
+                if(list.Count()>0)
+                {
+                    return Json(list, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                
+                //if (Guid.TryParse(userId,out Guid usrId))
+                //{
+                //    var user = db.Users.Where(x => x.Id ==usrId).FirstOrDefault();
+                //    if (user!=null)
+                //    {
+                //        //فى حالة اليوزر ادمن 
+                //        IQueryable<Safe> safes = null;
+                //        if (user.IsAdmin)
+                //            safes = db.Safes.Where(x => !x.IsDeleted && x.BranchId == Id);
+                //        else
+                //        {
+                //            var employee= user?.Person?.Employees.Where(x=>!x.IsDeleted).FirstOrDefault();
+                //            var empSafes = db.EmployeeSafes.Where(x => !x.IsDeleted);
+                //            safes = empSafes.Where(x => x.EmployeeId == employee.Id).Select(x => x.Safe);
+                //            safes = safes.Where(x => !x.IsDeleted && x.BranchId == Id);
+                //        }
+                //        if (safes!=null)
+                //        {
+                //            var list =safes.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                //            var selectList = new SelectList(list, "Id", "Name");
+                //            return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+
+                //        }
+                //        else
+                //            return Json(null, JsonRequestBehavior.AllowGet);
+
+                //    }
+                //    else
+                //        return Json(null, JsonRequestBehavior.AllowGet);
+
+
+                //}
+                //else
+                //    return Json(null, JsonRequestBehavior.AllowGet);
             }
             else
                 return Json(null, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getStoresOnBranchChanged(string id, bool isDamage = false) //  تحميل المخازن بدون مخازن التوالف بدلالة رقم الفرع 
+        public JsonResult getStoresOnBranchChanged(string id, bool isDamage = false, string userId=null) //  تحميل المخازن بدون مخازن التوالف بدلالة رقم الفرع 
         {
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var list = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
-                var selectList = new SelectList(list, "Id", "Name");
-                return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+                var list = EmployeeService.GetStoresByUser(id, userId,isDamage);
+                if (list.Count() > 0)
+                {
+                    return Json(list, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(null, JsonRequestBehavior.AllowGet);
+                //if (Guid.TryParse(userId, out Guid usrId))
+                //{
+                //    var user = db.Users.Where(x => x.Id == usrId).FirstOrDefault();
+                //    if (user != null)
+                //    {
+                //        //فى حالة اليوزر ادمن 
+                //        IQueryable<Store> stores = null;
+                //        if (user.IsAdmin)
+                //            stores = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage);
+                //        else
+                //        {
+                //            var employee = user?.Person?.Employees.Where(x => !x.IsDeleted).FirstOrDefault();
+                //            var empStores = db.EmployeeStores.Where(x => !x.IsDeleted);
+                //            stores = empStores.Where(x => x.EmployeeId == employee.Id).Select(x => x.Store);
+                //            stores = stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage);
+                //        }
+                //        if (stores != null)
+                //        {
+                //            var list = stores.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                //            var selectList = new SelectList(list, "Id", "Name");
+                //            return Json(selectList.Items, JsonRequestBehavior.AllowGet);
+
+                //        }
+                //        else
+                //            return Json(null, JsonRequestBehavior.AllowGet);
+
+                //    }
+                //    else
+                //        return Json(null, JsonRequestBehavior.AllowGet);
+
+
+                //}
+                //else
+                //    return Json(null, JsonRequestBehavior.AllowGet);            
             }
             else
-                return Json(new { }, JsonRequestBehavior.AllowGet);
+                return Json(null, JsonRequestBehavior.AllowGet);
+
+                //var list = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id && x.IsDamages == isDamage).Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+                //var selectList = new SelectList(list, "Id", "Name");
+                //return Json(selectList.Items, JsonRequestBehavior.AllowGet);
         }
         //تحميل المخازن والخزن عند اضافة موظف 
         public JsonResult getStoresOnMultiplBranchesChanged(string id) //  تحميل المخازن بدون مخازن التوالف بدلالة رقم الفرع 

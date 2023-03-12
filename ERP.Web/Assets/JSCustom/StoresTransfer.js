@@ -349,7 +349,7 @@ var StoresTransfer_Module = function () {
 
     //#region ========== Step 1 البيانات الاساسية===============
     function getStoresOnBranchFromChanged() {  // get safes and stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchFromId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchFromId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             $("#StoreFromId").empty();
             $("#StoreFromId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {
@@ -358,7 +358,7 @@ var StoresTransfer_Module = function () {
         });
     };
     function getStoresOnBranchToChanged() {  // get safes and stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchToId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchToId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             $("#StoreToId").empty();
             $("#StoreToId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {

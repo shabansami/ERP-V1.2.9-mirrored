@@ -456,14 +456,14 @@ var StorePermissionsLeave_Module = function () {
 
 
     function getStoresOnBranchChanged() {  // get safes and stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
             $("#StoreId").empty();
             $("#StoreId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {
                 $("#StoreId").append("<option value='" + row.Id + "'>" + row.Name + "</option>");
             })
         });
-        $.get("/SharedDataSources/getSafesOnBranchChanged", { id: $("#BranchId").val() }, function (data) {
+        $.get("/SharedDataSources/getSafesOnBranchChanged", { id: $("#BranchId").val(), userId: $("#Hdf_userId").val() }, function (data) {
             $("#SafeId").empty();
             $("#SafeId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {

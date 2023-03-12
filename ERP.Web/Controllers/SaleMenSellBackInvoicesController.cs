@@ -20,8 +20,12 @@ namespace ERP.Web.Controllers
     public class SaleMenSellBackInvoicesController : Controller
     {
         // GET: SaleMenSellBackInvoices
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        public SaleMenSellBackInvoicesController()
+        {
+            db = new VTSaleEntities();
+        }
         public static string DS { get; set; }
 
         #region ادارة فواتير مرتجع التوريد
@@ -32,11 +36,6 @@ namespace ERP.Web.Controllers
 
         public ActionResult GetAll()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
             int? n = null;
             return Json(new
             {
@@ -95,12 +94,11 @@ namespace ERP.Web.Controllers
         public ActionResult CreateEdit()
         {
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             //مخازن المندوب
-            var stores = StoreService.GetStoreSaleMenByBranchId(auth.CookieValues.EmployeeId);
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
             if (stores == null || stores.Count() == 0) //فى حالة ان الموظف غير محدد له مخزن اى انه ليس مندوب
             {
                 ViewBag.ErrorMsg = "لابد من تحديد مخزن للمندوب اولا لعرض هذه الشاشة";
@@ -198,8 +196,8 @@ namespace ERP.Web.Controllers
 
                 var vm = new SaleMenSellInvoiceVM();
                 vm.InvoiceDate = Utility.GetDateTime();
-                var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-                vm.BranchId = branches.FirstOrDefault()?.Id;
+                //var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                vm.BranchId = branchId;
 
                 vm.SaleMenEmployeeId = auth.CookieValues.EmployeeId;
                 //vm.SaleMenStoreId = auth.CookieValues.StoreId;
@@ -248,11 +246,6 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
 
                     var isInsert = false;
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     SellBackInvoice model = null;
                     if (vm.Id != Guid.Empty)
                     {
@@ -413,11 +406,6 @@ namespace ERP.Web.Controllers
                 var model = db.SellBackInvoices.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsDeleted = true;
                     model.CaseId = (int)CasesCl.BackInvoiceDeleted;
                     db.Entry(model).State = EntityState.Modified;

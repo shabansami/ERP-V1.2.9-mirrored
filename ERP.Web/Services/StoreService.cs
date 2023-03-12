@@ -43,33 +43,33 @@ namespace ERP.Web.Services
                 return true;
             return false;
         }
-        //مخازن المندوب
-        public static List<DropDownList> GetStoreSaleMenByBranchId(Guid? employeeId)
-        {
-            if(employeeId == null||employeeId==Guid.Empty) return new List<DropDownList>(); 
-            IQueryable<EmployeeStore> employeeStores = null;
-            using (var db = new VTSaleEntities())
-            {
-                employeeStores = db.EmployeeStores.Where(x => !x.IsDeleted&&x.EmployeeId== employeeId);
-                if (employeeStores.Any())
-                    return employeeStores.Select(x => new DropDownList { Id = x.StoreId, Name = x.Store.Name }).ToList();
-                else
-                    return new List<DropDownList>();
-            }
-        }
-        //خزن المندوب
-        public static List<DropDownList> GetSafeSaleMenByBranchId(Guid? employeeId)
-        {
-            if(employeeId == null||employeeId==Guid.Empty) return new List<DropDownList>(); 
-            IQueryable<EmployeeSafe> employeeSafes = null;
-            using (var db = new VTSaleEntities())
-            {
-                employeeSafes = db.EmployeeSafes.Where(x => !x.IsDeleted&&x.EmployeeId== employeeId);
-                if (employeeSafes.Any())
-                    return employeeSafes.Select(x => new DropDownList { Id = x.SafeId, Name = x.Safe.Name }).ToList();
-                else
-                    return new List<DropDownList>();
-            }
-        }
+        ////مخازن المندوب
+        //public static List<DropDownList> GetStoreSaleMenByBranchId(Guid? employeeId)
+        //{
+        //    if (employeeId == null || employeeId == Guid.Empty) return new List<DropDownList>();
+        //    IQueryable<EmployeeStore> employeeStores = null;
+        //    using (var db = new VTSaleEntities())
+        //    {
+        //        employeeStores = db.EmployeeStores.Where(x => !x.IsDeleted && x.EmployeeId == employeeId);
+        //        if (employeeStores.Any())
+        //            return employeeStores.Select(x => new DropDownList { Id = x.StoreId, Name = x.Store.Name }).ToList();
+        //        else
+        //            return new List<DropDownList>();
+        //    }
+        //}
+        ////خزن المندوب
+        //public static List<DropDownList> GetSafeSaleMenByBranchId(Guid? employeeId)
+        //{
+        //    if(employeeId == null||employeeId==Guid.Empty) return new List<DropDownList>(); 
+        //    IQueryable<EmployeeSafe> employeeSafes = null;
+        //    using (var db = new VTSaleEntities())
+        //    {
+        //        employeeSafes = db.EmployeeSafes.Where(x => !x.IsDeleted&&x.EmployeeId== employeeId);
+        //        if (employeeSafes.Any())
+        //            return employeeSafes.Select(x => new DropDownList { Id = x.SafeId, Name = x.Safe.Name }).ToList();
+        //        else
+        //            return new List<DropDownList>();
+        //    }
+        //}
     }
 }

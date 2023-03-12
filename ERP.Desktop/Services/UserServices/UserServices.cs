@@ -39,7 +39,7 @@ namespace ERP.Desktop.Services
                                 IsActive = x.IsActive ? true : false,
                                 EmployeeId = x.Person.Employees.Where(e => !e.IsDeleted /*&& e.PersonId == x.PersonId*/).FirstOrDefault().Id,
                                 //BranchId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().BranchId,
-                                StoreId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().EmployeeStores.FirstOrDefault().StoreId,
+                                //StoreId = x.Person.Employees.Where(e => !e.IsDeleted).FirstOrDefault().EmployeeStores.FirstOrDefault().StoreId,
                             }).FirstOrDefault();
                         }
                     }

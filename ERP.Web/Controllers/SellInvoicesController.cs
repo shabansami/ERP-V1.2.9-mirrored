@@ -410,8 +410,8 @@ namespace ERP.Web.Controllers
                 DSExpenses = JsonConvert.SerializeObject(new List<InvoiceExpensesDT>());
 
 
-                var defaultStore = storeService.GetDefaultStore(db);
-                 branchId = defaultStore != null ? defaultStore.BranchId : null;
+                //var defaultStore = storeService.GetDefaultStore(db);
+                // branchId = defaultStore != null ? defaultStore.BranchId : null;
                 //var safeId = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId)?.FirstOrDefault().Id;
                 var bankAccountId = db.BankAccounts.Where(x => !x.IsDeleted)?.FirstOrDefault().Id;
 
@@ -420,7 +420,7 @@ namespace ERP.Web.Controllers
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.Branchcount = branches.Count();
 
-                ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
+                ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name");
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.SafeId = new SelectList(safes, "Id", "Name");
                 //ViewBag.SaleMenId = new SelectList(new List<Person>(), "Id", "Name");

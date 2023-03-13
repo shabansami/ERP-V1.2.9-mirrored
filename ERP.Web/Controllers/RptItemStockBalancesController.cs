@@ -34,12 +34,16 @@ namespace ERP.Web.Controllers
                 new SelectListItem { Text = "اخر سعر بيع", Value = "2" },
                 new SelectListItem { Text = "اعلى سعر بيع", Value = "3" },
                 new SelectListItem { Text = "اقل سعر بيع", Value = "4" } };
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
             ViewBag.CostCalculationSellId = new SelectList(selectListItems, "Value", "Text", vm.CostCalculationSellId);
             ViewBag.CostCalculationPurchaseId = new SelectList(db.ItemCostCalculations.Where(x => !x.IsDeleted), "Id", "Name", vm.CostCalculationPurchaseId);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted && x.Id == vm.ItemId), "Id", "Name", vm.ItemId);
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId), "Id", "Name", vm.StoreId);
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name", vm.StoreId);
             //محددات العرض
             if (vm.ParemeterReportList.Count() == 0)
                 vm.ParemeterReportList.AddRange(new List<int> { 1, 2 });

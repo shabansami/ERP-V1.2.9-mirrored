@@ -24,7 +24,7 @@ namespace ERP.Web.Controllers
                 auth = TempData["userInfo"] as VTSAuth;
             else
                 RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-            //مخازن المندوب
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             var branchId = branches.FirstOrDefault()?.Id;
             var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());

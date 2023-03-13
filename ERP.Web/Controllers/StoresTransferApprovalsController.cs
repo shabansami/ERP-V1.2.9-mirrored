@@ -20,8 +20,12 @@ namespace ERP.Web.Controllers
     public class StoresTransferApprovalsController : Controller
     {
         // GET: StoresTransferApprovals
-        VTSaleEntities db = new VTSaleEntities();
-        VTSAuth auth = new VTSAuth();
+        VTSaleEntities db;
+        VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        public StoresTransferApprovalsController()
+        {
+            db = new VTSaleEntities();
+        }
         #region الاعتماد المخزنى
         public ActionResult Index()
         {
@@ -30,20 +34,16 @@ namespace ERP.Web.Controllers
 
         public ActionResult GetAll()
         {
-            if (TempData["userInfo"] != null)
-                auth = TempData["userInfo"] as VTSAuth;
-            else
-                RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
             int? n = null;
-            var sroresTran = db.StoresTransfers.Where(x => !x.IsDeleted);
+            var sroresTran = db.StoresTransfers.Where(x => !x.IsDeleted).ToList();
 
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             var branchId = branches.FirstOrDefault()?.Id;
             var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
 
             if (stores.Count()>0)
-                sroresTran = sroresTran.Where(x => stores.Any(s => s.Id == x.StoreToId));
-            var list = sroresTran.OrderBy(x => x.CreatedOn)
+            {
+                var list = sroresTran.Where(x => stores.Any(s => s.Id == x.StoreToId)).OrderBy(x => x.CreatedOn)
                 .Select(x => new
                 {
                     Id = x.Id,
@@ -60,11 +60,16 @@ namespace ERP.Web.Controllers
                     Actions = n,
                     Num = n
                 }).ToList();
-            return Json(new
-            {
-                data = list
-            }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    data = list
+                }, JsonRequestBehavior.AllowGet);
 
+            }
+            else
+                return Json(null, JsonRequestBehavior.AllowGet);
+
+            
         }
         public ActionResult ApprovalStore(string invoGuid)
         {
@@ -102,11 +107,6 @@ namespace ERP.Web.Controllers
                 var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     //اضافة الحالة 
                     var casesStoretranHistory = new StoresTransferHistory
                     {
@@ -186,11 +186,6 @@ namespace ERP.Web.Controllers
                 var model = db.StoresTransfers.Where(x => x.Id == Id).FirstOrDefault();
                 if (model != null)
                 {
-                    if (TempData["userInfo"] != null)
-                        auth = TempData["userInfo"] as VTSAuth;
-                    else
-                        RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
-
                     model.IsRefusStore = true;
                     db.Entry(model).State = EntityState.Modified;
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)

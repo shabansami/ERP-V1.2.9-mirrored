@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
+using ERP.Web.Services;
 
 namespace ERP.Web.Controllers
 {
@@ -172,7 +173,12 @@ namespace ERP.Web.Controllers
                     ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
                     ViewBag.ItemDamageId = new SelectList(new List<Item>(), "Id", "Name");
                     ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name");
+                    //مخازن المستخدم
+                    var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                    var branchId = branches.FirstOrDefault()?.Id;
+                    var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
+                    ViewBag.StoreId = new SelectList(stores, "Id", "Name");
 
 
                     //قطع الغيار

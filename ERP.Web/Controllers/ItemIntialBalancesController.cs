@@ -42,9 +42,11 @@ namespace ERP.Web.Controllers
 
         public ActionResult Index()
         {
-            var defaultStore = storeService.GetDefaultStore(db);
-            var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId&&!x.IsDamages), "Id", "Name",defaultStore?.Id);
+            //مخازن المستخدم
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name",stores.FirstOrDefault()?.Id);
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }), "Id", "Name");
             return View();
         }
@@ -113,11 +115,12 @@ namespace ERP.Web.Controllers
         {
             DS = null;
             // add
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-            var defaultStore = storeService.GetDefaultStore(db);
-            var branchId = defaultStore != null ? defaultStore.BranchId : null;
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId&&!x.IsDamages), "Id", "Name", defaultStore?.Id);
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");

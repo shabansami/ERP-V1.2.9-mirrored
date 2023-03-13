@@ -117,10 +117,14 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "تأكد من اختيار مخزن الصيانة من شاشة الاعدادات العامة";
+
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.Branchcount = branches.Count();
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", maintenanceStoreId);
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name", maintenanceStoreId);
             ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
             ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
             Random random = new Random();

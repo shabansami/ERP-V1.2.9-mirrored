@@ -54,7 +54,11 @@ namespace ERP.Web.Controllers
                     data = new List<ItemBalanceDto>()
                 }, JsonRequestBehavior.AllowGet);
             else
-                list = BalanceService.SearchItemBalance(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId, isFirstInit, txtSearch);
+            {
+                var stores = EmployeeService.GetAllStoresByUser(auth.CookieValues.UserId.ToString());
+                list = BalanceService.SearchItemBalance(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId, isFirstInit, txtSearch,stores);
+
+            }
             return Json(new
             {
                 data = list

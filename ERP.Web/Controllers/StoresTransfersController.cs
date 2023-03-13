@@ -195,7 +195,11 @@ namespace ERP.Web.Controllers
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
             ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
             var vm = new StoresTransfer();
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
             if (shwTab != null && shwTab == "1")
                 ViewBag.ShowTab = true;
             else
@@ -222,8 +226,8 @@ namespace ERP.Web.Controllers
                     }).ToList();
                     DS = JsonConvert.SerializeObject(items);
 
-                    ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", vm.StoreFromId);
-                    ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", vm.StoreToId);
+                    ViewBag.StoreFromId = new SelectList(stores, "Id", "Name", vm.StoreFromId);
+                    ViewBag.StoreToId = new SelectList(stores, "Id", "Name", vm.StoreToId);
                     ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", vm.StoreFrom.BranchId);
                     ViewBag.BranchToId = new SelectList(branches, "Id", "Name", vm.StoreTo.BranchId);
                     //ViewBag.DepartmentFromId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -239,11 +243,9 @@ namespace ERP.Web.Controllers
             else// add
             {
                 DS = JsonConvert.SerializeObject(new List<StoresTransferDetailsDto>());
-                var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
 
-                ViewBag.StoreFromId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", defaultStore?.Id);
-                ViewBag.StoreToId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages), "Id", "Name", defaultStore?.Id);
+                ViewBag.StoreFromId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
+                ViewBag.StoreToId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
                 ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.BranchToId = new SelectList(branches, "Id", "Name", branchId);
                 

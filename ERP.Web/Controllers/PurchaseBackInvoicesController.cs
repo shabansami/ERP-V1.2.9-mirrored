@@ -187,7 +187,11 @@ namespace ERP.Web.Controllers
             if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
                 ViewBag.ItemAcceptNoBalance = itemAcceptNoBalance;
 
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
             if (TempData["model"] != null) //edit
             {
                 Guid guId;
@@ -221,7 +225,8 @@ namespace ERP.Web.Controllers
                     }).ToList();
                     DSExpenses = JsonConvert.SerializeObject(expenses);
 
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
+
+                    ViewBag.StoreId = new SelectList(stores, "Id", "Name");
                     ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer) || x.Id == vm.SupplierId), "Id", "Name", vm.SupplierId);
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
                     ViewBag.Branchcount = branches.Count();
@@ -239,8 +244,8 @@ namespace ERP.Web.Controllers
                 DS = JsonConvert.SerializeObject(new List<ItemDetailsDT>());
                 DSExpenses = JsonConvert.SerializeObject(new List<InvoiceExpensesDT>());
 
-                var defaultStore = storeService.GetDefaultStore(db);
-                var branchId = defaultStore != null ? defaultStore.BranchId : null;
+                //var defaultStore = storeService.GetDefaultStore(db);
+                //var branchId = defaultStore != null ? defaultStore.BranchId : null;
                 //var safeId = db.Safes.Where(x => !x.IsDeleted && x.BranchId == branchId)?.FirstOrDefault().Id;
                 var bankAccountId = db.BankAccounts.Where(x => !x.IsDeleted)?.FirstOrDefault().Id;
 
@@ -251,7 +256,7 @@ namespace ERP.Web.Controllers
                 //    if (Guid.TryParse(storeDefault.SValue, out storeDefaultId))
                 //        branchId = db.Stores.Where(x => x.Id == storeDefaultId).FirstOrDefault().BranchId;
 
-                ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && (x.BranchId == branchId) && !x.IsDamages), "Id", "Name", defaultStore?.Id);
+                ViewBag.StoreId = new SelectList(stores, "Id", "Name", branchId);
                 ViewBag.SupplierId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)PersonTypeCl.Supplier || x.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)), "Id", "Name");
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.Branchcount = branches.Count();

@@ -11,6 +11,8 @@ using static ERP.Web.Utilites.Lookups;
 using System.Data.Entity;
 using ERP.DAL.Models;
 using System.Windows.Media.Media3D;
+using ERP.DAL.Dtos;
+using ERP.DAL.Utilites;
 
 namespace ERP.Web.Services
 {
@@ -219,6 +221,97 @@ namespace ERP.Web.Services
                 var sellBalanceQuantity = sellBalance.Count() > 0 ? sellBalance.Sum(x => (double?)x.Quantity) : 0;
                 var supplyBackBalanceQuantity = supplyBackBalance.Count() > 0 ? supplyBackBalance.Sum(x => (double?)x.Quantity) : 0;
                 var storeTranFromBalanceQuantity = (storeId == null && branchId == null) ? 0 : storeTranFromBalance.Count() > 0 ? storeTranFromBalance.Sum(x => (double?)x.Quantity) : 0;
+                var productionOrderDetailsQuantity = productionOrderDetails.Count() > 0 ? productionOrderDetails.Sum(x => (double?)(x.Quantity + x.Quantitydamage)) ?? 0 : 0;
+                var maintenanceReceiptsQuantity = maintenanceReceipts.Count();
+                var maintenanceSparePartsQuantity = maintenanceSpareParts.Count() > 0 ? maintenanceSpareParts.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var inventoriesBalanceQuantity = inventoriesBalance.Count() > 0 ? inventoriesBalance.Sum(x => (double?)x.DifferenceCount) ?? 0 : 0;
+                var damagesBalanceQuantity = damagesBalance.Count() > 0 ? damagesBalance.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var StorePermissionReceiveQuantity = StorePermissionReceive.Count() > 0 ? StorePermissionReceive.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var StorePermissionLeaveQuantity = StorePermissionLeave.Count() > 0 ? StorePermissionLeave.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                balance = ((supplyBalanceQuantity +
+                    sellBackBalanceQuantity +
+                    storeTranToBalanceQuantity +
+                    itemIntialBalanceQuantity +
+                    productionOrdersQuantity +
+                    //productionReceiptOrdersQuantity +
+                    StorePermissionReceiveQuantity +
+                   maintenancesQuantity) - (
+                    sellBalanceQuantity +
+                    supplyBackBalanceQuantity +
+                    storeTranFromBalanceQuantity +
+                    productionOrderDetailsQuantity +
+                    maintenanceReceiptsQuantity +
+                    maintenanceSparePartsQuantity + damagesBalanceQuantity + StorePermissionLeaveQuantity
+                     ) + inventoriesBalanceQuantity) ?? 0;
+                return Math.Round(balance, 2, MidpointRounding.ToEven);
+                // الحصول على بيانات المؤسسة من الاعدادات
+                //var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+                //var schema = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.EntityDataSchema).FirstOrDefault().SValue;
+                //if (!string.IsNullOrEmpty(schema))
+                //     return db.Database.SqlQuery<double>($"select [{schema}].[GetBalance](@ItemId,@StoreId)", new SqlParameter("@ItemId", itemId), new SqlParameter("@StoreId", storeId)).FirstOrDefault();
+                //else
+                //    return 0;
+
+            }
+        }
+        // الرصيد بدلالة مخازن وفروع المستخدم
+        public static double GetBalanceByBrancheStores(Guid? itemId, List<DropDownList> stores)
+        {
+            if (itemId == null||stores==null) return 0;
+            using (var db = new VTSaleEntities())
+            {
+                //var tt=0;
+                //if (itemId == new Guid("3F125BE4-B30F-4439-8B9D-D78C8E92665C"))
+                //    tt = 7;
+                double balance = 0;
+                //التوريد
+                var supplyBalance = db.PurchaseInvoicesDetails.Where(x => !x.IsDeleted && x.PurchaseInvoice.IsFinalApproval && x.ItemId == itemId).ToList().Where(x => stores.Any(s=>s.Id== x.StoreId)).ToList();
+                //مرتجع التوريد
+                var supplyBackBalance = db.PurchaseBackInvoicesDetails.Where(x => !x.IsDeleted && x.PurchaseBackInvoice.IsFinalApproval && x.ItemId == itemId).ToList().Where(x => stores.Any(s => s.Id == x.StoreId)).ToList(); ;
+                //البيع
+                var sellBalance = db.SellInvoicesDetails.Where(x => !x.IsDeleted && x.SellInvoice.IsFinalApproval && x.ItemId == itemId).ToList().Where(x => stores.Any(s => s.Id == x.StoreId)).ToList(); 
+                //مرتجع البيع
+                var sellBackBalance = db.SellBackInvoicesDetails.Where(x => !x.IsDeleted && x.SellBackInvoice.IsFinalApproval && x.ItemId == itemId).ToList().Where(x => stores.Any(s => s.Id == x.StoreId)).ToList();
+                //تحويل مخزنى من
+                var storeTranFromBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval).ToList().Where(x => stores.Any(s => s.Id == x.StoresTransfer.StoreFromId)).ToList();
+                //تحويل مخزنى الى
+                var storeTranToBalance = db.StoresTransferDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.StoresTransfer.IsFinalApproval ).ToList().Where(x => stores.Any(s => s.Id == x.StoresTransfer.StoreToId)).ToList();
+                //ارصدة اول المدة
+                var itemIntialBalance = db.ItemIntialBalanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.ItemIntialBalance.IsApproval).ToList().Where(x => stores.Any(s => s.Id == x.StoreId)).ToList();
+                //اوامر الانتاج الخارجة 
+                var productionOrders = db.ProductionOrderDetails.Where(x => !x.IsDeleted&&x.ProductionTypeId==(int)ProductionTypeCl.Out&&x.ItemId==itemId).ToList().Where(x => stores.Any(s => s.Id == x.ProductionOrder.ProductionStoreId)).ToList();
+                //خامات الانتاج
+                var productionOrderDetails = db.ProductionOrderDetails.Where(x => !x.IsDeleted &&  x.ProductionTypeId == (int)ProductionTypeCl.In && x.ItemId == itemId).ToList().Where(x => stores.Any(s => s.Id == x.ProductionOrder.ProductionUnderStoreId)).ToList();
+                //الصيانة
+                var maintenances = db.MaintenanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.Maintenance.IsFinalApproval && x.Maintenance.StoreReceiptId != null).ToList().Where(x => stores.Any(s => s.Id == x.Maintenance.StoreId)).ToList();
+                //مخزن التسليم للصيانة
+                var maintenanceReceipts = db.MaintenanceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId && x.Maintenance.IsFinalApproval).ToList().Where(x => stores.Any(s => s.Id == x.Maintenance.StoreReceiptId)).ToList();
+                //قطع غيار الصيانة
+                var maintenanceSpareParts = db.MaintenanceSpareParts.Where(x => !x.IsDeleted && x.ItemId == itemId && x.MaintenanceDetail.Maintenance.IsFinalApproval).ToList().Where(x => stores.Any(s => s.Id == x.StoreId)).ToList();
+                //الجرد
+                var inventoriesBalance = db.InventoryInvoiceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).ToList().Where(x => stores.Any(s => s.Id == x.InventoryInvoice.StoreId)).ToList();
+
+                //الهالك
+                var damagesBalance = db.DamageInvoiceDetails.Where(x => !x.IsDeleted && x.ItemId == itemId).ToList().Where(x => stores.Any(s => s.Id == x.DamageInvoice.StoreId)).ToList();
+
+
+                //اذن الاستلام
+                var StorePermissionReceive = db.StorePermissionItems.Where(x => !x.IsDeleted && x.StorePermission.IsApproval && !x.StorePermission.IsDeleted && x.ItemId == itemId && x.StorePermission.IsReceive).ToList().Where(x => stores.Any(s => s.Id == x.StorePermission.StoreId)).ToList();
+
+                //اذن الصرف
+                var StorePermissionLeave = db.StorePermissionItems.Where(x => !x.IsDeleted && x.StorePermission.IsApproval && !x.StorePermission.IsDeleted && x.ItemId == itemId && !x.StorePermission.IsReceive).ToList().Where(x => stores.Any(s => s.Id == x.StorePermission.StoreId)).ToList();
+
+                var supplyBalanceQuantity = supplyBalance.Count() > 0 ? supplyBalance.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var sellBackBalanceQuantity = sellBackBalance.Count() > 0 ? sellBackBalance.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var storeTranToBalanceQuantity =  storeTranToBalance.Count() > 0 ? storeTranToBalance.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var itemIntialBalanceQuantity = itemIntialBalance.Count() > 0 ? itemIntialBalance.Sum(x => (double?)x.Quantity) ?? 0 : 0;
+                var productionOrdersQuantity = productionOrders.Count() > 0 ? productionOrders.Sum(p =>  (double?)p.Quantity??0):0;
+                //var productionOrdersQuantity = productionOrders.Count() > 0 ? productionOrders.Sum(x => (double?)(x.OrderQuantity - x.ProductionOrderReceipts.Where(p => !p.IsDeleted).Sum(p => p.ReceiptQuantity)) ?? 0) : 0;
+                //var productionReceiptOrdersQuantity = productionReceiptOrders.Count() > 0 ? productionReceiptOrders.Sum(x => (double?)x.ReceiptQuantity) ?? 0 : 0;
+                var maintenancesQuantity = maintenances.Count();
+                var sellBalanceQuantity = sellBalance.Count() > 0 ? sellBalance.Sum(x => (double?)x.Quantity) : 0;
+                var supplyBackBalanceQuantity = supplyBackBalance.Count() > 0 ? supplyBackBalance.Sum(x => (double?)x.Quantity) : 0;
+                var storeTranFromBalanceQuantity = storeTranFromBalance.Count() > 0 ? storeTranFromBalance.Sum(x => (double?)x.Quantity) : 0;
                 var productionOrderDetailsQuantity = productionOrderDetails.Count() > 0 ? productionOrderDetails.Sum(x => (double?)(x.Quantity + x.Quantitydamage)) ?? 0 : 0;
                 var maintenanceReceiptsQuantity = maintenanceReceipts.Count();
                 var maintenanceSparePartsQuantity = maintenanceSpareParts.Count() > 0 ? maintenanceSpareParts.Sum(x => (double?)x.Quantity) ?? 0 : 0;
@@ -608,7 +701,7 @@ namespace ERP.Web.Services
 
         #region تقارير أرصدة الاصناف 
         //بحث الارصدة
-        public static List<ItemBalanceDto> SearchItemBalance(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, bool isFirstInitPage, string txtSearch = null)
+        public static List<ItemBalanceDto> SearchItemBalance(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, bool isFirstInitPage, string txtSearch = null, List<DropDownList> stores = null)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -632,7 +725,6 @@ namespace ERP.Web.Services
                 string storeName = string.Empty;
                 if (storeId != null)
                     storeName = db.Stores.Where(x => x.Id == storeId).FirstOrDefault().Name;
-
                 List<ItemBalanceDto> itemsList = new List<ItemBalanceDto>();
                 if (items.Count() == 0)
                 {
@@ -646,13 +738,6 @@ namespace ERP.Web.Services
                         ItemTypeName = x.ItemType.Name,
                         StoreName = storeName
                     }).ToList();
-                    if (storeId != null)
-                        itemsList.ForEach(y => y.Balance = GetBalance(y.Id, storeId));
-                    else if (branchId != null)
-                        itemsList.ForEach(y => y.Balance = GetBalance(y.Id, null, branchId));
-                    else
-                        itemsList.ForEach(y => y.Balance = GetBalance(y.Id, null, null));
-
 
                     //.Select(n=>new ItemBalanceDto {
                     //    Id = n.Id,
@@ -677,10 +762,19 @@ namespace ERP.Web.Services
                         GroupName = x.GroupBasic.Name,
                         ItemTypeName = x.ItemType.Name,
                         StoreName = storeName,
-                        Balance = storeId != null ? GetBalance(x.Id, storeId) : branchId != null ? GetBalance(x.Id, null, branchId) : GetBalance(x.Id, null, null)
+                        //Balance = storeId != null ? GetBalance(x.Id, storeId) : branchId != null ? GetBalance(x.Id, null, branchId) : GetBalance(x.Id, null, null)
                     }).ToList();
-
                 }
+                if (storeId != null)
+                    itemsList.ForEach(y => y.Balance = GetBalance(y.Id, storeId));
+                else if (branchId != null)
+                    itemsList.ForEach(y => y.Balance = GetBalance(y.Id, null, branchId));
+                else if (stores != null)
+                    itemsList.ForEach(y => y.Balance = GetBalanceByBrancheStores(y.Id, stores));
+                else
+                    return new List<ItemBalanceDto>();
+                //itemsList.ForEach(y => y.Balance = GetBalance(y.Id, null, null));
+
 
                 //فى حالة عدم ادخال بيانات للصنف او الاصناف يتم اظهار كل ارصدة الاصناف 
                 //if (itemsList.Count==0)
@@ -1672,8 +1766,8 @@ namespace ERP.Web.Services
                     DateReal= x.InventoryInvoice.InvoiceDate,
                     IncomingQuantity = x.DifferenceCount > 0 ? x.DifferenceCount : 0,
                     IncomingCost = x.DifferenceAmount > 0 ? x.DifferenceAmount : 0,
-                    OutcomingQuantity = x.DifferenceCount < 0 ? x.DifferenceCount : 0,
-                    OutcomingCost = x.DifferenceAmount < 0 ? x.DifferenceAmount : 0,
+                    OutcomingQuantity = x.DifferenceCount < 0 ? Math.Abs(x.DifferenceCount) : 0,
+                    OutcomingCost = x.DifferenceAmount < 0 ? Math.Abs(x.DifferenceAmount) : 0,
                 }).ToList();
         }
         //1 مدخلات

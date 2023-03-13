@@ -33,9 +33,11 @@ namespace ERP.Web.Controllers
 
         public ActionResult Index()
         {
-            var defaultStore = storeService.GetDefaultStore(db);
-            var branchId = defaultStore != null ? defaultStore.BranchId : null;
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
+            //مخازن المستخدم
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
             ViewBag.ItemId = new SelectList(db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }), "Id", "Name");
             ViewBag.PersonId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId != 5).Select(x => new { Id = x.Id, Name = x.Name }), "Id", "Name");
             ViewBag.SafeId = new SelectList(new List<Safe>(), "Id", "Name");
@@ -102,12 +104,14 @@ namespace ERP.Web.Controllers
         {
             DS = null;
             // add
-            var defaultStore = storeService.GetDefaultStore(db);
-            var branchId = defaultStore != null ? defaultStore.BranchId : null;
+            //مخازن المستخدم
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.Branchcount = branches.Count();
-            ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name", defaultStore?.Id);
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
             ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name");
             ViewBag.PersonId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.PersonTypeId != 5).Select(x => new { Id = x.Id, Name = x.Name }), "Id", "Name");
             //تحميل كل الاصناف فى اول تحميل للصفحة 

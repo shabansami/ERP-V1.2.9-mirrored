@@ -93,19 +93,23 @@ namespace ERP.Web.Controllers
             var storeProductionSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreProductionInternalId).FirstOrDefault();
             //Guid? productionStoreId = null;
             Store productionStore = null;
+            List<DropDownList> storesProduction = new List<DropDownList>();
+            List<DropDownList> storesProductionUnder = new List<DropDownList>();
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+
             if (Guid.TryParse(storeProductionSetting.SValue, out Guid productionStoreId))
             {
-                productionStoreId = Guid.Parse(storeProductionSetting.SValue);
-                productionStore = db.Stores.Where(x=>x.Id== productionStoreId).FirstOrDefault() ;
+                productionStore = db.Stores.Where(x => x.Id == productionStoreId).FirstOrDefault();
+                if (branches.Any(x=>x.Id==productionStore.BranchId))
+                    storesProduction = EmployeeService.GetStoresByUser(productionStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                else
+                    ViewBag.Msg = "ليس لك صلاحية على مخزن التصنيع الداخلى";
             }
             else
                 ViewBag.Msg = "تأكد من اختيار مخزن التصنيع الداخلى أولا من شاشة الاعدادات العامة";
+            //مخازن المستخدم
             vm.ProductionStoreId = productionStoreId;
-            //ViewBag.ProductionStoreName = productionStore.Name;
-            ViewBag.ProductionStoreId = new SelectList(db.Stores.Where(x=>!x.IsDeleted&&!x.IsDamages&&x.BranchId==productionStore.BranchId),"Id","Name",productionStoreId);
-            //vm.BranchId = productionStore.BranchId;
-            //ViewBag.BranchName = productionStore.Branch.Name;
-            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            ViewBag.ProductionStoreId = new SelectList(storesProduction, "Id","Name",productionStoreId);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore.BranchId);
             ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x=>!x.IsDeleted), "Id", "Name");
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
@@ -114,15 +118,19 @@ namespace ERP.Web.Controllers
             Store productionUnderStore = null;
             if (Guid.TryParse(storeProductionUnderSetting.SValue, out Guid productionUnderStoreId))
             {
-                productionUnderStoreId = Guid.Parse(storeProductionUnderSetting.SValue);
                 productionUnderStore = db.Stores.Where(x => x.Id == productionUnderStoreId).FirstOrDefault();
+                if (branches.Any(x => x.Id == productionUnderStore.BranchId))
+                    storesProductionUnder = EmployeeService.GetStoresByUser(productionUnderStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                else
+                    ViewBag.Msg = "ليس لك صلاحية على مخزن تحت التصنيع ";
+
             }
             else
                 ViewBag.Msg = "تأكد من اختيار مخزن تحت التصنيع أولا من شاشة الاعدادات العامة";
 
             //ViewBag.ProductionUnderStoreId = productionUnderStoreId;
             //ViewBag.ProductionUnderStoreName = productionUnderStore.Name;
-            ViewBag.ProductionUnderStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == productionStore.BranchId), "Id", "Name", productionUnderStoreId);
+            ViewBag.ProductionUnderStoreId = new SelectList(storesProductionUnder, "Id", "Name", productionUnderStoreId);
 
             //التاكد من تحديد احتساب تكلفة المنتج من الاعدادات اولا 
             var itemCostSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault();
@@ -722,6 +730,7 @@ namespace ERP.Web.Controllers
             OrderSellVM vm = new OrderSellVM();
 
             // add
+
                     vm = GetData(vm);
             vm.ProductionOrderDate = Utility.GetDateTime();
 
@@ -1051,29 +1060,70 @@ namespace ERP.Web.Controllers
 
         private OrderSellVM GetData(OrderSellVM vm)
         {
-            Guid? branchId = null;
+            var branchId = vm.BranchId;
+            Guid productionUnderStoreId ;
+            Guid productionStoreId ;
+            Store productionStore = null;
+            List<DropDownList> storesProduction = new List<DropDownList>();
+            List<DropDownList> storesProductionUnder = new List<DropDownList>();
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
 
-            branchId = vm.BranchId;
-            Guid productionUnderStoreId = Guid.NewGuid();
-            Guid productionStoreId = Guid.NewGuid();
             if (vm.ProductionUnderStoreId == null)
             {
                 //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
                 var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();
-                //Guid? productionUnderStoreId = null;
-                if (!Guid.TryParse(storeProductionUnderSetting.SValue, out productionUnderStoreId))
+                Store productionUnderStore = null;
+                if (Guid.TryParse(storeProductionUnderSetting.SValue, out productionUnderStoreId))
+                {
+                    productionUnderStore = db.Stores.Where(x => x.Id == productionUnderStoreId).FirstOrDefault();
+                    if (branches.Any(x => x.Id == productionUnderStore.BranchId))
+                        storesProductionUnder = EmployeeService.GetStoresByUser(productionUnderStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                    else
+                        ViewBag.Msg = "ليس لك صلاحية على مخزن تحت التصنيع ";
+
+                }
+                else
                     ViewBag.Msg = "تأكد من اختيار مخزن تحت التصنيع أولا من شاشة الاعدادات العامة";
             }
-            ViewBag.ProductionUnderStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionUnderStoreId);
+            else
+            {
+               var productionUnderStore = db.Stores.Where(x => x.Id == vm.ProductionUnderStoreId).FirstOrDefault();
+                if (branches.Any(x => x.Id == productionUnderStore.BranchId))
+                    storesProductionUnder = EmployeeService.GetStoresByUser(productionUnderStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                else
+                    ViewBag.Msg = "ليس لك صلاحية على مخزن تحت التصنيع ";
+
+                productionUnderStoreId = vm.ProductionUnderStoreId ?? new Guid();
+
+            }
+            ViewBag.ProductionUnderStoreId = new SelectList(storesProductionUnder, "Id", "Name", productionUnderStoreId);
 
             if (vm.ProductionStoreId == null)
             {
                 //التاكد من تحديد مخزن التصنيع الداخلى من الاعدادات اولا 
                 var storeProductionSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreProductionInternalId).FirstOrDefault();
-                if (!Guid.TryParse(storeProductionSetting.SValue, out productionStoreId))
+                if (Guid.TryParse(storeProductionSetting.SValue, out productionStoreId))
+                {
+                    productionStore = db.Stores.Where(x => x.Id == productionStoreId).FirstOrDefault();
+                    if (branches.Any(x => x.Id == productionStore.BranchId))
+                        storesProduction = EmployeeService.GetStoresByUser(productionStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                    else
+                        ViewBag.Msg = "ليس لك صلاحية على مخزن التصنيع الداخلى";
+
+                }
+                else
                     ViewBag.Msg = "تأكد من اختيار مخزن التصنيع الداخلى أولا من شاشة الاعدادات العامة";
+            } else
+            {
+                var productionStore2 = db.Stores.Where(x => x.Id == vm.ProductionStoreId).FirstOrDefault();
+                if (branches.Any(x => x.Id == productionStore2.BranchId))
+                    storesProduction = EmployeeService.GetStoresByUser(productionStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                else
+                    ViewBag.Msg = "ليس لك صلاحية على مخزن التصنيع الداخلى";
+                productionStoreId = vm.ProductionStoreId ?? new Guid();
+
             }
-            ViewBag.ProductionStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionStoreId);
+            ViewBag.ProductionStoreId = new SelectList(storesProduction, "Id", "Name", productionStoreId);
 
             //التاكد من تحديد احتساب تكلفة المنتج من الاعدادات اولا 
             if (vm.ItemCostCalculateId == null)
@@ -1084,7 +1134,6 @@ namespace ERP.Web.Controllers
                 vm.ItemCostCalculateId = itemCostId;
             }
 
-            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
             ViewBag.Branchcount = branches.Count();
             ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x => !x.IsDeleted), "Id", "Name");

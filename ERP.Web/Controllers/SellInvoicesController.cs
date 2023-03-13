@@ -292,6 +292,7 @@ namespace ERP.Web.Controllers
             var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
             //خزن المستخدم
             var safes = EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name");
 
             if (TempData["model"] != null) //edit
             {
@@ -328,7 +329,6 @@ namespace ERP.Web.Controllers
                     }).ToList();
                     DSExpenses = JsonConvert.SerializeObject(expenses);
 
-                    ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
                     ViewBag.Branchcount = branches.Count();
                     ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
@@ -420,7 +420,6 @@ namespace ERP.Web.Controllers
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.Branchcount = branches.Count();
 
-                ViewBag.StoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages), "Id", "Name");
                 ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name");
                 ViewBag.SafeId = new SelectList(safes, "Id", "Name");
                 //ViewBag.SaleMenId = new SelectList(new List<Person>(), "Id", "Name");

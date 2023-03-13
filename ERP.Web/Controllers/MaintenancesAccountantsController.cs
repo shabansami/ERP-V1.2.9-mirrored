@@ -50,7 +50,12 @@ namespace ERP.Web.Controllers
                     //ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
                     ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(vm.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", vm.Safe != null ? vm.SafeId : null);
                     ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
-                    ViewBag.StoreReceiptId = new SelectList(db.Stores.Where(x => !x.IsDeleted && x.BranchId == vm.BranchId && !x.IsDamages), "Id", "Name");
+                    //مخازن المستخدم
+                    var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+                    var branchId = branches.FirstOrDefault()?.Id;
+                    var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
+                    ViewBag.StoreReceiptId = new SelectList(stores, "Id", "Name");
                     vm.ReceiptDate = Utility.GetDateTime();
                     return View(vm);
                 }

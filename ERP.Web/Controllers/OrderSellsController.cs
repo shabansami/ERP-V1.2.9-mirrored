@@ -745,7 +745,10 @@ namespace ERP.Web.Controllers
                 if (!Guid.TryParse(storeProductionUnderSetting.SValue, out productionUnderStoreId))
                     ViewBag.Msg = "تأكد من اختيار مخزن تحت التصنيع أولا من شاشة الاعدادات العامة";
             }
-            ViewBag.ProductionUnderStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionUnderStoreId);
+            //مخازن المستخدم
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+
+            ViewBag.ProductionUnderStoreId = new SelectList(stores, "Id", "Name", productionUnderStoreId);
 
             if (vm.ProductionStoreId == null)
             {
@@ -754,7 +757,7 @@ namespace ERP.Web.Controllers
                 if (!Guid.TryParse(storeProductionSetting.SValue, out productionStoreId))
                     ViewBag.Msg = "تأكد من اختيار مخزن التصنيع الداخلى أولا من شاشة الاعدادات العامة";
             }
-            ViewBag.ProductionStoreId = new SelectList(db.Stores.Where(x => !x.IsDeleted && !x.IsDamages && x.BranchId == branchId), "Id", "Name", productionStoreId);
+            ViewBag.ProductionStoreId = new SelectList(stores, "Id", "Name", productionStoreId);
 
             //التاكد من تحديد احتساب تكلفة المنتج من الاعدادات اولا 
             if (vm.ItemCostCalculateId == null)

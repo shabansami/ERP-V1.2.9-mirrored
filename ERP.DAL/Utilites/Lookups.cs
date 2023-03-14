@@ -401,7 +401,7 @@ namespace ERP.Web.Utilites
         public static int GeneralPropertyRights => 2;//حساب حقوق الملكية والالتزامات 
         public static int GeneralExpenses => 3;//حساب المصروفات 
         public static int GeneralIncomes => 4;//حساب الايرادات 
-        public static int GeneralFixedAssets => 11;//حساب الاصول الثابتة فقط 
+        public static int GeneralFixedAssets => 112;//حساب الاصول الثابتة فقط 
 
         //الحسابات التى لا يتم عرضها بسبب استخدامها فى الاعدادات العامة
         public static int PurchasesForSale => 34;//حساب مشتريات بغرض البيع 

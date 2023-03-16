@@ -241,6 +241,7 @@
     <Content Include="Assets\JSCustom\BankAccountIntialBalance.js" />
     <Content Include="Assets\JSCustom\Branch.js" />
     <Content Include="Assets\JSCustom\City.js" />
+    <Content Include="Assets\JSCustom\ClosingPeriods.js" />
     <Content Include="Assets\JSCustom\Container.js" />
     <Content Include="Assets\JSCustom\Contract.js" />
     <Content Include="Assets\JSCustom\ContractAttendanceLeaving.js" />
@@ -381,6 +382,8 @@
     <Content Include="Assets\JSCustom\UserRole.js" />
     <Content Include="Assets\JSCustom\VacationDay.js" />
     <Content Include="Assets\JSCustom\VacationType.js" />
+    <Content Include="Assets\JSCustom\VoucherBankPayment.js" />
+    <Content Include="Assets\JSCustom\VoucherBankReceipt.js" />
     <Content Include="Assets\JSCustom\VoucherPayment.js" />
     <Content Include="Assets\JSCustom\VoucherReceipt.js" />
     <Content Include="Assets\JSCustom\WorkingPeriod.js" />
@@ -1743,6 +1746,7 @@
     <Compile Include="Controllers\BanksController.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
+    <Compile Include="Controllers\ClosingPeriodsController.cs" />
     <Compile Include="Controllers\ContractAttendanceLeavingsController.cs" />
     <Compile Include="Controllers\ContractCustomersController.cs" />
     <Compile Include="Controllers\ContractLoansController.cs" />
@@ -1895,6 +1899,8 @@
     <Compile Include="Controllers\UserRolesController.cs" />
     <Compile Include="Controllers\VacationDaysController.cs" />
     <Compile Include="Controllers\VacationTypesController.cs" />
+    <Compile Include="Controllers\VoucherBankPaymentsController.cs" />
+    <Compile Include="Controllers\VoucherBankReceiptsController.cs" />
     <Compile Include="Controllers\VoucherPaymentsController.cs" />
     <Compile Include="Controllers\VoucherReceiptsController.cs" />
     <Compile Include="Controllers\WorkingPeriodsController.cs" />
@@ -2373,6 +2379,12 @@
     <Content Include="Views\PrintInvoices\PrintGeneralRecord.cshtml" />
     <Content Include="Views\RptAccountStatements\SearchMultiple.cshtml" />
     <Content Include="Views\InventoryInvoices\NewInventoryInvoice.cshtml" />
+    <Content Include="Views\VoucherBankPayments\CreateEdit.cshtml" />
+    <Content Include="Views\VoucherBankReceipts\CreateEdit.cshtml" />
+    <Content Include="Views\VoucherBankReceipts\Index.cshtml" />
+    <Content Include="Views\VoucherBankPayments\Index.cshtml" />
+    <Content Include="Views\ClosingPeriods\CreateEdit.cshtml" />
+    <Content Include="Views\ClosingPeriods\Index.cshtml" />
     <Content Include="Views\PrintInvoices\PrintRptAccountStatements.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

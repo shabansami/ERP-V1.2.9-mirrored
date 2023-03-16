@@ -426,6 +426,13 @@ namespace ERP.Web.Controllers
             var acceptItemCostSellDown = model.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
             ViewBag.AcceptItemCostSellDown = new SelectList(selectListItem, "Value", "Text", acceptItemCostSellDown != null ? acceptItemCostSellDown : null);
 
+
+
+            //بداية السنة المالية 
+            vm.FinancialYearStartDate = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue, out var dt) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault().SValue) : Utility.GetDateTime();
+            //نهاية السنة المالية
+            vm.FinancialYearEndDate = DateTime.TryParse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue, out var dt2) ? DateTime.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault().SValue) : Utility.GetDateTime();
+
             #region Upload Center File
             var uploadCenterTree = db.UploadCenters.Where(x => !x.IsDeleted).ToList();
 
@@ -572,12 +579,23 @@ namespace ERP.Web.Controllers
                             if (item.Id == (int)GeneralSettingCl.EndDateSearch)
                                 item.SValue = vm.EndDateSearch.Value.ToString("yyyy-MM-dd");
                         }
+                        //تاريخ بداية ونهاية السنة المالية
+                        var startDate = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearStartDate).FirstOrDefault();
+                        if (startDate != null)
+                            startDate.SValue = vm.FinancialYearStartDate.Value.ToString("yyyy-MM-dd");
+                        var endDate = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.FinancialYearEndDate).FirstOrDefault();
+                        if (endDate != null)
+                            endDate.SValue = vm.FinancialYearEndDate.Value.ToString("yyyy-MM-dd");
+
+           
 
                         // احتساب تكلفة المنتج 
                         // قبول اضافة اصناف بدون رصيد فى فواتير البيع 
                         var otherSetting = db.GeneralSettings.Where(x => !x.IsDeleted && x.SType == (int)GeneralSettingTypeCl.OtherSetting).ToList();
                         foreach (var item in otherSetting)
                         {
+                     
+
                             // احتساب تكلفة المنتج 
                             if (item.Id == (int)GeneralSettingCl.ItemCostCalculateId)
                                 item.SValue = vm.ItemCostCalculateId.ToString();

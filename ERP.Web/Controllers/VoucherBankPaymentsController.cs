@@ -1,7 +1,8 @@
 ﻿using ERP.Web.Identity;
 using ERP.Web.Services;
 using ERP.Web.Utilites;
-using System;using ERP.DAL.Utilites;
+using System;
+using ERP.DAL.Utilites;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -17,16 +18,16 @@ namespace ERP.Web.Controllers
 {
     [Authorization]
 
-    public class VoucherPaymentsController : Controller
+    public class VoucherBankPaymentsController : Controller
     {
         // Voucher Payment سندات صرف  مورد
         // Voucher Receipt سندات دفع عميل
 
         // GET: VoucherPayments
-        VTSaleEntities db ;
+        VTSaleEntities db;
         public static string DS { get; set; }
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
-        public VoucherPaymentsController()
+        public VoucherBankPaymentsController()
         {
             db = new VTSaleEntities();
         }
@@ -49,22 +50,22 @@ namespace ERP.Web.Controllers
         {
             int? n = null;
             DateTime dtFrom, dtTo;
-            var list = db.Vouchers.Where(x => !x.IsDeleted && x.IsVoucherPayment && x.IsSafe ==true);
+            var list = db.Vouchers.Where(x => !x.IsDeleted && x.IsVoucherPayment && !x.IsSafe);
             int isAppStatus;
             if (Guid.TryParse(accountTreeFromId, out Guid accountFrom))
-                    list = list.Where(x => x.VoucherDetails.Where(v=>!v.IsDeleted&&v.AccountTreeId == accountFrom).Any());
+                list = list.Where(x => x.VoucherDetails.Where(v => !v.IsDeleted && v.AccountTreeId == accountFrom).Any());
             if (int.TryParse(isApprovalStatus, out isAppStatus))
-                    if (isAppStatus == 1)
-                        list = list.Where(x => x.IsApproval);
-                    else if (isAppStatus == 2)
-                        list = list.Where(x => !x.IsApproval);
-            
+                if (isAppStatus == 1)
+                    list = list.Where(x => x.IsApproval);
+                else if (isAppStatus == 2)
+                    list = list.Where(x => !x.IsApproval);
+
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                 list = list.Where(x => DbFunctions.TruncateTime(x.VoucherDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.VoucherDate) <= dtTo.Date);
 
             return Json(new
             {
-                data = list.Select(x => new { Id = x.Id, VoucherNumber = x.VoucherNumber,  IsApproval = x.IsApproval, Amount = x.VoucherDetails.Where(v=>!v.IsDeleted).Sum(v=>(double?)v.Amount??0), Notes = x.Notes, VoucherDate = x.VoucherDate.ToString(), Actions = n, Num = n }).ToList()
+                data = list.Select(x => new { Id = x.Id, VoucherNumber = x.VoucherNumber, IsApproval = x.IsApproval, Amount = x.VoucherDetails.Where(v => !v.IsDeleted).Sum(v => (double?)v.Amount ?? 0), Notes = x.Notes, VoucherDate = x.VoucherDate.ToString(), Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
         }
@@ -110,7 +111,7 @@ namespace ERP.Web.Controllers
                 AccountTreeIdDT = accountTreeId,
                 AccountTreeNameDT = accountTree.AccountName,
                 AccountTreeNumDT = accountTree.AccountNumber,
-                DebitAmount =  amount ,
+                DebitAmount = amount,
                 Notes = notes
             };
 
@@ -161,7 +162,7 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
 
             ViewBag.Branchcount = branches.Count();
-            ViewBag.AccountTreeId = new SelectList(AccountTreeService.GetSafeVouchers(db, true), "Id", "Name", accountTreeToId);
+            ViewBag.AccountTreeId = new SelectList(AccountTreeService.GetBankVouchers(db, true), "Id", "Name", accountTreeToId);
             return View(vm);
             //}
         }
@@ -177,11 +178,11 @@ namespace ERP.Web.Controllers
 
                 List<VoucherDetailDT> deDS = new List<VoucherDetailDT>();
                 List<VoucherDetail> voucherDetails = new List<VoucherDetail>();
-                bool isInsert=false;
+                bool isInsert = false;
                 if (DT_Datasource != null)
                 {
                     deDS = JsonConvert.DeserializeObject<List<VoucherDetailDT>>(DT_Datasource);
-                    if (deDS.Sum(x => x.DebitAmount) == 0 )
+                    if (deDS.Sum(x => x.DebitAmount) == 0)
                         return Json(new { isValid = false, message = "تأكد من ادخال المبلغ للحسابات)" });
 
                     //التأكد من كل الحسابات المحدد ليس لها حسابات فرعية
@@ -195,7 +196,7 @@ namespace ERP.Web.Controllers
                         VoucherId = vm.Id,
                         AccountTreeId = x.AccountTreeIdDT,
                         Notes = x.Notes,
-                        Amount =  x.DebitAmount,
+                        Amount = x.DebitAmount,
                     }).ToList();
                     //        //التأكد من امكانية صرف من الخزينة اولا حسب الاعدادات
                     int paidWithBalance = 0;
@@ -207,7 +208,7 @@ namespace ERP.Web.Controllers
                             if (vm.AccountTreeId != null)
                             {
                                 var balance = GeneralDailyService.GetAccountBalance(vm.AccountTreeId);
-                                if (voucherDetails.Sum(x=>x.Amount) > balance)
+                                if (voucherDetails.Sum(x => x.Amount) > balance)
                                     return Json(new { isValid = false, message = "لا يمكن الصرف لعدم وجود رصيد كافى" });
                             }
                             else
@@ -217,7 +218,8 @@ namespace ERP.Web.Controllers
                     else
                         return Json(new { isValid = false, isInsert, message = "تأكد من تحديد حالة السحب من الخزنة فى وجود رصيد فى شاشة الاعدادات" });
 
-                }else
+                }
+                else
                     return Json(new { isValid = false, message = "تأكد من ادخال الحسابات المدينة" });
 
 
@@ -247,15 +249,16 @@ namespace ERP.Web.Controllers
                             }
                             else
                             {
-                                isInsert= true; 
+                                isInsert = true;
                                 voucher = new Voucher()
                                 {
                                     BranchId = vm.BranchId,
                                     Notes = vm.Notes,
-                                    AccountTreeId=vm.AccountTreeId,
+                                    AccountTreeId = vm.AccountTreeId,
                                     VoucherDate = vm.VoucherDate,
-                                    IsVoucherPayment=true,
-                                    IsSafe = true,
+                                    IsVoucherPayment = true,
+                                    IsSafe = false,
+
                                     VoucherDetails = voucherDetails,
                                 };
                                 //            //اضافة رقم السند
@@ -281,26 +284,26 @@ namespace ERP.Web.Controllers
                                         // الحسابات المدينة
                                         foreach (var item in voucherDetails)
                                         {
-                                                if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
+                                            if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
+                                                return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
                                             //من ح/
                                             context.GeneralDailies.Add(new GeneralDaily
-                                                            {
-                                                                AccountsTreeId = item.AccountTreeId,
-                                                                Debit = item.Amount,
-                                                                BranchId = voucher.BranchId,
-                                                                Notes = string.IsNullOrEmpty(item.Notes) ? vm.Notes : item.Notes,
-                                                                TransactionDate = voucher.VoucherDate,
-                                                                TransactionId = voucher.Id,
-                                                                TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
-                                                            });
+                                            {
+                                                AccountsTreeId = item.AccountTreeId,
+                                                Debit = item.Amount,
+                                                BranchId = voucher.BranchId,
+                                                Notes = string.IsNullOrEmpty(item.Notes) ? vm.Notes : item.Notes,
+                                                TransactionDate = voucher.VoucherDate,
+                                                TransactionId = voucher.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.VoucherPayment
+                                            });
 
                                         }
                                         // الى ح/ حساب الحساب الدائن
                                         context.GeneralDailies.Add(new GeneralDaily
                                         {
                                             AccountsTreeId = voucher.AccountTreeId,
-                                            Credit = voucherDetails.DefaultIfEmpty().Sum(x=>x.Amount),
+                                            Credit = voucherDetails.DefaultIfEmpty().Sum(x => x.Amount),
                                             BranchId = voucher.BranchId,
                                             Notes = string.IsNullOrEmpty(voucher.Notes) ? vm.Notes : voucher.Notes,
                                             TransactionDate = voucher.VoucherDate,
@@ -390,7 +393,7 @@ namespace ERP.Web.Controllers
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
-                var voucher=db.Vouchers.Where(x=>x.Id==Id).FirstOrDefault();    
+                var voucher = db.Vouchers.Where(x => x.Id == Id).FirstOrDefault();
                 //    //تسجيل القيود
                 // General Dailies
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
@@ -400,10 +403,10 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "تم تسجيل القيد مسبقا" });
                     // use Transactions م حساب
                     // الحسابات المدينة
-                    foreach (var item in voucher.VoucherDetails.Where(x=>!x.IsDeleted))
+                    foreach (var item in voucher.VoucherDetails.Where(x => !x.IsDeleted))
                     {
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                            return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" +item.AccountsTree.AccountName });
+                            return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" + item.AccountsTree.AccountName });
                         //من ح/
                         db.GeneralDailies.Add(new GeneralDaily
                         {

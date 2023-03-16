@@ -33,6 +33,7 @@ namespace ERP.DAL
         public string VoucherNumber { get; set; }
 
 
+        public bool IsSafe { get; set; }
 
         public virtual Branch Branch { get; set; }
         public virtual AccountsTree AccountsTree { get; set; }  

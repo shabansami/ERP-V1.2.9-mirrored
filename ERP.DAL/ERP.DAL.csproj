@@ -366,6 +366,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
+    <Compile Include="Models\ClosingPeriods.cs" />
     <Compile Include="Models\ContractCustomerSupplier.cs" />
     <Compile Include="Models\ContractSchedulingProduction.cs" />
     <Compile Include="Models\DamageInvoice.cs" />

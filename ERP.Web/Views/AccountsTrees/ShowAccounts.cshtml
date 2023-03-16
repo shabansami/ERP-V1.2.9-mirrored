@@ -11,6 +11,14 @@
 @section icon{<i class="fa fa-cog m-1"></i>}
 <div class="row">
     <div class="col-12">
+        <form class="app-search d-none d-lg-block">
+            <div class="position-relative">
+
+                <input type="text" class="form-control" id="mySearch" onkeyup="myFunction()" placeholder="بحث....">
+                <button class="btn btn-primary" onclick="myFunction()" type="button"><i class="bx bx-search-alt align-middle"></i></button>
+
+            </div>
+        </form>
         <div class="card din-bold">
             <div class="card-header">
 
@@ -31,8 +39,10 @@
 @section Scripts
 {
     <script src="~/Assets/plugins/jstree/jstree.bundle.js"></script>
-    @*<script src="~/Assets/js/pages/features/miscellaneous/treeview.js"></script>*@
     <script>
+          
+            // ====
+
         $(document).ready(function () {
             $("#kt_tree_6").jstree({
                 "core": {
@@ -63,6 +73,7 @@
             });
 
         })
+        
     </script>
 }
 

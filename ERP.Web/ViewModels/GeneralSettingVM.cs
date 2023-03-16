@@ -42,6 +42,8 @@ namespace ERP.Web.ViewModels
         public AccountTreeVM AccountTree { get; set; }
         public UploadFileTreeVM UploadFileTree { get; set; }
         public PrintSetting PrintSetting { get; set; }
+        public DateTime? FinancialYearStartDate { get; set; }
+        public DateTime? FinancialYearEndDate { get; set; }
     }
     public class EntityData
     {

@@ -48,6 +48,7 @@ namespace ERP.Web.Controllers
             if (DateTime.TryParse(vm.dtFrom.ToString(), out dtFrom) && DateTime.TryParse(vm.dtTo.ToString(), out dtTo) && vm.AccountTreeId != null)
             {
                 var list = GeneralDailyService.SearchAccountGeneralDailies(dtFrom, dtTo, vm.AccountTreeId, vm.CustomerRelated == true ? 1 : 0, vm.ShowRptEn);
+                list.AccountTreeId = null;
                 return View(list);
             }
             else

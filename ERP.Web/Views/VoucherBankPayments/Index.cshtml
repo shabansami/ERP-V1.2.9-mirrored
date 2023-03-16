@@ -3,10 +3,10 @@
 @{ ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-@section PageTitle1{سندات صرف نقدية}
-@section PageTitle2{سندات الصرف نقدية }
-@section Button1{ تسجيل سند صرف نقدي}
-@section Button1Link{/VoucherPayments/CreateEdit}
+@section PageTitle1{سندات صرف بنكية}
+@section PageTitle2{سندات الصرف بنكية }
+@section Button1{تسجيل سند صرف بنكي}
+@section Button1Link{/VoucherBankPayments/CreateEdit}
 @section icon{<i class="fa fa-plus-circle m-1"></i>}
 @{
     DateTime startDt = new DateTime();
@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h4 class=" din-bold">
-                            ادارة سندات الصرف النقدية
+                            ادارة سندات الصرف البنكية
                         </h4>
                     </div>
                     <div class="col-sm-6">
@@ -150,7 +150,7 @@
 
 @section Scripts
 {
-    <script src="~/Assets/JSCustom/VoucherPayment.js"></script>
+    <script src="~/Assets/JSCustom/VoucherBankPayment.js"></script>
     <script src="~/Assets/JSCustom/Print/PrintInvoice.js"></script>
 
     <script>

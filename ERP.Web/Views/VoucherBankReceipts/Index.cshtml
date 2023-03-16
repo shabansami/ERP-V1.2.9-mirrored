@@ -3,10 +3,10 @@
 @{ ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 
-@section PageTitle1{سندات صرف نقدية}
-@section PageTitle2{سندات الصرف نقدية }
-@section Button1{ تسجيل سند صرف نقدي}
-@section Button1Link{/VoucherPayments/CreateEdit}
+@section PageTitle1{سندات قبض بنكية}
+@section PageTitle2{سندات القبض }
+@section Button1{تسجيل سند قبض بنكي }
+@section Button1Link{/VoucherBankReceipts/CreateEdit}
 @section icon{<i class="fa fa-plus-circle m-1"></i>}
 @{
     DateTime startDt = new DateTime();
@@ -24,7 +24,7 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <h4 class=" din-bold">
-                            ادارة سندات الصرف النقدية
+                            ادارة سندات القبض البنكية
                         </h4>
                     </div>
                     <div class="col-sm-6">
@@ -99,7 +99,7 @@
                             <div>
                                 <label> الحساب المدين</label>
                                 <input style="text-align:right;" name="accountTree" placeholder="اختر الحساب" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
-                                <input type="hidden" id="AccountTreeFromId" />
+                                <input type="hidden" id="AccountTreeToId" />
                             </div>
                         </div>
                     </div>
@@ -150,7 +150,7 @@
 
 @section Scripts
 {
-    <script src="~/Assets/JSCustom/VoucherPayment.js"></script>
+    <script src="~/Assets/JSCustom/VoucherBankReceipt.js"></script>
     <script src="~/Assets/JSCustom/Print/PrintInvoice.js"></script>
 
     <script>
@@ -158,7 +158,7 @@
             $('#kt_datatable').DataTable().ajax.reload();
         };
         $(document).ready(function () {
-            VoucherPayment_Module.initDTVoucherPayment();
+            VoucherReceipt_Module.initDTVoucherReceipt();
             $('#kt_datatable_search_query').on('keyup', function () {
                 $('#kt_datatable').DataTable().search(this.value).draw();
             });
@@ -184,7 +184,7 @@
             });
             accounTree.onChange(function () {
                 if (accounTree.getSelectedIds() != null) {
-                    $('#AccountTreeFromId').val(accounTree.getSelectedIds()[0]);
+                    $('#AccountTreeToId').val(accounTree.getSelectedIds()[0]);
                 }
             });
             // ============== نهاية شجرة الحسابات

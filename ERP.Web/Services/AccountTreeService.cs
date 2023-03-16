@@ -417,7 +417,8 @@ namespace ERP.Web.Services
                         Name = accountsTreeEarnedDiscount.AccountNumber + "     " + accountsTreeEarnedDiscount.AccountName,
                         Id = accountsTreeEarnedDiscount.Id
                     });
-            }else
+            }
+            else
             {
                 Guid checkUnderCollection;//شيكات تحت التحصيل اوراق قبض/دفع
                 AccountsTree accountsTreeReceipt = new AccountsTree();
@@ -477,6 +478,192 @@ namespace ERP.Web.Services
                
             return list;
         }
+
+        public static List<DropDownList> GetBankVouchers(VTSaleEntities db, bool IsVoucherPayment)
+        {
+            List<DropDownList> list = new List<DropDownList>();
+
+            //if (IsVoucherPayment)//سندات صرف
+            //{
+            //    ///شيكات تحت التحصيل اوراق دفع
+            //    Guid checkUnderCollectionPayments;
+            //    AccountsTree accountsTreePayment = new AccountsTree();
+            //    var cheqUnderPayments = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCheckUnderCollectionPayments).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(cheqUnderPayments, out checkUnderCollectionPayments))
+            //        accountsTreePayment = db.AccountsTrees.Where(x => x.Id == checkUnderCollectionPayments).FirstOrDefault();
+
+            //    if (accountsTreePayment != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreePayment.AccountNumber + "     " + accountsTreePayment.AccountName,
+            //            Id = accountsTreePayment.Id
+            //        });
+
+            //    Guid earnedDiscount;//حساب مكتسب
+            //    AccountsTree accountsTreeEarnedDiscount = new AccountsTree();
+            //    var earnedDiscountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(earnedDiscountSetting, out earnedDiscount))
+            //        accountsTreeEarnedDiscount = db.AccountsTrees.Where(x => x.Id == earnedDiscount).FirstOrDefault();
+            //    if (accountsTreeEarnedDiscount != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreeEarnedDiscount.AccountNumber + "     " + accountsTreeEarnedDiscount.AccountName,
+            //            Id = accountsTreeEarnedDiscount.Id
+            //        });
+            //}
+            //else
+            //{
+            //    Guid checkUnderCollection;//شيكات تحت التحصيل اوراق قبض/دفع
+            //    AccountsTree accountsTreeReceipt = new AccountsTree();
+            //    var cheqUnder = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCheckUnderCollectionReceipts).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(cheqUnder, out checkUnderCollection))
+            //        accountsTreeReceipt = db.AccountsTrees.Where(x => x.Id == checkUnderCollection).FirstOrDefault();
+            //    if (accountsTreeReceipt != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreeReceipt.AccountNumber + "     " + accountsTreeReceipt.AccountName,
+            //            Id = accountsTreeReceipt.Id
+            //        });
+
+            //    Guid premittedDiscount;//حساب خصم مسموح به
+            //    AccountsTree accountsTreePremittedDiscount = new AccountsTree();
+            //    var premittedDiscountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePremittedDiscountAccount).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(premittedDiscountSetting, out premittedDiscount))
+            //        accountsTreePremittedDiscount = db.AccountsTrees.Where(x => x.Id == premittedDiscount).FirstOrDefault();
+            //    if (accountsTreePremittedDiscount != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreePremittedDiscount.AccountNumber + "     " + accountsTreePremittedDiscount.AccountName,
+            //            Id = accountsTreePremittedDiscount.Id
+            //        });
+            //}
+
+            //Guid safeAccount;//حساب الخزينة
+            //AccountsTree accountTreeSafeAccount = new AccountsTree();
+            //var safeAccountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSafeAccount).FirstOrDefault().SValue;
+            //if (Guid.TryParse(safeAccountSetting, out safeAccount))
+            //{
+            //    var safes = GetAccountChilds(safeAccount);
+            //    foreach (var item in safes)
+            //    {
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = item.AccountNumber + "     " + item.AccountName,
+            //            Id = item.Id
+            //        });
+            //    }
+            //}
+            Guid bankAccount;//حساب البنوك
+            AccountsTree accountTreeBankAccount = new AccountsTree();
+            var bankAccountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeBankAccount).FirstOrDefault().SValue;
+            if (Guid.TryParse(bankAccountSetting, out bankAccount))
+            {
+                var banks = GetAccountChilds(bankAccount);
+                foreach (var item in banks)
+                {
+                    list.Add(new DropDownList
+                    {
+                        Name = item.AccountNumber + "     " + item.AccountName,
+                        Id = item.Id
+                    });
+                }
+            }
+
+            return list;
+        }
+        public static List<DropDownList> GetSafeVouchers(VTSaleEntities db, bool IsVoucherPayment)
+        {
+            List<DropDownList> list = new List<DropDownList>();
+
+            //if (IsVoucherPayment)//سندات صرف
+            //{
+            //    ///شيكات تحت التحصيل اوراق دفع
+            //    Guid checkUnderCollectionPayments;
+            //    AccountsTree accountsTreePayment = new AccountsTree();
+            //    var cheqUnderPayments = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCheckUnderCollectionPayments).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(cheqUnderPayments, out checkUnderCollectionPayments))
+            //        accountsTreePayment = db.AccountsTrees.Where(x => x.Id == checkUnderCollectionPayments).FirstOrDefault();
+
+            //    if (accountsTreePayment != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreePayment.AccountNumber + "     " + accountsTreePayment.AccountName,
+            //            Id = accountsTreePayment.Id
+            //        });
+
+            //    Guid earnedDiscount;//حساب مكتسب
+            //    AccountsTree accountsTreeEarnedDiscount = new AccountsTree();
+            //    var earnedDiscountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(earnedDiscountSetting, out earnedDiscount))
+            //        accountsTreeEarnedDiscount = db.AccountsTrees.Where(x => x.Id == earnedDiscount).FirstOrDefault();
+            //    if (accountsTreeEarnedDiscount != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreeEarnedDiscount.AccountNumber + "     " + accountsTreeEarnedDiscount.AccountName,
+            //            Id = accountsTreeEarnedDiscount.Id
+            //        });
+            //}
+            //else
+            //{
+            //    Guid checkUnderCollection;//شيكات تحت التحصيل اوراق قبض/دفع
+            //    AccountsTree accountsTreeReceipt = new AccountsTree();
+            //    var cheqUnder = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCheckUnderCollectionReceipts).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(cheqUnder, out checkUnderCollection))
+            //        accountsTreeReceipt = db.AccountsTrees.Where(x => x.Id == checkUnderCollection).FirstOrDefault();
+            //    if (accountsTreeReceipt != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreeReceipt.AccountNumber + "     " + accountsTreeReceipt.AccountName,
+            //            Id = accountsTreeReceipt.Id
+            //        });
+
+            //    Guid premittedDiscount;//حساب خصم مسموح به
+            //    AccountsTree accountsTreePremittedDiscount = new AccountsTree();
+            //    var premittedDiscountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePremittedDiscountAccount).FirstOrDefault().SValue;
+            //    if (Guid.TryParse(premittedDiscountSetting, out premittedDiscount))
+            //        accountsTreePremittedDiscount = db.AccountsTrees.Where(x => x.Id == premittedDiscount).FirstOrDefault();
+            //    if (accountsTreePremittedDiscount != null)
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = accountsTreePremittedDiscount.AccountNumber + "     " + accountsTreePremittedDiscount.AccountName,
+            //            Id = accountsTreePremittedDiscount.Id
+            //        });
+            //}
+
+            Guid safeAccount;//حساب الخزينة
+            AccountsTree accountTreeSafeAccount = new AccountsTree();
+            var safeAccountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSafeAccount).FirstOrDefault().SValue;
+            if (Guid.TryParse(safeAccountSetting, out safeAccount))
+            {
+                var safes = GetAccountChilds(safeAccount);
+                foreach (var item in safes)
+                {
+                    list.Add(new DropDownList
+                    {
+                        Name = item.AccountNumber + "     " + item.AccountName,
+                        Id = item.Id
+                    });
+                }
+            }
+            //Guid bankAccount;//حساب البنوك
+            //AccountsTree accountTreeBankAccount = new AccountsTree();
+            //var bankAccountSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeBankAccount).FirstOrDefault().SValue;
+            //if (Guid.TryParse(bankAccountSetting, out bankAccount))
+            //{
+            //    var banks = GetAccountChilds(bankAccount);
+            //    foreach (var item in banks)
+            //    {
+            //        list.Add(new DropDownList
+            //        {
+            //            Name = item.AccountNumber + "     " + item.AccountName,
+            //            Id = item.Id
+            //        });
+            //    }
+            //}
+
+            return list;
+        }
+
         public static List<AccountsTree> GetAccountChilds(Guid accountParent)
         {
             using (var db = new VTSaleEntities())

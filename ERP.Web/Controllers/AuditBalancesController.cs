@@ -32,7 +32,7 @@ namespace ERP.Web.Controllers
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
 
-            //ViewBag.AccountLevel = new SelectList(db.AccountsTrees.Where(x => !x.IsDeleted).Select(x=>new { AccountLevel= x.AccountLevel }).Distinct(), "AccountLevel", "AccountLevel");
+            ViewBag.AccountLevel = new SelectList(db.AccountsTrees.Where(x => !x.IsDeleted).Select(x => new {  x.AccountLevel }).Distinct(), "AccountLevel", "AccountLevel");
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
 

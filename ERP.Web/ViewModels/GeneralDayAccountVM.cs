@@ -39,5 +39,8 @@ namespace ERP.Web.ViewModels
         public List<GeneralDayAccountVM> GeneralDayMultiAccounts { get; set; }
         public string AccountTreeIds { get; set; }
 
+        //عند طباعه تقرير كشف الحساب
+        public string ToggleUrl { get; set; }
+
     }
 }

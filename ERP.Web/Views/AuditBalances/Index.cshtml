@@ -86,11 +86,11 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> المستوى</label>
-                                @*@Html.DropDownList("AccountLevel", null, "كل المستويات", htmlAttributes: new { @class = "form-control din-med", @onchange = "Area_Module.onCountryChange()" })*@
-                                <select id="AccountLevel" name="AccountLevel" class="form-control din-med">
+                                @Html.DropDownList("AccountLevel", null, "كل المستويات", htmlAttributes: new { @class = "form-control din-med" })
+                                @*<select id="AccountLevel" name="AccountLevel" class="form-control din-med">
                                     <option value="1">مجمع</option>
                                     <option value="2">تفصيلى</option>
-                                </select>
+                                </select>*@
                             </div>
                         </div>
                     </div>

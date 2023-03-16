@@ -99,33 +99,33 @@ namespace ERP.Web.Services
 
                 ///////=========== الطريقة الاولى لعرض كل الحسابات بارصدتها 
                 /////================================================================
-                //var accountList = ChildrenOf2(accounts, null);
-                //var accountRecursive = ReturnWithTotal(accountList);
-                //var accountFlattened = accountRecursive.RecursiveSelector(x => x.children).ToList();
-                //List<AuditBalanceDto> AuditBalanceDto = new List<AuditBalanceDto>();
-                //if (accountLevel != null && accountLevel.HasValue)
-                //{
-                //    accountFlattened = accountFlattened.Where(x => x.AccountLevel == accountLevel).ToList();
-                //}
-                //if(StatusVal==false)
-                //    accountFlattened = accountFlattened.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();
-
-                //======================================================================
-                //======================================================================
-
-                List<AuditBalanceDto> accountFlattened = new List<AuditBalanceDto>();
                 var accountList = ChildrenOf2(accounts, null);
                 var accountRecursive = ReturnWithTotal(accountList);
+                var accountFlattened = accountRecursive.RecursiveSelector(x => x.children).ToList();
+                List<AuditBalanceDto> AuditBalanceDto = new List<AuditBalanceDto>();
                 if (accountLevel != null && accountLevel.HasValue)
                 {
-                    //
-                    if (accountLevel==1) //مجمع (الحسابات فى اول مستوى فقط 
-                    {
-                        accountFlattened = accountRecursive.Where(x => x.ParentId == null).ToList();
-                        accountFlattened = accountFlattened.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();
-                    }
-                    else //حسابات اخر مستوى فقط
-                    {
+                    accountFlattened = accountFlattened.Where(x => x.AccountLevel == accountLevel).ToList();
+                }
+                if (StatusVal == false)
+                    accountFlattened = accountFlattened.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();
+
+                //======================================================================
+                //======================================================================
+
+                ////List<AuditBalanceDto> accountFlattened = new List<AuditBalanceDto>();
+                ////var accountList = ChildrenOf2(accounts, null);
+                ////var accountRecursive = ReturnWithTotal(accountList);
+                ////if (accountLevel != null && accountLevel.HasValue)
+                ////{
+                ////    //
+                ////    if (accountLevel==1) //مجمع (الحسابات فى اول مستوى فقط 
+                ////    {
+                ////        accountFlattened = accountRecursive.Where(x => x.ParentId == null).ToList();
+                ////        accountFlattened = accountFlattened.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();
+                ////    }
+                ////    else //حسابات اخر مستوى فقط
+                ////    {
                         //var accountsList = accountRecursive.RecursiveSelector(x => x.children).ToList();
                         //var accountsListParent = accountsList.Where(x => x.ParentId == null).ToList();
                         //foreach (var account in accountsListParent)
@@ -138,11 +138,11 @@ namespace ERP.Web.Services
                         //    }
 
                         //}
-                        accountFlattened = accounts.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();
-                    }
+                ////        accountFlattened = accounts.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();
+                ////    }
 
-                }else
-                    accountFlattened = accountRecursive.RecursiveSelector(x => x.children).ToList();
+                ////}else
+                ////    accountFlattened = accountRecursive.RecursiveSelector(x => x.children).ToList();
 
                 //if (StatusVal == false)
                 //    accountFlattened = accountFlattened.Where(x => x.IntialBalanceFrom != 0 || x.IntialBalanceTo != 0 || x.ActionsFrom != 0 || x.ActionsTo != 0 || x.SumFrom != 0 || x.SumTo != 0 || x.ResultFrom != 0 || x.ResultTo != 0).ToList();

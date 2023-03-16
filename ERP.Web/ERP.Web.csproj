@@ -1920,6 +1920,7 @@
     <Compile Include="DataTablesDS\ItemProductionDetailsDT.cs" />
     <Compile Include="DataTablesDS\ItemProductionOrderDetailsDT.cs" />
     <Compile Include="DataTablesDS\ItemsMaterialDT.cs" />
+    <Compile Include="DataTablesDS\PrintAccountDto.cs" />
     <Compile Include="DataTablesDS\PrintGeneralRecordDto.cs" />
     <Compile Include="DataTablesDS\ResponsibleDT.cs" />
     <Compile Include="DataTablesDS\ItemUnitDto.cs" />
@@ -2372,6 +2373,7 @@
     <Content Include="Views\PrintInvoices\PrintGeneralRecord.cshtml" />
     <Content Include="Views\RptAccountStatements\SearchMultiple.cshtml" />
     <Content Include="Views\InventoryInvoices\NewInventoryInvoice.cshtml" />
+    <Content Include="Views\PrintInvoices\PrintRptAccountStatements.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -42,8 +42,8 @@ namespace ERP.Web.Controllers
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages
             List<Page> pages = new List<Page>();
-            Guid roleID = new Guid("BCE9127F-7C2E-42F9-BB93-0DD16F4CDBB1");
-            Guid userId = new Guid("52883C22-F5C2-447C-BC17-D43FA0CF689C");
+            Guid roleID = new Guid("78143BE3-E583-4632-B641-FE4BAAEE4848");
+            Guid userId = new Guid("D32AFD2B-B9D1-4AB4-9E1F-620E9B34637E");
             //pages.Add(new Page() { Id = 383, ParentId = 33, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للعملاء مجمع", OrderNum = 0, Url = "/CustomerIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 384, ParentId = 30, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = " اضافة رصيد أول المدة للموردين مجمع", OrderNum = 0, Url = "/SupplierIntials/CreateEditIntial", OtherUrls = null, PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
             //pages.Add(new Page() { Id = 385, ParentId = 129, Icon = "menu-bullet menu-bullet-line", IsPage = true, Name = "الاعتماد المخزنى ", OrderNum = 0, Url = "/StoresTransferApprovals/Index", OtherUrls = "/StoresTransferApprovals/ApprovalStore,/StoresTransferApprovals/ShowDetails,/StoresTransferApprovals/Refused", PagesRoles = new List<PagesRole>() { new PagesRole() { RoleId = roleID } } });
@@ -87,7 +87,7 @@ namespace ERP.Web.Controllers
             //db.ContractSalaryTypes.Add(new ContractSalaryType { Name = "بالانتاج" });
             ////db.SaveChanges(userId);
             //var pag = db.Pages.Where(x => x.Id == 412).FirstOrDefault();
-            //pag.OtherUrls = "/ProductionLines/ShowDetails";
+            //pag.OtherUrls += ",/ProductionLines/ShowDetails";
             //var pag2 = db.Pages.Where(x => x.Id == 334).FirstOrDefault();
             //pag2.IsDeleted = true;
             ////db.SaveChanges(userId);
@@ -110,6 +110,10 @@ namespace ERP.Web.Controllers
             //var pag6 = db.Pages.Where(x => x.Id == 44).FirstOrDefault();
             //pag6.OtherUrls = "/ItemIntialBalances/ShowDetails";
             //db.SelectorTypes.Add(new SelectorType { Name = "مخزن جرد مستمر" });
+            //db.SaveChanges(userId);
+
+            //var pag7 = db.Pages.Where(x => x.Id == 224).FirstOrDefault();
+            //pag7.OtherUrls += ",/PrintInvoices/PrintRptAccountStatements";
             //db.SaveChanges(userId);
 
             //var genralSettings = $@"SET IDENTITY_INSERT [dbo].[GeneralSettings] ON;
@@ -139,18 +143,18 @@ namespace ERP.Web.Controllers
             //        INSERT [dbo].[UploadCenters] ([Id], [FileName], [Name], [ParentId], [IsFolder], [ReferenceGuid], [UploadCenterTypeId], [CreatedOn], [CreatedBy], [ModifiedOn], [ModifiedBy], [IsDeleted], [DeletedOn], [DeletedBy]) VALUES (N'72739a22-438b-4848-a4fc-9abb9ba32566', NULL, N'قيود اليومية', NULL, 1, NULL, NULL, CAST(N'2022-09-05T13:57:28.507' AS DateTime), N'{userId}', NULL, NULL, 0, NULL, NULL)
             //        ";
             //db.Database.ExecuteSqlCommand(uploadCenters);
-//            var accountTreeInsertString = $@"
-//            INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000137-1234-1234-1234-012345678910', 349000001, N'تليفونات وانترنت', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000138-1234-1234-1234-012345678910', 349000002, N'شبكات وبرامج', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000139-1234-1234-1234-012345678910', 349000003, N'رسوم ودمغات حكومية', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000140-1234-1234-1234-012345678910', 349000004, N'ضيافة', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000141-1234-1234-1234-012345678910', 349000005, N'اكراميات', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000142-1234-1234-1234-012345678910', 349000006, N'نثريات', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000143-1234-1234-1234-012345678910', 349000007, N'مصروفات بنكية', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000144-1234-1234-1234-012345678910', 349000008, N'ضرائب', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
-//";
+            //            var accountTreeInsertString = $@"
+            //            INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000137-1234-1234-1234-012345678910', 349000001, N'تليفونات وانترنت', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000138-1234-1234-1234-012345678910', 349000002, N'شبكات وبرامج', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000139-1234-1234-1234-012345678910', 349000003, N'رسوم ودمغات حكومية', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000140-1234-1234-1234-012345678910', 349000004, N'ضيافة', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000141-1234-1234-1234-012345678910', 349000005, N'اكراميات', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000142-1234-1234-1234-012345678910', 349000006, N'نثريات', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000143-1234-1234-1234-012345678910', 349000007, N'مصروفات بنكية', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //INSERT[dbo].[AccountsTrees] ([Id], [AccountNumber], [AccountName], [ParentId], [TypeId], [AccountLevel], [SelectedTree],[OrientationTypes_Id], [DeletedOn], [CreatedBy], [CreatedOn],[ModifiedBy],[ModifiedOn],[IsDeleted]) VALUES(N'00000144-1234-1234-1234-012345678910', 349000008, N'ضرائب', N'00000118-1234-1234-1234-012345678910', 3, 4, 0, 2, NULL, N'{userId}', CAST(N'2022-07-25T18:40:07.420' AS DateTime), NULL, NULL, 0)
+            //";
 
-//            db.Database.ExecuteSqlCommand(accountTreeInsertString);
+            //            db.Database.ExecuteSqlCommand(accountTreeInsertString);
 
 
             //ItemImportDataZumurada itemImportDataZumurada = new ItemImportDataZumurada();

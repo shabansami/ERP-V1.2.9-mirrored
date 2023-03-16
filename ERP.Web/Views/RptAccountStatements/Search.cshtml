@@ -152,13 +152,23 @@
                         </div>
 
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-2">
                             <div class="form-group">
                                 <div>
                                     <label> .</label>
                                     <button type="submit" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</button>
 
                                     @*<a href="/RptAccountStatements/Search?AccountTreeId=@Model.AccountTreeId&dtFrom=@Model.dtFrom&dtTo=@Model.dtTo"  class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</a>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <div>
+                                    <label> .</label>
+                                    @*<button type="submit" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</button>*@
+
+                                    <a href="javascript:void(0);" onclick="printReport()" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-printer m-1"></i>طباعه</a>
                                 </div>
                             </div>
                         </div>
@@ -659,6 +669,35 @@
             // ============== نهاية شجرة الحسابات
 
         });
+
+        //طباعه التقرير
+        function printReport() {
+            var accountId = $("#AccountTreeId").val();
+            console.log(accountId);
+            if (accountId === '' || accountId == null) {
+                toastr.error('تأكد من اختيار الحساب', ''); return false;
+            }
+            var chekLang = $("#ShowRptEn").is('checked');
+            console.log(chekLang);
+
+            var lang = "ar";
+            if (chekLang == false) { //arabic
+                lang = "ar";
+            } else {
+
+                lang = "en";
+            }
+
+            var dFrom = $("#dtFrom").val();
+            var dTo = $("#dtTo").val();
+            console.log(dFrom);
+            console.log(dTo);
+
+            var aEl = document.createElement('a');
+            aEl.href = "/PrintInvoices/PrintRptAccountStatements/?accountId=" + accountId + "&dFrom=" + dFrom + "&dTo=" + dTo;
+            aEl.target = "_blank";
+            aEl.click();
+            }
     </script>
 }
 

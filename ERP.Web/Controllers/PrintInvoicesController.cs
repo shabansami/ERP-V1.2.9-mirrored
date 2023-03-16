@@ -9,6 +9,8 @@ using System.Web;
 using System.Web.Mvc;
 using static ERP.Web.Utilites.Lookups;
 using ERP.Web.DataTablesDS;
+using ERP.Web.ViewModels;
+using BarcodeLib;
 
 namespace ERP.Web.Controllers
 {
@@ -67,6 +69,38 @@ namespace ERP.Web.Controllers
 
         }
         #endregion
+
+        #region طباعه وعرض كشف حساب  
+        public ActionResult PrintRptAccountStatements(string accountId,string dFrom,string dTo, string lang="ar")
+        {
+            //اسطر الطباعه من الاعدادات 
+            var list = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
+            ViewBag.EntityData = list;
+            if (DateTime.TryParse(dFrom, out DateTime dtFrom) && DateTime.TryParse(dTo, out DateTime dtTo) &&Guid.TryParse(accountId ,out Guid acccountId))
+            {
+                var isEn=lang== "en"?true:false;
+               var accountGeneralDailies = GeneralDailyService.SearchAccountGeneralDailies(dtFrom, dtTo, acccountId, 0, isEn);
+                if (lang == "en")
+                {
+                    accountGeneralDailies.ShowRptEn = true;
+                    accountGeneralDailies.ToggleUrl = $"/PrintInvoices/PrintRptAccountStatements/?accountId={accountId}&dFrom={dFrom}&dTo={dTo}&lang=ar";
+
+                }
+                else
+                {
+                    accountGeneralDailies.ShowRptEn = false;
+                    accountGeneralDailies.ToggleUrl = $"/PrintInvoices/PrintRptAccountStatements/?accountId={accountId}&dFrom={dFrom}&dTo={dTo}&lang=en";
+
+                }
+                return View(accountGeneralDailies);
+            }
+            else
+                return View(new GeneralDayAccountVM());
+
+
+        }
+        #endregion
+
         //Releases unmanaged resources and optionally releases managed resources.
         protected override void Dispose(bool disposing)
         {

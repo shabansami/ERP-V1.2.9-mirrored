@@ -47,7 +47,7 @@ namespace ERP.Web.Controllers
         {
             int? n = null;
             DateTime dtFrom, dtTo;
-            var list = db.Vouchers.Where(x => !x.IsDeleted && !x.IsVoucherPayment);
+            var list = db.Vouchers.Where(x => !x.IsDeleted && !x.IsVoucherPayment && x.IsSafe==true);
             int isAppStatus;
             if (Guid.TryParse(accountTreeToId, out Guid accountTo))
                     list = list.Where(x => x.VoucherDetails.Where(v => !v.IsDeleted && v.AccountTreeId == accountTo).Any());
@@ -160,7 +160,7 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
 
             ViewBag.Branchcount = branches.Count();
-            ViewBag.AccountTreeId = new SelectList(AccountTreeService.GetVouchers(db, false), "Id", "Name", accountTreeToId);
+            ViewBag.AccountTreeId = new SelectList(AccountTreeService.GetSafeVouchers(db, false), "Id", "Name", accountTreeToId);
             return View(vm);
             //}
         }
@@ -171,7 +171,7 @@ namespace ERP.Web.Controllers
             {
                 if (vm.BranchId == null || vm.VoucherDate == null || vm.AccountTreeId == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
-
+              
                 vm.VoucherDate = vm.VoucherDate.Value.AddHours(Utility.GetDateTime().Hour).AddMinutes(Utility.GetDateTime().Minute);
 
                 List<VoucherDetailDT> deDS = new List<VoucherDetailDT>();
@@ -231,6 +231,7 @@ namespace ERP.Web.Controllers
                                 isInsert = true;
                                 voucher = new Voucher()
                                 {
+                                    IsSafe=true,
                                     BranchId = vm.BranchId,
                                     Notes = vm.Notes,
                                     AccountTreeId = vm.AccountTreeId,

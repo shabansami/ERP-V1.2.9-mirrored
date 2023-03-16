@@ -7,21 +7,21 @@
 
     if (Model.Id == Guid.Empty)
     {
-        title = " تسجيل سند صرف نقدي";
+        title = "تسجيل سند قبض بنكي ";
         btn = "اضافة";
         icon = "fa fa-plus-circle m-1";
     }
     else
     {
-        title = "تعديل سند صرف نقدي ";
+        title = "تعديل سند قبض ";
         btn = "تعديل";
         icon = "fa fa-edit m-1";
         icon2 = "fa-solid fa-caret-left m-1";
     } }
-@section PageTitle1{سندات صرف نقدية}
+@section PageTitle1{سندات قبض بنكي}
 @section PageTitle2{@title }
-@section Button1{ ادارة سندات الصرف النقدية}
-@section Button1Link{/VoucherPayments/Index}
+@section Button1{ادارة سندات قبض البنكية}
+@section Button1Link{/VoucherBankReceipts/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 <div class="row">
     <div class="col-12">
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            @using (Html.BeginForm("CreateEdit", "VoucherPayments", FormMethod.Post, new { id = "form1" }))
+            @using (Html.BeginForm("CreateEdit", "VoucherBankReceipts", FormMethod.Post, new { id = "form1" }))
             {
                 <div class="card-body">
                     <div class="row bg-soft-success">
@@ -48,7 +48,7 @@
                                 }
                                 else
                                 {
-                                    @Html.DropDownList("BranchId", null,htmlAttributes: new { @class = "form-select  " })
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select  " })
 
                                 }
                                 @Html.HiddenFor(model => model.Id)
@@ -62,8 +62,8 @@
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group required">
-                                <label>الحساب الدائن</label>
-                                @Html.DropDownList("AccountTreeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "VoucherPayment_Module.getBalanceAccountChanged();" })
+                                <label>الحساب المدين</label>
+                                @Html.DropDownList("AccountTreeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "VoucherReceipt_Module.getBalanceAccountChanged();" })
                             </div>
                         </div>
                         <div class="col-lg-6">
@@ -85,8 +85,8 @@
 
                         <div class="col-lg-6">
                             <div class="form-group required">
-                                <label>الحساب المدين</label>
-                                <input style="text-align:right;" name="accountTreeFrom" type="text" class="form-control alert alert-success" id="accountTreeFrom" autocomplete="off" />
+                                <label>الحساب الدائن</label>
+                                <input style="text-align:right;" name="accountTreeTo" type="text" class="form-control alert alert-success" id="accountTreeTo" autocomplete="off" />
                                 @Html.HiddenFor(model => model.SelectedAccountTreeId)
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                         <div class="col-lg-12">
                             <div class="form-group ">
                                 <label>.</label>
-                                <input style="text-align:center;" type="button" onclick="VoucherPayment_Module.AddVoucherTransaction()" value="اضافة القيد" class="btn btn-primary font-weight-bold w-100" />
+                                <input style="text-align:center;" type="button" onclick="VoucherReceipt_Module.AddVoucherTransaction()" value="اضافة القيد" class="btn btn-primary font-weight-bold w-100" />
                             </div>
                         </div>
                         <div class="col-lg-12">
@@ -131,8 +131,8 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-12">
-                            <a href="javascript:void(0);" onclick="VoucherPayment_Module.SubmitForm(this,false);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold "><i class="@icon"></i>@btn</a>
-                            <a href="javascript:void(0);" onclick="VoucherPayment_Module.SubmitForm(this,true);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold "><i class="@icon"></i>حفظ سند الصرف واعتماده</a>
+                            <a href="javascript:void(0);" onclick="VoucherReceipt_Module.SubmitForm(this,false);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold "><i class="@icon"></i>@btn</a>
+                            <a href="javascript:void(0);" onclick="VoucherReceipt_Module.SubmitForm(this,true);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold "><i class="@icon"></i>حفظ سند القبض واعتماده</a>
                             <a href="/GeneralRecords/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="fa-solid fa-caret-left m-1"></i>عودة</a>
                         </div>
                     </div>
@@ -143,18 +143,18 @@
 </div>
 @section Scripts
 {
-    <script src="~/Assets/JSCustom/VoucherPayment.js"></script>
+    <script src="~/Assets/JSCustom/VoucherBankReceipt.js"></script>
     <script>
         var accounTreeFrom;
         $(document).ready(function () {
-            VoucherPayment_Module.initDetailsDT();
+            VoucherReceipt_Module.initDetailsDT();
             //دليل الحسابات
             var dsTree = [];
             $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true }, function (data) {
                 accounTree.setSource(data);
             });
 
-            accounTree = $('#accountTreeFrom').comboTree({
+            accounTree = $('#accountTreeTo').comboTree({
                 source: dsTree,
                 isMultiple: false,
                 collapse: true,

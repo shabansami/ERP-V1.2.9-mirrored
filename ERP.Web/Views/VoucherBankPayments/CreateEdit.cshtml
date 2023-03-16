@@ -7,21 +7,21 @@
 
     if (Model.Id == Guid.Empty)
     {
-        title = " تسجيل سند صرف نقدي";
+        title = "تسجيل سند صرف بنكي";
         btn = "اضافة";
         icon = "fa fa-plus-circle m-1";
     }
     else
     {
-        title = "تعديل سند صرف نقدي ";
+        title = "تعديل سند صرف ";
         btn = "تعديل";
         icon = "fa fa-edit m-1";
         icon2 = "fa-solid fa-caret-left m-1";
     } }
-@section PageTitle1{سندات صرف نقدية}
+@section PageTitle1{سندات صرف بنكية}
 @section PageTitle2{@title }
-@section Button1{ ادارة سندات الصرف النقدية}
-@section Button1Link{/VoucherPayments/Index}
+@section Button1{ ادارة سندات صرف بنكية}
+@section Button1Link{/VoucherBankPayments/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 <div class="row">
     <div class="col-12">
@@ -34,7 +34,7 @@
                 </div>
             </div>
 
-            @using (Html.BeginForm("CreateEdit", "VoucherPayments", FormMethod.Post, new { id = "form1" }))
+            @using (Html.BeginForm("CreateEdit", "VoucherBankPayments", FormMethod.Post, new { id = "form1" }))
             {
                 <div class="card-body">
                     <div class="row bg-soft-success">
@@ -48,7 +48,7 @@
                                 }
                                 else
                                 {
-                                    @Html.DropDownList("BranchId", null,htmlAttributes: new { @class = "form-select  " })
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select  " })
 
                                 }
                                 @Html.HiddenFor(model => model.Id)
@@ -143,7 +143,7 @@
 </div>
 @section Scripts
 {
-    <script src="~/Assets/JSCustom/VoucherPayment.js"></script>
+    <script src="~/Assets/JSCustom/VoucherBankPayment.js"></script>
     <script>
         var accounTreeFrom;
         $(document).ready(function () {

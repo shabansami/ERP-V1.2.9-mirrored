@@ -19,10 +19,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
+        CheckClosedPeriodServices closedPeriodServices;
         public SuppliersPaymentsController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
         public ActionResult Index()
         {
@@ -112,7 +115,13 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                 if (vm.BankAccountId == null && vm.SafeId == null)
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة السداد (بنكى-خزنة) بشكل صحيح" });
-              //فى حالة ادخال رقم فاتورة توريد يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير التوريد 
+                var checkdate = closedPeriodServices.IsINPeriod(vm.PaymentDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
+
+                }
+                //فى حالة ادخال رقم فاتورة توريد يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير التوريد 
                 if (vm.PurchaseInvoiceId!=null)
                 {
                     if(int.TryParse(vm.PurchaseInvoiceId.ToString(), out var id))

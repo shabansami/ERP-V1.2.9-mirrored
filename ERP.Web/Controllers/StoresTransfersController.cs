@@ -26,11 +26,14 @@ namespace ERP.Web.Controllers
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
         ItemService itemService;
+        CheckClosedPeriodServices closedPeriodServices;
         public StoresTransfersController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
             itemService = new ItemService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
         public static string DS { get; set; }
 
@@ -276,7 +279,12 @@ namespace ERP.Web.Controllers
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                     if (vm.StoreFromId == vm.StoreToId)
                         return Json(new { isValid = false, message = "لا يمكن اختيار نفس المخزن فى التحويل" });
+                    var checkdate = closedPeriodServices.IsINPeriod(vm.TransferDate.ToString());
+                    if (!checkdate)
+                    {
+                        return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+                    }
                     //الاصناف
                     List<StoresTransferDetailsDto> storesTransferDetailsDto = new List<StoresTransferDetailsDto>();
                     List<StoresTransferDetail> items = new List<StoresTransferDetail>();

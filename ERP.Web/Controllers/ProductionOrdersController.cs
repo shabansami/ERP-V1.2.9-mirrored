@@ -25,10 +25,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
+        CheckClosedPeriodServices closedPeriodServices;
         public ProductionOrdersController()
         {
             db = new VTSaleEntities();
             _itemService = new ItemService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
         //public static string DSItemProduction { get; set; }
         public static string DSItemsIn { get; set; }
@@ -171,9 +174,14 @@ namespace ERP.Web.Controllers
                 {
                     if (vm.BranchId == null || vm.ProductionStoreId == null|| vm.ProductionUnderStoreId == null /*|| vm.FinalItemId == null|| vm.OrderQuantity == 0 */ || vm.ProductionOrderDate == null|| ItemCostCalculateId == null)
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                    var checkdate = closedPeriodServices.IsINPeriod(vm.ProductionOrderDate.ToString());
+                    if (!checkdate)
+                    {
+                        return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
-                        //المواد الداخلة
-                        List<ItemProductionOrderDetailsDT> itemInDT = new List<ItemProductionOrderDetailsDT>();
+                    }
+                    //المواد الداخلة
+                    List<ItemProductionOrderDetailsDT> itemInDT = new List<ItemProductionOrderDetailsDT>();
                         List<ItemProductionOrderDetailsDT> itemOutDT = new List<ItemProductionOrderDetailsDT>();
                     List<ProductionOrderDetail> productionOrderDetail = null;
                     //قبول اضافة صنف بدون رصيد
@@ -763,6 +771,12 @@ namespace ERP.Web.Controllers
                 {
                     ViewBag.Msg = "تأكد من اختيار توليفة";
                     return View(vm);
+                }
+                var checkdate = closedPeriodServices.IsINPeriod(vm.ProductionOrderDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
+
                 }
                 var itemProductionName = db.ItemProductions.Where(x => x.Id == vm.ItemProductionId).FirstOrDefault();
                 vm.ItemProductionDetails.Add(new ItemProductionDetails

@@ -22,6 +22,7 @@ namespace ERP.Web.Controllers
         // GET: InventoryInvoices
         // GET: InventoryInvoices
         VTSaleEntities db;
+        CheckClosedPeriodServices closedPeriodServices;
         public static string DS { get; set; }
 
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
@@ -30,6 +31,8 @@ namespace ERP.Web.Controllers
         {
             db = new VTSaleEntities();
             _itemService = new ItemService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
 
         public ActionResult Index()
@@ -149,7 +152,12 @@ namespace ERP.Web.Controllers
             else
                 return Json(new { isValid = false, message = "تأكد من وجود اصناف" });
 
+            var checkdate = closedPeriodServices.IsINPeriod(InvoiceDate);
+            if (!checkdate)
+            {
+                return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+            }
             foreach (var item in itemBalanceDtos)
             {
                 if (!double.TryParse(item.BalanceReal.ToString(), out var balancRel))

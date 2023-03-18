@@ -23,6 +23,7 @@ namespace ERP.Web.Controllers
         VTSaleEntities db = new VTSaleEntities();
         VTSAuth auth = new VTSAuth();
         public static string DSPyments { get; set; }
+        CheckClosedPeriodServices closedPeriodServices = new CheckClosedPeriodServices();
 
         public ActionResult Index()
         {
@@ -93,6 +94,12 @@ namespace ERP.Web.Controllers
                     auth = TempData["userInfo"] as VTSAuth;
                 else
                     RedirectToAction("Login", "Default", Request.Url.AbsoluteUri.ToString());
+                var checkdate = closedPeriodServices.IsINPeriod(vm.OperationDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
+
+                }
                 //التأكد من ان رقم الفاتورة المدخل موجود ويتبع فواتير الاجل والجزئى فقط 
                 var sellInvoice = db.SellInvoices.Where(x => !x.IsDeleted && x.Id == vm.SellInvoiceId).FirstOrDefault();
                 if (sellInvoice!=null)

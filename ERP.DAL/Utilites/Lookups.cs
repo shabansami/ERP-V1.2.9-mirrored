@@ -142,7 +142,7 @@ namespace ERP.Web.Utilites
             SellPriceZero, //سعر البيع يقبل صفر (الهدايا)  
             AcceptItemCostSellDown, // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته  
             StoreTransferApprovalAfterSave,//الاعتماد المباشر بعد حفظ تحويلات المخازن
-
+            FutureOpration,//الاعتماد المباشر بعد حفظ تحويلات المخازن
         }
 
         public enum GeneralSettingTypeCl // انواع الاعدادات

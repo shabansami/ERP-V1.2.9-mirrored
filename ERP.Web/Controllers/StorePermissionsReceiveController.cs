@@ -24,10 +24,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
+        CheckClosedPeriodServices closedPeriodServices;
         public StorePermissionsReceiveController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
         public static string DS { get; set; }
 
@@ -142,7 +145,12 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
+            var checkdate = closedPeriodServices.IsINPeriod(vm.PermissionDate.ToString());
+            if (!checkdate)
+            {
+                return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+            }
             var Person = db.Persons.Where(x => x.Id == vm.PersonId).FirstOrDefault();
             if (Person.PersonTypeId == (int)PersonTypeCl.Supplier || Person.PersonTypeId == (int)PersonTypeCl.SupplierAndCustomer)
             {

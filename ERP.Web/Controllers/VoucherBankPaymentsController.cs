@@ -27,9 +27,11 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         public static string DS { get; set; }
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        CheckClosedPeriodServices closedPeriodServices;
         public VoucherBankPaymentsController()
         {
             db = new VTSaleEntities();
+            closedPeriodServices = new CheckClosedPeriodServices();
         }
 
         #region عرض وادارة سندات الصرف
@@ -173,7 +175,12 @@ namespace ERP.Web.Controllers
             {
                 if (vm.BranchId == null || vm.VoucherDate == null || vm.AccountTreeId == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                var checkdate = closedPeriodServices.IsINPeriod(vm.VoucherDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+                }
                 vm.VoucherDate = vm.VoucherDate.Value.AddHours(Utility.GetDateTime().Hour).AddMinutes(Utility.GetDateTime().Minute);
 
                 List<VoucherDetailDT> deDS = new List<VoucherDetailDT>();

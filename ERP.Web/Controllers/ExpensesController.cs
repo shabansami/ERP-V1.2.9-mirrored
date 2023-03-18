@@ -23,11 +23,13 @@ namespace ERP.Web.Controllers
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ExpenseIncomeService expenseIncomeService;
         StoreService storeService;
+        CheckClosedPeriodServices closedPeriodServices;
         public ExpensesController()
         {
             db = new VTSaleEntities();
             expenseIncomeService=new ExpenseIncomeService();
             storeService=   new StoreService();
+            closedPeriodServices = new CheckClosedPeriodServices();
         }
         public ActionResult Index()
         {
@@ -92,6 +94,12 @@ namespace ERP.Web.Controllers
                 if (vm.SafeId == null)
                     return Json(new { isValid = false, message = "تأكد من اختيار طريقة السداد بشكل صحيح" });
 
+                var checkdate = closedPeriodServices.IsINPeriod(vm.PaymentDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
+
+                }
                 var isInsert = false;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseIncomeTypeAccountTreeId))
                     return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });

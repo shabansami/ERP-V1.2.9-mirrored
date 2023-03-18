@@ -23,10 +23,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService _itemService;
+        CheckClosedPeriodServices closedPeriodServices;
         public DamageInvoicesController()
         {
             db = new VTSaleEntities();
             _itemService = new ItemService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
         public ActionResult Index()
         {
@@ -87,7 +90,12 @@ namespace ERP.Web.Controllers
             else
                 return Json(new { isValid = false, message = "تأكد من وجود اصناف" });
 
+            var checkdate = closedPeriodServices.IsINPeriod(InvoiceDate);
+            if (!checkdate)
+            {
+                return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+            }
             foreach (var item in itemBalanceDtos)
             {
                 if (!double.TryParse(item.BalanceReal.ToString(), out var balancRel))

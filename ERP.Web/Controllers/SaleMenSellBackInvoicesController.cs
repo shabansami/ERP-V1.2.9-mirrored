@@ -21,10 +21,12 @@ namespace ERP.Web.Controllers
     {
         // GET: SaleMenSellBackInvoices
         VTSaleEntities db;
+        CheckClosedPeriodServices closedPeriodServices;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         public SaleMenSellBackInvoicesController()
         {
             db = new VTSaleEntities();
+            closedPeriodServices = new CheckClosedPeriodServices();
         }
         public static string DS { get; set; }
 
@@ -214,7 +216,12 @@ namespace ERP.Web.Controllers
                 {
                     if (vm.CustomerId == null || vm.BranchId == null || vm.InvoiceDate == null || vm.PaymentTypeId == null)
                         return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                    var checkdate = closedPeriodServices.IsINPeriod(vm.InvoiceDate.ToString());
+                    if (!checkdate)
+                    {
+                        return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+                    }
                     //الاصناف
                     List<ItemDetailsDT> itemDetailsDT = new List<ItemDetailsDT>();
                     List<SellBackInvoicesDetail> items = new List<SellBackInvoicesDetail>();

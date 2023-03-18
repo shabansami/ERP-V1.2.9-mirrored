@@ -26,11 +26,14 @@ namespace ERP.Web.Controllers
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         ItemService itemService;
         StoreService storeService;
+        CheckClosedPeriodServices closedPeriodServices;
         public QuotesController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
             itemService = new ItemService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
 
         }
         public static string DS { get; set; }
@@ -212,7 +215,12 @@ namespace ERP.Web.Controllers
                 //فى حالة الخصم على الفاتورة نسية /قيمة 
                 if (!bool.TryParse(isInvoiceDisVal.ToString(), out var t))
                     return Json(new { isValid = false, message = "تأكد من اختيار احتساب الخصم على الفاتورة" });
+                var checkdate = closedPeriodServices.IsINPeriod(vm.InvoiceDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+                }
                 invoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
                 //الاصناف
                 List<ItemDetailsDT> itemDetailsDT = new List<ItemDetailsDT>();

@@ -22,11 +22,14 @@ namespace ERP.Web.Controllers
         // GET: GeneralRecords
         VTSaleEntities db;
         public static string DS { get; set; }
+        CheckClosedPeriodServices closedPeriodServices;
         public GeneralRecordsController()
         {
             db= new VTSaleEntities();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
-        
+
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
 
         #region عرض القيود الحرة المسجلة سابقا
@@ -164,7 +167,12 @@ namespace ERP.Web.Controllers
             {
                 if (vm.BranchId == null || vm.TransactionDate == null)
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                var checkdate = closedPeriodServices.IsINPeriod(vm.TransactionDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+                }
                 vm.TransactionDate = vm.TransactionDate.Value.AddHours(Utility.GetDateTime().Hour).AddMinutes(Utility.GetDateTime().Minute);
 
                 List<GeneralRecordDetailDT> deDS = new List<GeneralRecordDetailDT>();

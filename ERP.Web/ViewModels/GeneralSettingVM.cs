@@ -26,6 +26,7 @@ namespace ERP.Web.ViewModels
         public Nullable<int> PaidWithBalance { get; set; } //قبول/رفض صرف نقدية بدون رصيد 
         public Nullable<int> InvoicesApprovalAfterSaveId { get; set; } //الاعتماد المباشر بعد حفظ فواتير البيع والتوريد 
         public Nullable<int> StoreTransferApprovalAfterSaveId { get; set; } //الاعتماد المباشر بعد حفظ تحويلات المخازن 
+        public Nullable<int> FutureOprationId { get; set; } //سماح بعمل عمليات مستقبلية 
 
         public Nullable<int> ItemCostCalculateShowInSellRegId { get; set; } //اظهار تكلفة الصنف فى شاشة البيع 
         public Nullable<int> PeriodAllowedPayInstallment { get; set; } //المدة المسموح بها فى سداد قسط 

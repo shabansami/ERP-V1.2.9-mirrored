@@ -23,6 +23,8 @@ namespace ERP.Web.Controllers
         VTSaleEntities db = new VTSaleEntities();
         VTSAuth auth = new VTSAuth();
         SellInvoiceInstallmentService installmentService = new SellInvoiceInstallmentService();
+
+        CheckClosedPeriodServices closedPeriodServices = new CheckClosedPeriodServices();
         public ActionResult Index()
         {
             #region تاريخ البداية والنهاية فى البحث
@@ -99,7 +101,12 @@ namespace ERP.Web.Controllers
                 return Json(new { isValid = false, message = "تأكد من اختيار تاريخ التحصيل" });
             if (vm.PayedAmount == 0 || vm.PayedAmount < 0)
                 return Json(new { isValid = false, message = "تأكد من ادخال المبلغ المدفوع بشكل صحيح" });
+            var checkdate = closedPeriodServices.IsINPeriod(vm.PaymentDate.ToString());
+            if (!checkdate)
+            {
+                return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
+            }
             var model = db.InstallmentSchedules.Where(x => x.Id == vm.ScheduleGuid).FirstOrDefault();
             bool isHasRemindAmount = false;
             if (vm.DifValue != 0)

@@ -17,9 +17,11 @@ namespace ERP.Web.Controllers
         // GET: SaleMenCustomerCheques
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
+        CheckClosedPeriodServices closedPeriodServices;
         public SaleMenCustomerChequesController()
         {
             db = new VTSaleEntities();
+            closedPeriodServices = new CheckClosedPeriodServices();
         }
         public ActionResult Index()
         {
@@ -94,6 +96,8 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
                 if (SaleMenEmployeeId == null)
                     return Json(new { isValid = false, message = "خطأ فى بيانات المندوب ..لا يمكن عرض هذه الشاشة" });
+
+              
                 //فى حالة ادخال رقم فاتورة توريد يجب التأكد من صحة الرقم المدخلو وانه من ضمن فواتير التوريد 
                 if (vm.InvoiceId != null)
                 {

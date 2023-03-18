@@ -1955,6 +1955,7 @@
     </Compile>
     <Compile Include="Services\AccountTreeService.cs" />
     <Compile Include="Services\BalanceService.cs" />
+    <Compile Include="Services\CheckClosedPeriodServices.cs" />
     <Compile Include="Services\CustomerService.cs" />
     <Compile Include="Services\EmployeeService.cs" />
     <Compile Include="Services\ExpenseIncomeService.cs" />

@@ -398,6 +398,11 @@ namespace ERP.Web.Controllers
             //الاعتماد المباشر بعد  حفظ تحويلات المخازن   
             var StoreTransferApprovalAfterSave = model.Where(x => x.Id == (int)GeneralSettingCl.StoreTransferApprovalAfterSave).FirstOrDefault().SValue;
             ViewBag.StoreTransferApprovalAfterSaveId = new SelectList(selectListItem, "Value", "Text", StoreTransferApprovalAfterSave != null ? StoreTransferApprovalAfterSave : null);
+
+            //سماح بقبول عمل عمليات مستقبلية
+            var FutureOpration = model.Where(x => x.Id == (int)GeneralSettingCl.FutureOpration).FirstOrDefault().SValue;
+            ViewBag.FutureOprationId = new SelectList(selectListItem, "Value", "Text", FutureOpration != null ? FutureOpration : null);
+
             //اظهار تكلفة الصنف فى شاشة البيع
             var itemCostCalculateShowInSellReg = model.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateShowInSellReg).FirstOrDefault().SValue;
             List<SelectListItem> selectListItem3 = new List<SelectListItem>
@@ -587,7 +592,6 @@ namespace ERP.Web.Controllers
                         if (endDate != null)
                             endDate.SValue = vm.FinancialYearEndDate.Value.ToString("yyyy-MM-dd");
 
-           
 
                         // احتساب تكلفة المنتج 
                         // قبول اضافة اصناف بدون رصيد فى فواتير البيع 
@@ -611,7 +615,7 @@ namespace ERP.Web.Controllers
                             if (item.Id == (int)GeneralSettingCl.InvoicesApprovalAfterSave)
                                 item.SValue = vm.InvoicesApprovalAfterSaveId.ToString();
 
-                            // الاعتماد المباشر بعد حفظ فواتير البيع والتوريد                             
+                            // الاعتماد المباشر بعد عمل تحويلات مخازن                               
                             if (item.Id == (int)GeneralSettingCl.StoreTransferApprovalAfterSave)
                                 item.SValue = vm.StoreTransferApprovalAfterSaveId.ToString();
 
@@ -639,7 +643,9 @@ namespace ERP.Web.Controllers
                             // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته                            
                             if (item.Id == (int)GeneralSettingCl.AcceptItemCostSellDown)
                                 item.SValue = vm.AcceptItemCostSellDown.ToString();
-
+                            // سماح بقبول عمل عمليات مستقبلية                             
+                            if (item.Id == (int)GeneralSettingCl.FutureOpration)
+                                item.SValue = vm.FutureOprationId.ToString();
                             db.Entry(item).State = EntityState.Modified;
                         }
                         break;

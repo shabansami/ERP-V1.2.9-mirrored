@@ -20,10 +20,13 @@ namespace ERP.Web.Controllers
         VTSaleEntities db;
         VTSAuth auth => TempData["userInfo"] as VTSAuth;
         StoreService storeService;
+        CheckClosedPeriodServices closedPeriodServices;
         public SupplierChequesController()
         {
             db = new VTSaleEntities();
             storeService = new StoreService();
+            closedPeriodServices = new CheckClosedPeriodServices();
+
         }
 
         #region استعراض كل شيكات الموردين 
@@ -96,6 +99,12 @@ namespace ERP.Web.Controllers
                     }
                     else
                         return Json(new { isValid = false, message = "تأكد من ادخال رقم فاتورة البيع بشكل صحيح " });
+
+                }
+                var checkdate = closedPeriodServices.IsINPeriod(vm.CollectionDate.ToString());
+                if (!checkdate)
+                {
+                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
 
                 }
                 var isInsert = false;

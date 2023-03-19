@@ -120,13 +120,27 @@
                                 if (item.IsTotal)
                                 {
                                     attr = "danger";
+                                    <tr><td></td><td></td><td></td><td></td></tr>
                                 }
-                            <tr class="table-@attr text-center">
-                                <td class="table-active">@item.AccountNumber</td>
-                                <td class="table-primary">@item.AccountName</td>
-                                <td class="table-secondary">@item.Partial</td>
-                                <td class="table-secondary">@item.Whole</td>
-                            </tr>
+                                if (item.IsThirdLevel)
+                                {
+                                    <tr class="text-center">
+                                        <td>@item.AccountNumber</td>
+                                        <td >@item.AccountName</td>
+                                        <td >@item.Partial</td>
+                                        <td >@item.Whole</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr class="table-@attr text-center">
+                                        <td class="table-active">@item.AccountNumber</td>
+                                        <td class="table-primary">@item.AccountName</td>
+                                        <td class="table-secondary">@item.Partial</td>
+                                        <td class="table-secondary">@item.Whole</td>
+                                    </tr>
+                                }
+
 
                             }
                         </tbody>

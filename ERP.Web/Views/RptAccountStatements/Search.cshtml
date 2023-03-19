@@ -125,11 +125,19 @@
                         <div class="col-lg-4">
                             <div class="form-group">
                                 <div>
+                                    <label>حالة التقرير</label>
+                                    @Html.DropDownList("ReportStatus",null, htmlAttributes: new { @class = "form-control din-med" })
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-lg-4">
+                            <div class="form-group">
+                                <div>
                                     <label>عرض التقرير بالانجليزية</label>
                                     @Html.CheckBoxFor(m => m.ShowRptEn, htmlAttributes: new { @class = "form-check-input din-med" })
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
 
 
                     </div>
@@ -209,7 +217,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @if (Model.GeneralDalies.Count > 0)
+                            @if (Model.GeneralDalies.Count > 0&&Model.ReportStatus==1)
                             {
                                 <tr>
                                     @*<td style="display:none;"></td>
@@ -327,26 +335,7 @@
                             @if (Model.GeneralDalies.Count > 0)
                             {
 
-                                @*<tr class="alert alert-warning">
-                                        <th colspan="3">
-                                            <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceBeforPeriod </label>
-                                        </th>
-                                        <th>
-                                            <label style="color: firebrick; font-size: 14px;">
-                                                @Model.LastBalanceDebit
-                                            </label>
-                                        </th>
-                                        <th>
-                                            <label style="color: firebrick; font-size: 14px;">
-                                                @Model.LastBalanceCredit
-                                            </label>
-                                        </th>
-                                        <th colspan="4">
-                                            <label style="color:firebrick">
-                                                @AccountActionBalanceBeforPeriod
-                                            </label>
-                                        </th>
-                                    </tr>*@
+
                                 <tr>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px;"></label>
@@ -362,15 +351,15 @@
                                     <th>
                                         <label style="color:firebrick">
                                         </label>
-                                    </th>                    
+                                    </th>
                                     <th>
                                         <label style="color:firebrick">
                                         </label>
-                                    </th>        
+                                    </th>
                                     <th>
                                         <label style="color:firebrick">
                                         </label>
-                                    </th>                      
+                                    </th>
                                     <th>
                                         <label style="color:firebrick">
                                         </label>
@@ -392,7 +381,7 @@
                                                 @Model.TotalDebit
 
                                             }
-                                            
+
                                         </label>
                                     </th>
                                     <th>
@@ -407,7 +396,7 @@
                                                 @Model.TotalCredit
 
                                             }
-                                          
+
                                         </label>
                                     </th>
                                     <th colspan="4">
@@ -417,7 +406,7 @@
                                         </label>
                                     </th>
                                 </tr>
-                                <tr >
+                                <tr>
                                     <th>
                                         <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceDuringPeriod </label>
                                     </th>
@@ -433,7 +422,7 @@
                                                 @Model.TotalBalanceDebit
 
                                             }
-                                          
+
                                         </label>
                                     </th>
                                     <th>
@@ -448,7 +437,7 @@
                                                 @Model.TotalBalanceCredit
 
                                             }
-                                          
+
                                         </label>
                                     </th>
                                     <th colspan="4">
@@ -457,47 +446,50 @@
                                         </label>
                                     </th>
                                 </tr>
-                                <tr >
-                                    <th>
-                                        <label style="color: firebrick; font-size: 14px;">@FinalBalanceAccountUntilEndPeriod  </label>
-                                    </th>
-                                    <th>
-                                        <label style="color: firebrick; font-size: 14px;">
-                                            @if (Model.SafyBalanceDebit < 0)
-                                            {
-                                                <b>(</b> @Math.Abs(Model.SafyBalanceDebit)<b>)</b>
+                                if (Model.ReportStatus == 1)
+                                {
+                                    <tr>
+                                        <th>
+                                            <label style="color: firebrick; font-size: 14px;">@FinalBalanceAccountUntilEndPeriod  </label>
+                                        </th>
+                                        <th>
+                                            <label style="color: firebrick; font-size: 14px;">
+                                                @if (Model.SafyBalanceDebit < 0)
+                                                {
+                                                    <b>(</b> @Math.Abs(Model.SafyBalanceDebit)<b>)</b>
 
-                                            }
-                                            else
-                                            {
-                                                @Model.SafyBalanceDebit
+                                                }
+                                                else
+                                                {
+                                                    @Model.SafyBalanceDebit
 
-                                            }
-                                         
-                                        </label>
-                                    </th>
-                                    <th>
-                                        <label style="color: firebrick; font-size: 14px;">
-                                            @if (Model.SafyBalanceCredit < 0)
-                                            {
-                                                <b>(</b> @Math.Abs(Model.SafyBalanceCredit)<b>)</b>
+                                                }
 
-                                            }
-                                            else
-                                            {
-                                                @Model.SafyBalanceCredit
+                                            </label>
+                                        </th>
+                                        <th>
+                                            <label style="color: firebrick; font-size: 14px;">
+                                                @if (Model.SafyBalanceCredit < 0)
+                                                {
+                                                    <b>(</b> @Math.Abs(Model.SafyBalanceCredit)<b>)</b>
 
-                                            }
-                                           
-                                        </label>
-                                    </th>
-                                    <th colspan="4">
-                                        <label style="color: firebrick; font-size: 14px;">
-                                            @FinalBalanceAccountUntilEndPeriod
-                                        </label>
-                                    </th>
-                                </tr>
+                                                }
+                                                else
+                                                {
+                                                    @Model.SafyBalanceCredit
 
+                                                }
+
+                                            </label>
+                                        </th>
+                                        <th colspan="4">
+                                            <label style="color: firebrick; font-size: 14px;">
+                                                @FinalBalanceAccountUntilEndPeriod
+                                            </label>
+                                        </th>
+                                    </tr>
+
+                                }
                             }
                         </tfoot>
                     </table>
@@ -690,11 +682,13 @@
 
             var dFrom = $("#dtFrom").val();
             var dTo = $("#dtTo").val();
+            var reportStatus = $("#ReportStatus").val();
             console.log(dFrom);
             console.log(dTo);
+            console.log(reportStatus);
 
             var aEl = document.createElement('a');
-            aEl.href = "/PrintInvoices/PrintRptAccountStatements/?accountId=" + accountId + "&dFrom=" + dFrom + "&dTo=" + dTo;
+            aEl.href = "/PrintInvoices/PrintRptAccountStatements/?accountId=" + accountId + "&dFrom=" + dFrom + "&dTo=" + dTo + "&lang=ar&reportStatus=" + reportStatus;
             aEl.target = "_blank";
             aEl.click();
             }

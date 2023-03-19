@@ -51,7 +51,7 @@
     }
     else
     {
-        pageDir = "rtr";
+        pageDir = "rtl";
         accountName = "اسم الحساب";
         dtFrom = "من تاريخ";
         dtTo = "الى تاريخ";
@@ -198,7 +198,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if (Model.GeneralDalies.Count > 0)
+                        @if (Model.GeneralDalies.Count > 0&&Model.ReportStatus==1)
                         {
                             <tr>
                                 @*<td style="display:none;"></td>
@@ -307,26 +307,6 @@
                         @if (Model.GeneralDalies.Count > 0)
                         {
 
-                            @*<tr class="alert alert-warning">
-                        <th colspan="3">
-                            <label style="color: firebrick; font-size: 14px;">@AccountActionBalanceBeforPeriod </label>
-                        </th>
-                        <th>
-                            <label style="color: firebrick; font-size: 14px;">
-                                @Model.LastBalanceDebit
-                            </label>
-                        </th>
-                        <th>
-                            <label style="color: firebrick; font-size: 14px;">
-                                @Model.LastBalanceCredit
-                            </label>
-                        </th>
-                        <th colspan="4">
-                            <label style="color:firebrick">
-                                @AccountActionBalanceBeforPeriod
-                            </label>
-                        </th>
-                    </tr>*@
                             <tr class="alert alert-warning">
                                 <th colspan="3">
                                     <label style="color: firebrick; font-size: 14px;"></label>
@@ -455,47 +435,50 @@
                                     </label>
                                 </th>
                             </tr>
-                            <tr>
-                                <th>
-                                    <label style="color: firebrick; font-size: 14px;">@FinalBalanceAccountUntilEndPeriod  </label>
-                                </th>
-                                <th>
-                                    <label style="color: firebrick; font-size: 14px;">
-                                        @if (Model.SafyBalanceDebit < 0)
-                                        {
-                                            <b>(</b> @Math.Abs(Model.SafyBalanceDebit)<b>)</b>
+                            if (Model.ReportStatus == 1)
+                            {
+                                <tr>
+                                    <th>
+                                        <label style="color: firebrick; font-size: 14px;">@FinalBalanceAccountUntilEndPeriod  </label>
+                                    </th>
+                                    <th>
+                                        <label style="color: firebrick; font-size: 14px;">
+                                            @if (Model.SafyBalanceDebit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.SafyBalanceDebit)<b>)</b>
 
-                                        }
-                                        else
-                                        {
-                                            @Model.SafyBalanceDebit
+                                            }
+                                            else
+                                            {
+                                                @Model.SafyBalanceDebit
 
-                                        }
+                                            }
 
-                                    </label>
-                                </th>
-                                <th>
-                                    <label style="color: firebrick; font-size: 14px;">
-                                        @if (Model.SafyBalanceCredit < 0)
-                                        {
-                                            <b>(</b> @Math.Abs(Model.SafyBalanceCredit)<b>)</b>
+                                        </label>
+                                    </th>
+                                    <th>
+                                        <label style="color: firebrick; font-size: 14px;">
+                                            @if (Model.SafyBalanceCredit < 0)
+                                            {
+                                                <b>(</b> @Math.Abs(Model.SafyBalanceCredit)<b>)</b>
 
-                                        }
-                                        else
-                                        {
-                                            @Model.SafyBalanceCredit
+                                            }
+                                            else
+                                            {
+                                                @Model.SafyBalanceCredit
 
-                                        }
+                                            }
 
-                                    </label>
-                                </th>
-                                <th colspan="4">
-                                    <label style="color: firebrick; font-size: 14px;">
-                                        @FinalBalanceAccountUntilEndPeriod
-                                    </label>
-                                </th>
-                            </tr>
+                                        </label>
+                                    </th>
+                                    <th colspan="4">
+                                        <label style="color: firebrick; font-size: 14px;">
+                                            @FinalBalanceAccountUntilEndPeriod
+                                        </label>
+                                    </th>
+                                </tr>
 
+                            }
                         }
                     </tfoot>
                 </table>

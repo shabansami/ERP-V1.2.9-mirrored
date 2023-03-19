@@ -41,6 +41,6 @@ namespace ERP.Web.ViewModels
 
         //عند طباعه تقرير كشف الحساب
         public string ToggleUrl { get; set; }
-
+        public int ReportStatus { get; set; } = 1; //حالة التقرير خلال فترة/تراكمى
     }
 }

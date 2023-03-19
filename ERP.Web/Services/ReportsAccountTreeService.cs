@@ -16,17 +16,20 @@ namespace ERP.Web.Services
         static ItemService _itemService = new ItemService();
 
         #region ميزان المراجعة
-        public static List<AuditBalanceDto> AuditBalances(DateTime? dtFrom, DateTime? dtTo, int? accountLevel, Guid? accountTreeId, Guid? branchId = null,bool? StatusVal=null) 
+        public static List<AuditBalanceDto> AuditBalances(DateTime? dtFrom, DateTime? dtTo, int? accountLevel, Guid? accountTreeId, Guid? branchId = null,bool? StatusVal=null,int? AccountMain=null) 
         {
             //StatusVal  
             // الكل بمبالغ وصفرية true
             // حالة عرض حسابات ميزان المراجعة بمبالغ فقط false
 
+            //AccountMain عرض حسابات لحساب رئيسيى مثل المصروفات او الايرادات لاستخدامها فى قائمة الدخل
             using (var db = new VTSaleEntities())
             {
                 IQueryable<AccountsTree> accountTrees = null;
                 if (accountTreeId != null && accountTreeId.HasValue)
                     accountTrees = db.AccountsTrees.Where(x => !x.IsDeleted && x.Id == accountTreeId);
+                else if(AccountMain!=null)
+                    accountTrees= db.AccountsTrees.Where(x => !x.IsDeleted&&x.AccountNumber.ToString().StartsWith(AccountMain.ToString()));
                 else
                     accountTrees = db.AccountsTrees.Where(x => !x.IsDeleted);
 
@@ -355,8 +358,6 @@ namespace ERP.Web.Services
                 var AmountSales = AmountSale.ResultFrom+ AmountSale.ResultTo;
                 //var AmountSales = GetAuditBalances(dtFrom, dtTo, saleAccountId).ResultTo;//قديما
                 saleDetails.Partial = Math.Round(AmountSales, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(saleDetails);
 
                 //مرددوات المبيعات بضاعه
                 //==================================================
@@ -369,18 +370,18 @@ namespace ERP.Web.Services
                 var AmountReturnSales = AmountReturnSale.ResultFrom + AmountReturnSale.ResultTo;
                 //var AmountReturnSales = GetAuditBalances(dtFrom, dtTo, saleReturnAccountId).ResultFrom;//قديما
                 saleReturnDetails.Partial = Math.Round(AmountReturnSales, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(saleReturnDetails);
 
-                //صافى المبيعات
-                //=====================================================
-                var saleSafy = AmountSales - AmountReturnSales;
-                incomeLists.Add(new IncomeListDto
-                {
-                    AccountName = "صافــي المبيعات",
-                    Whole = Math.Round(saleSafy, 2),
-                    IsTotal = true
-                });
+
+                ////صافى المبيعات
+                ////=====================================================
+                //var saleSafy = AmountSales - AmountReturnSales;
+                //incomeLists.Add(new IncomeListDto
+                //{
+                //    AccountName = "صافــي المبيعات",
+                //    Whole = Math.Round(saleSafy, 2),
+                //    IsTotal = true
+                //});
+
 
                 //خصم مسموح به
                 //======================================================
@@ -393,8 +394,7 @@ namespace ERP.Web.Services
                 var AmountPremittedDiscounts = AmountPremittedDiscount.ResultFrom + AmountPremittedDiscount.ResultTo;
                 //var AmountPremittedDiscounts = GetAuditBalances(dtFrom, dtTo, premittedDiscountAccountId).ResultFrom;//قديما
                 premittedDiscountDetails.Partial = Math.Round(AmountPremittedDiscounts, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(premittedDiscountDetails);
+
 
                 //صافى قيمة المبيعات
                 //=======================================================
@@ -405,7 +405,12 @@ namespace ERP.Web.Services
                     Whole = Math.Round(saleValueSafy, 2),
                     IsTotal = true
                 });
-
+                //اضافة حساب المبيعات الى جدول قائمة الدخل 
+                incomeLists.Add(saleDetails);
+                //اضافة حساب المرتجع المبيعات الى جدول قائمة الدخل 
+                incomeLists.Add(saleReturnDetails);
+                //اضافة حساب خصم مسموح به الى جدول قائمة الدخل 
+                incomeLists.Add(premittedDiscountDetails);
 
                 //مخزون اول المدة
                 //=================================================
@@ -418,8 +423,7 @@ namespace ERP.Web.Services
                 var AmountStocks = AmountStock.ResultFrom + AmountStock.ResultTo;
                 //var AmountStocks = GetAuditBalances(dtFrom, dtTo, stockAccountId).ResultFrom;//قديما
                 stockADetails.Partial = Math.Round(AmountStocks, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(stockADetails);
+
 
 
                 //المشتريات
@@ -433,8 +437,7 @@ namespace ERP.Web.Services
                 var AmountPurchases = AmountPurchase.ResultFrom + AmountPurchase.ResultTo;
                 //var AmountPurchases = GetAuditBalances(dtFrom, dtTo, purchaseAccountId).ResultFrom;//قديما
                 purchaseDetails.Partial = Math.Round(AmountPurchases, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(purchaseDetails);
+
 
                 //مرددوات المشتريات 
                 //==================================================
@@ -447,8 +450,7 @@ namespace ERP.Web.Services
                 var AmountReturnPurchases = AmountReturnPurchase.ResultFrom + AmountReturnPurchase.ResultTo;
                 //var AmountReturnPurchases = GetAuditBalances(dtFrom, dtTo, purchaseReturnAccountId).ResultTo;//قديما
                 purchaseReturnDetails.Partial = Math.Round(AmountReturnPurchases, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(purchaseReturnDetails);
+
 
                 //صافى المشتريات
                 //=====================================================
@@ -471,26 +473,21 @@ namespace ERP.Web.Services
                 var AmountEarnedDiscounts = AmountEarnedDiscount.ResultFrom + AmountEarnedDiscount.ResultTo;
                 //var AmountEarnedDiscounts = GetAuditBalances(dtFrom, dtTo, earnedDiscountAccountId).ResultTo;//قديما
                 earnedDiscountDetails.Partial = Math.Round(AmountEarnedDiscounts, 2);
-                //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(earnedDiscountDetails);
+
 
                 //تكلفة بضاعه مشتراه
                 //=======================================================
                 var purchaseValue = AmountPurchases - AmountReturnPurchases - AmountEarnedDiscounts;
-                incomeLists.Add(new IncomeListDto
-                {
-                    AccountName = "تكلفة بضاعه مشتراه",
-                    Partial = Math.Round(purchaseValue, 2),
-                });
+                ////incomeLists.Add(new IncomeListDto
+                ////{
+                ////    AccountName = "تكلفة بضاعه مشتراه",
+                ////    Partial = Math.Round(purchaseValue, 2),
+                ////});
 
                 //تكلفة بضاعة متاحة للبيع
                 //=======================================================
                 var salesStockValue = purchaseValue + AmountStocks;
-                incomeLists.Add(new IncomeListDto
-                {
-                    AccountName = "تكلفة بضاعه متاحة للبيع",
-                    Partial = Math.Round(salesStockValue, 2),
-                });
+
 
                 //مخزون آخر المدة
                 //======================================================
@@ -533,11 +530,7 @@ namespace ERP.Web.Services
                 }
 
                 //stockLastValue = salesStockValue - saleValueSafy; //تم إلغائها بهذا الشكل بناءا على المحاسب ا/ياسر
-                incomeLists.Add(new IncomeListDto
-                {
-                    AccountName = "مخزون آخر المدة",
-                    Partial = Math.Round(stockLastValue, 2),
-                });
+
 
                 //تكلفة المبيعات
                 //=======================================================
@@ -548,6 +541,32 @@ namespace ERP.Web.Services
                     Whole = Math.Round(salesValue, 2),
                     IsTotal=true
                 });
+
+                incomeLists.Add(new IncomeListDto
+                {
+                    AccountName = "تكلفة بضاعه متاحة للبيع",
+                    Partial = Math.Round(salesStockValue, 2),
+                });
+                incomeLists.Add(new IncomeListDto
+                {
+                    AccountName = "مخزون آخر المدة",
+                    Partial = Math.Round(stockLastValue, 2),
+                });  
+                incomeLists.Add(new IncomeListDto
+                {
+                    AccountName = "مخزون أول المدة",
+                    Partial = Math.Round(AmountStocks, 2),
+                });
+                //اضافة مخزون اول المدة الى جدول قائمة الدخل 
+                incomeLists.Add(stockADetails);
+                //اضافة حساب المشتريات الى جدول قائمة الدخل 
+                incomeLists.Add(purchaseDetails);
+                //اضافة حساب مرددوات المشتريات الى جدول قائمة الدخل 
+                incomeLists.Add(purchaseReturnDetails);
+                //اضافة حساب خصم مكتسب الى جدول قائمة الدخل 
+                incomeLists.Add(earnedDiscountDetails);
+
+
 
                 //مجمل الربح
                 //=======================================================
@@ -567,6 +586,69 @@ namespace ERP.Web.Services
                 var AssetsDepreciationComple = GetAuditBalances(dtFrom, dtTo, accountTreeAssetsDepreciationComplex);
                 var AssetsDepreciationComplex = AssetsDepreciationComple.ResultFrom + AssetsDepreciationComple.ResultTo;
                 //var AssetsDepreciationComplex = GetAuditBalances(dtFrom, dtTo, accountTreeAssetsDepreciationComplex).ResultTo;//قديما
+
+                //اجمالى المصروفات
+                //======================================================
+                //حساب المصروفات من الاعدادات
+                ////var expenseAccountId = db.AccountsTrees.Where(x => !x.IsDeleted && x.AccountNumber == Lookups.GeneralExpenses).FirstOrDefault().Id;
+                ////////بيانات وتفاصيل الحساب 
+                ////var expenseAccounts = AccountTreeService.GetAccountTreeLastChild(expenseAccountId);
+                ////double AmountTotalExpense = 0;
+                ////foreach (var item in expenseAccounts)
+                ////{
+                ////    ////اجمالى الارصدة من ميزان المراجعة 
+                ////    var AmountTotalExpensee = GetAuditBalances(dtFrom, dtTo, item.Id);
+                ////     AmountTotalExpense += (AmountTotalExpensee.ResultFrom + AmountTotalExpensee.ResultTo);
+                ////    //AmountTotalExpense += GetAuditBalances(dtFrom, dtTo, item.Id).ResultFrom;//قديما
+                ////}
+                ////اضافة حساب مصروفات اخرى بدون مصروف االاهلاك الى جدول قائمة الدخل 
+                ////incomeLists.Add(new IncomeListDto
+                ////{
+                ////    AccountName = "مصروفات اخرى ",
+                ////    Partial = Math.Round(AmountTotalExpense - AssetsDepreciationComplex, 2),
+                ////});//اضافة الحساب الى جدول قائمة الدخل 
+                ////incomeLists.Add(new IncomeListDto
+                ////{
+                ////    AccountName = "اجمالى المصروفات",
+                ////    Whole = Math.Round(AmountTotalExpense, 2),
+                ////    IsTotal = true
+                ////});
+                var expenses = ReportsAccountTreeService.AuditBalances(dtFrom, dtTo, null, null, null, null, Lookups.GeneralExpenses);
+                var expense = expenses.Where(x => x.AccountNumber == Lookups.GeneralExpenses).ToList();
+                var totalExpenses = expense.Select(x => x.ResultFrom + x.ResultTo).Sum();
+            //اضافة الحساب الى جدول قائمة الدخل 
+            incomeLists.Add(new IncomeListDto
+            {
+                AccountName = "اجمالى المصروفات",
+                Whole = Math.Round(totalExpenses, 2),
+                IsTotal = true
+            });
+                //عرض الحساباب الرئيسية حتى المستوى الثالث
+                foreach (var e in expense.FirstOrDefault().children)
+                {
+                    if(e.AccountLevel==2)
+                    {
+                        incomeLists.Add(new IncomeListDto
+                        {
+                            AccountName = e.AccountName,
+                            Partial = Math.Round(e.ResultFrom + e.ResultTo, 2),
+                            IsTotal = false
+                        });
+                        foreach (var e3 in e.children)
+                        {
+                            if (e3.AccountLevel == 3)
+                            {
+                                incomeLists.Add(new IncomeListDto
+                                {
+                                    AccountName = e3.AccountName,
+                                    Partial = Math.Round(e3.ResultFrom + e3.ResultTo, 2),
+                                    IsTotal = false,
+                                    IsThirdLevel=true
+                                });
+                            }
+                        }
+                    }
+                }
                 //اضافة الحساب الى جدول قائمة الدخل 
                 incomeLists.Add(new IncomeListDto
                 {
@@ -574,32 +656,6 @@ namespace ERP.Web.Services
                     Partial = Math.Round(AssetsDepreciationComplex, 2),
                 });
 
-                //اجمالى المصروفات
-                //======================================================
-                //حساب المصروفات من الاعدادات
-                var expenseAccountId = db.AccountsTrees.Where(x => !x.IsDeleted && x.AccountNumber == Lookups.GeneralExpenses).FirstOrDefault().Id;
-                ////بيانات وتفاصيل الحساب 
-                var expenseAccounts = AccountTreeService.GetAccountTreeLastChild(expenseAccountId);
-                double AmountTotalExpense = 0;
-                foreach (var item in expenseAccounts)
-                {
-                    ////اجمالى الارصدة من ميزان المراجعة 
-                    var AmountTotalExpensee = GetAuditBalances(dtFrom, dtTo, item.Id);
-                     AmountTotalExpense += (AmountTotalExpensee.ResultFrom + AmountTotalExpensee.ResultTo);
-                    //AmountTotalExpense += GetAuditBalances(dtFrom, dtTo, item.Id).ResultFrom;//قديما
-                }
-                //اضافة حساب مصروفات اخرى بدون مصروف االاهلاك الى جدول قائمة الدخل 
-                incomeLists.Add(new IncomeListDto
-                {
-                    AccountName = "مصروفات اخرى ",
-                    Partial = Math.Round(AmountTotalExpense- AssetsDepreciationComplex, 2),
-                });//اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(new IncomeListDto
-                {
-                    AccountName = "اجمالى المصروفات",
-                    Whole = Math.Round(AmountTotalExpense, 2),
-                    IsTotal = true
-                });
                 //اجمالى الايرادات المتنوعة 
                 //======================================================
                 //حساب الايرادات من الاعدادات
@@ -640,7 +696,7 @@ namespace ERP.Web.Services
 
                 //صافى الربح
                 //=======================================================
-                var totalprofitSafy = totalprofit - AmountTotalExpense + AmountTotalIncome;
+                var totalprofitSafy = totalprofit - totalExpenses + AmountTotalIncome;
                 incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "صافى الربح",

@@ -681,5 +681,16 @@ namespace ERP.Web.Services
             }
         }
         #endregion
+
+        #region التأكد من عدم ادخال او تعديل الحسابات الرئيسية للدليل المحاسبى 
+        //الاصول/الخصوم/المصروفات/الايرادات
+        public static bool IsAccountMain(long AccountNumber)
+        {
+            if(AccountNumber==Lookups.GeneralAssets|| AccountNumber == Lookups.GeneralPropertyRights || AccountNumber == Lookups.GeneralExpenses || AccountNumber == Lookups.GeneralIncomes)
+                return true;
+            else 
+                return false;
+        }
+        #endregion
     }
 }

@@ -71,7 +71,7 @@ namespace ERP.Web.Controllers
         #endregion
 
         #region طباعه وعرض كشف حساب  
-        public ActionResult PrintRptAccountStatements(string accountId,string dFrom,string dTo, string lang="ar")
+        public ActionResult PrintRptAccountStatements(string accountId,string dFrom,string dTo, string lang="ar",int reportStatus = 1)
         {
             //اسطر الطباعه من الاعدادات 
             var list = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.EntityData).ToList();
@@ -83,15 +83,16 @@ namespace ERP.Web.Controllers
                 if (lang == "en")
                 {
                     accountGeneralDailies.ShowRptEn = true;
-                    accountGeneralDailies.ToggleUrl = $"/PrintInvoices/PrintRptAccountStatements/?accountId={accountId}&dFrom={dFrom}&dTo={dTo}&lang=ar";
+                    accountGeneralDailies.ToggleUrl = $"/PrintInvoices/PrintRptAccountStatements/?accountId={accountId}&dFrom={dFrom}&dTo={dTo}&lang=ar&reportStatus={reportStatus}";
 
                 }
                 else
                 {
                     accountGeneralDailies.ShowRptEn = false;
-                    accountGeneralDailies.ToggleUrl = $"/PrintInvoices/PrintRptAccountStatements/?accountId={accountId}&dFrom={dFrom}&dTo={dTo}&lang=en";
+                    accountGeneralDailies.ToggleUrl = $"/PrintInvoices/PrintRptAccountStatements/?accountId={accountId}&dFrom={dFrom}&dTo={dTo}&lang=en&reportStatus={reportStatus}";
 
                 }
+                accountGeneralDailies.ReportStatus= reportStatus;
                 return View(accountGeneralDailies);
             }
             else

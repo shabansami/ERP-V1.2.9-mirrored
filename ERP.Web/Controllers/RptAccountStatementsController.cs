@@ -25,6 +25,10 @@ namespace ERP.Web.Controllers
         #region كشف حساب  
         public ActionResult Search(GeneralDayAccountVM vm)
         {
+            ViewBag.ReportStatus = new SelectList(new List<DropDownListInt>
+            {
+                new DropDownListInt {Id=1,Name="تراكمى"},new DropDownListInt{Id=2,Name="خلال فترة فقط"}
+            }, "Id", "Name", vm.ReportStatus);
             if (vm.dtFrom == null || vm.dtTo == null)
             {
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
@@ -49,6 +53,7 @@ namespace ERP.Web.Controllers
             {
                 var list = GeneralDailyService.SearchAccountGeneralDailies(dtFrom, dtTo, vm.AccountTreeId, vm.CustomerRelated == true ? 1 : 0, vm.ShowRptEn);
                 list.AccountTreeId = null;
+                list.ReportStatus = vm.ReportStatus;
                 return View(list);
             }
             else

@@ -7,6 +7,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ERP.Web.Services;
+using static ERP.Web.Utilites.Lookups;
 
 namespace ERP.Web.Controllers
 {
@@ -75,6 +77,9 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
 
                 var isInsert = false;
+                //التأكد من عدم ادخال او تعديل الحسابات الرئيسية للدليل المحاسبى 
+                if(AccountTreeService.IsAccountMain(vm.AccountNumber))
+                    return Json(new { isValid = false, message = "رقم الحساب من الحسابات الرئيسية لدليل المحاسبى لايمكن تغييره" });
                 if (vm.Id != Guid.Empty)
                 {
                     if (db.AccountsTrees.Where(x => !x.IsDeleted && x.Id != vm.Id && x.AccountNumber == vm.AccountNumber  ).Count() > 0)
@@ -85,6 +90,7 @@ namespace ERP.Web.Controllers
                     model.AccountNameEn = vm.AccountNameEn;
                     model.TypeId = vm.TypeId;
                     model.ParentId = vm.ParentId;
+                    model.SelectedTree = vm.TypeId == (int)AccountTreeSelectorTypesCl.Operational ? false : true;
                     model.AccountNumber = vm.AccountNumber;
                     if (vm.ParentId == null)
                         model.AccountLevel = 1;
@@ -108,7 +114,7 @@ namespace ERP.Web.Controllers
                         AccountNumber = vm.AccountNumber,
                         TypeId = vm.TypeId,
                         ParentId = vm.ParentId,
-                        SelectedTree=true
+                        SelectedTree= vm.TypeId == (int)AccountTreeSelectorTypesCl.Operational ? false : true
                     };
                     if (vm.ParentId == null)
                         newAccount.AccountLevel = 1;

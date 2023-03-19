@@ -1,0 +1,179 @@
+﻿
+@model ERP.DAL.ExpenseIncome
+@using ERP.DAL
+@using ERP.Web.Utilites
+@using Newtonsoft.Json;
+@{ ViewBag.Title = "CreateEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
+    var generalAccount = Lookups.GeneralIncomes;
+    List<int> list = new List<int> { Lookups.PurchasedMerchandiseSales, Lookups.FullProductionSales };
+    string accountsexption = JsonConvert.SerializeObject(list);
+
+    
+        title = "تسجيل إيراد";
+        btn = "اضافة";
+        icon = "fa fa-plus-circle m-1";
+    
+
+    }
+
+@section PageTitle1{الإيرادات}
+@section PageTitle2{@title }
+@section Button1{ادارة الإيراد}
+@section Button1Link{/Incomes/Index}
+@section icon{<i class="fa fa-cog m-1"></i>}
+<div class="row">
+    <div class="col-12">
+        <div class="card din-bold">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h4 class=" din-bold"> @title </h4>
+                    </div>
+                </div>
+            </div>
+            @using (Html.BeginForm("SaveCopied", "Incomes", FormMethod.Post, new { id = "form1" }))
+            {
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>تاريخ العملية </label>
+                                @Html.TextBoxFor(m => m.PaymentDate, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <!--begin::Input-->
+                            <div class="form-group required">
+                                <label> نوع الايراد</label>
+                                <input style="text-align:right;" name="accountTree" placeholder="اختر نوع الايراد" type="text" class="form-control alert alert-success" id="accountTree" autocomplete="off" />
+                                @*<input type="hidden" id="ExpenseIncomeTypeAccountTreeId" />*@
+                                @Html.HiddenFor(m => m.ExpenseIncomeTypeAccountTreeId)
+                            </div>
+                            <!--end::Input-->
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>المبلغ</label>
+                                @Html.TextBoxFor(m => m.Amount, new { @class = "form-control", @style = "text-align:right;" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>الفرع</label>
+                                @if (ViewBag.Branchcount == 1)
+                                {
+                                    @Html.DropDownList("BranchId", null, htmlAttributes: new { @class = "form-select   din-med", @onchange = "Income_Module.getSafesOnBranchChanged();" })
+
+                                }
+                                else
+                                {
+                                    @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "Income_Module.getSafesOnBranchChanged();" })
+
+                                }
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group required">
+                                <label>خزينة</label>
+                                @Html.DropDownList("SafeId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="form-group ">
+                                <label>اسم المسدد الى الخزنة</label>
+                                @Html.TextBoxFor(m => m.PaidTo, new { @class = "form-control" })
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="form-group ">
+                                <label>البيان</label>
+                                @Html.TextAreaFor(m => m.Notes, new { @class = "form-control" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-12" style="text-align:left;">
+                            @*<input type="button" onclick="Income_Module.SubmitForm(this);" value="@btn" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px" />*@
+                            <a href="javascript:void(0);" onclick="Income_Module.SubmitFormIncome(this);" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100px"><i class="@icon"></i>@btn</a>
+                            @if (Model.Id != Guid.Empty)
+                            {
+                                <a href="/Incomes/Index" class="btn btn-text-primary btn-hover-light-primary btn-square font-weight-bold mr-2 din-bold w-100px"><i class="@icon2"></i>عودة</a>}
+                        </div>
+                    </div>
+                </div>}
+        </div>
+    </div>
+    @if (Model.Id == Guid.Empty && ViewBag.LastRow != null)
+    {
+        var modl = ViewBag.LastRow as ExpenseIncome;
+
+        <div class="col-lg-12">
+            <div class="card card-custom gutter-b">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3 class="card-label">اخر بيان تم اضافته</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!--begin::Example-->
+                    <div class="example mb-10">
+                        <table class="table table-hover mb-6">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">نوع الإيراد</th>
+                                    <th scope="col">المبلغ</th>
+                                    <th scope="col">التاريخ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>@modl.ExpenseIncomeTypeAccountsTree.AccountName</td>
+                                    <td>@modl.Amount</td>
+                                    <td>@modl.PaymentDate.Value.ToString("yyyy-MM-dd")</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--end::Example-->
+                </div>
+            </div>
+        </div>}
+</div>
+@section Scripts
+{
+    <script src="~/Assets/JSCustom/Income.js"></script>
+    <script>
+        var accounTree;
+        $(document).ready(function () {
+            Income_Module.getSafesOnBranchChanged();
+            //دليل الحسابات
+            var dsTree = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount, accountsexption:JSON.stringify(@accountsexption) }, function (data) {
+                accounTree.setSource(data);
+            });
+
+            accounTree = $('#accountTree').comboTree({
+                source: dsTree,
+                isMultiple: false,
+                collapse: true,
+                selected: ['@Model.ExpenseIncomeTypeAccountTreeId']
+                //selectableLastNode: true
+
+            });
+            accounTree.onChange(function () {
+                if (accounTree.getSelectedIds() != null) {
+                    $('#ExpenseIncomeTypeAccountTreeId').val(accounTree.getSelectedIds()[0]);
+                }
+            });
+            // ============== نهاية شجرة الحسابات
+
+        });
+    </script>
+}
+

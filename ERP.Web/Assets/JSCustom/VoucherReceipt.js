@@ -25,7 +25,7 @@ var VoucherReceipt_Module = function () {
                         $(win.document.body)
                             //.css('font-size', '20pt')
                             .prepend(
-                                '<img src=' + localStorage.getItem("logo")+' style="position:absolute; top:25%; right:10%;opacity: 0.2;" />'
+                                '<img src=' + localStorage.getItem("logo") + ' style="position:absolute; top:25%; right:10%;opacity: 0.2;" />'
                             );
                         $(win.document.body).find('table')
                             //.addClass('compact')
@@ -109,8 +109,9 @@ var VoucherReceipt_Module = function () {
 								<i class="fa fa-unlock-alt"></i></a>\
                                 <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=23" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
 								<i class="fa fa-search"></i>\
-							</a>\</div>\
-						';
+                            </a>\<a href="/VoucherReceipts/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\						';
                         } else {
                             return '\
 							<div class="btn-group">\<a href="/VoucherReceipts/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
@@ -119,8 +120,9 @@ var VoucherReceipt_Module = function () {
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=VoucherReceipt_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-check"></i>\
-							</a></div>\
-						';
+                              </a>\<a href="/VoucherReceipts/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\						';
                         }
 
                     },
@@ -312,7 +314,7 @@ var VoucherReceipt_Module = function () {
                 var api = this.api();
                 var balanceStatusTxt = '';
                 var debit = api.column(1).data().sum();
-                
+
                 $(api.table().footer()).html(html + debit + '</label></div></th>  </tr>');
             },
 

@@ -109,8 +109,9 @@ var VoucherReceipt_Module = function () {
 								<i class="fa fa-unlock-alt"></i></a>\
                                 <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=23" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
 								<i class="fa fa-search"></i>\
-							</a>\</div>\
-						';
+		                     </a>\<a href="/VoucherBankReceipts/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\						';
                         } else {
                             return '\
 							<div class="btn-group">\<a href="/VoucherBankReceipts/Edit/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="تعديل">\
@@ -119,7 +120,9 @@ var VoucherReceipt_Module = function () {
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=VoucherReceipt_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-check"></i>\
-							</a></div>\
+								</a>\<a href="/VoucherBankReceipts/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\
 						';
                         }
 

@@ -113,7 +113,9 @@ var Income_Module = function () {
 								<i class="fa fa-check"></i>\
 							</a><a href="javascript:;" onclick=Income_Module.deleteRowIncome(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a></div>\
+							    </a>\<a href="/Incomes/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\
 						';
                         } else {
                             return '\
@@ -123,6 +125,8 @@ var Income_Module = function () {
 							</a><a href="javascript:;" onclick=Income_Module.UnApprovalIncome(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=21" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
 								<i class="fa fa-money-bill"></i>\
+							    </a>\<a href="/Incomes/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a>\</div>\
 						';
                         }

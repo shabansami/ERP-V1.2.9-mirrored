@@ -112,8 +112,10 @@ var Expense_Module = function () {
 								<i class="fa fa-check"></i>\
 							</a><a href="javascript:;" onclick=Expense_Module.deleteRowExpense(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a></div>\
-						';
+							      </a>\<a href="/Expenses/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\
+                                ';
                         } else {
                             return '\
 							<div class="btn-group">\
@@ -122,6 +124,8 @@ var Expense_Module = function () {
 							</a><a href="javascript:;" onclick=Expense_Module.UnApprovalExpense(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i>\<a href="/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=7" class="btn btn-sm btn-clean btn-icon" title="عرض القيود">\
 								<i class="fa fa-money-bill"></i>\
+							      </a>\<a href="/Expenses/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a>\</div>\
 						';
                         }

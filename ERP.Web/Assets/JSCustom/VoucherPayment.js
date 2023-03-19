@@ -109,6 +109,8 @@ var VoucherPayment_Module = function () {
 								<i class="fa fa-unlock-alt"></i></a>\
                                 <a href = "/GeneralDailies/Index/?tranId='+ row.Id + '&tranTypeId=22" class="btn btn-sm btn-clean btn-icon"  title = "استعراض القيد" >\
 								<i class="fa fa-search"></i>\
+							</a>\<a href="/VoucherPayments/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a>\</div>\
 						';
                         } else {
@@ -120,7 +122,9 @@ var VoucherPayment_Module = function () {
 								<i class="fa fa-trash"></i>\
 							</a><a href="javascript:;" onclick=VoucherPayment_Module.Approval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد">\
 								<i class="fa fa-check"></i>\
-							</a></div>\
+							</a>\<a href="/VoucherPayments/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\
 						';
                         }
 

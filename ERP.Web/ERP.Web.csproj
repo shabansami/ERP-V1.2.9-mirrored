@@ -2387,6 +2387,11 @@
     <Content Include="Views\ClosingPeriods\CreateEdit.cshtml" />
     <Content Include="Views\ClosingPeriods\Index.cshtml" />
     <Content Include="Views\PrintInvoices\PrintRptAccountStatements.cshtml" />
+    <Content Include="Views\GeneralRecords\SaveCopiedRecord.cshtml" />
+    <Content Include="Views\PurchaseInvoices\SaveCopiedInvoice.cshtml" />
+    <Content Include="Views\SellInvoices\SaveCopiedInvoice.cshtml" />
+    <Content Include="Views\SellBackInvoices\SaveCopiedInvoice.cshtml" />
+    <Content Include="Views\PurchaseBackInvoices\SaveCopiedInvoice.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

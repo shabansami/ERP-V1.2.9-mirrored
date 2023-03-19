@@ -61,7 +61,7 @@ namespace ERP.Web.Controllers
             return View();
         }
 
-        public ActionResult GetAll(string dFrom, string dTo,string brnchId)
+        public ActionResult GetAll(string dFrom, string dTo, string brnchId)
         {
             int? n = null;
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
@@ -72,32 +72,32 @@ namespace ERP.Web.Controllers
                 txtSearch = TempData["txtSearch"].ToString();
                 return Json(new
                 {
-                    data = db.SellInvoices.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList().Where(x => !x.IsDeleted && (x.Id.ToString() == txtSearch || x.PersonCustomer.Name.Contains(txtSearch) )).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, PaymentTypeName = x.PaymentType.Name, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval=x.IsFinalApproval, Actions = n, Num = n }).ToList()
+                    data = db.SellInvoices.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList().Where(x => !x.IsDeleted && (x.Id.ToString() == txtSearch || x.PersonCustomer.Name.Contains(txtSearch))).OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, PaymentTypeName = x.PaymentType.Name, InvoiceNum = x.InvoiceNumber, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
                 }, JsonRequestBehavior.AllowGet); ;
             }
             else
             {
                 DateTime dtFrom, dtTo;
                 var list = db.SellInvoices.Where(x => !x.IsDeleted);
-                bool selectBranch=false;
+                bool selectBranch = false;
                 if (Guid.TryParse(brnchId, out Guid branchId))
                 {
                     list = list.Where(x => x.BranchId == branchId);
-                    selectBranch=true;
+                    selectBranch = true;
                 }
                 if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                     list = list.Where(x => DbFunctions.TruncateTime(x.InvoiceDate) >= dtFrom.Date && DbFunctions.TruncateTime(x.InvoiceDate) <= dtTo.Date);
 
                 List<SellInvoice> branchesList = new List<SellInvoice>();
-                if(selectBranch)
-                    branchesList= list.ToList();
+                if (selectBranch)
+                    branchesList = list.ToList();
                 else
-                    branchesList=list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
+                    branchesList = list.ToList().Where(x => branches.Any(b => b.Id == x.BranchId)).ToList();
 
-                    return Json(new
-                    {
-                        data = branchesList.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper,  InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
-                    }, JsonRequestBehavior.AllowGet);
+                return Json(new
+                {
+                    data = branchesList.OrderBy(x => x.CreatedOn).Select(x => new { Id = x.Id, InvoiceNumber = x.InvoiceNumber, InvoiceNumPaper = x.InvoiceNumPaper, InvoiceNum = x.InvoiceNumber, PaymentTypeName = x.PaymentType.Name, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, IsApprovalAccountant = x.IsApprovalAccountant, InvoType = x.BySaleMen ? "مندوب" : "بدون مناديب", ApprovalAccountant = x.IsApprovalAccountant ? "معتمده" : "غير معتمدة", IsApprovalStore = x.IsApprovalStore, ApprovalStore = x.IsApprovalStore ? "معتمده" : "غير معتمدة", CaseName = x.Case != null ? x.Case.Name : "", typ = (int)UploalCenterTypeCl.SellInvoice, IsFinalApproval = x.IsFinalApproval, Actions = n, Num = n }).ToList()
+                }, JsonRequestBehavior.AllowGet);
             }
         }
         #endregion
@@ -127,7 +127,7 @@ namespace ERP.Web.Controllers
                 deDS = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(vm.DT_Datasource);
             if (!bool.TryParse(vm.IsDiscountItemVal.ToString(), out var tt))
                 return Json(new { isValid = false, msg = "تاكد من اختيار طريقة احتساب الخصم" }, JsonRequestBehavior.AllowGet);
-            
+
             var item = db.Items.Where(x => x.Id == vm.ItemId).FirstOrDefault();
             if (item != null)
             {
@@ -137,19 +137,19 @@ namespace ERP.Web.Controllers
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
-            if (vm.Price<=0)
+            if (vm.Price <= 0)
             {
                 //سعر البيع يقبل صفر (الهدايا
                 var sellPriceZeroSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.SellPriceZero).FirstOrDefault().SValue;
                 if (sellPriceZeroSett == "0")//رفض البيع بصفر 
-                        return Json(new { isValid = false, msg = "تأكد من ادخال سعر البيع بشكل صحيح" }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isValid = false, msg = "تأكد من ادخال سعر البيع بشكل صحيح" }, JsonRequestBehavior.AllowGet);
             }
             if (vm.SerialItemId != null && vm.SerialItemId != Guid.Empty)
             {
                 if (vm.Quantity > 1)
                     return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من 1 " }, JsonRequestBehavior.AllowGet);
             }
-            if (vm.Quantity<=0)
+            if (vm.Quantity <= 0)
                 return Json(new { isValid = false, msg = "تأكد من ادخال رقم صحيح للكمية " }, JsonRequestBehavior.AllowGet);
 
             if (vm.StoreId != null)
@@ -157,12 +157,12 @@ namespace ERP.Web.Controllers
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار المخزن " }, JsonRequestBehavior.AllowGet);
 
-            vm.QuantityUnitName ="0";
+            vm.QuantityUnitName = "0";
             //فى حالة البيع بوحدة 
             if (vm.ItemUnitsId != null && vm.ItemUnitsId != Guid.Empty)
             {
                 var itemUnit = db.ItemUnits.Where(x => x.Id == vm.ItemUnitsId).FirstOrDefault();
-                if (itemUnit != null&&itemUnit.Quantity>0)
+                if (itemUnit != null && itemUnit.Quantity > 0)
                 {
                     vm.UnitId = itemUnit.UnitId;
                     vm.QuantityUnit = vm.Quantity;
@@ -182,22 +182,22 @@ namespace ERP.Web.Controllers
 
             //التأكد من السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته
             var acceptItemCostSellDownSett = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AcceptItemCostSellDown).FirstOrDefault().SValue;
-            if (acceptItemCostSellDownSett=="0")//منع البيع بسعر بيع اقل من التكلفة 
+            if (acceptItemCostSellDownSett == "0")//منع البيع بسعر بيع اقل من التكلفة 
             {
-               int.TryParse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue,out int itemCostCalculateId);
+                int.TryParse(db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemCostCalculateId).FirstOrDefault().SValue, out int itemCostCalculateId);
                 var itemCost = itemService.GetItemCostCalculation(itemCostCalculateId, vm.ItemId ?? Guid.Empty);
-                if (itemCost>vm.Price)
+                if (itemCost > vm.Price)
                     return Json(new { isValid = false, msg = "سعر بيع الصنف اقل من تكلفته" }, JsonRequestBehavior.AllowGet);
             }
             //التأكد من وقوع سعر البيع ضمن ماتم تحديده عند اضافة الصنف (اعلى / اقل سعر بيع 
-            if (item.MinPrice!=null&&item.MinPrice>0)
+            if (item.MinPrice != null && item.MinPrice > 0)
             {
-                if(vm.Price<item.MinPrice)
+                if (vm.Price < item.MinPrice)
                     return Json(new { isValid = false, msg = "سعر البيع اقل من السعر الادنى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
-            }        
-            if (item.MaxPrice!=null&&item.MaxPrice>0)
+            }
+            if (item.MaxPrice != null && item.MaxPrice > 0)
             {
-                if(vm.Price>item.MaxPrice)
+                if (vm.Price > item.MaxPrice)
                     return Json(new { isValid = false, msg = "سعر البيع اكبر من السعر الاعلى المحدد للصنف" }, JsonRequestBehavior.AllowGet);
             }
             //كمية الصنف لاتكفى بسبب الرصيد الغير معتمد 
@@ -206,21 +206,22 @@ namespace ERP.Web.Controllers
             var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
             if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
             {
-                if (itemAcceptNoBalance==0)
+                if (itemAcceptNoBalance == 0)
                 {
                     //الكمية اكبر من الرصيد المتوفر 
                     if (vm.Quantity > vm.CurrentBalanceVal)
                         return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح" }, JsonRequestBehavior.AllowGet);
                     //الرصيد لايكفى بعد احتساب الرصيد المحجوز (الغير معتمد)
                     var finalBalance = vm.CurrentBalanceVal - BalanceService.GetBalanceNotApproval(vm.ItemId, vm.StoreId);
-                    if (vm.Quantity> finalBalance)
+                    if (vm.Quantity > finalBalance)
                         return Json(new { isValid = false, msg = "الكمية المدخلة اكبر من الرصيد المتاح والرصيد المحجوز" }, JsonRequestBehavior.AllowGet);
                 }
 
-            }else
+            }
+            else
                 return Json(new { isValid = false, msg = "تأكد من تحديد قبول اصناف بدون رصيد من الاعدادات" }, JsonRequestBehavior.AllowGet);
 
-            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId,CurrentBalanceVal=vm.CurrentBalanceVal, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName=vm.QuantityUnitName, QuantityUnit=vm.QuantityUnit, UnitId=vm.UnitId, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
+            var newItemDetails = new ItemDetailsDT { ItemId = vm.ItemId, ItemUnitsId = vm.ItemUnitsId, CurrentBalanceVal = vm.CurrentBalanceVal, ItemName = itemName, Quantity = vm.Quantity, QuantityUnitName = vm.QuantityUnitName, QuantityUnit = vm.QuantityUnit, UnitId = vm.UnitId, Price = vm.Price, Amount = Math.Round(vm.Quantity * vm.Price, 2, MidpointRounding.ToEven), ItemDiscount = itemDiscount, IsDiscountItemVal = vm.IsDiscountItemVal, StoreId = vm.StoreId, StoreName = storeName, ProductionOrderId = vm.ProductionOrderId, IsIntial = vm.IsIntial, SerialItemId = vm.SerialItemId };
             deDS.Add(newItemDetails);
             DS = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم اضافة الصنف بنجاح ", totalAmount = deDS.Sum(x => x.Amount), totalDiscountItems = deDS.Sum(x => x.ItemDiscount), itemDiscount = itemDiscount, totalQuantity = deDS.Sum(x => x.Quantity) }, JsonRequestBehavior.AllowGet);
@@ -275,7 +276,7 @@ namespace ERP.Web.Controllers
 
         #region تسجيل فاتورة بيع وتعديلها وحذفها
         [HttpGet]
-        public ActionResult CreateEdit(string shwTab,Guid? orderSellId)
+        public ActionResult CreateEdit(string shwTab, Guid? orderSellId)
         {
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
@@ -319,8 +320,8 @@ namespace ERP.Web.Controllers
                         IsIntial = item.IsItemIntial ? 1 : 0,
                         ProductionOrderId = item.ProductionOrderId,
                         SerialItemId = item.ItemSerialId,
-                        UnitId=item.UnitId,
-                        QuantityUnit=item.QuantityUnit,
+                        UnitId = item.UnitId,
+                        QuantityUnit = item.QuantityUnit,
                     }).ToList();
                     DS = JsonConvert.SerializeObject(items);
                     var expenses = db.SellInvoiceIncomes.Where(x => !x.IsDeleted && x.SellInvoiceId == vm.Id).Select(expense => new
@@ -356,7 +357,7 @@ namespace ERP.Web.Controllers
 
                     ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", departmentId);
                     ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name", vm.PersonCustomer.PersonCategoryId);
-                    ViewBag.CustomerId = new SelectList(EmployeeService.GetCustomerByCategory(vm.PersonCustomer.PersonCategoryId, empId,vm.CustomerId), "Id", "Name", vm.CustomerId);
+                    ViewBag.CustomerId = new SelectList(EmployeeService.GetCustomerByCategory(vm.PersonCustomer.PersonCategoryId, empId, vm.CustomerId), "Id", "Name", vm.CustomerId);
 
                     return View(vm);
                 }
@@ -379,9 +380,9 @@ namespace ERP.Web.Controllers
                     vm.ProfitTaxPercentage = TaxProfitSetting;
 
                 Guid? customerId = null;
-                if (orderSellId != Guid.Empty&&orderSellId!=null)//امر بيع 
+                if (orderSellId != Guid.Empty && orderSellId != null)//امر بيع 
                 {
-                    var quoteOrderSellDetails = db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == orderSellId&&x.OrderSellItemType==(int)OrderSellItemTypeCl.Sell);
+                    var quoteOrderSellDetails = db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == orderSellId && x.OrderSellItemType == (int)OrderSellItemTypeCl.Sell);
                     var items = quoteOrderSellDetails.Select(item => new
                   ItemDetailsDT
                     {
@@ -400,16 +401,16 @@ namespace ERP.Web.Controllers
                     var orderSell = quoteOrderSellDetails.FirstOrDefault().QuoteOrderSell;
                     //if (orderSell != null)
                     //{
-                        customerId = orderSell.CustomerId;
-                        vm.OrderSellId=orderSellId;
-                        vm.TotalQuantity= items.Sum(x=>x.Quantity);
-                        vm.TotalValue= items.Sum(x => x.Amount);
-                        vm.PayedValue= items.Sum(x => x.Amount);
-                    vm.Safy= items.Sum(x => x.Amount);
+                    customerId = orderSell.CustomerId;
+                    vm.OrderSellId = orderSellId;
+                    vm.TotalQuantity = items.Sum(x => x.Quantity);
+                    vm.TotalValue = items.Sum(x => x.Amount);
+                    vm.PayedValue = items.Sum(x => x.Amount);
+                    vm.Safy = items.Sum(x => x.Amount);
                     //}
                 }
                 else
-                 DS = JsonConvert.SerializeObject(new List<ItemDetailsDT>());
+                    DS = JsonConvert.SerializeObject(new List<ItemDetailsDT>());
                 DSExpenses = JsonConvert.SerializeObject(new List<InvoiceExpensesDT>());
 
 
@@ -419,7 +420,7 @@ namespace ERP.Web.Controllers
                 var bankAccountId = db.BankAccounts.Where(x => !x.IsDeleted)?.FirstOrDefault().Id;
 
                 ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name");
-                ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name",customerId);
+                ViewBag.CustomerId = new SelectList(db.Persons.Where(x => !x.IsDeleted && x.IsActive && (x.PersonTypeId == (int)Lookups.PersonTypeCl.Customer || x.PersonTypeId == (int)Lookups.PersonTypeCl.SupplierAndCustomer)), "Id", "Name", customerId);
                 ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.Branchcount = branches.Count();
 
@@ -501,8 +502,8 @@ namespace ERP.Web.Controllers
                                   ItemSerialId = x.SerialItemId,
                                   ProductionOrderId = x.ProductionOrderId,
                                   IsItemIntial = x.IsIntial == 1 ? true : false,
-                                  UnitId=x.UnitId,
-                                  QuantityUnit=x.QuantityUnit,
+                                  UnitId = x.UnitId,
+                                  QuantityUnit = x.QuantityUnit,
                               }).ToList();
                         }
                     }
@@ -564,7 +565,7 @@ namespace ERP.Web.Controllers
                                 model.TotalDiscount = itemDetailsDT.Sum(x => x.ItemDiscount) + invoiceDiscount;//إجمالي خصومات الفاتورة 
                                 model.TotalValue = itemDetailsDT.Sum(x => x.Amount);//إجمالي قيمة المبيعات 
                                 model.TotalExpenses = invoiceExpensesDT.Sum(x => x.ExpenseAmount);//إجمالي قيمة الايرادادت
-                                model.Safy = Math.Round((model.TotalValue + model.TotalExpenses + vm.SalesTax) - (model.TotalDiscount + vm.ProfitTax),2,MidpointRounding.AwayFromZero);
+                                model.Safy = Math.Round((model.TotalValue + model.TotalExpenses + vm.SalesTax) - (model.TotalDiscount + vm.ProfitTax), 2, MidpointRounding.AwayFromZero);
                                 model.InvoiceNumPaper = vm.InvoiceNumPaper;
 
                                 //فى حالة السداد نقدى ولم يتم دفع كامل المبلغ
@@ -654,7 +655,7 @@ namespace ERP.Web.Controllers
                                     model.SalesTaxPercentage = vm.SalesTaxPercentage;
                                     model.InvoiceDiscount = invoiceDiscount;
                                     //model.ShippingAddress = vm.ShippingAddress;
-                                    model.DueDate =vm.RemindValue>0? vm.DueDate:null;
+                                    model.DueDate = vm.RemindValue > 0 ? vm.DueDate : null;
                                     model.Notes = vm.Notes;
                                     model.CaseId = (int)CasesCl.InvoiceModified;
                                     //فى حالة ان البيع من خلال مندوب
@@ -793,100 +794,100 @@ namespace ERP.Web.Controllers
                                                 return Json(new { isValid = false, message = "تأكد من تحديد طريقة السداد (خزينة/بنكى)للفاتورة" });
                                         }
                                         // فى حالة ان الفاتورة كلها عينات وبدون سعر
-                                            //=============================================================
-                                            //تحديد نوع الجرد
-                                            var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                                            if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                        //=============================================================
+                                        //تحديد نوع الجرد
+                                        var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                        if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                        {
+                                            //فى حالة الجرد المستمر
+                                            if (inventoryTypeVal == 2) //نوع الجرد مستمر 
                                             {
-                                                //فى حالة الجرد المستمر
-                                                if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                                                if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
                                                 {
-                                                    if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue,out Guid accountTreeSalesCost ))
+
+                                                    // من ح/  تكلفة بضاعه مباعه
+                                                    context.GeneralDailies.Add(new GeneralDaily
                                                     {
-
-                                                        // من ح/  تكلفة بضاعه مباعه
-                                                        context.GeneralDailies.Add(new GeneralDaily
+                                                        AccountsTreeId = accountTreeSalesCost,
+                                                        BranchId = model.BranchId,
+                                                        Debit = model.TotalValue,
+                                                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                        TransactionDate = model.InvoiceDate,
+                                                        TransactionId = model.Id,
+                                                        TransactionShared = model.Id,
+                                                        TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                    });
+                                                    //الى ح/ المخزون
+                                                    foreach (var item in model.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                                    {
+                                                        var store = context.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                                        if (store != null)
                                                         {
-                                                            AccountsTreeId = accountTreeSalesCost,
-                                                            BranchId = model.BranchId,
-                                                            Debit = model.TotalValue,
-                                                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                            TransactionDate = model.InvoiceDate,
-                                                            TransactionId = model.Id,
-                                                            TransactionShared = model.Id,
-                                                            TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                                        });
-                                                        //الى ح/ المخزون
-                                                        foreach (var item in model.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList())
-                                                        {
-                                                            var store = context.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
-                                                            if (store!=null)
+                                                            if (store.AccountTreeId != null)
                                                             {
-                                                                if (store.AccountTreeId != null)
+                                                                if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                                                    return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
+
+                                                                context.GeneralDailies.Add(new GeneralDaily
                                                                 {
-                                                                    if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
-                                                                        return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
-
-                                                                    context.GeneralDailies.Add(new GeneralDaily
-                                                                    {
-                                                                        AccountsTreeId = store.AccountTreeId,
-                                                                        BranchId = model.BranchId,
-                                                                        Credit = item.Amount,
-                                                                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                                        TransactionDate = model.InvoiceDate,
-                                                                        TransactionId = model.Id,
-                                                                        TransactionShared = model.Id,
-                                                                        TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                                                    });
-                                                                }
-                                                                else
-                                                                    return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
+                                                                    AccountsTreeId = store.AccountTreeId,
+                                                                    BranchId = model.BranchId,
+                                                                    Credit = item.Amount,
+                                                                    Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                                    TransactionDate = model.InvoiceDate,
+                                                                    TransactionId = model.Id,
+                                                                    TransactionShared = model.Id,
+                                                                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                                });
                                                             }
-
+                                                            else
+                                                                return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
                                                         }
 
-                                                        debit = debit + model.TotalValue;
-                                                        credit = credit + model.TotalValue;
                                                     }
-                                                    else
-                                                        return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+
+                                                    debit = debit + model.TotalValue;
+                                                    credit = credit + model.TotalValue;
                                                 }
-
+                                                else
+                                                    return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
                                             }
-                                            else
-                                                return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                                            //============================================
+
+                                        }
+                                        else
+                                            return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                        //============================================
 
 
-                                            // من ح/  العميل
-                                            context.GeneralDailies.Add(new GeneralDaily
-                                            {
-                                                AccountsTreeId = customer.AccountsTreeCustomerId,
-                                                BranchId = model.BranchId,
-                                                Debit = model.Safy,
-                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                TransactionDate = model.InvoiceDate,
-                                                TransactionId = model.Id,
-                                                TransactionShared = model.Id,
-                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                            });
-                                            //الى ح/ المبيعات
-                                            context.GeneralDailies.Add(new GeneralDaily
-                                            {
-                                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue),
-                                                BranchId = model.BranchId,
-                                                Credit = model.TotalValue,
-                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                TransactionDate = model.InvoiceDate,
-                                                TransactionId = model.Id,
-                                                TransactionShared = model.Id,
-                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                            });
+                                        // من ح/  العميل
+                                        context.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = customer.AccountsTreeCustomerId,
+                                            BranchId = model.BranchId,
+                                            Debit = model.Safy,
+                                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionShared = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        });
+                                        //الى ح/ المبيعات
+                                        context.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue),
+                                            BranchId = model.BranchId,
+                                            Credit = model.TotalValue,
+                                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionShared = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        });
 
-                                            debit = debit + model.Safy;
-                                            credit = credit + model.TotalValue;
+                                        debit = debit + model.Safy;
+                                        credit = credit + model.TotalValue;
 
-                                        
+
 
 
                                         // القيمة المضافة
@@ -1004,7 +1005,7 @@ namespace ERP.Web.Controllers
                                             credit = credit + expense.Amount;
                                         }
                                         //التاكد من توازن المعاملة 
-                                        if (Math.Round(debit,2,MidpointRounding.ToEven) ==Math.Round(credit,2,MidpointRounding.ToEven))
+                                        if (Math.Round(debit, 2, MidpointRounding.ToEven) == Math.Round(credit, 2, MidpointRounding.ToEven))
                                         {
 
                                             //حفظ القيود 
@@ -1066,7 +1067,7 @@ namespace ERP.Web.Controllers
                                                             }
                                                             else
                                                             {
-                                                            generate:
+                                                                generate:
                                                                 var serial = GeneratBarcodes.GenerateRandomBarcode();
                                                                 var isExists = context.ItemSerials.Where(x => x.SerialNumber == serial).Any();
                                                                 if (isExists)
@@ -1171,6 +1172,736 @@ namespace ERP.Web.Controllers
             return RedirectToAction("CreateEdit");
 
         }
+
+        public ActionResult CopyInvoice(string invoGuid)
+        {
+            Guid GuId;
+
+            if (!Guid.TryParse(invoGuid, out GuId) || string.IsNullOrEmpty(invoGuid) || invoGuid == "undefined")
+                return RedirectToAction("Index");
+
+            TempData["model"] = GuId;
+            return RedirectToAction("SaveCopiedInvoice");
+
+        }
+
+        [HttpGet]
+        public ActionResult SaveCopiedInvoice(string shwTab, Guid? orderSellId)
+        {
+            //تحميل كل الاصناف فى اول تحميل للصفحة 
+            var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
+            ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
+            //ViewBag.ExpenseTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.PricingPolicyId = new SelectList(db.PricingPolicies.Where(x => !x.IsDeleted), "Id", "Name");
+            ViewBag.ItemUnitsId = new SelectList(new List<ItemUnit>(), "Id", "Name");
+
+            if (shwTab != null && shwTab == "1")
+                ViewBag.ShowTab = true;
+            else
+                ViewBag.ShowTab = false;
+
+            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
+            //مخازن المستخدم
+            var branchId = branches.FirstOrDefault()?.Id;
+            var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            //خزن المستخدم
+            var safes = EmployeeService.GetSafesByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
+            ViewBag.StoreId = new SelectList(stores, "Id", "Name");
+
+
+            Guid guId;
+            if (Guid.TryParse(TempData["model"].ToString(), out guId))
+            {
+                var vm = db.SellInvoices.Where(x => x.Id == guId).FirstOrDefault();
+
+                List<ItemDetailsDT> itemDetailsDTs = new List<ItemDetailsDT>();
+                var items = db.SellInvoicesDetails.Where(x => !x.IsDeleted && x.SellInvoiceId == vm.Id).Select(item => new
+                              ItemDetailsDT
+                {
+                    Amount = item.Amount,
+                    ItemId = item.ItemId,
+                    ItemDiscount = item.ItemDiscount,
+                    ItemName = item.Item.Name,
+                    Price = item.Price,
+                    Quantity = item.Quantity,
+                    StoreId = item.StoreId,
+                    StoreName = item.Store.Name,
+                    IsIntial = item.IsItemIntial ? 1 : 0,
+                    ProductionOrderId = item.ProductionOrderId,
+                    SerialItemId = item.ItemSerialId,
+                    UnitId = item.UnitId,
+                    QuantityUnit = item.QuantityUnit,
+                }).ToList();
+                DS = JsonConvert.SerializeObject(items);
+                var expenses = db.SellInvoiceIncomes.Where(x => !x.IsDeleted && x.SellInvoiceId == vm.Id).Select(expense => new
+                             InvoiceExpensesDT
+                {
+                    ExpenseAmount = expense.Amount,
+                    ExpenseTypeId = expense.IncomeTypeAccountTreeId,
+                    ExpenseTypeName = expense.IncomeTypeAccountTree.AccountName
+                }).ToList();
+                DSExpenses = JsonConvert.SerializeObject(expenses);
+
+                ViewBag.BranchId = new SelectList(branches, "Id", "Name", vm.BranchId);
+                ViewBag.Branchcount = branches.Count();
+                ViewBag.PaymentTypeId = new SelectList(db.PaymentTypes.Where(x => !x.IsDeleted), "Id", "Name", vm.PaymentTypeId);
+                ViewBag.SafeId = new SelectList(safes, "Id", "Name", vm.Safe != null ? vm.SafeId : null);
+                //ViewBag.SaleMenId = new SelectList(db.Employees.Where(x => !x.IsDeleted&&x.IsSaleMen&&x.PersonId==vm.SaleMenId).Select(x=>new {Id=x.PersonId,Name=x.Person.Name }), "Id", "Name", vm.SaleMenId);
+                ViewBag.BankAccountId = new SelectList(db.BankAccounts.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, AccountName = x.AccountName + " / " + x.Bank.Name }), "Id", "AccountName", vm.BankAccount != null ? vm.BankAccountId : null);
+
+                Guid? departmentId = null;
+                Guid? empId = null;
+                if (vm.BySaleMen && vm.Employee != null)
+                {
+                    departmentId = vm.Employee.DepartmentId;
+                    empId = vm.EmployeeId;
+                    var list = EmployeeService.GetSaleMens(departmentId);
+                    ViewBag.EmployeeId = new SelectList(list, "Id", "Name", empId);
+
+                }
+                else
+                    ViewBag.EmployeeId = new SelectList(new List<Employee>(), "Id", "Name");
+                //ViewBag.EmployeeId = new SelectList(db.Employees.Where(x => !x.IsDeleted && x.DepartmentId == departmentId).Select(x => new { Id = x.Id, Name = x.Person.Name }), "Id", "Name", empId);
+
+
+                ViewBag.DepartmentId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name", departmentId);
+                ViewBag.PersonCategoryId = new SelectList(db.PersonCategories.Where(x => !x.IsDeleted && x.IsCustomer), "Id", "Name", vm.PersonCustomer.PersonCategoryId);
+                ViewBag.CustomerId = new SelectList(EmployeeService.GetCustomerByCategory(vm.PersonCustomer.PersonCategoryId, empId, vm.CustomerId), "Id", "Name", vm.CustomerId);
+                vm.InvoiceDate = Utility.GetDateTime();
+
+                return View(vm);
+            }
+            else
+                return RedirectToAction("Index");
+
+
+
+
+        }
+        [HttpPost]
+        public ActionResult SaveCopiedInvoice(SellInvoice vm, string DT_DatasourceItems, string DT_DatasourceExpenses, bool? isInvoiceDisVal)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (vm.CustomerId == null || vm.BranchId == null || vm.InvoiceDate == null || vm.PaymentTypeId == null)
+                        return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
+                    //فى حالة الخصم على الفاتورة نسية /قيمة 
+                    if (!bool.TryParse(isInvoiceDisVal.ToString(), out var t))
+                        return Json(new { isValid = false, message = "تأكد من اختيار احتساب الخصم على الفاتورة" });
+
+                    if (vm.PaymentTypeId == (int)PaymentTypeCl.Deferred) //ف حالة السداد آجل
+                    {
+                        if (vm.PayedValue > 0)
+                            return Json(new { isValid = false, message = "تم استلام مبلغ من العميل وحالة السداد آجل " });
+
+                        vm.BankAccountId = null;
+                        vm.SafeId = null;
+                    }
+                    else  // ف حالة السداد نقدى او جزئى
+                    {
+                        if (vm.BankAccountId == null && vm.SafeId == null)
+                            return Json(new { isValid = false, message = "تأكد من اختيار طريقة السداد (بنكى-خزنة) بشكل صحيح" });
+                        if (vm.PayedValue == 0 && vm.PaymentTypeId != (int)PaymentTypeCl.Installment)
+                            return Json(new { isValid = false, message = "تأكد من ادخال المبلغ المدفوع بشكل صحيح" });
+                    }
+                    var checkdate = closedPeriodServices.IsINPeriod(vm.InvoiceDate.ToString());
+                    if (!checkdate)
+                    {
+                        return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
+
+                    }
+
+                    //الاصناف
+                    List<ItemDetailsDT> itemDetailsDT = new List<ItemDetailsDT>();
+                    List<SellInvoicesDetail> items = new List<SellInvoicesDetail>();
+
+                    if (DT_DatasourceItems != null)
+                    {
+                        itemDetailsDT = JsonConvert.DeserializeObject<List<ItemDetailsDT>>(DT_DatasourceItems);
+                        if (itemDetailsDT.Count() == 0)
+                            return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
+                        else
+                        {
+                            items = itemDetailsDT.Select(x =>
+                              new SellInvoicesDetail
+                              {
+                                  SellInvoiceId = vm.Id,
+                                  ItemId = x.ItemId,
+                                  StoreId = x.StoreId,
+                                  Quantity = x.Quantity,
+                                  Price = x.Price,
+                                  Amount = x.Amount,
+                                  ItemDiscount = x.ItemDiscount,
+                                  ItemSerialId = x.SerialItemId,
+                                  ProductionOrderId = x.ProductionOrderId,
+                                  IsItemIntial = x.IsIntial == 1 ? true : false,
+                                  UnitId = x.UnitId,
+                                  QuantityUnit = x.QuantityUnit,
+                              }).ToList();
+                        }
+                    }
+                    else
+                        return Json(new { isValid = false, message = "تأكد من ادخال صنف واحد على الاقل" });
+
+                    //الايرادات
+                    List<InvoiceExpensesDT> invoiceExpensesDT = new List<InvoiceExpensesDT>();
+                    List<SellInvoiceIncome> invoicesExpens = new List<SellInvoiceIncome>();
+
+                    if (DT_DatasourceExpenses != null)
+                    {
+                        invoiceExpensesDT = JsonConvert.DeserializeObject<List<InvoiceExpensesDT>>(DT_DatasourceExpenses);
+                        invoicesExpens = invoiceExpensesDT.Select(
+                            x => new SellInvoiceIncome
+                            {
+                                SellInvoiceId = vm.Id,
+                                IncomeTypeAccountTreeId = x.ExpenseTypeId,
+                                Amount = x.ExpenseAmount
+                            }
+                            ).ToList();
+                    }
+
+                    var isInsert = false;
+                    //Transaction
+                    using (var context = new VTSaleEntities())
+                    {
+                        using (DbContextTransaction transaction = context.Database.BeginTransaction())
+                        {
+                            try
+                            {
+                                SellInvoice model = null;
+                             
+                                    model = vm;
+                                    model.InvoiceDate = vm.InvoiceDate.Add(new TimeSpan(Utility.GetDateTime().Hour, Utility.GetDateTime().Minute, Utility.GetDateTime().Second));
+                                
+
+                                //صافى قيمة الفاتورة= ( إجمالي قيمة المبيعات + إجمالي قيمة الايرادات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
+                                //فى حالة الخصم على الفاتورة نسية /قيمة 
+                                double invoiceDiscount = 0;
+                                if (isInvoiceDisVal == true)
+                                {
+                                    invoiceDiscount = vm.InvoiceDiscount;
+                                    model.DiscountPercentage = 0;
+                                }
+                                else if (isInvoiceDisVal == false)
+                                {
+                                    invoiceDiscount = (itemDetailsDT.Sum(x => x.Amount) * vm.DiscountPercentage) / 100;
+                                    model.DiscountPercentage = vm.DiscountPercentage;
+                                }
+                                model.TotalQuantity = itemDetailsDT.Sum(x => x.Quantity);
+                                model.TotalDiscount = itemDetailsDT.Sum(x => x.ItemDiscount) + invoiceDiscount;//إجمالي خصومات الفاتورة 
+                                model.TotalValue = itemDetailsDT.Sum(x => x.Amount);//إجمالي قيمة المبيعات 
+                                model.TotalExpenses = invoiceExpensesDT.Sum(x => x.ExpenseAmount);//إجمالي قيمة الايرادادت
+                                model.Safy = Math.Round((model.TotalValue + model.TotalExpenses + vm.SalesTax) - (model.TotalDiscount + vm.ProfitTax), 2, MidpointRounding.AwayFromZero);
+                                model.InvoiceNumPaper = vm.InvoiceNumPaper;
+
+                                //فى حالة السداد نقدى ولم يتم دفع كامل المبلغ
+                                if (vm.PaymentTypeId == (int)PaymentTypeCl.Cash && vm.PayedValue != model.Safy)
+                                    return Json(new { isValid = false, message = "يجب دفع كامل المبلغ (طريقة السداد نقدى)" });
+
+                                //التأكد من السماح البيع للعميل فى حالة تخطى رصيده حد الائتمانى الخطر المسموح به اولا حسب الاعدادات
+                                int limitDangerSell = 0;
+                                var limitDangerSellSett = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.LimitDangerSell).FirstOrDefault();
+                                if (int.TryParse(limitDangerSellSett.SValue, out limitDangerSell))
+                                {
+                                    if (limitDangerSell == 0)//لايمكن البيع للعميل فى حالة تخطى رصيده حد الائتمانى الخطر المسموح به 
+                                    {
+                                        var customer = context.Persons.Where(x => x.Id == vm.CustomerId).FirstOrDefault();
+                                        if (customer != null)
+                                        {
+                                            CustomerService customerService = new CustomerService();
+                                            var balance = customerService.GetPersonBalance(customer.AccountsTreeCustomerId);
+                                            if (customer.LimitDangerSell != 0)
+                                                if (balance + vm.Safy - vm.PayedValue > customer.LimitDangerSell)
+                                                    return Json(new { isValid = false, message = "لا يمكن البيع لتخطى الحد الائتمانى للعميل " });
+                                        }
+                                        else
+                                            return Json(new { isValid = false, message = "تأكد من اختيار العميل" });
+                                    }
+                                }
+                                else
+                                    return Json(new { isValid = false, message = "تأكد من تحديد حالة السماح بالبيع عند تخطى الحد الائتمانى للخطر فى شاشة الاعدادات" });
+
+
+                                    isInsert = true;
+                                    //اضافة رقم الفاتورة
+                                    string codePrefix = Properties.Settings.Default.CodePrefix;
+                                    model.InvoiceNumber = codePrefix + (context.SellInvoices.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1);
+
+                                    model.CaseId = (int)CasesCl.InvoiceCreated;
+                                    model.SellInvoicesDetails = items;
+                                    model.SellInvoiceIncomes = invoicesExpens;
+                                    model.DueDate = vm.RemindValue > 0 ? vm.DueDate : null;
+                                    //فى حالة ان البيع من خلال مندوب
+                                    if (vm.BySaleMen)
+                                    {
+                                        if (vm.EmployeeId == null)
+                                            return Json(new { isValid = false, message = "تأكد من اختيار المندوب اولا" });
+                                        else
+                                            model.EmployeeId = vm.EmployeeId;
+                                    }
+                                    else
+                                        model.EmployeeId = null;
+
+                                    //اضافة الحالة 
+                                    context.CasesSellInvoiceHistories.Add(new CasesSellInvoiceHistory
+                                    {
+                                        SellInvoice = model,
+                                        IsSellInvoice = true,
+                                        CaseId = (int)CasesCl.InvoiceCreated
+                                    });
+
+                                    context.SellInvoices.Add(model);
+                                
+
+                                //فى حالة اختيار الاعتماد مباشرا بعد الحفظ من الاعدادات العامة 
+                                var approvalAfterSave = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InvoicesApprovalAfterSave).FirstOrDefault().SValue;
+                                Stopwatch stopwatch = new Stopwatch();
+                                Stopwatch stopwatch1 = new Stopwatch();
+                                if (approvalAfterSave == "1")
+                                {
+                                    stopwatch.Start();
+                                    //الاعتماد المحاسبى 
+                                    model.IsApprovalAccountant = true;
+                                    model.CaseId = (int)CasesCl.InvoiceApprovalAccountant;
+                                    //اضافة الحالة 
+                                    context.CasesSellInvoiceHistories.Add(new CasesSellInvoiceHistory
+                                    {
+                                        SellInvoice = model,
+                                        IsSellInvoice = true,
+                                        CaseId = (int)CasesCl.InvoiceApprovalAccountant
+                                    });
+                                    //الاعتماد المخزنى
+                                    model.CaseId = (int)CasesCl.InvoiceApprovalStore;
+                                    model.IsApprovalStore = true;
+                                    //اضافة الحالة 
+                                    context.CasesSellInvoiceHistories.Add(new CasesSellInvoiceHistory
+                                    {
+                                        SellInvoice = model,
+                                        IsSellInvoice = true,
+                                        CaseId = (int)CasesCl.InvoiceApprovalStore
+                                    });
+                                }
+                                context.SaveChanges(auth.CookieValues.UserId);
+                                //الاعتماد النهائى 
+                                if (approvalAfterSave == "1")
+                                {
+                                    //التأكد من اختيار طريقة السداد فى حالة ان الفاتورة لمندوب 
+                                    if (model.BySaleMen && model.SafeId == null && model.BankAccountId == null && model.PaymentTypeId != (int)PaymentTypeCl.Deferred)
+                                        return Json(new { isValid = false, message = "تأكد من تحديد حساب الدفع للفاتورة اولا" });
+
+                                    //    //تسجيل القيود
+                                    // General Dailies
+                                    if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
+                                    {
+                                        //صافى قيمة الفاتورة= ( إجمالي قيمة المبيعات
+                                        //+ إجمالي قيمة الايرادات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
+
+                                        double debit = 0;
+                                        double credit = 0;
+                                        // الحصول على حسابات من الاعدادات
+                                        var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
+                                        //التأكد من عدم وجود حساب فرعى من الحساب
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue)))
+                                            return Json(new { isValid = false, message = "حساب المبيعات ليس بحساب فرعى" });
+
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(context.Persons.Where(x => x.Id == model.CustomerId).FirstOrDefault().AccountsTreeCustomerId))
+                                            return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
+
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesTaxAccount).FirstOrDefault().SValue)))
+                                            return Json(new { isValid = false, message = "حساب القيمة المضافة ليس بحساب فرعى" });
+
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue)))
+                                            return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب فرعى" });
+
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCommercialTax).FirstOrDefault().SValue)))
+                                            return Json(new { isValid = false, message = "حساب الارباح التجارية ليس بحساب فرعى" });
+
+                                        var expenses = context.SellInvoiceIncomes.Where(x => !x.IsDeleted && x.SellInvoiceId == model.Id);
+                                        var customer = context.Persons.Where(x => x.Id == model.CustomerId).FirstOrDefault();
+
+                                        if (expenses.Count() > 0)
+                                        {
+                                            if (AccountTreeService.CheckAccountTreeIdHasChilds(expenses.FirstOrDefault().IncomeTypeAccountTreeId))
+                                                return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
+                                        }
+
+                                        //فى حالة فاتورة البيع من خلال المندوب التاكد من تحديد طريقة الدفع والسداد(خزنة/بنكى)
+                                        if (model.BySaleMen && model.PaymentTypeId != (int)PaymentTypeCl.Deferred)
+                                        {
+                                            if (model.SafeId == null && model.BankAccountId == null)
+                                                return Json(new { isValid = false, message = "تأكد من تحديد طريقة السداد (خزينة/بنكى)للفاتورة" });
+                                        }
+                                        // فى حالة ان الفاتورة كلها عينات وبدون سعر
+                                        //=============================================================
+                                        //تحديد نوع الجرد
+                                        var inventoryType = context.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                                        if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                                        {
+                                            //فى حالة الجرد المستمر
+                                            if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                                            {
+                                                if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+                                                {
+
+                                                    // من ح/  تكلفة بضاعه مباعه
+                                                    context.GeneralDailies.Add(new GeneralDaily
+                                                    {
+                                                        AccountsTreeId = accountTreeSalesCost,
+                                                        BranchId = model.BranchId,
+                                                        Debit = model.TotalValue,
+                                                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                        TransactionDate = model.InvoiceDate,
+                                                        TransactionId = model.Id,
+                                                        TransactionShared = model.Id,
+                                                        TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                    });
+                                                    //الى ح/ المخزون
+                                                    foreach (var item in model.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                                                    {
+                                                        var store = context.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                                        if (store != null)
+                                                        {
+                                                            if (store.AccountTreeId != null)
+                                                            {
+                                                                if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                                                    return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
+
+                                                                context.GeneralDailies.Add(new GeneralDaily
+                                                                {
+                                                                    AccountsTreeId = store.AccountTreeId,
+                                                                    BranchId = model.BranchId,
+                                                                    Credit = item.Amount,
+                                                                    Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                                    TransactionDate = model.InvoiceDate,
+                                                                    TransactionId = model.Id,
+                                                                    TransactionShared = model.Id,
+                                                                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                                });
+                                                            }
+                                                            else
+                                                                return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
+                                                        }
+
+                                                    }
+
+                                                    debit = debit + model.TotalValue;
+                                                    credit = credit + model.TotalValue;
+                                                }
+                                                else
+                                                    return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+                                            }
+
+                                        }
+                                        else
+                                            return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                                        //============================================
+
+
+                                        // من ح/  العميل
+                                        context.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = customer.AccountsTreeCustomerId,
+                                            BranchId = model.BranchId,
+                                            Debit = model.Safy,
+                                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionShared = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        });
+                                        //الى ح/ المبيعات
+                                        context.GeneralDailies.Add(new GeneralDaily
+                                        {
+                                            AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue),
+                                            BranchId = model.BranchId,
+                                            Credit = model.TotalValue,
+                                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionShared = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        });
+
+                                        debit = debit + model.Safy;
+                                        credit = credit + model.TotalValue;
+
+
+
+
+                                        // القيمة المضافة
+                                        if (model.SalesTax > 0)
+                                        {
+                                            context.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesTaxAccount).FirstOrDefault().SValue),
+                                                BranchId = model.BranchId,
+                                                Credit = model.SalesTax,
+                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                TransactionDate = model.InvoiceDate,
+                                                TransactionId = model.Id,
+                                                TransactionShared = model.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                            });
+                                            credit = credit + model.SalesTax;
+
+
+                                        }
+                                        // الخصومات
+                                        if (model.TotalDiscount > 0)
+                                        {
+                                            context.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePremittedDiscountAccount).FirstOrDefault().SValue),
+                                                BranchId = model.BranchId,
+                                                Debit = model.TotalDiscount,
+                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                TransactionDate = model.InvoiceDate,
+                                                TransactionId = model.Id,
+                                                TransactionShared = model.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                            });
+                                            debit = debit + model.TotalDiscount;
+                                        }
+
+                                        // ضريبة ارباح تجارية
+                                        if (model.ProfitTax > 0)
+                                        {
+                                            context.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCommercialTax).FirstOrDefault().SValue),
+                                                BranchId = model.BranchId,
+                                                Debit = model.ProfitTax,
+                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                TransactionDate = model.InvoiceDate,
+                                                TransactionId = model.Id,
+                                                TransactionShared = model.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                            });
+                                            debit = debit + model.ProfitTax;
+                                        }
+
+                                        //  المبلغ المدفوع الى حساب العميل (دائن
+                                        if (model.PayedValue > 0 && model.PaymentTypeId != (int)PaymentTypeCl.Deferred)
+                                        {
+                                            Guid? safeAccouyBank = null;
+                                            if (model.SafeId != null)
+                                                safeAccouyBank = context.Safes.FirstOrDefault(x => x.Id == model.SafeId).AccountsTreeId;
+                                            else if (model.BankAccountId != null)
+                                                safeAccouyBank = context.BankAccounts.FirstOrDefault(x => x.Id == model.BankAccountId).AccountsTreeId;
+
+                                            if (safeAccouyBank != null)
+                                            {
+
+                                                //  المبلغ المدفوع من حساب الخزينة (مدين
+                                                context.GeneralDailies.Add(new GeneralDaily
+                                                {
+                                                    AccountsTreeId = safeAccouyBank,
+                                                    BranchId = model.BranchId,
+                                                    Debit = model.PayedValue,
+                                                    Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                    TransactionDate = model.InvoiceDate,
+                                                    TransactionId = model.Id,
+                                                    TransactionShared = model.Id,
+                                                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                                });
+                                                debit = debit + model.PayedValue;
+
+                                            }
+
+
+                                            context.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = customer.AccountsTreeCustomerId,
+                                                BranchId = model.BranchId,
+                                                Credit = model.PayedValue,
+                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                TransactionDate = model.InvoiceDate,
+                                                TransactionId = model.Id,
+                                                TransactionShared = model.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                            });
+                                            credit = credit + model.PayedValue;
+
+
+
+                                        }
+
+                                        // الايرادات (دائن
+                                        foreach (var expense in expenses)
+                                        {
+                                            context.GeneralDailies.Add(new GeneralDaily
+                                            {
+                                                AccountsTreeId = expense.IncomeTypeAccountTreeId,
+                                                BranchId = model.BranchId,
+                                                Credit = expense.Amount,
+                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                                TransactionDate = model.InvoiceDate,
+                                                TransactionId = model.Id,
+                                                TransactionShared = model.Id,
+                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                            });
+                                            credit = credit + expense.Amount;
+                                        }
+                                        //التاكد من توازن المعاملة 
+                                        if (Math.Round(debit, 2, MidpointRounding.ToEven) == Math.Round(credit, 2, MidpointRounding.ToEven))
+                                        {
+
+                                            //حفظ القيود 
+                                            // اعتماد النهائى للفاتورة
+                                            model.CaseId = (int)CasesCl.InvoiceFinalApproval;
+                                            model.IsFinalApproval = true;
+                                            context.Entry(model).State = EntityState.Modified;
+                                            //اضافة الحالة 
+                                            context.CasesSellInvoiceHistories.Add(new CasesSellInvoiceHistory
+                                            {
+                                                SellInvoice = model,
+                                                IsSellInvoice = true,
+                                                CaseId = (int)CasesCl.InvoiceFinalApproval
+                                            });
+
+                                            //اضافة اشعار 
+                                            if (model.RemindValue > 0 && model.DueDate != null)
+                                            {
+                                                //حذف اى اشعارات سابقة لنفس الفاتورة 
+                                                var notificationsPrevious = context.Notifications.Where(x => !x.IsDeleted && x.RefNumber == model.Id).ToList();
+                                                foreach (var item in notificationsPrevious)
+                                                {
+                                                    item.IsDeleted = true;
+                                                }
+                                                context.Notifications.Add(new Notification
+                                                {
+                                                    Name = $"استحقاق فاتورة بيع رقم: {model.InvoiceNumber} على العميل: {customer.Name}",
+                                                    DueDate = model.DueDate,
+                                                    RefNumber = model.Id,
+                                                    NotificationTypeId = (int)NotificationTypeCl.SellInvoiceDueDateClient,
+                                                    Amount = model.RemindValue
+                                                });
+                                            }
+                                            stopwatch.Stop();
+                                            stopwatch1.Start();
+                                            //انشاء السيرالات نمبر الخاص بكل صنف 
+                                            var itemDetails = model.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList();
+                                            foreach (var item in itemDetails)
+                                            {
+                                                var itm = context.Items.Where(x => x.Id == item.ItemId).FirstOrDefault();
+                                                if (itm != null)
+                                                {
+                                                    bool createSerial = itm.CreateSerial;
+                                                    if (createSerial)
+                                                    {
+                                                        //تسجيل سيريال جديد لكل قطعة من الكمية المسجلة
+                                                        for (int i = 1; i < item.Quantity + 1; i++)
+                                                        {
+                                                            //التأكد من ان الصنف لم يكن له اى سيريال مسبقا 
+                                                            var itemSerial = context.ItemSerials.Where(x => !x.IsDeleted && x.Id == item.ItemSerialId).FirstOrDefault();
+                                                            if (itemSerial != null)
+                                                            {
+                                                                //السيريال موجود مسبقا
+                                                                itemSerial.SellInvoiceId = model.Id;
+                                                                itemSerial.CurrentStoreId = null;
+                                                                itemSerial.ExpirationDate = model.InvoiceDate.AddMonths(1);
+                                                                itemSerial.SerialCaseId = (int)SerialCaseCl.Sell;
+                                                                context.Entry(itemSerial).State = EntityState.Modified;
+                                                            }
+                                                            else
+                                                            {
+                                                                generate:
+                                                                var serial = GeneratBarcodes.GenerateRandomBarcode();
+                                                                var isExists = context.ItemSerials.Where(x => x.SerialNumber == serial).Any();
+                                                                if (isExists)
+                                                                    goto generate;
+                                                                itemSerial = new ItemSerial
+                                                                {
+                                                                    ItemId = item.ItemId,
+                                                                    ProductionOrderId = item.ProductionOrderId,
+                                                                    IsItemIntial = item.IsItemIntial ? true : false,
+                                                                    ExpirationDate = model.InvoiceDate.AddMonths(1),
+                                                                    SerialCaseId = (int)SerialCaseCl.Sell,
+                                                                    SerialNumber = serial,
+                                                                    SellInvoiceId = model.Id
+                                                                };
+
+
+                                                            }
+
+                                                            //add item serial case history
+                                                            context.CasesItemSerialHistories.Add(new CasesItemSerialHistory
+                                                            {
+                                                                ItemSerial = itemSerial,
+                                                                ReferrenceId = model.Id,
+                                                                SerialCaseId = (int)SerialCaseCl.Sell
+                                                            });
+                                                            //تحديث سيريال الصنف الجديد 
+                                                            //item.ItemSerial = itemSerial;
+                                                            //context.Entry(item).State = EntityState.Modified;
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+                                            stopwatch1.Stop();
+                                            //===========================
+
+                                            context.SaveChanges(auth.CookieValues.UserId);
+                                        }
+                                        else
+                                        {
+                                            return Json(new { isValid = false, message = "قيد المعاملة غير موزوون" });
+                                        }
+
+                                    }
+                                    else
+                                        return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات" });
+                                }
+
+                                transaction.Commit();
+
+                                if (isInsert)
+                                {
+                                    return Json(new { isValid = true, typ = (int)UploalCenterTypeCl.SellInvoice, refGid = model.Id, isInsert, message = "تم الاضافة بنجاح" });
+                                }
+                                else
+                                    return Json(new { isValid = true, typ = (int)UploalCenterTypeCl.SellInvoice, refGid = model.Id, isInsert, message = "تم التعديل بنجاح" });
+
+                            }
+                            catch (Exception ex)
+                            {
+                                transaction.Rollback();
+                                return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
+                            }
+
+                        }
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+                else
+                    return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
+            }
+        }
+
         [HttpPost]
         public ActionResult Delete(string invoGuid)
         {
@@ -1299,7 +2030,7 @@ namespace ERP.Web.Controllers
             var vm = db.SellInvoices.Where(x => x.Id == invoGuid && x.CasesSellInvoiceHistories.Any(y => !y.IsDeleted)).FirstOrDefault();
             vm.CasesSellInvoiceHistories = vm.CasesSellInvoiceHistories.Where(x => !x.IsDeleted).ToList();
             return View(vm);
-        }     
+        }
 
 
         #endregion
@@ -1334,7 +2065,7 @@ namespace ERP.Web.Controllers
                         IsSellInvoice = true,
                         CaseId = (int)CasesCl.InvoiceUnApproval
                     });
-                    
+
                     var generalDalies = db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == model.Id && x.TransactionTypeId == (int)TransactionsTypesCl.Sell).ToList();
                     // حذف كل القيود 
                     foreach (var generalDay in generalDalies)
@@ -1342,7 +2073,7 @@ namespace ERP.Web.Controllers
                         generalDay.IsDeleted = true;
                         db.Entry(generalDay).State = EntityState.Modified;
                     }
-                   
+
                     if (db.SaveChanges(auth.CookieValues.UserId) > 0)
                         return Json(new { isValid = true, message = "تم فك الاعتماد بنجاح" });
                     else
@@ -1450,101 +2181,101 @@ namespace ERP.Web.Controllers
                 // فى حالة ان الفاتورة كلها عينات وبدون سعر
                 //if (model.TotalValue != 0)
                 //{
-                    //=============================================================
-                    //تحديد نوع الجرد
-                    var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
-                    if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                //=============================================================
+                //تحديد نوع الجرد
+                var inventoryType = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault().SValue;
+                if (int.TryParse(inventoryType, out int inventoryTypeVal))
+                {
+                    //فى حالة الجرد المستمر
+                    if (inventoryTypeVal == 2) //نوع الجرد مستمر 
                     {
-                        //فى حالة الجرد المستمر
-                        if (inventoryTypeVal == 2) //نوع الجرد مستمر 
+                        if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
                         {
-                            if (Guid.TryParse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesCost).FirstOrDefault().SValue, out Guid accountTreeSalesCost))
+
+                            // من ح/  تكلفة بضاعه مباعه
+                            db.GeneralDailies.Add(new GeneralDaily
                             {
-
-                                // من ح/  تكلفة بضاعه مباعه
-                                db.GeneralDailies.Add(new GeneralDaily
+                                AccountsTreeId = accountTreeSalesCost,
+                                BranchId = model.BranchId,
+                                Debit = model.TotalValue,
+                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                TransactionDate = model.InvoiceDate,
+                                TransactionId = model.Id,
+                                TransactionShared = model.Id,
+                                TransactionTypeId = (int)TransactionsTypesCl.Sell
+                            });
+                            //الى ح/ المخزون
+                            foreach (var item in model.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList())
+                            {
+                                var store = db.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
+                                if (store != null)
                                 {
-                                    AccountsTreeId = accountTreeSalesCost,
-                                    BranchId = model.BranchId,
-                                    Debit = model.TotalValue,
-                                    Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                    TransactionDate = model.InvoiceDate,
-                                    TransactionId = model.Id,
-                                    TransactionShared = model.Id,
-                                    TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                });
-                                //الى ح/ المخزون
-                                foreach (var item in model.SellInvoicesDetails.Where(x => !x.IsDeleted).ToList())
-                                {
-                                    var store = db.Stores.Where(x => x.Id == item.StoreId).FirstOrDefault();
-                                    if (store != null)
+                                    if (store.AccountTreeId != null)
                                     {
-                                        if (store.AccountTreeId != null)
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
+                                            return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
+
+                                        db.GeneralDailies.Add(new GeneralDaily
                                         {
-                                            if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
-                                                return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
-
-                                            db.GeneralDailies.Add(new GeneralDaily
-                                            {
-                                                AccountsTreeId = store.AccountTreeId,
-                                                BranchId = model.BranchId,
-                                                Credit = item.Amount,
-                                                Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                                                TransactionDate = model.InvoiceDate,
-                                                TransactionId = model.Id,
-                                                TransactionShared = model.Id,
-                                                TransactionTypeId = (int)TransactionsTypesCl.Sell
-                                            });
-                                        }
-                                        else
-                                            return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
-
+                                            AccountsTreeId = store.AccountTreeId,
+                                            BranchId = model.BranchId,
+                                            Credit = item.Amount,
+                                            Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                                            TransactionDate = model.InvoiceDate,
+                                            TransactionId = model.Id,
+                                            TransactionShared = model.Id,
+                                            TransactionTypeId = (int)TransactionsTypesCl.Sell
+                                        });
                                     }
+                                    else
+                                        return Json(new { isValid = false, message = $"حساب المخزون للمخزن {store.Name} غير موجود" });
 
                                 }
 
-                            debit = debit + model.TotalValue;
-                                credit = credit + model.TotalValue;
-
                             }
-                            else
-                                return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
+
+                            debit = debit + model.TotalValue;
+                            credit = credit + model.TotalValue;
+
                         }
-
+                        else
+                            return Json(new { isValid = false, message = "تأكد من تحديد حساب تكلفة بضاعه مباعه من الاعدادات اولا" });
                     }
-                    else
-                        return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
-                    //============================================
+
+                }
+                else
+                    return Json(new { isValid = false, message = "تأكد من تحديد نوع الجرد اولا" });
+                //============================================
 
 
-                    // من ح/  العميل
-                    db.GeneralDailies.Add(new GeneralDaily
-                    {
-                        AccountsTreeId = customer.AccountsTreeCustomerId,
-                        BranchId = model.BranchId,
-                        Debit = model.Safy,
-                        Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
-                        TransactionDate = model.InvoiceDate,
-                        TransactionId = model.Id,
-                        TransactionShared = model.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.Sell
-                    });
-                    //الى ح/ المبيعات
-                    db.GeneralDailies.Add(new GeneralDaily
-                    {
-                        AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue),
-                        BranchId = model.BranchId,
-                        Credit = model.TotalValue,
-                        Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
-                        TransactionDate = model.InvoiceDate,
-                        TransactionId = model.Id,
-                        TransactionShared = model.Id,
-                        TransactionTypeId = (int)TransactionsTypesCl.Sell
-                    });
-                    debit = debit + model.Safy;
+                // من ح/  العميل
+                db.GeneralDailies.Add(new GeneralDaily
+                {
+                    AccountsTreeId = customer.AccountsTreeCustomerId,
+                    BranchId = model.BranchId,
+                    Debit = model.Safy,
+                    Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                    TransactionDate = model.InvoiceDate,
+                    TransactionId = model.Id,
+                    TransactionShared = model.Id,
+                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                });
+                //الى ح/ المبيعات
+                db.GeneralDailies.Add(new GeneralDaily
+                {
+                    AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue),
+                    BranchId = model.BranchId,
+                    Credit = model.TotalValue,
+                    Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
+                    TransactionDate = model.InvoiceDate,
+                    TransactionId = model.Id,
+                    TransactionShared = model.Id,
+                    TransactionTypeId = (int)TransactionsTypesCl.Sell
+                });
+                debit = debit + model.Safy;
 
-                    credit = credit + model.TotalValue;
-                
+                credit = credit + model.TotalValue;
+
 
 
                 // القيمة المضافة
@@ -1719,7 +2450,7 @@ namespace ERP.Web.Controllers
                                     }
                                     else
                                     {
-                                    generate:
+                                        generate:
                                         var serial = GeneratBarcodes.GenerateRandomBarcode();
                                         var isExists = db.ItemSerials.Where(x => x.SerialNumber == serial).Any();
                                         if (isExists)

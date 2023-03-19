@@ -121,6 +121,8 @@ var PurchaseInvoice_Module = function () {
 								<i class="fa fa-upload"></i>\
 							</a><a href="/PurchaseInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
 								<i class="fa fa-random"></i>\
+							</a>\<a href="/PurchaseInvoices/CopyInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a>\
 						';
                     if (row.IsFinalApproval) {
@@ -128,14 +130,18 @@ var PurchaseInvoice_Module = function () {
 								<i class="fa fa-money-bill"></i>\
 							</a>\<ahref="javascript:;" onclick=PurchaseInvoice_Module.unApproval(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icon" title="فك الاعتماد">\
 								<i class="fa fa-unlock-alt"></i>\
-							</a>';
+							</a>\
+                        ';
 
                     } else {
                         ele += '<a href="/PurchaseInvoices/Edit/?invoGuid=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\<a href="javascript:;" onclick=PurchaseInvoice_Module.deleteRow("'+ row.Id + '") class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a>';
+							</a>\<a href="/PurchaseInvoices/CopyInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
+								<i class="fa fa-random"></i>\
+							</a>\
+                        ';
                     }
 
                     return ele + '</div>';

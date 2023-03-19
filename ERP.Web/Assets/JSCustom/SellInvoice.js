@@ -124,6 +124,8 @@ var SellInvoice_Module = function () {
 								<i class="fa fa-upload"></i>\
 							</a><a href="/SellInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
 								<i class="fa fa-random"></i>\
+							</a>\<a href="/SellInvoices/CopyInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a>\
 						';
                     if (row.IsFinalApproval) {

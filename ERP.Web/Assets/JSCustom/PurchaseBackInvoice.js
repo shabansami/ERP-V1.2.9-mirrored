@@ -118,6 +118,8 @@ var PurchaseBackInvoice_Module = function () {
 								<i class="fa fa-upload"></i>\
 							</a><a href="/PurchaseBackInvoices/ShowHistory/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="عرض الحالات">\
 								<i class="fa fa-random"></i>\
+							</a>\<a href="/PurchaseBackInvoices/CopyInvoice/?invoGuid='+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a>\
 						';
                     if (row.IsFinalApproval) {

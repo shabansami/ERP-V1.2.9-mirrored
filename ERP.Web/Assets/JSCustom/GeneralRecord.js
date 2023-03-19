@@ -112,7 +112,10 @@ var GeneralRecord_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\<a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
 								<i class="fa fa-upload"></i>\
-							</a></div>\
+                            </a>\<a href="/GeneralRecords/CopyRecord/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\
+							</div>\
 						';
                         } else {
                             return '\
@@ -125,6 +128,8 @@ var GeneralRecord_Module = function () {
 								<i class="fa fa-check"></i>\
 							</a><a href="/UploadCenterTypeFiles/Index/?typ=' + row.typ + '&refGid=' + row.Id + '" class="btn btn-sm btn-clean btn-icUrln" title="رفع ملفات الفاتورة">\
 								<i class="fa fa-upload"></i>\
+							</a><a href="/GeneralRecords/CopyRecord/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon"  title="نسخ">\
+								<i class="fa fa-copy"></i>\
 							</a></div>\
 						';
                         }

@@ -76,7 +76,7 @@
                 @using (Html.BeginForm("Index", "IncomeLists", FormMethod.Post, new { id = "form1" }))
                 {
                     <div class="row ">
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group mb-0 w-100">
                                 <div>
                                     <label> من تاريخ</label>
@@ -84,7 +84,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <div class="form-group mb-0 w-100">
                                 <div>
                                     <label> إلي تاريخ</label>
@@ -92,7 +92,15 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
+                            <div class="form-group mb-0 w-100">
+                                <div>
+                                    <label>حالة مصروف الاهلاك</label>
+                                    @Html.DropDownList("AssetsDepreciationStatus", null, htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
                             <div class="form-group mb-0 w-100">
                                 <div>
                                     <label> .</label>

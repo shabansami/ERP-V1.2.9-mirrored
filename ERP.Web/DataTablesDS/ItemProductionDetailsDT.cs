@@ -10,6 +10,7 @@ namespace ERP.Web.DataTablesDS
         public Guid Id { get; set; }
         public Guid? ItemId { get; set; }
         public string ItemName { get; set; }
+        public string UnitName { get; set; }
         public double Quantity { get; set; }
         public string Actions { get; set; }
         //public string Num { get; set; } 

@@ -64,19 +64,22 @@ namespace ERP.Web.Controllers
         public ActionResult AddProductionDetails(Guid? itemId, double quantity, string DT_Datasource)
         {
             List<ItemProductionDetailsDT> deDS = new List<ItemProductionDetailsDT>();
-            string itemName = "";
+            string itemName, unitName = "";
             if (DT_Datasource != null)
                 deDS = JsonConvert.DeserializeObject<List<ItemProductionDetailsDT>>(DT_Datasource);
             if (itemId != null)
             {
                 if (deDS.Where(x => x.ItemId == itemId).Count() > 0)
                     return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-                itemName = db.Items.FirstOrDefault(x => x.Id == itemId).Name;
+                var item = db.Items.FirstOrDefault(x => x.Id == itemId);
+                itemName = item.Name;
+                unitName = item.Unit?.Name;
+
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
 
-            var newProductionDetails = new ItemProductionDetailsDT { ItemId = itemId, ItemName = itemName, Quantity = quantity };
+            var newProductionDetails = new ItemProductionDetailsDT { ItemId = itemId, ItemName = itemName,UnitName= unitName, Quantity = quantity };
             deDS.Add(newProductionDetails);
             DSItemDetails = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم الاضافة بنجاح " }, JsonRequestBehavior.AllowGet);
@@ -98,22 +101,24 @@ namespace ERP.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult addProductionItems(Guid? ItemInOutId, string DT_DatasourceItem)
+        public ActionResult addProductionItems(Guid? ItemInOutId,double? QuantityInOut, string DT_DatasourceItem)
         {
             List<ItemProductionDetailsDT> deDS = new List<ItemProductionDetailsDT>();
-            string itemName = "";
+            string itemName, unitName = "";
             if (DT_DatasourceItem != null)
                 deDS = JsonConvert.DeserializeObject<List<ItemProductionDetailsDT>>(DT_DatasourceItem);
             if (ItemInOutId != null)
             {
                 if (deDS.Where(x => x.ItemId == ItemInOutId).Count() > 0)
                     return Json(new { isValid = false, msg = "اسم الصنف موجود مسبقا " }, JsonRequestBehavior.AllowGet);
-                itemName = db.Items.FirstOrDefault(x => x.Id == ItemInOutId).Name;
+                var item = db.Items.FirstOrDefault(x => x.Id == ItemInOutId);
+                itemName = item.Name;
+                unitName = item.Unit?.Name;
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الصنف " }, JsonRequestBehavior.AllowGet);
 
-            var newProductionItems = new ItemProductionDetailsDT { ItemId = ItemInOutId, ItemName = itemName };
+            var newProductionItems = new ItemProductionDetailsDT { ItemId = ItemInOutId,Quantity= QuantityInOut??1, UnitName= unitName, ItemName = itemName };
             deDS.Add(newProductionItems);
             DSItems= JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم الاضافة بنجاح " }, JsonRequestBehavior.AllowGet);
@@ -170,7 +175,7 @@ namespace ERP.Web.Controllers
                     itemProItems = deDSItem.Select(x => new ItemProductionDetail
                     {
                         ItemId = x.ItemId,
-                        Quantity=1,
+                        Quantity=x.Quantity,
                         ProductionTypeId=vm.ItemProductionTypeId==1?(int)ProductionTypeCl.Out: (int)ProductionTypeCl.In
                     }).ToList();
                 }else

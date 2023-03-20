@@ -36,22 +36,32 @@ namespace ERP.Web.Controllers
             }
             else
                 ViewBag.Msg = "يجب تعريف بداية ونهاية السنة المالية فى شاشة الاعدادات";
+
+            ViewBag.AssetsDepreciationStatus = new SelectList(new List<DropDownListInt>
+            {
+                new DropDownListInt {Id=1,Name="ضمن المصروفات"},
+                new DropDownListInt {Id=2,Name="منفصل عن المصروفات"},
+            }, "Id", "Name");
             return View(vm);
         }
 
         [HttpPost]
-        public ActionResult Index(string dFrom, string dTo)
+        public ActionResult Index(string dFrom, string dTo,int? AssetsDepreciationStatus)
         {
             DateTime dtFrom, dtTo;
             List<IncomeListDto> vm=new List<IncomeListDto>();
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
             {
-                vm =ReportsAccountTreeService.IncomeLists(dtFrom, dtTo);
+                vm =ReportsAccountTreeService.IncomeLists(dtFrom, dtTo, AssetsDepreciationStatus);
             }
             else
-                vm = ReportsAccountTreeService.IncomeLists(null, null);
+                vm = ReportsAccountTreeService.IncomeLists(null, null, AssetsDepreciationStatus);
 
-
+            ViewBag.AssetsDepreciationStatus = new SelectList(new List<DropDownListInt>
+            {
+                new DropDownListInt {Id=1,Name="ضمن المصروفات"},
+                new DropDownListInt {Id=2,Name="منفصل عن المصروفات"},
+            },"Id","Name",AssetsDepreciationStatus);
             return View(vm);
 
         }

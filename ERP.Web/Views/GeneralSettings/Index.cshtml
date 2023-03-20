@@ -598,6 +598,18 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>حساب الاصول الثابتة </label>
+                                        <div class="input-group">
+                                            @Html.TextBoxFor(m => m.AccountTree.FixedAssetsAccountName, new { @class = "form-control" })
+                                            @Html.HiddenFor(m => m.AccountTree.FixedAssetsAccountSettingId)
+                                            @Html.HiddenFor(m => m.AccountTree.FixedAssetsAccountSettingValue)
+
+                                            <div class="input-group-text"><a href="javascript:void(0);" onclick="openModal('AccountTree_FixedAssetsAccountName',@Model.AccountTree.FixedAssetsAccountSettingId,@Model.AccountTree.FixedAssetsAccountSettingValue)"><i title="بحث عن حساب" class="bx bx-search-alt m-1"></i></a></div>
+                                        </div>
+                                    </div>
+                                </div>
                                 @if (Model.InventoryType == 2) //الجرد المستمر
                                 {
                                     <div class="col-lg-6">

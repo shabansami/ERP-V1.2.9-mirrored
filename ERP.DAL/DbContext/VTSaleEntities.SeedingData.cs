@@ -778,6 +778,7 @@ INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedB
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (78,N'الاعتماد المباشر بعد حفظ تحويلات المخازن',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 
 INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (79,N'سماح بقبول عمل عمليات مستقبلية',N'1',7,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
+INSERT [{Schema}].[GeneralSettings] ([Id], [SName], [SValue], [SType], [CreatedBy], [CreatedOn], [IsDeleted]) VALUES (80,N'حساب الاصول الثابتة',N'00000003-1234-1234-1234-012345678910',1,N'{UserID}',CAST(N'2022-07-25T18:40:07.420' AS DateTime),0)
 
 
 SET IDENTITY_INSERT [{Schema}].[GeneralSettings] OFF;";

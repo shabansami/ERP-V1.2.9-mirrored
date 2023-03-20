@@ -149,15 +149,15 @@ namespace ERP.Web.Services
         {
             using (var db = new VTSaleEntities())
             {
-                //var generalSettingfixedAsset = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeGeneralFixedAssets).FirstOrDefault();
-                //int fixedAssetParentValue;
-                //if (generalSettingfixedAsset != null && int.TryParse(generalSettingfixedAsset.SValue, out fixedAssetParentValue))
-                //{
-                    var accountTrees = db.AccountsTrees.Where(x => !x.IsDeleted && x.AccountNumber == Lookups.GeneralFixedAssets).FirstOrDefault();
+                var generalSettingfixedAsset = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeFixedAssets).FirstOrDefault();
+                Guid fixedAssetParentValue;
+                if (generalSettingfixedAsset != null && Guid.TryParse(generalSettingfixedAsset.SValue, out fixedAssetParentValue))
+                {
+                    var accountTrees = db.AccountsTrees.Where(x => !x.IsDeleted && x.Id == fixedAssetParentValue).FirstOrDefault();
                     return accountTrees.AccountsTreesChildren.Where(x => !x.IsDeleted).ToList();
-                //}
-                //else
-                //    return new List<AccountsTree>();
+                }
+                else
+                    return new List<AccountsTree>();
 
             }
         }

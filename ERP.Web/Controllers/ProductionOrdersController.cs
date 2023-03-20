@@ -113,7 +113,7 @@ namespace ERP.Web.Controllers
             //مخازن المستخدم
             vm.ProductionStoreId = productionStoreId;
             ViewBag.ProductionStoreId = new SelectList(storesProduction, "Id","Name",productionStoreId);
-            ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore.BranchId);
+            ViewBag.BranchId = new SelectList(branches, "Id", "Name", productionStore!=null? productionStore.BranchId:null);
             ViewBag.ProductionLineId = new SelectList(db.ProductionLines.Where(x=>!x.IsDeleted), "Id", "Name");
             //التاكد من تحديد مخزن تحت التصنيع من الاعدادات اولا 
             var storeProductionUnderSetting = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.StoreUnderProductionId).FirstOrDefault();

@@ -42,18 +42,25 @@
                             <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
                                     <div class="row">
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group required">
                                                 <label>نوع التوليفة</label>
                                                 @Html.DropDownList("ItemProductionTypeId", null, null, htmlAttributes: new { @class = "form-control", @onchange = "changeDescriptio()" })
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-lg-4">
                                             <div class="form-group required">
                                                 <label>مسمى التوليفة</label>
                                                 @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                                             </div>
                                         </div>
+                                        <div class="col-lg-4">
+                                            <div class="form-group required">
+                                                <label>الكمية</label>
+                                                @Html.TextBox("QuantityInOut", 1, htmlAttributes: new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
+
                                         <div class="col-lg-4">
                                             <div class="form-group">
                                                 <label>نوع الصنف</label>
@@ -69,11 +76,10 @@
                                             </div>
                                         </div>
 
-
                                         <div class="col-lg-4">
                                             <div class="form-group ">
                                                 <label>.</label>
-                                                <input type="button" onclick="ItemProduction_Module.addProductionItems()" value="اضافة" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" style="text-align:center;"/>
+                                                <input type="button" onclick="ItemProduction_Module.addProductionItems()" value="اضافة" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" style="text-align:center;" />
                                             </div>
                                         </div>
                                         <div class="col-lg-12">

@@ -243,7 +243,9 @@ var ItemProduction_Module = function () {
             },
             columns: [
                 { data: 'ItemId', visible: false },
+                { data: 'UnitName', title: 'الوحدة' },
                 { data: 'ItemName', title: 'الصنف' },
+                { data: 'Quantity', title: 'الكمية' },
                 { data: 'Actions', responsivePriority: -1 },
 
             ],
@@ -277,8 +279,14 @@ var ItemProduction_Module = function () {
                 toastr.error('تأكد من اختيار الصنف', '');
                 return false;
             }
+            var quantityInOut = document.getElementById('QuantityInOut').value;
+            if (quantityInOut === ''||quantityInOut==='0') {
+                toastr.error('تأكد من ادخال الكمية', '');
+                return false;
+            }
 
             formData.append('ItemInOutId', itemId)
+            formData.append('QuantityInOut', quantityInOut)
             var dataSet = $('#kt_dtProductionItems').DataTable().rows().data().toArray();
             if (dataSet != null) {
                 if (dataSet.length > 0) {
@@ -362,6 +370,7 @@ var ItemProduction_Module = function () {
             columns: [
                 { data: 'Id', title: 'م', visible: false },
                 { data: 'ItemId', visible: false },
+                { data: 'UnitName', title: 'الوحدة' },
                 { data: 'ItemName', title: 'الصنف' },
                 { data: 'Quantity', title: 'الكمية' },
                 { data: 'Actions', responsivePriority: -1 },

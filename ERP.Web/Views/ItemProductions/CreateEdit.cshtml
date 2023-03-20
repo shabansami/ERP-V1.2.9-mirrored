@@ -68,12 +68,17 @@
 
                                             </div>
                                         </div>
-
+                                        <div class="col-lg-4">
+                                            <div class="form-group required">
+                                                <label>الكمية</label>
+                                                @Html.TextBox("QuantityIn", 0, htmlAttributes: new { @class = "form-control", @type = "number" })
+                                            </div>
+                                        </div>
 
                                         <div class="col-lg-4">
                                             <div class="form-group ">
                                                 <label>.</label>
-                                                <input type="button" onclick="ItemProduction_Module.addProductionItems()" value="اضافة" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" style="text-align:center;"/>
+                                                <input type="button" onclick="ItemProduction_Module.addProductionItems()" value="اضافة" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100 form-control" style="text-align:center;" />
                                             </div>
                                         </div>
                                         <div class="col-lg-12">

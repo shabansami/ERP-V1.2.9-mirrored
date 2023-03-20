@@ -244,6 +244,9 @@ var ItemProduction_Module = function () {
             columns: [
                 { data: 'ItemId', visible: false },
                 { data: 'ItemName', title: 'الصنف' },
+                { data: 'UnitIn', title: 'الوحدة' },
+                { data: 'QuantityIn', title: 'الكمية' },
+
                 { data: 'Actions', responsivePriority: -1 },
 
             ],
@@ -272,12 +275,19 @@ var ItemProduction_Module = function () {
     function addProductionItems() {
         try {
             var itemId = document.getElementById('ItemInOutId').value;
+            var quantityIn = document.getElementById('QuantityIn').value;
+
             var formData = new FormData();
             if (itemId === '') {
                 toastr.error('تأكد من اختيار الصنف', '');
                 return false;
             }
+            if (quantityIn === '' || quantityIn == '0') {
+                toastr.error('تأكد من ادخال الكمية', '');
+                return false;
 
+            }
+            formData.append('QuantityIn', quantityIn)
             formData.append('ItemInOutId', itemId)
             var dataSet = $('#kt_dtProductionItems').DataTable().rows().data().toArray();
             if (dataSet != null) {
@@ -295,6 +305,8 @@ var ItemProduction_Module = function () {
                     if (res.isValid) {
                         $('#kt_dtProductionItems').DataTable().ajax.reload();
                         $('#ItemInOutId').val(null);
+                        $('#QuantityIn').val(0);
+
                         $('#ItemInOutId').select2({
                             placeholder: "اختر عنصر من القائمة"
                         });
@@ -363,6 +375,8 @@ var ItemProduction_Module = function () {
                 { data: 'Id', title: 'م', visible: false },
                 { data: 'ItemId', visible: false },
                 { data: 'ItemName', title: 'الصنف' },
+                { data: 'UnitOut', title: 'الوحدة' },
+
                 { data: 'Quantity', title: 'الكمية' },
                 { data: 'Actions', responsivePriority: -1 },
 

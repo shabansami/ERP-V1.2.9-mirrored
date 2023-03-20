@@ -142,7 +142,8 @@ namespace ERP.Web.Utilites
             SellPriceZero, //سعر البيع يقبل صفر (الهدايا)  
             AcceptItemCostSellDown, // السماح ببيع الصنف فى حالة سعر البيع اقل من تكلفته  
             StoreTransferApprovalAfterSave,//الاعتماد المباشر بعد حفظ تحويلات المخازن
-            FutureOpration,//الاعتماد المباشر بعد حفظ تحويلات المخازن
+            FutureOpration,//سماح بقبول عمل عمليات مستقبلية
+            AccountTreeFixedAssets,//حساب الاصول الثابتة
         }
 
         public enum GeneralSettingTypeCl // انواع الاعدادات
@@ -365,36 +366,36 @@ namespace ERP.Web.Utilites
         }
         //ارقام حسابات المركز المالى 
         //public static int InvestmentFormation => 121; //تكوين استثمارى
-        public static int InvestmentSpending => 122; //انفاق استثمارى
-        public static int StorematerialsFuelSparePart => 161; //مخزن خامات ومواد ووقود وقطع غيار
-        public static int NoCollection => 266; //مخصص ديون مشكوك فى تحصيلها
-        public static int AccountsReceivableDepartment => 174; //حسابات مدينة لدى المصالح والهيئات
-        public static int RevenueReceivable => 175; //ايرادات مستحقة التحصيل
-        public static int OtherDebitAccounts => 177; //حسابات مدينة أخرى
-        public static int AccountsReceivableHolding => 1731; //حسابات مدينة لدى الشركات القابضة
-        public static int AccountsReceivableSubsidiaries => 1732; //* حسابات مدينة لدى الشركات التابعة / الشقيقة
-        public static int ExpensesPaidAdvance => 176; //مصروفات مدفوعة مقدما
-        public static int TradedInvestmentSecurities => 18; //استثمارات وأوراق مالية متداولة (اذون اخزانة)
-        public static int BankDepositForTerm => 191; //ودائع بالبنوك لأجل أو اخطار سابق
-        public static int WarrantyCover => 192; //غطاء ضمان
+        //public static int InvestmentSpending => 122; //انفاق استثمارى
+        //public static int StorematerialsFuelSparePart => 161; //مخزن خامات ومواد ووقود وقطع غيار
+        //public static int NoCollection => 266; //مخصص ديون مشكوك فى تحصيلها
+        //public static int AccountsReceivableDepartment => 174; //حسابات مدينة لدى المصالح والهيئات
+        //public static int RevenueReceivable => 175; //ايرادات مستحقة التحصيل
+        //public static int OtherDebitAccounts => 177; //حسابات مدينة أخرى
+        //public static int AccountsReceivableHolding => 1731; //حسابات مدينة لدى الشركات القابضة
+        //public static int AccountsReceivableSubsidiaries => 1732; //* حسابات مدينة لدى الشركات التابعة / الشقيقة
+        //public static int ExpensesPaidAdvance => 176; //مصروفات مدفوعة مقدما
+        //public static int TradedInvestmentSecurities => 18; //استثمارات وأوراق مالية متداولة (اذون اخزانة)
+        //public static int BankDepositForTerm => 191; //ودائع بالبنوك لأجل أو اخطار سابق
+        //public static int WarrantyCover => 192; //غطاء ضمان
                                                 //حقوق الملكية
-        public static int PaidCapital => 21; //رأس المال المدفوع
-        public static int CapitalReserve => 223; //احتياطى رأسمالى
-        public static int OtherReserves => 224; //احتياطيات أخرى
-        public static int ProfitLossStage => 23; //أرباح ( خسائر ) مرحلة
-        public static int LongTermCommitments => 255; //التزامات طويلة الأجل (مقابل مشروعات تحت التنفيذ)
-        public static int LongTermLiabilities => 256; //التزامات طويلة الأجل (مقابل أصول)
-        public static int OtherCreditAccounts => 289; //حسابات دائنة اخرى
-        public static int DisputedTaxCustom => 267; //مخصص ضرائب متنازع عليها
-        public static int ProvisionForClaims => 268; //مخصص المطالبات والمنازعات
-        public static int OtherAllowances => 269; //مخصصات أخرى 
-        public static int AccountsPayable => 284; //حسابات دائنة لدى المصالح والهيئات
-        public static int ExpenseReceivable => 286; //مصروفات مستحقة السداد
-        public static int IncomesPaidAdvance => 287; //ايرادات محصلة مقدما
-        public static int DeferredInstallmentSalesProfit => 288; //أرباح مبيعات تقسيط مؤجلة ( تخص أعوام لاحقة )
-        public static int OtherAccountsPayable => 289; //حسابات دائنة أخرى
-        public static int AccountsPayableHolding => 2831; //حسابات دائنة لدى الشركات القابضة
-        public static int AccountsPayableSubsidiaries => 2832; //* حسابات دائنة لدى الشركات التابعة / الشقيقة
+        //public static int PaidCapital => 21; //رأس المال المدفوع
+        //public static int CapitalReserve => 223; //احتياطى رأسمالى
+        //public static int OtherReserves => 224; //احتياطيات أخرى
+        //public static int ProfitLossStage => 23; //أرباح ( خسائر ) مرحلة
+        //public static int LongTermCommitments => 255; //التزامات طويلة الأجل (مقابل مشروعات تحت التنفيذ)
+        //public static int LongTermLiabilities => 256; //التزامات طويلة الأجل (مقابل أصول)
+        //public static int OtherCreditAccounts => 289; //حسابات دائنة اخرى
+        //public static int DisputedTaxCustom => 267; //مخصص ضرائب متنازع عليها
+        //public static int ProvisionForClaims => 268; //مخصص المطالبات والمنازعات
+        //public static int OtherAllowances => 269; //مخصصات أخرى 
+        //public static int AccountsPayable => 284; //حسابات دائنة لدى المصالح والهيئات
+        //public static int ExpenseReceivable => 286; //مصروفات مستحقة السداد
+        //public static int IncomesPaidAdvance => 287; //ايرادات محصلة مقدما
+        //public static int DeferredInstallmentSalesProfit => 288; //أرباح مبيعات تقسيط مؤجلة ( تخص أعوام لاحقة )
+        //public static int OtherAccountsPayable => 289; //حسابات دائنة أخرى
+        //public static int AccountsPayableHolding => 2831; //حسابات دائنة لدى الشركات القابضة
+        //public static int AccountsPayableSubsidiaries => 2832; //* حسابات دائنة لدى الشركات التابعة / الشقيقة
 
         //ارقام حسابات الحسابات الرئيسية
         public static int GeneralAssets => 1;//حساب الاصول 
@@ -404,10 +405,10 @@ namespace ERP.Web.Utilites
         public static int GeneralFixedAssets => 112;//حساب الاصول الثابتة فقط 
 
         //الحسابات التى لا يتم عرضها بسبب استخدامها فى الاعدادات العامة
-        public static int PurchasesForSale => 34;//حساب مشتريات بغرض البيع 
-        public static int DepreciationAndConsumption => 332;//حساب الاهلاك والاستهلاك 
-        public static int PurchasedMerchandiseSales => 412;//حساب مبيعات بضائع مشتراه 
-        public static int FullProductionSales => 411;//حساب مبيعات انتاج تام 
+        //public static int PurchasesForSale => 34;//حساب مشتريات بغرض البيع 
+        //public static int DepreciationAndConsumption => 332;//حساب الاهلاك والاستهلاك 
+        //public static int PurchasedMerchandiseSales => 412;//حساب مبيعات بضائع مشتراه 
+        //public static int FullProductionSales => 411;//حساب مبيعات انتاج تام 
 
         #endregion
     }

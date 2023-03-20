@@ -373,6 +373,15 @@ namespace ERP.Web.Controllers
             }
             vm.AccountTree.InventoryOperatingDeviationAccountSettingId = (int)GeneralSettingCl.AccountTreeInventoryOperatingDeviation;
 
+            //==================== حساب الاصول الثابتة=======================
+            if (model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeFixedAssets).FirstOrDefault().SValue != null)
+            {
+                vm.AccountTree.FixedAssetsAccountSettingValue = Guid.Parse(model.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeFixedAssets).FirstOrDefault().SValue);
+                var accountTreeCheck = accountTree.Where(x => x.Id == vm.AccountTree.FixedAssetsAccountSettingValue).FirstOrDefault();
+                vm.AccountTree.FixedAssetsAccountName = accountTreeCheck.AccountName + "..." + accountTreeCheck.AccountNumber;
+            }
+            vm.AccountTree.FixedAssetsAccountSettingId = (int)GeneralSettingCl.AccountTreeFixedAssets;
+
 
             #endregion
 

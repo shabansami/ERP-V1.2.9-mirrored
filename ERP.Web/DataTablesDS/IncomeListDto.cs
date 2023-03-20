@@ -15,6 +15,7 @@ namespace ERP.Web.DataTablesDS
         public double Partial { get; set; }//جزئى
         public int? Num { get; set; } = null;
         public bool IsTotal { get; set; }
+        public int? AssetsDepreciationStatus { get; set; }//حالة مصروف الاهلاك من ضمن الصمروفات او مفصول عنها
         public bool IsThirdLevel { get; set; }//المستوى الثالث فى الدليل المحاسبى لتمميزه بلون مخلتف ف تقرير قائمة الدخل
     }
 

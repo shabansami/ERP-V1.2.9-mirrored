@@ -169,7 +169,11 @@ namespace ERP.Web.ViewModels
         //حساب انحراف التشغيل فى حالة جرد المخزن 
         public int? InventoryOperatingDeviationAccountSettingId { get; set; }
         public Guid? InventoryOperatingDeviationAccountSettingValue { get; set; }
-        public string InventoryOperatingDeviationAccountName { get; set; }
+        public string InventoryOperatingDeviationAccountName { get; set; }       
+        //حساب الاصول الثابتة 
+        public int? FixedAssetsAccountSettingId { get; set; }
+        public Guid? FixedAssetsAccountSettingValue { get; set; }
+        public string FixedAssetsAccountName { get; set; }
 
     }
     public class UploadFileTreeVM

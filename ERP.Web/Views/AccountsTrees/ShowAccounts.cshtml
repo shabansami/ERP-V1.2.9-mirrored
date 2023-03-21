@@ -10,15 +10,18 @@
 @section Button1Link{/AccountsTrees/Index}
 @section icon{<i class="fa fa-cog m-1"></i>}
 <div class="row">
-    <div class="col-12">
+    <div class="col-6">
         <form class="app-search d-none d-lg-block">
             <div class="position-relative">
 
-                <input type="text" class="form-control" id="mySearch" onkeyup="myFunction()" placeholder="بحث....">
-                <button class="btn btn-primary" onclick="myFunction()" type="button"><i class="bx bx-search-alt align-middle"></i></button>
+                <input type="text" class="form-control" id="search_field" placeholder="بحث....">
+                <button class="btn btn-primary" type="button"><i class="bx bx-search-alt align-middle"></i></button>
 
             </div>
         </form>
+    </div>
+    <div class="col-12">
+  
         <div class="card din-bold">
             <div class="card-header">
 
@@ -40,40 +43,58 @@
 {
     <script src="~/Assets/plugins/jstree/jstree.bundle.js"></script>
     <script>
-
-        // ====
-
         $(document).ready(function () {
-            $("#kt_tree_6").jstree({
-                "core": {
-                    "themes": {
-                        "responsive": false
-                    },
-                    // so that create works
-                    "check_callback": true,
-                    'data': {
-                        'url':
-                            '/SharedDataSources/GetAccountsTreeView/'
-                        ,
+            $("#search_field").keyup(function () {
+                var searchString = $(this).val();
+                $('#kt_tree_6').jstree('search', searchString);
+            });
+        });
 
-                    }
-                },
-                "types": {
-                    "default": {
-                        "icon": "fa fa-folder text-primary"
+   
+
+            $(document).ready(function () {
+                $("#kt_tree_6").jstree({
+                    "core": {
+                        "themes": {
+                            "responsive": false
+                        },
+                        // so that create works
+                        "check_callback": true,
+                        'data': {
+                            'url':
+                                '/SharedDataSources/GetAccountsTreeView/'
+                            
+                        }
                     },
-                    "file": {
-                        "icon": "fa fa-file  text-primary"
-                    }
-                },
-                "state": {
-                    "key": "demo3"
-                },
-                "plugins": ["dnd", "state", "types"]
+                    "types": {
+                        "default": {
+                            "icon": "fa fa-folder text-primary"
+                        },
+                        "file": {
+                            "icon": "fa fa-file  text-primary"
+                        }
+                    },
+                    "state": {
+                        "key": "demo3"
+                    },
+                    "search": {
+
+                        "case_insensitive": false,
+                        "show_only_matches": true,
+
+                
+
+                    },  
+                    "plugins": ["themes", "state", "types", "search"]
+                });
+
             });
 
-        })
 
+
+   
+
+   
     </script>
     
 }

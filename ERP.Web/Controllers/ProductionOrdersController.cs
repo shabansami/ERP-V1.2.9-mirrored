@@ -749,7 +749,6 @@ namespace ERP.Web.Controllers
         {
             // add
 
-
             vm = GetData(vm);
             //فى حالى الضغط على اضافة توليفة لامر الانتاج 
             if (actionType == "addProductionItem")

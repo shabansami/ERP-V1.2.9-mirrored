@@ -99,6 +99,10 @@ namespace ERP.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
             else
                 list = BalanceService.SearchItemMovement(itemCode, barCode, itemId, storeId, actionTypeId, dtFrom, dtTo);
+            foreach (var item in list)
+            {
+                item.ActionDate =DateTime.Parse(item.ActionDate).ToString("tt hh:mm | yyyy-MM-dd");
+            }
             list = list.OrderBy(x => x.DateReal).ToList();
             double BalanceQuatnitiy = 0;
             double BalanceCost = 0;
@@ -157,6 +161,8 @@ namespace ERP.Web.Controllers
                 BalanceQuatnitiy += (item.IncomingQuantity - item.OutcomingQuantity);
                 //BalanceCost += (item.IncomingCost - item.OutcomingCost);
                 item.BalanceQuantity = BalanceQuatnitiy;
+                item.ActionDate = DateTime.Parse(item.ActionDate).ToString("tt hh:mm | yyyy-MM-dd");
+
                 //item.BalanceCost = Math.Round(BalanceCost, 2, MidpointRounding.ToEven);
             }
             return Json(new
@@ -212,6 +218,11 @@ namespace ERP.Web.Controllers
                 }, JsonRequestBehavior.AllowGet);
             else
                 list = BalanceService.SearchItemActions(itemCode, barCode, itemId, storeId, actionTypeId, dtFrom, dtTo);
+            foreach (var item in list)
+            {
+                item.InvoiceDate = DateTime.Parse(item.InvoiceDate).ToString("tt hh:mm | yyyy-MM-dd");
+
+            }
             return Json(new
             {
                 data = list

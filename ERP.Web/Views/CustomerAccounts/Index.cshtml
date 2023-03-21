@@ -181,7 +181,7 @@
                                         {
                                             <tr>
                                                 <td>@item.InvoiceNumber</td>
-                                                <td>@item.InvoDate</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -285,7 +285,7 @@
                                         {
                                             <tr>
                                                 <td>@item.InvoiceNumber</td>
-                                                <td>@item.InvoDate</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -380,7 +380,7 @@
                                         {
                                             <tr>
                                                 <td>@item.Id</td>
-                                                <td>@item.InvoDate</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -476,7 +476,7 @@
                                         {
                                             <tr>
                                                 <td>@item.Id</td>
-                                                <td>@item.InvoDate</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -572,8 +572,8 @@
 
                                         <tr>
                                             <td>@item.InvoiceNum</td>
-                                            <td>@item.InstallmentDate</td>
-                                            <td>@item.PaymentDate</td>
+                                            <td>@DateTime.Parse(item.InstallmentDate).ToString("tt hh:mm | yyyy-MM-dd")</td>
+                                            <td>@DateTime.Parse(item.PaymentDate).ToString("tt hh:mm | yyyy-MM-dd")</td>
                                             <td>@item.Amount</td>
                                             <td>
                                                 <div class="btn-group">
@@ -672,8 +672,8 @@
 
                                         <tr>
                                             <td>@item.InvoiceNum</td>
-                                            <td>@item.InstallmentDate</td>
-                                            <td>@item.PaymentDate</td>
+                                            <td>@DateTime.Parse(item.InstallmentDate).ToString("tt hh:mm | yyyy-MM-dd")</td>
+                                            <td>@DateTime.Parse(item.PaymentDate).ToString("tt hh:mm | yyyy-MM-dd")</td>
                                             <td>@item.Amount</td>
                                             <td>
                                                 <div class="btn-group">
@@ -771,7 +771,7 @@
 
                                         <tr>
                                             <td>@item.InvoiceNum</td>
-                                            <td>@item.InstallmentDate</td>
+                                            <td>@DateTime.Parse(item.InstallmentDate).ToString("tt hh:mm | yyyy-MM-dd")</td>
                                             <td>@item.Amount</td>
                                             <td>
                                                 <div class="btn-group">

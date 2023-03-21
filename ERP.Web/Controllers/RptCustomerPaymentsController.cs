@@ -67,7 +67,7 @@ namespace ERP.Web.Controllers
 
             if (DateTime.TryParse(dFrom, out dtFrom) && DateTime.TryParse(dTo, out dtTo))
                 payments = payments.Where(x => x.PaymentDate >= dtFrom && x.PaymentDate <= dtTo);
-
+           
 
             return Json(new
             {

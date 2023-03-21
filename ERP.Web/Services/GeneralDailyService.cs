@@ -131,6 +131,14 @@ namespace ERP.Web.Services
                     TransactionTypeName = x.TransactionsType.Name,
                     IsCustRelated = IsCustRelated
                 }).ToList();
+               
+                foreach (var item in list)
+                {
+                    if (item.TransactionDate!=null)
+                    {
+                        item.TransactionDate = DateTime.Parse(item.TransactionDate).ToString("tt hh:mm | yyyy-MM-dd");
+                    }
+                }
                 double generalDailiesbalance = 0;
                 foreach (var item in list)
                 {

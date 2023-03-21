@@ -202,7 +202,7 @@
                                         {
                                             <tr>
                                                 <td>@item.InvoiceNumber</td>
-                                                <td>@item.InvoDate</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -291,7 +291,7 @@
                                         {
                                             <tr>
                                                 <td>@item.InvoiceNumber</td>
-                                                <td>@item.InvoDate</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -380,7 +380,7 @@
                                         {
                                             <tr>
                                                 <td>@item.InvoiceNumber</td>
-                                                <td>@item.InvoDate.Value.ToString("yyyy-MM-dd")</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>
@@ -482,7 +482,7 @@
                                         {
                                             <tr>
                                                 <td>@item.Id</td>
-                                                <td>@item.InvoDate.Value.ToString("yyyy-MM-dd")</td>
+                                                <td>@item.InvoDate.Value.ToString("tt hh:mm | yyyy-MM-dd")</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.Amount</td>
                                                 <td>@item.ApprovalStatus</td>

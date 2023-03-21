@@ -50,7 +50,7 @@ namespace ERP.Web.Controllers
                 vm = EmployeeService.GetSaleMenAccount(vm.EmployeeId,dtFrom, dtTo,vm.AllTimes,vm.IsFinalApproval);
             else
                 vm = EmployeeService.GetSaleMenAccount(vm.EmployeeId, null, null, vm.AllTimes,vm.IsFinalApproval);
-
+          
             return View(vm);
         }     
         #endregion

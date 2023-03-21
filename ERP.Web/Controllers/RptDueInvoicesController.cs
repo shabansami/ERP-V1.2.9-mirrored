@@ -77,7 +77,7 @@ namespace ERP.Web.Controllers
 
             return Json(new
             {
-                data = data.Select(x => new { Id = x.Id,  InvoiceNum = x.Id, InvoiceDate = x.InvoiceDate.ToString(), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, EmployeeName = x.Employee!=null?x.Employee.Person.Name:null, AmountCollected= PaymentServices.GetAmount(x.Id, x.CustomerId), Actions = n, Num = n }).ToList()
+                data = data.Select(x => new { Id = x.Id,  InvoiceNum = x.Id, InvoiceDate = x.InvoiceDate.ToString("tt hh:mm | yyyy-MM-dd"), CustomerName = x.PersonCustomer.Name, Safy = x.Safy, EmployeeName = x.Employee!=null?x.Employee.Person.Name:null, AmountCollected= PaymentServices.GetAmount(x.Id, x.CustomerId), Actions = n, Num = n }).ToList()
             }, JsonRequestBehavior.AllowGet);
 
             //return Json(new

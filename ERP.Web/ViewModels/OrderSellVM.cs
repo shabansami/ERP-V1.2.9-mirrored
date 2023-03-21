@@ -29,6 +29,8 @@ namespace ERP.Web.ViewModels
         public List<InvoiceExpensesDT> ProductionOrderExpens { get; set; }
         public List<ItemProductionDetails> ItemProductionDetails { get; set; }
         public Guid? ExpenseTypeId { get; set; }
+        public string AccountTreeCreditName { get; set; }
+        public Guid? AccountTreeCreditId { get; set; }
         public double ExpenseAmount { get; set; }
         public string ExpenseNotes { get; set; }
         public Guid? ExpenseTypeIdDeleted { get; set; }

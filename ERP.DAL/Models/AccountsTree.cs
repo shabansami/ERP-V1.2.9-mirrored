@@ -34,7 +34,8 @@ namespace ERP.DAL
             this.PersonsCustomers = new HashSet<Person>();
             this.PersonsSuppliers = new HashSet<Person>();
             this.PersonsCustomersEmps = new HashSet<Person>();
-            this.ProductionOrderExpenses = new HashSet<ProductionOrderExpens>();
+            this.ProductionOrderFromExpenses = new HashSet<ProductionOrderExpens>();
+            this.ProductionOrderToExpenses = new HashSet<ProductionOrderExpens>();
             this.PurchaseBackInvoicesExpenses = new HashSet<PurchaseBackInvoicesExpens>();
             this.PurchaseInvoicesExpenses = new HashSet<PurchaseInvoicesExpens>();
             this.Safes = new HashSet<Safe>();
@@ -105,8 +106,10 @@ namespace ERP.DAL
         //Persons2
         [InverseProperty(nameof(Person.AccountTreeEmpCustody))]
         public virtual ICollection<Person> PersonsCustomersEmps { get; set; }
-        
-        public virtual ICollection<ProductionOrderExpens> ProductionOrderExpenses { get; set; }
+        [InverseProperty(nameof(ProductionOrderExpens.ExpenseTypeAccountTree))]
+        public virtual ICollection<ProductionOrderExpens> ProductionOrderFromExpenses { get; set; }
+        [InverseProperty(nameof(ProductionOrderExpens.AccountTreeCredit))]
+        public virtual ICollection<ProductionOrderExpens> ProductionOrderToExpenses { get; set; }
         
         public virtual ICollection<PurchaseBackInvoicesExpens> PurchaseBackInvoicesExpenses { get; set; }
         

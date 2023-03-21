@@ -322,14 +322,21 @@
 
                         <div class="row">
 
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group required">
-                                    <label> مسمى التكلفة</label>
+                                    <label>  (الحساب المدين)مسمى التكلفة</label>
                                     <input style="text-align:right;" name="accountTree" placeholder="اختر مسمى التكلفة" type="text" class="form-control alert-success" id="accountTree" autocomplete="off" />
                                     <input type="hidden" id="ExpenseTypeId" />
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
+                                <div class="form-group required">
+                                    <label>الحساب الدائن</label>
+                                    <input style="text-align:right;" name="accountTreeTo" type="text" class="form-control alert alert-success" id="accountTreeTo" autocomplete="off" />
+                                    @Html.Hidden("AccountTreeCreditId")
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="form-group required">
                                     <label>قيمة التكلفة</label>
                                     <input type="number" class="form-control form-control-solid form-control-lg" name="ExpenseAmount" id="ExpenseAmount" placeholder="قيمة التكلفة" value="0" />
@@ -440,6 +447,7 @@
     <script>
         var treeBasic;
         var accounTree;
+        var accounTreeTo;
 
         $(document).ready(function () {
             //الانتقال بين الحقول بالانتر وعند اضافة صنف
@@ -485,7 +493,7 @@
                             // ============== نهاية المجموعة الاساسية
 
 
-            //دليل الحسابات
+            //دليل الحسابات الحساب المدين
             var dsTree = [];
             $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount }, function (data) {
                 accounTree.setSource(data);
@@ -505,6 +513,23 @@
             });
             // ============== نهاية شجرة الحسابات
 
+            //دليل الحسابات (الحساب الدائن)
+            var dsTreeTo = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true }, function (data) {
+                accounTreeTo.setSource(data);
+            });
+
+            accounTreeTo = $('#accountTreeTo').comboTree({
+                source: dsTreeTo,
+                isMultiple: false,
+                collapse: true,
+            });
+            accounTreeTo.onChange(function () {
+                if (accounTreeTo.getSelectedIds() != null) {
+                    $('#AccountTreeCreditId').val(accounTreeTo.getSelectedIds()[0]);
+                }
+            });
+            // ============== نهاية شجرة الحسابات
 
                         });
     </script>

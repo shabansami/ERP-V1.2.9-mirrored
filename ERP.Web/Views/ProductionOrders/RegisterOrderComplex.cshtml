@@ -351,14 +351,21 @@
 
                             <div class="row">
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group required">
                                         <label> مسمى التكلفة</label>
                                         <input style="text-align:right;" name="accountTree" placeholder="اختر مسمى التكلفة" type="text" class="form-control alert-success" id="accountTree" autocomplete="off" />
                                         @Html.HiddenFor(m => m.ExpenseTypeId)
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <div class="form-group required">
+                                        <label>الحساب الدائن</label>
+                                        <input style="text-align:right;" name="accountTreeTo" type="text" class="form-control alert alert-success" id="accountTreeTo" autocomplete="off" />
+                                        @Html.Hidden("AccountTreeCreditId")
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="form-group required">
                                         <label>قيمة التكلفة</label>
                                         @Html.TextBoxFor(m => m.ExpenseAmount, new { @class = "form-control", @type = "number" })
@@ -382,7 +389,8 @@
                                         <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtProductionOrderExpenses">
                                             <thead>
                                                 <tr>
-                                                    <td>مسمى المصروف</td>
+                                                    <td> المصروف (الحساب المدين)</td>
+                                                    <td> الحساب الدائن</td>
                                                     <td>القيمة</td>
                                                     <td>حذف</td>
                                                 </tr>
@@ -392,6 +400,7 @@
                                                 {
                                                     <tr>
                                                         <td>@Model.ProductionOrderExpens[i].ExpenseTypeName</td>
+                                                        <td>@Model.ProductionOrderExpens[i].AccountTreeCreditName</td>
                                                         <td>@Model.ProductionOrderExpens[i].ExpenseAmount</td>
                                                         <td>
                                                             <div class="btn-group">
@@ -402,7 +411,9 @@
 
                                                         </td>
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseTypeId)
-                                                        @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseTypeName)
+                                                        @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseTypeName)    
+                                                        @Html.HiddenFor(m => m.ProductionOrderExpens[i].AccountTreeCreditId)
+                                                        @Html.HiddenFor(m => m.ProductionOrderExpens[i].AccountTreeCreditName)
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseAmount)
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].Notes)
                                                     </tr>
@@ -512,6 +523,7 @@
     <script>
         var treeBasic;
         var accounTree;
+        var accounTreeTo;
 
         $(document).ready(function () {
             ProductionOrder_Module.getStoresBranchChanged();
@@ -534,7 +546,23 @@
                 }
             });
             // ============== نهاية شجرة الحسابات
+            //دليل الحسابات (الحساب الدائن)
+            var dsTreeTo = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true }, function (data) {
+                accounTreeTo.setSource(data);
+            });
 
+            accounTreeTo = $('#accountTreeTo').comboTree({
+                source: dsTreeTo,
+                isMultiple: false,
+                collapse: true,
+            });
+            accounTreeTo.onChange(function () {
+                if (accounTreeTo.getSelectedIds() != null) {
+                    $('#AccountTreeCreditId').val(accounTreeTo.getSelectedIds()[0]);
+                }
+            });
+            // ============== نهاية شجرة الحسابات
 
                         });
     </script>

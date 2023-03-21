@@ -22,12 +22,16 @@ namespace ERP.DAL
         //ExpenseTypeId
         [ForeignKey(nameof(ExpenseTypeAccountTree))]
         public Nullable<Guid> ExpenseTypeAccountTreeId { get; set; }
+        //AccountTreeCredit
+        [ForeignKey(nameof(AccountTreeCredit))]
+        public Nullable<Guid> AccountTreeCreditId { get; set; }
 
         public double Amount { get; set; }
         public string Note { get; set; }
     
         //AccountsTree
         public virtual AccountsTree ExpenseTypeAccountTree { get; set; }
+        public virtual AccountsTree AccountTreeCredit { get; set; }
         public virtual ProductionOrder ProductionOrder { get; set; }
     }
 }

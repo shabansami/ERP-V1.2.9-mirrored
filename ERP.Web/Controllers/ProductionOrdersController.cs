@@ -189,7 +189,7 @@ namespace ERP.Web.Controllers
                     var acceptNoBalance = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.ItemAcceptNoBalance).FirstOrDefault();
                     if (int.TryParse(acceptNoBalance.SValue, out itemAcceptNoBalance))
 
-                    if (DT_DatasourceItemIn != null|| DT_DatasourceItemOut != null)
+                    if (DT_DatasourceItemIn != null && DT_DatasourceItemOut != null)
                     {
                         itemInDT = JsonConvert.DeserializeObject<List<ItemProductionOrderDetailsDT>>(DT_DatasourceItemIn);
                         if (itemInDT.Count() == 0)
@@ -227,7 +227,7 @@ namespace ERP.Web.Controllers
                         
                     }
                     else
-                        return Json(new { isValid = false, message = "تأكد من ادخال صنف خام واحد على الاقل" });
+                        return Json(new { isValid = false, message = "تأكد من الضغط على إنشاء توليفة ومن وجود اصناف (داخلة/خارجة)" });
 
                     //المصروفات
                     List<InvoiceExpensesDT> productionOrderExpensesDT = new List<InvoiceExpensesDT>();
@@ -240,6 +240,7 @@ namespace ERP.Web.Controllers
                             x => new ProductionOrderExpens
                             {
                                 ExpenseTypeAccountTreeId = x.ExpenseTypeId,
+                                AccountTreeCreditId= x.AccountTreeCreditId,
                                 Amount = x.ExpenseAmount,
                                 Note=x.Notes
                             }
@@ -305,11 +306,25 @@ namespace ERP.Web.Controllers
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(expressAccountsTreeId))
                                             return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
 
+                                        var creditAccountsTreeId = expense.AccountTreeCreditId;
+                                        if (AccountTreeService.CheckAccountTreeIdHasChilds(creditAccountsTreeId))
+                                            return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب فرعى" });
+
                                     context.GeneralDailies.Add(new GeneralDaily
                                     {
                                         AccountsTreeId = expressAccountsTreeId,
                                         BranchId = vm.BranchId,
                                         Debit = expense.Amount,
+                                        Notes = $"تكاليف أمر إنتاج رقم : {vm.OrderNumber}",
+                                        TransactionDate = vm.ProductionOrderDate,
+                                        TransactionId = vm.Id,
+                                        TransactionTypeId = (int)TransactionsTypesCl.ProductionOrderExpenses
+                                    });
+                                    context.GeneralDailies.Add(new GeneralDaily
+                                    {
+                                        AccountsTreeId = creditAccountsTreeId,
+                                        BranchId = vm.BranchId,
+                                        Credit = expense.Amount,
                                         Notes = $"تكاليف أمر إنتاج رقم : {vm.OrderNumber}",
                                         TransactionDate = vm.ProductionOrderDate,
                                         TransactionId = vm.Id,
@@ -694,21 +709,31 @@ namespace ERP.Web.Controllers
         public ActionResult AddProductionOrderExpenses(InvoiceExpensesDT vm)
         {
             List<InvoiceExpensesDT> deDS = new List<InvoiceExpensesDT>();
-            string expenseTypeName = "";
+            string expenseTypeName,accountCreditName = "";
             if (vm.DT_Datasource != null)
                 deDS = JsonConvert.DeserializeObject<List<InvoiceExpensesDT>>(vm.DT_Datasource);
             if (vm.ExpenseTypeId != null)
             {
                 if (deDS.Where(x => x.ExpenseTypeId == vm.ExpenseTypeId).Count() > 0)
-                    return Json(new { isValid = false, msg = "التكلفة المحدده موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+                    return Json(new { isValid = false, msg = "المصروف المحدد موجود مسبقا " }, JsonRequestBehavior.AllowGet);
                 expenseTypeName = db.AccountsTrees.FirstOrDefault(x=>x.Id==vm.ExpenseTypeId).AccountName;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseTypeId))
                     return Json(new { isValid = false, msg = "حساب المصروف ليس بحساب فرعى" });
             }
             else
-                return Json(new { isValid = false, msg = "تأكد من اختيار تكلفة " }, JsonRequestBehavior.AllowGet);
+                return Json(new { isValid = false, msg = "تأكد من اختيار حساب المصروف " }, JsonRequestBehavior.AllowGet);
+            if (vm.AccountTreeCreditId != null)
+            {
+                if (deDS.Where(x => x.AccountTreeCreditId == vm.AccountTreeCreditId).Count() > 0)
+                    return Json(new { isValid = false, msg = "الحساب الدائن المحدده موجود مسبقا " }, JsonRequestBehavior.AllowGet);
+                accountCreditName = db.AccountsTrees.FirstOrDefault(x=>x.Id==vm.AccountTreeCreditId).AccountName;
+                if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeCreditId))
+                    return Json(new { isValid = false, msg = "الحساب الدائن ليس بحساب فرعى" });
+            }
+            else
+                return Json(new { isValid = false, msg = "تأكد من اختيار الحساب الدائن " }, JsonRequestBehavior.AllowGet);
 
-            var newPurchaseInvoExpens = new InvoiceExpensesDT { ExpenseTypeId = vm.ExpenseTypeId, ExpenseTypeName = expenseTypeName, DT_Datasource = vm.DT_Datasource, ExpenseAmount = vm.ExpenseAmount ,Notes=vm.Notes};
+            var newPurchaseInvoExpens = new InvoiceExpensesDT { ExpenseTypeId = vm.ExpenseTypeId, ExpenseTypeName = expenseTypeName, AccountTreeCreditName=accountCreditName, AccountTreeCreditId=vm.AccountTreeCreditId, DT_Datasource = vm.DT_Datasource, ExpenseAmount = vm.ExpenseAmount ,Notes=vm.Notes};
             deDS.Add(newPurchaseInvoExpens);
             DSExpenses = JsonConvert.SerializeObject(deDS);
             return Json(new { isValid = true, msg = "تم تسجيل التكلفة بنجاح ", totalExpenses = deDS.Sum(x => x.ExpenseAmount) }, JsonRequestBehavior.AllowGet);
@@ -875,6 +900,24 @@ namespace ERP.Web.Controllers
                 {
                     ViewBag.Msg = "تأكد من اختيار تكلفة";
                     return View(vm);
+                }     
+                if (vm.AccountTreeCreditId != null)
+                {
+                    if (vm.ProductionOrderExpens.Where(x => x.AccountTreeCreditId == vm.AccountTreeCreditId).Count() > 0)
+                    {
+                        ViewBag.Msg = "الحساب الدائن المحدده موجود مسبقا ";
+                        return View(vm);
+                    }
+                    if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeCreditId))
+                    {
+                        ViewBag.Msg = "الحساب الدائن ليس بحساب فرعى";
+                        return View(vm);
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "تأكد من اختيار الحساب الدائن";
+                    return View(vm);
                 }
 
                 vm.ProductionOrderExpens.Add(new InvoiceExpensesDT
@@ -882,6 +925,8 @@ namespace ERP.Web.Controllers
                     ExpenseAmount = vm.ExpenseAmount,
                     ExpenseTypeId = vm.ExpenseTypeId,
                     ExpenseTypeName = vm.ExpenseTypeId != null ? db.AccountsTrees.Where(x => x.Id == vm.ExpenseTypeId).FirstOrDefault()?.AccountName : null,
+                    AccountTreeCreditId = vm.AccountTreeCreditId,
+                    AccountTreeCreditName = vm.AccountTreeCreditId != null ? db.AccountsTrees.Where(x => x.Id == vm.AccountTreeCreditId).FirstOrDefault()?.AccountName : null,
                     Notes = vm.ExpenseNotes
                 });
                 vm.ExpenseAmount = 0;
@@ -976,6 +1021,7 @@ namespace ERP.Web.Controllers
                         x => new ProductionOrderExpens
                         {
                             ExpenseTypeAccountTreeId = x.ExpenseTypeId,
+                            AccountTreeCreditId = x.AccountTreeCreditId,
                             Amount = x.ExpenseAmount,
                             Note = x.Notes
                         }
@@ -1043,6 +1089,20 @@ namespace ERP.Web.Controllers
                                     AccountsTreeId = expressAccountsTreeId,
                                     BranchId = productionOrder.BranchId,
                                     Debit = expense.Amount,
+                                    Notes = $"تكاليف أمر إنتاج مجمع رقم : {productionOrder.OrderNumber}",
+                                    TransactionDate = productionOrder.ProductionOrderDate,
+                                    TransactionId = productionOrder.Id,
+                                    TransactionTypeId = (int)TransactionsTypesCl.ProductionOrderExpenses
+                                });
+                                var creditAccountsTreeId = expense.AccountTreeCreditId;
+                                if (AccountTreeService.CheckAccountTreeIdHasChilds(creditAccountsTreeId))
+                                    return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب فرعى" });
+
+                                context.GeneralDailies.Add(new GeneralDaily
+                                {
+                                    AccountsTreeId = creditAccountsTreeId,
+                                    BranchId = productionOrder.BranchId,
+                                    Credit = expense.Amount,
                                     Notes = $"تكاليف أمر إنتاج مجمع رقم : {productionOrder.OrderNumber}",
                                     TransactionDate = productionOrder.ProductionOrderDate,
                                     TransactionId = productionOrder.Id,
@@ -1130,7 +1190,7 @@ namespace ERP.Web.Controllers
             {
                 var productionStore2 = db.Stores.Where(x => x.Id == vm.ProductionStoreId).FirstOrDefault();
                 if (branches.Any(x => x.Id == productionStore2.BranchId))
-                    storesProduction = EmployeeService.GetStoresByUser(productionStore.BranchId.ToString(), auth.CookieValues.UserId.ToString());
+                    storesProduction = EmployeeService.GetStoresByUser(productionStore2.BranchId.ToString(), auth.CookieValues.UserId.ToString());
                 else
                     ViewBag.Msg = "ليس لك صلاحية على مخزن التصنيع الداخلى";
                 productionStoreId = vm.ProductionStoreId ?? new Guid();

@@ -364,6 +364,10 @@
     <Compile Include="Migrations\202303062132300_removeFieldResoponsiblePersonInSafe.designer.cs">
       <DependentUpon>202303062132300_removeFieldResoponsiblePersonInSafe.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.cs" />
+    <Compile Include="Migrations\202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.designer.cs">
+      <DependentUpon>202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ClosingPeriods.cs" />
@@ -768,6 +772,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303062132300_removeFieldResoponsiblePersonInSafe.resx">
       <DependentUpon>202303062132300_removeFieldResoponsiblePersonInSafe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.resx">
+      <DependentUpon>202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -328,19 +328,27 @@
 
                             <div class="row">
 
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group required">
                                         <label> مسمى التكلفة</label>
                                         <input style="text-align:right;" name="accountTree" placeholder="اختر مسمى التكلفة" type="text" class="form-control alert-success" id="accountTree" autocomplete="off" />
                                         @Html.HiddenFor(m => m.ExpenseTypeId)
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <div class="form-group required">
+                                        <label>الحساب الدائن</label>
+                                        <input style="text-align:right;" name="accountTreeTo" type="text" class="form-control alert alert-success" id="accountTreeTo" autocomplete="off" />
+                                        @Html.Hidden("AccountTreeCreditId")
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="form-group required">
                                         <label>قيمة التكلفة</label>
                                         @Html.TextBoxFor(m => m.ExpenseAmount, new { @class = "form-control", @type = "number" })
                                     </div>
                                 </div>
+
                                 <div class="col-lg-12">
                                     <div class="form-group">
                                         <label>ملاحظات</label>
@@ -359,8 +367,8 @@
                                         <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_dtProductionOrderExpenses">
                                             <thead>
                                                 <tr>
-                                                    <td>مسمى المصروف</td>
-                                                    <td>القيمة</td>
+                                                    <td> المصروف (الحساب المدين)</td>
+                                                    <td> الحساب الدائن</td>
                                                     <td>حذف</td>
                                                 </tr>
                                             </thead>
@@ -369,6 +377,7 @@
                                                 {
                                                     <tr>
                                                         <td>@Model.ProductionOrderExpens[i].ExpenseTypeName</td>
+                                                        <td>@Model.ProductionOrderExpens[i].AccountTreeCreditName</td>
                                                         <td>@Model.ProductionOrderExpens[i].ExpenseAmount</td>
                                                         <td>
                                                             <div class="btn-group">
@@ -380,6 +389,8 @@
                                                         </td>
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseTypeId)
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseTypeName)
+                                                        @Html.HiddenFor(m => m.ProductionOrderExpens[i].AccountTreeCreditId)
+                                                        @Html.HiddenFor(m => m.ProductionOrderExpens[i].AccountTreeCreditName)
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].ExpenseAmount)
                                                         @Html.HiddenFor(m => m.ProductionOrderExpens[i].Notes)
                                                     </tr>
@@ -402,7 +413,7 @@
                                         <div class="d-flex justify-content-between flex-column font-size-lg">
                                             <div class="d-flex flex-column text-md-center">
                                                 <span class="font-size-lg font-weight-bolder mb-1">اجمالى التكاليف</span>
-                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1">@Model.ProductionOrderExpens.Sum(x=>x.ExpenseAmount)</span>
+                                                <span class="font-size-h2 font-weight-boldest text-danger mb-1">@Model.ProductionOrderExpens.Sum(x => x.ExpenseAmount)</span>
                                                 @*<span>Taxes Included</span>*@
                                             </div>
                                         </div>
@@ -456,6 +467,7 @@
     <script>
         var treeBasic;
         var accounTree;
+        var accounTreeTo;
 
         $(document).ready(function () {
             //دليل الحسابات
@@ -477,7 +489,23 @@
                 }
             });
             // ============== نهاية شجرة الحسابات
+            //دليل الحسابات (الحساب الدائن)
+            var dsTreeTo = [];
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true }, function (data) {
+                accounTreeTo.setSource(data);
+            });
 
+            accounTreeTo = $('#accountTreeTo').comboTree({
+                source: dsTreeTo,
+                isMultiple: false,
+                collapse: true,
+            });
+            accounTreeTo.onChange(function () {
+                if (accounTreeTo.getSelectedIds() != null) {
+                    $('#AccountTreeCreditId').val(accounTreeTo.getSelectedIds()[0]);
+                }
+            });
+            // ============== نهاية شجرة الحسابات
 
                         });
     </script>

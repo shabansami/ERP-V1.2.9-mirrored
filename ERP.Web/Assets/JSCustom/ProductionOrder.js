@@ -621,7 +621,8 @@ var ProductionOrder_Module = function () {
             },
             columns: [
                 { data: 'ExpenseTypeId', visible: false },
-                { data: 'ExpenseTypeName', title: 'مسمى المصروف' },
+                { data: 'ExpenseTypeName', title: ' المصروف (الحساب المدين)' },
+                { data: 'AccountTreeCreditName', title: ' الحساب الدائن' },
                 { data: 'ExpenseAmount', title: 'القيمة' },
                 { data: 'Actions', responsivePriority: -1 },
 
@@ -661,6 +662,7 @@ var ProductionOrder_Module = function () {
         try {
             var expenseTypeId = document.getElementById('ExpenseTypeId').value;
             var expenseAmount = document.getElementById('ExpenseAmount').value;
+            var accountTreeCreditId = document.getElementById('AccountTreeCreditId').value;
             var notes = document.getElementById('Note').value;
             var formData = new FormData();
             if (ExpenseTypeId === '') {
@@ -674,6 +676,7 @@ var ProductionOrder_Module = function () {
 
             formData.append('ExpenseTypeId', expenseTypeId)
             formData.append('ExpenseAmount', expenseAmount)
+            formData.append('AccountTreeCreditId', accountTreeCreditId)
             formData.append('Notes', notes)
             var dataSet = $('#kt_dtProductionOrderExpenses').DataTable().rows().data().toArray();
             if (dataSet != null) {
@@ -692,6 +695,8 @@ var ProductionOrder_Module = function () {
                         $('#kt_dtProductionOrderExpenses').DataTable().ajax.reload();
                         $('#ExpenseTypeId').val('');
                         $('#accountTree').val(null);
+                        $('#AccountTreeCreditId').val('');
+                        $('#accountTreeTo').val(null);
                         $('#Note').val('');
                         $('#ExpenseAmount').val(0);
                         toastr.success(res.msg, '');

@@ -399,6 +399,7 @@ namespace ERP.Web.Services
                 //صافى قيمة المبيعات
                 //=======================================================
                 var saleValueSafy = AmountSales - AmountReturnSales - AmountPremittedDiscounts;
+                if(saleValueSafy!=0)
                 incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "صافــي قيمة المبيعات",
@@ -406,11 +407,14 @@ namespace ERP.Web.Services
                     IsTotal = true
                 });
                 //اضافة حساب المبيعات الى جدول قائمة الدخل 
-                incomeLists.Add(saleDetails);
+                if (saleDetails.Partial != 0)
+                    incomeLists.Add(saleDetails);
                 //اضافة حساب المرتجع المبيعات الى جدول قائمة الدخل 
-                incomeLists.Add(saleReturnDetails);
+                if (saleReturnDetails.Partial != 0)
+                    incomeLists.Add(saleReturnDetails);
                 //اضافة حساب خصم مسموح به الى جدول قائمة الدخل 
-                incomeLists.Add(premittedDiscountDetails);
+                if (premittedDiscountDetails.Partial != 0)
+                    incomeLists.Add(premittedDiscountDetails);
 
                 //مخزون اول المدة
                 //=================================================
@@ -455,7 +459,8 @@ namespace ERP.Web.Services
                 //صافى المشتريات
                 //=====================================================
                 var purchaseSafy = AmountPurchases - AmountReturnPurchases;
-                incomeLists.Add(new IncomeListDto
+                if (purchaseSafy != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "صافــي المشتريات",
                     Partial = Math.Round(purchaseSafy, 2),
@@ -535,43 +540,51 @@ namespace ERP.Web.Services
                 //تكلفة المبيعات
                 //=======================================================
                 var salesValue = salesStockValue - stockLastValue;
-                incomeLists.Add(new IncomeListDto
+                if (salesValue != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "تكلفة المبيعات",
                     Whole = Math.Round(salesValue, 2),
                     IsTotal=true
                 });
-
-                incomeLists.Add(new IncomeListDto
+                if (salesStockValue != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "تكلفة بضاعه متاحة للبيع",
                     Partial = Math.Round(salesStockValue, 2),
                 });
-                incomeLists.Add(new IncomeListDto
+                if (stockLastValue != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "مخزون آخر المدة",
                     Partial = Math.Round(stockLastValue, 2),
-                });  
-                incomeLists.Add(new IncomeListDto
+                });
+                if (AmountStocks != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "مخزون أول المدة",
                     Partial = Math.Round(AmountStocks, 2),
                 });
                 //اضافة مخزون اول المدة الى جدول قائمة الدخل 
-                incomeLists.Add(stockADetails);
+                if (stockADetails.Partial != 0)
+                    incomeLists.Add(stockADetails);
                 //اضافة حساب المشتريات الى جدول قائمة الدخل 
-                incomeLists.Add(purchaseDetails);
+                if (purchaseDetails.Partial != 0)
+                    incomeLists.Add(purchaseDetails);
                 //اضافة حساب مرددوات المشتريات الى جدول قائمة الدخل 
-                incomeLists.Add(purchaseReturnDetails);
+                if (purchaseReturnDetails .Partial!= 0)
+                    incomeLists.Add(purchaseReturnDetails);
                 //اضافة حساب خصم مكتسب الى جدول قائمة الدخل 
-                incomeLists.Add(earnedDiscountDetails);
+                if (earnedDiscountDetails.Partial != 0)
+                    incomeLists.Add(earnedDiscountDetails);
 
 
 
                 //مجمل الربح
                 //=======================================================
                 var totalprofit = saleValueSafy - salesValue;
-                incomeLists.Add(new IncomeListDto
+                if (totalprofit != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "مجمل الربح",
                     Whole = Math.Round(totalprofit, 2),
@@ -619,8 +632,9 @@ namespace ERP.Web.Services
                 var expenses = ReportsAccountTreeService.AuditBalances(dtFrom, dtTo, null, null, null, null, Lookups.GeneralExpenses);
                 var expense = expenses.Where(x => x.AccountNumber == Lookups.GeneralExpenses).ToList();
                 var totalExpenses = expense.Select(x => x.ResultFrom + x.ResultTo).Sum();
-            //اضافة الحساب الى جدول قائمة الدخل 
-            incomeLists.Add(new IncomeListDto
+                //اضافة الحساب الى جدول قائمة الدخل 
+                if (totalExpenses != 0)
+                    incomeLists.Add(new IncomeListDto
             {
                 AccountName = "اجمالى المصروفات",
                 Whole = Math.Round(totalExpenses, 2),
@@ -637,7 +651,8 @@ namespace ERP.Web.Services
                  
                         }else
                         {
-                            incomeLists.Add(new IncomeListDto
+                            if (Math.Round(e.ResultFrom - e.ResultTo, 2) != 0)
+                                incomeLists.Add(new IncomeListDto
                             {
                                 AccountName = e.AccountName,
                                 AccountNumber=e.AccountNumber,
@@ -657,7 +672,8 @@ namespace ERP.Web.Services
                                 }
                                 else
                                 {
-                                    incomeLists.Add(new IncomeListDto
+                                    if (Math.Round(e3.ResultFrom - e3.ResultTo, 2) != 0)
+                                        incomeLists.Add(new IncomeListDto
                                     {
                                         AccountName = e3.AccountName,
                                         AccountNumber = e3.AccountNumber,
@@ -674,7 +690,8 @@ namespace ERP.Web.Services
                 if(assetsDepreciationStatus==2)
                 {
                     //اضافة الحساب الى جدول قائمة الدخل 
-                    incomeLists.Add(new IncomeListDto
+                    if (AssetsDepreciationComplex != 0)
+                        incomeLists.Add(new IncomeListDto
                     {
                         AccountName = "مصروف الاهلاك",
                         Partial = Math.Round(AssetsDepreciationComplex, 2),
@@ -713,7 +730,8 @@ namespace ERP.Web.Services
                 //AmountTotalIncome += GetAuditBalances(dtFrom, dtTo, maintenanceAccountId).ResultTo;قديما
 
                 //اضافة الحساب الى جدول قائمة الدخل 
-                incomeLists.Add(new IncomeListDto
+                if (AmountTotalIncome != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "اجمالى الايرادات",
                     Whole = Math.Round(AmountTotalIncome, 2),
@@ -723,10 +741,11 @@ namespace ERP.Web.Services
                 //صافى الربح
                 //=======================================================
                 var totalprofitSafy = totalprofit - totalExpenses + AmountTotalIncome;
-                incomeLists.Add(new IncomeListDto
+                if (totalprofitSafy != 0)
+                    incomeLists.Add(new IncomeListDto
                 {
                     AccountName = "صافى الربح",
-                    Whole = Math.Round(totalprofit, 2),
+                    Whole = Math.Round(totalprofitSafy, 2),
                     IsTotal = true
                 });
                 return incomeLists;
@@ -1090,6 +1109,7 @@ namespace ERP.Web.Services
                 {
                     if (e.AccountLevel == 2)
                     {
+                        if(Math.Round(e.ResultFrom + e.ResultTo, 2)!=0)
                             financialCenter.Add(new IncomeListDto
                             {
                                 AccountName = e.AccountName,
@@ -1103,7 +1123,8 @@ namespace ERP.Web.Services
                         {
                             if (e3.AccountLevel == 3)
                             {
-  
+
+                                if (Math.Round(e3.ResultFrom + e3.ResultTo, 2) != 0)
                                     financialCenter.Add(new IncomeListDto
                                     {
                                         AccountName = e3.AccountName,
@@ -1135,6 +1156,7 @@ namespace ERP.Web.Services
                 {
                     if (e.AccountLevel == 2)
                     {
+                        if(Math.Round(e.ResultFrom + e.ResultTo, 2) != 0)
                         financialCenter.Add(new IncomeListDto
                         {
                             AccountName = e.AccountName,
@@ -1148,7 +1170,7 @@ namespace ERP.Web.Services
                         {
                             if (e3.AccountLevel == 3)
                             {
-
+                                if (Math.Round(e3.ResultFrom + e3.ResultTo, 2) != 0)
                                 financialCenter.Add(new IncomeListDto
                                 {
                                     AccountName = e3.AccountName,

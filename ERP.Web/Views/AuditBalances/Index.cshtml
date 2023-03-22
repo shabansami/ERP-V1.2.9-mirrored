@@ -74,7 +74,7 @@
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> الفرع</label>
@@ -82,19 +82,30 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> المستوى</label>
                                 @Html.DropDownList("AccountLevel", null, "كل المستويات", htmlAttributes: new { @class = "form-control din-med" })
                                 @*<select id="AccountLevel" name="AccountLevel" class="form-control din-med">
-                                    <option value="1">مجمع</option>
-                                    <option value="2">تفصيلى</option>
-                                </select>*@
+                        <option value="1">مجمع</option>
+                        <option value="2">تفصيلى</option>
+                    </select>*@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label> حالة عرض المبالغ </label>
+                                <select id="StatusVal" name="StatusVal" class="form-control din-med">
+                                    <option value="true">كل الحسابات بمبالغ وصفرية</option>
+                                    <option value="false" selected>حسابات بمبالغ فقط</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> من تاريخ</label>
@@ -102,11 +113,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> إلي تاريخ</label>
                                 @Html.TextBox("dtTo", dTo, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group mb-0 w-100">
+                            <div>
+                                <label> .</label>
+                                <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</a>
                             </div>
                         </div>
                     </div>
@@ -125,25 +144,8 @@
                         </div>
                     </div>
                 </div>
-                @*<div class="col-lg-3">
-                        <div class="form-group mb-0 w-100">
-                            <div>
-                                <label> حالة عرض المبالغ </label>
-                                <select id="StatusVal" name="StatusVal" class="form-control din-med">
-                                    <option value="true">كل الحسابات بمبالغ وصفرية</option>
-                                    <option value="false">حسابات بمبالغ فقط</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>*@
-                <div class="col-lg-6">
-                    <div class="form-group mb-0 w-100">
-                        <div>
-                            <label> .</label>
-                            <a href="javascript:void(0);" onclick="searchData();" class="btn btn-primary font-weight-bold btn-square btn-shadow din-bold w-100"><i class="bx bx-search-alt m-1"></i>بــحث</a>
-                        </div>
-                    </div>
-                </div>
+                
+                
             </div>
             <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
                 <thead>

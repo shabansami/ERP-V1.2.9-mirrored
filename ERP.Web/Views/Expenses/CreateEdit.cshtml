@@ -7,8 +7,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     string title, btn = string.Empty, icon = string.Empty, icon2 = string.Empty;
     var generalAccount = Lookups.GeneralExpenses;
-    List<int> list = new List<int> { Lookups.PurchasesForSale, Lookups.DepreciationAndConsumption };
-    string accountsexption = JsonConvert.SerializeObject(list);
+    //List<int> list = new List<int> { Lookups.PurchasesForSale, Lookups.DepreciationAndConsumption };
+    //string accountsexption = JsonConvert.SerializeObject(list);
 
     if (Model.Id == Guid.Empty)
     {
@@ -174,7 +174,7 @@
 
                //دليل الحسابات
                var dsTree = [];
-            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount, accountsexption:JSON.stringify(@accountsexption) }, function (data) {
+            $.get("/SharedDataSources/GetAccountsTrees", { selectedTree: false, showAllLevel: true, spcLevel: @generalAccount@*, accountsexption:JSON.stringify(@accountsexption)*@ }, function (data) {
                 accounTree.setSource(data);
             });
 

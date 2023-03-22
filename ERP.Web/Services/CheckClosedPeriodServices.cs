@@ -19,26 +19,23 @@ namespace ERP.Web.Services
         {
             DateTime date;
             DateTime.TryParse(datein, out date);
-
             using (var db = new VTSaleEntities())
             {
-                var FutureOpration = db.GeneralSettings.Where(x => x.Id == (int)GeneralSettingCl.FutureOpration).FirstOrDefault().SValue;
-                if (FutureOpration == "0")
+                var list = db.ClosingPeriods.Where(x => !x.IsDeleted);
+                list.ToList();
+                if (list.Count() > 0)
                 {
-                    if (date.Date == DateTime.Now.Date)
-                    { return true;}
+                 list.Where(x => DbFunctions.TruncateTime(x.StartDate) >= date.Date && DbFunctions.TruncateTime(x.EndDate) <= date.Date);
+                    if (list.Count() > 0)
+                    { return true; }
                     else
-                    { return false; }
+                    {
+                        return false;
+                    }
+
                 }
                 else
-                {
-                    var list = db.ClosingPeriods.Where(x => DbFunctions.TruncateTime(x.StartDate) >= date.Date && DbFunctions.TruncateTime(x.EndDate) <= date.Date);
-                    list.ToList();
-                    if (list.Count()>0)
-                    {return true; }
-                    else
-                    { return false; }
-                }
+                { return true; }
 
             }
         }

@@ -24,12 +24,14 @@ namespace ERP.DAL
         }
 
         public string Name { get; set; }
-
+        [ForeignKey(nameof(ProductionType))]
+        public Nullable<int> ProductionTypeId { get; set; }
         [ForeignKey(nameof(Person))]
         public Nullable<Guid> CustomerId { get; set; }//Ì” Œœ„ „⁄ „‘—Ê⁄ “„—œ ( —ﬂÌ»« )
     
         public virtual Person Person { get; set; }
 
+        public virtual ProductionType ProductionType { get; set; }
 
         public virtual ICollection<ItemProductionDetail> ItemProductionDetails { get; set; }
         public virtual ICollection<ProductionOrderDetail> ProductionOrderDetails { get; set; }

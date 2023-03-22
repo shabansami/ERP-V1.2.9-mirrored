@@ -99,7 +99,9 @@ var ItemProduction_Module = function () {
 								<i class="fa fa-search"></i>\
 							</a>\<a href="javascript:;" onclick=ItemProduction_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
-							</a></div>\
+							</a><a href="/ItemProductions/Copy/'+ row.Id + '" class="btn btn-sm btn-clean btn-icon" title="نسخ">\
+								<i class="fa fa-copy"></i>\
+							</a>\</div>\
 						';
 },
                         }

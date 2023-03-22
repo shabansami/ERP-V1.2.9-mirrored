@@ -23,13 +23,15 @@
     var line2Down = entityData.Where(x => x.Id == (int)Lookups.GeneralSettingCl.PrintLine2Down).FirstOrDefault().SValue;
 
     var pageDir = "rtl";
-    string accountName, dtFrom, dtTo, transactionDate, debit, credit, balance, transactionType, notes,btn_switch_title, btn_print_title, btn_close_title;
+    string accountName,accountNumber ,dtFrom, dtTo, transactionDate, debit, credit, balance, transactionType, notes,btn_switch_title, btn_print_title, btn_close_title;
     string reportTitle, AccountActionBalanceBeforPeriod, TotalPeriodSpecified, AccountActionBalanceDuringPeriod, FinalBalanceAccountUntilEndPeriod;
 
     if (Model.ShowRptEn)
     {
         pageDir = "ltr";
         accountName = "Account Name";
+        accountNumber = "Account Number";
+
         dtFrom = "Date from";
         dtTo = "Date to";
         transactionDate = "Transaction Date";
@@ -53,6 +55,8 @@
     {
         pageDir = "rtl";
         accountName = "اسم الحساب";
+        accountNumber = "رقم الحساب";
+
         dtFrom = "من تاريخ";
         dtTo = "الى تاريخ";
         transactionDate = "تاريخ المعاملة";
@@ -147,7 +151,8 @@
                             @*<p>العميل : <span>@(Model.PersonCustomer?.Name)</span></p>*@
                             <p>@accountName</p>
                             <h2>@(Model.AccountsTreeName)</h2>
-
+                            <p>@accountNumber</p>
+                            <h2>@(Model.AccountNumber)</h2>
                         </div>
                         <div class="col-2">
                             <br />

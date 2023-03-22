@@ -10,10 +10,13 @@ namespace ERP.DAL.Models
     {
         public ProductionType()
         {
+            ItemProduction = new HashSet<ItemProduction>();
             ItemProductionDetails = new HashSet<ItemProductionDetail>();
             ProductionOrderDetails = new HashSet<ProductionOrderDetail>();
         }
         public string Name { get; set; }
+        public virtual ICollection<ItemProduction> ItemProduction { get; set; }
+
         public virtual ICollection<ItemProductionDetail> ItemProductionDetails { get; set; }
         public virtual ICollection<ProductionOrderDetail> ProductionOrderDetails { get; set; }
     }

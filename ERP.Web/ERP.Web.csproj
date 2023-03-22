@@ -2398,6 +2398,7 @@
     <Content Include="Views\VoucherBankReceipts\SaveCopied.cshtml" />
     <Content Include="Views\Expenses\SaveCopied.cshtml" />
     <Content Include="Views\Incomes\SaveCopied.cshtml" />
+    <Content Include="Views\ItemProductions\SaveCopied.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

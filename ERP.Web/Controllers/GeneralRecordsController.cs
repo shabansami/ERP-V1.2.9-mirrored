@@ -118,7 +118,7 @@ namespace ERP.Web.Controllers
 
         #region ادارة القيود 
         [HttpGet]
-        public ActionResult CreateEdit()
+        public ActionResult CreateEdit(bool IsCopy=false)
         {
             GeneralRecordVM vm = new GeneralRecordVM();
              Guid? branchId=null;
@@ -146,6 +146,11 @@ namespace ERP.Web.Controllers
                         Notes = x.Notes
                     }).ToList();
                     DS = JsonConvert.SerializeObject(dt);
+                    if (IsCopy == true)
+                    {
+                        vm.Id = Guid.Empty;
+                        vm.TransactionDate = Utility.GetDateTime();
+                    }
                 }
 
             }
@@ -327,183 +332,9 @@ namespace ERP.Web.Controllers
                 return RedirectToAction("Index");
 
             TempData["model"] = Id;
-            return RedirectToAction("SaveCopiedRecord");
+            return RedirectToAction("CreateEdit", new { IsCopy = true });
         }
-        public ActionResult SaveCopiedRecord()
-        {
-            GeneralRecordVM vm = new GeneralRecordVM();
-            Guid? branchId = null;
-            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-
-            if (TempData["model"] != null)
-            {
-                Guid id;
-                if (Guid.TryParse(TempData["model"].ToString(), out id))
-                {
-                    var model = db.GeneralRecords.FirstOrDefault(x => x.Id == id);
-                    branchId = model.BranchId;
-                    vm.Id = model.Id;
-                    vm.BranchId = model.BranchId;
-                    vm.TransactionDate = Utility.GetDateTime();
-                    vm.Notes = model.Notes;
-                    List<GeneralRecordDetailDT> dt = model.GeneralRecordDetails.Where(x => !x.IsDeleted).Select(x => new GeneralRecordDetailDT
-                    {
-                        AccountTreeId = x.AccountTreeId,
-                        AccountTreeName = x.AccountTree?.AccountName,
-                        AccountTreeNum = x.AccountTree?.AccountNumber,
-                        DebitAmount = x.IsDebit ? x.Amount : 0,
-                        CreditAmount = !x.IsDebit ? x.Amount : 0,
-                        DebitCredit = x.IsDebit ? 1 : 2,
-                        Notes = x.Notes
-                    }).ToList();
-                    DS = JsonConvert.SerializeObject(dt);
-                }
-
-            }
-            
-
-
-            ViewBag.BranchId = new SelectList(branches, "Id", "Name", branchId);
-            ViewBag.Branchcount = branches.Count();
-            ViewBag.DebitCredit = new List<SelectListItem> { new SelectListItem { Text = "مدين", Value = "1", Selected = true }, new SelectListItem { Text = "دائن", Value = "2" } };
-
-            return View(vm);
-        }
-
-
-        [HttpPost]
-        public ActionResult SaveCopiedRecord(GeneralRecordVM vm, string DT_Datasource, bool? isApproval)
-        {
-            if (ModelState.IsValid)
-            {
-                if (vm.BranchId == null || vm.TransactionDate == null)
-                    return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
-                var checkdate = closedPeriodServices.IsINPeriod(vm.TransactionDate.ToString());
-                if (!checkdate)
-                {
-                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
-
-                }
-                vm.TransactionDate = vm.TransactionDate.Value.AddHours(Utility.GetDateTime().Hour).AddMinutes(Utility.GetDateTime().Minute);
-
-                List<GeneralRecordDetailDT> deDS = new List<GeneralRecordDetailDT>();
-                List<GeneralRecordDetail> generalRecordDetails = new List<GeneralRecordDetail>();
-
-                if (DT_Datasource != null)
-                {
-                    deDS = JsonConvert.DeserializeObject<List<GeneralRecordDetailDT>>(DT_Datasource);
-                    if (deDS.Any(x => x.DebitCredit == null))
-                        return Json(new { isValid = false, message = "تأكد من اختيار حالة الحساب(مدين/دائن)" });
-                    if (deDS.Sum(x => x.DebitAmount) == 0 && deDS.Sum(x => x.CreditAmount) == 0)
-                        return Json(new { isValid = false, message = "تأكد من ادخال المبلغ للحسابات)" });
-
-                    //التاكد من ان القيود موزونة
-                    if (deDS.Sum(x => x.DebitAmount) != deDS.Sum(x => x.CreditAmount))
-                        return Json(new { isValid = false, message = "القيود غير موزونة" });
-                    //التأكد من كل الحسابات المحدد ليس لها حسابات فرعية
-                    foreach (var generalRecordDetail in deDS)
-                    {
-                        if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecordDetail.AccountTreeId))
-                            return Json(new { isValid = false, message = $"الحساب {generalRecordDetail.AccountTreeName} ليس بحساب فرعى" });
-                    }
-                    generalRecordDetails = deDS.Select(x => new GeneralRecordDetail
-                    {
-                        GeneralRecordId = vm.Id,
-                        AccountTreeId = x.AccountTreeId,
-                        IsDebit = x.DebitCredit == 1 ? true : false,
-                        Notes = x.Notes,
-                        Amount = x.DebitCredit == 1 ? x.DebitAmount : x.CreditAmount,
-                    }).ToList();
-                }
-
-                using (var context = new VTSaleEntities())
-                {
-
-                    using (var tran = context.Database.BeginTransaction())
-                    {
-
-                        try
-                        {
-                            GeneralRecord generalRecord = null;
-                           
-                                generalRecord = new GeneralRecord()
-                                {
-                                    BranchId = vm.BranchId,
-                                    Notes = vm.Notes,
-                                    TransactionDate = vm.TransactionDate,
-                                    GeneralRecordDetails = generalRecordDetails,
-                                };
-                                //            //اضافة رقم السند
-                                string codePrefix = Properties.Settings.Default.CodePrefix;
-                                generalRecord.GeneralRecordNumber = codePrefix + (context.GeneralRecords.Count(x => x.GeneralRecordNumber.StartsWith(codePrefix)) + 1);
-                                context.GeneralRecords.Add(generalRecord);
-                            
-                            if (context.SaveChanges(auth.CookieValues.UserId) > 0)
-                            {
-                                DS = null;
-                                //اعتماد القيود فى حالة الضغط على حفظ واعتماد
-                                if (isApproval == true)
-                                {
-                                    //    //تسجيل القيود
-                                    // General Dailies
-                                    if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
-                                    {
-                                        //التأكد من عدم تكرار اعتماد القيد
-                                        if (GeneralDailyService.GeneralDailaiyExists(generalRecord.Id, (int)TransactionsTypesCl.FreeRestrictions))
-                                            return Json(new { isValid = false, message = "تم تسجيل القيد مسبقا" });
-
-                                        // use Transactions
-                                        foreach (var item in generalRecordDetails)
-                                        {
-                                            if (item.AccountTreeId != null)
-                                                if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
-                                            //  حساب
-                                            context.GeneralDailies.Add(new GeneralDaily
-                                            {
-                                                AccountsTreeId = item.AccountTreeId,
-                                                Debit = item.IsDebit ? item.Amount : 0,
-                                                Credit = item.IsDebit ? 0 : item.Amount,
-                                                Notes = string.IsNullOrEmpty(item.Notes) ? vm.Notes : item.Notes,
-                                                BranchId = generalRecord.BranchId,
-                                                TransactionDate = generalRecord.TransactionDate,
-                                                TransactionId = generalRecord.Id,
-                                                TransactionTypeId = (int)TransactionsTypesCl.FreeRestrictions
-                                            });
-
-                                        }
-
-                                        //تحديث حالة الاعتماد 
-                                        generalRecord.IsApproval = true;
-                                        context.SaveChanges(auth.CookieValues.UserId);
-                                    }
-                                    else
-                                        return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات.. لم يتم الاعتماد" });
-
-                                }
-
-                            }
-                            tran.Commit();
-                            if (isApproval == true)
-                                return Json(new { isValid = true, message = "تم حفظ واعتماد القيود بنجاح" });
-                            else
-                                return Json(new { isValid = true, message = "تم الحفظ بنجاح" });
-
-                        }
-                        catch (Exception)
-                        {
-                            tran.Rollback();
-                            return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-
-                        }
-
-                    }
-                }
-
-            }
-            else
-                return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
-        }
+       
         [HttpPost]
         public ActionResult Delete(string id)
         {

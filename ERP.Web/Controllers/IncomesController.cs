@@ -50,7 +50,7 @@ namespace ERP.Web.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
         [HttpGet]
-        public ActionResult CreateEdit()
+        public ActionResult CreateEdit(bool IsCopy = false)
         {
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             if (TempData["model"] != null) //edit
@@ -62,6 +62,11 @@ namespace ERP.Web.Controllers
                     ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
                     ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(model.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", model.SafeId);
                     //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name", model.IncomeTypeId);
+                    if (IsCopy == true)
+                    {
+                        model.Id = Guid.Empty;
+                        model.PaymentDate = Utility.GetDateTime();
+                    }
                     return View(model);
                 }
                 else
@@ -171,81 +176,10 @@ namespace ERP.Web.Controllers
                 return RedirectToAction("Index");
 
             TempData["model"] = GuId;
-            return RedirectToAction("SaveCopied");
+            return RedirectToAction("CreateEdit", new { IsCopy = true });
 
         }
-        public ActionResult SaveCopied()
-        {
-            var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
-          
-                Guid guid;
-                if (Guid.TryParse(TempData["model"].ToString(), out guid))
-                {
-                    var model = db.ExpenseIncomes.FirstOrDefault(x => x.Id == guid);
-                    ViewBag.BranchId = new SelectList(branches, "Id", "Name", model.BranchId);
-                    ViewBag.SafeId = new SelectList(EmployeeService.GetSafesByUser(model.BranchId.ToString(), auth.CookieValues.UserId.ToString()), "Id", "Name", model.SafeId);
-                    //ViewBag.IncomeTypeId = new SelectList(db.IncomeTypes.Where(x => !x.IsDeleted), "Id", "Name", model.IncomeTypeId);
-                    return View(model);
-                }
-                else
-                    return RedirectToAction("Index");
-
-            
-
-        }
-        [HttpPost]
-        public ActionResult SaveCopied(ExpenseIncome vm)
-        {
-            if (ModelState.IsValid)
-            {
-                if (vm.ExpenseIncomeTypeAccountTreeId == null || vm.Amount == 0 || vm.BranchId == null || vm.PaymentDate == null)
-                    return Json(new { isValid = false, message = "تأكد من ادخال بيانات صحيحة" });
-                if (vm.SafeId == null)
-                    return Json(new { isValid = false, message = "تأكد من اختيار طريقة السداد بشكل صحيح" });
-
-                var isInsert = false;
-                if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseIncomeTypeAccountTreeId))
-                    return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
-                var checkdate = closedPeriodServices.IsINPeriod(vm.PaymentDate.ToString());
-                if (!checkdate)
-                {
-                    return Json(new { isValid = false, message = "تاريخ المعاملة خارج فترة التشغيل " });
-
-                }
-               
-            
-                    isInsert = true;
-                    var model = new ExpenseIncome
-                    {
-                        BranchId = vm.BranchId,
-                        SafeId = vm.SafeId,
-                        Amount = vm.Amount,
-                        Notes = vm.Notes,
-                        PaymentDate = vm.PaymentDate,
-                        PaidTo = vm.PaidTo,
-                        ExpenseIncomeTypeAccountTreeId = vm.ExpenseIncomeTypeAccountTreeId,
-                        IsExpense = false,
-                    };
-                    //            //اضافة رقم العملية
-                    string codePrefix = Properties.Settings.Default.CodePrefix;
-                    model.OperationNumber = codePrefix + (db.ExpenseIncomes.Count(x => model.OperationNumber.StartsWith(codePrefix) && !x.IsExpense) + 1);
-                    db.ExpenseIncomes.Add(model);
-
-                
-                if (db.SaveChanges(auth.CookieValues.UserId) > 0)
-                {
-                    if (isInsert)
-                        return Json(new { isValid = true, isInsert, message = "تم الاضافة بنجاح" });
-                    else
-                        return Json(new { isValid = true, isInsert, message = "تم التعديل بنجاح" });
-
-                }
-                else
-                    return Json(new { isValid = false, isInsert, message = "حدث خطأ اثناء تنفيذ العملية" });
-            }
-            else
-                return Json(new { isValid = false, message = "تأكد من ادخال البيانات بشكل صحيح" });
-        }
+    
         [HttpPost]
         public ActionResult Delete(string id)
         {

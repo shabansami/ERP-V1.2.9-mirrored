@@ -133,9 +133,107 @@ namespace ERP.Web.Controllers
         {
             //تحميل كل الاصناف فى اول تحميل للصفحة 
             var itemList = db.Items.Where(x => !x.IsDeleted).Select(x => new { Id = x.Id, Name = x.ItemCode + " | " + x.Name }).ToList();
-            DSItemDetails = null;
-            DSItems = null;
-            var list = new List<SelectListItem> {
+            Guid guId;
+            if (TempData["model"] != null)
+            {
+
+                if (Guid.TryParse(TempData["model"].ToString(), out guId))
+                {
+                    List<ItemProductionDetailsDT> deDSItem = new List<ItemProductionDetailsDT>();
+
+                    var vm = db.ItemProductions.Where(x => x.Id == guId).FirstOrDefault();
+                    ItemProductionVM itemProductionVM = new ItemProductionVM();
+                    itemProductionVM.Name = vm.Name;
+                    var itemsIn = db.ItemProductionDetails.Where(x => x.ItemProductionId == guId && x.ProductionTypeId == (int)ProductionTypeCl.In).ToList();
+                    var itemsoOut = db.ItemProductionDetails.Where(x => x.ItemProductionId == guId && x.ProductionTypeId == (int)ProductionTypeCl.Out).ToList();
+                    List<ItemProductionDetailsDT> deDSout = new List<ItemProductionDetailsDT>();
+                    string itemName = "";
+                    string UnitIn = "";
+                    List<ItemProductionDetailsDT> deDSin = new List<ItemProductionDetailsDT>();
+                    string itemNameout = "";
+                    string UnitOut = "";
+                    if (vm.ProductionTypeId == 1)
+                    {
+                        foreach (var item in itemsoOut)
+                        {
+                            itemName = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Name;
+                            UnitIn = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Unit.Name;
+                            var newProductionItems = new ItemProductionDetailsDT { ItemId = item.ItemId, ItemName = itemName, QuantityIn = item.Quantity, UnitIn = UnitIn };
+                            deDSout.Add(newProductionItems);
+                        }
+                        DSItems = JsonConvert.SerializeObject(deDSout);
+                        foreach (var item in itemsIn)
+                        {
+                            itemNameout = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Name;
+                            UnitOut = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Unit.Name;
+                            var newProductionDetails = new ItemProductionDetailsDT { ItemId = item.ItemId, ItemName = itemNameout, Quantity = item.Quantity, UnitOut = UnitOut };
+                            deDSin.Add(newProductionDetails);
+                        }
+                        DSItemDetails = JsonConvert.SerializeObject(deDSin);
+                        var list = new List<SelectListItem> {
+                new SelectListItem{
+                    Text="تجميع وتصنيع",
+                    Value="1",
+                  Selected=true
+                 }, new SelectListItem
+                 {
+                     Text = "تقطيع وتكسير",
+                     Value = "2"
+                 }};
+                        ViewBag.ItemProductionTypeId = new SelectList(list, "Value", "Text", 1);
+                    }
+                    else
+                    {
+                        foreach (var item in itemsIn)
+                        {
+                            itemName = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Name;
+                            UnitIn = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Unit.Name;
+                            var newProductionItems = new ItemProductionDetailsDT { ItemId = item.ItemId, ItemName = itemName, QuantityIn = item.Quantity, UnitIn = UnitIn };
+                            deDSout.Add(newProductionItems);
+                        }
+                        DSItems = JsonConvert.SerializeObject(deDSout);
+                        foreach (var item in itemsoOut)
+                        {
+                            itemNameout = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Name;
+                            UnitOut = db.Items.FirstOrDefault(x => x.Id == item.ItemId).Unit.Name;
+                            var newProductionDetails = new ItemProductionDetailsDT { ItemId = item.ItemId, ItemName = itemNameout, Quantity = item.Quantity, UnitOut = UnitOut };
+                            deDSin.Add(newProductionDetails);
+                        }
+                        DSItemDetails = JsonConvert.SerializeObject(deDSin);
+                        var list = new List<SelectListItem> {
+                new SelectListItem{
+                    Text="تجميع وتصنيع",
+                    Value="1"
+                 }, new SelectListItem
+                 {
+                     Text = "تقطيع وتكسير",
+                     Value = "2",
+                  Selected=true
+
+                 }};
+                        ViewBag.ItemProductionTypeId = new SelectList(list, "Value", "Text", 2);
+                    }
+                    itemProductionVM.ItemProductionTypeId = vm.ProductionTypeId;
+                    ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
+                    ViewBag.ItemInOutId = new SelectList(itemList, "Id", "Name");
+                    ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
+                    ViewBag.ItemtypeIdDetails = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
+
+                    ViewBag.LastRow = db.ItemProductions.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();
+                    return View(itemProductionVM);
+
+
+                }
+                else
+                    return RedirectToAction("Index");
+            }
+            else
+            {
+
+
+                DSItemDetails = null;
+                DSItems = null;
+                var list = new List<SelectListItem> {
                 new SelectListItem{
                     Text="تجميع وتصنيع",
                     Value="1",
@@ -146,14 +244,15 @@ namespace ERP.Web.Controllers
                      Value = "2",
                  }};
 
-            ViewBag.ItemProductionTypeId = new SelectList(list, "Value", "Text");
-            ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
-            ViewBag.ItemInOutId = new SelectList(itemList, "Id", "Name");
-            ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
-            ViewBag.ItemtypeIdDetails = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
+                ViewBag.ItemProductionTypeId = new SelectList(list, "Value", "Text");
+                ViewBag.ItemTypeId = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
+                ViewBag.ItemInOutId = new SelectList(itemList, "Id", "Name");
+                ViewBag.ItemId = new SelectList(itemList, "Id", "Name");
+                ViewBag.ItemtypeIdDetails = new SelectList(db.ItemTypes.Where(x => !x.IsDeleted), "Id", "Name");// item type (منتج خام - وسيط - نهائى 
 
-            ViewBag.LastRow = db.ItemProductions.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();
-            return View(new ItemProductionVM());
+                ViewBag.LastRow = db.ItemProductions.Where(x => !x.IsDeleted).OrderByDescending(x => x.Id).FirstOrDefault();
+                return View(new ItemProductionVM());
+            }
         }
         [HttpPost]
         public JsonResult CreateEdit(ItemProductionVM vm)
@@ -265,7 +364,7 @@ namespace ERP.Web.Controllers
                 return RedirectToAction("Index");
 
             TempData["model"] = GuId;
-            return RedirectToAction("SaveCopied");
+            return RedirectToAction("CreateEdit");
         }
 
         [HttpGet]
@@ -283,19 +382,12 @@ namespace ERP.Web.Controllers
                 itemProductionVM.Name = vm.Name;
                 var itemsIn = db.ItemProductionDetails.Where(x => x.ItemProductionId == guId && x.ProductionTypeId == (int)ProductionTypeCl.In).ToList();
                 var itemsoOut = db.ItemProductionDetails.Where(x => x.ItemProductionId == guId && x.ProductionTypeId == (int)ProductionTypeCl.Out).ToList();
-               
                 List<ItemProductionDetailsDT> deDSout = new List<ItemProductionDetailsDT>();
                 string itemName = "";
                 string UnitIn = "";
-               
-                
-
-
                 List<ItemProductionDetailsDT> deDSin = new List<ItemProductionDetailsDT>();
                 string itemNameout = "";
                 string UnitOut = "";
-
-             
                 if (vm.ProductionTypeId==1)
                 {
                     foreach (var item in itemsoOut)

@@ -554,6 +554,8 @@ var ProductionOrder_Module = function () {
                     d.storeUnderId = $("#ProductionUnderStoreId").val();
                     d.isFirstInit = $("#isFirstInit").val();
                     d.ItemCostCalculateId = $("#ItemCostCalculateId").val();
+                    d.itemIdEdit = $("#hdf_itemIdEdit").val();
+                    d.quantityEdit = $("#hdf_quantityEdit").val();
 
                 }
             },
@@ -567,13 +569,26 @@ var ProductionOrder_Module = function () {
                 { data: 'ItemName', title: 'المنتج ' },
                 //{ data: 'ItemCost', title: 'تكلفة المنتج' },
                 { data: 'QuantityRequired', title: 'الكمية المطلوبة' },
+                { data: 'Actions', responsivePriority: -1 },
+
                 //{ data: 'QuantityAvailable', title: 'الكمية المتاحة' },
 
             ],
             columnDefs: [
                
-                
-            ],
+                {
+                    targets: -1,
+                    title: 'عمليات',
+                    orderable: false,
+                    render: function (data, type, row, meta) {
+                        return '\
+							<div class="btn-group">\
+							<a href="javascript:;" onclick=ProductionOrder_Module.editRowItemOut(\''+ row.ItemId + '\')  class="btn btn-sm btn-clean btn-icUrln deleteIcon" title="تعديل الكمية">\
+								<i class="fa fa-edit"></i>\
+							</a></div>\
+						';
+                    },
+                }            ],
 
             "order": [[0, "desc"]]
             //"order": [[0, "desc"]] 
@@ -581,7 +596,14 @@ var ProductionOrder_Module = function () {
         });
     };
 
-
+    function editRowItemOut(ItemId) {
+        $("#myModal").modal('show');
+        $('#hdf_itemIdEdit').val(ItemId);
+        //$('#kt_datatableItemOut tbody').on('click', 'a.deleteIcon', function () {
+        //    var quantityRequired = $('#kt_datatableItemOut').DataTable().row($(this).closest('tr')).data()['QuantityRequired'];
+        //    $("#hdf_quantityEdit").val($('#kt_datatableItemOut').DataTable().row($(this).closest('tr')).data()['QuantityRequired']);
+        //})
+    }
 
 
     //#endregion ========= end Step 2 ==========
@@ -800,7 +822,8 @@ var ProductionOrder_Module = function () {
         onQuantityChangeDiffBalance: onQuantityChangeDiffBalance,
         addProductionOrderExpenses: addProductionOrderExpenses,
         deleteRowProductionOrderExpenses: deleteRowProductionOrderExpenses,
-        getStoresBranchChanged: getStoresBranchChanged
+        getStoresBranchChanged: getStoresBranchChanged,
+        editRowItemOut: editRowItemOut,
     };
 
 }();

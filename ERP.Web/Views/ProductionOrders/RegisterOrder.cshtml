@@ -227,6 +227,33 @@
 
 
                     </div>
+                    <div class="row">
+                        <div>
+                            @*<button type="button" class="btn btn-primary waves-effect waves-light" data-bs-toggle="modal" data-bs-target="#myModal">Standard modal</button>*@
+
+                            <!-- Static Backdrop Modal -->
+                            <div class="modal fade" id="myModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="myModalLabel">تعديل كمية</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="اغلاق"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <input type="number" id="quantityEdit" class="form-control" placeholder="ادخل الكمية الصحيحة" />
+                                       <input type="hidden" id="hdf_quantityEdit" value="0" />
+                                       <input type="hidden" id="hdf_itemIdEdit" />
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-light" data-bs-dismiss="modal">اغلاق</button>
+                                            <button type="button" id="btnEditQuantity" class="btn btn-primary">تعديل</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> <!-- end preview-->
+
+                    </div>
                 </div>
 
 
@@ -531,6 +558,22 @@
             });
             // ============== نهاية شجرة الحسابات
 
+            //حفظ بيانات Modal
+            $("#btnEditQuantity").click(function () {
+                if ($("#quantityEdit").val() == 0) {
+                    toastr.error('تاكد من ادخال الكمية', '');
+                    return false;
+                }
+                $("#hdf_quantityEdit").val($("#quantityEdit").val());
+                //$('#kt_datatableItemOut tbody').on('click', 'a.deleteIcon', function () {
+                //    var quantityRequired = $('#kt_datatableItemOut').DataTable().row($(this).closest('tr')).data()['QuantityRequired'];
+                //    alert($('#kt_datatableItemOut').DataTable().row($(this).closest('tr')).data()['QuantityRequired']);
+                //})
+
+                $("#myModal").modal('hide');
+                $('#kt_datatableItemOut').DataTable().ajax.reload();
+                $("#quantityEdit").val(0);
+            })
                         });
     </script>
 

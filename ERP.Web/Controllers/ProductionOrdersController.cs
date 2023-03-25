@@ -576,7 +576,7 @@ namespace ERP.Web.Controllers
 
         #endregion
         #region wizard step 2 اضافة الاصناف الخارجة 
-        public ActionResult GetDSItemOut(string itemProductionId, double? quantity, string isFirstInit, Guid? storeUnderId,int? ItemCostCalculateId)
+        public ActionResult GetDSItemOut(string itemProductionId, double? quantity, string isFirstInit, Guid? storeUnderId,int? ItemCostCalculateId,Guid? itemIdEdit,double quantityEdit)
         {
             int? n = null;
             Guid itemFinalID = Guid.Empty;
@@ -603,6 +603,14 @@ namespace ERP.Web.Controllers
                                 //IsAllQuantityDone= x.Quantity * quantity<= BalanceService.GetBalance(x.ItemId, storeUnderId, null, null, null) ?true:false,
                                 Actions = n
                             }).ToList();
+                            if(itemIdEdit!=null&&quantityEdit>0)
+                            {
+                                foreach (var item in itemsMaterials)
+                                {
+                                    if(item.ItemId==itemIdEdit)
+                                        item.QuantityRequired= quantityEdit;
+                                }
+                            }
                             DSItemsIn = JsonConvert.SerializeObject(itemsMaterials);
                             return Json(new
                             {

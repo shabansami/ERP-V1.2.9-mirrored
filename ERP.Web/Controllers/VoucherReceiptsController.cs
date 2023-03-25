@@ -100,7 +100,7 @@ namespace ERP.Web.Controllers
 
             //التأكد من عدم وجود اى ابناء للحساب المختار (اخر مستوى فى السشجرة)
             if (AccountTreeService.CheckAccountTreeIdHasChilds(accountTreeId))
-                return Json(new { isValid = false, message = "تأكد اختيار حساب فرعى صحيح.. الحساب المختار ليس بحساب فرعى)" });
+                return Json(new { isValid = false, message = "تأكد اختيار حساب تشغيلى صحيح.. الحساب المختار ليس بحساب تشغيلى)" });
             //التأكد من عدم تكرار الحساب
             //if (deDS.Any(x => x.AccountTreeIdDT == accountTreeId))
             //    return Json(new { isValid = false, message = "تم ادخال الحساب مسبقا" });
@@ -199,7 +199,7 @@ namespace ERP.Web.Controllers
                     foreach (var voucherDetail in deDS)
                     {
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(voucherDetail.AccountTreeIdDT))
-                            return Json(new { isValid = false, message = $"الحساب {voucherDetail.AccountTreeNameDT} ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = $"الحساب {voucherDetail.AccountTreeNameDT} ليس بحساب تشغيلى" });
                     }
                     voucherDetails = deDS.Select(x => new VoucherDetail
                     {
@@ -288,7 +288,7 @@ namespace ERP.Web.Controllers
                                         foreach (var item in voucherDetails)
                                         {
                                             if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                                                return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
+                                                return Json(new { isValid = false, message = "الحساب  ليس بحساب تشغيلى" });
                                             //الى ح/
                                             context.GeneralDailies.Add(new GeneralDaily
                                             {
@@ -424,7 +424,7 @@ namespace ERP.Web.Controllers
                     foreach (var item in voucher.VoucherDetails.Where(x => !x.IsDeleted))
                     {
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                            return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "الحساب  ليس بحساب تشغيلى" });
                         //الى ح/
                         db.GeneralDailies.Add(new GeneralDaily
                         {

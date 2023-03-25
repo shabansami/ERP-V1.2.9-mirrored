@@ -92,7 +92,7 @@ namespace ERP.Web.Controllers
 
             //التأكد من عدم وجود اى ابناء للحساب المختار (اخر مستوى فى السشجرة)
             if (AccountTreeService.CheckAccountTreeIdHasChilds(accountTreeId))
-                return Json(new { isValid = false, message = "تأكد اختيار حساب فرعى صحيح.. الحساب المختار ليس بحساب فرعى)" });
+                return Json(new { isValid = false, message = "تأكد اختيار حساب تشغيلى صحيح.. الحساب المختار ليس بحساب تشغيلى)" });
             //التأكد من عدم تكرار الحساب
             //if(deDS.Any(x=>x.AccountTreeId==accountTreeId))
             //    return Json(new { isValid = false, message = "تم ادخال الحساب مسبقا" });
@@ -198,7 +198,7 @@ namespace ERP.Web.Controllers
                     foreach (var generalRecordDetail in deDS)
                     {
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(generalRecordDetail.AccountTreeId))
-                            return Json(new { isValid = false, message = $"الحساب {generalRecordDetail.AccountTreeName} ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = $"الحساب {generalRecordDetail.AccountTreeName} ليس بحساب تشغيلى" });
                     }
                     generalRecordDetails = deDS.Select(x => new GeneralRecordDetail
                     {
@@ -265,7 +265,7 @@ namespace ERP.Web.Controllers
                                         {
                                             if (item.AccountTreeId != null)
                                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
+                                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب تشغيلى" });
                                                 //  حساب
                                                 context.GeneralDailies.Add(new GeneralDaily
                                                 {
@@ -390,7 +390,7 @@ namespace ERP.Web.Controllers
                             if (item.AccountTreeId != null)
                             {
                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(item.AccountTreeId))
-                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب فرعى" });
+                                    return Json(new { isValid = false, message = "الحساب  ليس بحساب تشغيلى" });
                             }
                             else
                                 return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });

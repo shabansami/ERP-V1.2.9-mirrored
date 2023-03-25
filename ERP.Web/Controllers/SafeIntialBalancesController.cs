@@ -113,9 +113,9 @@ namespace ERP.Web.Controllers
                 {
                     // الحصول على حسابات من الاعدادات
                     var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                    //التأكد من عدم وجود حساب فرعى من الحساب
+                    //التأكد من عدم وجود حساب تشغيلى من الحساب
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب رأس المال ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب رأس المال ليس بحساب تشغيلى" });
 
                     AddGeneralDailies(vm, generalSetting, safe);
                 }

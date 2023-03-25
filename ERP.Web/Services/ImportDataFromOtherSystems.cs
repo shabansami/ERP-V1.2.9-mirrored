@@ -334,7 +334,7 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
                         {
                             // الحصول على حسابات من الاعدادات
                             var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                            // التأكد من عدم وجود حساب فرعى من الحساب رأس المال
+                            // التأكد من عدم وجود حساب تشغيلى من الحساب رأس المال
                             if (CheckAccountTreeIdHasChilds22(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),context))
                                 return false;
                             // use Transactions
@@ -500,10 +500,10 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
 
                                 // الحصول على حسابات من الاعدادات
                                 var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                //التأكد من عدم وجود حساب تشغيلى من الحساب
                                 if (CheckAccountTreeIdHasChilds22(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue),context))
                                     return false;
-                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                //التأكد من عدم وجود حساب تشغيلى من الحساب
                                 if (CheckAccountTreeIdHasChilds22(supplier.AccountTreeSupplierId,context))
                                     return false;
 
@@ -702,10 +702,10 @@ INSERT [dbo].[Units] ([Id], [Name], [CreatedOn], [CreatedBy], [ModifiedOn], [Mod
 
                                 // الحصول على حسابات من الاعدادات
                                 var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                //التأكد من عدم وجود حساب تشغيلى من الحساب
                                 if (CheckAccountTreeIdHasChilds22(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue), context))
                                     return false;
-                                //التأكد من عدم وجود حساب فرعى من الحساب
+                                //التأكد من عدم وجود حساب تشغيلى من الحساب
                                 if (CheckAccountTreeIdHasChilds22(customer.AccountsTreeCustomerId, context))
                                     return false;
 

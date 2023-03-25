@@ -529,7 +529,7 @@ namespace ERP.Web.Controllers
                     }
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseTypeId))
                     {
-                        ViewBag.Msg = "حساب المصروف ليس بحساب فرعى";
+                        ViewBag.Msg = "حساب المصروف ليس بحساب تشغيلى";
                         return View(vm);
                     }
                 }
@@ -547,7 +547,7 @@ namespace ERP.Web.Controllers
                     }
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeCreditId))
                     {
-                        ViewBag.Msg = "الحساب الدائن ليس بحساب فرعى";
+                        ViewBag.Msg = "الحساب الدائن ليس بحساب تشغيلى";
                         return View(vm);
                     }
                 }
@@ -718,7 +718,7 @@ namespace ERP.Web.Controllers
                                 //var expressAccountsTreeId = db.ExpenseTypes.Where(x => x.Id == expense.ExpenseTypeId).FirstOrDefault().AccountsTreeId;
                                 var expressAccountsTreeId = expense.ExpenseTypeAccountTreeId;
                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(expressAccountsTreeId))
-                                    return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
+                                    return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب تشغيلى" });
 
                                 context.GeneralDailies.Add(new GeneralDaily
                                 {
@@ -732,7 +732,7 @@ namespace ERP.Web.Controllers
                                 });
                                 var creditAccountsTreeId = expense.AccountTreeCreditId;
                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(creditAccountsTreeId))
-                                    return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب فرعى" });
+                                    return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب تشغيلى" });
 
                                 context.GeneralDailies.Add(new GeneralDaily
                                 {

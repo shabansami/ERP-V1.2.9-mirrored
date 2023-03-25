@@ -142,16 +142,16 @@ namespace ERP.Web.Controllers
                                 //===================
                                 List<GeneralSetting> generalSetting;
                                 Employee employee;
-                                //التأكد من عدم وجود حساب فرعى من الحسابات المستخدمة
+                                //التأكد من عدم وجود حساب تشغيلى من الحسابات المستخدمة
                                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
                                 {
                                     // الحصول على حسابات من الاعدادات
                                     generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
 
                                     employee = context.Employees.Where(x => x.Id == model.EmployeeId).FirstOrDefault();
-                                    ////التأكد من عدم وجود حساب فرعى من الحساب
+                                    ////التأكد من عدم وجود حساب تشغيلى من الحساب
                                     //if (AccountTreeService.CheckAccountTreeIdHasChilds(int.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCustodyAccount).FirstOrDefault().SValue)))
-                                    //    return Json(new { isValid = false, message = "حساب عهٌد الموظفين ليس بحساب فرعى" });
+                                    //    return Json(new { isValid = false, message = "حساب عهٌد الموظفين ليس بحساب تشغيلى" });
 
                                     //accountLoanTreeId = int.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeLoans).FirstOrDefault().SValue);
                                     //التأكد من انشاء حساب عهدة للموظف 
@@ -174,9 +174,9 @@ namespace ERP.Web.Controllers
                                     }
                                     else
                                     {
-                                        //التأكد من عدم وجود حساب فرعى من حساب عهدة الموظف
+                                        //التأكد من عدم وجود حساب تشغيلى من حساب عهدة الموظف
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(employee.Person.AccountTreeEmpCustodyId))
-                                            return Json(new { isValid = false, message = "حساب عهدة الموظف ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب عهدة الموظف ليس بحساب تشغيلى" });
                                         accountTreeCustodyEmpId = employee.Person.AccountTreeEmpCustodyId;
                                     }
 

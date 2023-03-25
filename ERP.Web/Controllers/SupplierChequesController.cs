@@ -118,7 +118,7 @@ namespace ERP.Web.Controllers
                 Guid? accountBankTreeId;
                 List<GeneralSetting> generalSetting;
                 Person supplier;
-                //التأكد من عدم وجود حساب فرعى من الحسابات المستخدمة
+                //التأكد من عدم وجود حساب تشغيلى من الحسابات المستخدمة
                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
                 {
                     // الحصول على حسابات من الاعدادات
@@ -126,20 +126,20 @@ namespace ERP.Web.Controllers
 
                     supplier = db.Persons.Where(x => x.Id == vm.SupplierId).FirstOrDefault();
                     accountBankTreeId = db.BankAccounts.Where(x => x.Id == vm.BankAccountId).FirstOrDefault().AccountsTreeId;
-                    //التأكد من عدم وجود حساب فرعى من حساب العميل
+                    //التأكد من عدم وجود حساب تشغيلى من حساب العميل
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(supplier.AccountTreeSupplierId))
-                        return Json(new { isValid = false, message = "حساب المورد ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب المورد ليس بحساب تشغيلى" });
 
                     if (vm.IsCollected)
                     {
-                        // التأكد من عدم وجود حساب فرعى من الحساب البنك
+                        // التأكد من عدم وجود حساب تشغيلى من الحساب البنك
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(accountBankTreeId))
-                            return Json(new { isValid = false, message = "حساب البنك ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب البنك ليس بحساب تشغيلى" });
                     }
                     else
-                            //التأكد من عدم وجود حساب فرعى من شيكات تحت التحصيل
+                            //التأكد من عدم وجود حساب تشغيلى من شيكات تحت التحصيل
                             if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCheckUnderCollectionReceipts).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب الشيكات تحت التحصيل (برسم السداد) ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب الشيكات تحت التحصيل (برسم السداد) ليس بحساب تشغيلى" });
                 }
                 else
                     return Json(new { isValid = false, message = "يجب تعريف الأكواد الحسابية فى شاشة الاعدادات" });

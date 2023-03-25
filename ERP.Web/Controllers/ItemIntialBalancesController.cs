@@ -211,9 +211,9 @@ namespace ERP.Web.Controllers
                 {
                     // الحصول على حسابات من الاعدادات
                     var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                    // التأكد من عدم وجود حساب فرعى من الحساب رأس المال
+                    // التأكد من عدم وجود حساب تشغيلى من الحساب رأس المال
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeShareCapitalAccount).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب رأس المال ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب رأس المال ليس بحساب تشغيلى" });
                     // use Transactions
                     var itemIniatialBalance = db.ItemIntialBalances.Where(x => x.Id == Id).FirstOrDefault();
                     var itemIntialBalanceDetails = itemIniatialBalance.ItemIntialBalanceDetails.Where(x => !x.IsDeleted).ToList();
@@ -225,9 +225,9 @@ namespace ERP.Web.Controllers
                         //فى حالة الجرد الدورى
                         if (inventoryTypeVal == 1)
                         {
-                            //التأكد من عدم وجود حساب فرعى من حساب المخزون
+                            //التأكد من عدم وجود حساب تشغيلى من حساب المخزون
                             if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue)))
-                                return Json(new { isValid = false, message = "حساب المخزون ليس بحساب فرعى" });
+                                return Json(new { isValid = false, message = "حساب المخزون ليس بحساب تشغيلى" });
 
                             var accountTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeStockAccount).FirstOrDefault().SValue);
                             foreach (var item in itemIntialBalanceDetails)

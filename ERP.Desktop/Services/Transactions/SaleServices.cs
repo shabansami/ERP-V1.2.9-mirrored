@@ -463,34 +463,34 @@ namespace ERP.Desktop.Services.Transactions
                     double credit = 0;
                     // الحصول على حسابات من الاعدادات
                     var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                    //التأكد من عدم وجود حساب فرعى من الحساب
+                    //التأكد من عدم وجود حساب تشغيلى من الحساب
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue)))
 
                     {
-                        result.Message = "حساب المبيعات ليس بحساب فرعى";
+                        result.Message = "حساب المبيعات ليس بحساب تشغيلى";
                         return result;
                     }
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(db.Persons.Where(x => x.Id == invoice.CustomerId).FirstOrDefault().AccountsTreeCustomerId))
                     {
-                        result.Message = "حساب العميل ليس بحساب فرعى";
+                        result.Message = "حساب العميل ليس بحساب تشغيلى";
                         return result;
                     }
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesTaxAccount).FirstOrDefault().SValue)))
                     {
-                        result.Message = "حساب القيمة المضافة ليس بحساب فرعى";
+                        result.Message = "حساب القيمة المضافة ليس بحساب تشغيلى";
                         return result;
                     }
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue)))
                     {
-                        result.Message = "حساب الخصومات ليس بحساب فرعى";
+                        result.Message = "حساب الخصومات ليس بحساب تشغيلى";
                         return result;
                     }
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCommercialTax).FirstOrDefault().SValue)))
                     {
-                        result.Message = "حساب الارباح التجارية ليس بحساب فرعى";
+                        result.Message = "حساب الارباح التجارية ليس بحساب تشغيلى";
                         return result;
                     }
 
@@ -501,7 +501,7 @@ namespace ERP.Desktop.Services.Transactions
                     {
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(expenses.FirstOrDefault().IncomeTypeAccountTreeId))
                         {
-                            result.Message = "حساب الايراد ليس بحساب فرعى";
+                            result.Message = "حساب الايراد ليس بحساب تشغيلى";
                             return result;
                         }
                     }
@@ -542,7 +542,7 @@ namespace ERP.Desktop.Services.Transactions
                                             {
                                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
                                                 {
-                                                    result.Message = $"حساب المخزن {store.Name} ليس بحساب فرعى";
+                                                    result.Message = $"حساب المخزن {store.Name} ليس بحساب تشغيلى";
                                                     return result;
                                                 }
                                                 db.GeneralDailies.Add(new GeneralDaily

@@ -117,22 +117,22 @@ namespace ERP.Web.Controllers
                     if (vm.SafeId != null)
                     {
                         safeAccountTreeId = db.Safes.FirstOrDefault(x=>x.Id==vm.SafeId).AccountsTreeId;
-                        //التأكد من عدم وجود حساب فرعى من حساب الخزينة
+                        //التأكد من عدم وجود حساب تشغيلى من حساب الخزينة
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(safeAccountTreeId))
-                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب تشغيلى" });
                     }
                     else
                     {
                         bankAccountTreeId = db.BankAccounts.FirstOrDefault(x=>x.Id==vm.BankAccountId).AccountsTreeId;
-                        // التأكد من عدم وجود حساب فرعى من الحساب البنك
+                        // التأكد من عدم وجود حساب تشغيلى من الحساب البنك
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(bankAccountTreeId))
-                            return Json(new { isValid = false, message = "حساب البنك ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب البنك ليس بحساب تشغيلى" });
                     }
                     if (vm.IsDestruction)
                     {
-                        //التأكد من عدم وجود حساب فرعى من الحساب
+                        //التأكد من عدم وجود حساب تشغيلى من الحساب
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeAssetsDepreciationComplex).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب مجمع الاهلاك للاصل ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب مجمع الاهلاك للاصل ليس بحساب تشغيلى" });
                     }
 
                     messageReturn = AddAccountTree(vm, generalSetting, safeAccountTreeId, bankAccountTreeId);

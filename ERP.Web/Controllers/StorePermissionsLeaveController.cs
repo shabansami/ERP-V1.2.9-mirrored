@@ -203,11 +203,11 @@ namespace ERP.Web.Controllers
 
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(model.AccountTreeId))
-                        return Json(new { isValid = false, message = "حساب الشخص ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب الشخص ليس بحساب تشغيلى" });
 
-                    //التأكد من عدم وجود حساب فرعى من حساب الخزينة
+                    //التأكد من عدم وجود حساب تشغيلى من حساب الخزينة
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(model.Safe.AccountsTreeId))
-                        return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب تشغيلى" });
                     //التأكد من عدم تكرار اعتماد القيد
                     if (GeneralDailyService.GeneralDailaiyExists(model.Id, (int)TransactionsTypesCl.Expense))
                         return Json(new { isValid = false, message = "تم الاعتماد مسبقا " });

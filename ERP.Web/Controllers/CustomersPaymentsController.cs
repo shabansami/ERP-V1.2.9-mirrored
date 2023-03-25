@@ -297,12 +297,12 @@ namespace ERP.Web.Controllers
                     if (paymentCustomer.BySaleMen && paymentCustomer.SafeId == null )
                         return Json(new { isValid = false, message = "تأكد من تحديد الخزينة للعملية اولا" });
 
-                    //التأكد من عدم وجود حساب فرعى من حساب العميل
+                    //التأكد من عدم وجود حساب تشغيلى من حساب العميل
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(paymentCustomer.PersonCustomer.AccountsTreeCustomerId))
-                        return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
-                        //التأكد من عدم وجود حساب فرعى من حساب الخزينة
+                        return Json(new { isValid = false, message = "حساب العميل ليس بحساب تشغيلى" });
+                        //التأكد من عدم وجود حساب تشغيلى من حساب الخزينة
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(paymentCustomer.Safe.AccountsTreeId))
-                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب تشغيلى" });
                     //التاكد من القيد لم يتم تسجيله مسبقا 
                     //if (db.GeneralDailies.Where(x=>!x.IsDeleted&&x.TransactionId==paymentCustomer.Id&&x.TransactionTypeId== (int)TransactionsTypesCl.CashIn).Any())
                     //    return Json(new { isValid = true, message = "تم اعتماد عملية استلام النقدية بنجاح" });

@@ -221,21 +221,21 @@ namespace ERP.Web.Controllers
                                         double credit = 0;
                                         // الحصول على حسابات من الاعدادات
                                         var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                                        //التأكد من عدم وجود حساب فرعى من الحساب
+                                        //التأكد من عدم وجود حساب تشغيلى من الحساب
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseReturnAccount).FirstOrDefault().SValue)))
-                                            return Json(new { isValid = false, message = "حساب المشتريات ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب المشتريات ليس بحساب تشغيلى" });
 
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(context.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault().AccountTreeSupplierId))
-                                            return Json(new { isValid = false, message = "حساب المورد ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب المورد ليس بحساب تشغيلى" });
 
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesTaxAccount).FirstOrDefault().SValue)))
-                                            return Json(new { isValid = false, message = "حساب القيمة المضافة ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب القيمة المضافة ليس بحساب تشغيلى" });
 
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue)))
-                                            return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب تشغيلى" });
 
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCommercialTax).FirstOrDefault().SValue)))
-                                            return Json(new { isValid = false, message = "حساب الارباح التجارية ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب الارباح التجارية ليس بحساب تشغيلى" });
 
                                         var expenses = context.PurchaseBackInvoicesExpenses.Where(x => !x.IsDeleted && x.PurchaseBackInvoiceId == model.Id);
                                         var supplier = context.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault();
@@ -243,7 +243,7 @@ namespace ERP.Web.Controllers
                                         if (expenses.Count() > 0)
                                         {
                                             if (AccountTreeService.CheckAccountTreeIdHasChilds(expenses.FirstOrDefault().ExpenseTypeAccountsTreeID))
-                                                return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
+                                                return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب تشغيلى" });
                                         }
 
                                         // حساب مرتجع مشتريات
@@ -269,7 +269,7 @@ namespace ERP.Web.Controllers
                                                                 if (store.AccountTreeId != null)
                                                                 {
                                                                     if (AccountTreeService.CheckAccountTreeIdHasChilds(store.AccountTreeId))
-                                                                        return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب فرعى" });
+                                                                        return Json(new { isValid = false, message = $"حساب المخزن {store.Name} ليس بحساب تشغيلى" });
 
                                                                     db.GeneralDailies.Add(new GeneralDaily
                                                                     {
@@ -558,7 +558,7 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, msg = "المصروف المحدد موجود مسبقا " }, JsonRequestBehavior.AllowGet);
                 expenseTypeName = db.AccountsTrees.FirstOrDefault(x=>x.Id==vm.ExpenseTypeId).AccountName;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseTypeId))
-                    return Json(new { isValid = false, msg = "حساب المصروف ليس بحساب فرعى" });
+                    return Json(new { isValid = false, msg = "حساب المصروف ليس بحساب تشغيلى" });
 
             }
             else

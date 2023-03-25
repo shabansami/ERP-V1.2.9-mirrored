@@ -65,18 +65,18 @@ namespace ERP.Web.Controllers
 
                         // الحصول على حسابات من الاعدادات
                         var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                        //التأكد من عدم وجود حساب فرعى من الحساب
+                        //التأكد من عدم وجود حساب تشغيلى من الحساب
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesAccount).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب المبيعات ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب المبيعات ليس بحساب تشغيلى" });
 
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(customer.AccountsTreeCustomerId))
-                            return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب العميل ليس بحساب تشغيلى" });
 
                         //if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMaintenance).FirstOrDefault().SValue)))
-                        //    return Json(new { isValid = false, message = "حساب ايرادات الصيانة ليس بحساب فرعى" });
+                        //    return Json(new { isValid = false, message = "حساب ايرادات الصيانة ليس بحساب تشغيلى" });
 
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب تشغيلى" });
 
 
                         // من ح/  العميل

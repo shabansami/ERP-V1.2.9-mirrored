@@ -350,13 +350,13 @@ namespace ERP.Web.Controllers
                         //اضافة قيود الفوائد 
                         // الحصول على حسابات من الاعدادات
                         var generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                        //التأكد من عدم وجود حساب فرعى من الحساب
+                        //التأكد من عدم وجود حساب تشغيلى من الحساب
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeInstallmentsBenefits).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب فوائد الاقساط ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب فوائد الاقساط ليس بحساب تشغيلى" });
 
                         var customerAccountId = customer.AccountsTreeCustomerId;
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(customerAccountId))
-                            return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب العميل ليس بحساب تشغيلى" });
 
                         //الى حساب فوائد الاقساط
                         context.GeneralDailies.Add(new GeneralDaily

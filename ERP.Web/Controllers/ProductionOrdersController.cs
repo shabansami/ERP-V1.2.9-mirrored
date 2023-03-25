@@ -304,11 +304,11 @@ namespace ERP.Web.Controllers
                                         //var expressAccountsTreeId = db.ExpenseTypes.Where(x => x.Id == expense.ExpenseTypeId).FirstOrDefault().AccountsTreeId;
                                         var expressAccountsTreeId = expense.ExpenseTypeAccountTreeId;
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(expressAccountsTreeId))
-                                            return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب تشغيلى" });
 
                                         var creditAccountsTreeId = expense.AccountTreeCreditId;
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(creditAccountsTreeId))
-                                            return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب تشغيلى" });
 
                                     context.GeneralDailies.Add(new GeneralDaily
                                     {
@@ -718,7 +718,7 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, msg = "المصروف المحدد موجود مسبقا " }, JsonRequestBehavior.AllowGet);
                 expenseTypeName = db.AccountsTrees.FirstOrDefault(x=>x.Id==vm.ExpenseTypeId).AccountName;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseTypeId))
-                    return Json(new { isValid = false, msg = "حساب المصروف ليس بحساب فرعى" });
+                    return Json(new { isValid = false, msg = "حساب المصروف ليس بحساب تشغيلى" });
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار حساب المصروف " }, JsonRequestBehavior.AllowGet);
@@ -728,7 +728,7 @@ namespace ERP.Web.Controllers
                     return Json(new { isValid = false, msg = "الحساب الدائن المحدده موجود مسبقا " }, JsonRequestBehavior.AllowGet);
                 accountCreditName = db.AccountsTrees.FirstOrDefault(x=>x.Id==vm.AccountTreeCreditId).AccountName;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeCreditId))
-                    return Json(new { isValid = false, msg = "الحساب الدائن ليس بحساب فرعى" });
+                    return Json(new { isValid = false, msg = "الحساب الدائن ليس بحساب تشغيلى" });
             }
             else
                 return Json(new { isValid = false, msg = "تأكد من اختيار الحساب الدائن " }, JsonRequestBehavior.AllowGet);
@@ -892,7 +892,7 @@ namespace ERP.Web.Controllers
                     }
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseTypeId))
                     {
-                        ViewBag.Msg = "حساب المصروف ليس بحساب فرعى";
+                        ViewBag.Msg = "حساب المصروف ليس بحساب تشغيلى";
                         return View(vm);
                     }
                 }
@@ -910,7 +910,7 @@ namespace ERP.Web.Controllers
                     }
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.AccountTreeCreditId))
                     {
-                        ViewBag.Msg = "الحساب الدائن ليس بحساب فرعى";
+                        ViewBag.Msg = "الحساب الدائن ليس بحساب تشغيلى";
                         return View(vm);
                     }
                 }
@@ -1082,7 +1082,7 @@ namespace ERP.Web.Controllers
                                 //var expressAccountsTreeId = db.ExpenseTypes.Where(x => x.Id == expense.ExpenseTypeId).FirstOrDefault().AccountsTreeId;
                                 var expressAccountsTreeId = expense.ExpenseTypeAccountTreeId;
                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(expressAccountsTreeId))
-                                    return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب فرعى" });
+                                    return Json(new { isValid = false, message = "حساب المصروفات ليس بحساب تشغيلى" });
 
                                 context.GeneralDailies.Add(new GeneralDaily
                                 {
@@ -1096,7 +1096,7 @@ namespace ERP.Web.Controllers
                                 });
                                 var creditAccountsTreeId = expense.AccountTreeCreditId;
                                 if (AccountTreeService.CheckAccountTreeIdHasChilds(creditAccountsTreeId))
-                                    return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب فرعى" });
+                                    return Json(new { isValid = false, message = "الحساب الدائن ليس بحساب تشغيلى" });
 
                                 context.GeneralDailies.Add(new GeneralDaily
                                 {

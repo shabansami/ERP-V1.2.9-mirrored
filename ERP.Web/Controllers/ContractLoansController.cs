@@ -255,16 +255,16 @@ namespace ERP.Web.Controllers
                                 //===================
                                 List<GeneralSetting> generalSetting;
                                 Employee employee;
-                                //التأكد من عدم وجود حساب فرعى من الحسابات المستخدمة
+                                //التأكد من عدم وجود حساب تشغيلى من الحسابات المستخدمة
                                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
                                 {
                                     // الحصول على حسابات من الاعدادات
                                     generalSetting = context.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
 
                                     employee = context.Employees.Where(x => x.Id == model.ContractScheduling.Contract.EmployeeId).FirstOrDefault();
-                                    ////التأكد من عدم وجود حساب فرعى من الحساب
+                                    ////التأكد من عدم وجود حساب تشغيلى من الحساب
                                     //if (AccountTreeService.CheckAccountTreeIdHasChilds(int.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeLoans).FirstOrDefault().SValue)))
-                                    //    return Json(new { isValid = false, message = "حساب السلف/القروض ليس بحساب فرعى" });
+                                    //    return Json(new { isValid = false, message = "حساب السلف/القروض ليس بحساب تشغيلى" });
 
                                     //accountLoanTreeId = int.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeLoans).FirstOrDefault().SValue);
                                     //التأكد من انشاء حساب سلف للموظف 
@@ -287,9 +287,9 @@ namespace ERP.Web.Controllers
                                     }
                                     else
                                     {
-                                        //التأكد من عدم وجود حساب فرعى من حساب سلف الموظف
+                                        //التأكد من عدم وجود حساب تشغيلى من حساب سلف الموظف
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(employee.Person.AccountTreeSupplierId))
-                                            return Json(new { isValid = false, message = "حساب سلف الموظف ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب سلف الموظف ليس بحساب تشغيلى" });
                                         accountTreeLoanEmpId = employee.Person.AccountTreeSupplierId;
                                     }
 

@@ -164,13 +164,13 @@ namespace ERP.Web.Controllers
                 }
                 // الحصول على حسابات من الاعدادات
                 var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                //التأكد من عدم وجود حساب فرعى من الحساب
+                //التأكد من عدم وجود حساب تشغيلى من الحساب
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeInstallmentsBenefits).FirstOrDefault().SValue)))
-                    return Json(new { isValid = false, message = "حساب فوائد الاقساط ليس بحساب فرعى" });
+                    return Json(new { isValid = false, message = "حساب فوائد الاقساط ليس بحساب تشغيلى" });
 
                 var customerAccountId = db.Persons.Where(x => x.Id == customerId).FirstOrDefault().AccountsTreeCustomerId;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(customerAccountId))
-                    return Json(new { isValid = false, message = "حساب العميل ليس بحساب فرعى" });
+                    return Json(new { isValid = false, message = "حساب العميل ليس بحساب تشغيلى" });
 
                 //تسجيل قيود الدفعة
                 //  المبلغ المدفوع .. من حساب الخزينة (مدين

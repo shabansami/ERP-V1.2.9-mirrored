@@ -64,9 +64,9 @@ namespace ERP.Web.Controllers
                         double credit = 0;
                         // الحصول على حسابات من الاعدادات
                         var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                        //التأكد من عدم وجود حساب فرعى من الحساب
+                        //التأكد من عدم وجود حساب تشغيلى من الحساب
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalaries).FirstOrDefault().SValue)))
-                            return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب تشغيلى" });
 
                         var month = dtSalary.Month;
                         var year = dtSalary.Year;
@@ -87,7 +87,7 @@ namespace ERP.Web.Controllers
                         foreach (var emp in contractSchedulings)
                         {
                             if (AccountTreeService.CheckAccountTreeIdHasChilds(emp.AccountsTreeId))
-                                return Json(new { isValid = false, message = $"حساب الموظف : {emp.EmployeeName} ليس بحساب فرعى" });
+                                return Json(new { isValid = false, message = $"حساب الموظف : {emp.EmployeeName} ليس بحساب تشغيلى" });
                         }
 
                         // 

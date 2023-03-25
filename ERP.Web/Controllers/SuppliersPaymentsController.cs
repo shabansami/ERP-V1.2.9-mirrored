@@ -236,20 +236,20 @@ namespace ERP.Web.Controllers
                     // الحصول على حسابات من الاعدادات
                     var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
                     var paymentSupplier = db.SupplierPayments.Where(x => x.Id == Id).FirstOrDefault();
-                    //التأكد من عدم وجود حساب فرعى من حساب المورد
+                    //التأكد من عدم وجود حساب تشغيلى من حساب المورد
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(paymentSupplier.PersonSupplier.AccountTreeSupplierId))
-                        return Json(new { isValid = false, message = "حساب المورد ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب المورد ليس بحساب تشغيلى" });
                     if (paymentSupplier.SafeId != null)
                     {
-                        //التأكد من عدم وجود حساب فرعى من حساب الخزينة
+                        //التأكد من عدم وجود حساب تشغيلى من حساب الخزينة
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(paymentSupplier.Safe.AccountsTreeId))
-                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب تشغيلى" });
                     }
                     else
                     {
-                        // التأكد من عدم وجود حساب فرعى من الحساب البنك
+                        // التأكد من عدم وجود حساب تشغيلى من الحساب البنك
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(paymentSupplier.BankAccount.AccountsTreeId))
-                            return Json(new { isValid = false, message = "حساب البنك ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب البنك ليس بحساب تشغيلى" });
                     }
                     //التاكد من القيد لم يتم تسجيله مسبقا 
                     if (db.GeneralDailies.Where(x => !x.IsDeleted && x.TransactionId == paymentSupplier.Id && x.TransactionTypeId == (int)TransactionsTypesCl.CashOut).Any())

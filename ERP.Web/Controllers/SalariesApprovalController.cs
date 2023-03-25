@@ -494,12 +494,12 @@ namespace ERP.Web.Controllers
                     double credit = 0;
                     // الحصول على حسابات من الاعدادات
                     var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
-                    //التأكد من عدم وجود حساب فرعى من الحساب
+                    //التأكد من عدم وجود حساب تشغيلى من الحساب
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalaries).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب تشغيلى" });
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(employee.Person.AccountsTreeCustomerId))
-                        return Json(new { isValid = false, message = $"حساب الموظف : {employee.Person.Name} ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = $"حساب الموظف : {employee.Person.Name} ليس بحساب تشغيلى" });
 
                     // 
                     var defaultBranchId = contractScheduling.Contract?.Employee?.EmployeeBranches.Where(x => !x.IsDeleted).FirstOrDefault()?.BranchId;

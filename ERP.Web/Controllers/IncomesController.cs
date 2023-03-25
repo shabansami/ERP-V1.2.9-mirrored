@@ -98,7 +98,7 @@ namespace ERP.Web.Controllers
 
                 var isInsert = false;
                 if (AccountTreeService.CheckAccountTreeIdHasChilds(vm.ExpenseIncomeTypeAccountTreeId))
-                    return Json(new { isValid = false, message = "حساب الايراد ليس بحساب فرعى" });
+                    return Json(new { isValid = false, message = "حساب الايراد ليس بحساب تشغيلى" });
                 var checkdate = closedPeriodServices.IsINPeriod(vm.PaymentDate.ToString());
                 if (!checkdate)
                 {
@@ -220,11 +220,11 @@ namespace ERP.Web.Controllers
                         var generalSetting = db.GeneralSettings.Where(x => x.SType == (int)GeneralSettingTypeCl.AccountTree).ToList();
 
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(model.ExpenseIncomeTypeAccountTreeId))
-                            return Json(new { isValid = false, message = "حساب الايرادات ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الايرادات ليس بحساب تشغيلى" });
 
-                        //التأكد من عدم وجود حساب فرعى من حساب الخزينة
+                        //التأكد من عدم وجود حساب تشغيلى من حساب الخزينة
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(model.Safe.AccountsTreeId))
-                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب الخزينة ليس بحساب تشغيلى" });
                         //التأكد من عدم تكرار اعتماد القيد
                         if (GeneralDailyService.GeneralDailaiyExists(model.Id, (int)TransactionsTypesCl.Income))
                             return Json(new { isValid = false, message = "تم الاعتماد مسبقا " });

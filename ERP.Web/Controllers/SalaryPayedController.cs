@@ -114,19 +114,19 @@ namespace ERP.Web.Controllers
                      حساب النقدية
 
                      */
-                    //التأكد من عدم وجود حساب فرعى من الحساب
+                    //التأكد من عدم وجود حساب تشغيلى من الحساب
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalaries).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب الرواتب والاجور ليس بحساب تشغيلى" });
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(contractScheduling.Contract.Employee.Person.AccountsTreeCustomerId))
-                        return Json(new { isValid = false, message = "حساب اجور مستحقة للعاملين ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب اجور مستحقة للعاملين ليس بحساب تشغيلى" });
 
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeMiscellaneousRevenus).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب استقطاعات وخصومات الموظفين ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب استقطاعات وخصومات الموظفين ليس بحساب تشغيلى" });
 
                     var EmpAccountTreeId = contractScheduling.Contract.Employee.Person.AccountsTreeCustomerId;
                     if (AccountTreeService.CheckAccountTreeIdHasChilds(Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue)))
-                        return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب فرعى" });
+                        return Json(new { isValid = false, message = "حساب الخصومات ليس بحساب تشغيلى" });
 
                     var totalPenalties = contractScheduling.TotalAmountAbsences + contractScheduling.TotalEveryMonthSalaryPenaltie + contractScheduling.TotalSalaryPenaltie + contractScheduling.LoanValue;
                     var totalAdditions = contractScheduling.TotalSalaryAddAllowances + contractScheduling.TotalSalaryAddition;
@@ -172,7 +172,7 @@ namespace ERP.Web.Controllers
                     if (contractScheduling.LoanValue > 0)
                     {
                         if (AccountTreeService.CheckAccountTreeIdHasChilds(contractScheduling.Contract.Employee.Person.AccountTreeSupplierId))
-                            return Json(new { isValid = false, message = "حساب قرض/سلف الموظف ليس بحساب فرعى" });
+                            return Json(new { isValid = false, message = "حساب قرض/سلف الموظف ليس بحساب تشغيلى" });
                         db.GeneralDailies.Add(new GeneralDaily
                         {
                             AccountsTreeId = contractScheduling.Contract.Employee.Person.AccountTreeSupplierId,

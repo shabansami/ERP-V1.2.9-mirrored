@@ -137,7 +137,7 @@ namespace ERP.Web.Controllers
                                 //===================
                                 List<GeneralSetting> generalSetting;
                                 Employee employee;
-                                //التأكد من عدم وجود حساب فرعى من الحسابات المستخدمة
+                                //التأكد من عدم وجود حساب تشغيلى من الحسابات المستخدمة
                                 if (GeneralDailyService.CheckGenralSettingHasValue((int)GeneralSettingTypeCl.AccountTree))
                                 {
                                     // الحصول على حسابات من الاعدادات
@@ -153,9 +153,9 @@ namespace ERP.Web.Controllers
 
                                     else
                                     {
-                                        //التأكد من عدم وجود حساب فرعى من حساب عهدة الموظف
+                                        //التأكد من عدم وجود حساب تشغيلى من حساب عهدة الموظف
                                         if (AccountTreeService.CheckAccountTreeIdHasChilds(employee.Person.AccountTreeEmpCustodyId))
-                                            return Json(new { isValid = false, message = "حساب عهدة الموظف ليس بحساب فرعى" });
+                                            return Json(new { isValid = false, message = "حساب عهدة الموظف ليس بحساب تشغيلى" });
                                         accountTreeCustodyEmpId = employee.Person.AccountTreeEmpCustodyId;
                                     }
                                     //التأكد من عدم تكرار اعتماد القيد

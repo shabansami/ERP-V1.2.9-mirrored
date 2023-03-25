@@ -140,8 +140,9 @@ namespace ERP.Web.Services
             //فى حالة التأكد من ان الحساب ليس له ابناء isAccountSetting=false
             using (var db = new VTSaleEntities())
             {
-                var accountTree = db.AccountsTrees.Where(x => !x.IsDeleted && x.Id == accountTreeId).FirstOrDefault();
-                return accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Any();
+                var accountTree = db.AccountsTrees.Where(x => !x.IsDeleted && x.Id == accountTreeId&&x.TypeId==(int)AccountTreeSelectorTypesCl.Operational).FirstOrDefault();
+                return accountTree==null?true:false;
+                //return accountTree.AccountsTreesChildren.Where(x => !x.IsDeleted).Any();
             }
         }     
         //حسابات الاصول الثابتة فقط من شجرة الحسابات 

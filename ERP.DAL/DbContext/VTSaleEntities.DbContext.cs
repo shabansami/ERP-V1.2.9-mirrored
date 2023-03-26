@@ -97,8 +97,6 @@ namespace ERP.DAL
         public virtual DbSet<Person> Persons { get; set; }
         public virtual DbSet<PersonType> PersonTypes { get; set; }
         public virtual DbSet<PointOfSale> PointOfSales { get; set; }
-        public virtual DbSet<PriceInvoice> PriceInvoices { get; set; }
-        public virtual DbSet<PriceInvoicesDetail> PriceInvoicesDetails { get; set; }
         public virtual DbSet<PricesChanx> PricesChanges { get; set; }
         public virtual DbSet<PricingPolicy> PricingPolicies { get; set; }
         public virtual DbSet<ProductionOrderColor> ProductionOrderColors { get; set; }

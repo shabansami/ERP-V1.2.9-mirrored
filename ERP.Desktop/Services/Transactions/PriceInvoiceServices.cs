@@ -30,7 +30,7 @@ namespace ERP.Desktop.Services.Transactions
 
         public List<PriceInvoiceVM> GetAllInvoices()
         {
-            return db.PriceInvoices.Where(x => !x.IsDeleted).Select(x => new PriceInvoiceVM()
+            return db.QuoteOrderSells.Where(x => !x.IsDeleted).Select(x => new PriceInvoiceVM()
             {
                 Id = x.Id,
                 InvoiceNumber = x.InvoiceNumber,
@@ -49,17 +49,14 @@ namespace ERP.Desktop.Services.Transactions
         /// <returns>list of filtered invoice in the shift</returns>
         public List<PriceInvoiceVM> GetAllItemsFilter(string searchText)
         {
-            var search = db.PriceInvoices.Where(x => !x.IsDeleted);
+            var search = db.QuoteOrderSells.Where(x => !x.IsDeleted);
             if (searchText.Length > 2)
             {
                 if (Guid.TryParse(searchText, out Guid id))
                 {
                     search = search.Where(x => x.Id == id);
                 }
-                else if (Guid.TryParse(searchText, out Guid guid))
-                {
-                    search = search.Where(x => x.InvoiceGuid == guid);
-                }
+                
                 else if (DateTime.TryParse(searchText, out DateTime date))
                 {
                     search = search.Where(x => x.InvoiceDate == date);
@@ -81,7 +78,7 @@ namespace ERP.Desktop.Services.Transactions
 
         public List<InvoiceDetailVM> GetInvoiceDetails(Guid invoiceID)
         {
-            return db.PriceInvoicesDetails.Where(x => !x.IsDeleted && x.PriceInvoiceId == invoiceID).Select(x => new InvoiceDetailVM()
+            return db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == invoiceID).Select(x => new InvoiceDetailVM()
             {
                 Id = x.Id,
                 ItemName = x.Item.Name,
@@ -93,12 +90,12 @@ namespace ERP.Desktop.Services.Transactions
 
         #region Invoice operations
         #region Create New
-        public DtoResultObj<PriceInvoice> CreateInvoice(PriceInvoice model, bool isInvoiceDisVal = false)
+        public DtoResultObj<QuoteOrderSell> CreateInvoice(QuoteOrderSell model, bool isInvoiceDisVal = false)
         {
             try
             {
                 if (model.InvoiceDate == null)
-                    return new DtoResultObj<PriceInvoice> { IsSuccessed = false, Message = "تأكد من ادخال بيانات صحيحة" };
+                    return new DtoResultObj<QuoteOrderSell> { IsSuccessed = false, Message = "تأكد من ادخال بيانات صحيحة" };
 
                 //صافى قيمة الفاتورة= ( إجمالي قيمة المبيعات + إجمالي قيمة الايرادات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
                 //فى حالة الخصم على الفاتورة نسية /قيمة 
@@ -114,40 +111,38 @@ namespace ERP.Desktop.Services.Transactions
                 }
 
                 model.TotalQuantity = 0;
-                model.TotalDiscount = invoiceDiscount;//إجمالي خصومات الفاتورة 
+                model.InvoiceDiscount = invoiceDiscount;//إجمالي خصومات الفاتورة 
                 model.TotalValue = 0;//إجمالي قيمة المبيعات 
-                model.Safy = (model.TotalValue + model.SalesTax) - (model.TotalDiscount + model.ProfitTax);
-
-                model.InvoiceGuid = Guid.NewGuid();
+                model.Safy = (model.TotalValue + model.SalesTax) - (model.InvoiceDiscount + model.ProfitTax);
 
 
                 var db = DBContext.UnitDbContext;
 
                 //اضافة رقم الفاتورة
                 string codePrefix = Properties.Settings.Default.CodePrefix;
-                model.InvoiceNumber = codePrefix + (db.PriceInvoices.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1);
+                model.InvoiceNumber = codePrefix + (db.QuoteOrderSells.Count(x => x.InvoiceNumber.StartsWith(codePrefix)) + 1);
 
-                db.PriceInvoices.Add(model);
+                db.QuoteOrderSells.Add(model);
                 if (db.SaveChanges(UserServices.UserInfo?.UserId) > 0)
                 {
-                    return new DtoResultObj<PriceInvoice> { IsSuccessed = true, Object = model, Message = "تم الاضافة بنجاح" };
+                    return new DtoResultObj<QuoteOrderSell> { IsSuccessed = true, Object = model, Message = "تم الاضافة بنجاح" };
                 }
                 else
-                    return new DtoResultObj<PriceInvoice> { IsSuccessed = false, Message = "حدث خطأ اثناء تنفيذ العملية" };
+                    return new DtoResultObj<QuoteOrderSell> { IsSuccessed = false, Message = "حدث خطأ اثناء تنفيذ العملية" };
 
             }
             catch (Exception ex)
             {
-                return new DtoResultObj<PriceInvoice>() { IsSuccessed = false, Message = "حدث خطأ اثناء تنفيذ العملية" };
+                return new DtoResultObj<QuoteOrderSell>() { IsSuccessed = false, Message = "حدث خطأ اثناء تنفيذ العملية" };
             }
         }
         #endregion
 
         #region Load Invoice
-        public DtoResultObj<PriceInvoice> GetInvoice(Guid invoiceID)
+        public DtoResultObj<QuoteOrderSell> GetInvoice(Guid invoiceID)
         {
-            var invoice = db.PriceInvoices.FirstOrDefault(x => x.Id == invoiceID && !x.IsDeleted);
-            return new DtoResultObj<PriceInvoice> { IsSuccessed = invoice != null, Object = invoice, Message = invoice != null ? "" : "خطأ في رقم الفاتروة" };
+            var invoice = db.QuoteOrderSells.FirstOrDefault(x => x.Id == invoiceID && !x.IsDeleted);
+            return new DtoResultObj<QuoteOrderSell> { IsSuccessed = invoice != null, Object = invoice, Message = invoice != null ? "" : "خطأ في رقم الفاتروة" };
         }
         #endregion
 
@@ -155,22 +150,22 @@ namespace ERP.Desktop.Services.Transactions
         #region Validations
         public DtoResult CheckValidInvoice(Guid invoiceID)
         {
-            var isExist = db.PriceInvoices.Count(x => x.Id == invoiceID && !x.IsDeleted) > 0;
+            var isExist = db.QuoteOrderSells.Count(x => x.Id == invoiceID && !x.IsDeleted) > 0;
             return new DtoResult { IsSuccessed = isExist, Message = isExist ? "" : "لم يتم ايجاد الفاتورة" };
         }
 
         #endregion
 
         #region Calculations
-        internal DtoResultObj<PriceInvoice> CalculateInvoiceTotals(Guid invoiceID)
+        internal DtoResultObj<QuoteOrderSell> CalculateInvoiceTotals(Guid invoiceID)
         {
-            var invoice = db.PriceInvoices.FirstOrDefault(x => x.Id == invoiceID && !x.IsDeleted);
+            var invoice = db.QuoteOrderSells.FirstOrDefault(x => x.Id == invoiceID && !x.IsDeleted);
             return CalculateInvoiceTotals(invoice);
         }
 
-        public DtoResultObj<PriceInvoice> CalculateInvoiceTotals(PriceInvoice invoice)
+        public DtoResultObj<QuoteOrderSell> CalculateInvoiceTotals(QuoteOrderSell invoice)
         {
-            var result = new DtoResultObj<PriceInvoice>();
+            var result = new DtoResultObj<QuoteOrderSell>();
             if (invoice == null)
             {
                 result.Message = "الفاتورة غير موجودة";
@@ -180,8 +175,8 @@ namespace ERP.Desktop.Services.Transactions
             //صافى قيمة الفاتورة= ( إجمالي قيمة المبيعات + إجمالي قيمة الايرادات + قيمة الضريبة المضافة  - إجمالي خصومات الفاتورة - قيمة ض.أ.ت.ص )
             //فى حالة الخصم على الفاتورة نسية /قيمة 
 
-            invoice.TotalValue = invoice.PriceInvoicesDetails.Where(x => !x.IsDeleted).Sum(x => x.Amount);//إجمالي قيمة المبيعات 
-            invoice.TotalQuantity = invoice.PriceInvoicesDetails.Where(x => !x.IsDeleted).Sum(x => x.Quantity);
+            invoice.TotalValue = invoice.QuoteOrderSellDetails.Where(x => !x.IsDeleted).Sum(x => x.Amount);//إجمالي قيمة المبيعات 
+            invoice.TotalQuantity = invoice.QuoteOrderSellDetails.Where(x => !x.IsDeleted).Sum(x => x.Quantity);
 
 
             double invoiceDiscount = invoice.InvoiceDiscount;
@@ -189,9 +184,9 @@ namespace ERP.Desktop.Services.Transactions
             {
                 invoiceDiscount = (invoice.TotalValue * invoice.DiscountPercentage) / 100;
             }
-            invoice.TotalDiscount = invoice.PriceInvoicesDetails.Where(x => !x.IsDeleted).Sum(x => x.ItemDiscount) + invoiceDiscount;//إجمالي خصومات الفاتورة 
+            //invoice.InvoiceDiscount = invoice.QuoteOrderSellDetails.Where(x => !x.IsDeleted).Sum(x => x.ItemDiscount) + invoiceDiscount;//إجمالي خصومات الفاتورة 
 
-            invoice.Safy = (invoice.TotalValue + invoice.SalesTax) - (invoice.TotalDiscount + invoice.ProfitTax);
+            invoice.Safy = (invoice.TotalValue + invoice.SalesTax) - (invoice.InvoiceDiscount + invoice.ProfitTax);
 
             invoice.InvoiceDiscount = invoiceDiscount;
 
@@ -257,11 +252,11 @@ namespace ERP.Desktop.Services.Transactions
         /// <summary>
         /// Add new item to invoice
         /// </summary>
-        /// <param name="invoiceID">PriceInvoice id</param>
+        /// <param name="invoiceID">QuoteOrderSell id</param>
         /// <param name="itemDetail">Item detials</param>
         /// <param name="mergeMatched">is merge matched items if exist</param>
         /// <returns>result contains operation success status and message and list of items in the invoice</returns>
-        public DtoResultObj<List<ItemDetailsDT>> AddItemInInvoice(Guid invoiceID, PriceInvoicesDetail itemDetail, bool mergeMatched = false, bool saleWithoutBalance = true)
+        public DtoResultObj<List<ItemDetailsDT>> AddItemInInvoice(Guid invoiceID, QuoteOrderSellDetail itemDetail, bool mergeMatched = false, bool saleWithoutBalance = true)
         {
             var result = new DtoResultObj<List<ItemDetailsDT>>();
 
@@ -276,28 +271,28 @@ namespace ERP.Desktop.Services.Transactions
                 }
             }
 
-            if (itemDetail.Amount < itemDetail.ItemDiscount)
-            {
-                result.Message = "خطأ في الخصم";
-                return result;
-            }
+            //if (itemDetail.Amount < itemDetail.ItemDiscount)
+            //{
+            //    result.Message = "خطأ في الخصم";
+            //    return result;
+            //}
 
             if (mergeMatched)
             {
-                var existItemDetail = db.PriceInvoicesDetails.FirstOrDefault(x => !x.IsDeleted && x.PriceInvoiceId == invoiceID && x.ItemId == itemDetail.ItemId && x.Amount / x.Quantity == itemDetail.Price && x.ItemDiscount / x.Quantity == itemDetail.ItemDiscount / itemDetail.Quantity);
+                var existItemDetail = db.QuoteOrderSellDetails.FirstOrDefault(x => !x.IsDeleted && x.QuoteOrderSellId == invoiceID && x.ItemId == itemDetail.ItemId && x.Amount / x.Quantity == itemDetail.Price /*&& x.ItemDiscount / x.Quantity == itemDetail.ItemDiscount / itemDetail.Quantity*/);
                 if (existItemDetail != null)
                 {
                     existItemDetail.Amount += itemDetail.Amount;
                     existItemDetail.Quantity += itemDetail.Quantity;
-                    existItemDetail.ItemDiscount += itemDetail.ItemDiscount;
+                    //existItemDetail.ItemDiscount += itemDetail.ItemDiscount;
                     result.IsSuccessed = db.SaveChanges(UserServices.UserInfo?.UserId) > 0;
                     result.Object = GetInvoiceItems(invoiceID);
 
                     return result;
                 }
             }
-            itemDetail.PriceInvoiceId = invoiceID;
-            db.PriceInvoicesDetails.Add(itemDetail);
+            itemDetail.QuoteOrderSellId = invoiceID;
+            db.QuoteOrderSellDetails.Add(itemDetail);
             result.IsSuccessed = db.SaveChanges(UserServices.UserInfo?.UserId) > 0;
             result.Object = GetInvoiceItems(invoiceID);
             return result;
@@ -310,12 +305,12 @@ namespace ERP.Desktop.Services.Transactions
         {
             var db = DBContext.UnitDbContext;
             {
-                return db.PriceInvoicesDetails.Where(x => !x.IsDeleted && x.PriceInvoiceId == invoiceID).Select(item => new ItemDetailsDT
+                return db.QuoteOrderSellDetails.Where(x => !x.IsDeleted && x.QuoteOrderSellId == invoiceID).Select(item => new ItemDetailsDT
                 {
                     Id = item.Id,
                     Amount = item.Amount,
                     ItemId = item.ItemId,
-                    ItemDiscount = item.ItemDiscount,
+                    //ItemDiscount = item.ItemDiscount,
                     ItemName = item.Item.Name,
                     Price = item.Price,
                     Quantity = item.Quantity,
@@ -325,7 +320,7 @@ namespace ERP.Desktop.Services.Transactions
         #endregion
 
         #region Balance
-        public DtoResult CheckItemBalance(PriceInvoicesDetail itemDetail)
+        public DtoResult CheckItemBalance(QuoteOrderSellDetail itemDetail)
         {
             return CheckItemBalance(itemDetail.ItemId, itemDetail.Quantity);
         }
@@ -343,10 +338,10 @@ namespace ERP.Desktop.Services.Transactions
         #endregion
 
         #region Delete Item from Invoice
-        public DtoResult DeleteItem(Guid PriceInvoiceDetailID)
+        public DtoResult DeleteItem(Guid QuoteOrderSellDetailID)
         {
             var result = new DtoResult();
-            var item = db.PriceInvoicesDetails.FirstOrDefault(x => !x.IsDeleted && x.Id == PriceInvoiceDetailID);
+            var item = db.QuoteOrderSellDetails.FirstOrDefault(x => !x.IsDeleted && x.Id == QuoteOrderSellDetailID);
             if (item == null)
             {
                 result.Message = "خطأ في رقم الصنف";
@@ -364,7 +359,7 @@ namespace ERP.Desktop.Services.Transactions
         internal DtoResult UpdateItemQuantity(Guid id, double quantity)
         {
             var result = new DtoResult();
-            var item = db.PriceInvoicesDetails.FirstOrDefault(x => !x.IsDeleted && x.Id == id);
+            var item = db.QuoteOrderSellDetails.FirstOrDefault(x => !x.IsDeleted && x.Id == id);
             if (item == null)
             {
                 result.Message = "خطأ في رقم الصنف";

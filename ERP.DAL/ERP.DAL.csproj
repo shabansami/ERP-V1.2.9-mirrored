@@ -368,6 +368,10 @@
     <Compile Include="Migrations\202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.designer.cs">
       <DependentUpon>202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202303262222028_remove_TB_PriceInvoice_add_QuoteOrderSell_Details.cs" />
+    <Compile Include="Migrations\202303262222028_remove_TB_PriceInvoice_add_QuoteOrderSell_Details.designer.cs">
+      <DependentUpon>202303262222028_remove_TB_PriceInvoice_add_QuoteOrderSell_Details.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountTreeIntialBalance.cs" />
     <Compile Include="Models\ClosingPeriods.cs" />
@@ -479,8 +483,6 @@
     <Compile Include="Models\PersonCategory.cs" />
     <Compile Include="Models\PersonType.cs" />
     <Compile Include="Models\PointOfSale.cs" />
-    <Compile Include="Models\PriceInvoice.cs" />
-    <Compile Include="Models\PriceInvoicesDetail.cs" />
     <Compile Include="Models\PricesChanx.cs" />
     <Compile Include="Models\PricingPolicy.cs" />
     <Compile Include="Models\ProductionOrder.cs" />
@@ -775,6 +777,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.resx">
       <DependentUpon>202303212119580_addNewFieldAccountTreeCreditInProductionOrderExpense.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202303262222028_remove_TB_PriceInvoice_add_QuoteOrderSell_Details.resx">
+      <DependentUpon>202303262222028_remove_TB_PriceInvoice_add_QuoteOrderSell_Details.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

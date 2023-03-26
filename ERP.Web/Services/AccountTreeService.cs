@@ -238,7 +238,7 @@ namespace ERP.Web.Services
                     CallRecursive(db.AccountsTrees.Where(x => !x.IsDeleted && x.Id == spcLevel).FirstOrDefault(), accountsexption);
                     foreach (var item in _accountsTrees)
                     {
-                        if (item.AccountsTreesChildren.Where(x=>!x.IsDeleted).Count()==0)
+                        if (item.TypeId==(int)AccountTreeSelectorTypesCl.Operational/*item.AccountsTreesChildren.Where(x=>!x.IsDeleted).Count()==0*/)
                         {
                             accountTrees.Add(item);
                         }

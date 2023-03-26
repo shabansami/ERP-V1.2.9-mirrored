@@ -19,7 +19,7 @@ namespace ERP.Desktop.Views.Transactions.Pricing
     public partial class AllPriceInvoices : BaseForm
     {
         PriceInvoiceServices _services;
-        public PriceInvoice ReturnedInvoice;
+        public QuoteOrderSell ReturnedInvoice;
         TypeAssistant assistant;
         public AllPriceInvoices(PriceInvoiceServices saleServices)
         {

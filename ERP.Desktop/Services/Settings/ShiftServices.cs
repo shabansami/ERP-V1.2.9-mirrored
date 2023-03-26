@@ -26,9 +26,9 @@ namespace ERP.Desktop.Services.Settings
                 Date = x.Date,
                 ShiftNumber = x.ShiftNumber,
                 EmpID = x.EmployeeID,
-                EmpName = x.Employee.Person.Name,
+                EmpName = x.Employee?.Person?.Name,
                 POSID = x.PointOfSaleID,
-                POSName = x.PointOfSale.Name
+                POSName = x.PointOfSale?.Name
             }).ToList();
         }
         public List<ShiftVM> GetAllClosedShifts(DateTime dtFrom, DateTime dtTo)

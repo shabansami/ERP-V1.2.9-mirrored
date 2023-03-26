@@ -23,8 +23,7 @@ namespace ERP.Desktop.Services.Definations
         public List<POSVM> GetAllPointOfSales()
         {
             var branches = EmployeeService.GetBranchesByUser(UserServices.UserInfo);
-            var pointOfSales = db.PointOfSales.Where(x => !x.IsDeleted).ToList().Where(x => branches.Any(b => b.ID == x.BrunchId)).ToList();
-
+            var pointOfSales = db.PointOfSales.Where(x => !x.IsDeleted).Include(x=>x.Branch).ToList().Where(x => branches.Any(b => b.ID == x.BrunchId)).ToList();
             return pointOfSales.Where(x => !x.IsDeleted).Select(x => new POSVM()
             {
                 Id = x.Id,

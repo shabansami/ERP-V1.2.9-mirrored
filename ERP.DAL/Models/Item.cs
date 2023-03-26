@@ -27,7 +27,6 @@ namespace ERP.DAL
             this.MaintenanceDamageDetails = new HashSet<MaintenanceDamageDetail>();
             this.MaintenanceDetails = new HashSet<MaintenanceDetail>();
             this.MaintenanceSpareParts = new HashSet<MaintenanceSparePart>();
-            this.PriceInvoicesDetails = new HashSet<PriceInvoicesDetail>();
             this.PricesChanges = new HashSet<PricesChanx>();
             this.ProductionOrderDetails = new HashSet<ProductionOrderDetail>();
             this.PurchaseBackInvoicesDetails = new HashSet<PurchaseBackInvoicesDetail>();
@@ -91,7 +90,6 @@ namespace ERP.DAL
         public virtual ICollection<MaintenanceDamageDetail> MaintenanceDamageDetails { get; set; }
         public virtual ICollection<MaintenanceDetail> MaintenanceDetails { get; set; }
         public virtual ICollection<MaintenanceSparePart> MaintenanceSpareParts { get; set; }
-        public virtual ICollection<PriceInvoicesDetail> PriceInvoicesDetails { get; set; }
         public virtual ICollection<PricesChanx> PricesChanges { get; set; }
         public virtual ICollection<ProductionOrderDetail> ProductionOrderDetails { get; set; }
         public virtual ICollection<PurchaseBackInvoicesDetail> PurchaseBackInvoicesDetails { get; set; }

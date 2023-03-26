@@ -20,7 +20,7 @@ namespace ERP.Desktop.Views.Transactions.Pricing
 {
     public partial class PriceInvoicesCashier : BaseForm
     {
-        PriceInvoice currentInvoice;
+        QuoteOrderSell currentInvoice;
         Item currentItem;
         List<ItemDetailsDT> CurrntInvoiceItems;
 
@@ -117,10 +117,10 @@ namespace ERP.Desktop.Views.Transactions.Pricing
         private bool CreateNewInvoice()
         {
 
-            var invoice = new PriceInvoice()
+            var invoice = new QuoteOrderSell()
             {
                 InvoiceDate = dtinvodate.Value,
-                InvoiceGuid = Guid.NewGuid()
+                //InvoiceGuid = Guid.NewGuid()
             };
             var result = _services.CreateInvoice(invoice);
             if (!result.IsSuccessed)
@@ -149,14 +149,14 @@ namespace ERP.Desktop.Views.Transactions.Pricing
             //finaly Load the invoice and it's details
             LoadInvoice(currentInvoice);
         }
-        private void LoadInvoice(PriceInvoice invoice)
+        private void LoadInvoice(QuoteOrderSell invoice)
         {
             loading = true;
             ClearForm();
             if (invoice != null)
             {
                 currentInvoice = invoice;
-                txt_itemcount.Text = invoice.PriceInvoicesDetails.Count(x => !x.IsDeleted) + "";
+                txt_itemcount.Text = invoice.QuoteOrderSellDetails.Count(x => !x.IsDeleted) + "";
                 txt_totalinvo.Text = invoice.TotalValue + "";
 
                 txtInvoiceDiscountPers.Text = invoice.DiscountPercentage + "";
@@ -164,7 +164,7 @@ namespace ERP.Desktop.Views.Transactions.Pricing
                 txtInvoiceDiscounts.ReadOnly = invoice.DiscountPercentage > 0;
 
                 txtInvoiceDiscounts.Text = invoice.InvoiceDiscount + "";
-                txtInvoiceTotalDiscount.Text = invoice.TotalDiscount + "";
+                txtInvoiceTotalDiscount.Text = invoice.InvoiceDiscount + "";
 
                 dtinvodate.Value = invoice.InvoiceDate;
 
@@ -524,14 +524,14 @@ namespace ERP.Desktop.Views.Transactions.Pricing
             double discount = txtItemDiscountPerc.Num > 0 ? quantity * price * txtItemDiscountPerc.Num / 100 : txtItemDiscountValue.Num;
 
             //second add the new item to invoice 
-            var itemDetails = new PriceInvoicesDetail()
+            var itemDetails = new QuoteOrderSellDetail()
             {
                 Amount = quantity * price,
                 Quantity = quantity,
                 Price = price,
                 ItemId = currentItem.Id,
-                ItemDiscount = discount,
-                PriceInvoiceId = currentInvoice.Id
+                //ItemDiscount = discount,
+                QuoteOrderSellId = currentInvoice.Id
             };
 
             var AllowSaleWithoutBalance = Properties.Settings.Default.AllowSaleWithoutBalance;

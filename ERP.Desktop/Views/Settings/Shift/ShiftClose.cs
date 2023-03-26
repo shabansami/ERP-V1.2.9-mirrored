@@ -38,7 +38,7 @@ namespace ERP.Desktop.Views.Settings.Shift
         #region Load Shift Details
         private void ShiftClose_Load(object sender, EventArgs e)
         {
-            shift = db.ShiftsOfflines.Where(x => !x.IsDeleted && x.Id == shiftID).FirstOrDefault();
+            shift = db.ShiftsOfflines.Where(x => !x.IsDeleted && x.Id == shiftID).Include(x=>x.Employee).FirstOrDefault();
             if (shift == null)
             {
                 AlrtMsgs.ShowMessageError("خطأ في رقم الفاتروة");

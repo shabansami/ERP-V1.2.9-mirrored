@@ -41,9 +41,6 @@ namespace ERP.Desktop.Views._Base.Main
             this.معلوماتالمركزالتعليميToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemShifts = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem = new FontAwesome.Sharp.IconMenuItem();
-            this.ادارةنوعمصرفToolStripMenuItem = new FontAwesome.Sharp.IconMenuItem();
-            this.ادارةنوعايرادToolStripMenuItem = new FontAwesome.Sharp.IconMenuItem();
             this.btnSystemSettings = new FontAwesome.Sharp.IconMenuItem();
             this.menussss = new System.Windows.Forms.ToolStripMenuItem();
             this.btnCustomers = new System.Windows.Forms.ToolStripMenuItem();
@@ -147,7 +144,6 @@ namespace ERP.Desktop.Views._Base.Main
             this.معلوماتالمركزالتعليميToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MenuItemShifts,
             this.MenuItemSettings,
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem,
             this.btnSystemSettings});
             this.معلوماتالمركزالتعليميToolStripMenuItem.ForeColor = System.Drawing.SystemColors.ControlText;
             this.معلوماتالمركزالتعليميToolStripMenuItem.Image = global::ERP.Desktop.Properties.Resources.company_24px;
@@ -163,7 +159,7 @@ namespace ERP.Desktop.Views._Base.Main
             this.MenuItemShifts.ForeColor = System.Drawing.SystemColors.ControlText;
             this.MenuItemShifts.Image = global::ERP.Desktop.Properties.Resources.classroom_24px;
             this.MenuItemShifts.Name = "MenuItemShifts";
-            this.MenuItemShifts.Size = new System.Drawing.Size(204, 22);
+            this.MenuItemShifts.Size = new System.Drawing.Size(180, 22);
             this.MenuItemShifts.Tag = "Rooms";
             this.MenuItemShifts.Text = "الورديات";
             this.MenuItemShifts.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -175,42 +171,12 @@ namespace ERP.Desktop.Views._Base.Main
             this.MenuItemSettings.BackColor = System.Drawing.Color.Teal;
             this.MenuItemSettings.Image = global::ERP.Desktop.Properties.Resources.franchise_24px;
             this.MenuItemSettings.Name = "MenuItemSettings";
-            this.MenuItemSettings.Size = new System.Drawing.Size(204, 22);
+            this.MenuItemSettings.Size = new System.Drawing.Size(180, 22);
             this.MenuItemSettings.Tag = "Settings";
             this.MenuItemSettings.Text = "نقاط البيع";
             this.MenuItemSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.MenuItemSettings.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.MenuItemSettings.Click += new System.EventHandler(this.MenuItemSettings_Click);
-            // 
-            // ادارهانواعالمصروفاتوالايراداتToolStripMenuItem
-            // 
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ادارةنوعمصرفToolStripMenuItem,
-            this.ادارةنوعايرادToolStripMenuItem});
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.IconChar = FontAwesome.Sharp.IconChar.MoneyBill;
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.IconColor = System.Drawing.Color.Turquoise;
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.Name = "ادارهانواعالمصروفاتوالايراداتToolStripMenuItem";
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.Size = new System.Drawing.Size(204, 22);
-            this.ادارهانواعالمصروفاتوالايراداتToolStripMenuItem.Text = "انواع المصروفات والايرادات";
-            // 
-            // ادارةنوعمصرفToolStripMenuItem
-            // 
-            this.ادارةنوعمصرفToolStripMenuItem.IconChar = FontAwesome.Sharp.IconChar.MoneyCheck;
-            this.ادارةنوعمصرفToolStripMenuItem.IconColor = System.Drawing.Color.Turquoise;
-            this.ادارةنوعمصرفToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ادارةنوعمصرفToolStripMenuItem.Name = "ادارةنوعمصرفToolStripMenuItem";
-            this.ادارةنوعمصرفToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.ادارةنوعمصرفToolStripMenuItem.Text = "ادارة نوع مصرف";
-            // 
-            // ادارةنوعايرادToolStripMenuItem
-            // 
-            this.ادارةنوعايرادToolStripMenuItem.IconChar = FontAwesome.Sharp.IconChar.MoneyCheckAlt;
-            this.ادارةنوعايرادToolStripMenuItem.IconColor = System.Drawing.Color.Turquoise;
-            this.ادارةنوعايرادToolStripMenuItem.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            this.ادارةنوعايرادToolStripMenuItem.Name = "ادارةنوعايرادToolStripMenuItem";
-            this.ادارةنوعايرادToolStripMenuItem.Size = new System.Drawing.Size(153, 22);
-            this.ادارةنوعايرادToolStripMenuItem.Text = "ادارة نوع ايراد";
             // 
             // btnSystemSettings
             // 
@@ -219,7 +185,7 @@ namespace ERP.Desktop.Views._Base.Main
             this.btnSystemSettings.IconFont = FontAwesome.Sharp.IconFont.Auto;
             this.btnSystemSettings.IconSize = 60;
             this.btnSystemSettings.Name = "btnSystemSettings";
-            this.btnSystemSettings.Size = new System.Drawing.Size(204, 22);
+            this.btnSystemSettings.Size = new System.Drawing.Size(180, 22);
             this.btnSystemSettings.Text = "إعدادات النظام";
             this.btnSystemSettings.Click += new System.EventHandler(this.btnSystemSettings_Click);
             // 
@@ -619,9 +585,6 @@ namespace ERP.Desktop.Views._Base.Main
         private FontAwesome.Sharp.IconMenuItem التقاريرToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem MenuItemLogout;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private FontAwesome.Sharp.IconMenuItem ادارهانواعالمصروفاتوالايراداتToolStripMenuItem;
-        private FontAwesome.Sharp.IconMenuItem ادارةنوعمصرفToolStripMenuItem;
-        private FontAwesome.Sharp.IconMenuItem ادارةنوعايرادToolStripMenuItem;
         private FontAwesome.Sharp.IconMenuItem btnSystemSettings;
         private FontAwesome.Sharp.IconMenuItem iconMenuItem1;
         private FontAwesome.Sharp.IconMenuItem btnSales;

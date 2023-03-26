@@ -30,7 +30,6 @@ namespace ERP.DAL
             this.Maintenances = new HashSet<Maintenance>();
             this.PointOfSaleDefaultCustomers = new HashSet<PointOfSale>();
             this.PointOfSaleDefaultSuppliers = new HashSet<PointOfSale>();
-            this.PriceInvoices = new HashSet<PriceInvoice>();
             this.PurchaseBackInvoices = new HashSet<PurchaseBackInvoice>();
             this.PurchaseInvoices = new HashSet<PurchaseInvoice>();
             this.SaleMenAreas = new HashSet<SaleMenArea>();
@@ -131,7 +130,6 @@ namespace ERP.DAL
         public virtual ICollection<PointOfSale> PointOfSaleDefaultSuppliers { get; set; }
 
 
-        public virtual ICollection<PriceInvoice> PriceInvoices { get; set; }
         public virtual ICollection<PurchaseBackInvoice> PurchaseBackInvoices { get; set; }
         public virtual ICollection<PurchaseInvoice> PurchaseInvoices { get; set; }
         public virtual ICollection<SaleMenArea> SaleMenAreas { get; set; }

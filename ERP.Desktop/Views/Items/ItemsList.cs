@@ -82,7 +82,7 @@ namespace ERP.Desktop.Views.Items
                     del.MaintenanceDamageDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.MaintenanceDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.MaintenanceSpareParts.Count(x => !x.IsDeleted) > 0 ||
-                    del.PriceInvoicesDetails.Count(x => !x.IsDeleted) > 0 ||
+                    del.QuoteOrderSellDetails.Count(x => !x.IsDeleted) > 0 ||
                     del.ProductionOrderDetails.Count(x => !x.IsDeleted) > 0 ||
                     //del.ProductionOrders.Count(x => !x.IsDeleted) > 0 ||
                     del.PurchaseBackInvoicesDetails.Count(x => !x.IsDeleted) > 0 ||

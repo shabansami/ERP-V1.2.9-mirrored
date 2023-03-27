@@ -701,7 +701,7 @@ namespace ERP.Web.Services
 
         #region تقارير أرصدة الاصناف 
         //بحث الارصدة
-        public static List<ItemBalanceDto> SearchItemBalance(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, bool isFirstInitPage, string txtSearch = null, List<DropDownList> stores = null)
+        public static List<ItemBalanceDto> SearchItemBalance(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, bool isFirstInitPage, string txtSearch = null, List<DropDownList> stores = null,int? balanceZero=1)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -802,7 +802,8 @@ namespace ERP.Web.Services
                 //        //رصيد الصنف فى كل الفروع 
                 //        item.Balance = GetBalanceByItemAllStores(item.Id);
                 //}
-
+                if(balanceZero==1)//اخفاء الارصدة الصفرية
+                   return itemsList.Where(x=>x.Balance != 0).ToList();
                 return itemsList;
                 //if (itemId != null)
                 //    items.Where(x => x.Id == itemId);

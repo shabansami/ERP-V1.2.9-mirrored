@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,9 +15,9 @@ namespace ERP.DAL
         //mohamed ramadan sqlName DESKTOP-41USIS2\SQLEXPRESS  DB:vtsDbV4,vtsDbV5
         //mr/ali 3bood mr/eez  sqlName DESKTOP-IF0M2E1\SQLEXPRESS  DB:vtsDbV2
 
-        //admin:1 MyomSG2prP7o/pLAjDi8Hg==
+        static string connectionString = $"{ConfigurationManager.ConnectionStrings["ErpConnectionString"].ConnectionString} user id=sc_erp_devdbV1_3;password=I4yjv$387;";
 
-        static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdbV1_3;user id=sc_erp_devdbV1_3;password=I4yjv$387;Persist Security Info=True;";
+        //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdbV1_3;user id=sc_erp_devdbV1_3;password=I4yjv$387;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=demo_erp_db;user id=demo_erp_db;password=@T8p1k97n;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=speedaddress;user id=speedaddress;password=m4_E1w13x;Persist Security Info=True;";
@@ -31,5 +32,9 @@ namespace ERP.DAL
         //static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=ERPDb3v2;Persist Security Info=True;User ID=vts;Password=vts-co2020;";
 
         public static readonly string Schema = "dbo";
+
+
     }
+   
+
 }

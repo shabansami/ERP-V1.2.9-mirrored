@@ -202,7 +202,7 @@ namespace ERP.Web.Controllers
             var branches = EmployeeService.GetBranchesByUser(auth.CookieValues);
             var branchId = branches.FirstOrDefault()?.Id;
             var stores = EmployeeService.GetStoresByUser(branchId.ToString(), auth.CookieValues.UserId.ToString());
-
+            var allStores= db.Stores.Where(x => !x.IsDeleted && x.BranchId == branchId && !x.IsDamages);
             if (shwTab != null && shwTab == "1")
                 ViewBag.ShowTab = true;
             else
@@ -230,7 +230,7 @@ namespace ERP.Web.Controllers
                     DS = JsonConvert.SerializeObject(items);
 
                     ViewBag.StoreFromId = new SelectList(stores, "Id", "Name", vm.StoreFromId);
-                    ViewBag.StoreToId = new SelectList(stores, "Id", "Name", vm.StoreToId);
+                    ViewBag.StoreToId = new SelectList(allStores, "Id", "Name", vm.StoreToId);
                     ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", vm.StoreFrom.BranchId);
                     ViewBag.BranchToId = new SelectList(branches, "Id", "Name", vm.StoreTo.BranchId);
                     //ViewBag.DepartmentFromId = new SelectList(db.Departments.Where(x => !x.IsDeleted), "Id", "Name");
@@ -248,7 +248,7 @@ namespace ERP.Web.Controllers
                 DS = JsonConvert.SerializeObject(new List<StoresTransferDetailsDto>());
 
                 ViewBag.StoreFromId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
-                ViewBag.StoreToId = new SelectList(stores, "Id", "Name", stores.FirstOrDefault()?.Id);
+                ViewBag.StoreToId = new SelectList(allStores, "Id", "Name", stores.FirstOrDefault()?.Id);
                 ViewBag.BranchFromId = new SelectList(branches, "Id", "Name", branchId);
                 ViewBag.BranchToId = new SelectList(branches, "Id", "Name", branchId);
                 

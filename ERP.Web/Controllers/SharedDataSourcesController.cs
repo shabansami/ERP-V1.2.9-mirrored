@@ -167,11 +167,16 @@ namespace ERP.Web.Controllers
             else
                 return Json(null, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult getStoresOnBranchChanged(string id, bool isDamage = false, string userId=null) //  تحميل المخازن بدون مخازن التوالف بدلالة رقم الفرع 
+        public JsonResult getStoresOnBranchChanged(string id, bool isDamage = false, string userId=null,bool allStore=false) //  تحميل المخازن بدون مخازن التوالف بدلالة رقم الفرع 
         {
             Guid Id;
             if (Guid.TryParse(id, out Id))
             {
+                if(allStore==true)
+                {
+                    var allStores = db.Stores.Where(x => !x.IsDeleted && x.BranchId == Id && !x.IsDamages);
+                    return Json(allStores, JsonRequestBehavior.AllowGet);
+                }
                 var list = EmployeeService.GetStoresByUser(id, userId,isDamage);
                 if (list.Count() > 0)
                 {

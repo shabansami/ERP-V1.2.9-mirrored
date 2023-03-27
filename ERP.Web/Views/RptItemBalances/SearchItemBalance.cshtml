@@ -55,17 +55,7 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-lg-4">
-                        <div class="form-group mb-0 w-100">
-                            <div class="input-icon input-icon-right">
-                                <label>بحث</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
-                                    <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="col-lg-4">
                         <div class="form-group">
                             <div>
@@ -111,6 +101,14 @@
                     <div class="col-lg-4">
                         <div class="form-group">
                             <div>
+                                <label>الارصدة الصفرية</label>
+                                @Html.DropDownList("BalanceZero", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-group">
+                            <div>
                                 <label> الفرع</label>
                                 @Html.DropDownList("BranchId", null, "اختر عنصر من القائمة", htmlAttributes: new { @class = "form-select   din-med", @onchange = "onBranchChange();" })
                             </div>
@@ -124,6 +122,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-lg-4">
                         <div class="form-group">
                             <div>
@@ -133,12 +132,28 @@
                         </div>
                     </div>
                 </div>
-                <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
-                    <thead>
-                    </thead>
-                    <tbody></tbody>
-                    <tfoot></tfoot>
-                </table>
+                <div class="row">
+                    <div class="col-lg-8"> 
+                        <div class="form-group mb-0 w-100">
+                            <div class="input-icon input-icon-right">
+                                <label>بحث</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" style="text-align:start;" id="kt_datatable_search_query" placeholder="ادخل كلمة البحث">
+                                    <div class="input-group-text"><i class="bx bx-search-alt align-middle"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <table class="table table-bordered dt-responsive  nowrap w-100" id="kt_datatable">
+                            <thead>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot></tfoot>
+                        </table>
+                    </div>
+                    </div>
+                
             </div>
         </div>
     </div>
@@ -262,6 +277,7 @@
                         d.branchId = $("#BranchId").val();
                         d.storeId = $("#StoreId").val();
                         d.isFirstInitPage = $("#isFirstInitPage").val();
+                        d.balanceZero = $("#BalanceZero").val();
                     }
 
 

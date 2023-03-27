@@ -31,10 +31,14 @@ namespace ERP.Web.Controllers
             ViewBag.BranchId = new SelectList(branches, "Id", "Name");
             ViewBag.ItemId = new SelectList(new List<Item>(), "Id", "Name");
             ViewBag.StoreId = new SelectList(new List<Store>(), "Id", "Name");
-
+            ViewBag.BalanceZero = new SelectList(new List<DropDownListInt>
+            {
+                new DropDownListInt{Id=1,Name="إخفاء الارصدة الصفرية"},
+                new DropDownListInt{Id=2,Name="إظهار الارصدة الصفرية"},
+            }, "Id", "Name", 1);
             return View();
         }
-        public ActionResult SearchItemBalances(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, int isFirstInitPage)
+        public ActionResult SearchItemBalances(string itemCode, string barCode, Guid? groupId, Guid? itemtypeId, Guid? itemId, Guid? branchId, Guid? storeId, int isFirstInitPage,int? balanceZero)
         {
             int? n = null;
             List<ItemBalanceDto> list;
@@ -56,7 +60,7 @@ namespace ERP.Web.Controllers
             else
             {
                 var stores = EmployeeService.GetAllStoresByUser(auth.CookieValues.UserId.ToString());
-                list = BalanceService.SearchItemBalance(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId, isFirstInit, txtSearch,stores);
+                list = BalanceService.SearchItemBalance(itemCode, barCode, groupId, itemtypeId, itemId, branchId, storeId, isFirstInit, txtSearch,stores, balanceZero);
 
             }
             return Json(new

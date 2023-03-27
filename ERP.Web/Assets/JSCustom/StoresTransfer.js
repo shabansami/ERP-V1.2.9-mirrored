@@ -358,7 +358,7 @@ var StoresTransfer_Module = function () {
         });
     };
     function getStoresOnBranchToChanged() {  // get safes and stores by branchId
-        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchToId").val(), isDamage: false, userId: $("#Hdf_userId").val() }, function (data) {
+        $.get("/SharedDataSources/getStoresOnBranchChanged", { id: $("#BranchToId").val(), isDamage: false, userId: $("#Hdf_userId").val(), allStore:true }, function (data) {
             $("#StoreToId").empty();
             $("#StoreToId").append("<option value=>اختر عنصر من القائمة </option>");
             $.each(data, function (index, row) {

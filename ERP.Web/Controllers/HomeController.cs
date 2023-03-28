@@ -320,7 +320,14 @@ namespace ERP.Web.Controllers
                 var generalSetting = db.GeneralSettings.ToList();
                 var inventoryType = generalSetting.Where(x => x.Id == (int)GeneralSettingCl.InventoryType).FirstOrDefault();
                 if (inventoryType != null)
+                {
                     inventoryType.SValue = vm.InventoryTypeId;
+                    //تغغير حالة حساب المخزون من حساب تشغيلى الى حساب فرعى
+                    Guid accId = new Guid("00000019-1234-1234-1234-012345678910");
+                    var account=db.AccountsTrees.Where(x=>x.Id==accId).FirstOrDefault();
+                    if (account != null)
+                        account.TypeId = (int)AccountTreeSelectorTypesCl.Sub;
+                }
                 else
                     return Json(new { isValid = false, message = "حدث خطأ اثناء تنفيذ العملية" });
                 if (vm.FinancialYearStartDate>=vm.FinancialYearEndDate)

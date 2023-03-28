@@ -15,7 +15,9 @@ namespace ERP.DAL
         //mohamed ramadan sqlName DESKTOP-41USIS2\SQLEXPRESS  DB:vtsDbV4,vtsDbV5
         //mr/ali 3bood mr/eez  sqlName DESKTOP-IF0M2E1\SQLEXPRESS  DB:vtsDbV2
 
-        static string connectionString = $"{ConfigurationManager.ConnectionStrings["ErpConnectionString"].ConnectionString} user id=sc_erp_devdbV1_3;password=I4yjv$387;";
+        static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=sc_erp_devdbV1_3;password=I4yjv$387;";
+        //static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=abdulahhusienDb;password=2_r9OvAh81w;";
+        //static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=elsafwaDb;password=5T3_7m5cx;";
 
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdbV1_3;user id=sc_erp_devdbV1_3;password=I4yjv$387;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";

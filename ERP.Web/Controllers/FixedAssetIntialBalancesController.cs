@@ -251,7 +251,8 @@ namespace ERP.Web.Controllers
                                 AccountName = $"مخصص اهلاك  : {model.Name} ",
                                 AccountNumber = newAccountDestructionNum,
                                 ParentId = accountTreeDestruction.Id,
-                                SelectedTree = false
+                                SelectedTree = false,
+                                TypeId=(int)AccountTreeSelectorTypesCl.Operational
                             };
                             context.AccountsTrees.Add(newDestructionAccountTree);
                             context.SaveChanges(auth.CookieValues.UserId);

@@ -1538,7 +1538,7 @@ namespace ERP.Web.Controllers
                     AccountsTreeId = customer.AccountsTreeCustomerId,
                     BranchId = model.BranchId,
                     Debit = model.Safy,
-                    Notes = $"فاتورة بيع رقم : {model.Id} للعميل {customer.Name}",
+                    Notes = $"فاتورة بيع رقم : {model.InvoiceNumber} للعميل {customer.Name}",
                     TransactionDate = model.InvoiceDate,
                     TransactionId = model.Id,
                     TransactionShared = model.Id,
@@ -1677,6 +1677,11 @@ namespace ERP.Web.Controllers
 
                     //حفظ القيود 
                     // اعتماد النهائى للفاتورة
+                    //الاعتماد المحاسبى 
+                    model.IsApprovalAccountant = true;
+                    //الاعتماد المخزنى
+                    model.IsApprovalStore = true;
+
                     model.CaseId = (int)CasesCl.InvoiceFinalApproval;
                     model.IsFinalApproval = true;
                     db.Entry(model).State = EntityState.Modified;

@@ -18,6 +18,7 @@ namespace ERP.DAL
         static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=sc_erp_devdbV1_3;password=I4yjv$387;";
         //static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=abdulahhusienDb;password=2_r9OvAh81w;";
         //static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=elsafwaDb;password=5T3_7m5cx;";
+        //static string connectionString = $"{ConfigurationManager.ConnectionStrings["ERPConnectionString"].ConnectionString} user id=sg_erp_db_2023V1_3;password=av78&2pD7;";
 
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdbV1_3;user id=sc_erp_devdbV1_3;password=I4yjv$387;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=sc_erp_devdb;user id=sc_erp_devdb;password=S20et_2i2vts;Persist Security Info=True;";
@@ -30,7 +31,7 @@ namespace ERP.DAL
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=abdulahhusienDb;user id=abdulahhusienDb;password=2_r9OvAh81w;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=elmohmadia_fac;user id=elmohmadia_fac;password=5Z7d34p_aMw;Persist Security Info=True;";
         //static string connectionString = @"data source=38.242.246.148,1433;initial catalog=elmohmadia_admin;user id=elmohmadia_admin;password=qt_Am6Qb501;Persist Security Info=True;";
-        //static string connectionString = @"Data Source=DESKTOP-77BL0FA;Initial Catalog=sc_erp_devdbV1_5;integrated security=True;";
+        //static string connectionString = @"Data Source=DESKTOP-77BL0FA;Initial Catalog=sg_erp_db_2023V1_3;integrated security=True;";
         //static string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=ERPDb3v2;Persist Security Info=True;User ID=vts;Password=vts-co2020;";
 
         public static readonly string Schema = "dbo";

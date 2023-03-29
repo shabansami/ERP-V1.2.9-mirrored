@@ -34,10 +34,12 @@ namespace ERP.Web.Controllers
         #region Login
         public ActionResult Login(int? MsgBadLogin,string ErroeMsg)
         {
-            //ImportDataFromOtherSystems.ExcuteStores();
-            //ImportDataFromOtherSystems.ExcuteItems();
-            //ImportDataFromOtherSystems.ExcuteSuppliers();
-            //ImportDataFromOtherSystems.ExcuteCustomers();
+            //ImportDataFromOtherSystems.SGExcuteStores();
+            //ImportDataFromOtherSystems.SGExcuteItems();
+            //ImportDataFromOtherSystems.SGExcuteSuppliers();
+            //ImportDataFromOtherSystems.SGExcuteCustomers();
+            //ImportDataFromOtherSystems.SGExcuteItemProduction();
+            //ImportDataFromOtherSystems.SGExcuteProductionOrders();
             //Lookups.ExcuteFirstInit();
             //var t = VTSAuth.Encrypt("p@ssw0rd");
             //add pages

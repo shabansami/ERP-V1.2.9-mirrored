@@ -1,0 +1,990 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="81707a0d059341c290dbdc5ec2514e4f" Name="Diagram1">
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.AccountsTree" Width="1.5" PointX="10.5" PointY="381.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.AccountTreeIntialBalance" Width="1.5" PointX="21.75" PointY="361.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Area" Width="1.5" PointX="11.25" PointY="358.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Asset" Width="1.5" PointX="21.75" PointY="351.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.BankAccount" Width="1.5" PointX="19.5" PointY="364.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Bank" Width="1.5" PointX="11.25" PointY="354" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Branch" Width="1.5" PointX="16.5" PointY="355.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Case" Width="1.5" PointX="8.25" PointY="288.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.CasesItemSerialHistory" Width="1.5" PointX="38.25" PointY="386.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.CasesPurchaseInvoiceHistory" Width="1.5" PointX="52.5" PointY="341.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.CasesSellInvoiceHistory" Width="1.5" PointX="55.5" PointY="337.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Cheque" Width="1.5" PointX="32.75" PointY="361.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.City" Width="1.5" PointX="13.5" PointY="355.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Container" Width="1.5" PointX="8.25" PointY="298.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractAttendanceLeaving" Width="1.5" PointX="64.5" PointY="355.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractCustomerSupplier" Width="1.5" PointX="27.75" PointY="372.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractDefinitionVacation" Width="1.5" PointX="41.25" PointY="402.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractLoan" Width="1.5" PointX="30.75" PointY="346.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractLoanScheduling" Width="1.5" PointX="39" PointY="355.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Contract" Width="1.5" PointX="39" PointY="342.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractSalaryAddition" Width="1.5" PointX="46.25" PointY="367" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractSalaryPenalty" Width="1.5" PointX="52.25" PointY="362.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractSalaryType" Width="1.5" PointX="8.25" PointY="304.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractSchedulingAbsence" Width="1.5" PointX="55.5" PointY="402" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractSchedulingProduction" Width="1.5" PointX="64.5" PointY="351" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractScheduling" Width="1.5" PointX="53.25" PointY="353.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractSchedulingsMain" Width="1.5" PointX="8.25" PointY="309.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractType" Width="1.5" PointX="8.25" PointY="314" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ContractVacation" Width="1.5" PointX="24.75" PointY="402" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Country" Width="1.5" PointX="8.25" PointY="318.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.CustomerPayment" Width="1.5" PointX="58.5" PointY="354.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.DamageInvoiceDetail" Width="1.5" PointX="66.5" PointY="371.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.DamageInvoice" Width="1.5" PointX="52.25" PointY="368.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.DelayAbsenceSystem" Width="1.5" PointX="8.25" PointY="322.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Department" Width="1.5" PointX="8.25" PointY="327.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.District" Width="1.5" PointX="30.75" PointY="354" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.EmployeeBranch" Width="1.5" PointX="39" PointY="351" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.EmployeeGivingCustody" Width="1.5" PointX="24.75" PointY="370.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.EmployeeReturnCashCustody" Width="1.5" PointX="24.75" PointY="346.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.EmployeeReturnCustody" Width="1.5" PointX="24.75" PointY="364.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Employee" Width="1.5" PointX="24.75" PointY="383.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ExpenseIncome" Width="1.5" PointX="47.25" PointY="352.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ExpenseType" Width="1.5" PointX="18.75" PointY="354.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Gender" Width="1.5" PointX="8.25" PointY="331.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.GeneralDaily" Width="1.5" PointX="18.75" PointY="391.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.GeneralRecordDetail" Width="1.5" PointX="15.75" PointY="366.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.GeneralRecord" Width="1.5" PointX="26.75" PointY="358.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.GeneralSetting" Width="1.5" PointX="8.25" PointY="336.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.GeneralSettingType" Width="1.5" PointX="8.25" PointY="340.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Group" Width="1.5" PointX="13.5" PointY="361.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.GroupType" Width="1.5" PointX="8.25" PointY="350.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.IncomeType" Width="1.5" PointX="13.75" PointY="351.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Installment" Width="1.5" PointX="60.5" PointY="362.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.InstallmentSchedule" Width="1.5" PointX="68.75" PointY="365.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.InventoryInvoiceDetail" Width="1.5" PointX="67.5" PointY="359.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.InventoryInvoice" Width="1.5" PointX="55.25" PointY="362.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemCostCalculation" Width="1.5" PointX="8.25" PointY="354.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemCustomSellPrice" Width="1.5" PointX="27.75" PointY="366.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemIntialBalanceDetail" Width="1.5" PointX="24" PointY="358.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemIntialBalance" Width="1.5" PointX="27.75" PointY="352.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemPrice" Width="1.5" PointX="27.75" PointY="397.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemProductionDetail" Width="1.5" PointX="36" PointY="375.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemProduction" Width="1.5" PointX="33.75" PointY="369.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Item" Width="1.5" PointX="15.75" PointY="391.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemSerial" Width="1.5" PointX="36" PointY="384.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemType" Width="1.5" PointX="8.25" PointY="359.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ItemUnit" Width="1.5" PointX="21" PointY="398.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Job" Width="1.5" PointX="8.25" PointY="363.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceCa" Width="1.5" PointX="8.25" PointY="368.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceCaseHistory" Width="1.5" PointX="41" PointY="361" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceDamageDetail" Width="1.5" PointX="66.75" PointY="353.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceDamage" Width="1.5" PointX="55.5" PointY="349.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceDetail" Width="1.5" PointX="43.25" PointY="362.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceIncome" Width="1.5" PointX="57.5" PointY="362" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Maintenance" Width="1.5" PointX="33.75" PointY="348.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenanceSparePart" Width="1.5" PointX="57.5" PointY="367.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.MaintenProblemType" Width="1.5" PointX="8.25" PointY="373.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Nationality" Width="1.5" PointX="8.25" PointY="377.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.NotificationEmployee" Width="1.5" PointX="39" PointY="373" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Notification" Width="1.5" PointX="10.5" PointY="364.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.NotificationType" Width="1.5" PointX="8.25" PointY="387.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.OfferDetail" Width="1.5" PointX="38" PointY="361.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Offer" Width="1.5" PointX="29.75" PointY="358.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.OfferSellInvoice" Width="1.5" PointX="58.5" PointY="349.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.OfferType" Width="1.5" PointX="8.25" PointY="391.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.OrderSellCas" Width="1.5" PointX="8.25" PointY="396" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Page" Width="1.5" PointX="8.25" PointY="400.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PagesRole" Width="1.5" PointX="3" PointY="359" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PaymentType" Width="1.5" PointX="8.25" PointY="405.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Person" Width="1.5" PointX="22.5" PointY="367.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PersonCategory" Width="1.5" PointX="8.25" PointY="411" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PersonIntialBalance" Width="1.5" PointX="35.75" PointY="361.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PersonType" Width="1.5" PointX="8.25" PointY="415.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PointOfSale" Width="1.5" PointX="30.75" PointY="370.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PriceInvoice" Width="1.5" PointX="36.75" PointY="367.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PriceInvoicesDetail" Width="1.5" PointX="42" PointY="354.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PricesChanx" Width="1.5" PointX="18" PointY="348.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PricingPolicy" Width="1.5" PointX="8.25" PointY="419.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionLineEmployee" Width="1.5" PointX="33" PointY="375.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionLine" Width="1.5" PointX="8.25" PointY="424.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionOrderColor" Width="1.5" PointX="8.25" PointY="429" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionOrderDetail" Width="1.5" PointX="46.5" PointY="374.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionOrderExpen" Width="1.5" PointX="60.5" PointY="373.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionOrderReceipt" Width="1.5" PointX="53.25" PointY="347.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionOrder" Width="1.5" PointX="44.25" PointY="373.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ProductionType" Width="1.5" PointX="8.25" PointY="433.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PurchaseBackInvoice" Width="1.5" PointX="44.25" PointY="341.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PurchaseBackInvoicesDetail" Width="1.5" PointX="55.5" PointY="342.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PurchaseBackInvoicesExpen" Width="1.5" PointX="60.5" PointY="368.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PurchaseInvoice" Width="1.5" PointX="47.25" PointY="341.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PurchaseInvoicesDetail" Width="1.5" PointX="58.5" PointY="343" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.PurchaseInvoicesExpen" Width="1.5" PointX="61.5" PointY="346.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.QuoteOrderSellDetail" Width="1.5" PointX="55.25" PointY="369.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.QuoteOrderSell" Width="1.5" PointX="36.75" PointY="352" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Region" Width="1.5" PointX="19.5" PointY="359" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Role" Width="1.5" PointX="0.75" PointY="358.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Safe" Width="1.5" PointX="27.75" PointY="344.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SalaryAddition" Width="1.5" PointX="10.5" PointY="375.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SalaryAdditionType" Width="1.5" PointX="8.25" PointY="442.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SalaryPenalty" Width="1.5" PointX="13.5" PointY="385" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SalaryPenaltyType" Width="1.5" PointX="8.25" PointY="451.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SaleMenArea" Width="1.5" PointX="36.75" PointY="347" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SaleMenCustomer" Width="1.5" PointX="42" PointY="373" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SaleMenStoreHistory" Width="1.5" PointX="33" PointY="343.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SelectorType" Width="1.5" PointX="8.25" PointY="455.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellBackInvoiceIncome" Width="1.5" PointX="63.5" PointY="368.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellBackInvoice" Width="1.5" PointX="50.25" PointY="349.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellBackInvoicesDetail" Width="1.5" PointX="46.25" PointY="360.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellInvoiceIncome" Width="1.5" PointX="61.5" PointY="356.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellInvoicePayment" Width="1.5" PointX="61.5" PointY="351.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellInvoice" Width="1.5" PointX="50.25" PointY="336" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SellInvoicesDetail" Width="1.5" PointX="49.25" PointY="362.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SerialCa" Width="1.5" PointX="8.25" PointY="460" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Shift" Width="1.5" PointX="27" PointY="407.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.ShiftsOffline" Width="1.5" PointX="41" PointY="365.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SocialStatu" Width="1.5" PointX="8.25" PointY="464.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StoreAdjustment" Width="1.5" PointX="49.25" PointY="370.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StorePermissionItem" Width="1.5" PointX="66.5" PointY="365.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StorePermission" Width="1.5" PointX="56.25" PointY="355.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Store" Width="1.5" PointX="42" PointY="344.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StoresTransferCas" Width="1.5" PointX="8.25" PointY="468.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StoresTransferDetail" Width="1.5" PointX="44.25" PointY="353.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StoresTransferHistory" Width="1.5" PointX="46.5" PointY="390.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.StoresTransfer" Width="1.5" PointX="44.25" PointY="389.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.SupplierPayment" Width="1.5" PointX="63.5" PointY="361.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.TransactionsType" Width="1.5" PointX="8.25" PointY="473.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Unit" Width="1.5" PointX="8.25" PointY="477.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.UploadCenter" Width="1.5" PointX="10.5" PointY="399.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.UploadCenterType" Width="1.5" PointX="8.25" PointY="488" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.User" Width="1.5" PointX="6" PointY="312.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.VacationDay" Width="1.5" PointX="30" PointY="401.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.VacationType" Width="1.5" PointX="8.25" PointY="492.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.VoucherDetail" Width="1.5" PointX="12.75" PointY="367.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.Voucher" Width="1.5" PointX="24.75" PointY="352.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.WeekDay" Width="1.5" PointX="8.25" PointY="496.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="sg_erp_db_2023Model.WorkingPeriod" Width="1.5" PointX="8.25" PointY="501.375" IsExpanded="true" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountsTrees_dbo_AccountsTrees_ParentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountsTrees_dbo_SelectorTypes_TypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountsTrees_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountsTrees_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountsTrees_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountTreeIntialBalances_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_AccountsTrees_AccountTreeDestructionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_AccountsTrees_AccountTreeExpenseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_AccountsTrees_AccountTreeParentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_BankAccounts_dbo_AccountsTrees_AccountsTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCustodies_dbo_AccountsTrees_ExpenseTypeAccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_AccountsTrees_ExpenseIncomeTypeAccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseTypes_dbo_AccountsTrees_AccountsTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralDailies_dbo_AccountsTrees_AccountsTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecordDetails_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_IncomeTypes_dbo_AccountsTrees_AccountsTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_AccountsTrees_AccountsTreeCustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_AccountsTrees_AccountTreeCustomerEmpId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_AccountsTrees_AccountTreeSupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderExpens_dbo_AccountsTrees_ExpenseTypeAccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesExpens_dbo_AccountsTrees_ExpenseTypeAccountsTreeID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesExpens_dbo_AccountsTrees_PurchaseInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Safes_dbo_AccountsTrees_AccountsTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoiceIncomes_dbo_AccountsTrees_IncomeTypeAccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoiceIncomes_dbo_AccountsTrees_IncomeTypeAccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VoucherDetails_dbo_AccountsTrees_AccountTreeFromId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Vouchers_dbo_AccountsTrees_AccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountTreeIntialBalances_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountTreeIntialBalances_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountTreeIntialBalances_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_AccountTreeIntialBalances_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Areas_dbo_Cities_CityId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Areas_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Areas_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Areas_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Branches_dbo_Areas_AreaId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Areas_AreaId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Regions_dbo_Areas_AreaId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenAreas_dbo_Areas_AreaId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Assets_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_BankAccounts_dbo_Banks_BankId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_BankAccounts_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_BankAccounts_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_BankAccounts_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_BankAccounts_BankAccountID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_BankAccounts_DefaultBankCardId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_BankAccounts_DefaultBankWalletId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_BankAccounts_BankAccountId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Banks_dbo_Cities_CityId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Banks_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Banks_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Banks_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Branches_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Branches_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Branches_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeBranches_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCustodies_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralDailies_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecords_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCustomSellPrices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalances_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Offers_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonIntialBalances_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_Branches_BrunchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Safes_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Vouchers_dbo_Branches_BranchId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cases_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cases_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cases_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesPurchaseInvoiceHistories_dbo_Cases_CaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesSellInvoiceHistories_dbo_Cases_CaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_Cases_CaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_Cases_CaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Cases_CaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Cases_CaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesItemSerialHistories_dbo_ItemSerials_ItemSerialId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesItemSerialHistories_dbo_SerialCas_SerialCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesItemSerialHistories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesItemSerialHistories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesItemSerialHistories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesPurchaseInvoiceHistories_dbo_PurchaseBackInvoices_PurchaseBackInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesPurchaseInvoiceHistories_dbo_PurchaseInvoices_PurchaseInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesPurchaseInvoiceHistories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesPurchaseInvoiceHistories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesPurchaseInvoiceHistories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesSellInvoiceHistories_dbo_SellBackInvoices_SellBackInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesSellInvoiceHistories_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesSellInvoiceHistories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesSellInvoiceHistories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CasesSellInvoiceHistories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_People_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cheques_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cities_dbo_Countries_CountryId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cities_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cities_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Cities_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Containers_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Containers_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Containers_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_Containers_ContainerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_Containers_ContainerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractAttendanceLeavings_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractAttendanceLeavings_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractAttendanceLeavings_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractAttendanceLeavings_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_People_Person_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_People_Person_Id1" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_People_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_PersonTypes_PersonTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractCustomerSuppliers_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractDefinitionVacations_dbo_Contracts_ContractId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractDefinitionVacations_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractDefinitionVacations_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractDefinitionVacations_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractDefinitionVacations_dbo_VacationTypes_VacationTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_ShiftsOfflines_ShiftOfflineID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoans_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoanSchedulings_dbo_ContractLoans_ContractLoanId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoanSchedulings_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoanSchedulings_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoanSchedulings_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractLoanSchedulings_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Contracts_dbo_ContractSalaryTypes_ContractSalaryTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Contracts_dbo_ContractTypes_ContractTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Contracts_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Contracts_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Contracts_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Contracts_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryAdditions_dbo_Contracts_ContractId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryPenalties_dbo_Contracts_ContractId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulings_dbo_Contracts_ContractId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractVacations_dbo_Contracts_ContractId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryAdditions_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryAdditions_dbo_SalaryAdditions_SalaryAdditionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryAdditions_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryAdditions_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryAdditions_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryPenalties_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryPenalties_dbo_SalaryPenalties_SalaryPenaltyId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryPenalties_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryPenalties_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryPenalties_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSalaryTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingAbsences_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingAbsences_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingAbsences_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingAbsences_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingAbsences_dbo_VacationTypes_VacationTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingProductions_dbo_ContractSchedulings_ContractSchedulingId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingProductions_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingProductions_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingProductions_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingProductions_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulings_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulings_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulings_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingsMains_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingsMains_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractSchedulingsMains_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractVacations_dbo_People_ApprovalBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractVacations_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractVacations_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractVacations_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ContractVacations_dbo_VacationTypes_VacationTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Countries_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Countries_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Countries_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_CustomerPayments_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoiceDetails_dbo_DamageInvoices_DamageInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoiceDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoiceDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoiceDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoiceDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoices_dbo_ItemCostCalculations_ItemCostCalculateId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoices_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DamageInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DelayAbsenceSystems_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DelayAbsenceSystems_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_DelayAbsenceSystems_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Departments_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Departments_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Departments_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Departments_DepartmentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Shifts_dbo_Departments_DepartmentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationDays_dbo_Departments_DepartmentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Districts_dbo_Regions_RegionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Districts_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Districts_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Districts_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Districts_DistrictId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeBranches_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeBranches_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeBranches_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeBranches_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeGivingCustodies_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCashCustodies_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCustodies_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCustodies_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCustodies_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_EmployeeReturnCustodies_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Jobs_JobId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_People_PersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_SocialStatus_SocialStatusId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Stores_Store_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Employees_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Employees_EmployeeResponseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Employees_EmployeeSaleMenId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationEmployees_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLineEmployees_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenCustomers_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenStoreHistories_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Shifts_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ShiftsOfflines_dbo_Employees_EmployeeID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_Employees_Employee_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Employees_EmployeeFromId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Employees_EmployeeToId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationDays_dbo_Employees_EmployeeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_ShiftsOfflines_ShiftOffLineID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseIncomes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ExpenseTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Genders_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Genders_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Genders_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Genders_GenderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralDailies_dbo_TransactionsTypes_TransactionTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralDailies_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralDailies_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralDailies_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecordDetails_dbo_GeneralRecords_GeneralRecordId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecordDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecordDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecordDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecords_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecords_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralRecords_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralSettings_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralSettings_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralSettings_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralSettingTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralSettingTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GeneralSettingTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Groups_dbo_Groups_ParentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Groups_dbo_GroupTypes_GroupTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Groups_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Groups_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Groups_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCustomSellPrices_dbo_Groups_GroupBasicId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Groups_GroupBasicId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Groups_GroupSellId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GroupTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GroupTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_GroupTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_IncomeTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_IncomeTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_IncomeTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Installments_dbo_PersonIntialBalances_IntialCustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Installments_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Installments_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Installments_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Installments_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InstallmentSchedules_dbo_Installments_InstallmentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InstallmentSchedules_dbo_People_SaleMenId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InstallmentSchedules_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InstallmentSchedules_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InstallmentSchedules_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InstallmentSchedules_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoiceDetails_dbo_InventoryInvoices_InventoryInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoiceDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoiceDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoiceDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoiceDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoices_dbo_ItemCostCalculations_ItemCostCalculateId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoices_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_InventoryInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCostCalculations_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCostCalculations_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCostCalculations_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_ItemCostCalculations_ItemCostCalculateId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCustomSellPrices_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCustomSellPrices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCustomSellPrices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemCustomSellPrices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_ItemIntialBalances_ItemIntialBalanceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalanceDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalances_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalances_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemIntialBalances_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_People_Person_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_People_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_PricingPolicies_PricingPolicyId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_Units_UnitId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemPrices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductionDetails_dbo_ItemProductions_ItemProductionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductionDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductionDetails_dbo_ProductionTypes_ProductionTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductionDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductionDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductionDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductions_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductions_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductions_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemProductions_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_ItemProductions_ItemProductionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_ItemProductions_ItemProductionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_ItemTypes_ItemTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Units_UnitConvertFromId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Units_UnitId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Items_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemUnits_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamageDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoicesDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricesChanges_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoreAdjustments_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissionItems_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_Items_ItemId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_Maintenances_MaintenanceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_SerialCas_SerialCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_Stores_CurrentStoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemSerials_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_ItemSerials_ItemSerialId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_ItemSerials_ItemSerialId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_ItemSerials_ItemSerialId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_ItemSerials_ItemSerialId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_ItemSerials_ItemSerialId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemUnits_dbo_Units_UnitId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemUnits_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemUnits_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ItemUnits_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Jobs_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Jobs_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Jobs_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCas_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCas_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCas_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCaseHistories_dbo_MaintenanceCas_MaintenanceCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_MaintenanceCas_MaintenanceCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_MaintenanceCas_MaintenanceCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCaseHistories_dbo_Maintenances_MaintenanceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCaseHistories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCaseHistories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceCaseHistories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamageDetails_dbo_MaintenanceDamages_MaintenanceDamageId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamageDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamageDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamageDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamages_dbo_MaintenanceDetails_MaintenanceDetailId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamages_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamages_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamages_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDamages_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_Maintenances_MaintenanceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_MaintenProblemTypes_MaintenProblemTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceIncomes_dbo_MaintenanceDetails_MaintenanceDetailId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_MaintenanceDetails_MaintenanceDetailId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceIncomes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceIncomes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceIncomes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_PaymentTypes_PaymentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Stores_StoreReceiptId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Maintenances_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenanceSpareParts_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenProblemTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenProblemTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_MaintenProblemTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Nationalities_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Nationalities_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Nationalities_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Nationalities_NationalityId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationEmployees_dbo_Notifications_NotifictionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationEmployees_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationEmployees_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationEmployees_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Notifications_dbo_NotificationTypes_NotificationTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Notifications_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Notifications_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Notifications_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_NotificationTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferDetails_dbo_Offers_OfferId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Offers_dbo_OfferTypes_OfferTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Offers_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Offers_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Offers_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferSellInvoices_dbo_Offers_OfferId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferSellInvoices_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferSellInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferSellInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferSellInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OfferTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OrderSellCases_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OrderSellCases_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_OrderSellCases_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_OrderSellCases_OrderSellCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Pages_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Pages_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Pages_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PagesRoles_dbo_Pages_PageId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PagesRoles_dbo_Roles_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PagesRoles_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PagesRoles_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PagesRoles_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PaymentTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PaymentTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PaymentTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_PaymentTypes_DefaultPaymentID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_PaymentTypes_PaymentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_PaymentTypes_PaymentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_PaymentTypes_PaymentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_PaymentTypes_PaymentTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_People_ParentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_PersonCategories_PersonCategoryId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_PersonTypes_PersonTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_People_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonIntialBalances_dbo_People_PersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_People_DefaultCustomerID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_People_DefaultSupplierID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoices_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_People_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_People_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Safes_dbo_People_ResoponsiblePersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenAreas_dbo_People_PersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenCustomers_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoreAdjustments_dbo_People_CustomerId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_People_PersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_People_SupplierId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_People_Person_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_People_PersonId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonCategories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonCategories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonCategories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonIntialBalances_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonIntialBalances_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonIntialBalances_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PersonTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_PricingPolicies_DefaultPricePolicyID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_Safes_SafeID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_Stores_StoreID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PointOfSales_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ShiftsOfflines_dbo_PointOfSales_PointOfSaleID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoicesDetails_dbo_PriceInvoices_PriceInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoicesDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoicesDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PriceInvoicesDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricesChanges_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricesChanges_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricesChanges_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricingPolicies_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricingPolicies_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PricingPolicies_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLineEmployees_dbo_ProductionLines_ProductionLineId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLineEmployees_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLineEmployees_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLineEmployees_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLines_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLines_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionLines_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_ProductionLines_ProductionLineId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderColors_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderColors_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderColors_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_ProductionOrderColors_OrderColorId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_ProductionTypes_ProductionTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderExpens_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderExpens_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderExpens_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderExpens_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderReceipts_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderReceipts_dbo_Stores_FinalItemStoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderReceipts_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderReceipts_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrderReceipts_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_QuoteOrderSells_OrderSellId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_Stores_ProductionUnderStoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionOrders_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_ProductionOrders_ProductionOrderId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ProductionTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_PurchaseInvoices_PurchaseInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_ShiftsOfflines_ShiftOfflineID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_PurchaseBackInvoices_PurchaseBackInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesExpens_dbo_PurchaseBackInvoices_PurchaseBackInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesExpens_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesExpens_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseBackInvoicesExpens_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_ShiftsOfflines_ShiftOfflineID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_PurchaseInvoices_PurchaseInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesExpens_dbo_PurchaseInvoices_ExpenseTypeAccountTreeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_PurchaseInvoices_PurchaseInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesExpens_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesExpens_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_PurchaseInvoicesExpens_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_QuoteOrderSells_QuoteOrderSellId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSellDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_QuoteOrderSells_QuoteId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_QuoteOrderSells_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_QuoteOrderSells_OrderSellId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Regions_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Regions_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Regions_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Roles_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Roles_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Roles_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_Roles_Role_Id" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_Roles_RoleId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Safes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Safes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Safes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_Safes_SafeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditions_dbo_SalaryAdditionTypes_SalaryAdditionTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditions_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditions_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditions_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditionTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditionTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryAdditionTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenalties_dbo_SalaryPenaltyTypes_SalaryPenaltyTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenalties_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenalties_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenalties_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenaltyTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenaltyTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SalaryPenaltyTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenAreas_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenAreas_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenAreas_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenCustomers_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenCustomers_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenCustomers_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenStoreHistories_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenStoreHistories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenStoreHistories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SaleMenStoreHistories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SelectorTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SelectorTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SelectorTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoiceIncomes_dbo_SellBackInvoices_SellBackInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoiceIncomes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoiceIncomes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoiceIncomes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_ShiftsOfflines_ShiftOfflineID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_SellBackInvoices_SellBackInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellBackInvoicesDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoiceIncomes_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoiceIncomes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoiceIncomes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoiceIncomes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicePayments_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicePayments_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicePayments_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicePayments_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_ShiftsOfflines_ShiftOffLineID" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoices_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_SellInvoices_SellInvoiceId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SellInvoicesDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SerialCas_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SerialCas_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SerialCas_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Shifts_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Shifts_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Shifts_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Shifts_dbo_WorkingPeriods_WorkPeriodId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ShiftsOfflines_dbo_Users_ClosedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ShiftsOfflines_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ShiftsOfflines_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_ShiftsOfflines_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SocialStatus_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SocialStatus_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SocialStatus_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoreAdjustments_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoreAdjustments_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoreAdjustments_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoreAdjustments_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissionItems_dbo_StorePermissions_StorePermissionId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissionItems_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissionItems_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissionItems_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_Stores_StoreId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StorePermissions_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Stores_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Stores_StoreFromId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Stores_StoreToId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferCases_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferCases_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferCases_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferHistories_dbo_StoresTransferCases_StoresTransferCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_StoresTransferCases_StoresTransferCaseId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_StoresTransfers_StoresTransferId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferHistories_dbo_StoresTransfers_StoresTransferId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferHistories_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferHistories_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransferHistories_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_StoresTransfers_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_SupplierPayments_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_TransactionsTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_TransactionsTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_TransactionsTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Units_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Units_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Units_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenters_dbo_UploadCenters_ParentId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenters_dbo_UploadCenterTypes_UploadCenterTypeId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenters_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenters_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenters_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenterTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenterTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_UploadCenterTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Users_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationDays_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationDays_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationDays_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationTypes_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationTypes_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationTypes_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VoucherDetails_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VoucherDetails_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VoucherDetails_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Vouchers_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Vouchers_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_Vouchers_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_WeekDays_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_WeekDays_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_WeekDays_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_WorkingPeriods_dbo_Users_CreatedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_WorkingPeriods_dbo_Users_DeletedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_WorkingPeriods_dbo_Users_ModifiedBy" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VacationDays_dbo_WeekDays_DayId" ManuallyRouted="false" />
+        <AssociationConnector Association="sg_erp_db_2023Model.FK_dbo_VoucherDetails_dbo_Vouchers_VoucherId" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

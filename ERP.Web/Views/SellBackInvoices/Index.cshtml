@@ -4,9 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml"; }
 @section PageTitle1{فواتير مرتجع البيع}
 @section PageTitle2{كل الفواتير}
-@section Button1{@null}
-@section Button1Link{@null}
-@section icon{@null}
+@section Button1{تسجيل فاتورة مرتجع بيع}
+@section Button1Link{/SellBackInvoices/CreateEdit}
+@section icon{<i class="fa fa-plus-circle m-1"></i>}
 @{
     DateTime startDt = new DateTime();
     DateTime endDt = new DateTime();
@@ -123,7 +123,7 @@
                         <div class="form-group mb-0 w-100">
                             <div>
                                 <label> من تاريخ</label>
-                                @Html.TextBox("dtFrom",startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
+                                @Html.TextBox("dtFrom", startDt, "{0:yyyy-MM-dd}", htmlAttributes: new { @class = "form-control din-med", @type = "date" })
                             </div>
                         </div>
                     </div>

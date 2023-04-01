@@ -1078,7 +1078,7 @@ namespace ERP.Web.Controllers
                                                         AccountsTreeId = store.AccountTreeId,
                                                         BranchId = model.BranchId,
                                                         Debit = item.Amount,
-                                                        Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
+                                                        Notes = $"فاتورة توريد رقم : {model.InvoiceNumber} من المورد {supplier.Name}",
                                                         TransactionDate = model.InvoiceDate,
                                                         TransactionId = model.Id,
                                                         TransactionShared = model.Id,
@@ -1104,7 +1104,7 @@ namespace ERP.Web.Controllers
                                         AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreePurchaseAccount).FirstOrDefault().SValue),
                                         BranchId = model.BranchId,
                                         Debit = model.TotalValue,
-                                        Notes = $"فاتورة توريد رقم : {model.Id} من المورد {supplier.Name}",
+                                        Notes = $"فاتورة توريد رقم : {model.InvoiceNumber} من المورد {supplier.Name}",
                                         PaperNumber = model.InvoiceNumPaper,
                                         TransactionDate = model.InvoiceDate,
                                         TransactionId = model.Id,
@@ -1252,6 +1252,11 @@ namespace ERP.Web.Controllers
 
                             //حفظ القيود 
                             // اعتماد النهائى للفاتورة
+                            //الاعتماد المحاسبى 
+                            model.IsApprovalAccountant = true;
+                            //الاعتماد المخزنى
+                            model.IsApprovalStore = true;
+
                             model.CaseId = (int)CasesCl.InvoiceFinalApproval;
                             model.IsFinalApproval = true;
                             db.Entry(model).State = EntityState.Modified;

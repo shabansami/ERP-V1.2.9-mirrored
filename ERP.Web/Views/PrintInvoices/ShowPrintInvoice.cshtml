@@ -24,7 +24,7 @@
 
     var pageDir = "rtl";
     string title_invoNumber, title_invoDate, title_taxNum, title_RegNum, btn_switch_title, btn_print_title, btn_close_title;
-    string title_itemNum, title_itemName, title_itemPrice, title_itemQuantity, title_itemUnitName, title_itemAmount;
+    string title_itemNum,title_storeName, title_itemName, title_itemPrice, title_itemQuantity, title_itemUnitName, title_itemAmount;
     string title_totalAmount, title_salesTax, title_discount, title_profitTax, title_safy, title_notes, title_signature;
     string title_AprrovAccount, title_saleMen;
     if (Model.LanguagePage == "en")
@@ -40,6 +40,7 @@
 
         title_itemNum = "M";
         title_itemName = "Item";
+        title_storeName = "Store";
         title_itemPrice = "Price";
         title_itemQuantity = "Quantity";
         title_itemUnitName = "Unit Name";
@@ -66,6 +67,7 @@
 
         title_itemNum = "م";
         title_itemName = "الصنف";
+        title_storeName = "المخزن";
         title_itemPrice = "السعر";
         title_itemQuantity = "الكمية";
         title_itemUnitName = "الكمية بالوحدة";
@@ -218,6 +220,7 @@
                             <td>@title_itemPrice</td>
                             <td>@title_itemQuantity</td>
                             <td>@title_itemAmount</td>
+                            <td>@title_storeName</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -241,6 +244,7 @@
                                                     <td>@item.Price</td>
                                                     <td>@item.Quantity</td>
                                                     <td>@item.Amount</td>
+                                                    <td>@item.StoreName</td>
                                                 </tr>
 
                                 counter++;

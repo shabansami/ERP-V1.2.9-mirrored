@@ -1103,7 +1103,7 @@ namespace ERP.Web.Controllers
                                     AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeSalesTaxAccount).FirstOrDefault().SValue),
                                     BranchId = model.BranchId,
                                     Credit = model.SalesTax,
-                                    Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",
+                                    Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
                                     TransactionDate = model.InvoiceDate,
                                     TransactionId = model.Id,
                                     TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
@@ -1120,7 +1120,7 @@ namespace ERP.Web.Controllers
                                     AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeEarnedDiscount).FirstOrDefault().SValue),
                                     BranchId = model.BranchId,
                                     Debit = model.TotalDiscount,
-                                    Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",
+                                    Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
                                     TransactionDate = model.InvoiceDate,
                                     TransactionId = model.Id,
                                     TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
@@ -1136,7 +1136,7 @@ namespace ERP.Web.Controllers
                                     AccountsTreeId = Guid.Parse(generalSetting.Where(x => x.Id == (int)GeneralSettingCl.AccountTreeCommercialTax).FirstOrDefault().SValue),
                                     BranchId = model.BranchId,
                                     Debit = model.ProfitTax,
-                                    Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",
+                                    Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
                                     TransactionDate = model.InvoiceDate,
                                     TransactionId = model.Id,
                                     TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
@@ -1152,7 +1152,7 @@ namespace ERP.Web.Controllers
                                     AccountsTreeId = db.Persons.Where(x => x.Id == model.SupplierId).FirstOrDefault().AccountTreeSupplierId,
                                     BranchId = model.BranchId,
                                     Credit = model.PayedValue,
-                                    Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",
+                                    Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
                                     TransactionDate = model.InvoiceDate,
                                     TransactionId = model.Id,
                                     TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
@@ -1173,7 +1173,7 @@ namespace ERP.Web.Controllers
                                         AccountsTreeId = safeAccouyBank,
                                         BranchId = model.BranchId,
                                         Debit = model.PayedValue,
-                                        Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",
+                                        Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
                                         TransactionDate = model.InvoiceDate,
                                         TransactionId = model.Id,
                                         TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
@@ -1193,7 +1193,7 @@ namespace ERP.Web.Controllers
                                     //AccountsTreeId = expense.ExpenseType.AccountsTreeId,
                                     BranchId = model.BranchId,
                                     Credit = expense.Amount,
-                                    Notes = $"فاتورة مرتجع توريد رقم : {model.Id} الى المورد {supplier.Name}",
+                                    Notes = $"فاتورة مرتجع توريد رقم : {model.InvoiceNumber} الى المورد {supplier.Name}",
                                     TransactionDate = model.InvoiceDate,
                                     TransactionId = model.Id,
                                     TransactionTypeId = (int)TransactionsTypesCl.PurchasesReturn
@@ -1207,6 +1207,11 @@ namespace ERP.Web.Controllers
 
                                 //حفظ القيود 
                                 // اعتماد النهائى للفاتورة
+                                //الاعتماد المحاسبى 
+                                model.IsApprovalAccountant = true;
+                                //الاعتماد المخزنى
+                                model.IsApprovalStore = true;
+
                                 model.CaseId = (int)CasesCl.BackInvoiceFinalApproval;
                                 model.IsFinalApproval = true;
                                 db.Entry(model).State = EntityState.Modified;

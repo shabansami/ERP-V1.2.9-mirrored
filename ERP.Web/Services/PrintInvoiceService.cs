@@ -57,7 +57,8 @@ namespace ERP.Web.Services
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
-                                    ItemDiscount = i.ItemDiscount
+                                    ItemDiscount = i.ItemDiscount,
+                                    StoreName=i.Store?.Name
                                     
                                 }).ToList(),
                                 RptTitle = "فاتورة توريد",
@@ -113,7 +114,8 @@ namespace ERP.Web.Services
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
-                                    ItemDiscount = i.ItemDiscount
+                                    ItemDiscount = i.ItemDiscount,
+                                    StoreName = i.Store?.Name
 
                                 }).ToList(),
                                 RptTitle = "فاتورة مرتجع توريد",
@@ -176,7 +178,8 @@ namespace ERP.Web.Services
                                     ItemDiscount = i.ItemDiscount,
                                     UnitId= i.UnitId,
                                     QuantityUnit= i.QuantityUnit,
-                                    QuantityUnitName=i.UnitId!=null? $"{i.QuantityUnit}{i.Unit?.Name}":null
+                                    QuantityUnitName=i.UnitId!=null? $"{i.QuantityUnit}{i.Unit?.Name}":null,
+                                    StoreName = i.Store?.Name
 
                                 }).ToList(),
                                 RptTitle =lang=="en"?"Sell Invoice":"فاتورة مبيعات",
@@ -236,7 +239,8 @@ namespace ERP.Web.Services
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
-                                    ItemDiscount = i.ItemDiscount
+                                    ItemDiscount = i.ItemDiscount,
+                                    StoreName = i.Store?.Name
 
                                 }).ToList(),
                                 RptTitle =lang=="en"?"Sell Back Invoice":"فاتورة مرتجع مبيعات",
@@ -287,7 +291,8 @@ namespace ERP.Web.Services
                                     Amount = i.Amount,
                                     UnitId = i.UnitId,
                                     QuantityUnit = i.QuantityUnit,
-                                    QuantityUnitName = i.UnitId != null ? $"{i.QuantityUnit}{i.Unit?.Name}" : null
+                                    QuantityUnitName = i.UnitId != null ? $"{i.QuantityUnit}{i.Unit?.Name}" : null,
+                                    StoreName = i.Store?.Name
                                 }).ToList(),
                                 RptTitle = lang == "en" ? "Quotation" : "عرض سعر",
                                 PersonTypeName = lang == "en" ? "customer Name" : "العميل",
@@ -330,6 +335,7 @@ namespace ERP.Web.Services
                                     Price = i.Price,
                                     Quantity = i.Quantity,
                                     Amount = i.Amount,
+                                    StoreName = i.Store?.Name
                                 }).ToList(),
                                 RptTitle = lang == "en" ? "Sell Order" : "امر بيع",
                                 PersonTypeName = lang == "en" ? "customer Name" : "العميل",

@@ -1311,6 +1311,11 @@ namespace ERP.Web.Controllers
 
                                 //حفظ القيود 
                                 // اعتماد النهائى للفاتورة
+                                //الاعتماد المحاسبى 
+                                model.IsApprovalAccountant = true;
+                                //الاعتماد المخزنى
+                                model.IsApprovalStore = true;
+
                                 model.CaseId = (int)CasesCl.BackInvoiceFinalApproval;
                                 model.IsFinalApproval = true;
                                 db.Entry(model).State = EntityState.Modified;

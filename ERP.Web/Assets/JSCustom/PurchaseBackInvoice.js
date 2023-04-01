@@ -130,7 +130,9 @@ var PurchaseBackInvoice_Module = function () {
 							</a>';
 
                     } else {
-                        ele += '<a href="/PurchaseBackInvoices/Edit/?invoGuid=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
+                        ele += '<a href="javascript:;" onclick=PurchaseBackInvoice_Module.ApprovalFinalInvoice(\'' + row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="اعتماد الفاتورة بشكل نهائى">\
+                       	<i class="fa fa-check"></i>\
+                        	</a><a href="/PurchaseBackInvoices/Edit/?invoGuid=' + row.Id + '" class="btn btn-sm btn-clean btn-icon" title="تعديل">\
 								<i class="fa fa-edit"></i>\
 							</a>\<a href="javascript:;" onclick=PurchaseBackInvoice_Module.deleteRow(\''+ row.Id + '\') class="btn btn-sm btn-clean btn-icUrln" title="حذف">\
 								<i class="fa fa-trash"></i>\
@@ -297,6 +299,41 @@ var PurchaseBackInvoice_Module = function () {
         }).then((result) => {
             if (result.value) {
                 var url = '/PurchaseBackInvoices/UnApproval';
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: {
+                        "invoGuid": invoGuid
+                    },
+                    //async: true,
+                    //headers: { 'RequestVerificationToken': $('@Html.AntiForgeryToken()').val() },
+                    success: function (data) {
+                        if (data.isValid) {
+                            toastr.success(data.message, '');
+                            $('#kt_datatable').DataTable().ajax.reload();
+                        } else {
+                            toastr.error(data.message, '');
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+    };
+    function ApprovalFinalInvoice(invoGuid) { // اعتماد فاتورة بشكل نهائى
+        Swal.fire({
+            title: 'تأكيد الاعتماد',
+            text: 'هل متأكد من اعتماد الفاتورة ؟',
+            icon: 'warning',
+            showCancelButton: true,
+            animation: true,
+            confirmButtonText: 'تأكيد',
+            cancelButtonText: 'إلغاء الامر'
+        }).then((result) => {
+            if (result.value) {
+                var url = '/PurchaseBackInvoices/ApprovalFinal';
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -931,6 +968,7 @@ var PurchaseBackInvoice_Module = function () {
         onProductionOrderChange: onProductionOrderChange,
         unApproval: unApproval,
         getProductionOrdersOnStoreChange: getProductionOrdersOnStoreChange,
+        ApprovalFinalInvoice: ApprovalFinalInvoice,
     };
 
 }();
